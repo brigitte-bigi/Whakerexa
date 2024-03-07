@@ -34,7 +34,8 @@
 
 import os
 
-from whakerexa.whakerpy.httpd import BaseResponseRecipe
+from whakerexa.whakerpy import BaseResponseRecipe
+from whakerexa.whakerpy import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
@@ -48,6 +49,8 @@ class ExtendResponseRecipe(BaseResponseRecipe):
 
         self.__import_css_styles()
         self.__import_js_scripts()
+
+        self._status = HTTPDStatus()
 
     # ---------------------------------------------------------------------------
     # SETTERS
@@ -71,7 +74,7 @@ class ExtendResponseRecipe(BaseResponseRecipe):
     # PUBLIC METHODS
     # ---------------------------------------------------------------------------
 
-    def enable_unit_tests(self) -> None:
+    def enable_unittests(self) -> None:
         """Import unit test files append before in the html head.
 
         """

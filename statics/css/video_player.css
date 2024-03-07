@@ -1,0 +1,21 @@
+img.img-video-visualization {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+img.img-video-visualization button.play-btn {
+    width: 25%;
+    height: auto;
+}
+
+dialog.popup-video {
+    position: relative;
+    padding: 2vh 2vw;
+}
+
+button.popup-close-btn {
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+}
