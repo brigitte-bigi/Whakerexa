@@ -36,16 +36,16 @@
 import os
 import logging
 
-from whakerexa.whakerpy.htmlmaker import HTMLNode
+from whakerpy.htmlmaker import HTMLNode
 
 # ---------------------------------------------------------------------------
 
 IMAGE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".PNG", "webp"]
 
 JS_SCRIPT = """
-function play_popup_video(id-popup) {
-    let modal = document.getElementById("popup-" + id-popup);
-    let video = document.getElementById("popup-video-" + id-popup);
+function play_popup_video(id_popup) {
+    let modal = document.getElementById("popup-" + id_popup);
+    let video = document.getElementById("popup-video-" + id_popup);
 
     // quick start of the video to the client get the video file
     video.play();
@@ -54,9 +54,9 @@ function play_popup_video(id-popup) {
     modal.showModal();
 }
 
-function close_popup_video(id-popup) {
-    let modal = document.getElementById("popup-" + id-popup);
-    let video = document.getElementById("popup-video-" + id-popup);
+function close_popup_video(id_popup) {
+    let modal = document.getElementById("popup-" + id_popup);
+    let video = document.getElementById("popup-video-" + id_popup);
 
     video.pause();
     modal.close();
@@ -71,7 +71,24 @@ function close_popup_video(id-popup) {
 class VideoPlayer(HTMLNode):
 
     def __init__(self, parent_id: str, body_script: HTMLNode, video_path: str, identifier: str, img_path: str = ""):
-        super(VideoPlayer, self).__init__(parent_id, identifier, "img")
+        """Create the VideoPlayer html element and initialize all values.
+        The video player is a figure that contains an image and a play button to launch the video.
+        When the user click on the button, open a popup (dialog element) with the video.
+        This component allows us to manage the video files flow to avoid to load all files at the page loading.
+
+        :param parent_id: The identifier of the parent
+        :param body_script: The body_script to include the functions to open and close the popup
+        :param video_path: The path of the video
+        :param identifier: The identifier of this element (important to be different of other VideoPlayer identifier in the same page)
+        :param img_path: Optional, the file path of the image pre-visualization.
+                         By default, search in the same path of the video, example :
+                            - video_path : /example/demo_video.webm
+                            - image_path search by default : /example/demo_video.{file_extension}
+
+        :raises FileNotFoundError: If the video path doesn't exist
+
+        """
+        super(VideoPlayer, self).__init__(parent_id, identifier, "figure")
         self.set_attribute("class", "img-video-visualization")
         body_script.set_value(JS_SCRIPT)
 
@@ -86,7 +103,8 @@ class VideoPlayer(HTMLNode):
         else:
             self.__img_path = img_path
 
-        self.set_attribute("src", self.__img_path)
+        self.__width = None
+        self.__height = None
         self.__create_elements()
 
     # -----------------------------------------------------------------------
@@ -104,7 +122,7 @@ class VideoPlayer(HTMLNode):
         """
         if os.path.exists(img_path):
             self.__img_path = img_path
-            self.set_attribute("src", self.__img_path)
+            self.__img.set_attribute("src", self.__img_path)
         else:
             raise FileNotFoundError(f"The image pre-visualization : {img_path} doesn't exists !")
 
@@ -120,6 +138,46 @@ class VideoPlayer(HTMLNode):
         self.set_attribute("alt", description)
 
     # -----------------------------------------------------------------------
+
+    def set_img_width(self, width: float, unit: str) -> None:
+        """Set the width of the image pre-visualization.
+        If the height is not defined set to auto.
+
+        :param width: The value of the image width
+        :param unit: The unit of the width (vw, %, em, rem, cm, mm, ...)
+
+        """
+        self.__width = (width, unit)
+        size_css_value = f"width: {width}{unit};"
+
+        if self.__height is None:
+            size_css_value += " height: auto;"
+        else:
+            size_css_value += f" height: {self.__height[0]}{self.__height[1]};"
+
+        self.set_attribute("style", size_css_value)
+
+    # -----------------------------------------------------------------------
+
+    def set_img_height(self, height: float, unit: str) -> None:
+        """Set the height of the image pre-visualization.
+        If the width is not defined set to auto.
+
+        :param height: The value of the image height
+        :param unit: The unit of the height (vh, %, em, rem, cm, mm, ...)
+
+        """
+        self.__height = (height, unit)
+        size_css_value = f"height: {height}{unit};"
+
+        if self.__width is None:
+            size_css_value += " width: auto;"
+        else:
+            size_css_value += f" width: {self.__width[0]}{self.__width[1]};"
+
+        self.set_attribute("style", size_css_value)
+
+    # -----------------------------------------------------------------------
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
@@ -127,13 +185,17 @@ class VideoPlayer(HTMLNode):
         """Create every html elements for the video : the play button and the popup with the video.
 
         """
-        # create play button
-        play_button = HTMLNode(self.identifier, "play_button", "button", attributes={"class": "play-btn"})
-        play_button.set_attribute("onclick", f"play_popup_video('{self.identifier}')")
+        # create image pre-visualisation
+        self.__img = HTMLNode(self.identifier, None, "img", attributes={"src": self.__img_path})
+        self.append_child(self.__img)
 
-        play_img = HTMLNode(play_button.identifier, None, "img", attributes={"class": "play-img"})
-        play_img.set_attribute("src", os.path.join("statics", "img", "play_button.png"))
-        play_img.set_attribute("alt", "Play button to launch a video")
+        id_play_button = f"play-button-{self.identifier}"
+        play_button = HTMLNode(self.identifier, id_play_button, "button",
+                               attributes={"class": "play-btn", "onclick": f"play_popup_video('{self.identifier}')"})
+        play_img = HTMLNode(id_play_button, None, "img", attributes={
+            "src": os.path.join("statics", "img", "play_button.png"),
+            "alt": "play image to start the video"
+        })
 
         play_button.append_child(play_img)
         self.append_child(play_button)
@@ -150,7 +212,7 @@ class VideoPlayer(HTMLNode):
             "onclick": f"close_popup_video('{self.identifier}')"
         })
 
-        id_video = f"video-{id_modal}"
+        id_video = f"popup-video-{self.identifier}"
         video = HTMLNode(id_modal, id_video, "video", attributes={
             "id": id_video,
             "controls": "true",
@@ -160,7 +222,7 @@ class VideoPlayer(HTMLNode):
         _, file_extension = os.path.splitext(self.__video_path)
         source = HTMLNode(id_video, None, "source", attributes={
             "src": self.__video_path,
-            "type": f"video/{file_extension}"
+            "type": f"video/{file_extension[1:]}"
         })
 
         video.append_child(source)
