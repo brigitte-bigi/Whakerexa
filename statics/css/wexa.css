@@ -1,0 +1,1056 @@
+/*
+:filename: statics/css/wexa.css
+:author: Brigitte Bigi
+:contact: contact@sppas.org
+:summary: Generic style
+
+.. _This file is part of Whakerexa: https://whakerexa.sf.net/
+..
+    -------------------------------------------------------------------------
+
+    Copyright (C) 2023-2024 Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    Whakerexa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Whakerexa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Whakerexa. If not, see <http://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
+Information:
+------------
+
+Most of the time, the font size is calculated with the global --font-size
+variable. For example, this CSS is defining:
+    font-size: calc(1.7 * var(--font-size));
+When using "font-size: 1.7rem;" instead, the size of the font is not changed
+when switching to the contrast view.
+
+*/
+
+/* =======================================================================
+                              FONTS DEFINITIONS
+  See here: https://v-fonts.com/licenses/open-source for a list of open
+  source variable fonts.
+  No cursive font is available.
+
+  ======================================================================== */
+
+@font-face {
+    font-family: SansFont;
+    src: url('./fonts/Commissioner.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: SerifFont;
+    src: url('./fonts/SourceSerifPro.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: MonoFont;
+    src: url('./fonts/FiraCode.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: PreFont;
+    src: url('./fonts/ScienceGothic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("AccessibleDfA-Regular.woff2");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("AccessibleDfA-Italic.woff2");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("AccessibleDfA-Bold.woff2");
+    font-style: normal;
+    font-weight: bold;
+}
+
+
+/* =======================================================================
+                            VARIABLE DEFINITIONS
+  ======================================================================== */
+
+
+/* All global variables for any screen or condition */
+/* ------------------------------------------------ */
+
+:root {
+    --transition: 0.4s ease-in-out;
+
+    /* Font definitions */
+    --font-family-sans: SansFont, 'Verdana', sans-serif;
+    --font-family-serif: SerifFont, 'Times New Roman', serif;
+    --font-family-mono: MonoFont, 'Courier New', monospace;
+    --font-family-pre: PreFont, 'Courier New', monospace;
+    --font-family-pixel: PixelFont, 'Courier New', monospace;
+
+    /* Variables overridden by "contrast" or any other */
+    /* ----------------------------------------------- */
+
+    /* Font properties */
+    /* CSS3 requires to choose 100 or 200. Intermediate values are not supported */
+    --font-weight-thin: 100;
+    --font-weight-semithin: 200;
+    --font-weight-normal: 300;
+    --font-weight-semibold: 500;
+    --font-weight-bold: 600;
+    --font-weight-black: 800;
+    --font-size: 14px;
+    --line-height: 1.2;
+    --typography-spacing-vertical: 1.2rem;
+    --typography-spacing-horizontal: 0.8rem;
+    --letter-spacing: 0.04rem;
+    --word-spacing: 0.06rem;
+
+    /* Borders */
+    --border-width: 1px;
+
+    /* Focus */
+    --focus-border-width: 1px;
+
+    /* Table */
+    --table-border-width: 1px;
+
+    /* Main colors */
+    --bg-color: rgb(250, 250, 252);
+    --bg-color-alt: rgb(240, 240, 240);
+    --fg-color: rgb(0, 5, 10);
+    --fg-color-alt: rgb(28, 28, 28);
+    --border-color: rgb(60, 60, 90);
+    --border-color-alt: rgba(28, 28, 28, 0.5);
+    --focus-border-color: rgba(0, 191, 255, 0.8);
+    --columns-sep-color-light: rgb(225, 225, 245);
+    --columns-sep-color-dark: rgb(45, 45, 60);
+
+    /* Background colors */
+    --header-bg-color: rgba(87, 117, 177, 0.7);
+    --nav-bg-color: rgba(87, 117, 177, 0.7);
+    --footer-bg-color: rgba(17, 27, 57, 0.8);
+    --buttons-bg-color: rgb(225, 225, 220);
+    --progress-bg-color: rgb(49, 47, 85);
+
+    /* Foreground colors of HTML elements */
+    --header-fg-color: rgb(241, 241, 245);
+    --footer-fg-color: rgb(241, 241, 245);
+    --progress-color: rgb(20, 25, 30);
+    --buttons-color: rgb(20, 25, 30);
+
+    --h1-color: rgb(20, 20, 70);
+    --h2-color: rgb(35, 35, 95);
+    --h3-color: rgb(50, 50, 100);
+    --h4-color: rgb(65, 70, 110);
+    --h5-color: rgb(65, 70, 115);
+    --h6-color: rgb(65, 70, 125);
+
+    --a-color: rgb(0, 100, 120);
+    --mark-color: rgb(90, 96, 108);
+    --ins-color: rgba(20, 200, 20, 0.8);
+    --del-color: rgba(240, 40, 40, 0.8);
+    --s-color: rgb(100, 100, 100);
+    --blockquote-border-color: rgb(20, 25, 30);
+    --blockquote-footer-color: rgb(20, 25, 30);
+
+    --table-border-color: var(--footer-bg-color);
+    --table-row-stripped-bg-color: rgba(210, 212, 222, 0.4);
+    --table-head-bg-color: rgb(204, 202, 212);
+    --table-head-fg-color: rgb(14, 12, 22);
+    --table-caption-bg-color: var(--footer-bg-color);
+    --table-caption-fg-color: rgb(210, 222, 252);
+
+    /* Other colors */
+    --shadow-color: rgba(110, 120, 140, 0.8);
+}
+
+/* Re-define some global variables for disabilities */
+/* ------------------------------------------------ */
+.contrast {
+    /* Font properties (source: WCAG 2.1 - section 1.4.12 Text Spacing):
+       - Line height (line spacing) to at least 1.5 times the font size;
+       - Spacing following paragraphs to at least 2 times the font size;
+       - Letter spacing (tracking) to at least 0.12 times the font size;
+       - Word spacing to at least 0.16 times the font size.
+
+    Conforming to this criteria provides accommodation for people to modify
+    their text styles according to their needs.
+    */
+    --font-family-sans: ContrastFont, SansFont, 'Verdana', sans-serif;
+    --font-weight-thin: 200;
+    --font-weight-semithin: 300;
+    --font-weight-normal: 400;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 800;
+    --font-weight-black: 900;
+    --font-size: 16px;
+    --line-height: 1.5;
+    --typography-spacing-vertical: 2rem;
+    --typography-spacing-horizontal: 1.6rem;
+    --letter-spacing: 0.12rem;
+    --word-spacing: 0.16rem;
+
+    /* Borders */
+    --border-width: 2px;
+
+    /* Focus */
+    --focus-border-width: 2px;
+
+    /* Table */
+    --table-border-width: 2px;
+}
+
+.dark {
+    /* Main colors */
+    --bg-color: rgb(24, 28, 38);
+    --bg-color-alt: rgba(38, 42, 54);
+    --fg-color: rgb(255, 255, 255);
+    --fg-color-alt: rgb(255, 255, 255);
+    --border-color: rgb(228, 228, 228);
+    --border-color-alt: rgba(228, 228, 228, 0.5);
+    --focus-border-color: rgba(0, 191, 255, 0.8);
+    --columns-sep-color-dark: rgb(235, 235, 245);
+    --columns-sep-color-light: rgb(45, 45, 60);
+
+    /* Background colors */
+    --header-bg-color: rgba(87, 117, 177, 0.7);
+    --nav-bg-color: rgba(87, 117, 177, 0.7);
+    --footer-bg-color: rgba(17, 27, 57, 0.8);
+    --buttons-bg-color: rgb(80, 80, 70);
+    --progress-bg-color: rgb(67, 77, 97);
+
+    /* Foreground colors of HTML elements */
+    --header-fg-color: rgb(241, 241, 245);
+    --footer-fg-color: rgb(241, 241, 245);
+    --buttons-color: rgb(225, 225, 215);
+    --h1-color: rgb(190, 204, 255);
+    --h2-color: rgb(190, 204, 223);
+    --h3-color: rgb(174, 190, 208);
+    --h4-color: rgb(174, 190, 208);
+    --h5-color: rgb(170, 180, 208);
+    --h6-color: rgb(170, 180, 208);
+
+    --progress-color: rgba(226, 226, 248);
+    --a-color: rgb(25, 195, 255);
+    --mark-color: rgb(90, 96, 108);
+    --ins-color: rgba(20, 240, 20, 0.8);
+    --del-color: rgba(240, 40, 40, 0.8);
+    --s-color: rgb(180, 180, 180);
+    --blockquote-border-color: rgba(226, 226, 248);
+    --blockquote-footer-color: rgba(226, 226, 248);
+
+    --table-border-color: rgb(184, 203, 208);
+    --table-row-stripped-bg-color: rgba(184, 203, 208, 0.28);
+    --table-head-bg-color: rgb(12, 22, 14);
+    --table-head-fg-color: rgb(204, 202, 212);
+    --table-caption-bg-color: rgb(210, 221, 252);
+    --table-caption-fg-color: var(--footer-bg-color);
+
+    /* Other colors */
+    --shadow-color: rgba(120, 120, 134, 0.8);
+
+}
+
+/* Font properties for a local context usage */
+/* ----------------------------------------- */
+
+.font-sans {
+    font-family: var(--font-family-sans);
+}
+
+.font-serif {
+    font-family: var(--font-family-serif);
+}
+
+.font-mono {
+    font-family: var(--font-family-mono);
+}
+
+.font-pre {
+    font-family: var(--font-family-pre);
+}
+
+.font-pixel {
+    font-family: var(--font-family-pixel);
+}
+
+.font-weight-thin {
+    font-weight: var(--font-weight-thin);
+}
+
+.font-weight-normal {
+    font-weight: var(--font-weight-normal);
+}
+
+.font-weight-semibold {
+    font-weight: var(--font-weight-semibold);
+}
+
+.font-weight-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.font-weight-black {
+    font-weight: var(--font-weight-black);
+}
+
+/* =======================================================================
+                            HTML PAGE STYLING
+  ======================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+
+    font-size: var(--font-size);
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-normal);
+    font-style: normal;
+    font-variant: normal;
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing) !important;
+    word-spacing: var(--word-spacing) !important;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+    background-repeat: no-repeat
+}
+
+*:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+*[aria-disabled=true] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    overflow: unset;
+}
+
+*[aria-disabled=true]:hover,
+*[aria-disabled=true]:focus {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+::after, ::before {
+    text-decoration: inherit;
+    vertical-align: inherit
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    background-color: var(--bg-color);
+}
+
+body {
+    position: relative;
+    cursor: default;
+
+    background-clip: content-box;
+    transition: all var(--border-color) 0.3s;
+    transition-duration: 0.4s;
+
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+
+    text-rendering: optimizeLegibility;
+    overflow-wrap: break-word;
+
+    -moz-tab-size: 4;
+    tab-size: 4;
+    flex-direction: column;
+}
+
+/* =======================================================================
+                     HTML DOCUMENT STRUCTURE
+   ======================================================================= */
+
+body > header {
+    z-index: 10;
+    text-align: center;
+    padding-bottom: var(--typography-spacing-vertical);
+    background: var(--header-bg-color);
+    color: var(--header-fg-color);
+    min-height: 4rem;
+    padding-bottom: var(--typography-spacing-vertical);
+}
+
+body > header * {
+    background: transparent;
+    color: var(--header-fg-color);
+}
+
+body > nav {
+    z-index: 10;
+    background: var(--nav-bg-color);
+    color: inherit;
+    position: -webkit-sticky;  /* Safari */
+    position: sticky;   /* is positioned based on the user's scroll position */
+    top: 0;
+    margin: auto;
+    overflow: unset;
+    /* box-shadow: [h-offset] [v-offset] [blur-radius] [spread-radius] [color]; */
+    box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);
+}
+
+body > nav * {
+    background: transparent;
+    color: inherit;
+}
+
+body > main {
+    z-index: 1;
+    background-color: var(--bg-color);
+}
+
+body > footer {
+    z-index: 10;
+    background: var(--footer-bg-color);
+    color: var(--footer-fg-color);
+    padding-top: var(--typography-spacing-vertical);
+    min-height: 4rem;
+    box-shadow: 0 0.3rem 0.8rem 0.2rem var(--shadow-color);
+}
+
+body > footer * {
+    background: transparent;
+    color: var(--footer-fg-color);
+}
+
+/* Elements inside */
+
+body > header > * {
+    z-index: 1;
+    text-align: center;
+    padding-top: var(--typography-spacing-vertical);
+}
+
+body > footer > * :is(p, h1, h2, h3, li, a) {
+    color: var(--footer-fg-color);
+}
+
+/* =======================================================================
+                       ACCESSIBILITY SPECIFIC STYLING
+  ======================================================================== */
+
+:is(a, video, input, area, select, button, input, textarea, summary, li) {
+    --outline-offset: 0;
+    --outline-size: calc(2 * var(--focus-border-width));
+    --outline-style: solid;
+    --outline-color: var(--focus-border-color);
+}
+
+:is(a, video, input, area, select, button, input, textarea, summary, li):focus {
+    outline: var(--outline-size) var(--outline-style) var(--outline-color);
+    outline-offset: var(--outline-offset, var(--outline-size));
+}
+
+:is(a, video, input, area, select, button, input, textarea, summary, li):focus-visible {
+    outline: var(--outline-size) var(--outline-style) var(--outline-color);
+    outline-offset: var(--outline-offset, var(--outline-size));
+}
+
+:is(a, video, input, area, select, button, input, textarea, summary, li):focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* A property to be assigned to a tag in case we want to force it to have
+   the focus style. Example of use:
+   <label class="focusable"> <input [...] /> </label>
+*/
+
+.focusable {
+    border: var(--focus-border-width) solid transparent;
+    border-radius: calc(2 * var(--focus-border-width));
+}
+
+.focusable:focus, .focused {
+    border: var(--focus-border-width) solid var(--focus-border-color);
+    border-radius: calc(2 * var(--focus-border-width));
+}
+
+/* =======================================================================
+                       HTML ELEMENTS STYLING
+  ======================================================================== */
+
+main > section,
+main > * section {
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+}
+
+/* ---------------------------- Head titles ------------------------------ */
+
+h1 {
+    color: var(--h1-color);
+    font: var(--font-family-sans);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: calc(4*var(--letter-spacing));
+}
+
+body > header > h1,
+body > footer > h1,
+body > footer > * h1
+{
+    font-size: calc(2 * var(--font-size));
+}
+
+body > main > h1,
+body > main > * h1
+{
+    font-size: calc(2.5 * var(--font-size));
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+    padding-bottom: calc(1.5 * var(--typography-spacing-vertical));
+    line-height: calc(4 * var(--font-size));
+}
+
+h2 {
+    color: var(--h2-color);
+    font: var(--font-family-sans);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: calc(3*var(--letter-spacing));
+}
+
+body > main > h2,
+body > main > * h2 {
+    font-size: calc(1.8 * var(--font-size));
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    position: relative;
+}
+
+body > header > h2,
+body > footer > h2
+{
+    font-size: calc(1.4 * var(--font-size));
+}
+
+h3 {
+    font-size: calc(1.4 * var(--font-size));
+    font-weight: var(--font-weight-semibold);
+    color: var(--h3-color);
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+    letter-spacing: calc(2*var(--letter-spacing));
+}
+
+h4 {
+    margin-bottom: var(--typography-spacing-vertical);
+    letter-spacing: calc(2*var(--letter-spacing));
+    font-size: calc(1.2 * var(--font-size));
+    color: var(--h4-color);
+    font-weight: var(--font-weight-normal);
+    font-style: italic;
+}
+
+h5 {
+    font-style: italic;
+}
+
+h5, h6 {
+    margin-bottom: var(--typography-spacing-vertical);
+    font-size: var(--font-size);
+    color: var(--h4-color);
+    font-weight: var(--font-weight-normal);
+}
+
+/* ---------------------- Text & inline text ----------------------------- */
+
+p {
+    font: inherit;
+    padding-bottom: var(--typography-spacing-vertical) !important;
+    text-align: left;
+    text-justify: inter-word;
+    display: block;
+}
+
+b {
+    font: inherit;
+    font-weight: var(--font-weight-bold);
+}
+
+strong {
+    font: inherit;
+    font-weight: var(--font-weight-black);
+}
+
+mark {
+    font: inherit;
+    background: #ff0;
+    color: #000
+}
+
+small {
+    font: inherit;
+    font-size: 80%
+}
+
+sub, sup {
+    font: inherit;
+    font-size: calc(0.75 * var(--font-size));
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline
+}
+
+sub {
+    bottom: -0.25em
+}
+
+sup {
+    top: -0.5em
+}
+
+kbd, pre, samp {
+    font-family: var(--font-family-pre);
+    font-size: calc(0.9 * var(--font-size));
+}
+
+pre {
+    padding-bottom: var(--typography-spacing-vertical);
+}
+
+code {
+    font-family: var(--font-family-mono);
+    font-size: calc(0.9 * var(--font-size));
+}
+
+kbd {
+    font-weight: bolder;
+}
+
+mark {
+    color: var(--mark-color);
+    text-decoration: none;
+}
+
+ins {
+    color: var(--ins-color);
+    text-decoration: none;
+}
+
+del {
+    color: var(--del-color);
+}
+
+s {
+    color: var(--s-color);
+}
+
+blockquote {
+    /*background-color: var(--bg-color-alt);*/
+    background-image: linear-gradient(to right, var(--bg-color-alt), var(--bg-color));
+    display: block;
+    padding: var(--typography-spacing-vertical);
+    margin-top: calc(0.5*var(--typography-spacing-horizontal));
+    margin-bottom: calc(1.5*var(--typography-spacing-vertical));
+    margin-left: calc(2*var(--typography-spacing-horizontal));
+    margin-right: calc(2*var(--typography-spacing-horizontal));
+    border-right: none;
+    border-top: 1px solid var(--blockquote-border-color);
+    border-bottom: 1px solid var(--blockquote-border-color);
+    border-left: 2rem solid var(--blockquote-border-color);
+    border-inline-start: 0.25rem solid var(--blockquote-border-color);
+    border-inline-end: none
+}
+
+blockquote > cite {
+    background-color: transparent;
+    display: block;
+    margin-top: var(--typography-spacing-vertical);
+    color: var(--blockquote-footer-color);
+}
+
+blockquote, blockquote > p, blockquote > a {
+    font-weight: var(--font-weight-semibold);
+}
+
+a {
+    color: var(--a-color);
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -o-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    border: var(--focus-border-width) solid transparent;
+    border-radius: calc(2 * var(--focus-border-width));
+}
+
+a:hover {
+    opacity: 100%;
+    border: var(--focus-border-width) dashed var(--focus-border-color);
+    border-radius: calc(2 * var(--focus-border-width));
+}
+
+a.external-link::after {
+    position: relative;
+    content: "";
+    background-image: url("icons/external-link.png");
+    background-size: 100% 100%;
+    display: inline-block;
+    width: calc(0.85 * var(--font-size));
+    height: calc(0.85 * var(--font-size));
+    padding-top: calc(0.1 * var(--font-size));;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    text-decoration: underline;
+}
+
+
+/* --------------------------------- List(s) ----------------------------- */
+
+ol, ul {
+    line-height: calc(1.4 * var(--line-height));
+    padding: 0;
+    margin-bottom: var(--typography-spacing-vertical);
+    background-color: unset;
+}
+
+ul > li > ul {
+    margin-bottom: 0;
+}
+
+ul > li > ul > li > ul {
+    margin-bottom: 0;
+}
+
+/* Margin to right only from the 2nd level */
+ul > li {
+    list-style-type: none;
+    list-style-position: outside;
+    /*list-style-image: none;*/
+}
+
+ul > li > ul > * {
+    list-style-type: none;
+    list-style-position: inside;
+    list-style-image: none;
+}
+
+ul:not(nav *) > li:before {
+    content: "■";
+    padding-right: var(--typography-spacing-horizontal);
+    color: var(--li-color);
+}
+
+ul:not(nav *) > li > ul > li:before {
+    content: "◇";
+    padding-right: var(--typography-spacing-horizontal);
+    padding-left: var(--typography-spacing-horizontal);
+    color: var(--li-color);
+}
+
+ul:not(nav *)  > li > ul> li> ul > li:before {
+    content: "□";
+    padding-right: var(--typography-spacing-horizontal);
+    padding-left: calc(2 * var(--typography-spacing-horizontal));
+    color: var(--li-color);
+}
+
+/* Add a dot after the item number */
+ol li {
+    list-style-type: none;
+    counter-increment: item;
+}
+
+ol li:before {
+    content: counter(item) ".";
+}
+
+/* -------------------------------- Table(s) ----------------------------- */
+
+:where(table) {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-indent: 0;
+    empty-cells: show;
+    margin-bottom: var(--typography-spacing-vertical);
+    border: var(--table-border-width) solid var(--table-border-color);
+    caption-side: top;
+}
+:where(table) .noborder {
+    border: none;
+}
+
+td, th {
+    padding: calc(var(--typography-spacing-horizontal) / 2) var(--typography-spacing-horizontal);
+    color: var(--fg-color);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--font-size);
+    text-align: left;
+    border-left: var(--table-border-width) dashed var(--table-border-color);
+}
+
+.noborder td, .noborder th {
+    border: none;
+}
+
+table[role=grid] thead {
+    background-color: var(--table-head-bg-color);
+    color: var(--table-head-fg-color);
+    font-weight: bold;
+}
+
+/*tfoot td, tfoot th {
+    border-top: var(--table-border-width) solid var(--table-border-color);
+    border-bottom: 0;
+}*/
+
+table[role=grid] tbody tr:nth-child(even) {
+    background-color: var(--table-row-stripped-bg-color);
+}
+
+table caption {
+    background-color: var(--table-caption-bg-color);
+    color: var(--table-caption-fg-color);
+}
+
+caption {
+    padding-left: calc(2 * var(--table-border-width));
+    text-align: left;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    font-size: 80%;
+    font-weight: var(--font-weight-semibold);
+}
+
+caption span {
+    font-style: italic;
+}
+
+/* ----------------- Button, Label and Input tags ----------------------- */
+
+button, input, a[role=button], select, textarea {
+    overflow: visible;
+}
+
+button, select, a[role=button], select, textarea {
+    text-transform: none;
+    text-decoration: none;
+}
+
+button, [type=button], [type=reset], [type=submit], [role=button] {
+    -webkit-appearance: button;
+}
+
+button, *[role=button], *[role=menuitem] {
+    border: var(--focus-border-width) solid var(--buttons-color);
+    background-color: var(--buttons-bg-color);
+    color: var(--buttons-color);
+
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.4s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-size: 0.9rem;
+    overflow: hidden;
+
+    padding-top: calc(var(--typography-spacing-vertical) / 2);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-bottom: calc(var(--typography-spacing-vertical) / 2);
+    padding-left: var(--typography-spacing-horizontal);
+    margin: var(--border-width);
+
+    /* for the buttons embedded in a box */
+    flex-grow: 1;      /* default is 0 */
+    flex-shrink: 1;    /* default is 1 */
+    flex-basis: auto;  /* default is auto */
+}
+
+button:enabled:hover, a[role=button]:hover, select:hover, textarea:hover {
+    border: var(--focus-border-width) dashed var(--focus-border-color);
+    opacity: 80%;
+}
+
+button:enabled img:hover {
+    /*transform: scale(1.2);*/
+    opacity: 80%;
+}
+
+
+/* ----------------- media & figure ----------- */
+
+figure {
+    margin: auto;
+    text-align: center;
+}
+
+figcaption {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--table-caption-bg-color);
+}
+
+video {
+    margin: auto;
+    max-width: 90%;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ----------------- progress ----------- */
+
+progress {
+    width: 100%;
+    height: 2rem;
+    background: var(--progress-bg-color);
+    color: var(--progress-color);
+    display: block;
+    position: relative;
+    border: var(--border-width) solid transparent;
+}
+
+@keyframes animprogress {
+    from { background-color: var(--progress-bg-color); }
+    to { background-color: var(--footer-bg-color); }
+}
+
+/* ----------------- others ----------- */
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    border: 0;
+    border-top: 1px solid rgba(128, 128, 128, 0.5);
+    margin: 1rem 0
+}
+
+/* =======================================================================
+                        Custom classes
+   ======================================================================= */
+
+
+/* -------------------- FORMS -------------------- */
+
+form {
+    margin: auto;
+}
+
+fieldset {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.5rem;
+}
+
+form textarea {
+    border: var(--border-width) solid var(--border-color);
+    display: block;
+    background-color: var(--buttons-bg-color);
+    color: var(--fg-color-alt);
+    width: 80%;
+    font-family: var(--font-family-serif);
+    font-weight: var(--font-weight-thin);
+    font-size: 1.25rem;
+}
+
+form label {
+    margin-bottom: calc(var(--typography-spacing-vertical));
+    margin-top: calc(var(--typography-spacing-vertical));
+    display: block;
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    color: var(--fg-color-alt);
+    border: none;
+    padding: calc(var(--typography-spacing-horizontal) / 2);
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    z-index: 1;
+    outline: none;
+    border: var(--border-width) solid transparent;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+form input[role="button"],
+form input[type="submit"],
+form input[type="reset"] {
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+}
+
+form input[type="text"],
+form input[type="url"],
+form input[type="tel"],
+form input[type="number"],
+form input[type="color"],
+form input[type="email"],
+form input[type="password"],
+form input[type="search"] {
+    display: block;
+    background-color: inherit;
+    border: none;
+    border-bottom: 1px solid var(--border-color-alt);
+    transition: 0.5s ease-in-out border-bottom;
+}
+
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+
+
