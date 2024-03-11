@@ -34,83 +34,28 @@
 
 import os
 
-from whakerpy.htmlmaker import HTMLNode
-from whakerpy.htmlmaker import HTMLHeadNode
 from whakerpy.httpd import BaseResponseRecipe
 from whakerpy.httpd import HTTPDStatus
 
-# ---------------------------------------------------------------------------
-
-
-class ExtendHeadNode(HTMLHeadNode):
-
-    def __init__(self, parent, title):
-        """Create the head node.
-
-        """
-        super(ExtendHeadNode, self).__init__(parent)
-        self.reset(title)
-
-    # -----------------------------------------------------------------------
-    # PUBLIC METHODS
-    # -----------------------------------------------------------------------
-
-    def reset(self, title):
-        """Reset the head to its default values.
-
-        """
-        # Delete the existing list of children
-        self._children = list()
-
-        # The default meta tags
-        self.meta({"charset": "utf-8"})
-        self.meta({"http-equiv": "X-UA-Compatible", "content": "IE=edge"})
-        self.meta({"name": "viewport",
-                   "content": "width=device-width, initial-scale=1.0, user-scalable=yes"})
-
-        # Add a default title
-        title_node = HTMLNode(self.identifier, "title", "title", value=title)
-        self.append_child(title_node)
-
-        # Add the CSS style of any dynamic page
-        self.__import_css_styles()
-
-        # Add the javascript with utility functions
-        self.__import_js_scripts()
-
-    # ---------------------------------------------------------------------------
-    # PRIVATE METHODS
-    # ---------------------------------------------------------------------------
-
-    def __import_css_styles(self) -> None:
-        """Import statics css styles of the whakerexa library.
-
-        """
-        self.link(rel="stylesheet", href=os.path.join("statics", "css", "video_player.css"), link_type="text/css")
-
-    # ---------------------------------------------------------------------------
-
-    def __import_js_scripts(self) -> None:
-        """Import statics js scripts of the whakerexa library.
-
-        """
-        # import PureJS-Tools scripts
-        self.script(os.path.join("statics", "js", "purejs-tools", "OnLoadManager.js"), "text/javascript")
-
-        # import Whakerexa scripts
-        self.script(os.path.join("statics", "js", "accessibility.js"), "text/javascript")
-
+from .head import ExtendHeadNode
 
 # ---------------------------------------------------------------------------
 
 
 class ExtendResponseRecipe(BaseResponseRecipe):
 
-    def __init__(self, name="und", tree=None, title="Whakerexa"):
-        super(ExtendResponseRecipe, self).__init__(name, tree)
+    def __init__(self, name="und", tree=None):
+        """Initialized custom response.
 
+        :param name: The name of the webapp
+        :param tree: Optional, a tree already created to take it for the response creation
+                     Create a new HTMLTree for the response if nothing is given
+
+        """
+        super(ExtendResponseRecipe, self).__init__(name, tree)
         self.__unittest_files = list()
 
+        self._htree.head = ExtendHeadNode(self._htree.identifier, self._name)
         self._status = HTTPDStatus()
 
     # ---------------------------------------------------------------------------
@@ -147,11 +92,6 @@ class ExtendResponseRecipe(BaseResponseRecipe):
         for file_path in self.__unittest_files:
             if os.path.basename(file_path) not in serialize_head:
                 self._htree.head.script(file_path, "text/javascript")
-
-    # ---------------------------------------------------------------------------
-
-    def create(self) -> None:
-        self._htree.head = ExtendHeadNode(self._htree.identifier, self._name)
 
     # ---------------------------------------------------------------------------
     # OVERRIDE METHODS

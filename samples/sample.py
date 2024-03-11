@@ -69,8 +69,6 @@ class SampleAppResponse(ExtendResponseRecipe):
         It can be created with htmlmaker, node by node, or loaded from a file.
 
         """
-        super().create()
-
         # Add elements in the header
         h1 = HTMLNode(self._htree.body_header.identifier, None, "h1", value="Test of Whakerexa")
         self._htree.body_header.append_child(h1)

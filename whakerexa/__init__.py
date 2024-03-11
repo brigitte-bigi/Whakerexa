@@ -32,8 +32,10 @@
 
 """
 
+from .head import ExtendHeadNode
 from .response import ExtendResponseRecipe
 
 __all__ = (
+    "ExtendHeadNode",
     "ExtendResponseRecipe"
 )
