@@ -28,6 +28,8 @@ figure.img-video-visualization button.play-btn {
     background: transparent;
     border: none;
     cursor: pointer;
+
+    font-size: 6vw;
 }
 
 figure.img-video-visualization button.play-btn img {

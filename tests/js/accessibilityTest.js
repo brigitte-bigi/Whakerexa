@@ -48,21 +48,14 @@ accessibility_tests.add_test(() => {
             UnitTest.assert_array_contains(url.get("wexa_color"), body_classes, "color_parameter_test");
 
         } else {
-            UnitTest.assert_array_contains("light", body_classes, "default_color_test");
             UnitTest.assert_array_not_contains("dark", body_classes, "default_color_not_dark_test");
         }
 
         // test contrast scheme
         if (url.has("wexa_contrast")) {
-            const contrast_parameter_value = url.get("wexa_contrast");
-
-            if (contrast_parameter_value === "true") {
-                UnitTest.assert_array_contains("sp-contrast", body_classes, "parameter_contrast_true_test");
-            } else {
-                UnitTest.assert_array_not_contains("sp-contrast", body_classes, "parameter_contrast_false_test");
-            }
+            UnitTest.assert_array_contains(url.get("wexa_contrast"), body_classes, "parameter_contrast_true_test");
         } else {
-            UnitTest.assert_array_not_contains("sp-contrast", body_classes, "default_contrast_test");
+            UnitTest.assert_array_not_contains("contrast", body_classes, "default_contrast_test");
         }
     });
 });
@@ -76,18 +69,18 @@ accessibility_tests.add_test(() => {
         let body_classes = Array.from(document.body.classList);
         let old_color_scheme;
 
-        if (body_classes.includes("light")) {
-            old_color_scheme = "light";
-        } else {
+        if (body_classes.includes("dark")) {
             old_color_scheme = "dark";
         }
 
         // switch color_scheme
         color_scheme_switch();
 
-        UnitTest.assert_array_not_contains(old_color_scheme, Array.from(document.body.classList), "color_switch_test_1");
-        color_scheme_switch();
-        UnitTest.assert_array_contains(old_color_scheme, Array.from(document.body.classList), "color_switch_test_2");
+        if (old_color_scheme == null) {
+            UnitTest.assert_array_contains(old_color_scheme, Array.from(document.body.classList), "color_switch_test_2");
+        } else {
+            UnitTest.assert_array_not_contains(old_color_scheme, Array.from(document.body.classList), "color_switch_test_1");
+        }
     });
 });
 
@@ -98,27 +91,27 @@ accessibility_tests.add_test(() => {
     // wait page finished to load to get the body element
     OnLoadManager.addLoadFunction(() => {
         let body_classes = Array.from(document.body.classList);
-        let old_contrast_scheme = "";
+        let old_contrast_scheme;
 
-        if (body_classes.includes("sp-contrast")) {
-            old_contrast_scheme = "sp-contrast";
+        if (body_classes.includes("contrast")) {
+            old_contrast_scheme = "contrast";
         }
 
         // switch color_scheme
         contrast_scheme_switch();
 
-        if (old_contrast_scheme === "") {
-            UnitTest.assert_array_contains("sp-contrast", Array.from(document.body.classList), "contrast_switch_test_1");
+        if (old_contrast_scheme == null) {
+            UnitTest.assert_array_contains("contrast", Array.from(document.body.classList), "contrast_switch_test_1");
         } else {
-            UnitTest.assert_array_not_contains("sp-contrast", Array.from(document.body.classList), "contrast_switch_test_1");
+            UnitTest.assert_array_not_contains("contrast", Array.from(document.body.classList), "contrast_switch_test_1");
         }
 
         contrast_scheme_switch();
 
-        if (old_contrast_scheme === "") {
-            UnitTest.assert_array_not_contains("sp-contrast", Array.from(document.body.classList), "contrast_switch_test_2");
+        if (old_contrast_scheme == null) {
+            UnitTest.assert_array_not_contains("contrast", Array.from(document.body.classList), "contrast_switch_test_2");
         } else {
-            UnitTest.assert_array_contains("sp-contrast", Array.from(document.body.classList), "contrast_switch_test_2");
+            UnitTest.assert_array_contains("contrast", Array.from(document.body.classList), "contrast_switch_test_2");
         }
     });
 });

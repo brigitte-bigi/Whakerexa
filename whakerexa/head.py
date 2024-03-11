@@ -95,6 +95,7 @@ class ExtendHeadNode(HTMLHeadNode):
         """Import statics css styles of the whakerexa library.
 
         """
+        self.link(rel="stylesheet", href=os.path.join("statics", "css", "wexa.css"), link_type="text/css")
         self.link(rel="stylesheet", href=os.path.join("statics", "css", "video_player.css"), link_type="text/css")
 
     # ---------------------------------------------------------------------------

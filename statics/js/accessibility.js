@@ -32,6 +32,12 @@
 
 */
 
+const COLOR_SCHEME = ["dark"]
+const CONTRAST_SCHEME = ["contrast"]
+
+// -----------------------------------------------------------------------
+
+
 /**
  * Loads body css classes to set the color and contrast scheme of the webapp.
  * This function has to be called in the 'onload' property of the body element.
@@ -42,27 +48,25 @@ function loadBodyClasses() {
     const params = new URLSearchParams(window.location.search);
     let body = document.body;
 
-    // manage color theme
-    let color_scheme = "light";
-
+    // manage color scheme
     if (params.has("wexa_color")) {
         const color_parameter = params.get("wexa_color").toLowerCase();
 
-        if (["light", "dark"].includes(color_scheme)) {
-            color_scheme = color_parameter;
+        if (COLOR_SCHEME.includes(color_parameter)) {
+            body.classList.add(color_parameter);
         } else {
             console.log("'wexa_color' get parameter unknown : " + color_parameter);
         }
     }
 
-    body.classList.add(color_scheme);
-
-    // manage contrast
+    // manage contrast scheme
     if (params.has("wexa_contrast")) {
         const contrast_param = params.get("wexa_contrast").toLowerCase();
 
-        if  (contrast_param === "true") {
-            body.classList.add("sp-contrast");
+        if  (CONTRAST_SCHEME.includes(contrast_param)) {
+            body.classList.add(contrast_param);
+        } else {
+            console.log("'wexa_contrast' get parameter unknown : " + contrast_param);
         }
     }
 }
@@ -74,41 +78,34 @@ OnLoadManager.addLoadFunction(loadBodyClasses);
 
 /**
  * Changes the color scheme of the webapp.
- * Values switched : 'light' <=> 'dark'
+ * Values switched : 'light' <=> 'dark'.
+ * Possible functions deprecated in the future if we implement more color scheme.
  */
 function color_scheme_switch() {
     let body = document.body;
-    let oldTheme;
-    let newTheme;
 
-    // check which class is the old theme to replace
-    if (body.classList.contains("light")) {
-        oldTheme = "light";
-        newTheme = "dark";
+    if (body.classList.contains("dark")) {
+        body.classList.remove("dark");
     } else {
-        oldTheme = "dark";
-        newTheme = "light";
+        body.classList.add("dark");
     }
-
-    // Take the new color scheme into account.
-    body.classList.remove(oldTheme);
-    body.classList.add(newTheme);
 }
 
 // -----------------------------------------------------------------------
 
 /**
  * Changes the contrast scheme of the webapp.
- * Values switched : '' <=> 'sp-contrast'
+ * Values switched : '' <=> 'sp-contrast'.
+ * Possible functions deprecated in the future if we implement more contrast scheme.
  */
 function contrast_scheme_switch() {
     let body = document.body;
 
     // switch contrast scheme
-    if (body.classList.contains("sp-contrast")) {
-        body.classList.remove("sp-contrast")
+    if (body.classList.contains("contrast")) {
+        body.classList.remove("contrast")
     } else {
-        body.classList.add("sp-contrast")
+        body.classList.add("contrast")
     }
 }
 
@@ -130,16 +127,20 @@ function goToLink(element) {
     }
 
     // it's an internal link, we add get parameters for the color and contrast scheme
-    const body = document.body;
     let custom_url = new URL(element.href);
 
-    // manage the color_scheme parameter
-    const color_scheme_value = (body.classList.contains("light")) ? "light" : "dark";
-    custom_url.searchParams.append("wexa_color", color_scheme_value);
+    // search whakerexa body classes
+    document.body.classList.forEach(element => {
+        // check color schemes
+        if (COLOR_SCHEME.includes(element)) {
+            custom_url.searchParams.set("wexa_color", element);
+        }
 
-    // manage the contrast_scheme parameter
-    const contrast_scheme_value = (body.classList.contains("sp-contrast")) ? "true" : "false";
-    custom_url.searchParams.append("wexa_contrast", contrast_scheme_value);
+        // check contrast scheme
+        if (CONTRAST_SCHEME.includes(element)) {
+            custom_url.searchParams.set("wexa_contrast", element);
+        }
+    });
 
     // set the new url to redirect the client
     document.location.href = custom_url.href;

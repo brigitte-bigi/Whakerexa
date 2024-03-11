@@ -43,12 +43,12 @@ from whakerpy.htmlmaker import HTMLNode
 IMAGE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".PNG", "webp"]
 
 JS_SCRIPT = """
-function play_popup_video(id_popup) {
+async function play_popup_video(id_popup) {
     let modal = document.getElementById("popup-" + id_popup);
     let video = document.getElementById("popup-video-" + id_popup);
 
     // quick start of the video to the client get the video file
-    video.play();
+    await video.play();
     video.pause();
 
     modal.showModal();
@@ -189,15 +189,8 @@ class VideoPlayer(HTMLNode):
         self.__img = HTMLNode(self.identifier, None, "img", attributes={"src": self.__img_path})
         self.append_child(self.__img)
 
-        id_play_button = f"play-button-{self.identifier}"
-        play_button = HTMLNode(self.identifier, id_play_button, "button",
+        play_button = HTMLNode(self.identifier, None, "button", value="&#9658;",
                                attributes={"class": "play-btn", "onclick": f"play_popup_video('{self.identifier}')"})
-        play_img = HTMLNode(id_play_button, None, "img", attributes={
-            "src": os.path.join("statics", "img", "play_button.png"),
-            "alt": "play image to start the video"
-        })
-
-        play_button.append_child(play_img)
         self.append_child(play_button)
 
         # create popup widget
