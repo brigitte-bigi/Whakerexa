@@ -49,6 +49,10 @@ class SampleAppResponse(ExtendResponseRecipe):
         super(SampleAppResponse, self).__init__(name="Whakerexa Sample")
         self._htree.add_html_attribute("id", "whakerexa-sample")
 
+        # activate (or not) the js unit tests
+        self.__import_unittest_files()
+        self.enable_unittests()
+
         self._bake()
 
     # -----------------------------------------------------------------------
@@ -107,3 +111,15 @@ class SampleAppResponse(ExtendResponseRecipe):
         video_player.set_img_width(35, "vw")
 
         self._htree.body_main.append_child(video_player)
+
+    # -----------------------------------------------------------------------
+    # PRIVATE METHODS
+    # -----------------------------------------------------------------------
+
+    def __import_unittest_files(self) -> None:
+        """Added all js unit test files.
+        To launch the unit tests, call the method : self.enable_unittests().
+
+        """
+        self.add_unittest_file(os.path.join("tests", "js", "requestTest.js"))
+        self.add_unittest_file(os.path.join("tests", "js", "accessibilityTest.js"))
