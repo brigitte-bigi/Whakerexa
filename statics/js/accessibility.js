@@ -2,7 +2,7 @@
 :filename: statics.js.accessibility.js
 :author: Florian Lopitaux
 :contact: contact@sppas.org
-:summary: Functions to manage the color theme and contrast of the client with data persistent by url parameters.
+:summary: A class to manage the color and contrast scheme of the body.
 
 .. _This file is part of Whakerexa: https://sourceforge.net/projects/whakerexa/ ,
 .. on 2024-03-01.
@@ -32,135 +32,373 @@
 
 */
 
-const COLOR_SCHEME = ["dark"]
-const CONTRAST_SCHEME = ["contrast"]
 
-// -----------------------------------------------------------------------
+class AccessibilityScheme {
+
+    // -----------------------------------------------------------------------
+    // FIELDS
+    // -----------------------------------------------------------------------
+
+    #colors;
+    #activated_color;
+    #contrasts;
+    #activated_contrast;
 
 
-/**
- * Loads body css classes to set the color and contrast scheme of the webapp.
- * This function has to be called in the 'onload' property of the body element.
- *
- * By default, the color scheme is set to 'light' and the contrast is disabled.
- */
-function loadBodyClasses() {
-    const params = new URLSearchParams(window.location.search);
-    let body = document.body;
+    // -----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // -----------------------------------------------------------------------
 
-    // manage color scheme
-    if (params.has("wexa_color")) {
-        const color_parameter = params.get("wexa_color").toLowerCase();
+    /**
+     * Instantiate all properties with default color and contrast scheme.
+     * Also add onload events to set the body classes and custom the 'a link'.
+     */
+    constructor() {
+        this.#colors = ["dark"];
+        this.#activated_color = "";
+        this.#contrasts = ["contrast"];
+        this.#activated_contrast = "";
 
-        if (COLOR_SCHEME.includes(color_parameter)) {
-            body.classList.add(color_parameter);
+        // add onload events
+        OnLoadManager.addLoadFunction(this.#load_body_classes.bind(this));
+        OnLoadManager.addLoadFunction(this.#set_all_links_custom.bind(this));
+    }
+
+
+    // -----------------------------------------------------------------------
+    // GETTERS
+    // -----------------------------------------------------------------------
+
+    /**
+     * Get all color schemes register in the class.
+     * By default, contains only 'dark' (the 'light' mode is the default scheme when no scheme is set).
+     *
+     * @returns {Array[string]}
+     */
+    get color_schemes() {
+        return this.#colors;
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Get the current color scheme activated.
+     * If this value is an empty string, then it's the default (light) mode which is activated.
+     *
+     * @returns {string}
+     */
+    get activated_color_scheme() {
+        return this.#activated_color;
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Get all contrast schemes register in the class.
+     * By default, contains only 'contrast'.
+     *
+     * @returns {Array[string]}
+     */
+    get contrast_schemes() {
+        return this.#contrasts;
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Get the current contrast scheme activated.
+     * If this value is an empty string, then it's the default (no-contrast) mode which is activated.
+     *
+     * @returns {string}
+     */
+    get activated_contrast_scheme() {
+        return this.#activated_contrast;
+    }
+
+
+    // -----------------------------------------------------------------------
+    // SETTERS
+    // -----------------------------------------------------------------------
+
+    /**
+     * Append a new color scheme in the list.
+     * Use this method if you build a custom color scheme, and you want to use it in your webapp.
+     * The color scheme has to have a css class on the same name which override color css variables that the body can use.
+     *
+     * @param color_scheme The name of the new color scheme (css class name)
+     */
+    add_color_scheme(color_scheme) {
+        if (typeof color_scheme === "string") {
+            this.#colors.push(color_scheme);
         } else {
-            console.log("'wexa_color' get parameter unknown : " + color_parameter);
+            console.log("The 'color_scheme' parameter has to be a string and not a : " + typeof color_scheme);
         }
     }
 
-    // manage contrast scheme
-    if (params.has("wexa_contrast")) {
-        const contrast_param = params.get("wexa_contrast").toLowerCase();
+    // -----------------------------------------------------------------------
 
-        if  (CONTRAST_SCHEME.includes(contrast_param)) {
-            body.classList.add(contrast_param);
+    /**
+     * Remove a color scheme presents in the list.
+     *
+     * @param color_scheme The name of the color scheme to delete
+     */
+    remove_color_scheme(color_scheme) {
+        if (typeof color_scheme !== "string") {
+            console.log("The 'color_scheme' parameter has to be a string and not a : " + typeof color_scheme);
+        }
+
+        // get the index of the element to delete
+        const color_index = this.#colors.indexOf(color_scheme);
+
+        // check if the element was found
+        if (color_index === -1) {
+            console.log("The color scheme : '" + color_scheme + "' doesn't exist !");
         } else {
-            console.log("'wexa_contrast' get parameter unknown : " + contrast_param);
+            this.#colors.splice(color_index, 1);
         }
     }
-}
 
-// add loadBodyClasses in the onLoad events list
-OnLoadManager.addLoadFunction(loadBodyClasses);
+    // -----------------------------------------------------------------------
 
-// -----------------------------------------------------------------------
-
-/**
- * Changes the color scheme of the webapp.
- * Values switched : 'light' <=> 'dark'.
- * Possible functions deprecated in the future if we implement more color scheme.
- */
-function color_scheme_switch() {
-    let body = document.body;
-
-    if (body.classList.contains("dark")) {
-        body.classList.remove("dark");
-    } else {
-        body.classList.add("dark");
-    }
-}
-
-// -----------------------------------------------------------------------
-
-/**
- * Changes the contrast scheme of the webapp.
- * Values switched : '' <=> 'sp-contrast'.
- * Possible functions deprecated in the future if we implement more contrast scheme.
- */
-function contrast_scheme_switch() {
-    let body = document.body;
-
-    // switch contrast scheme
-    if (body.classList.contains("contrast")) {
-        body.classList.remove("contrast")
-    } else {
-        body.classList.add("contrast")
-    }
-}
-
-// -----------------------------------------------------------------------
-
-/**
- * Customs the link before redirect the client.
- *
- * If the link target an external server, nothing changes.
- * If the link target a resource of our server, apply get parameters for the color and contrast scheme.
- *
- * @param element The 'a' html element which contains the url to custom
- */
-function goToLink(element) {
-    // check if it's an external link to another server
-    if (element.host !== window.location.host) {
-        document.location.href = element.href;
-        return;
+    /**
+     * Append a new contrast scheme in the list.
+     * Use this method if you build a custom contrast scheme, and you want to use it in your webapp.
+     * The contrast scheme has to have a css class on the same name which override contrast css variable that the body can use.
+     *
+     * @param contrast_scheme The name of the contrast scheme
+     */
+    add_contrast_scheme(contrast_scheme) {
+        if (typeof contrast_scheme === "string") {
+            this.#contrasts.push(contrast_scheme);
+        } else {
+            console.log("The 'contrast_scheme' parameter has to be a string and not a : " + typeof contrast_scheme);
+        }
     }
 
-    // it's an internal link, we add get parameters for the color and contrast scheme
-    let custom_url = new URL(element.href);
+    // -----------------------------------------------------------------------
 
-    // search whakerexa body classes
-    document.body.classList.forEach(element => {
-        // check color schemes
-        if (COLOR_SCHEME.includes(element)) {
-            custom_url.searchParams.set("wexa_color", element);
+    /**
+     * Remove a contrast scheme presents in the list.
+     *
+     * @param contrast_scheme The name of the contrast scheme to delete
+     */
+    remove_contrast_scheme(contrast_scheme) {
+        if (typeof contrast_scheme !== "string") {
+            console.log("The 'contrast_scheme' parameter has to be a string and not a : " + typeof contrast_scheme);
         }
 
-        // check contrast scheme
-        if (CONTRAST_SCHEME.includes(element)) {
-            custom_url.searchParams.set("wexa_contrast", element);
+        // get the index of the element to delete
+        const contrast_index = this.#contrasts.indexOf(contrast_scheme);
+
+        // check if the element was found
+        if (contrast_index === -1) {
+            console.log("The contrast scheme : '" + contrast_scheme + "' doesn't exist !");
+        } else {
+            this.#contrasts.splice(contrast_index, 1);
         }
-    });
+    }
 
-    // set the new url to redirect the client
-    document.location.href = custom_url.href;
-}
 
-// -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // PUBLIC STATIC METHODS
+    // -----------------------------------------------------------------------
 
-/**
- * Custom the click event of all 'a' html element to call the goToLink function.
- */
-function setAllLinksCustom() {
-    let link_elements = Array.from(document.querySelectorAll("a"));
+    static get COLOR_PARAMETER_NAME() {
+        return "wexa_color";
+    }
 
-    link_elements.forEach(element => {
-        element.addEventListener("click", event => {
-            event.preventDefault();
-            goToLink(element);
+    static get CONTRAST_PARAMETER_NAME() {
+        return "wexa_contrast";
+    }
+
+
+    // -----------------------------------------------------------------------
+    // PUBLIC METHODS
+    // -----------------------------------------------------------------------
+
+    /**
+     * Switch the color scheme from nothing (light) to color scheme and unversed.
+     * You can only call this method if you have one color scheme set (only the dark scheme or custom scheme, and you remove the dark scheme).
+     * Otherwise, use the activate_color_scheme() method to set a specific color scheme.
+     */
+    switch_color_scheme() {
+        if (this.#colors.length > 1) {
+            console.log("Impossible to switch color scheme because multiple color schemes has set !" +
+                "You have to use the activate_color_scheme() method !");
+        }
+
+        if (this.#activated_color === "") {
+            this.#activated_color = this.#colors[0];
+            document.body.classList.add(this.#colors[0]);
+
+        } else {
+            this.#activated_color = "";
+            document.body.classList.remove(this.#colors[0]);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Set the current color scheme that the client has to use.
+     *
+     * @param color_scheme The name of the color scheme
+     */
+    activate_color_scheme(color_scheme) {
+        if (color_scheme === "" || this.#colors.includes(color_scheme)) {
+            if (this.#activated_color !== "") {
+                document.body.classList.remove(this.#activated_color);
+            }
+
+            if (color_scheme !== "") {
+                document.body.classList.add(color_scheme);
+            }
+
+            this.#activated_color = color_scheme;
+        } else {
+            console.log("Unknown given color scheme : " + color_scheme);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Switch the contrast scheme from nothing (no-contrast) to contrast scheme and unversed.
+     * You can only call this method if you have one contrast scheme set (only the contrast scheme or custom scheme, and you remove the contrast scheme).
+     * Otherwise, use the activate_contrast_scheme() method to set a specific contrast scheme.
+     */
+    switch_contrast_scheme() {
+        if (this.#contrasts.length > 1) {
+            console.log("Impossible to switch contrast scheme because multiple contrast schemes has set !" +
+                "You have to use the activate_contrast_scheme() method !");
+        }
+
+        if (this.#activated_contrast === "") {
+            this.#activated_contrast = this.#contrasts[0];
+            document.body.classList.add(this.#contrasts[0]);
+
+        } else {
+            this.#activated_contrast = "";
+            document.body.classList.remove(this.#contrasts[0]);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Set the current contrast scheme that the client has to use.
+     *
+     * @param contrast_scheme The name of the contrast scheme
+     */
+    activate_contrast_scheme(contrast_scheme) {
+        if (contrast_scheme === "" || this.#contrasts.includes(contrast_scheme)) {
+            if (this.#activated_contrast !== "") {
+                document.body.classList.remove(this.#activated_contrast);
+            }
+
+            if (contrast_scheme !== "") {
+                document.body.classList.add(contrast_scheme);
+            }
+
+            this.#activated_contrast = contrast_scheme;
+        } else {
+            console.log("Unknown given contrast scheme : " + contrast_scheme);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Customs the link before redirect the client.
+     *
+     * If the link target an external server, nothing changes.
+     * If the link target a page of our server, apply get parameters for the color and contrast scheme.
+     *
+     * @param element The 'a' html element which contains the url to custom
+     */
+    go_to_link(element) {
+        // check if it's an external link to another server
+        if (element.host !== window.location.host) {
+            document.location.href = element.href;
+            return;
+        }
+
+        // it's an internal link, we add get parameters for the color and contrast scheme
+        let custom_url = new URL(element.href);
+
+        if (this.#activated_color !== "") {
+            custom_url.searchParams.set(AccessibilityScheme.CONTRAST_PARAMETER_NAME, this.#activated_color);
+        }
+
+        if (this.#activated_contrast !== "") {
+            custom_url.searchParams.set(AccessibilityScheme.CONTRAST_PARAMETER_NAME, this.#activated_contrast);
+        }
+
+        // set the new url to redirect the client
+        document.location.href = custom_url.href;
+    }
+
+
+    // -----------------------------------------------------------------------
+    // PRIVATE METHODS
+    // -----------------------------------------------------------------------
+
+    /**
+     * Loads body css classes to set the color and contrast scheme of the webapp.
+     * This function has to be called in the 'onload' property of the body element.
+     *
+     * By default, the body doesn't have special classes added (equivalent of 'light scheme' and 'no contrast')
+     */
+    #load_body_classes() {
+        const params = new URLSearchParams(window.location.search);
+
+        // manage color scheme
+        if (params.has(AccessibilityScheme.COLOR_PARAMETER_NAME)) {
+            const color_parameter = params.get(AccessibilityScheme.COLOR_PARAMETER_NAME).toLowerCase();
+
+            if (this.#colors.includes(color_parameter)) {
+                this.#activated_color = color_parameter;
+                document.body.classList.add(color_parameter);
+
+            } else {
+                console.log(AccessibilityScheme.COLOR_PARAMETER_NAME + " get parameter unknown : " + color_parameter);
+            }
+        }
+
+        // manage contrast scheme
+        if (params.has(AccessibilityScheme.CONTRAST_PARAMETER_NAME)) {
+            const contrast_param = params.get(AccessibilityScheme.CONTRAST_PARAMETER_NAME).toLowerCase();
+
+            if (this.#contrasts.includes(contrast_param)) {
+                this.#activated_contrast = contrast_param;
+                document.body.classList.add(contrast_param);
+
+            } else {
+                console.log(AccessibilityScheme.CONTRAST_PARAMETER_NAME + " get parameter unknown : " + contrast_param);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Custom the click event of all 'a' html element to call the goToLink function.
+     */
+    #set_all_links_custom() {
+        let link_elements = Array.from(document.querySelectorAll("a"));
+
+        link_elements.forEach(element => {
+            element.addEventListener("click", event => {
+                event.preventDefault();
+                this.go_to_link(element);
+            });
         });
-    });
+    }
 }
 
-// add setAllLinksCustom in the onLoad events list
-OnLoadManager.addLoadFunction(setAllLinksCustom);
+
+
+// -----------------------------------------------------------------------
+
+// instantiate the AccessibilityScheme to set properties and use it after in other scripts
+let accessibility_manager = new AccessibilityScheme();

@@ -51,8 +51,8 @@ class OnLoadManager {
      * This function has to be called in the 'window.onload' event.
      */
     static runLoadFunctions() {
-        OnLoadManager.#functions.forEach(func => {
-            func();
+        OnLoadManager.#functions.forEach(async func => {
+            await func();
         });
     }
 }

@@ -104,6 +104,9 @@ class ExtendHeadNode(HTMLHeadNode):
         """Import statics js scripts of the whakerexa library.
 
         """
+        # import Whakerpy scripts
+        self.script(os.path.join("whakerpy", "request.js"), "text/javascript")
+
         # import PureJS-Tools scripts
         self.script(os.path.join("statics", "js", "purejs-tools", "OnLoadManager.js"), "text/javascript")
 

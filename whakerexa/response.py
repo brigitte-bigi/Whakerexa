@@ -35,7 +35,6 @@
 import os
 
 from whakerpy.httpd import BaseResponseRecipe
-from whakerpy.httpd import HTTPDStatus
 
 from .head import ExtendHeadNode
 
@@ -53,10 +52,9 @@ class ExtendResponseRecipe(BaseResponseRecipe):
 
         """
         super(ExtendResponseRecipe, self).__init__(name, tree)
-        self.__unittest_files = list()
 
+        self.__unittest_files = list()
         self._htree.head = ExtendHeadNode(self._htree.identifier, self._name)
-        self._status = HTTPDStatus()
 
     # ---------------------------------------------------------------------------
     # SETTERS
