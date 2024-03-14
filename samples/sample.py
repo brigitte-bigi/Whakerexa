@@ -49,9 +49,9 @@ class SampleAppResponse(ExtendResponseRecipe):
         super(SampleAppResponse, self).__init__(name="Whakerexa Sample")
         self._htree.add_html_attribute("id", "whakerexa-sample")
 
-        # activate (or not) the js unit tests
         self.__import_unittest_files()
-        self.enable_unittests()
+        # activate (or not) the js unit tests
+        # self.enable_unittests()
 
         self._bake()
 

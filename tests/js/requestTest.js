@@ -41,10 +41,10 @@ request_manager_tests.add_test(() => {
     const request_manager = new RequestManager();
     const url = new URL(window.location.href);
 
-    UnitTest.assert_values_equals(request_manager.status, null, "status_getter_test");
-    UnitTest.assert_values_equals(request_manager.port, url.port, "port_getter_test");
-    UnitTest.assert_values_equals(request_manager.protocol, url.protocol, "protocol_getter_test");
-    UnitTest.assert_values_equals(request_manager.request_url, url.origin + '/', "url_getter_test");
+    UnitTest.assert_values_equals(null, request_manager.status, "status_getter_test");
+    UnitTest.assert_values_equals(url.port, request_manager.port, "port_getter_test");
+    UnitTest.assert_values_equals(url.protocol, request_manager.protocol, "protocol_getter_test");
+    UnitTest.assert_values_equals(url.origin + '/', request_manager.request_url, "url_getter_test");
 });
 
 // -----------------------------------------------------------------------
@@ -54,10 +54,10 @@ request_manager_tests.add_test(async () => {
     const request_manager = new RequestManager();
 
     // test unknown event
-    request_manager.send_post_request({"event_unknown": 1}, true)
+    request_manager.send_post_request({"event_unknown": 1})
         .then(response => {
             // the server return an empty json because it doesn't understand the event send
-            UnitTest.assert_object_equals(response, {}, "json_response_empty_test");
+            UnitTest.assert_object_equals({}, response, "json_response_empty_test");
     });
 });
 
@@ -72,13 +72,13 @@ request_manager_tests.add_test(() => {
     request_manager.send_get_request(url.pathname.substring(1) + '?' + url.searchParams)
         .then(response => {
             // check the status of the response is ok
-            UnitTest.assert_values_equals(request_manager.status, 200, "correct_status_get_request_test");
+            UnitTest.assert_values_equals(200, request_manager.status, "correct_status_get_request_test");
 
             // check if the id of the html element of the response is the same
             let parser = new DOMParser();
             const html_element = parser.parseFromString(response, "text/html").documentElement;
 
-            UnitTest.assert_values_equals(html_element.id, document.documentElement.id, "get_request_test");
+            UnitTest.assert_values_equals(document.documentElement.id, html_element.id, "get_request_test");
         });
 });
 
@@ -91,7 +91,7 @@ request_manager_tests.add_test(() => {
     // test get request with wrong path
     request_manager.send_get_request("/unknown.txt")
         .then(response => {
-            UnitTest.assert_values_equals(request_manager.status, 404, "wrong_status_get_request_test");
+            UnitTest.assert_values_equals(404, request_manager.status, "wrong_status_get_request_test");
         });
 })
 
