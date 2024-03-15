@@ -440,6 +440,10 @@ body {
     flex-direction: column;
 }
 
+body * {
+    background-color: transparent;
+}
+
 /* =======================================================================
                      HTML DOCUMENT STRUCTURE
    ======================================================================= */
@@ -448,6 +452,7 @@ body > header {
     z-index: 10;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 100%;
     max-width: none;
@@ -461,7 +466,6 @@ body > header {
 }
 
 body > header * {
-    background: transparent;
     color: var(--header-fg-color);
 }
 
@@ -484,7 +488,6 @@ body > nav {
 }
 
 body > nav * {
-    background: transparent;
     color: var(--header-fg-color);
 }
 
@@ -506,7 +509,6 @@ body > footer {
 }
 
 body > footer > p {
-    background: transparent;
     color: var(--footer-fg-color);
 }
 
@@ -556,6 +558,8 @@ nav {
     background-color: var(--nav-bg-color);
     color: var(--header-fg-color);
     margin: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
 
 nav ul {
@@ -773,7 +777,6 @@ blockquote {
 }
 
 blockquote > cite {
-    background-color: transparent;
     display: block;
     margin-top: var(--typography-spacing-vertical);
     color: var(--blockquote-footer-color);
@@ -785,7 +788,6 @@ blockquote, blockquote > p, blockquote > a {
 
 a {
     color: var(--a-color);
-    background-color: transparent;
     -webkit-transition-duration: 0.2s;
     -moz-transition-duration: 0.2s;
     -o-transition-duration: 0.2s;
@@ -793,9 +795,6 @@ a {
     border: var(--focus-border-width) solid transparent;
     border-radius: calc(2 * var(--focus-border-width));
 }
- a > * {
-     background-color: transparent;
- }
 
 a:hover {
     opacity: 100%;
@@ -1035,7 +1034,6 @@ video {
 
 img {
     max-width: 100%;
-    background-color: transparent;
 }
 
 /* ----------------- progress ----------- */
