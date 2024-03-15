@@ -1,3 +1,7 @@
 .idea
 venv
-.gitignore
+*/__pycache__*
+*/*/__pycache__*
+*/*/*/__pycache__*
+Whakerexa.egg-info
+build

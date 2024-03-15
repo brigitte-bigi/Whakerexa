@@ -1,0 +1,49 @@
+figure.img-video-visualization {
+    position: relative;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+figure.img-video-visualization img {
+    width: 100%;
+    height: auto;
+}
+
+figure.img-video-visualization button.play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 6vw;
+}
+
+figure.img-video-visualization button.play-btn img {
+    width: 20%;
+    height: auto;
+}
+
+dialog.popup-video {
+    position: relative;
+    padding: 2vh 2vw;
+}
+
+button.popup-close-btn {
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+}

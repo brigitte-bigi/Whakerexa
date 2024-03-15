@@ -48,48 +48,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Sans+Mono:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900');
 
-@font-face {
-    font-family: SansFont;
-    src: url('../fonts/Commissioner.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: SerifFont;
-    src: url('../fonts/SourceSerifPro.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: MonoFont;
-    src: url('../fonts/FiraCode.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: PreFont;
-    src: url('../fonts/ScienceGothic.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: ContrastFont;
-    src: url("../fonts/AccessibleDfA-Regular.woff2");
-    font-style: normal;
-    font-weight: normal;
-}
-
-@font-face {
-    font-family: ContrastFont;
-    src: url("../fonts/AccessibleDfA-Italic.woff2");
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: ContrastFont;
-    src: url("../fonts/AccessibleDfA-Bold.woff2");
-    font-style: normal;
-    font-weight: bold;
-}
-
-
 /* =======================================================================
                               OTHER DEFINITIONS
   ========================================================================
