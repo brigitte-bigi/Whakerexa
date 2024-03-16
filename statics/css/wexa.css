@@ -48,6 +48,47 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Sans+Mono:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900');
 
+@font-face {
+    font-family: SansFont;
+    src: url('../fonts/Commissioner.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: SerifFont;
+    src: url('../fonts/SourceSerifPro.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: MonoFont;
+    src: url('../fonts/FiraCode.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: PreFont;
+    src: url('../fonts/ScienceGothic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("../fonts/AccessibleDfA-Regular.woff2");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("../fonts/AccessibleDfA-Italic.woff2");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: ContrastFont;
+    src: url("../fonts/AccessibleDfA-Bold.woff2");
+    font-style: normal;
+    font-weight: bold;
+}
+
 /* =======================================================================
                               OTHER DEFINITIONS
   ========================================================================
@@ -84,9 +125,37 @@
         transform: translateX(0);
     }
 }
-@keyframes slideInDisabled {
+@keyframes animDisabled {
     100% {
         transform: none;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scaleY(0);
+        display: none;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scaleY(1);
+        display: block;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scaleY(1);
+        display: block;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleY(0);
+        display: none;
     }
 }
 
@@ -187,7 +256,7 @@
     --del-color: rgba(240, 40, 40, 0.8);
     --s-color: rgb(100, 100, 100);
     --blockquote-border-color: rgb(80, 25, 40);
-    --blockquote-footer-color: var(--blockquote-border-color);
+    --blockquote-footer-color: rgb(80, 25, 40);
     --li-color: rgb(140, 40, 40);
     --shadow-color: rgba(110, 120, 140, 0.8);
 }
@@ -195,7 +264,7 @@
 /* Re-define some global variables for disabilities */
 /* ------------------------------------------------ */
 .contrast {
-    --header-slidein: slideInDisabled;
+    --header-slidein: animDisabled;
 
     /* Font properties (source: WCAG 2.1 - section 1.4.12 Text Spacing):
        - Line height (line spacing) to at least 1.5 times the font size;
@@ -271,6 +340,7 @@
     --a-color: rgb(25, 195, 255);
     --s-color: rgb(180, 180, 180);
     --blockquote-border-color: rgb(200, 180, 200);
+    --blockquote-footer-color: rgb(200, 180, 200);
 }
 
 /* Increase the bg/fg contrast of some colors in the default mode */
@@ -374,7 +444,9 @@ html {
     height: 100%;
     margin: auto;
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
     overflow-x: hidden;
+    overflow-y: scroll !important;
     background-color: var(--bg-color);
 }
 
@@ -398,13 +470,49 @@ body {
     flex-direction: column;
 }
 
-body * {
-    background-color: transparent;
+
+dialog {
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    z-index: 20;
+    animation: fadeOut 0.7s ease-out;
 }
+
+dialog[open] {
+    opacity: 1;
+    position: relative;
+    margin: auto;
+    animation: fadeIn 0.7s ease-out;
+    overscroll-behavior: contain;
+    border-radius: var(--border-width);
+}
+
+/* Everything behind an opened modal dialog */
+::backdrop {
+    backdrop-filter: grayscale(90%) blur(0.3rem);
+}
+
 
 /* =======================================================================
                      HTML DOCUMENT STRUCTURE
    ======================================================================= */
+
+header {
+    color: var(--header-fg-color);
+    background: var(--header-bg-color);
+}
+
+nav {
+    color: var(--header-fg-color);
+    background: var(--nav-bg-color);
+}
+
+footer {
+    background: var(--footer-bg-color);
+    color: var(--footer-fg-color);
+}
 
 body > header {
     z-index: 10;
@@ -418,13 +526,7 @@ body > header {
     text-align: center;
     min-height: var(--header-height);
     padding-bottom: var(--typography-spacing-vertical);
-    background: var(--header-bg-color);
-    color: var(--header-fg-color);
     animation: 1s ease-out 0s 1 var(--header-slidein);
-}
-
-body > header * {
-    color: var(--header-fg-color);
 }
 
 body > header > nav {
@@ -445,13 +547,9 @@ body > nav {
     box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);
 }
 
-body > nav * {
-    color: var(--header-fg-color);
-}
-
 body > main {
     z-index: 1;
-    background-color: var(--bg-color);
+    /*background-color: var(--bg-color);*/
     margin-top: var(--typography-spacing-vertical);
     margin-bottom: var(--typography-spacing-vertical);
 }
@@ -460,27 +558,35 @@ body > footer {
     z-index: 10;
     text-align: center;
     margin: auto;
-    background: var(--footer-bg-color);
-    color: var(--footer-fg-color);
     padding-top: var(--typography-spacing-vertical);
     min-height: var(--footer-height);
 }
 
-body > footer > p {
-    color: var(--footer-fg-color);
+/* Elements inside */
+/* All elements in any header/footer/nav must have same colors than the parent.
+It also means that links won't be blue! */
+
+header *, body > header * {
+    color: var(--header-fg-color);
+    background-color: transparent;
 }
 
-/* Elements inside */
+nav *, body > nav * {
+    color: var(--header-fg-color);
+    background-color: transparent;
+}
 
-body > header > * {
+footer *, body > footer * {
+    color: var(--footer-fg-color);
+    background-color: transparent;
+}
+
+body > header > *,  body > footer > * {
     z-index: 1;
     text-align: center;
     padding-top: var(--typography-spacing-vertical);
 }
 
-body > footer > * :is(p, h1, h2, h3, li, a) {
-    color: var(--footer-fg-color);
-}
 
 /* =======================================================================
                        ACCESSIBILITY SPECIFIC STYLING
@@ -513,8 +619,6 @@ body > footer > * :is(p, h1, h2, h3, li, a) {
 
 nav {
     text-align: center;
-    background-color: var(--nav-bg-color);
-    color: var(--header-fg-color);
     margin: auto;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -742,6 +846,10 @@ blockquote > cite {
 
 blockquote, blockquote > p, blockquote > a {
     font-weight: var(--font-weight-semibold);
+}
+
+blockquote * {
+    background-color: transparent;
 }
 
 a {
