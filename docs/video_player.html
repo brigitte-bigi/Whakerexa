@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <title>video_player.css</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
+    <link rel="stylesheet" href="../statics/css/wexa.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../statics/css/video_player.css" type="text/css" media="all" />
+
+</head>
+
+<!-- ---------------------------------------------------------------- -->
+
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
+            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
+            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+        </ul>
+    </nav>
+    <h1>video_player.css</h1>
+    <h2>A framework to open videos in a dialog</h2>
+</header>
+
+<main>
+    <figure class="img-video-visualization" style="width: 35vw; height: auto;">
+        <img src="../samples/demo_video.png" alt="Video preview"/>
+        <button class="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
+        <dialog id="popup-demo" class="popup-video">
+            <video id="popup-video-demo" controls="true" preload="none">
+                <source src="../samples/demo_video.webm" type="video/webm" />
+            </video>
+            <button class="popup-close-btn" onclick="close_popup_video('demo')">
+                &#10060;
+            </button>
+        </dialog>
+    </figure>
+</main>
+
+<footer>
+    <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+</footer>
+
+<script>
+    async function play_popup_video(id_popup) {
+        let modal = document.getElementById("popup-" + id_popup);
+        let video = document.getElementById("popup-video-" + id_popup);
+
+        // quick start of the video to the client get the video file
+        await video.play();
+        video.pause();
+
+        modal.showModal();
+    }
+
+    function close_popup_video(id_popup) {
+        let modal = document.getElementById("popup-" + id_popup);
+        let video = document.getElementById("popup-video-" + id_popup);
+
+        video.pause();
+        modal.close();
+    }
+</script>
+</body>
+</html>
