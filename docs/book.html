@@ -10,33 +10,6 @@
     <link rel="stylesheet" href="../statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../statics/css/book.css" type="text/css" media="all" />
 
-    <script type="text/javascript">
-        function htmlTableOfContents(documentRef) {
-
-            var documentRef = documentRef || document;
-            var toc = documentRef.getElementById('toc');
-            var tocContent = documentRef.getElementById('main-content');
-            var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
-            headings.forEach(function (heading, index) {
-                /* Add the anchor right before the heading */
-                var anchor = documentRef.createElement('a');
-                anchor.setAttribute('name', 'toc' + index);
-                anchor.setAttribute('id', 'toc' + index);
-
-                /* Add an entry into the table of content */
-                var link = documentRef.createElement('a');
-                link.setAttribute('href', '#toc' + index);
-                link.textContent = heading.textContent;
-
-                var div = documentRef.createElement('li');
-                div.setAttribute('class', heading.tagName.toLowerCase());
-
-                div.appendChild(link);
-                toc.appendChild(div);
-                heading.parentNode.insertBefore(anchor, heading);
-            });
-        }
-    </script>
 
 </head>
 
@@ -55,13 +28,6 @@
         <h1>Wexa.css & Book.css</h1>
         <h2>Two CSS frameworks to make books easy and accessible</h2>
     </header>
-
-    <nav id="nav-content" class="side-nav">
-        <h1>Wexa.css + Book.css</h1>
-        <p><a class="external-link" href="https://whakerexa.sf.net">https://whakerexa.sf.net</a></p>
-        <h2>Table of Contents</h2>
-        <ul id="toc"></ul>
-    </nav>
 
     <main id="main-content">
 
@@ -85,110 +51,65 @@
                     accessible web content, and to minimize the use of CSS classes for enhancing the
                     readability of HTML code, like it should always be! <b>wexa.css</b> is the main
                     CSS framework of <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></code>.
+                    See the <a href="wexa.html">wexa.css documentation</a> for details.
                 </p>
-                <p>It was designed to be easily <mark>customizable</mark>, allowing users to adjust
-                    properties such as fonts, colors, borders, etc., effortlessly. Most of the properties
-                    are stored into variables which makes possible to re-define them, then to obtain a
-                    custom different style. Fonts, colors, borders, etc., can be overridden by re-defining
-                    the corresponding variables, enabling users to achieve a unique style.</p>
+                <p><b>book.css</b> is a CSS framework designed to make HTML content resemble a book.
+                    It includes features for implementing chapters, sections, and subsections, along
+                    with an auto-numbering function.
+                </p>
+
                 <p>Not convinced? Take a look at the source code of this page!</p>
             </section>
 
             <section class="ssection"><h2>The custom classes</h2>
 
-                <p>When using standard HTML5, accessibility is increased. Actually, only three significant
-                    classes are introduced in <code>wexa.css</code>, specifically for accessibility:</p>
+                <p><b>book.css</b> has a built-in feature that automatically assigns numbers to chapters,
+                    sections, or subsections without manual intervention. Let's show how to do it! </p>
+
+                <p>Add the following classes into your document, and book.css does the rest: </p>
                 <ol>
-                    <li><code>dark</code></li>
-                    <li><code>contrast</code></li>
-                    <li><code>external-link</code></li>
+                    <li><code>chapter</code></li>
+                    <li><code>ssection</code></li>
+                    <li><code>subssection</code></li>
                 </ol>
-                <p>The other classes allows changing the font or the font-weight of any element:</p>
-                <ul>
-                    <li><code>font-sans</code>, which is the default font family</li>
-                    <li><code>font-serif</code></li>
-                    <li><code>font-mono</code>, which is used by <code>code</code> element</li>
-                    <li><code>font-pre</code>, which is used by <code>pre</code> element</li>
-                    <li><code>font-weight-thin</code></li>
-                    <li><code>font-weight-normal</code>, which is the default font weight</li>
-                    <li><code>font-weight-semibold</code></li>
-                    <li><code>font-weight-bold</code>, which is used by <code>b</code> element</li>
-                    <li><code>font-weight-black</code>, which is used by <code>strong</code> element</li>
-                </ul>
 
-                <h3>The 'dark' class</h3>
-                <section class="dark">
-                    <p >As said in its name, the <code>dark</code> class turns the content into dark colors.
-                        Only colors are changed.</p>
-                    <blockquote><p>Dark blockquote example</p><cite>Made by me!</cite></blockquote>
-                </section>
-
-                <h3>The 'contrast' class</h3>
-                <section class="contrast">
-                    <p>This is a high contrast section. Font, font weight, font size, spacing and a few other
-                       properties are changed to make it easier to read. A <a href="#">link</a> is slightly
-                        colored differently.</p>
-                    <blockquote>Contrast blockquote example</blockquote>
-                </section>
-
-                <h3>The 'external-link' class</h3>
-                <p>When specified to <code>&lt;a&gt;</code> tag, <code>external-link</code> adds a small
-                    picture to visibly indicate the link is redirecting to an external page. For example,
-                    this text:
-                    "You can find <a class="external-link" href="https://whakerexa.sf.net/">Whakerexa</a>,
-                    a solution to create dynamic accessible HTML content, in which <code>wexa.css</code>
-                    is developed."
-                    is written:</p>
-                <pre>You can find &lt;a class="external-link" href="https://whakerexa.sf.net/"&gt;Whakerexa&lt;/a&gt;
-a solution to create dynamic accessible HTML content, in which &lt;code&gt;wexa.css&lt;/code&gt;
-is developed.</pre>
+                <p>Example of use:</p>
+                <pre>&lt;section class="chapter"&gt;
+&lt;h1&gt; Chapter title &lt;/h1&gt;
+    &lt;section class="ssection"&gt;
+    &lt;h2&gt; Section title &lt;/h2&gt;
+        &lt;section class="subssection"&gt;
+        &lt;h3&gt; Sub-Section title &lt;/h3&gt;
+        &lt;section&gt;
+    &lt;section&gt;
+&lt;section&gt;
+                </pre>
+                <p>The <code>&lt;section&gt;</code> element is used here instead of the nonsensical
+                    <code>&lt;div&gt;</code>. Both will be displayed the same way, but screen readers interpret
+                    a <code>section</code> in a more appropriate manner, unlike a <code>div</code>!</p>
+                <p>The &lt;section&gt; element in HTML is semantic and indicates a thematic grouping of content,
+                    making it useful for screen readers to understand the structure and context of the content.
+                    This can assist users who rely on screen readers to navigate and understand web pages more
+                    effectively. It is then perfectly suitable to indicate the chapters and sections. Fot the
+                    <code>h3</code> level, the <code>section</code> can effectively be replaced by <code>article</code>.
+                </p>
+                <p>Notice that a proper semantic markup, including correct usage of "section", "article",
+                    "header", "footer", etc., can significantly enhance accessibility for users of assistive
+                    technologies like screen readers.</p>
             </section>
 
             <section class="ssection"><h2>The variables</h2>
 
-                <h3>Examples of use:</h3>
-
-                <p>The following example shows how to re-set variables in your HTML file. You have to
-                create a <code>&lt;script&gt;</code> element in the <code>&lt;head&gt;</code>. It
-                must be placed after the link to <code>wexa.css</code> to ensure proper execution.</p>
+                <p>Only one variable is introduced. It allows to fix the color of the numbering.</p>
             <pre>&lt;style&gt;
     :root {
-        /* if you like very large borders! */
-        --border-width: 10px;
-        --focus-border-width: 10px;
-        /* to control header animation: */
-        --header-slidein: slideInFromBottom;
+        /* if you like gray */
+        --numbers-color: rgb(60, 60, 60);
     }
-    .contrast {
-        --border-width: 20px;
-        --focus-border-width: 20px;
-        --header-slidein: animDisabled;
+    .dark {
+        --numbers-color: rgb(180, 180, 180);
     }
 &lt;/style&gt;</pre>
-
-                <p> A color change can be applied to either the default version, the dark version,
-                    or both, as shown below:</p>
-                <pre>&lt;style&gt;
-        :root {
-            --bg-color: rgb(250, 250, 240);
-        }
-        .contrast {
-            --bg-color: rgb(40, 30, 52);
-        }
-    &lt;/style&gt;</pre>
-
-                <h3>Animations</h3>
-
-                <p>A few ready-to-use animations are available:</p>
-                <ul>
-                    <li>slideInDisabled</li>
-                    <li>slideInFromBottom</li>
-                    <li>slideInFromTop</li>
-                    <li>slideInFromRight</li>
-                    <li>slideInFromLeft</li>
-                    <li>fadeIn</li>
-                    <li>fadeOut</li>
-                </ul>
 
             </section>
         </section>
@@ -197,409 +118,209 @@ is developed.</pre>
         <!-- ------------------------------------------------------------- -->
 
         <section id="demo" class="chapter">
-            <h1>Demo: what's possible with wexa.css?</h1>
+            <h1>Demonstration: what's possible with both wexa.css and book.css?</h1>
 
-            <section class="no-toc">
-                <h1>Example of Heading 1</h1>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h2>Example of Heading 2</h2>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h3>Example of Heading 3</h3>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h4>Example of Heading 4</h4>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h5>Example of Heading 5</h5>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h6>Example of Heading 6</h6>
-                <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-                <h1>Example of Heading 1</h1>
-                <h2>Example of Heading 2</h2>
-                <h3>Example of Heading 3</h3>
+            <section>
+                <h1>Example of non-numbered Heading 1</h1>
+                <h2>Example of non-numbered Heading 2</h2>
+                <h3>Example of non-numbered Heading 3</h3>
             </section>
 
-        <section class="ssection"><h2>Available fonts for a text</h2>
+            <!-- ------------------------------------------------------------- -->
+            <section class="dark ssection"><h2>Dark mode applied</h2>
 
-            <h3>No specific class applied except the font choice</h3>
-            <h4>Sans</h4>
-            <p class="font-sans">
-                This is a short text embedded into a <code>p</code> tag with no specific class.
-                This is then the default font style, padding and margin, etc.
-                <b>This is then the bold default font style.</b>
-                <i>This is then the italic default font style.</i>
-                Anyone is free to copy, modify, publish, use, compile, sell, or
-                distribute this file, either in source code form or as a compiled
-                binary, for any purpose, commercial or non-commercial, and by any
-                means.
-            </p>
-            <h4>Serif</h4>
-            <p class="font-serif">
-                This is a short text embedded into a <code>p</code> tag with no serif class.
-                This is the serif font style, with default padding and margin, etc.
-                <b>This is the bold font style.</b>
-                <i>This is the italic font style.</i>
-                Anyone is free to copy, modify, publish, use, compile, sell, or
-                distribute this file, either in source code form or as a compiled
-                binary, for any purpose, commercial or non-commercial, and by any
-                means.
-            </p>
-            <h4>Mono</h4>
-            <p class="font-mono">
-                This is a short text embedded into a <code>p</code> tag with no serif class.
-                This is the mono font style, with default padding and margin, etc.
-                <b>This is the bold font style.</b>
-                <i>This is the italic font style.</i>
-                Anyone is free to copy, modify, publish, use, compile, sell, or
-                distribute this file, either in source code form or as a compiled
-                binary, for any purpose, commercial or non-commercial, and by any
-                means.
-            </p>
-            <h4>Pre</h4>
-            <p class="font-pre">
-                This is a short text embedded into a <code>p</code> tag with no serif class.
-                This is the pre font style, with default padding and margin, etc.
-                <b>This is the bold font style.</b>
-                <i>This is the italic font style.</i>
-                Anyone is free to copy, modify, publish, use, compile, sell, or
-                distribute this file, either in source code form or as a compiled
-                binary, for any purpose, commercial or non-commercial, and by any
-                means.
-            </p>
+                <article class="subssection">
+                <h3>No specific class applied except the font choice</h3>
+                    <h4>Sans</h4>
+                    <p class="font-sans">
+                        This is a short text embedded into a <code>p</code> tag with no specific class.
+                        This is then the default font style, padding and margin, etc.
+                        <b>This is then the bold default font style.</b>
+                        <i>This is then the italic default font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Serif</h4>
+                    <p class="font-serif">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the serif font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Mono</h4>
+                    <p class="font-mono">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the mono font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Pre</h4>
+                    <p class="font-pre">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the pre font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                </article>
 
-            <h3>With contrast specific class applied and dark mode</h3>
-            <div class="dark">
-                <h4>Sans</h4>
-                <p class="font-sans contrast">
-                    This is a short text embedded into a <code>p</code> tag with no specific class.
-                    This is then the default font style, padding and margin, etc.
-                    <b>This is then the bold default font style.</b>
-                    <i>This is then the italic default font style.</i>
-                    Anyone is free to copy, modify, publish, use, compile, sell, or
-                    distribute this file, either in source code form or as a compiled
-                    binary, for any purpose, commercial or non-commercial, and by any
-                    means.
-                </p>
-                <h4>Serif</h4>
-                <p class="font-serif contrast">
-                    This is a short text embedded into a <code>p</code> tag with no serif class.
-                    This is the serif font style, with default padding and margin, etc.
-                    <b>This is the bold font style.</b>
-                    <i>This is the italic font style.</i>
-                    Anyone is free to copy, modify, publish, use, compile, sell, or
-                    distribute this file, either in source code form or as a compiled
-                    binary, for any purpose, commercial or non-commercial, and by any
-                    means.
-                </p>
-                <h4>Mono</h4>
-                <p class="font-mono contrast">
-                    This is a short text embedded into a <code>p</code> tag with no serif class.
-                    This is the mono font style, with default padding and margin, etc.
-                    <b>This is the bold font style.</b>
-                    <i>This is the italic font style.</i>
-                    Anyone is free to copy, modify, publish, use, compile, sell, or
-                    distribute this file, either in source code form or as a compiled
-                    binary, for any purpose, commercial or non-commercial, and by any
-                    means.
-                </p>
-                <h4>Pre</h4>
-                <p class="font-pre contrast">
-                    This is a short text embedded into a <code>p</code> tag with no serif class.
-                    This is the pre font style, with default padding and margin, etc.
-                    <b>This is the bold font style.</b>
-                    <i>This is the italic font style.</i>
-                    Anyone is free to copy, modify, publish, use, compile, sell, or
-                    distribute this file, either in source code form or as a compiled
-                    binary, for any purpose, commercial or non-commercial, and by any
-                    means.
-                </p>
-            </div>
+                <article class="contrast subssection">
+                <h3>With high contrast inside dark mode</h3>
 
-            <h3>With weight-specific classes applied</h3>
+                    <h4>Sans</h4>
+                    <p class="font-sans">
+                        This is a short text embedded into a <code>p</code> tag with no specific class.
+                        This is then the default font style, padding and margin, etc.
+                        <b>This is then the bold default font style.</b>
+                        <i>This is then the italic default font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Serif</h4>
+                    <p class="font-serif">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the serif font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Mono</h4>
+                    <p class="font-mono">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the mono font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                    <h4>Pre</h4>
+                    <p class="font-pre">
+                        This is a short text embedded into a <code>p</code> tag with no serif class.
+                        This is the pre font style, with default padding and margin, etc.
+                        <b>This is the bold font style.</b>
+                        <i>This is the italic font style.</i>
+                        Anyone is free to copy, modify, publish, use, compile, sell, or
+                        distribute this file, either in source code form or as a compiled
+                        binary, for any purpose, commercial or non-commercial, and by any
+                        means.
+                    </p>
+                </article>
 
-            <h4>Sans Font Normal view</h4>
-            <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
-            <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
-            <p class="font-sans font-weight-bold">This is Sans Font with weight-bold.</p>
-            <p class="font-sans font-weight-black">This is Sans Font with weight-black.</p>
+                <article class="subssection">
+                <h3>With weight-specific classes applied</h3>
 
-            <h4>Sans Font Contrast view</h4>
-            <p class="contrast font-sans font-weight-thin">This is Sans Font with contrast weight-thin.</p>
-            <p class="contrast font-sans font-weight-normal">This is Sans Font with contrast weight-normal.</p>
-            <p class="contrast font-sans font-weight-bold">This is Sans Font with contrast weight-bold.</p>
-            <p class="contrast font-sans font-weight-black">This is Sans Font with contrast weight-black.</p>
+                    <h4>Sans Font Normal view</h4>
+                    <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
+                    <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
+                    <p class="font-sans font-weight-bold">This is Sans Font with weight-bold.</p>
+                    <p class="font-sans font-weight-black">This is Sans Font with weight-black.</p>
 
-            <h4>Serif Font Normal view</h4>
-            <p class="font-serif font-weight-thin">This is Serif Font with weight-thin.</p>
-            <p class="font-serif font-weight-normal">This is Serif Font with weight-normal.</p>
-            <p class="font-serif font-weight-bold">This is Serif Font with weight-bold.</p>
-            <p class="font-serif font-weight-black">This is Serif Font with weight-black.</p>
+                    <h4>Sans Font Contrast view</h4>
+                    <p class="contrast font-sans font-weight-thin">This is Sans Font with contrast weight-thin.</p>
+                    <p class="contrast font-sans font-weight-normal">This is Sans Font with contrast weight-normal.</p>
+                    <p class="contrast font-sans font-weight-bold">This is Sans Font with contrast weight-bold.</p>
+                    <p class="contrast font-sans font-weight-black">This is Sans Font with contrast weight-black.</p>
 
-            <h4>Serif Font Contrast view</h4>
-            <p class="font-serif contrast font-weight-thin">This is Serif Font with contrast weight-thin.</p>
-            <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
-            <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
-            <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
-        </section>
+                    <h4>Serif Font Normal view</h4>
+                    <p class="font-serif font-weight-thin">This is Serif Font with weight-thin.</p>
+                    <p class="font-serif font-weight-normal">This is Serif Font with weight-normal.</p>
+                    <p class="font-serif font-weight-bold">This is Serif Font with weight-bold.</p>
+                    <p class="font-serif font-weight-black">This is Serif Font with weight-black.</p>
 
-        <!-- ------------------------------------------------------------- -->
-        <section class="ssection"><h2>HTML tags for embed text</h2>
-
-            <p>
-                So, this is a text with a
-                <a href="#" onclick="event.preventDefault()">Primary link</a>
-                inside...
-            </p>
-            <p>
-                <strong>Bold</strong>
-                <em>Italic</em>
-                <u>Underline</u>
-                <del>Deleted</del>
-                <ins>Inserted</ins>
-                <s>Strikethrough</s>
-                <small>Small</small>
-                Text <sub>Sub</sub>
-                Text <sup>Sup</sup>
-                <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
-                <kbd>Kbd</kbd>
-                <mark>Highlighted</mark>
-            </p>
-
-            <h4>Blockquote</h4>
-
-                <blockquote>
-                  La règle d'or de la conduite est la tolérance mutuelle, car nous ne
-                    penserons jamais tous de la même façon, nous ne verrons qu'une partie
-                    de la vérité et sous des angles différents.
-                    <cite>&mdash; Ghandi</cite>
-                </blockquote>
-
-            <h4>Lists</h4>
-                <p>Simply use the standard <code>ul</code>, <code>ol</code> or <code>dt</code> HTML elements.</p>
-                <h5>An ul list</h5>
-                <ul>
-                    <li>This is the 1st item.</li>
-                    <li>then the second one.</li>
-                    <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
-                        organization, WWF works in 100 countries and is supported by 1.2 million members in the United
-                        States and close to 5 million globally.
-                    </li>
-                    <li>And the last <code>li</code> tag.</li>
-                </ul>
-                <h5>An ol list</h5>
-                <ol>
-                    <li>This is the 1st item.</li>
-                    <li>then the second one.</li>
-                    <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
-                        organization, WWF works in 100 countries and is supported by 1.2 million members in the United
-                        States and close to 5 million globally.
-                    </li>
-                    <li>And the last <code>li</code> tag.</li>
-                </ol>
-                <h5>A dt list</h5>
-                <dl>
-                    <dt>This is the 1st item</dt>
-                        <dd>Some item in a first line.</dd>
-                        <dd>And a second item.</dd>
-                    <dt>Then the second one</dt>
-                        <dd>A item related to the second.</dd>
-                    <dt>And the last <code>dt</code> tag.</dt>
-                        <dd>with the last <code>dd</code> tag.</dd>
-                </dl>
-        </section>
-
-        <!-- ------------------------------------------------------------- -->
-        <section class="ssection"><h2>Designed HTML elements:</h2>
-
-            <h3>Buttons</h3>
-                <h4>Normal view</h4>
-                    <button>a button</button>
-                    <button disabled>a disabled button</button>
-                    <button class="focused">focused button</button>
-                    <p></p>
-                <h4>Contrast view</h4>
-                    <div class="contrast">
-                        <button>a button</button>
-                        <button disabled>a disabled button</button>
-                        <button class="focused">focused button</button>
-                    </div>
-                    <p></p>
-
-            <h3>Tables</h3>
-                <h4>Normal view</h4>
-                  <table role="grid">
-                    <caption>
-                        <span>Table 1:</span> A caption of the table in this normal view.
-                      </caption>
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                <h4>Contrast view</h4>
-                  <table role="grid" class="contrast">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                        <th scope="col">Heading</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                        <td>Cell</td>
-                      </tr>
-                    </tbody>
-                      <caption>
-                        <span>Table 2:</span> A caption of the table: with contrast view.
-                      </caption>
-                  </table>
-
-            <h3>Forms</h3>
-
-            <form method="get" action="#">
-                <fieldset>
-                    <legend>Here is a form with <code>&lt;fieldset&gt;</code>:</legend>
-
-                    <label for="email">An "input" of type "text":</label>
-                    <input name="email" type="text" id="email" size="25" placeholder="must be unique"/>
-
-                    <label for="sex">A "select" element with several "option" elements:</label>
-                    <select name="sex" id="sex">
-                        <option value="none">don't want to say</option>
-                        <option value="female">female</option>
-                        <option value="male">male</option>
-                    </select>
-
-                    <label for="age">Radio "input" elements:</label>
-                    <span id="age">
-                        <label><input type="radio" id="under" name="age" value="under"/> I'm under 18</label>
-                        <label><input type="radio" id="over" name="age" value="over"/> I'm over 18</label>
-                    </span>
-                    <label for="food">Below is a "select" element with "optgroup" used to group the "option" elements. It does not work on Safari:</label>
-                    <select multiple="multiple" name="food" id="food">
-                        <optgroup label="Italian">
-                            <option value="1">Pizza</option>
-                            <option value="2">Spaghetti</option>
-                        </optgroup>
-                        <optgroup label="Asian">
-                            <option value="4">Sushi</option>
-                        </optgroup>
-                        <option value="3">Hamburger</option>
-                        <option value="5">Borsht</option>
-                    </select>
-                    <label for="address">A "textarea" element:</label>
-                    <textarea name="address" id="address" placeholder="PO box is not allowed"></textarea>
-                    <label><input type="checkbox" name="consent" id="consent" value="test"/>I agree with all possible terms and conditions</label>
-                    <button type="submit">Subscribe</button>
-                    <button type="reset">Reset</button>
-                    <button disabled>Can't click</button>
-                </fieldset>
-            </form>
-            <p>This is a form without <code>&lt;fieldset&gt;</code>:</p>
-            <form>
-                <label for="price">Add funds:</label>
-                <input id="price" type="text" size="10" placeholder="e.g. $10"/>
-                <button type="submit">Pay</button>
-                <input type="text" id="id1-search" name="search" placeholder="Search 1..."/>
-                <input type="text" id="id2-search" name="search" placeholder="Search 2..."/>
-            </form>
-
-                <h3>Others...</h3>
-
-                <p>A simple HTML5 accordion:</p>
-                <details>
-                    <summary>Who is Sarah Connor?</summary>
-                    <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
-                        Sarah was portrayed by Linda Hamilton in The Terminator, Terminator 2: Judgment Day, T2-3D: Battle Across Time,
-                        and Terminator: Dark Fate</p>
-                </details>
-                <details>
-                    <summary>I have keys but no doors. I have space but no room. You can enter but can’t leave. What am I?</summary>
-                    <p>A keyboard</p>
-                </details>
-                <aside>
-                    Emphasized content with the <code>aside</code> element.
-                </aside>
-                <p>This is the main content related to the side one.</p>
+                    <h4>Serif Font Contrast view</h4>
+                    <p class="font-serif contrast font-weight-thin">This is Serif Font with contrast weight-thin.</p>
+                    <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
+                    <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
+                    <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
+                </article>
             </section>
+
+            <!-- ------------------------------------------------------------- -->
+            <section class="ssection"><h2>HTML tags for embed text</h2>
+
+                <p>
+                    So, this is a text with a
+                    <a href="#" onclick="event.preventDefault()">Primary link</a>
+                    inside...
+                </p>
+                <p>
+                    <strong>Bold</strong>
+                    <em>Italic</em>
+                    <u>Underline</u>
+                    <del>Deleted</del>
+                    <ins>Inserted</ins>
+                    <s>Strikethrough</s>
+                    <small>Small</small>
+                    Text <sub>Sub</sub>
+                    Text <sup>Sup</sup>
+                    <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
+                    <kbd>Kbd</kbd>
+                    <mark>Highlighted</mark>
+                </p>
+
+                <h4>Blockquote</h4>
+
+                    <blockquote>
+                      La règle d'or de la conduite est la tolérance mutuelle, car nous ne
+                        penserons jamais tous de la même façon, nous ne verrons qu'une partie
+                        de la vérité et sous des angles différents.
+                        <cite>&mdash; Ghandi</cite>
+                    </blockquote>
+
+                <h4>Lists</h4>
+                    <p>Simply use the standard <code>ul</code>, <code>ol</code> or <code>dt</code> HTML elements.</p>
+                    <h5>An ul list</h5>
+                    <ul>
+                        <li>This is the 1st item.</li>
+                        <li>then the second one.</li>
+                        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+                            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+                            States and close to 5 million globally.
+                        </li>
+                        <li>And the last <code>li</code> tag.</li>
+                    </ul>
+                    <h5>An ol list</h5>
+                    <ol>
+                        <li>This is the 1st item.</li>
+                        <li>then the second one.</li>
+                        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+                            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+                            States and close to 5 million globally.
+                        </li>
+                        <li>And the last <code>li</code> tag.</li>
+                    </ol>
+                    <h5>A dt list</h5>
+                    <dl>
+                        <dt>This is the 1st item</dt>
+                            <dd>Some item in a first line.</dd>
+                            <dd>And a second item.</dd>
+                        <dt>Then the second one</dt>
+                            <dd>A item related to the second.</dd>
+                        <dt>And the last <code>dt</code> tag.</dt>
+                            <dd>with the last <code>dd</code> tag.</dd>
+                    </dl>
+            </section>
+
         </section>
 
     </main>
@@ -608,17 +329,5 @@ is developed.</pre>
         <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-                htmlTableOfContents();
-            }
-        );
-
-        try {
-            module.exports = htmlTableOfContents;
-        } catch (e) {
-            // module.exports is not defined
-        }
-    </script>
     </body>
 </html>
