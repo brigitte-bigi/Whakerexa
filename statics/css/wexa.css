@@ -497,6 +497,14 @@ dialog[open] {
     border-radius: var(--border-width);
 }
 
+/*
+ * Select only the dialog which are 'modal' (doesn't affect dialog open by default in the html).
+ * The css 'position' of modal dialog doesn't have to be relative to avoid the scroll at the top of the page !
+*/
+:modal[open] {
+    position: fixed; /* default css value for modal dialog */
+}
+
 /* Everything behind an opened modal dialog */
 ::backdrop {
     backdrop-filter: grayscale(90%) blur(0.3rem);
