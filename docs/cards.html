@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Card Component Demo</title>
+
+        <link rel="icon" href="../statics/icons/flav32_cs.ico" />
+
+        <link rel="stylesheet" href="../statics/css/wexa.css" type="text/css" />
+        <link rel="stylesheet" href="../statics/css/cards.css" type="text/css">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    </head>
+
+    <body>
+    <main>
+
+        <h1>Cards in grid with articles</h1>
+        <section class="cards-panel">
+
+            <article class="card">
+                <header>
+                    <img src="./etc/images/sppas.png" alt="">
+                </header>
+                <main>
+                    <h2>SPPAS card instance</h2>
+                    <p>An amazing software tool.</p>
+                </main>
+                <footer>
+                    <small><a href="https://sppas.org/">SPPAS web site</a></small>
+                </footer>
+            </article>
+
+            <article class="card">
+                <header>
+                    <img src="../etc/images/music.jpg" alt="">
+                </header>
+                <main>
+                    <h2> A card </h2>
+                    <p>Le read more ci-dessous est un lien avec role button.</p>
+                    <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere">Read more →</a>
+                </main>
+                <footer>
+                    <p>This is a text inside the footer of the card.</p>
+                </footer>
+            </article>
+
+            <article class="card">
+                <header>
+                    <h2>Header</h2>
+                </header>
+                <main>
+                    <h2>Another card instance</h2>
+                    <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
+                    <button aria-hidden="true" id="desc-third-card-instance">Read more →</button>
+                </main>
+                <footer>
+                    <p>This is a text inside the footer of the card.</p>
+                </footer>
+            </article>
+
+        </section>
+
+        <section class="cards-panel">
+
+            <article class="card">
+                <main>
+                    <img src="../etc/images/splash.png" alt="">
+                </main>
+            </article>
+
+        </section>
+
+        <script>
+		const cards = document.querySelectorAll('.card');
+		Array.prototype.forEach.call(cards, card => {
+			let down, up, link = card.querySelector('h2 a');
+			card.style.cursor = 'pointer';
+			card.onmousedown = () => down = +new Date();
+			card.onmouseup = () => {
+				up = +new Date();
+				if ((up - down) < 200) {
+					link.click();
+				}
+			}
+		});
+		</script>
+    </main>
+    </body>
+</html>
