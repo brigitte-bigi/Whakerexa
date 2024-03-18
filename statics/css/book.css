@@ -78,7 +78,8 @@ body {
     /* vertical */
     flex-direction: column;
     justify-content: center;
-    align-items: left;
+    align-items: start;
+    text-align: left;
 }
 
 .chapter > h1::before {
@@ -149,6 +150,7 @@ nav.side-nav {
 nav.side-nav * {
     margin: auto;
     padding: 0;
+    font-size: calc(0.8*var(--font-size));
 }
 nav.side-nav *:not([role=button]) {
     color: var(--nav-fg-color);
@@ -160,12 +162,12 @@ nav.side-nav > ul, nav.side-nav > hr, nav.side-nav > h1, nav.side-nav > h2 {
 }
 
 nav.side-nav h1 {
-    font-size: 130%;
+    font-size: calc(1.5*var(--font-size));
     font-weight: var(--font-weight-black);
 }
 
 nav.side-nav h2 {
-    font-size: 120%;
+    font-size: calc(1.5*var(--font-size));
     font-weight: var(--font-weight-bold);
 }
 
@@ -194,6 +196,28 @@ nav.side-nav li.h6 {
     text-align: left;
 }
 
+nav.side-nav li.h1 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    padding-left: 0;
+}
+nav.side-nav li.h2 {
+    margin-top: 1rem;
+    padding-left: 0.5rem;
+}
+nav.side-nav li.h3 {
+    padding-left: 1.5rem;
+}
+nav.side-nav li.h4 {
+    padding-left: 2rem;
+}
+nav.side-nav li.h5 {
+    padding-left: 3rem;
+}
+nav.side-nav li.h6 {
+    padding-left: 4rem;
+}
+
 nav.side-nav li.h2::before {
     content: "■";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
@@ -215,51 +239,27 @@ nav.side-nav li.h5::before {
     padding-bottom: calc(0.4*var(--typography-spacing-vertical));
 }
 
-nav.side-nav li.h1 {
-    font-size: 110%;
-    padding-left: 0;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-}
-nav.side-nav li.h2 {
-    font-size: 105%;
-    margin-top: 1rem;
-    padding-left: 0;
-}
-nav.side-nav li.h3 {
-    font-size: 95%;
-    padding-left: 1rem;
-}
-nav.side-nav li.h4 {
-    font-size: 90%;
-    padding-left: 2rem;
-}
-nav.side-nav li.h5 {
-    font-size: 85%;
-    padding-left: 3rem;
-}
-nav.side-nav li.h6 {
-    font-size: 80%;
-    padding-left: 4rem;
-}
-
 nav.side-nav li.h1 a {
     text-decoration: none;
+    font-variant-caps: small-caps;
     font-weight: var(--font-weight-bold);
+    font-size: calc(1.2*var(--font-size));
 }
 nav.side-nav li.h2 a {
     text-decoration: none;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-semibold);
     text-overflow: ellipsis;
+    font-size: var(--font-size);
 }
 nav.side-nav li.h3 a {
     text-decoration: none;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-normal);
     text-overflow: ellipsis;
+    font-size: calc(0.9*var(--font-size));
 }
 nav.side-nav li.h4 a {
     text-decoration: none;
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-semithin);
     text-wrap: none;
     text-overflow: ellipsis;
 }
@@ -268,12 +268,14 @@ nav.side-nav li.h5 a {
     font-weight: var(--font-weight-thin);
     text-wrap: none;
     text-overflow: ellipsis;
+    font-size: calc(0.75*var(--font-size));
 }
 nav.side-nav li.h6 a {
     text-decoration: none;
     font-weight: var(--font-weight-thin);
     text-wrap: none;
     text-overflow: ellipsis;
+    font-size: calc(0.7*var(--font-size));
 }
 
 /* ----------------------------------------------------------------------- */

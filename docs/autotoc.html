@@ -13,12 +13,15 @@
         :root { --toc-width: 18rem; }
     </style>
     <script type="text/javascript">
+        // querySelectorAll: should be customizable with:
+        //   - any of h1, h2, ... hn
+        //   - with or without the constraint to be in "chapter" "ssection" or "subssection"
         function htmlTableOfContents(documentRef) {
 
             var documentRef = documentRef || document;
             var toc = documentRef.getElementById('toc');
             var tocContent = documentRef.getElementById('main-content');
-            var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+            var headings = [].slice.call(tocContent.querySelectorAll('h1, h2, h3, h4'));
             headings.forEach(function (heading, index) {
                 /* Add the anchor right before the heading */
                 var anchor = documentRef.createElement('a');
@@ -46,33 +49,44 @@
 
 <body>
 
-<header>
-    <nav>
-        <ul>
-            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
-        </ul>
-    </nav>
-    <h1>Wexa.css & Book.css</h1>
-    <h2>Two CSS frameworks to make books easy and accessible</h2>
-</header>
+    <header>
+        <nav>
+            <ul>
+                <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
+                <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
+                <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+            </ul>
+        </nav>
+        <h1>Book.css with ToC</h1>
+        <h2>A CSS framework to make automatically the ToC of a book</h2>
+    </header>
 
-<nav id="nav-content" class="side-nav">
-    <h1>Automatic ToC</h1>
-    <p><a class="external-link" href="https://whakerexa.sf.net">https://whakerexa.sf.net</a></p>
-    <h2>Table of Contents</h2>
-    <ul id="toc"></ul>
-</nav>
+    <nav id="nav-content" class="side-nav">
+        <h1>Automatic ToC</h1>
+        <p><a class="external-link" href="https://whakerexa.sf.net">https://whakerexa.sf.net</a></p>
+        <h2>Table of Contents</h2>
+        <ul id="toc"></ul>
+    </nav>
 
 <main id="main-content">
 
     <section id="description" class="chapter">
         <h1> Description </h1>
 
-        <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
-        <pre>
-&lt;link
+        <section class="ssection"><h2>Overview</h2>
+            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
+                accessible web content, and to minimize the use of CSS classes for enhancing the
+                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
+                CSS framework of <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.</p>
+            <p><b>book.css</b> is a CSS framework designed to make HTML content resemble a book.
+                It includes features for implementing chapters, sections, and subsections, along
+                with an auto-numbering function.</p>
+            <p>This page includes an extended feature of book.css: the automatically generated
+                <b>Table of Content</b>.</p>
+        </section>
+        <section class="ssection"><h2>Let's do it</h2>
+            <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
+            <pre>&lt;link
     rel="stylesheet"
     href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/wexa.css?format=raw"
     media="all" /&gt;
@@ -80,17 +94,38 @@
     rel="stylesheet"
     href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/book.css?format=raw"
     media="all" /&gt;
-
+&lt;style&gt;
+    :root { --toc-width: 18rem; }
+&lt;/style&gt;
             ------ ICI LE JS ------
             </pre>
+        </section>
 
+    <section id="demo" class="chapter">
+        <h1>Chapter two title</h1>
 
-        <section class="ssection"><h2>Overview</h2>
-            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
-                accessible web content, and to minimize the use of CSS classes for enhancing the
-                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
-                CSS framework of <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></code>.
-            </p>
+        <!-- Should not be automatically added into the ToC -->
+        <section>
+            <h1>Non-numbered Heading 1, not in ToC</h1>
+            <h2>Non-numbered Heading 2, not in ToC</h2>
+            <h3>Non-numbered Heading 3, not in ToC</h3>
+        </section>
+
+        <!-- ------------------------------------------------------------- -->
+        <section class="ssection"><h2>First numbered section of chapter two</h2>
+            <section class="subssection"><h3>First numbered subsection</h3>
+                <h4>Hello, I'm h4!</h4>
+                <h4>And me too</h4>
+            </section>
+            <section class="subssection"><h3>Second numbered subsection</h3>
+            </section>
+        </section>
+        <section class="ssection"><h2>Second numbered section of chapter two</h2>
+            <section class="subssection"><h3>First numbered subsection</h3>
+            </section>
+            <section class="subssection"><h3>Second numbered subsection</h3>
+            </section>
+        </section>
 
     </section>
 
