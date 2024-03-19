@@ -33,9 +33,19 @@
 """
 
 import os
+import logging
 
 from whakerpy.htmlmaker import HTMLNode
 from whakerpy.htmlmaker import HTMLHeadNode
+
+from .components import ComponentsEnum
+
+# ---------------------------------------------------------------------------
+
+CSS_FOLDER = os.path.join("statics", "css")
+CSS_MIME_TYPE = "text/css"
+JS_FOLDER = os.path.join("statics", "js")
+JS_MIME_TYPE = "application/javascript"
 
 # ---------------------------------------------------------------------------
 
@@ -47,6 +57,8 @@ class ExtendHeadNode(HTMLHeadNode):
 
         """
         super(ExtendHeadNode, self).__init__(parent)
+        self.__components_activated = list()
+
         self.reset(title)
 
     # ---------------------------------------------------------------------------
@@ -88,15 +100,37 @@ class ExtendHeadNode(HTMLHeadNode):
         self.meta({"name": "keywords", "content": keywords})
 
     # ---------------------------------------------------------------------------
+
+    def enable_component(self, component: ComponentsEnum) -> None:
+        """Import styles and scripts files for a specific given component to use it.
+
+        :param component: (Components) The component to enable
+
+        """
+        if component.name in self.__components_activated:
+            logging.warning(f"The component '{component.name}' is already enabled !")
+            return None
+
+        for file in component.value:
+            if file.endswith(".css"):
+                self.link(rel="stylesheet", href=os.path.join(CSS_FOLDER, file), link_type=CSS_MIME_TYPE)
+            elif file.endswith(".js"):
+                self.script(os.path.join(JS_FOLDER, file), script_type=JS_MIME_TYPE)
+            else:
+                logging.warning(f"Unknown required file : {file} for the component '{component.name}'")
+
+        self.__components_activated.append(component.name)
+
+    # ---------------------------------------------------------------------------
     # PRIVATE METHODS
     # ---------------------------------------------------------------------------
 
     def __import_css_styles(self) -> None:
-        """Import statics css styles of the whakerexa library.
+        """Import statics css global styles of the whakerexa library.
 
         """
-        self.link(rel="stylesheet", href=os.path.join("statics", "css", "wexa.css"), link_type="text/css")
-        self.link(rel="stylesheet", href=os.path.join("statics", "css", "video_player.css"), link_type="text/css")
+        self.link(rel="stylesheet", href=os.path.join(CSS_FOLDER, "wexa.css"), link_type=CSS_MIME_TYPE)
+        self.link(rel="stylesheet", href=os.path.join(CSS_FOLDER, "panel.css"), link_type=CSS_MIME_TYPE)
 
     # ---------------------------------------------------------------------------
 
@@ -105,10 +139,10 @@ class ExtendHeadNode(HTMLHeadNode):
 
         """
         # import Whakerpy scripts
-        self.script(os.path.join("whakerpy", "request.js"), "text/javascript")
+        self.script(os.path.join("whakerpy", "request.js"), script_type=JS_MIME_TYPE)
 
         # import PureJS-Tools scripts
-        self.script(os.path.join("statics", "js", "purejs-tools", "OnLoadManager.js"), "text/javascript")
+        self.script(os.path.join(JS_FOLDER, "purejs-tools", "OnLoadManager.js"), script_type=JS_MIME_TYPE)
 
-        # import Whakerexa scripts
-        self.script(os.path.join("statics", "js", "accessibility.js"), "text/javascript")
+        # import Whakerexa global scripts
+        self.script(os.path.join(JS_FOLDER, "accessibility.js"), script_type=JS_MIME_TYPE)

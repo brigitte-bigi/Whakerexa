@@ -38,7 +38,8 @@ import logging
 
 from whakerpy import HTMLNode
 from whakerexa import ExtendResponseRecipe
-from whakerexa.custom_nodes import VideoPlayer
+from whakerexa.components import ComponentsEnum
+from whakerexa.components import VideoPopup
 
 # -----------------------------------------------------------------------
 
@@ -48,12 +49,10 @@ class SampleAppResponse(ExtendResponseRecipe):
     def __init__(self) -> None:
         super(SampleAppResponse, self).__init__(name="Whakerexa Sample")
         self._htree.add_html_attribute("id", "whakerexa-sample")
-
         self.__import_unittest_files()
-        # activate (or not) the js unit tests
-        # self.enable_unittests()
 
-        self._bake()
+        # self.enable_unittests()  # activate the js unit tests
+        self.enable_components(ComponentsEnum.VideoPopup)  # add other components in parameter if you want to use them
 
     # -----------------------------------------------------------------------
 
@@ -107,10 +106,10 @@ class SampleAppResponse(ExtendResponseRecipe):
 
         # Add custom video player in the main
         video = os.path.join("samples", "demo_video.webm")
-        video_player = VideoPlayer(self._htree.body_main.identifier, self._htree.body_script, video, "demo")
-        video_player.set_img_width(35, "vw")
+        video_popup = VideoPopup(self._htree.body_main.identifier, video, "demo")
+        video_popup.set_img_width(35, "vw")
 
-        self._htree.body_main.append_child(video_player)
+        self._htree.body_main.append_child(video_popup)
 
     # -----------------------------------------------------------------------
     # PRIVATE METHODS

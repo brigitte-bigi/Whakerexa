@@ -37,6 +37,7 @@ import os
 from whakerpy.httpd import BaseResponseRecipe
 
 from .head import ExtendHeadNode
+from .components import ComponentsEnum
 
 # ---------------------------------------------------------------------------
 
@@ -85,11 +86,22 @@ class ExtendResponseRecipe(BaseResponseRecipe):
         serialize_head = self._htree.head.serialize()
 
         if "UnitTest.js" not in serialize_head:
-            self._htree.head.script(os.path.join("statics", "js", "purejs-tools", "UnitTest.js"), "text/javascript")
+            self._htree.head.script(os.path.join("statics", "js", "purejs-tools", "UnitTest.js"), "application/javascript")
 
         for file_path in self.__unittest_files:
             if os.path.basename(file_path) not in serialize_head:
-                self._htree.head.script(file_path, "text/javascript")
+                self._htree.head.script(file_path, "application/javascript")
+
+    # ---------------------------------------------------------------------------
+
+    def enable_components(self, *components: ComponentsEnum) -> None:
+        """Wrapper of the enable_component method of the ExtendHead.
+
+        :param components: (ComponentsEnum [0, n]) the components to activate
+
+        """
+        for component in components:
+            self._htree.head.enable_component(component)
 
     # ---------------------------------------------------------------------------
     # OVERRIDE METHODS

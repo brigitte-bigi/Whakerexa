@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: whakerexa.custom_nodes.video_player.py
+:filename: whakerexa.components.video_popup.py
 :author:   Florian LOPITAUX
 :contact:  contact@sppas.org
 :summary:  Class to create a custom video player with an image pre-visualization and video opened in a pop-up.
@@ -42,44 +42,20 @@ from whakerpy.htmlmaker import HTMLNode
 
 IMAGE_EXTENSIONS = [".jpeg", ".jpg", ".png", ".PNG", "webp"]
 
-JS_SCRIPT = """
-async function play_popup_video(id_popup) {
-    let modal = document.getElementById("popup-" + id_popup);
-    let video = document.getElementById("popup-video-" + id_popup);
-
-    // quick start of the video to the client get the video file
-    await video.play();
-    video.pause();
-
-    modal.showModal();
-}
-
-function close_popup_video(id_popup) {
-    let modal = document.getElementById("popup-" + id_popup);
-    let video = document.getElementById("popup-video-" + id_popup);
-
-    video.pause();
-    modal.close();
-}
-
-"""
-
-
 # ---------------------------------------------------------------------------
 
 
-class VideoPlayer(HTMLNode):
+class VideoPopup(HTMLNode):
 
-    def __init__(self, parent_id: str, body_script: HTMLNode, video_path: str, identifier: str, img_path: str = ""):
-        """Create the VideoPlayer html element and initialize all values.
-        The video player is a figure that contains an image and a play button to launch the video.
+    def __init__(self, parent_id: str, video_path: str, identifier: str, img_path: str = ""):
+        """Create the VideoPopup html element and initialize all values.
+        The video popup is a figure that contains an image and a play button to launch the video.
         When the user click on the button, open a popup (dialog element) with the video.
         This component allows us to manage the video files flow to avoid to load all files at the page loading.
 
         :param parent_id: The identifier of the parent
-        :param body_script: The body_script to include the functions to open and close the popup
         :param video_path: The path of the video
-        :param identifier: The identifier of this element (important to be different of other VideoPlayer identifier in the same page)
+        :param identifier: The identifier of this element (important to be different of other VideoPlayer identifiers in the same page)
         :param img_path: Optional, the file path of the image pre-visualization.
                          By default, search in the same path of the video, example :
                             - video_path : /example/demo_video.webm
@@ -88,9 +64,8 @@ class VideoPlayer(HTMLNode):
         :raises FileNotFoundError: If the video path doesn't exist
 
         """
-        super(VideoPlayer, self).__init__(parent_id, identifier, "figure")
+        super(VideoPopup, self).__init__(parent_id, identifier, "figure")
         self.set_attribute("class", "img-video-visualization")
-        body_script.set_value(JS_SCRIPT)
 
         if not os.path.exists(video_path):
             raise FileNotFoundError(f"The video : {video_path} doesn't exists !")

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: whakerexa.custom_nodes.__init__.py
+:filename: whakerexa.components.__init__.py
 :author:   Florian LOPITAUX
 :contact:  contact@sppas.org
 :summary:  Simplify the imports in the code of the custom_nodes package.
@@ -33,8 +33,11 @@
 
 """
 
-from .video_player import VideoPlayer
+from .components import ComponentsEnum
+from .video_popup import VideoPopup
+
 
 __all__ = (
-    "VideoPlayer"
+    "ComponentsEnum",
+    "VideoPopup"
 )
