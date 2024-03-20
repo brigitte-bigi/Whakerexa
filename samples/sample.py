@@ -40,6 +40,7 @@ from whakerpy import HTMLNode
 from whakerexa import ExtendResponseRecipe
 from whakerexa.components import ComponentsEnum
 from whakerexa.components import VideoPopup
+from whakerexa.components import Book
 
 # -----------------------------------------------------------------------
 
@@ -51,8 +52,8 @@ class SampleAppResponse(ExtendResponseRecipe):
         self._htree.add_html_attribute("id", "whakerexa-sample")
         self.__import_unittest_files()
 
+        self.enable_components(ComponentsEnum.VideoPopup, ComponentsEnum.Book)
         # self.enable_unittests()  # activate the js unit tests
-        self.enable_components(ComponentsEnum.VideoPopup)  # add other components in parameter if you want to use them
 
     # -----------------------------------------------------------------------
 
@@ -101,15 +102,29 @@ class SampleAppResponse(ExtendResponseRecipe):
         (re-)Define dynamic content of the page (nodes that are invalidated).
 
         """
-        h3 = self.element("h3")
-        h3.set_value("Custom video player :")
+        # Create Table of Contents of the page
+        self._htree.body_main.set_attribute("id", self._htree.body_main.identifier)
 
-        # Add custom video player in the main
-        video = os.path.join("samples", "demo_video.webm")
-        video_popup = VideoPopup(self._htree.body_main.identifier, video, "demo")
+        toc = Book(self._htree.get_body_identifier(), "Whakerexa Sample", self._htree.head,
+                   id_main_content=self._htree.body_main.identifier)
+        toc.add_link("https://whakerexa.sf.net")
+
+        self._htree.insert_body_child(toc)
+
+        # heading not detected by the table of contents
+        h2 = self.element("h2")
+        h2.set_value("Heading not detected by the table of contents")
+
+        # Add custom video player in the main (more accurate in 'ssection' for the table of contents takes in account)
+        toc_section = HTMLNode(self._htree.body_main.identifier, "ssection", "section", attributes={'class': "ssection"})
+        video_heading = HTMLNode(toc_section.identifier, None, "h2", value="Custom video popup")
+
+        video_popup = VideoPopup(toc_section.identifier, os.path.join("samples", "demo_video.webm"), "demo")
         video_popup.set_img_width(35, "vw")
 
-        self._htree.body_main.append_child(video_popup)
+        toc_section.append_child(video_heading)
+        toc_section.append_child(video_popup)
+        self._htree.body_main.append_child(toc_section)
 
     # -----------------------------------------------------------------------
     # PRIVATE METHODS

@@ -33,7 +33,7 @@
 */
 
 :root {
-    --toc-width: 0;
+    --toc-width: 18rem;
     --numbers-color: rgb(140, 40, 40);
 }
 .dark {
@@ -46,6 +46,10 @@ html {
 
 body {
     counter-reset: chapter;
+}
+
+a.toc-anchor {
+    display: none;
 }
 
 /* ----------------------------------------------------------------------- */

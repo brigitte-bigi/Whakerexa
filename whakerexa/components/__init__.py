@@ -34,10 +34,12 @@
 """
 
 from .components import ComponentsEnum
+from .book import Book
 from .video_popup import VideoPopup
 
 
 __all__ = (
     "ComponentsEnum",
+    "Book",
     "VideoPopup"
 )
