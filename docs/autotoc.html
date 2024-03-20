@@ -9,6 +9,11 @@
 
     <link rel="stylesheet" href="../statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../statics/css/book.css" type="text/css" media="all" />
+    <style>
+        :root {
+            --toc-width: 18rem;
+        }
+    </style>
 
     <script src="../statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
     <script src="../statics/js/book.js" type="application/javascript"></script>
@@ -72,8 +77,17 @@
 &lt;style&gt;
     :root { --toc-width: 18rem; }
 &lt;/style&gt;
-            ------ ICI LE JS ------
+&lt;script src="../statics/js/purejs-tools/OnLoadManager.js" type="application/javascript">&lt;/script&gt;
+&lt;script src="../statics/js/book.js" type="application/javascript">&lt;/script&gt;
+&lt;script type="application/javascript"&gt;
+        OnLoadManager.addLoadFunction(() => {
+            let book = new Book("main-content");
+            book.fill_table();
+        });
+&lt;/script&gt;
             </pre>
+            <p>And the following is added somewhere in the HTML document:</p>
+            <pre>&lt;nav&gt;&lt;ul id="toc"&gt;&lt;/ul&gt;&lt;/nav&gt;</pre>
         </section>
     </section>
 

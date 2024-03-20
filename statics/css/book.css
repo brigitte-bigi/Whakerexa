@@ -33,7 +33,7 @@
 */
 
 :root {
-    --toc-width: 18rem;
+    --toc-width: 0;
     --numbers-color: rgb(140, 40, 40);
 }
 .dark {

@@ -73,16 +73,16 @@ The style of each element inside a card can be subclassed as needed.
 
 .card {
     position: relative;
-    background-color: var(--bg-color);
-    border: var(--border-width) solid var(--bg-color-alt);
-    border-radius: calc(3 * var(--border-width));
+    padding: 0;
+    margin: 0.4rem;
+    border: var(--card-border-width) solid var(--border-color-alt);
+    border-radius: var(--card-border-radius);
     /* Display elements inside a card: */
     display: flex;
     flex-direction: column;
-    line-height: calc(1.2*var(--line-height));
     box-shadow: var(--card-box-shadow);
     opacity: 90%;
-    padding: 0.4rem;
+    cursor: none;
 }
 
 .card:hover {
@@ -118,76 +118,72 @@ The style of each element inside a card can be subclassed as needed.
 /* Content of a card */
 /* ----------------- */
 
-.card > * > h3,
-.card > * > h2
-{
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border: none;
-}
-
-.card > * > h2
-{
-    font-size: calc(1.5 * var(--font-size));
-    padding-bottom: 1.5rem;
-}
-.card > * > h2:after
-{
-    border: none;
-}
-
-.card > * > h3
-{
-    font-size: calc(1.2 * var(--font-size));
-    padding-bottom: 0.5rem;
-}
-
-.card * {
-    min-height: 1rem;
-    min-width: 1rem;
-    background: var(--bg-color);
-}
-
 .card header {
-    height: 10rem;
+    text-align: center;
+    margin: auto;
+    min-height: 3rem;
+    width: 100%;
+    padding: 0.4rem;
     /*clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem));*/
-    color: var(--fg-color);
-    border-top-right-radius: calc(4 * var(--border-width));
-    border-top-left-radius: calc(4 * var(--border-width));
+    border-top-right-radius: var(--card-border-radius);
+    border-top-left-radius: var(--card-border-radius);
+    color: var(--header-fg-color);
+    background: var(--header-bg-color);
+    /* Organize content: a box with centered elements */
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .card header img {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-top-right-radius: calc(4 * var(--border-width));
-    border-top-left-radius: calc(4 * var(--border-width));
+    border-top-right-radius: var(--card-border-radius);
+    border-top-left-radius: var(--card-border-radius);
+}
+
+.card header * {
+    color: var(--header-fg-color);
+    background-color: transparent;
 }
 
 .card main {
-    padding: 1rem;
+    padding: 0.4rem;
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
+    border-radius: var(--card-border-radius);
+}
+
+.card > main > *
+{
+    border: none;
 }
 
 .card footer {
     text-align: center;
     margin: auto;
+    min-height: 3rem;
+    width: 100%;
+    border-bottom-right-radius: var(--card-border-radius);
+    border-bottom-left-radius: var(--card-border-radius);
+    /* Organize content: a box with centered elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 }
 
 .card footer *:not(img) {
     font-size: 80%;
-    padding: 1rem;
+    margin: 0.4rem;
 }
 
-.card footer > :last-child {
-    margin-top: auto;
-    margin-bottom: 0.75rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+.card footer *:not(button, [role=button]) {
+    color: var(--footer-fg-color);
+    background-color: transparent;
 }
 
 .card > * > a[role=button], .card > * > button {

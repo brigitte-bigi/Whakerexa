@@ -74,32 +74,48 @@
                 <tr>
                     <td>
                         <pre>&lt;article class="card"&gt;
-    &lt;h2&gt;card title&lt;/h2&gt;
-    &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
-    &lt;a href="#somewhere1"&gt;Convinced!&lt;/a&gt;
+    &lt;main&gt;
+        &lt;h2&gt;card title&lt;/h2&gt;
+        &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
+        &lt;a href="#somewhere"&gt;Convinced!&lt;/a&gt;
+    &lt;/main&gt;
 &lt;/article&gt;
             </pre>
                     </td>
                     <td>
                         <article class="card" id="somewhere1">
-                            <h2>card title</h2>
-                            <p>multi-line card content... the text wraps when needed!</p>
-                            <a href="#">Convinced!</a>
+                            <main>
+                                <h2>card title</h2>
+                                <p>multi-line card content... the text wraps when needed!</p>
+                                <a href="#">Convinced!</a>
+                            </main>
                         </article>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p>Classically, the card can be divided into: a header, a main and a footer.</p>
+                        <p>Classically, the card can be divided into: a header, a main and a footer:</p>
+                        <pre>&lt;article class="card"&gt;
+    &lt;header&gt;
+        &lt;h2&gt;card title&lt;/h2&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+        &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+        &lt;a role="button" href="#somewhere"&gt;Footer link!&lt;/a&gt;
+    &lt;/footer&gt;
+&lt;/article&gt;
+            </pre>
                     </td>
                     <td>
                         <article class="card" id="somewhere2">
-                            <header><h2>h2 card header</h2></header>
+                            <header><h2>card title</h2></header>
                             <main>
                                 <p>multi-line card content into 'main'... the text wraps when needed!</p>
                             </main>
                             <footer>
-                                <a href="#">Footer link!</a>
+                                <a role="button" href="#">Footer link!</a>
                             </footer>
                         </article>
                     </td>
@@ -140,25 +156,25 @@
 
                 <article class="card">
                     <header>
-                        <img src="./etc/images/sppas.png" alt="">
+                        <img src="../statics/images/whakerexa.png" alt="">
                     </header>
                     <main>
                         <h2>SPPAS card instance</h2>
                         <p>An amazing software tool.</p>
                     </main>
                     <footer>
-                        <small><a href="https://sppas.org/">SPPAS web site</a></small>
+                        <a href="https://sppas.org/">SPPAS web site</a>
                     </footer>
                 </article>
 
-                <article class="card">
+                <article class="card" id="somewhere3">
                     <header>
-                        <img src="../etc/images/music.jpg" alt="">
+                        <img src="../statics/images/whakerexa.png" alt="">
                     </header>
                     <main>
                         <h2> A card </h2>
                         <p>Le read more ci-dessous est un lien avec role button.</p>
-                        <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere">Read more →</a>
+                        <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere3">Read more →</a>
                     </main>
                     <footer>
                         <p>This is a text inside the footer of the card.</p>
@@ -181,14 +197,24 @@
 
             </section>
 
-            <section class="cards-panel">
+            <h2>Create cards in a full-cards-panel</h2>
 
-                <article class="card">
-                    <main>
+            <section class="full-cards-panel">
+                <article class="card full-card">
+                    <header>
                         <img src="../etc/images/splash.png" alt="">
+                    </header>
+                    <main>
+                        <p>SPPAS offers open source cross-platform, customizable automatic annotation
+                            and analysis solutions for audio and video media.</p>
+                        <p>SPPAS was awarded by the French Ministry of Higher Education, Research and
+                            Innovation at the 2022 Open Source Research Software Competition.</p>
                     </main>
+                    <footer>
+                        <a role="button" href="https://sppas.org/">More about SPPAS</a>
+                        <a role="button" href="https://sppas.sf.net/">Get it!</a>
+                    </footer>
                 </article>
-
             </section>
 
         </section>
