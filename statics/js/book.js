@@ -40,6 +40,12 @@ class Book {
 
 
     // CONSTRUCTOR
+    /**
+     * Instantiate the book class.
+     *
+     * @param id_headings {string} The id of the html element where searched all headings
+     * @param id_toc {string} Optional parameter, the id of the html nav of our table of contents
+     */
     constructor(id_headings, id_toc = "toc") {
         this.#toc_element = document.getElementById(id_toc);
         this.#headings_container = document.getElementById(id_headings);
@@ -47,22 +53,40 @@ class Book {
 
 
     // GETTERS
+    /**
+     * Get the table of contents html element.
+     *
+     * @returns {HTMLElement}
+     */
     get dom_toc() {
         return this.#toc_element;
     }
 
+    /**
+     * Get the html element that contains all headings.
+     *
+     * @returns {HTMLElement}
+     */
     get headings() {
         return this.#headings_container;
     }
 
 
     // SETTERS
+    /**
+     * Set the html element where searched all headings.
+     *
+     * @param id_headings {string} The id of the html element
+     */
     set headings(id_headings) {
         this.#headings_container =  document.getElementById(id_headings);
     }
 
 
     // PUBLIC METHODS
+    /**
+     * Fill the table with all headings.
+     */
     fill_table() {
         const headings = this.#get_headings();
 
@@ -88,6 +112,11 @@ class Book {
 
 
     // PRIVATE METHODS
+    /**
+     * Searched all headings linked with the table of contents.
+     *
+     * @returns {Array[HTMLElement]} the headings array
+     */
     #get_headings() {
         let titles = [].slice.call(this.#headings_container.querySelectorAll("h1, h2, h3, h4"));
         let headings = [];
