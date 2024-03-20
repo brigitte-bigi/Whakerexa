@@ -1,73 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
         <meta charset="utf-8" />
-        <title>Card Component Demo</title>
-
+        <title>Card.css</title>
         <link rel="icon" href="../statics/icons/flav32_cs.ico" />
-
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
         <link rel="stylesheet" href="../statics/css/wexa.css" type="text/css" />
         <link rel="stylesheet" href="../statics/css/cards.css" type="text/css">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
     </head>
 
     <body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
+                <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
+                <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+            </ul>
+        </nav>
+        <h1>cards.css</h1>
+        <h2>A CSS framework to create cards</h2>
+    </header>
+
     <main>
 
-        <h1>Cards in grid with articles</h1>
-        <section class="cards-panel">
+        <section id="description">
+            <h1>Description</h1>
 
-            <article class="card">
-                <header>
-                    <img src="./etc/images/sppas.png" alt="">
-                </header>
-                <main>
-                    <h2>SPPAS card instance</h2>
-                    <p>An amazing software tool.</p>
-                </main>
-                <footer>
-                    <small><a href="https://sppas.org/">SPPAS web site</a></small>
-                </footer>
-            </article>
+            <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
+            <pre>
+&lt;link
+    rel="stylesheet"
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/wexa.css?format=raw"
+    media="all" /&gt;
+&lt;link
+    rel="stylesheet"
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/cards.css?format=raw"
+    media="all" /&gt;
+            </pre>
 
-            <article class="card">
-                <header>
-                    <img src="../etc/images/music.jpg" alt="">
-                </header>
-                <main>
-                    <h2> A card </h2>
-                    <p>Le read more ci-dessous est un lien avec role button.</p>
-                    <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere">Read more →</a>
-                </main>
-                <footer>
-                    <p>This is a text inside the footer of the card.</p>
-                </footer>
-            </article>
+            <h2>Overview</h2>
 
-            <article class="card">
-                <header>
-                    <h2>Header</h2>
-                </header>
-                <main>
-                    <h2>Another card instance</h2>
-                    <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
-                    <button aria-hidden="true" id="desc-third-card-instance">Read more →</button>
-                </main>
-                <footer>
-                    <p>This is a text inside the footer of the card.</p>
-                </footer>
-            </article>
+            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
+                accessible web content, and to minimize the use of CSS classes for enhancing the
+                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
+                CSS framework of  <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.
+            </p>
+            <p><b>cards.css</b> is a CSS framework based on wexa.css, allowing you to add
+                content that looks like a card. At this time, it is provided as-is, offering
+                a streamlined selection of customization solutions.</p>
+            <p>Not convinced? Take a look at the source code of this page!</p>
 
+            <h2>The custom classes</h2>
+
+            <h3>A card</h3>
+            <p>The class <code>card</code> can be added to any HTML element which can be used
+                as a container. Preferably, you should use either <code>&lt;section&gt;</code> or
+                <code>&lt;article&gt;</code> element, instead of the nonsensical <code>&lt;div&gt;</code>.
+                Any of then will be displayed the same way, but screen readers interpret
+                a <code>section</code> or an <code>article</code>in a more appropriate manner,
+                unlike a <code>div</code>!</p>
+
+            <table role="presentation">
+                <thead>
+                <tr>
+                    <td>Example</td>
+                    <td>Result</td>
+                </tr>
+                <tbody>
+                <tr>
+                    <td>
+                        <pre>&lt;article class="card"&gt;
+    &lt;h2&gt;card title&lt;/h2&gt;
+    &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
+    &lt;a href="#somewhere1"&gt;Convinced!&lt;/a&gt;
+&lt;/article&gt;
+            </pre>
+                    </td>
+                    <td>
+                        <article class="card" id="somewhere1">
+                            <h2>card title</h2>
+                            <p>multi-line card content... the text wraps when needed!</p>
+                            <a href="#">Convinced!</a>
+                        </article>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Classically, the card can be divided into: a header, a main and a footer.</p>
+                    </td>
+                    <td>
+                        <article class="card" id="somewhere2">
+                            <header><h2>h2 card header</h2></header>
+                            <main>
+                                <p>multi-line card content into 'main'... the text wraps when needed!</p>
+                            </main>
+                            <footer>
+                                <a href="#">Footer link!</a>
+                            </footer>
+                        </article>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Card panels</h3>
+            <p>cards.css also provides two 'panels' allowing to organize cards:
+                <code>cards-panel</code> and <code>full-cards-panel</code>.
+                See the demos for details. </p>
+
+            <h2>The variables</h2>
+            <p>cards.css is allowing to set the following four variables:</p>
+            <ol>
+                <li><code>card-max-width</code>, not efficient if full-cards-panel</li>
+                <li><code>card-border-width</code> is '2px' by default</li>
+                <li><code>card-border-radius</code> is '8px' by default</li>
+                <li><code>card-box-shadow</code></li>
+            </ol>
+            <p>In the following example, the max width and the border width of a card are both
+                increased, and the border radius and shadow are canceled:</p>
+            <pre>&lt;style&gt;
+    :root {
+        --card-max-width: 15rem;
+        --card-border-width: 4px;
+        --card-border-radius: 0;
+        --card-box-shadow: none;
+    }
+            </pre>
         </section>
 
-        <section class="cards-panel">
+        <section id="demo">
+            <h1>Demo: what's possible with cards.css?</h1>
 
-            <article class="card">
-                <main>
-                    <img src="../etc/images/splash.png" alt="">
-                </main>
-            </article>
+            <h2>Create cards in a section with article elements</h2>
+            <section class="cards-panel">
+
+                <article class="card">
+                    <header>
+                        <img src="./etc/images/sppas.png" alt="">
+                    </header>
+                    <main>
+                        <h2>SPPAS card instance</h2>
+                        <p>An amazing software tool.</p>
+                    </main>
+                    <footer>
+                        <small><a href="https://sppas.org/">SPPAS web site</a></small>
+                    </footer>
+                </article>
+
+                <article class="card">
+                    <header>
+                        <img src="../etc/images/music.jpg" alt="">
+                    </header>
+                    <main>
+                        <h2> A card </h2>
+                        <p>Le read more ci-dessous est un lien avec role button.</p>
+                        <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere">Read more →</a>
+                    </main>
+                    <footer>
+                        <p>This is a text inside the footer of the card.</p>
+                    </footer>
+                </article>
+
+                <article class="card">
+                    <header>
+                        <h2>Header</h2>
+                    </header>
+                    <main>
+                        <h2>Another card instance</h2>
+                        <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
+                        <button aria-hidden="true" id="desc-third-card-instance">Read more →</button>
+                    </main>
+                    <footer>
+                        <p>This is a text inside the footer of the card.</p>
+                    </footer>
+                </article>
+
+            </section>
+
+            <section class="cards-panel">
+
+                <article class="card">
+                    <main>
+                        <img src="../etc/images/splash.png" alt="">
+                    </main>
+                </article>
+
+            </section>
 
         </section>
 
