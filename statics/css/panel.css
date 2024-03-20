@@ -155,7 +155,7 @@ section.rise {
 header.rise-header {
     /* should look like a button -- or close to -- */
     background-color: var(--buttons-bg-color);
-    color: var(--buttons-color);
+    color: var(--buttons-fg-color);
     border: var(--focus-border-width) solid var(--border-color-alt);
     border-radius: calc(2 * var(--focus-border-width));
     cursor: pointer;

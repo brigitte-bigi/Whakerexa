@@ -70,7 +70,6 @@ class Book {
             /* Add the anchor right before the heading */
             let anchor = document.createElement('a');
             anchor.setAttribute("id", 'toc' + index);
-            anchor.setAttribute("class", "toc-anchor")
             anchor.setAttribute("name", 'toc' + index);
 
             /* Add an entry into the table of content */
