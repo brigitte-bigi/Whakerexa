@@ -43,8 +43,3 @@ from .components import *
 __version__ = "0.1"
 ___author__ = "Brigitte BIGI, Florian LOPITAUX"
 __copyright__ = "Copyright (C) 2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France"
-
-__all__ = (
-    "ExtendHeadNode",
-    "ExtendResponseRecipe"
-)

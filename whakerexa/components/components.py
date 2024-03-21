@@ -41,4 +41,4 @@ from enum import Enum
 class ComponentsEnum(Enum):
     VideoPopup = ["video_popup.css", "video_popup.js"]
     Book = ["book.css", "book.js"]
-    Cards = ["cards.css"]  # component not yet implemented
+    Cards = ["cards.css"]

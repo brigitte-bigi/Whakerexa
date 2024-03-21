@@ -77,12 +77,12 @@ class Book(HTMLNavNode):
         self.set_attribute("id", "nav-content")
         self.set_attribute("class", "side-nav")
 
+        self.__head = head
+        self.__headings = id_main_content
         self.__html_tags = "h1, h2, h3, h4"
         self.__only_numerate_headings = True
-        self.title_node = HTMLNode(self.identifier, None, "h1", value=title)
 
-        self.__insert_head_nodes(head, id_main_content)
-        self.__create()
+        self.__create(title)
 
     # -----------------------------------------------------------------------
     # GETTERS
@@ -94,11 +94,16 @@ class Book(HTMLNavNode):
         :return: (str) the title value
 
         """
-        return self.title_node.get_value()
+        return self.get_child("toc-title").get_value()
 
     # -----------------------------------------------------------------------
 
     def is_only_numerate_headings(self) -> bool:
+        """Get the boolean value to know if we detect all headings or just numerated with 'ssection' headings.
+
+        :return: (bool) the boolean value
+
+        """
         return self.__only_numerate_headings
 
     # -----------------------------------------------------------------------
@@ -111,7 +116,18 @@ class Book(HTMLNavNode):
         :param title: the title value
 
         """
-        self.title_node.set_value(title)
+        self.get_child("toc-title").set_value(title)
+
+    # -----------------------------------------------------------------------
+
+    def set_headings_container(self, id_container: str) -> None:
+        """Set the id (html element id not node identifier) of the html element that contains our headings.
+
+        :param id_container: (str) the id of the element
+
+        """
+        self.__headings = id_container
+        self.__insert_script()
 
     # -----------------------------------------------------------------------
 
@@ -122,6 +138,7 @@ class Book(HTMLNavNode):
 
         """
         self.__only_numerate_headings = value
+        self.__insert_script()
 
     # -----------------------------------------------------------------------
 
@@ -171,33 +188,38 @@ class Book(HTMLNavNode):
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
-    def __insert_head_nodes(self, head: HTMLHeadNode, headings: str) -> None:
-        """Insert the script and style in the given head to fill the table with headings.
-
-        :param head: (HTMLHeadNode) The head node to put the script and the style
-        :param headings: (str) the id of the headings container
+    def __insert_script(self) -> None:
+        """Insert the script in the head to fill the table with headings.
 
         """
-        book_style = HTMLNode(head.identifier, None, "style", value=CSS_STYLE)
+        self.__head.remove_child("book-script")
 
-        format_js_value = JS_VALUE.replace("%id%", headings)
+        format_js_value = JS_VALUE.replace("%id%", self.__headings)
         format_js_value = format_js_value.replace("%tags%", self.__html_tags)
         format_js_value = format_js_value.replace("%bool%", str(self.__only_numerate_headings).lower())
-        book_script = HTMLNode(head.identifier, None, "script", value=format_js_value,
+        book_script = HTMLNode(self.__head.identifier, "book-script", "script", value=format_js_value,
                                attributes={'type': "application/javascript"})
 
-        head.append_child(book_style)
-        head.append_child(book_script)
+        self.__head.append_child(book_script)
 
     # -----------------------------------------------------------------------
 
-    def __create(self) -> None:
+    def __create(self, title: str) -> None:
         """Create the static contents of the table of contents.
 
+        :param title: (str) the title of the book put in the top of the table of contents
+
         """
+        book_style = HTMLNode(self.__head.identifier, "book-style", "style", value=CSS_STYLE)
+        self.__head.remove_child("book-style")  # if we instantiate multiple book in the same page (horrible !)
+        self.__head.append_child(book_style)
+
+        self.__insert_script()
+
+        h1 = HTMLNode(self.identifier, "toc-title", "h1", value=title)
         h2 = HTMLNode(self.identifier, None, "h2", value="Table Of Contents")
         ul = HTMLNode(self.identifier, None, "ul", attributes={'id': "toc"})
 
-        self.append_child(self.title_node)
+        self.append_child(h1)
         self.append_child(h2)
         self.append_child(ul)

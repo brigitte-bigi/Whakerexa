@@ -89,6 +89,10 @@ The style of each element inside a card can be subclassed as needed.
     opacity: 100%;
 }
 
+.card:has(a, button) {
+    cursor: pointer;
+}
+
 .card + .card {
     margin-top: 0;
 }

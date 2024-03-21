@@ -36,10 +36,12 @@
 from .components import ComponentsEnum
 from .book import Book
 from .video_popup import VideoPopup
+from .card import Card
 
 
 __all__ = (
     "ComponentsEnum",
     "Book",
-    "VideoPopup"
+    "VideoPopup",
+    "Card"
 )
