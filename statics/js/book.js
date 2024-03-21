@@ -37,6 +37,7 @@ class Book {
     // FIELDS
     #toc_element;
     #headings_container;
+    #html_tags;
 
 
     // CONSTRUCTOR
@@ -49,6 +50,7 @@ class Book {
     constructor(id_headings, id_toc = "toc") {
         this.#toc_element = document.getElementById(id_toc);
         this.#headings_container = document.getElementById(id_headings);
+        this.#html_tags = "h1, h2, h3, h4";
     }
 
 
@@ -71,24 +73,57 @@ class Book {
         return this.#headings_container;
     }
 
-
-    // SETTERS
     /**
-     * Set the html element where searched all headings.
+     * Get the html tags takes in account by the Book to fill the table.
      *
-     * @param id_headings {string} The id of the html element
+     * @returns {string} the html tags (format: <tag1>, <tag2>, ...)
      */
-    set headings(id_headings) {
-        this.#headings_container =  document.getElementById(id_headings);
+    get html_tags() {
+        return this.#html_tags;
     }
 
 
     // PUBLIC METHODS
     /**
-     * Fill the table with all headings.
+     * Set the html element where searched all headings.
+     *
+     * @param id_headings {string} The id of the html element
      */
-    fill_table() {
-        const headings = this.#get_headings();
+    set_headings(id_headings) {
+        this.#headings_container =  document.getElementById(id_headings);
+    }
+
+    /**
+     * Set the html tags take in account by the class.
+     * By default, the html tags are h1, h2, h3, h4.
+     *
+     * @param tags {string} (0, n) the html tags that the book has to detect
+     */
+    add_html_tags(...tags) {
+        tags.forEach(current => {
+            this.#html_tags += ", " + current
+        });
+    }
+
+    /**
+     * Delete given html tags.
+     *
+     * @param tags {string} (0, n) the html tags to delete
+     */
+    delete_html_tags(...tags) {
+        tags.forEach(current => {
+            this.#html_tags = this.#html_tags.replace(", " + current, "");
+        });
+    }
+
+
+    /**
+     * Fill the table with all headings.
+     *
+     * @param only_numerate_headings (bool) if we search only numerate headings or not, true by default.
+     */
+    fill_table(only_numerate_headings = true) {
+        const headings = this.#get_headings(only_numerate_headings);
 
         headings.forEach((heading, index) => {
             /* Add the anchor right before the heading */
@@ -115,17 +150,23 @@ class Book {
     /**
      * Searched all headings linked with the table of contents.
      *
+     * @param only_numerate_headings (bool) if we search only numerate headings or not.
+     *
      * @returns {Array[HTMLElement]} the headings array
      */
-    #get_headings() {
-        let titles = [].slice.call(this.#headings_container.querySelectorAll("h1, h2, h3, h4"));
+    #get_headings(only_numerate_headings) {
+        let titles = [].slice.call(this.#headings_container.querySelectorAll(this.#html_tags));
         let headings = [];
 
         titles.forEach(current => {
-            // check if the heading begin by a number
-            let before = window.getComputedStyle(current,'::before');
+            if (only_numerate_headings) {
+                // check if the heading begin by a number
+                let before = window.getComputedStyle(current,'::before');
 
-            if (before['content'].includes("counter(")) {
+                if (before['content'].includes("counter(")) {
+                    headings.push(current);
+                }
+            } else {
                 headings.push(current);
             }
         });

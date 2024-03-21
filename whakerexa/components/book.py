@@ -33,6 +33,8 @@
 
 """
 
+import logging
+
 from whakerpy import HTMLNode
 from whakerpy import HTMLHeadNode
 from whakerpy import HTMLNavNode
@@ -47,8 +49,12 @@ CSS_STYLE = """
 
 JS_VALUE = """
 OnLoadManager.addLoadFunction(() => {
-    let book = new Book("%s");
-    book.fill_table();
+    let book = new Book("%id%");
+    
+    book.delete_html_tags("h1", "h2", "h3", "h4");
+    book.add_html_tags("%tags%");
+    
+    book.fill_table(%bool%);
 });
 """
 
@@ -71,6 +77,8 @@ class Book(HTMLNavNode):
         self.set_attribute("id", "nav-content")
         self.set_attribute("class", "side-nav")
 
+        self.__html_tags = "h1, h2, h3, h4"
+        self.__only_numerate_headings = True
         self.title_node = HTMLNode(self.identifier, None, "h1", value=title)
 
         self.__insert_head_nodes(head, id_main_content)
@@ -89,6 +97,11 @@ class Book(HTMLNavNode):
         return self.title_node.get_value()
 
     # -----------------------------------------------------------------------
+
+    def is_only_numerate_headings(self) -> bool:
+        return self.__only_numerate_headings
+
+    # -----------------------------------------------------------------------
     # SETTERS
     # -----------------------------------------------------------------------
 
@@ -99,6 +112,43 @@ class Book(HTMLNavNode):
 
         """
         self.title_node.set_value(title)
+
+    # -----------------------------------------------------------------------
+
+    def detect_only_numerate_headings(self, value: bool) -> None:
+        """Set the boolean value to know if the book detect only numerate headings from 'ssection'.
+
+        :param value: (bool) the boolean value set
+
+        """
+        self.__only_numerate_headings = value
+
+    # -----------------------------------------------------------------------
+
+    def add_html_tags(self, *tags: str) -> None:
+        """Add html tags to detect when we fill the book.
+
+        :param tags: (str [0, n]) the html tags that the book has to detect
+
+        """
+        for current_tag in tags:
+            if current_tag not in self.__html_tags:
+                self.__html_tags += f", {current_tag}"
+            else:
+                logging.warning(f"HTML tag '{current_tag}' already in the list : {self.__html_tags}")
+
+    # -----------------------------------------------------------------------
+
+    def delete_html_tags(self, *tags: str) -> None:
+        """Delete given html tags.
+
+        :param tags: (str) (0, n) the html tags to delete
+        """
+        for current_tag in tags:
+            if current_tag in self.__html_tags:
+                self.__html_tags.replace(f", {current_tag}", "")
+            else:
+                logging.warning(f"HTML tag '{current_tag}' not in the list : {self.__html_tags}")
 
     # -----------------------------------------------------------------------
     # PUBLIC METHODS
@@ -129,8 +179,12 @@ class Book(HTMLNavNode):
 
         """
         book_style = HTMLNode(head.identifier, None, "style", value=CSS_STYLE)
-        book_script = HTMLNode(head.identifier, None, "script",
-                               attributes={'type': "application/javascript"}, value=JS_VALUE.replace('%s', headings))
+
+        format_js_value = JS_VALUE.replace("%id%", headings)
+        format_js_value = format_js_value.replace("%tags%", self.__html_tags)
+        format_js_value = format_js_value.replace("%bool%", str(self.__only_numerate_headings).lower())
+        book_script = HTMLNode(head.identifier, None, "script", value=format_js_value,
+                               attributes={'type': "application/javascript"})
 
         head.append_child(book_style)
         head.append_child(book_script)

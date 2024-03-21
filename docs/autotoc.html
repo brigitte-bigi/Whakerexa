@@ -19,8 +19,19 @@
     <script src="../statics/js/book.js" type="application/javascript"></script>
     <script type="application/javascript">
         OnLoadManager.addLoadFunction(() => {
-           let book = new Book("main-content");
-           book.fill_table();
+            let book = new Book("main-content");
+
+            // method to add or remove html tags that the book detect
+            // By default html tags take in account by the book are : h1, h2, h3, h4
+            book.add_html_tags("h5", "h6")  // take infinite parameters, put all your tags
+            book.delete_html_tags("h5", "h6")  // take infinite parameters, put all your tags
+
+            book.fill_table();
+
+            // optional arguments to fill the table with only numerated headings by the "ssection" or not
+            // the parameter value is true by default
+            // book.fill_table(true);
+            // book.fill_table(false);
         });
     </script>
 </head>
