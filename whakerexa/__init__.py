@@ -2,7 +2,7 @@
 :filename: whakerexa.__init__.py
 :author:   Florian LOPITAUX
 :contact:  contact@sppas.org
-:summary:  Simplify the imports in the code of the whakerexa library
+:summary:  Simplify the imports in the code of the whakerexa library and download the statics dependencies.
 
 .. _This file is part of Whakerexa: https://sourceforge.net/projects/whakerexa/
 ..
@@ -32,13 +32,40 @@
 
 """
 
+import os
+import logging
+from io import BytesIO
+from urllib import request
+from urllib import error as request_error
+from zipfile import ZipFile
+
 from .head import ExtendHeadNode
 from .response import ExtendResponseRecipe
-
 from .components import *
 
 # -----------------------------------------------------------------------
+# check whakerexa static dependencies
 
+if not os.path.isdir("wexa_statics2"):
+    logging.debug("Whakerexa statics content missing, download it...")
+
+    # test url
+    # url = "https://sourceforge.net/projects/purejs-tools/files/PureJS-Tools-1.1.zip/download"
+    url = "https://sourceforge.net/projects/whakerexa/files/wexa_statics.zip/download"
+
+    try:
+        with request.urlopen(url) as zip_response:
+            with ZipFile(BytesIO(zip_response.read())) as zip_file:
+                zip_file.extractall(".")
+
+    except request_error.URLError:
+        logging.error(f"Couldn't download the zip folder from {url}")
+    except Exception as e:
+        logging.error(f"Unkwnon error during download : {e}")
+
+    logging.debug("Finish to download Whakerexa dependencies, wexa_statics folder added to the project.")
+
+# -----------------------------------------------------------------------
 
 __version__ = "0.1"
 ___author__ = "Brigitte BIGI, Florian LOPITAUX"

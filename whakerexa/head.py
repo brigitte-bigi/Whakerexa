@@ -42,9 +42,9 @@ from .components import ComponentsEnum
 
 # ---------------------------------------------------------------------------
 
-CSS_FOLDER = os.path.join("statics", "css")
+CSS_FOLDER = os.path.join("wexa_statics", "css")
 CSS_MIME_TYPE = "text/css"
-JS_FOLDER = os.path.join("statics", "js")
+JS_FOLDER = os.path.join("wexa_statics", "js")
 JS_MIME_TYPE = "application/javascript"
 
 # ---------------------------------------------------------------------------

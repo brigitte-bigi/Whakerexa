@@ -76,6 +76,8 @@ figure.img-video-visualization button[name=play-btn] {
 dialog.popup-video {
     padding: 0;
     height: 80vh;
+
+    background-color: var(--bg-color) !important;
 }
 
 /* css only when the modal is open, if we put the css above the "display: flex" show automatically the modal open or not */

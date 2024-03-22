@@ -33,6 +33,14 @@
 
 """
 
+from log_manager import sppasLogSetup
+
+# initialize logger
+log = sppasLogSetup(0)
+log.stream_handler()
+
+# -----------------------------------------------------------------------
+
 import logging
 import webbrowser
 
@@ -48,6 +56,7 @@ class AppServer(BaseHTTPDServer):
     """A custom HTTPD server for `sample` web front-end.
 
     """
+
     def create_pages(self, app: str = "app"):
         """Override. Add bakeries for dynamic HTML pages of this app.
 
@@ -60,8 +69,8 @@ class AppServer(BaseHTTPDServer):
         self._pages[app_bakery.page()] = app_bakery
         self._default = app_bakery.page()
 
-# -----------------------------------------------------------------------
 
+# -----------------------------------------------------------------------
 
 if __name__ == "__main__":
     app = WebSiteApplication(AppServer)
