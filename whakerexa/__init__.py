@@ -46,7 +46,7 @@ from .components import *
 # -----------------------------------------------------------------------
 # check whakerexa static dependencies
 
-if not os.path.isdir("wexa_statics2"):
+if not os.path.isdir("wexa_statics"):
     logging.debug("Whakerexa statics content missing, download it...")
 
     # test url
