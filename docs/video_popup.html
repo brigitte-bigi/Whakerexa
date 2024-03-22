@@ -31,18 +31,28 @@
 </header>
 
 <main>
+    <!--
+        The dialog doesn't have to be necessary in the same place of the button to open it,
+        Furthermore, a popup video can be open by multiple buttons with its id not only one
+    -->
+    <dialog id="popup-demo" class="popup-video">
+        <video id="popup-video-demo" controls="true" preload="none">
+            <source src="../samples/demo_video.webm" type="video/webm"/>
+        </video>
+        <button name="popup-close-btn" onclick="close_popup_video('demo')">
+            &#10060;
+        </button>
+    </dialog>
+
+    <h2>Popup video with image pre-visualisation</h2>
     <figure class="img-video-visualization" style="width: 35vw; height: auto;">
         <img src="../samples/demo_video.png" alt="Video preview"/>
-        <button class="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
-        <dialog id="popup-demo" class="popup-video">
-            <video id="popup-video-demo" controls="true" preload="none">
-                <source src="../samples/demo_video.webm" type="video/webm" />
-            </video>
-            <button class="popup-close-btn" onclick="close_popup_video('demo')">
-                &#10060;
-            </button>
-        </dialog>
+        <button name="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
     </figure>
+
+    <h2>Popup video with just a play button</h2>
+    <!-- use a container if you want to center the button (not necessary a 'figure', the figure is required only for image pre-visualization) -->
+    <button name="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
 </main>
 
 <footer>

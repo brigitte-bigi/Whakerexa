@@ -165,7 +165,7 @@ class VideoPopup(HTMLNode):
         self.append_child(self.__img)
 
         play_button = HTMLNode(self.identifier, None, "button", value="&#9658;",
-                               attributes={"class": "play-btn", "onclick": f"play_popup_video('{self.identifier}')"})
+                               attributes={"name": "play-btn", "onclick": f"play_popup_video('{self.identifier}')"})
         self.append_child(play_button)
 
         # create popup widget
@@ -176,7 +176,7 @@ class VideoPopup(HTMLNode):
         })
 
         close_button = HTMLNode(id_modal, None, "button", value="&#10060;", attributes={
-            "class": "popup-close-btn",
+            "name": "popup-close-btn",
             "onclick": f"close_popup_video('{self.identifier}')"
         })
 

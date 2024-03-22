@@ -36,9 +36,14 @@ figure.img-video-visualization {
     position: relative;
     padding: 0;
 
+    min-width: 2rem;
+    min-height: 4vh;
+
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    background-color: rgb(128, 128, 128);
 }
 
 figure.img-video-visualization img {
@@ -46,7 +51,9 @@ figure.img-video-visualization img {
     height: auto;
 }
 
-figure.img-video-visualization button.play-btn {
+/* css only for play button with image pre-visualization */
+/* the simple button image doesn't require css, the wexa.css is enough, open docs/video_popup.html to see the result */
+figure.img-video-visualization button[name=play-btn] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -63,19 +70,27 @@ figure.img-video-visualization button.play-btn {
     border: none;
     cursor: pointer;
 
-    font-size: 6vw;
-}
-
-figure.img-video-visualization button.play-btn img {
-    width: 20%;
-    height: auto;
+    font-size: calc(10*var(--font-size));
 }
 
 dialog.popup-video {
-    padding: 2vh 2vw;
+    padding: 0;
+    height: 80vh;
 }
 
-button.popup-close-btn {
+/* css only when the modal is open, if we put the css above the "display: flex" show automatically the modal open or not */
+:modal[open] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+dialog.popup-video video {
+    width: auto;
+    height: 90%;
+}
+
+dialog.popup-video button[name="popup-close-btn"] {
     position: absolute;
     top: 1vh;
     right: 1vw;
