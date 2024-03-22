@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: sppas.src.config.logs.py
+:filename: sppas.config.logs.py
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Log system of SPPAS.
@@ -17,7 +17,7 @@
     ##    ##  ##         ##         ##     ##  ##    ##         of speech
      ######   ##         ##         ##     ##   ######
 
-    Copyright (C) 2011-2023  Brigitte Bigi
+    Copyright (C) 2011-2024  Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     Use of this software is governed by the GNU Public License, version 3.
@@ -47,75 +47,6 @@ import platform
 import logging
 from datetime import date
 from datetime import datetime
-
-try:
-    import wx
-    IMPORT_WX = True
-except ImportError:
-    IMPORT_WX = False
-
-# ---------------------------------------------------------------------------
-
-
-class sppasLogFile(object):
-    """Manager for logs of SPPAS runs.
-
-    """
-
-    def __init__(self, pattern="log"):
-        """Create a sppasLogFile instance.
-
-        Create the log directory if it not already exists then fix the
-        log filename with increment=0.
-
-        """
-        log_dir = os.path.join("logs")
-        if os.path.exists(log_dir) is False:
-            os.mkdir(log_dir)
-
-        self.__filename = "{:s}_{:s}_".format("Whakerexa Sample", pattern)
-        self.__filename += str(date.today()) + "_"
-        self.__filename += str(os.getpid()) + "_"
-
-        self.__current = 1
-        while os.path.exists(self.get_filename()) is True:
-            self.__current += 1
-
-    # -----------------------------------------------------------------------
-
-    def get_filename(self):
-        """Return the current log filename."""
-        return "wexa_log.txt"
-
-    # -----------------------------------------------------------------------
-
-    def increment(self):
-        """Increment the current log filename."""
-        self.__current += 1
-
-    # -----------------------------------------------------------------------
-
-    @staticmethod
-    def get_header():
-        """Return a string with an header for logs."""
-        header = "-"*78
-        header += "\n\n"
-        header += " {:s} {:s}".format("Whakerexa Sample", "1.0")
-        header += "\n"
-        header += " {:s}".format(datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
-        header += "\n"
-        header += " {:s}".format(platform.platform())
-        header += "\n"
-        header += " {:s}".format(sys.executable)
-        header += "\n"
-        header += " python {:s}".format(platform.python_version())
-        if IMPORT_WX:
-            header += "\n"
-            header += " wxpython {:s}".format(wx.version())
-        header += "\n\n"
-        header += "-"*78
-        header += "\n\n"
-        return header
 
 # ---------------------------------------------------------------------------
 

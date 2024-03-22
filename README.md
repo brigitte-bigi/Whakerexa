@@ -13,34 +13,21 @@ Whakerexa is under the terms of the GNU General Public License version 3.
 
 ## Install Whakerexa
 
-### From pypi.org:
+Whakerexa is made of two components which must both be installed: 
+1. wexa_statics.zip: includes CSS, fonts and JS to create any web document;
+2. the python package "whakerexa" to extend WhakerPy for creating dynamic web content.
+
+You can install the python package with: 
 
 ```bash
 > python -m pip install Whakerexa
 ```
 
-### From its wheel package:
-
-Download the wheel file (Whakerexa-xxx.whl) and install it in your python environment with:
+or directly from its wheel package:
 
 ```bash
 > python -m pip install dist/<Whakerexa-xxx.whl>
 ```
-
-### From its repo:
-
-Download the repository and unpack it, or clone with `git`. Optionally, it can be installed with:
-
-```bash
-> python -m pip install .
-```
-
-Install all the optional dependencies with:
-
-```bash
-> python -m pip install ".[docs, tests]"
-```
-
 
 
 ## Quick Start
@@ -87,5 +74,6 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 - Added or updated, and tested JavaScripts 
 - Updated CSS frameworks to be more generic
 - Added HTML documentation of the CSS frameworks
-- Added a sample
+- Added a CSS framework for playing a video in a popup dialog
+- Added a sample.
 
