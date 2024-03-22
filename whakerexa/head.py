@@ -139,7 +139,7 @@ class ExtendHeadNode(HTMLHeadNode):
 
         """
         # import Whakerpy scripts
-        self.script(os.path.join("whakerpy", "request.js"), script_type=JS_MIME_TYPE)
+        self.script(os.path.join(JS_FOLDER, "whakerpy", "request.js"), script_type=JS_MIME_TYPE)
 
         # import PureJS-Tools scripts
         self.script(os.path.join(JS_FOLDER, "purejs-tools", "OnLoadManager.js"), script_type=JS_MIME_TYPE)
