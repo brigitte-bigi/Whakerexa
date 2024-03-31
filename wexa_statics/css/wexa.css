@@ -554,6 +554,7 @@ body > header > nav {
     right: 2.5rem;
 }
 
+/* Always visible navigation bar */
 body > nav {
     z-index: 10;
     color: inherit;
@@ -636,35 +637,42 @@ body > header > *,  body > footer > * {
                        HTML ELEMENTS STYLING
   ======================================================================== */
 
+/* -------------------------------- menu --------------------------------- */
+
 nav {
     text-align: center;
     margin: auto;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav ul, nav section {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 nav ul {
     list-style: none;
     margin-left: 0;
     text-align: center;
-    padding-top: var(--typography-spacing-vertical);
-    padding-bottom: var(--typography-spacing-vertical);
 }
 
-nav ul li {
-    display: inline-block;
-    margin-left: var(--typography-spacing-horizontal);
-    margin-right: var(--typography-spacing-horizontal);
+nav li {
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    margin: 0;
+    min-width: 1rem;
+}
+
+nav ul > li > * {
+    margin: 0;
     vertical-align: middle;
 }
 
-nav ul li:first-child {
-    margin-left: 0
-}
-
-nav ul li:last-child {
-    margin-right: 0
-}
 
 /* ---------------------------- section/article ------------------------------ */
 
@@ -736,8 +744,7 @@ h3 {
 h4 {
     letter-spacing: calc(2*var(--letter-spacing));
     color: var(--h4-color);
-    font-weight: var(--font-weight-normal);
-    text-transform: uppercase;
+    font-weight: var(--font-weight-semibold);
 }
 
 h5 {
@@ -871,7 +878,7 @@ blockquote * {
     background-color: transparent;
 }
 
-a {
+a, [role=link] {
     color: var(--a-color);
     -webkit-transition-duration: 0.2s;
     -moz-transition-duration: 0.2s;
@@ -879,9 +886,16 @@ a {
     transition-duration: 0.2s;
     border: var(--focus-border-width) solid transparent;
     border-radius: calc(2 * var(--focus-border-width));
+    line-height: calc(0.8*var(--line-height));
+    opacity: 90%;
 }
 
-a:hover {
+:where(a:not([role=button])), [role=link] {
+    text-underline-offset: 0.2em;
+}
+
+/*a:hover {*/
+:where(a:not([role=button])):is([aria-current]:not([aria-current=false]),:hover,:active,:focus),[role=link]:is([aria-current]:not([aria-current=false]),:hover,:active,:focus) {
     opacity: 100%;
     border: var(--focus-border-width) dashed var(--focus-border-color);
     border-radius: calc(2 * var(--focus-border-width));
