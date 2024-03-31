@@ -3,12 +3,12 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Card.css</title>
+        <title>layout.css</title>
         <link rel="icon" href="../wexa_statics/icons/flav32_cs.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
         <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
-        <link rel="stylesheet" href="../wexa_statics/css/cards.css" type="text/css">
+        <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css">
 
     </head>
 
@@ -22,8 +22,8 @@
                 <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
             </ul>
         </nav>
-        <h1>cards.css</h1>
-        <h2>A CSS framework to create cards</h2>
+        <h1>layout.css</h1>
+        <h2>A CSS framework to organize HTML elements</h2>
     </header>
 
     <main>
@@ -39,7 +39,7 @@
     media="all" /&gt;
 &lt;link
     rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/cards.css?format=raw"
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/layout.css?format=raw"
     media="all" /&gt;
             </pre>
 
@@ -50,14 +50,25 @@
                 readability of HTML code, like it should always be! <b>wexa.css</b> is the main
                 CSS framework of  <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.
             </p>
-            <p><b>cards.css</b> is a CSS framework based on wexa.css, allowing you to add
+            <p><b>layout.css</b> is a CSS framework based on wexa.css, allowing you to manage
+                layouts of HTML elements. It includes the possibility to add
                 content that looks like a card. At this time, it is provided as-is, offering
                 a streamlined selection of customization solutions.</p>
             <p>Not convinced? Take a look at the source code of this page!</p>
 
-            <h2>The custom classes</h2>
+            <h2>The containers</h2>
 
-            <h3>A card</h3>
+            <h3>Simple panel</h3>
+            <h3>Scrolled panel</h3>
+            <h3>Flex panel</h3>
+            <h3>Grid panel</h3>
+            <h3>Collapsible panel</h3>
+
+            <h3>Cards panel</h3>
+            <p>layout.css provides a container allowing to organize cards:
+                <code>cards-panel</code>. See the demos for details. </p>
+
+            <h4>A card</h4>
             <p>The class <code>card</code> can be added to any HTML element which can be used
                 as a container. Preferably, you should use either <code>&lt;section&gt;</code> or
                 <code>&lt;article&gt;</code> element, instead of the nonsensical <code>&lt;div&gt;</code>.
@@ -124,11 +135,6 @@
                 </tbody>
             </table>
 
-            <h3>Card panels</h3>
-            <p>cards.css also provides two 'panels' allowing to organize cards:
-                <code>cards-panel</code> and <code>full-cards-panel</code>.
-                See the demos for details. </p>
-
             <h2>The variables</h2>
             <p>cards.css is allowing to set the following four variables:</p>
             <ol>
@@ -149,8 +155,8 @@
             </pre>
         </section>
 
-        <section id="demo">
-            <h1>Demo: what's possible with cards.css?</h1>
+        <section id="demo-cards">
+            <h1>Demo: cards</h1>
 
             <h2>Create cards in a section with article elements</h2>
             <section class="cards-panel">
@@ -198,6 +204,20 @@
 
             </section>
 
+            <p>Under construction: horizontal card.</p>
+            <article class="card card-horiz">
+                <header>
+                    <img src="https://sppas.org/statics/icons/flav64.png" alt="">
+                </header>
+                <main>
+                    <h2>Horizontal card</h2>
+                    <p>with dark and high contrast</p>
+                </main>
+                <footer>
+                    <a href="https://sppas.org/">Some footer</a>
+                </footer>
+            </article>
+
             <h2>Create cards in a full-cards-panel</h2>
 
             <section class="full-cards-panel">
@@ -217,6 +237,7 @@
                     </footer>
                 </article>
             </section>
+
 
         </section>
     </main>

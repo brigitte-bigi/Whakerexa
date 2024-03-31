@@ -1,15 +1,25 @@
-# Whakerexa - an extension for accessible contents with WhakerPy
+# Whakerexa - A minimalist and lightweight web kit for accessible contents
 
 
 ## Overview
 
-`Whakerexa` offers CSS frameworks and JavaScript scripts to generate an accessible HTML content.
-It is intended to be as simple as possible to make **accessible web content**,
-and to minimize the use of CSS classes for enhancing the readability of HTML code.
+`Whakerexa` offers CSS frameworks and JavaScript to generate an HTML content.
+It is intended to be as simple as possible to make **accessible web content**, and to minimize the use of CSS classes for enhancing the readability of HTML code.
 
 It was designed to be easily customizable, allowing users to adjust properties such as fonts, colors, borders, etc., effortlessly. Most of the properties are stored into variables which makes possible to re-define them, then to obtain a custom different style, enabling users to achieve a unique style easily.
 
 It can be combined with the use of `WhakerPy`, an open source library to create dynamic HTML content; it's a light web application framework.
+
+### Features
+
+- Lightweight and semantic
+- Light or dark mode
+- Normal or high-Contrast mode
+- Easy use and customization
+- Human-readable: could be extended or composed for your specific needs
+- No extra library or framework needed
+
+
 
 ## License
 
@@ -52,10 +62,13 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 
 # Changes
 
-## Version 0.1
+## Version 0.1 - latest
 
 - Initial version, extracted from SPPAS 4.17.
 - Added or updated, and tested JavaScripts 
 - Updated CSS frameworks to be more generic
 - Added HTML documentation of the CSS frameworks
-- Added a CSS framework for playing a video in a popup dialog
+- Added a CSS/JS framework for playing a video in a popup dialog
+
+## Version 0.2 - develop
+

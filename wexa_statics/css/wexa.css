@@ -262,6 +262,7 @@
     --shadow-color: rgba(110, 120, 140, 0.8);
 }
 
+
 /* Re-define some global variables for disabilities */
 /* ------------------------------------------------ */
 .contrast {
@@ -300,49 +301,51 @@
     --table-border-width: 3px;
 }
 
-.dark {
-    /* Main colors */
-    --bg-color: rgb(24, 28, 38);
-    --bg-color-alt: rgba(38, 42, 54);
-    --fg-color: rgb(255, 255, 255);
-    --fg-color-alt: rgb(255, 255, 255);
-    --border-color: rgb(228, 228, 228);
-    --border-color-alt: rgba(228, 228, 228, 0.5);
-    --focus-border-color: rgba(0, 191, 255, 0.8);
+@media screen and (prefers-color-scheme: dark) {
+    .dark {
+        /* Main colors */
+        --bg-color: rgb(24, 28, 38);
+        --bg-color-alt: rgba(38, 42, 54);
+        --fg-color: rgb(255, 255, 255);
+        --fg-color-alt: rgb(255, 255, 255);
+        --border-color: rgb(228, 228, 228);
+        --border-color-alt: rgba(228, 228, 228, 0.5);
+        --focus-border-color: rgba(0, 191, 255, 0.8);
 
-    /* Background colors */
-    --header-bg-color: radial-gradient(circle, rgb(167, 187, 207), rgba(167, 187, 207, 0.7));
-    --nav-bg-color: rgba(167, 187, 207, 0.7);
-    --footer-bg-color: rgb(167, 187, 207);
-    --buttons-bg-color: rgb(80, 80, 70);
-    --progress-bg-color: rgb(67, 77, 97);
+        /* Background colors */
+        --header-bg-color: radial-gradient(circle, rgb(167, 187, 207), rgba(167, 187, 207, 0.7));
+        --nav-bg-color: rgba(167, 187, 207, 0.7);
+        --footer-bg-color: rgb(167, 187, 207);
+        --buttons-bg-color: rgb(80, 80, 70);
+        --progress-bg-color: rgb(67, 77, 97);
 
-    /* Foreground colors */
-    --header-fg-color: rgb(41, 41, 45);
-    --nav-fg-color: rgb(31, 31, 35);
-    --footer-fg-color: rgb(41, 41, 45);
-    --buttons-fg-color: rgb(225, 225, 215);
-    --progress-fg-color: rgb(226, 226, 248);
-    --h1-color: rgb(190, 204, 255);
-    --h2-color: rgb(190, 204, 223);
-    --h3-color: rgb(174, 190, 208);
-    --h4-color: rgb(174, 190, 208);
-    --h5-color: rgb(170, 180, 208);
-    --h6-color: rgb(180, 190, 218);
+        /* Foreground colors */
+        --header-fg-color: rgb(41, 41, 45);
+        --nav-fg-color: rgb(31, 31, 35);
+        --footer-fg-color: rgb(41, 41, 45);
+        --buttons-fg-color: rgb(225, 225, 215);
+        --progress-fg-color: rgb(226, 226, 248);
+        --h1-color: rgb(190, 204, 255);
+        --h2-color: rgb(190, 204, 223);
+        --h3-color: rgb(174, 190, 208);
+        --h4-color: rgb(174, 190, 208);
+        --h5-color: rgb(170, 180, 208);
+        --h6-color: rgb(180, 190, 218);
 
-    /* Table colors */
-    --table-border-color: rgb(184, 203, 208);
-    --table-row-stripped-bg-color: rgba(184, 203, 208, 0.28);
-    --table-head-bg-color: rgb(12, 22, 14);
-    --table-head-fg-color: rgb(204, 202, 212);
-    --table-caption-bg-color: rgb(210, 221, 252);
-    --table-caption-fg-color: rgb(167, 187, 207);
+        /* Table colors */
+        --table-border-color: rgb(184, 203, 208);
+        --table-row-stripped-bg-color: rgba(184, 203, 208, 0.28);
+        --table-head-bg-color: rgb(12, 22, 14);
+        --table-head-fg-color: rgb(204, 202, 212);
+        --table-caption-bg-color: rgb(210, 221, 252);
+        --table-caption-fg-color: rgb(167, 187, 207);
 
-    /* Other colors */
-    --a-color: rgb(25, 195, 255);
-    --s-color: rgb(180, 180, 180);
-    --blockquote-border-color: rgb(200, 180, 200);
-    --blockquote-footer-color: rgb(200, 180, 200);
+        /* Other colors */
+        --a-color: rgb(25, 195, 255);
+        --s-color: rgb(180, 180, 180);
+        --blockquote-border-color: rgb(200, 180, 200);
+        --blockquote-footer-color: rgb(200, 180, 200);
+    }
 }
 
 /* Increase the bg/fg contrast of some colors in the default mode */

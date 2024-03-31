@@ -36,6 +36,11 @@ https://heydon.github.io/Inclusive-Components/cards-redundant-click-read-more/#c
 This is a base class to create a cards panel with card items.
 The style of each element inside a card can be subclassed as needed.
 
+
+                ===================================
+                DEPRECATED / use layout.css instead
+                ===================================
+
 */
 
 :root {
@@ -68,6 +73,9 @@ The style of each element inside a card can be subclassed as needed.
     flex-direction: row;
 }
 
+.horiz-cards-panel {
+    grid-auto-flow: column;
+}
 
 /* Definition of a card */
 /* -------------------- */
