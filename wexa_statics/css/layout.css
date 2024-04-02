@@ -109,6 +109,9 @@ main > .panel-item:nth-child(even) * {
 .flex-panel {
     display: flex;
     justify-content: space-evenly;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .flex-panel > * {
@@ -403,7 +406,7 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
 @media only screen and (max-width: 768px) {
     .card {
         max-width: 75%;
-        max-height: 30rem;
+        max-height: calc(30rem * var(--size-divisor));
     }
     .full-card {
         max-width: 100%;
@@ -413,7 +416,7 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
 
 @media only screen and (min-width: 768px) {
     .card {
-        max-width: 20rem;
+        max-width: calc(20rem * var(--size-divisor));
     }
     .full-card {
         max-width: 100%;
@@ -426,7 +429,8 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
 .card header {
     text-align: center;
     margin: auto;
-    min-height: 3rem;
+    min-height: calc(3rem * var(--size-divisor));
+    max-height: calc(8rem * var(--size-divisor));
     width: 100%;
     padding: 0.4rem;
     /*clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem));*/
@@ -444,6 +448,8 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
 .card header img {
     border-top-right-radius: var(--card-border-radius);
     border-top-left-radius: var(--card-border-radius);
+    max-width: 90%;
+    max-height: 90%;
 }
 
 .card header * {
@@ -467,7 +473,8 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
 .card footer {
     text-align: center;
     margin: auto;
-    min-height: 3rem;
+    min-height: calc(2rem * var(--size-divisor));
+    max-height: calc(6rem * var(--size-divisor));
     width: 100%;
     border-bottom-right-radius: var(--card-border-radius);
     border-bottom-left-radius: var(--card-border-radius);
