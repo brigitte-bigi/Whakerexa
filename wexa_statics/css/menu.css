@@ -32,32 +32,26 @@
 
 */
 
+#nav-content {
+    min-height: 6rem;
+}
 
 /* ------------------- Items in nav ---------------- */
 
-.nav-item {
-    background-color: var(--bg-color);
-    color: var(--h1-color);
-    border: var(--outline-size) solid var(--buttons-bg-color);
-    border-radius: calc(3 * var(--outline-size));
-    border-bottom: calc(2*var(--outline-size)) solid var(--buttons-bg-color);
+[role=menuitem] {
     min-height: 2rem;
     max-height: 4rem;
     height: 3rem;
 }
 
-.nav-item:active:hover {
-    border: var(--outline-size) solid transparent;
-}
-
 /* a different width for <a> items versus <button> items */
-a.nav-item {
+a[role=menuitem] {
     min-width: 8rem;
     max-width: 12rem;
     width: 10rem;
 }
 
-button.nav-item {
+button[role=menuitem] {
     min-width: 2rem;
     max-width: 6rem;
     width: 4rem;
@@ -65,7 +59,7 @@ button.nav-item {
 
 /* --------------- <a> items style ---------------- */
 
-button.nav-item:not(img), a[role=button].nav-item:not(img) {
+button[role=menuitem]:not(img), a[role=menuitem]:not(img) {
     text-align: center;
     font-family: inherit;
     font-style: normal;
@@ -75,28 +69,18 @@ button.nav-item:not(img), a[role=button].nav-item:not(img) {
     overflow: hidden;
 }
 
-button.nav-item:hover, a[role=button].nav-item:hover {
-    border-width: var(--outline-size);
-    border-color: transparent;
-    border-style: solid;
-    font-weight: var(--font-weight-bold);
-    border-radius: calc(3 * var(--outline-size));
-    border-bottom: calc(2*var(--outline-size)) solid var(--outline-color);
-    color: var(--fg-color);
-}
-
-a[role=button].nav-current {
+a[role=menuitem].nav-current, button[role=menuitem].nav-current  {
     color: var(--a-color);
     background-color: var(--buttons-bg-color);
 }
 
-.menu-items a.nav-item {
+/* ---------------------- Define a sub-menu item -------------- */
+
+.menu-items [role=menuitem] {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-/* ---------------------- Define a sub-menu item -------------- */
 
 .menuitem {
     position: relative;
@@ -212,8 +196,8 @@ ul.submenu {
     opacity: 0;
     background-color: var(--buttons-bg-color);
     position: fixed;
-    top: var(--outline-size);
-    left: var(--outline-size);
+    top: 0;
+    left: 0;
     padding: 0.5rem;
     transition: opacity 0.3s ease;
 }
@@ -224,6 +208,10 @@ ul.submenu {
 }
 
 /* --------------------- Screen size adaptation--------------------- */
+
+.hide {
+    display: none;
+}
 
 .menu-mobile {
     background-color: var(--header-bg-color);
@@ -333,6 +321,7 @@ ul.submenu {
     width: 2rem;
     cursor: pointer;
     vertical-align: middle;
+    padding: 0;
 }
 
 .menu-mobile-img {
