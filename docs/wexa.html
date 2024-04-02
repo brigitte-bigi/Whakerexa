@@ -129,7 +129,7 @@ is developed.</pre>
             <h3>Examples of use:</h3>
 
             <p>The following example shows how to re-set variables in your HTML file. You have to
-            create a <code>&lt;script&gt;</code> element in the <code>&lt;head&gt;</code>. It
+            create a <code>&lt;style&gt;</code> element in the <code>&lt;head&gt;</code>. It
             must be placed after the link to <code>wexa.css</code> to ensure proper execution.</p>
             <pre>&lt;style&gt;
     :root {
@@ -190,7 +190,7 @@ is developed.</pre>
                 </tr>
                 <tr>
                     <th scope="row">header-height</th>
-                    <td>80vh</td>
+                    <td>60vh</td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -203,6 +203,12 @@ is developed.</pre>
                 <tr>
                     <th scope="row">header-slidein</th>
                     <td>slideInFromBottom</td>
+                    <td>slideInDisabled</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">footer-slidein</th>
+                    <td>slideInDisabled</td>
                     <td>slideInDisabled</td>
                     <td></td>
                 </tr>
@@ -1120,6 +1126,10 @@ is developed.</pre>
             </aside>
             <p>This is the main content related to the side one.</p>
         </section>
+
+
+        <label for="file">File progress:</label>
+        <progress id="file" max="100" value="70">70%</progress>
 
     </main>
 
