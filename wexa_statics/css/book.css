@@ -185,6 +185,10 @@ nav.side-nav a[role=button], nav.side-nav button {
 /* The element tags in the HTML document became automatically a class name
    into the toc thanks to a script. */
 
+nav.side-nav ul {
+    display: initial;
+}
+
 nav.side-nav li.h1,
 nav.side-nav li.h2,
 nav.side-nav li.h3,
