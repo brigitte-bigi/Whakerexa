@@ -382,7 +382,7 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
     flex-direction: column;
     box-shadow: var(--card-box-shadow);
     opacity: 90%;
-    cursor: none;
+    cursor: default;
 }
 
 .card-horiz {
@@ -393,10 +393,6 @@ header button.accordion-action:hover, header a[role=button].accordion-action:hov
     opacity: 100%;
 }
 
-/*
-.card:has(a, button) {
-    cursor: pointer;
-}*/
 
 .card + .card {
     margin-top: 0;
