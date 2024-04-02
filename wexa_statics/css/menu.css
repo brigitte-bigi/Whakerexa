@@ -38,16 +38,16 @@
 .nav-item {
     background-color: var(--bg-color);
     color: var(--h1-color);
-    border: var(--focus-border-width) solid var(--buttons-bg-color);
-    border-radius: calc(3 * var(--focus-border-width));
-    border-bottom: calc(2*var(--focus-border-width)) solid var(--buttons-bg-color);
+    border: var(--outline-size) solid var(--buttons-bg-color);
+    border-radius: calc(3 * var(--outline-size));
+    border-bottom: calc(2*var(--outline-size)) solid var(--buttons-bg-color);
     min-height: 2rem;
     max-height: 4rem;
     height: 3rem;
 }
 
 .nav-item:active:hover {
-    border: var(--focus-border-width) solid transparent;
+    border: var(--outline-size) solid transparent;
 }
 
 /* a different width for <a> items versus <button> items */
@@ -76,12 +76,12 @@ button.nav-item:not(img), a[role=button].nav-item:not(img) {
 }
 
 button.nav-item:hover, a[role=button].nav-item:hover {
-    border-width: var(--focus-border-width);
+    border-width: var(--outline-size);
     border-color: transparent;
     border-style: solid;
     font-weight: var(--font-weight-bold);
-    border-radius: calc(3 * var(--focus-border-width));
-    border-bottom: calc(2*var(--focus-border-width)) solid var(--focus-border-color);
+    border-radius: calc(3 * var(--outline-size));
+    border-bottom: calc(2*var(--outline-size)) solid var(--outline-color);
     color: var(--fg-color);
 }
 
@@ -212,8 +212,8 @@ ul.submenu {
     opacity: 0;
     background-color: var(--buttons-bg-color);
     position: fixed;
-    top: var(--focus-border-width);
-    left: var(--focus-border-width);
+    top: var(--outline-size);
+    left: var(--outline-size);
     padding: 0.5rem;
     transition: opacity 0.3s ease;
 }

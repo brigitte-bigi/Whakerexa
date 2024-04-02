@@ -215,8 +215,8 @@ header.rise-header {
     /* should look like a button -- or close to -- */
     background-color: var(--buttons-bg-color);
     color: var(--buttons-fg-color);
-    border: var(--focus-border-width) solid var(--border-color-alt);
-    border-radius: calc(2 * var(--focus-border-width));
+    border: var(--outline-size) solid var(--border-color-alt);
+    border-radius: calc(2 * var(--outline-size));
     cursor: pointer;
     transition: all 0.4s;
     -webkit-user-select: none;
@@ -240,9 +240,9 @@ header.rise-header {
 main.rise-main {
     background-color: var(--buttons-bg-color);
     border-top: none;
-    border-left: var(--focus-border-width) solid var(--border-color-alt);
-    border-right: var(--focus-border-width) solid var(--border-color-alt);
-    border-bottom: var(--focus-border-width) solid var(--border-color-alt);
+    border-left: var(--outline-size) solid var(--border-color-alt);
+    border-right: var(--outline-size) solid var(--border-color-alt);
+    border-bottom: var(--outline-size) solid var(--border-color-alt);
     border-radius: 0;
     transition: all 0.3s;
     padding: 0.5rem;
@@ -273,7 +273,7 @@ main.rise-main[hidden] {
 }
 
 .rise-label {
-    border: var(--focus-border-width) solid transparent;
+    border: var(--outline-size) solid transparent;
     border-radius: 0;
     margin: 0;
     padding-top: 0.3rem;
@@ -300,7 +300,7 @@ main.rise-main[hidden] {
 
 header button.rise-trigger {
     flex: 1;
-    border: var(--focus-border-width) solid transparent;
+    border: var(--outline-size) solid transparent;
     border-radius: 0;
     justify-content: flex-start;
     text-align: left;
@@ -333,16 +333,16 @@ header button.rise-trigger[aria-expanded="false"]::before {
 header button.accordion-action, header a[role=button].accordion-action  {
     flex: 1;
     max-width: 2.5rem;
-    border: var(--focus-border-width) solid transparent;
-    border-radius: calc(2 * var(--focus-border-width));
+    border: var(--outline-size) solid transparent;
+    border-radius: calc(2 * var(--outline-size));
     position: relative;
     margin: 0.1rem;
 }
 
 /* Like the main :hover */
 header button.accordion-action:hover, header a[role=button].accordion-action:hover {
-    border: var(--focus-border-width) dashed var(--focus-border-color);
-    border-radius: calc(2 * var(--focus-border-width));
+    border: var(--outline-size) dashed var(--outline-color);
+    border-radius: calc(2 * var(--outline-size));
 }
 
 
