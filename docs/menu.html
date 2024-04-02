@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
 
 </head>
 
@@ -38,17 +39,17 @@
 
         <section>
             <a role="menuitem" href="#description">Description</a>
-            <a role="menuitem" href="informations.html">Informations</a>
-            <a role="menuitem" href="realisations.html">Réalisations</a>
-            <a role="menuitem" href="recherche.html">Recherche</a>
+            <a role="menuitem" href="#">Informations</a>
+            <a role="menuitem"> MenuItem </a>
+            <div role="menuitem">MenuItem</div>
         </section>
 
         <section>
-            <button role="menuitem" class="print-off" onclick="contrast_scheme_switch()" aria-label="Contrast switcher">
-                <img class="nav-item-img" src="./statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast" aria-label="Changement du contraste des pages"/>
+            <button role="menuitem" class="print-off" onclick="switch_contrast_scheme()" aria-label="Contrast switcher">
+                <img class="nav-item-img" src="./images/contrast_switcher.jpg" alt="Contrast" id="img-contrast" aria-label="Changement du contraste des pages"/>
             </button>
-            <button role="menuitem" class="print-off" onclick="colors_scheme_switch()" aria-label="Color switcher">
-                <img class="nav-item-img" src="./statics/icons/theme_switcher.png" alt="Color" id="img-theme"/>
+            <button role="menuitem" class="print-off" onclick="switch_color_scheme()" aria-label="Color switcher">
+                <img class="nav-item-img" src="./images/theme_switcher.png" alt="Color" id="img-theme"/>
             </button>
         </section>
     </nav>

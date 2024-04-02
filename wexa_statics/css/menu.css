@@ -34,7 +34,7 @@
 
 
 #nav-content {
-    --nav-min-height: 6rem;
+    --nav-min-height: calc(6rem / var(--size-divisor));
     min-height: var(--nav-min-height);
 }
 
@@ -47,22 +47,22 @@
     height: 3rem;
 }
 
-/* a different width for <a> items versus <button> items */
-a[role=menuitem] {
-    min-width: 8rem;
-    max-width: 12rem;
-    width: 10rem;
+[role=menuitem]:not(button) {
+    min-width: calc(8rem / var(--size-divisor));
+    max-width: calc(12rem / var(--size-divisor));
+    width: calc(10rem / var(--size-divisor));
 }
 
+/* a different width for <button> menu items */
 button[role=menuitem] {
-    min-width: 2rem;
-    max-width: 6rem;
-    width: 4rem;
+    min-width: calc(3rem / var(--size-divisor));
+    max-width: calc(6rem / var(--size-divisor));
+    width: calc(4rem / var(--size-divisor));
 }
 
-/* --------------- <a> items style ---------------- */
+/* --------------- text style in items ---------------- */
 
-button[role=menuitem]:not(img), a[role=menuitem]:not(img) {
+[role=menuitem]:not(img) {
     text-align: center;
     font-family: inherit;
     font-style: normal;
@@ -77,118 +77,6 @@ button[role=menuitem]:not(img), a[role=menuitem]:not(img) {
     color: var(--a-color);
     background-color: var(--buttons-bg-color);
 }
-
-/* ---------------------- Define a sub-menu item -------------- */
-
-.menu-items [role=menuitem] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-ul.submenu {
-    display: none;
-    position: absolute;
-    padding-top: 0.5rem;
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
-}
-
-.submenu li {
-    list-style: none;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.submenu a[role=menuitem] {
-    margin: 0;
-}
-
-/* --------------- Sub-menu colors --------- */
-
-.menuitem-green:hover,
-.menuitem-green:focus-within,
-.menuitem-green:hover .submenu-green,
-.menuitem-green:focus-within .submenu-green {
-    background-color: rgba(29, 72, 18, 0.85);
-}
-
-.menuitem-orange:hover,
-.menuitem-orange:focus-within,
-.menuitem-orange:hover .submenu-orange,
-.menuitem-orange:focus-within .submenu-orange{
-    background-color: rgba(154, 109, 38, 0.85);
-}
-
-.menuitem-red:hover,
-.menuitem-red:focus-within,
-.menuitem-red:hover .submenu-red,
-.menuitem-red:focus-within .submenu-red{
-    background-color: rgba(140, 9, 9, 0.85);
-}
-
-.menuitem-grey:hover,
-.menuitem-grey:focus-within,
-.menuitem-grey:hover .submenu-grey,
-.menuitem-grey:focus-within .submenu-grey{
-    background-color: rgba(133, 133, 133, 0.85);
-}
-
-/* ---------------- Submenu Hover and Focus ---------- */
-
-.menuitem:hover .submenu,
-.menuitem:focus-within .submenu {
-    display: flex;
-    flex-direction: column;
-    /*padding-right: 1rem;
-    padding-top: 0.5rem;*/
-    justify-content: flex-start;
-}
-
-.menuitem:hover ul .submenu,
-.menuitem:focus-within ul .submenu {
-    display: flex;
-    justify-content: start;
-    text-align: left;
-    align-items: start;
-    align-content: start;
-}
-
-.submenu a.nav-item {
-    /*padding: 1rem 1rem;
-    width: 12rem;*/
-}
-
-@media (max-width: 1000px) {
-    .menuitem:hover ul.submenu,
-    .menuitem:focus-within ul.submenu {
-        top: 0;
-        left: 100%;
-    }
-}
-
-@media (max-width: 1080px) {
-    .flex-item.menu-items a[role="button"] {
-        min-width: 4rem;
-        width: 8.5rem;
-        font-size: 80%;
-        padding: 0.6rem;
-    }
-}
-
-@media (max-width: 820px) {
-    .submenu a.nav-item {
-        padding: 0.8rem 0.8rem;
-        width: 10rem;
-    }
-}
-
-@media (max-width: 820px) {
-    .skip {
-        font-size: 1rem;
-    }
-}
-
 
 /* --------------------- Skip button ------------- */
 
@@ -237,27 +125,6 @@ ul.submenu {
         left: 0;
     }
 
-    .menu-items {
-        min-width: 6rem;
-        width: 11rem;
-        padding-right: 1rem;
-        padding-bottom: 1rem;
-    }
-
-    nav > ul > li, nav > * > ul > li {
-        list-style-type: none;
-        background: transparent;
-        padding: 0.2rem;
-    }
-
-    nav input[type=checkbox]:not(:checked) ~ .menu-items > .flex-panel {
-        display: none;
-    }
-
-    nav input[type=checkbox]:checked ~ .menu-items > .flex-panel {
-        flex-direction: column;
-    }
-
     .menu-mobile {
         display: block;
     }
@@ -266,48 +133,18 @@ ul.submenu {
         max-height: 3rem;
         max-width: unset;
     }
-
-    .menu-items {
-        display: flex;
-        justify-content: center;
-        position: relative;
-        top: 0;
-        left: -100%;
-        padding-top: 6rem;
-    }
-
-    .flex-panel {
-        align-items: inherit;
-    }
-
-    .menu-items {
-        width: 100%;
-
-    }
-
-    nav input[type=checkbox]:checked ~ .menu-items {
-        left: 0;
-    }
-
 }
 
+
 @media (max-width: 550px) {
-    .menuitem:hover ul.submenu,
-    .menuitem:focus-within ul.submenu {
-        top: 0;
-        left: -120%;
-    }
-    a.nav-item, button.nav-item {
+    [role=menuitem] {
         width: 4.5rem;
     }
-    .flex-item.menu-items a[role="button"] {
+
+    [role=menuitem] [role=menuitem] {
         width: 6.8rem;
         font-size: 60%;
         padding: 0.6rem;
-    }
-    .menu-items {
-        padding-left: 0;
-        padding-right: 0;
     }
 }
 
