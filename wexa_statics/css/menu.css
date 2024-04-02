@@ -32,9 +32,12 @@
 
 */
 
+
 #nav-content {
-    min-height: 6rem;
+    --nav-min-height: 6rem;
+    min-height: var(--nav-min-height);
 }
+
 
 /* ------------------- Items in nav ---------------- */
 
@@ -67,9 +70,10 @@ button[role=menuitem]:not(img), a[role=menuitem]:not(img) {
     font-weight: var(--font-weight-semibold);
     font-size: 0.9rem;  /* smaller size because in bold */
     overflow: hidden;
+    position: relative;
 }
 
-a[role=menuitem].nav-current, button[role=menuitem].nav-current  {
+[role=menuitem].nav-current  {
     color: var(--a-color);
     background-color: var(--buttons-bg-color);
 }
@@ -80,10 +84,6 @@ a[role=menuitem].nav-current, button[role=menuitem].nav-current  {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.menuitem {
-    position: relative;
 }
 
 ul.submenu {
@@ -100,7 +100,7 @@ ul.submenu {
     padding-bottom: 0.5rem;
 }
 
-.submenu a.nav-item {
+.submenu a[role=menuitem] {
     margin: 0;
 }
 
@@ -237,7 +237,7 @@ ul.submenu {
         left: 0;
     }
 
-    a.flex-item.menu-items {
+    .menu-items {
         min-width: 6rem;
         width: 11rem;
         padding-right: 1rem;
@@ -256,7 +256,6 @@ ul.submenu {
 
     nav input[type=checkbox]:checked ~ .menu-items > .flex-panel {
         flex-direction: column;
-
     }
 
     .menu-mobile {

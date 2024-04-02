@@ -93,6 +93,7 @@
                               OTHER DEFINITIONS
   ========================================================================
  */
+
 @keyframes slideInFromLeft {
     0% {
         transform: translateX(-100%);
@@ -168,13 +169,49 @@
                             VARIABLE DEFINITIONS
   ======================================================================== */
 
+@media screen and (min-width: 576px) {
+    :root {
+        --size-divisor: 2;
+    }
+}
+
+@media screen and  (min-width: 768px) {
+    :root {
+        --size-divisor: 1.5;
+    }
+}
+
+@media screen and (min-width: 896px) {
+    :root {
+        --size-divisor: 1.25;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    :root {
+        --size-divisor: 1;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    :root {
+        --size-divisor: 0.9;
+    }
+}
+
+@media print {
+    :root {
+        --size-divisor: 1;
+    }
+}
+
 
 /* All global variables for any screen or condition */
 /* ------------------------------------------------ */
 
 :root {
     /* Sizes */
-    --screen-width: 1024px;
+    --screen-width: calc(1024px / var(--size-divisor));
     --header-height: 60vh;
     --footer-height: 20vh;
 
