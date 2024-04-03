@@ -66,6 +66,9 @@ body > nav * {
     padding: 0;
 }
 
+body > nav input[type=checkbox] {
+    display: none;
+}
 
 /* ------------------- Items in nav ---------------- */
 
@@ -86,11 +89,6 @@ button[role=menuitem] {
     min-width: calc(4rem / var(--size-divisor));
     max-width: calc(8rem / var(--size-divisor));
     width: calc(6rem / var(--size-divisor));
-}
-
-/* Toggle to expand/collapse the 'nav' content. Invisible by default. */
-nav input[type=checkbox], nav label {
-    display: none;
 }
 
 /* A class to indicate the current nav item */
@@ -151,12 +149,12 @@ nav input[type=checkbox], nav label {
     }
 
     /* Elements of the nav when collapsed */
-    nav input[type=checkbox] + * {
+    body > nav input[type=checkbox] + * {
         display: none;
     }
 
     /* Visible toggle */
-    nav label {
+    body > nav label {
         display: inline-block;
         max-width: 90%;
         padding: var(--typography-spacing-horizontal) var(--typography-spacing-vertical);
@@ -164,10 +162,11 @@ nav input[type=checkbox], nav label {
         margin-bottom: var(--typography-spacing-vertical);
         text-align: center;
         border: var(--border-width) solid var(--nav-fg-color);
+        color: var(--nav-fg-color);
     }
 
     /* Expanded 'nav' content */
-    nav input[type=checkbox]:checked + * {
+    body > nav input[type=checkbox]:checked + * {
         background-color: transparent;
         color: var(--nav-fg-color);
         display: flex;
@@ -178,11 +177,11 @@ nav input[type=checkbox], nav label {
         border: 1px solid var(--nav-fg-color);
     }
 
-    nav input[type=checkbox]:checked + * [role=menuitem] {
+    body > nav input[type=checkbox]:checked + * [role=menuitem] {
         min-width: calc(800px / var(--size-divisor));
     }
 
-    nav input[type=checkbox]:checked + * .submenu * [role=menuitem] {
+    body > nav input[type=checkbox]:checked + * .submenu * [role=menuitem] {
         min-width: calc(500px / var(--size-divisor));
     }
 
@@ -192,6 +191,11 @@ nav input[type=checkbox], nav label {
 
 @media only screen and (min-width: 896px) {
 
+    /* Toggle to expand/collapse the 'nav' content. Invisible. */
+    body > nav label {
+        display: none;
+    }
+
     [role=menuitem].expand::after {
         content: " ▼";
     }
@@ -200,8 +204,8 @@ nav input[type=checkbox], nav label {
         display: none;
     }
 
-    nav > * *:hover .submenu,
-    nav > * *:focus-within .submenu {
+    body > nav > * *:hover .submenu,
+    body > nav > * *:focus-within .submenu {
         position: absolute;
         display: flex;
         box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
