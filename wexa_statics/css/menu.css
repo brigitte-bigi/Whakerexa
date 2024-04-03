@@ -32,56 +32,10 @@
 
 */
 
-
-#nav-content {
-    --nav-min-height: calc(6rem / var(--size-divisor));
-    min-height: var(--nav-min-height);
-}
-
-#nav-content * {
-    margin: 0;
-}
-
-/* ------------------- Items in nav ---------------- */
-
-[role=menuitem] {
-    min-height: 2rem;
-    max-height: 4rem;
-    height: 3rem;
-}
-
-[role=menuitem]:not(button) {
-    min-width: calc(8rem / var(--size-divisor));
-    max-width: calc(12rem / var(--size-divisor));
-    width: calc(10rem / var(--size-divisor));
-}
-
-/* a different width for <button> menu items */
-button[role=menuitem] {
-    min-width: calc(3rem / var(--size-divisor));
-    max-width: calc(6rem / var(--size-divisor));
-    width: calc(4rem / var(--size-divisor));
-}
-
-/* --------------- text style in items ---------------- */
-
-[role=menuitem]:not(img) {
-    text-align: center;
-    font-family: inherit;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;  /* smaller size because in bold */
-    overflow: hidden;
-    position: relative;
-}
-
-[role=menuitem].nav-current  {
-    color: var(--a-color);
-    background-color: var(--bg-color);
-}
-
-/* --------------------- Skip button ------------- */
+/* --------------------- Skip button -------------------------------------
+   Important for screen readers: it allows to skip to main content,
+   ignoring the header and nav.
+   ----------------------------------------------------------------------- */
 
 .skip {
     opacity: 0;
@@ -98,79 +52,179 @@ button[role=menuitem] {
     z-index: 10;  /* Highest priority. Must be over any other element. */
 }
 
-/* --------------------- Screen size adaptation--------------------- */
 
-.hide {
-    display: none;
+/* --------------------- The body > 'nav' sticky menu -------------------- */
+
+body > nav {
+    --nav-min-height: calc(6rem / var(--size-divisor));
+    min-height: var(--nav-min-height);
 }
 
-.menu-mobile {
-    background-color: var(--header-bg-color);
-    color: var(--header-fg-color);
-    text-align: left;
-    padding: 0.5rem;
-    padding-top: 1.5rem;
-    display: none;
-    cursor: pointer;
-    min-height: 2.4rem;
-    min-width: 2.4rem;
-}
-
-@media (max-width: 1000px) {
-    .skip {
-        font-size: 0.75rem;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    nav {
-        width: 100%;
-        left: 0;
-    }
-
-    .menu-mobile {
-        display: block;
-    }
-
-    .menu-mobile > img {
-        max-height: 3rem;
-        max-width: unset;
-    }
-}
-
-
-@media (max-width: 550px) {
-    [role=menuitem] {
-        width: 4.5rem;
-    }
-
-    [role=menuitem] [role=menuitem] {
-        width: 6.8rem;
-        font-size: 60%;
-        padding: 0.6rem;
-    }
-}
-
-
-/* ----------- Styling the "toggle" buttons ----------- */
-
-.nav-item-img {
-    display: inline-block;
-    height: 2rem;
-    width: 2rem;
-    cursor: pointer;
-    vertical-align: middle;
+/* Reset margin and padding of all elements */
+body > nav * {
+    margin: 0;
     padding: 0;
 }
 
-.menu-mobile-img {
-    width: 3rem;
+
+/* ------------------- Items in nav ---------------- */
+
+[role=menuitem] {
+    min-height: 2rem;
+    max-height: 4rem;
     height: 3rem;
 }
 
-/* For fun only :
-nav > ul > li button:enabled img:hover,
-nav > * > ul > li > button:enabled img:hover {
-    transform: rotate(180deg) scale(1);
+[role=menuitem]:not(button) {
+    min-width: calc(8rem / var(--size-divisor));
+    max-width: calc(16rem / var(--size-divisor));
+    width: calc(10rem / var(--size-divisor));
 }
-*/
+
+/* a different width for <button> menu items */
+button[role=menuitem] {
+    min-width: calc(4rem / var(--size-divisor));
+    max-width: calc(8rem / var(--size-divisor));
+    width: calc(6rem / var(--size-divisor));
+}
+
+/* Toggle to expand/collapse the 'nav' content. Invisible by default. */
+nav input[type=checkbox], nav label {
+    display: none;
+}
+
+/* A class to indicate the current nav item */
+[role=menuitem].nav-current  {
+    color: var(--a-color);
+    background-color: var(--bg-color);
+}
+
+[role=menuitem] > img {
+    display: inline-block;
+    width: calc(2rem / var(--size-divisor));
+    height: calc(2rem / var(--size-divisor));
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* --------------- text style in items ---------------- */
+
+[role=menuitem]:not(img) {
+    text-align: center;
+    font-family: inherit;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;  /* smaller size because in bold */
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* --------------------- Sub-menu ------------------ */
+
+.submenu {
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-top: calc(0.3 * var(--typography-spacing-vertical));
+    padding-bottom: calc(0.3 * var(--typography-spacing-vertical));
+}
+
+.submenu [role=menuitem] {
+    background-color: var(--bg-color-alt);
+    font-weight: var(--font-weight-normal);
+}
+
+
+/* ----------------------- mobile screen and print ---------------------- */
+
+@media all and (max-width: 896px) {
+
+    .skip {
+        font-size: 0.75rem;
+    }
+
+    /* Elements of the nav when collapsed */
+    nav input[type=checkbox] + * {
+        display: none;
+    }
+
+    /* Visible toggle */
+    nav label {
+        display: inline-block;
+        max-width: 90%;
+        padding: var(--typography-spacing-horizontal) var(--typography-spacing-vertical);
+        margin-top: var(--typography-spacing-vertical);
+        margin-bottom: var(--typography-spacing-vertical);
+        text-align: center;
+        border: var(--border-width) solid var(--nav-fg-color);
+    }
+
+    /* Expanded 'nav' content */
+    nav input[type=checkbox]:checked + * {
+        background-color: transparent;
+        color: var(--nav-fg-color);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: stretch;
+        flex-direction: column;
+        margin-bottom: var(--typography-spacing-vertical);
+        border: 1px solid var(--nav-fg-color);
+    }
+
+    nav input[type=checkbox]:checked + * [role=menuitem] {
+        min-width: calc(800px / var(--size-divisor));
+    }
+
+    nav input[type=checkbox]:checked + * .submenu * [role=menuitem] {
+        min-width: calc(500px / var(--size-divisor));
+    }
+
+}
+
+/* ----------------------- 'nav' wide screens ---------------------- */
+
+@media only screen and (min-width: 896px) {
+
+    [role=menuitem].expand::after {
+        content: " ▼";
+    }
+
+    .submenu {
+        display: none;
+    }
+
+    nav > * *:hover .submenu,
+    nav > * *:focus-within .submenu {
+        position: absolute;
+        display: flex;
+        box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
+        top: calc((4rem / var(--size-divisor)));  /* about the height of the menuitem */
+    }
+
+}
+
+/* ----------- Submenus colors ----------- */
+
+.submenu-gray {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.submenu-red {
+    background-color: rgba(255, 50, 50, 0.5);
+}
+
+.submenu-green {
+    background-color: rgba(29, 72, 18, 0.5);
+}
+
+.submenu-orange {
+    background-color: rgba(154, 109, 38, 0.5);
+}
+

@@ -169,13 +169,22 @@
                             VARIABLE DEFINITIONS
   ======================================================================== */
 
-@media screen and (min-width: 576px) {
+:root {
+    --size-divisor: 1;
+}
+@media screen and (max-width: 620px) {
     :root {
-        --size-divisor: 2;
+        --size-divisor: 2.5;
     }
 }
 
-@media screen and  (min-width: 768px) {
+@media screen and (min-width: 620px) {
+    :root {
+        --size-divisor: 1.75;
+    }
+}
+
+@media screen and (min-width: 768px) {
     :root {
         --size-divisor: 1.5;
     }
@@ -196,12 +205,6 @@
 @media screen and (min-width: 1200px) {
     :root {
         --size-divisor: 0.9;
-    }
-}
-
-@media print {
-    :root {
-        --size-divisor: 1;
     }
 }
 
@@ -699,44 +702,41 @@ body > header > *,  body > footer > * {
 nav {
     text-align: center;
     margin: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    min-height: 4rem;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-nav ul, nav section {
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    min-height: calc(4rem / var(--size-divisor));
     display: flex;
     justify-content: space-between;
     align-items: center;
-    row-gap: 1rem;
-    column-gap: 0.5rem;
     flex-wrap: wrap;
+    row-gap: calc(1rem / var(--size-divisor));
+    column-gap: calc(1rem / var(--size-divisor));
 }
 
-nav ul {
+nav * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    row-gap: calc(0.5rem / var(--size-divisor));
+    column-gap: calc(0.5rem / var(--size-divisor));
+}
+
+nav ul, nav dl {
     list-style: none;
-    margin-left: 0;
+    margin: 0;
     text-align: center;
 }
 
-nav li {
-    padding-top: var(--typography-spacing-vertical);
-    padding-bottom: var(--typography-spacing-vertical);
-    padding-left: var(--typography-spacing-horizontal);
-    padding-right: var(--typography-spacing-horizontal);
+nav li, nav dt, nav dd {
+    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
     margin: 0;
-    min-width: 1rem;
 }
 
-nav ul > li > * {
-    margin: 0;
-    vertical-align: middle;
+[role=menuitem] {
+    text-decoration: none;
 }
-
 
 /* ---------------------------- section/article ------------------------------ */
 
