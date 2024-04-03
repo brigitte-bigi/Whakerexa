@@ -38,6 +38,9 @@
     min-height: var(--nav-min-height);
 }
 
+#nav-content * {
+    margin: 0;
+}
 
 /* ------------------- Items in nav ---------------- */
 
@@ -75,7 +78,7 @@ button[role=menuitem] {
 
 [role=menuitem].nav-current  {
     color: var(--a-color);
-    background-color: var(--buttons-bg-color);
+    background-color: var(--bg-color);
 }
 
 /* --------------------- Skip button ------------- */

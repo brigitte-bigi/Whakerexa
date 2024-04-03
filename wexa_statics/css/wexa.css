@@ -1131,7 +1131,7 @@ button, [type=button], [type=reset], [type=submit], [role=button] {
 }
 
 button, *[role=button], *[role=menuitem] {
-    border: var(--outline-size) solid var(--buttons-fg-color);
+    border: var(--border-width) solid var(--border-color);
     background-color: var(--buttons-bg-color);
     color: var(--buttons-fg-color);
 
@@ -1148,16 +1148,13 @@ button, *[role=button], *[role=menuitem] {
     font-size: 0.9rem;
     overflow: hidden;
 
-    padding-top: calc(var(--typography-spacing-vertical) / 2);
-    padding-right: var(--typography-spacing-horizontal);
-    padding-bottom: calc(var(--typography-spacing-vertical) / 2);
-    padding-left: var(--typography-spacing-horizontal);
+    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
     margin: var(--border-width);
 
-    /*display: inline-block;*/
     /* a button is a box with centered elements */
     display: inline-flex;
     justify-content: center;
+    align-items: center;
     flex-direction: row;
 
     /* for the buttons embedded in a box */
