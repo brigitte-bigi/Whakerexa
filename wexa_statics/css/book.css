@@ -189,6 +189,12 @@ nav.side-nav ul {
     display: initial;
 }
 
+nav.side-nav a:not([role=button],[role=menuitem]) {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: start;
+}
+
 nav.side-nav li.h1,
 nav.side-nav li.h2,
 nav.side-nav li.h3,

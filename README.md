@@ -39,11 +39,22 @@ For the use of the proposed CSS/JS frameworks, take a look at the HTML files in 
 
 ## Projects using Whakerexa
 
-Whakerexa was initially developed within SPPAS <https://sppas.org>.
-It was extracted from its original software in 2024 by the author to lead its own life as standalone tool.
+Whakerexa was initially developed within SPPAS <https://sppas.org>. It was extracted from its original software in 2024 by the author to lead its own life as standalone tool.
 
-It is used by the SPPAS software tool for two different purposes: its website and its setup application. 
-It is also used by the website of the "AutoCuedSpeech" project at <https://auto-cuedspeech.org>.
+
+### Websites
+
+It is used by the website of the "AutoCuedSpeech" project at <https://auto-cuedspeech.org> and the website of SPPAS <https://sppas.org>.
+
+
+### Applications
+
+It is used by the setup application of SPPAS software tool.
+
+
+### Documentations
+
+It is used by "ClammingPy", a tool to create automatically python documentation <https://clamming.sf.net>.
 
 
 
@@ -72,3 +83,7 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 
 ## Version 0.2 - develop
 
+- Added menu.css, a solution for an accessible responsive sticky menubar
+- Added layout.css, a set of classes to easily organize HTML content
+- Added accordion.js
+- Added code.css
