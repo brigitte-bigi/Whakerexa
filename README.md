@@ -73,7 +73,7 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 
 # Changes
 
-## Version 0.1 - latest
+## Version 0.1
 
 - Initial version, extracted from SPPAS 4.17.
 - Added or updated, and tested JavaScripts 
@@ -81,9 +81,18 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 - Added HTML documentation of the CSS frameworks
 - Added a CSS/JS framework for playing a video in a popup dialog
 
-## Version 0.2 - develop
+## Version 0.2 - latest
 
 - Added menu.css, a solution for an accessible responsive sticky menubar
 - Added layout.css, a set of classes to easily organize HTML content
 - Added accordion.js
 - Added code.css
+
+## Version 0.3 - develop
+
+## to do:
+
+- documentation of layouts
+- add variable 'border-radius'
+- in layout: horizontal cards, the rise-panel (accordion) based on details/summary elements instead of article element.
+
