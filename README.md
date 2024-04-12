@@ -90,9 +90,12 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 
 ## Version 0.3 - develop
 
+- Changed some colors of code.css
+- Added variable 'border-radius' in wexa.css
+
+
 ## to do:
 
 - documentation of layouts
-- add variable 'border-radius'
 - in layout: horizontal cards, the rise-panel (accordion) based on details/summary elements instead of article element.
 

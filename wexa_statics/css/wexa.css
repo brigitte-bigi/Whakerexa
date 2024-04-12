@@ -1,8 +1,8 @@
 /*
-:filename: statics/css/wexa.css
+:filename: wexa_statics/css/wexa.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
-:summary: a CSS framework to make accessible web content
+:summary: a CSS framework to make nice accessible web content
 
 .. _This file is part of Whakerexa: https://whakerexa.sf.net/
 ..
@@ -36,13 +36,13 @@
                               FONTS DEFINITIONS
 
   See here: https://v-fonts.com/licenses/open-source for a list of open
-  source variable fonts. Notice that no cursive font is available yet.
+  source variable fonts.
 
   Most of the time, the font size is calculated with the global --font-size
   variable. For example, this CSS is defining:
         font-size: calc(1.7 * var(--font-size));
-  When using "font-size: 1.7rem;" instead, the size of the font is not changed
-  when switching to the contrast view.
+  because when using "font-size: 1.7rem;" instead, the size of the font is
+  not changed when switching to the contrast view.
 
   ======================================================================== */
 
@@ -172,7 +172,14 @@
 :root {
     --size-divisor: 1;
 }
-@media screen and (max-width: 620px) {
+
+@media screen and (max-width: 540px) {
+    :root {
+        --size-divisor: 2.75;
+    }
+}
+
+@media screen and (min-width: 540px) {
     :root {
         --size-divisor: 2.5;
     }
@@ -259,6 +266,7 @@
 
     /* Thin borders */
     --border-width: 1px;
+    --border-radius: 2px;
     --outline-size: 2px;
     --table-border-width: 1px;
 }
@@ -293,6 +301,7 @@
 
     /* Larger borders */
     --border-width: 3px;
+    --border-radius: 6px;
     --table-border-width: 3px;
     --outline-size: 3px;
 }
@@ -335,12 +344,12 @@
     --h6-color: rgb(60, 65, 90);
 
     /* Table colors */
-    --table-border-color: rgba(110, 120, 140, 0.8);
+    --table-border-color: rgba(110, 120, 140, 0.5);
     --table-row-stripped-bg-color: rgba(210, 212, 222, 0.4);
     --table-head-bg-color: rgb(204, 202, 212);
     --table-head-fg-color: rgb(14, 12, 22);
-    --table-caption-bg-color: rgb(24, 28, 38);
-    --table-caption-fg-color: rgb(210, 222, 252);
+    --table-caption-bg-color: rgba(110, 120, 140, 0.5);
+    --table-caption-fg-color: rgb(14, 12, 22);
 
     /* Other colors */
     --a-color: rgb(0, 150, 200);
@@ -357,7 +366,7 @@
     .dark {
         /* Main colors */
         --bg-color: rgb(24, 28, 38);
-        --bg-color-alt: rgba(38, 42, 54);
+        --bg-color-alt: rgb(38, 42, 54);
         --fg-color: rgb(255, 255, 255);
         --fg-color-alt: rgb(255, 255, 255);
         --border-color: rgb(228, 228, 228);
@@ -386,12 +395,12 @@
         --h6-color: rgb(180, 190, 218);
 
         /* Table colors */
-        --table-border-color: rgb(184, 203, 208);
-        --table-row-stripped-bg-color: rgba(184, 203, 208, 0.28);
-        --table-head-bg-color: rgb(12, 22, 14);
+        --table-border-color: rgba(110, 120, 140, 0.5);
+        --table-row-stripped-bg-color: rgb(42, 46, 59);
+        --table-head-bg-color: rgb(8, 16, 10);
         --table-head-fg-color: rgb(204, 202, 212);
-        --table-caption-bg-color: rgb(210, 221, 252);
-        --table-caption-fg-color: rgb(167, 187, 207);
+        --table-caption-bg-color: rgba(110, 120, 140, 0.5);
+        --table-caption-fg-color: rgb(204, 202, 212);
 
         /* Other colors */
         --a-color: rgb(25, 195, 255);
@@ -580,7 +589,7 @@ dialog[open] {
     margin: auto;
     animation: fadeIn 0.7s ease-out;
     overscroll-behavior: contain;
-    border-radius: var(--border-width);
+    border-radius: var(--border-radius);
 }
 
 /*
@@ -1067,12 +1076,11 @@ dd+dt {
 :where(table) {
     width: 100%;
     border-collapse: collapse;
-    border-spacing: 0;
     text-indent: 0;
     empty-cells: show;
     margin-bottom: var(--typography-spacing-vertical);
+    caption-side: bottom;
     border: var(--table-border-width) solid var(--table-border-color);
-    caption-side: top;
 }
 
 td, th {
@@ -1103,6 +1111,8 @@ table[role=grid] tbody tr:nth-child(even) * {
 table caption {
     background-color: var(--table-caption-bg-color);
     color: var(--table-caption-fg-color);
+    text-align: center;
+    margin: auto;
 }
 
 caption {
@@ -1116,6 +1126,8 @@ caption {
 
 caption span {
     font-style: italic;
+    background-color: transparent;
+    color: inherit;
 }
 
 /* ----------------- Button, Label and Input tags ----------------------- */
@@ -1135,6 +1147,7 @@ button, [type=button], [type=reset], [type=submit], [role=button] {
 
 button, *[role=button], *[role=menuitem] {
     border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
     background-color: var(--buttons-bg-color);
     color: var(--buttons-fg-color);
 
@@ -1226,6 +1239,7 @@ progress {
     color: var(--progress-fg-color);
     display: block;
     position: relative;
+    border-radius: var(--border-radius);
     /*border: var(--border-width) solid transparent;*/
 }
 
@@ -1251,7 +1265,7 @@ aside {
 
 details {
     border: var(--border-width) solid var(--border-color-alt);
-    border-radius: calc(2*var(--border-width));
+    border-radius: var(--border-radius);
     padding: 0.5em 0.5em 0;
     margin-bottom: var(--typography-spacing-vertical);
 }
@@ -1291,7 +1305,7 @@ form {
 }
 
 form * {
-    border-radius: calc(2 * var(--border-width));
+    border-radius: var(--border-radius);
 }
 
 /* Form: fieldset */
@@ -1299,7 +1313,7 @@ form * {
 fieldset {
     width: 100%;
     border: var(--border-width) solid var(--border-color);
-    border-radius: calc(2 * var(--border-width));
+    border-radius: var(--border-radius);
     padding: 0.5rem 1.5rem;
     margin: 0;
 }
