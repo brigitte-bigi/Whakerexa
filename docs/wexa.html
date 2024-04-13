@@ -1201,7 +1201,8 @@ is developed.</pre>
 
             <h3>Others...</h3>
 
-            <p>A simple HTML5 accordion:</p>
+            <h4>Accordion</h4>
+
             <details>
                 <summary>Who is Sarah Connor?</summary>
                 <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
@@ -1212,15 +1213,41 @@ is developed.</pre>
                 <summary>I have keys but no doors. I have space but no room. You can enter but can’t leave. What am I?</summary>
                 <p>A keyboard</p>
             </details>
+
+            <p>A more complex one... add buttons in the summary:</p>
+
+            <details>
+                <summary>
+                    A summary text.
+                    <button>button</button>
+                    <a role="button" href="#">link</a>
+                </summary>
+                <header>
+                    ...an header in details...
+                </header>
+                <main>
+                <p>Some text in the main part of the details element.</p>
+                <p>Some text in the main part of the details element.</p>
+                <p>Some text in the main part of the details element.</p>
+                </main>
+                <footer>
+                    ...a footer in details...
+                </footer>
+            </details>
+
+            <h4>aside</h4>
+
             <aside>
                 Emphasized content with the <code>aside</code> element.
             </aside>
             <p>This is the main content related to the side one.</p>
+
+            <h4>Progress bar</h4>
+
+            <label for="file">File progress:</label>
+            <progress id="file" max="100" value="70">70%</progress>
+
         </section>
-
-
-        <label for="file">File progress:</label>
-        <progress id="file" max="100" value="70">70%</progress>
 
     </main>
 

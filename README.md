@@ -81,21 +81,23 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 - Added HTML documentation of the CSS frameworks
 - Added a CSS/JS framework for playing a video in a popup dialog
 
-## Version 0.2 - latest
+## Version 0.2 - latest stable
 
+- Added code.css, a set of colors for highlighting source code.
 - Added menu.css, a solution for an accessible responsive sticky menubar
 - Added layout.css, a set of classes to easily organize HTML content
-- Added accordion.js
-- Added code.css
+- Added accordion.js which must be added when using "rise-panel"
 
 ## Version 0.3 - develop
 
 - Changed some colors of code.css
 - Added variable 'border-radius' in wexa.css
+- Modified details/summary to act and look like buttons
+- The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
 
 
 ## to do:
 
 - documentation of layouts
-- in layout: horizontal cards, the rise-panel (accordion) based on details/summary elements instead of article element.
-
+- in layout: horizontal cards
+- add dialogs: information, warning, error, question.

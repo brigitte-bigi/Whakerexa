@@ -63,6 +63,7 @@
                             CLASSES FOR CONTAINERS
   ======================================================================== */
 
+/* ----------------------------------------------------------------------- */
 /* -------------------- A simple container and its items ----------------- */
 /* ----------------------------------------------------------------------- */
 
@@ -84,7 +85,6 @@ main.panel-item {
     margin: 0;
 }
 
-
 main > .panel-item:nth-child(odd) {
     background-color: var(--bg-color);
     color: var(--fg-color);
@@ -102,8 +102,8 @@ main > .panel-item:nth-child(even) * {
     background-color: inherit;
 }
 
-
-/* -------------------- A simple container with a flexible layout -------- */
+/* ----------------------------------------------------------------------- */
+/* ------- A simple container with a flexible layout: responsive --------- */
 /* ----------------------------------------------------------------------- */
 
 .flex-panel {
@@ -169,7 +169,7 @@ main > .panel-item:nth-child(even) * {
     }
 }
 
-
+/* ----------------------------------------------------------------------- */
 /* --------------------------- A grid container -------------------------- */
 /* ----------------------------------------------------------------------- */
 
@@ -180,11 +180,12 @@ main > .panel-item:nth-child(even) * {
     align-items: center;
 }
 
-/* Properties of the items in a flex panel -- if declared as it. */
+/* Properties of the items in a grid panel -- if declared as it. */
 .grid-item {
     margin-bottom: 0;
 }
 
+/* ----------------------------------------------------------------------- */
 /* -------------------------- A scrollable container --------------------- */
 /* ----------------------------------------------------------------------- */
 
@@ -206,150 +207,8 @@ main > .panel-item:nth-child(even) * {
     display: none;
 }
 
-/* --------------------------- A collapsible container ------------------- */
 /* ----------------------------------------------------------------------- */
-
-section.rise {
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-}
-
-header.rise-header {
-    /* should look like a button -- or close to -- */
-    background-color: var(--buttons-bg-color);
-    color: var(--buttons-fg-color);
-    border: var(--outline-size) solid var(--border-color-alt);
-    border-radius: calc(2 * var(--outline-size));
-    cursor: pointer;
-    transition: all 0.4s;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    overflow: hidden;
-
-    display: flex;
-    justify-content: flex-start;
-    min-height: 1.8rem;
-    padding: 0;
-    margin: 0;
-
-    /* for the ones embedded in a box */
-    flex-grow: 1;      /* default is 0 */
-    flex-shrink: 1;    /* default is 1 */
-    flex-basis: auto;  /* default is auto */
-}
-
-main.rise-main {
-    background-color: var(--buttons-bg-color);
-    border-top: none;
-    border-left: var(--outline-size) solid var(--border-color-alt);
-    border-right: var(--outline-size) solid var(--border-color-alt);
-    border-bottom: var(--outline-size) solid var(--border-color-alt);
-    border-radius: 0;
-    transition: all 0.3s;
-    padding: 0.5rem;
-    padding-left: 1rem;
-    margin: 0;
-    margin-bottom: 0.5rem;
-}
-
-main.rise-main[hidden] {
-    display: none;
-}
-
-/* ----- The trigger is an input of type checkbox with a label ----- */
-
-.rise-input {
-    display: none;
-    opacity: 0;
-    z-index: -1;
-}
-
-.rise input:checked + header .rise-label::before {
-    transform: translateY(60%) rotate(90deg);
-}
-
-.rise input:checked ~ .rise-content {
-  max-height: 100vh;
-  padding: 1em;
-}
-
-.rise-label {
-    border: var(--outline-size) solid transparent;
-    border-radius: 0;
-    margin: 0;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 0.5rem;
-    font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-.rise-label::before {
-    content: "❯";
-    width: 1.2rem;
-    height: 1rem;
-    text-align: center;
-    transition: all 0.3s;
-    padding-right: 1.5rem;
-}
-
-/*  ------- The trigger is a button (accessible solution) ------ */
-
-header button.rise-trigger {
-    flex: 1;
-    border: var(--outline-size) solid transparent;
-    border-radius: 0;
-    justify-content: flex-start;
-    text-align: left;
-    padding-left: 0.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0.1rem;
-}
-
-header button.rise-trigger[aria-expanded="true"]::before {
-    content: "-";
-    width: 1.2rem;
-    height: 1rem;
-    text-align: center;
-    transition: all 0.3s;
-    padding-right: 1rem;
-}
-
-header button.rise-trigger[aria-expanded="false"]::before {
-    content: "+";
-    width: 1.2rem;
-    height: 1rem;
-    text-align: center;
-    transition: all 0.3s;
-    padding-right: 1rem;
-}
-
-/* Any action button in the header */
-
-header button.accordion-action, header a[role=button].accordion-action  {
-    flex: 1;
-    max-width: 2.5rem;
-    border: var(--outline-size) solid transparent;
-    border-radius: calc(2 * var(--outline-size));
-    position: relative;
-    margin: 0.1rem;
-}
-
-/* Like the main :hover */
-header button.accordion-action:hover, header a[role=button].accordion-action:hover {
-    border: var(--outline-size) dashed var(--outline-color);
-    border-radius: calc(2 * var(--outline-size));
-}
-
-
-/* ---------------------------------- cards ------------------------------ */
+/* ------------------------- Cards container ----------------------------- */
 /* ----------------------------------------------------------------------- */
 
 
@@ -552,4 +411,151 @@ li.enumerate-cards-item:nth-child(even) {
     flex-direction: row-reverse;
     margin-right: -2rem;
     margin-left: 2rem;
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* ----------------------- A collapsible container ----------------------- */
+/* ----------------------------------------------------------------------- */
+
+/* This is an accessible solution for HTML-3.
+   Use preferably the HTML-5 details/summary! */
+
+section.rise {
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+header.rise-header {
+    /* should look like a button -- or close to -- */
+    background-color: var(--buttons-bg-color);
+    color: var(--buttons-fg-color);
+    border: var(--outline-size) solid var(--border-color-alt);
+    border-radius: calc(2 * var(--outline-size));
+    cursor: pointer;
+    transition: all 0.4s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: flex-start;
+    min-height: 1.8rem;
+    padding: 0;
+    margin: 0;
+
+    /* for the ones embedded in a box */
+    flex-grow: 1;      /* default is 0 */
+    flex-shrink: 1;    /* default is 1 */
+    flex-basis: auto;  /* default is auto */
+}
+
+main.rise-main {
+    background-color: var(--buttons-bg-color);
+    border-top: none;
+    border-left: var(--outline-size) solid var(--border-color-alt);
+    border-right: var(--outline-size) solid var(--border-color-alt);
+    border-bottom: var(--outline-size) solid var(--border-color-alt);
+    border-radius: 0;
+    transition: all 0.3s;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+main.rise-main[hidden] {
+    display: none;
+}
+
+/* ----- The trigger is an input of type checkbox with a label ----- */
+
+.rise-input {
+    display: none;
+    opacity: 0;
+    z-index: -1;
+}
+
+.rise input:checked + header .rise-label::before {
+    transform: translateY(60%) rotate(90deg);
+}
+
+.rise input:checked ~ .rise-content {
+    max-height: 100vh;
+    padding: 1em;
+}
+
+.rise-label {
+    border: var(--outline-size) solid transparent;
+    border-radius: 0;
+    margin: 0;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.rise-label::before {
+    content: "❯";
+    width: 1.2rem;
+    height: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    padding-right: 1.5rem;
+}
+
+/*  ------- The trigger is a button (accessible solution) ------ */
+
+header button.rise-trigger {
+    flex: 1;
+    border: var(--outline-size) solid transparent;
+    border-radius: 0;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0.1rem;
+}
+
+header button.rise-trigger[aria-expanded="true"]::before {
+    content: "-";
+    width: 1.2rem;
+    height: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    padding-right: 1rem;
+}
+
+header button.rise-trigger[aria-expanded="false"]::before {
+    content: "+";
+    width: 1.2rem;
+    height: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    padding-right: 1rem;
+}
+
+/* Any action button in the header */
+
+header button.accordion-action, header a[role=button].accordion-action {
+    flex: 1;
+    max-width: 2.5rem;
+    border: var(--outline-size) solid transparent;
+    border-radius: calc(2 * var(--outline-size));
+    position: relative;
+    margin: 0.1rem;
+}
+
+/* Like the main :hover */
+header button.accordion-action:hover, header a[role=button].accordion-action:hover {
+    border: var(--outline-size) dashed var(--outline-color);
+    border-radius: calc(2 * var(--outline-size));
 }

@@ -1145,9 +1145,7 @@ button, [type=button], [type=reset], [type=submit], [role=button] {
     -webkit-appearance: button;
 }
 
-button, *[role=button], *[role=menuitem] {
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--border-radius);
+button, *[role=button], *[role=menuitem], summary {
     background-color: var(--buttons-bg-color);
     color: var(--buttons-fg-color);
 
@@ -1158,14 +1156,19 @@ button, *[role=button], *[role=menuitem] {
     -ms-user-select: none;
     user-select: none;
 
+    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
+    margin: var(--border-width);
+}
+
+button, *[role=button], *[role=menuitem] {
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+
     font-weight: normal;
     font-style: normal;
     font-variant: normal;
     font-size: 0.9rem;
     overflow: hidden;
-
-    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
-    margin: var(--border-width);
 
     /* a button is a box with centered elements */
     display: inline-flex;
@@ -1179,7 +1182,6 @@ button, *[role=button], *[role=menuitem] {
     flex-basis: auto;  /* default is auto */
 }
 
-/*button:enabled:hover, a[role=button]:hover, select:hover, textarea:hover {*/
 [role=button]:is(:hover,:active,:focus),
 [role=button]:is([aria-current]:not([aria-current=false])),
 [type=button]:is(:hover,:active,:focus),
@@ -1258,15 +1260,10 @@ hr {
                         Others
    ======================================================================= */
 
-aside {
-    float: right;
-    width: calc(0.35*var(--screen-width));
-}
-
 details {
     border: var(--border-width) solid var(--border-color-alt);
     border-radius: var(--border-radius);
-    padding: 0.5em 0.5em 0;
+    padding: 0;
     margin-bottom: var(--typography-spacing-vertical);
 }
 
@@ -1276,18 +1273,29 @@ details > *:not(summary) {
 
 summary {
     font-weight: var(--font-weight-semibold);
-    color: var(--buttons-fg-color);
-    background-color: var(--buttons-bg-color);
-    margin: -0.5em -0.5em 0;
-    padding: 0.5em;
-}
-
-details[open] {
-    padding: 0.5em;
+    border: none;
+    margin: 0;
+    min-height: 1.8rem;
+    height: 2.4rem;
 }
 
 details[open] summary {
     margin-bottom: var(--typography-spacing-vertical);
+}
+
+details[open] > *:not(summary) {
+    -webkit-animation: fadeIn 0.2s linear forwards;
+    animation: fadeIn 0.2s linear forwards;
+}
+
+/* Buttons inside a summary element are at right. */
+summary button, summary a[role=button] {
+    float: right;
+    margin: 0;
+    margin-left: 0.2rem;
+    vertical-align: center;
+    height: 90%;
+    width: auto;
 }
 
 
@@ -1296,6 +1304,11 @@ details[open] summary {
 }
 svg:not(:root) {
     overflow:hidden
+}
+
+aside {
+    float: right;
+    width: calc(0.35*var(--screen-width));
 }
 
 /* -------------------- FORMS -------------------- */
