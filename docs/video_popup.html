@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/video_popup.css" type="text/css" media="all" />
-
     <script src="../wexa_statics/js/video_popup.js" type="application/javascript"></script>
 </head>
 
@@ -26,11 +25,105 @@
             <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
         </ul>
     </nav>
-    <h1>video_player.css</h1>
-    <h2>A framework to open videos in a dialog</h2>
+    <h1>dialog.css</h1>
+    <h2>A framework to open a modal 'dialog'</h2>
 </header>
 
 <main>
+
+    <h1>Messages</h1>
+
+    <h2>How do they look like?</h2>
+    <h3>Light color scheme</h3>
+    <table>
+        <tr>
+            <td>
+    <dialog id="info-demo" class=" message info">
+        <p>This is irrelevant information...</p>
+    </dialog>
+            </td>
+            <td>
+    <dialog id="warning-demo" class=" message warning">
+        <p>This is an irrelevant warning...</p>
+    </dialog>
+            </td>
+            <td>
+    <dialog id="error-demo" class=" message error">
+        <p>This is an irrelevant error...</p>
+    </dialog>
+            </td>
+            <td>
+    <dialog id="success-demo" class=" message success">
+        <p>This is a great success...</p>
+    </dialog>
+            </td>
+        </tr>
+    </table>
+
+    <div class="dark">
+    <h3>Dark color scheme</h3>
+    <table>
+        <tr>
+            <td>
+                <dialog class=" message info">
+                    <p>This is irrelevant information...</p>
+                </dialog>
+            </td>
+            <td>
+                <dialog class=" message warning">
+                    <p>This is an irrelevant warning...</p>
+                </dialog>
+            </td>
+            <td>
+                <dialog class=" message error">
+                    <p>This is an irrelevant error...</p>
+                </dialog>
+            </td>
+            <td>
+                <dialog class=" message success">
+                    <p>This is a great success...</p>
+                </dialog>
+            </td>
+        </tr>
+    </table>
+    <p></p>
+    </div>
+
+    <h2>Use messages as modal...</h2>
+
+    <!-- ******************** TO DO ************************ -->
+    <table style="width: 100%;">
+        <tr>
+            <td>
+                <dialog id="info-dlg" class="message info">
+                    <p id="popup-video-msg">This is irrelevant information...</p>
+                    <button name="popup-close-btn" onclick="close_popup_video('msg')">&#10060;</button>
+                </dialog>
+                <button name="play-btn" onclick="play_popup_video('msg')">Click me</button>
+            </td>
+            <td>
+                <dialog id="warning-dlg"  class=" message warning">
+                    <p>This is an irrelevant warning...</p>
+                </dialog>
+                <button name="warning-btn" onclick="play_popup_video('msg')">Click me</button>
+            </td>
+            <td>
+                <dialog id="error-dlg" class=" message error">
+                    <p>This is an irrelevant error...</p>
+                </dialog>
+                <button name="error-btn" onclick="play_popup_video('msg')">Click me</button>
+            </td>
+            <td>
+                <dialog id="success-dlg"  class=" message success">
+                    <p>This is a great success...</p>
+                </dialog>
+                <button name="success-btn" onclick="play_popup_video('msg')">Click me</button>
+            </td>
+        </tr>
+    </table>
+
+    <h1>Video</h1>
+
     <!--
         The dialog doesn't have to be necessary in the same place of the button to open it,
         Furthermore, a popup video can be open by multiple buttons with its id not only one

@@ -244,6 +244,12 @@
     /* Focus & Hover */
     --outline-focus-style: outset;
     --outline-hover-style: inset;
+
+    /* dialogs */
+    --dialog-border-width: 2px;
+    --dialog-border-radius: 4px;
+    --dialog-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
+
 }
 
 /* Variables overridden by "contrast" */
@@ -571,38 +577,6 @@ body {
     -moz-tab-size: 4;
     tab-size: 4;
     flex-direction: column;
-}
-
-
-dialog {
-    padding-left: var(--typography-spacing-horizontal);
-    padding-right: var(--typography-spacing-horizontal);
-    padding-top: var(--typography-spacing-vertical);
-    padding-bottom: var(--typography-spacing-vertical);
-    z-index: 20;
-    animation: fadeOut 0.7s ease-out;
-}
-
-dialog[open] {
-    opacity: 1;
-    position: relative;
-    margin: auto;
-    animation: fadeIn 0.7s ease-out;
-    overscroll-behavior: contain;
-    border-radius: var(--border-radius);
-}
-
-/*
- * Select only the dialog which are 'modal' (doesn't affect dialog open by default in the html).
- * The css 'position' of modal dialog doesn't have to be relative to avoid the scroll at the top of the page !
-*/
-:modal[open] {
-    position: fixed; /* default css value for modal dialog */
-}
-
-/* Everything behind an opened modal dialog */
-::backdrop {
-    backdrop-filter: grayscale(90%) blur(0.3rem);
 }
 
 
@@ -1533,4 +1507,44 @@ input:not([type=checkbox],[type=radio],[type=range]) {
 [type=checkbox]~label:not(:last-of-type),[type=radio]~label:not(:last-of-type) {
     margin-inline-end: 1em
 }
+
+/* =======================================================================
+                           Dialogs
+   ======================================================================= */
+
+
+dialog {
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    z-index: 20;
+    animation: fadeOut 0.7s ease-out;
+    border-radius: var(--dialog-border-radius);
+    border: var(--dialog-border-width) solid var(--border-color);
+    box-shadow: var(--dialog-box-shadow);
+}
+
+dialog[open] {
+    opacity: 1;
+    position: relative;
+    margin: auto;
+    animation: fadeIn 0.7s ease-out;
+    overscroll-behavior: contain;
+}
+
+/*
+ * Select only the dialogs which are 'modal' (doesn't affect dialog open by default in the html).
+ * The css 'position' of modal dialog doesn't have to be relative
+ * to avoid the scroll at the top of the page !
+ * Default css value for modal dialog is fixed.
+:modal[open] {
+    position: fixed;
+}
+*/
+/* Everything behind an opened modal dialog */
+::backdrop {
+    backdrop-filter: grayscale(90%) blur(0.3rem);
+}
+
 

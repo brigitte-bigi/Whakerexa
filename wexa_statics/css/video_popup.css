@@ -32,6 +32,9 @@
 
 */
 
+/* A figure which is clicked to open the dialog */
+/* -------------------------------------------- */
+
 figure.img-video-visualization {
     position: relative;
     padding: 0;
@@ -51,8 +54,10 @@ figure.img-video-visualization img {
     height: auto;
 }
 
-/* css only for play button with image pre-visualization */
-/* the simple button image doesn't require css, the wexa.css is enough, open docs/video_popup.html to see the result */
+/* For play button with image pre-visualization */
+/* The button image doesn't require css, wexa.css is enough,
+   open docs/video_popup.html to see the result.
+*/
 figure.img-video-visualization button[name=play-btn] {
     position: absolute;
     top: 50%;
@@ -73,26 +78,101 @@ figure.img-video-visualization button[name=play-btn] {
     font-size: calc(10*var(--font-size));
 }
 
+/* =======================================================================
+                           Message dialogs
+   ======================================================================= */
+
+dialog.message {
+    display: block;
+    position: relative;
+    border-left: calc(4*var(--dialog-border-width)) solid;
+}
+dialog.message * {
+    background: transparent;
+}
+
+/* A fixed color for each message type. Transparency allows to match with any color scheme. */
+
+dialog.message.info {
+    --info-color: rgba(0, 0, 255, 0.5);
+    border-color: var(--info-color);
+    background-color: rgba(0, 0, 255, 0.1);
+}
+dialog.message.warning {
+    --warning-color: rgba(255, 165, 0, 0.5);
+    border-color: var(--warning-color);
+    background-color: rgba(255, 165, 0, 0.1);
+}
+dialog.message.error {
+    --error-color: rgba(225, 0, 0, 0.5);
+    border-color: var(--error-color);
+    background-color: rgba(255, 0, 0, 0.1);
+}
+dialog.message.success {
+    --success-color: rgba(0, 150, 0, 0.5);
+    border-color: var(--success-color);
+    background-color: rgba(0, 250, 0, 0.1);
+}
+
+/* A fixed character to represent differently each message type. Important! */
+
+dialog.message.info::before {
+    color: var(--info-color);
+    text-align: center;
+    content: "\002139";
+    vertical-align: middle;
+    line-height: 2rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    font-size: calc(2*var(--font-size));
+}
+dialog.message.warning::before {
+    color: var(--warning-color);
+    content: "\26A0";
+    font-size: calc(2*var(--font-size));
+}
+dialog.message.success::before {
+    color: var(--success-color);
+    content: "\2713";
+    font-size: calc(2*var(--font-size));
+}
+dialog.message.error::before {
+    color: var(--error-color);
+    content: "\0021";
+    font-size: calc(2*var(--font-size));
+}
+dialog.message.question::before {
+    content: "\0003F";
+    font-size: calc(2*var(--font-size));
+}
+
+
+/* =======================================================================
+                                  Video
+   ======================================================================= */
+
 dialog.popup-video {
     padding: 0;
     height: 80vh;
-
     background-color: var(--bg-color) !important;
 }
 
-/* css only when the modal is open, if we put the css above the "display: flex" show automatically the modal open or not */
+/* css only when the modal is open, if we put the css above the "display: flex"
+   show automatically the modal open or not
 :modal[open] {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+} */
 
 dialog.popup-video video {
     width: auto;
     height: 90%;
 }
 
-dialog.popup-video button[name="popup-close-btn"] {
+dialog button[name="popup-close-btn"] {
     position: absolute;
     top: 1vh;
     right: 1vw;
