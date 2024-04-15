@@ -172,14 +172,19 @@ dialog.popup-video {
 }
 
 /* css only when the modal is open, if we put the css above the "display: flex"
-   show automatically the modal open or not
+   show automatically the modal open or not */
 :modal[open] {
+    position: revert;
+
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+}
+
+:modal[open].popup-video {
     display: flex;
     justify-content: center;
     align-items: center;
-    row-gap: 0.5rem;
-    column-gap: 0.5rem;
-} */
+}
 
 dialog.popup-video video {
     width: auto;
