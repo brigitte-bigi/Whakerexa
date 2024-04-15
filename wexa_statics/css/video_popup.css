@@ -82,67 +82,81 @@ figure.img-video-visualization button[name=play-btn] {
                            Message dialogs
    ======================================================================= */
 
-dialog.message {
-    display: block;
-    position: relative;
-    border-left: calc(4*var(--dialog-border-width)) solid;
-}
-dialog.message * {
-    background: transparent;
-}
-
 /* A fixed color for each message type. Transparency allows to match with any color scheme. */
 
-dialog.message.info {
-    --info-color: rgba(0, 0, 255, 0.5);
+dialog[role=alertdialog].info {
     border-color: var(--info-color);
-    background-color: rgba(0, 0, 255, 0.1);
+    background-color: var(--info-bg-color);
 }
-dialog.message.warning {
-    --warning-color: rgba(255, 165, 0, 0.5);
+
+dialog[role=alertdialog].warning {
     border-color: var(--warning-color);
-    background-color: rgba(255, 165, 0, 0.1);
+    background-color: var(--warning-bg-color);
 }
-dialog.message.error {
-    --error-color: rgba(225, 0, 0, 0.5);
+
+dialog[role=alertdialog].error {
     border-color: var(--error-color);
-    background-color: rgba(255, 0, 0, 0.1);
+    background-color: var(--error-bg-color);
 }
-dialog.message.success {
-    --success-color: rgba(0, 150, 0, 0.5);
+
+dialog[role=alertdialog].success {
     border-color: var(--success-color);
-    background-color: rgba(0, 250, 0, 0.1);
+    background-color: var(--success-bg-color);
 }
+
+dialog[role=alertdialog].tips {
+    border-color: var(--tips-color);
+    background-color: var(--tips-bg-color);
+}
+
+dialog[role=alertdialog].question {
+    border-color: var(--question-color);
+    background-color: var(--question-bg-color);
+}
+
 
 /* A fixed character to represent differently each message type. Important! */
 
-dialog.message.info::before {
+dialog[role=alertdialog].info::before {
     color: var(--info-color);
-    text-align: center;
     content: "\002139";
+    font-size: calc(2*var(--font-size));
+
+    /* this is an attempt which does not work. to be continued. */
+    text-align: left;
     vertical-align: middle;
     line-height: 2rem;
     padding-bottom: 2rem;
     margin-bottom: 2rem;
-    font-size: calc(2*var(--font-size));
 }
-dialog.message.warning::before {
+
+dialog[role=alertdialog].warning::before {
     color: var(--warning-color);
     content: "\26A0";
     font-size: calc(2*var(--font-size));
 }
-dialog.message.success::before {
+
+dialog[role=alertdialog].success::before {
     color: var(--success-color);
     content: "\2713";
     font-size: calc(2*var(--font-size));
 }
-dialog.message.error::before {
+
+dialog[role=alertdialog].error::before {
     color: var(--error-color);
     content: "\0021";
     font-size: calc(2*var(--font-size));
 }
-dialog.message.question::before {
+
+dialog[role=alertdialog].question::before {
+    color: var(--question-color);
     content: "\0003F";
+    font-size: calc(2*var(--font-size));
+}
+
+dialog[role=alertdialog].tips::before {
+    color: var(--tips-color);
+    content: "\01F4A1";
     font-size: calc(2*var(--font-size));
 }
 
