@@ -42,6 +42,9 @@
 function open_dialog(id_dialog, is_modal = false) {
     let dialog = document.getElementById(id_dialog);
 
+    // replace hidden class to display the dialog
+    dialog.classList.replace("hidden-alert", "hidden-alert-open");
+
     // add close button
     let button = document.createElement("button");
     button.name = "popup-close-btn";
@@ -65,6 +68,9 @@ function open_dialog(id_dialog, is_modal = false) {
  */
 function close_dialog(id_dialog) {
     let dialog = document.getElementById(id_dialog);
+
+    // replace hidden class to hide the dialog
+    dialog.classList.replace("hidden-alert-open", "hidden-alert");
 
     // search popup-close-btn and remove it if we find it
     Array.from(dialog.children).forEach(child => {

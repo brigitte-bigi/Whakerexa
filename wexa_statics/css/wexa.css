@@ -1566,6 +1566,12 @@ dialog[role=alertdialog] {
     position: relative;
     border-left: calc(4*var(--dialog-border-width)) solid;
 }
+
+dialog[role=alertdialog].hidden-alert {
+    display: none;
+    position: revert;
+}
+
 dialog[role=alertdialog] * {
     background: transparent;
 }

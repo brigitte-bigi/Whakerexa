@@ -140,29 +140,39 @@
                 <dialog id="info-dlg" role="alertdialog" class="info">
                     <p id="popup-video-msg">This is irrelevant information...</p>
                 </dialog>
-                <button name="play-btn" onclick="open_dialog('info-dlg')">Open info</button>
-                <button name="play-btn" onclick="open_dialog('info-dlg', true)">Open info (modal version)</button>
+                <button name="info-btn" onclick="open_dialog('info-dlg')">Open info</button>
+                <button name="info-modal-btn" onclick="open_dialog('info-dlg', true)">Open info (modal version)</button>
             </td>
             <td>
                 <dialog id="warning-dlg" role="alertdialog" class="warning">
                     <p>This is an irrelevant warning...</p>
                 </dialog>
                 <button name="warning-btn" onclick="open_dialog('warning-dlg')">Open warning</button>
-                <button name="play-btn" onclick="open_dialog('warning-dlg', true)">Open warning (modal version)</button>
+                <button name="warning-modal-btn" onclick="open_dialog('warning-dlg', true)">Open warning (modal version)</button>
             </td>
             <td>
                 <dialog id="error-dlg" role="alertdialog" class="error">
                     <p>This is an irrelevant error...</p>
                 </dialog>
                 <button name="error-btn" onclick="open_dialog('error-dlg')">Open error</button>
-                <button name="play-btn" onclick="open_dialog('error-dlg', true)">Open error (modal version)</button>
+                <button name="error-modal-btn" onclick="open_dialog('error-dlg', true)">Open error (modal version)</button>
             </td>
             <td>
                 <dialog id="success-dlg" role="alertdialog" class="success">
                     <p>This is a great success...</p>
                 </dialog>
                 <button name="success-btn" onclick="open_dialog('success-dlg')">Open success</button>
-                <button name="play-btn" onclick="open_dialog('success-dlg', true)">Open success (modal version)</button>
+                <button name="success-modal-btn" onclick="open_dialog('success-dlg', true)">Open success (modal version)</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <dialog id="tips-dlg" role="alertdialog" class="tips hidden-alert">
+                    <p>This alert is hidden when it isn't open !</p>
+                    <p>To do that just add "hidden-alert" in the class of the dialog</p>
+                </dialog>
+                <button name="tips-btn" onclick="open_dialog('tips-dlg')">Open hidden tips</button>
+                <button name="tips-modal-btn" onclick="open_dialog('tips-dlg', true)">Open hidden tips (modal version)</button>
             </td>
         </tr>
     </table>
