@@ -94,10 +94,9 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 - Added variable 'border-radius' in wexa.css
 - Modified details/summary to act and look like buttons
 - The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
-
+- Added modal dialogs to show an alert message: info, success, warning, error, tips, question (under-construction)
 
 ## to do:
 
 - documentation of layouts
 - in layout: horizontal cards
-- add dialogs: information, warning, error, question.

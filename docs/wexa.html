@@ -694,6 +694,93 @@ is developed.</pre>
                 </tbody>
             </table>
 
+            <table role="grid">
+                <caption>
+                    Alert colors
+                </caption>
+                <thead>
+                <tr>
+                    <th scope="col" style="width:30%">Variable name</th>
+                    <th scope="col" style="width:30%">Default value</th>
+                    <th scope="col" style="width:20%">Value in contrast view</th>
+                    <th scope="col">Value in dark view</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">question-color</th>
+                    <td>rgba(180, 80, 220, 0.5)</td>
+                    <td></td>
+                    <td>rgb(180, 80, 220)</td>
+                </tr>
+                <tr>
+                    <th scope="row">question-bg-color</th>
+                    <td>rgba(180, 80, 220, 0.1)</td>
+                    <td></td>
+                    <td>rgba(180, 80, 220, 0.1)</td>
+                </tr>
+                <tr>
+                    <th scope="row">tips-color</th>
+                    <td>rgba(220, 180, 80, 0.5)</td>
+                    <td></td>
+                    <td>rgb(230, 200, 100)</td>
+                </tr>
+                <tr>
+                    <th scope="row">tips-bg-color</th>
+                    <td>rgba(180, 180, 80, 0.1)</td>
+                    <td></td>
+                    <td>rgba(230, 200, 70, 0.1)</td>
+                </tr>
+                <tr>
+                    <th scope="row">success-color</th>
+                    <td>rgba(0, 150, 0, 0.5)</td>
+                    <td></td>
+                    <td>rgb(140, 200, 150)</td>
+                </tr>
+                <tr>
+                    <th scope="row">success-bg-color</th>
+                    <td>rgba(0, 150, 0, 0.1)</td>
+                    <td></td>
+                    <td>rgba(100, 200, 150, 0.1)</td>
+                </tr>
+                <tr>
+                    <th scope="row">info-color</th>
+                    <td>rgba(0, 0, 255, 0.5)</td>
+                    <td></td>
+                    <td>rgb(100, 130, 200)</td>
+                </tr>
+                <tr>
+                    <th scope="row">info-bg-color</th>
+                    <td>rgba(0, 0, 255, 0.1)</td>
+                    <td></td>
+                    <td>rgba(70, 100, 200, 0.1)</td>
+                </tr>
+                <tr>
+                    <th scope="row">warning-color</th>
+                    <td>rgba(220, 80, 0, 0.5)</td>
+                    <td></td>
+                    <td>rgb(220, 80, 0)</td>
+                </tr>
+                <tr>
+                    <th scope="row">warning-bg-color</th>
+                    <td>rgba(220, 80, 0, 0.1)</td>
+                    <td></td>
+                    <td>rgba(220, 80, 0, 0.1)</td>
+                </tr>
+                <tr>
+                    <th scope="row">error-color</th>
+                    <td>rgba(225, 0, 0, 0.5)</td>
+                    <td></td>
+                    <td>rgb(225, 0, 0)</td>
+                </tr>
+                <tr>
+                    <th scope="row">error-bg-color</th>
+                    <td>rgba(225, 0, 0, 0.1)</td>
+                    <td></td>
+                    <td>rgba(225, 0, 0, 0.1)</td>
+                </tr>
+                </tbody>
+            </table>
         </section>
 
         <!-- ------------------------------------------------------------- -->
@@ -858,6 +945,13 @@ is developed.</pre>
                 <p>I'm a dialog element with "open" attribute, I override some content when I'm opened...</p>
                 <form method="dialog">
                     <button>Makes me disappear!</button>
+                </form>
+            </dialog>
+
+            <dialog role="alertdialog" open>
+                <p>This is an alert message!</p>
+                <form method="dialog">
+                    <button>ok!</button>
                 </form>
             </dialog>
 
