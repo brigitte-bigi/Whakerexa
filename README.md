@@ -98,5 +98,6 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 
 ## to do:
 
+- progress dialog
 - documentation of layouts
 - in layout: horizontal cards
