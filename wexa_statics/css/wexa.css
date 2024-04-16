@@ -1172,12 +1172,16 @@ button, *[role=button], *[role=menuitem], summary {
     user-select: none;
 
     padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
-    margin: var(--border-width);
+    margin: 0;
 }
 
 button, *[role=button], *[role=menuitem] {
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
+
+    /* Ensure a minimum of character + padding */
+    min-height: calc(var(--font-size) * 2);
+    min-width: calc(var(--font-size) * 2);
 
     font-weight: normal;
     font-style: normal;
@@ -1290,8 +1294,12 @@ summary {
     font-weight: var(--font-weight-semibold);
     border: none;
     margin: 0;
-    min-height: 1.8rem;
     height: 2.4rem;
+
+    /* Ensure a minimum of semibold-character + padding */
+    min-height: calc(var(--font-size) * 3);
+    min-width: calc(var(--font-size) * 3);
+
 }
 
 details[open] summary {

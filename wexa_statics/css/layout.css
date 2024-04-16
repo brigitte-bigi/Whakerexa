@@ -543,9 +543,10 @@ header button.rise-trigger[aria-expanded="false"]::before {
     padding-right: 1rem;
 }
 
-/* Any action button in the header */
+/* Any action button in the header (html-3) or in the summary (html-5) */
 
-header button.accordion-action, header a[role=button].accordion-action {
+header button.accordion-action, header a[role=button].accordion-action,
+summary button.accordion-action, summary a[role=button].accordion-action {
     flex: 1;
     max-width: 2.5rem;
     border: var(--outline-size) solid transparent;
@@ -555,7 +556,8 @@ header button.accordion-action, header a[role=button].accordion-action {
 }
 
 /* Like the main :hover */
-header button.accordion-action:hover, header a[role=button].accordion-action:hover {
+header button.accordion-action:hover, header a[role=button].accordion-action:hover,
+summary button.accordion-action:hover, summary a[role=button].accordion-action:hover {
     border: var(--outline-size) dashed var(--outline-color);
     border-radius: calc(2 * var(--outline-size));
 }
