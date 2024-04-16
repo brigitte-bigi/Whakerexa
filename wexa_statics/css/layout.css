@@ -256,9 +256,6 @@ main > .panel-item:nth-child(even) * {
 }
 
 
-.card + .card {
-    margin-top: 0;
-}
 
 /* Change size and direction for mobile screens */
 
