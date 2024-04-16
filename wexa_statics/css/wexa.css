@@ -171,35 +171,41 @@
 
 :root {
     --size-divisor: 1;
+    --fontsize-divisor: 1;
 }
 
 @media screen and (max-width: 540px) {
     :root {
         --size-divisor: 2.75;
+        --fontsize-divisor: 1.5;
     }
 }
 
 @media screen and (min-width: 540px) {
     :root {
         --size-divisor: 2.5;
+        --fontsize-divisor: 1.25;
     }
 }
 
 @media screen and (min-width: 620px) {
     :root {
         --size-divisor: 1.75;
+        --fontsize-divisor: 1.18;
     }
 }
 
 @media screen and (min-width: 768px) {
     :root {
         --size-divisor: 1.5;
+        --fontsize-divisor: 1.1;
     }
 }
 
 @media screen and (min-width: 896px) {
     :root {
         --size-divisor: 1.25;
+        --fontsize-divisor: 1.05;
     }
 }
 
@@ -212,9 +218,16 @@
 @media screen and (min-width: 1200px) {
     :root {
         --size-divisor: 0.9;
+        --fontsize-divisor: 0.95;
     }
 }
 
+@media screen and (min-width: 1400px) {
+    :root {
+        --size-divisor: 0.8;
+        --fontsize-divisor: 0.9;
+    }
+}
 
 /* All global variables for any screen or condition */
 /* ------------------------------------------------ */
@@ -263,7 +276,7 @@
     --font-weight-semibold: 500;
     --font-weight-bold: 600;
     --font-weight-black: 750;
-    --font-size: 14px;
+    --font-size: calc(14px / var(--fontsize-divisor));
     --line-height: 1.2;
     --typography-spacing-vertical: 1.2rem;
     --typography-spacing-horizontal: 0.8rem;
@@ -298,7 +311,7 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 750;
     --font-weight-black: 800;
-    --font-size: 16px;
+    --font-size: calc(16px / var(--size-divisor));
     --line-height: 1.5;
     --typography-spacing-vertical: 2rem;
     --typography-spacing-horizontal: 1.6rem;
