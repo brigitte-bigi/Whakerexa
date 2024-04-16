@@ -229,6 +229,13 @@
     }
 }
 
+@media screen and (min-width: 1600px) {
+    :root {
+        --size-divisor: 0.75;
+        --fontsize-divisor: 0.85;
+    }
+}
+
 /* All global variables for any screen or condition */
 /* ------------------------------------------------ */
 
@@ -395,7 +402,11 @@
     --info-bg-color: rgba(0, 0, 255, 0.1);
 }
 
-@media screen and (prefers-color-scheme: dark) {
+/*
+@media screen,handheld,projection,tv,tty
+or (prefers-color-scheme: dark)
+*/
+@media not print {
     .dark {
         /* Main colors */
         --bg-color: rgb(24, 28, 38);
