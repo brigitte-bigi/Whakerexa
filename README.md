@@ -26,15 +26,23 @@ It can be combined with the use of `WhakerPy`, an open source library to create 
 Whakerexa is under the terms of the GNU General Public License, version 3.
 
 
+
 ## Install Whakerexa
 
-Whakerexa is a ZIP archive. You just need to unpack-it.
+Whakerexa is a ZIP archive. You only need to unpack-it.
 
 
 
 ## Quick Start
 
 For the use of the proposed CSS/JS frameworks, take a look at the HTML files in the `docs` folder.
+
+```html
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="whakerexa/wexa_statics/css/wexa.css" type="text/css" media="all" />
+</head>
+```
 
 
 ## Projects using Whakerexa
@@ -52,9 +60,11 @@ It is used by the website of the "AutoCuedSpeech" project at <https://auto-cueds
 It is used by the setup application of SPPAS software tool.
 
 
-### Documentations
 
-It is used by "ClammingPy", a tool to create automatically python documentation <https://clamming.sf.net>.
+### Projects using Whakerexa
+
+Whakerexa is used by "ClammingPy", a tool to create automatically python documentation <https://clamming.sf.net>.
+It is used by the websites: <https://auto-cuedspeech.org> and <https://sppas.org>.
 
 
 
@@ -66,9 +76,12 @@ Laboratoire Parole et Langage, Aix-en-Provence, France.
 See the AUTHORS file for the full list of contributors.
 
 
+
 ## Support
 
 Whakerexa was initially developed within <https://auto-cuedspeech.org> project, generously funded by FIRAH (Fondation Internationale de Recherche Appliquée sur le Handicap), <https://www.firah.org/>.
+It is also developped with the support of Laboratoire Parole et Langage <https://www.lpl-aix.fr>.
+
 
 
 # Changes
@@ -81,23 +94,27 @@ Whakerexa was initially developed within <https://auto-cuedspeech.org> project, 
 - Added HTML documentation of the CSS frameworks
 - Added a CSS/JS framework for playing a video in a popup dialog
 
-## Version 0.2 - latest stable
+## Version 0.2
 
 - Added code.css, a set of colors for highlighting source code.
 - Added menu.css, a solution for an accessible responsive sticky menubar
 - Added layout.css, a set of classes to easily organize HTML content
 - Added accordion.js which must be added when using "rise-panel"
 
-## Version 0.3 - develop
+## Version 0.3 - latest stable
 
 - Changed some colors of code.css
 - Added variable 'border-radius' in wexa.css
 - Modified details/summary to act and look like buttons
 - The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
-- Added modal dialogs to show an alert message: info, success, warning, error, tips, question (under-construction)
+- Added modal dialogs to show an alert message: info, success, warning, error, tips, question
 
-## to do:
+## Version 0.4 - develop
 
-- progress dialog
+## Hopefully incoming:
+
+- a secure dialog, useful for authentication
+- a progress dialog
+- multiple-checkbox
 - documentation of layouts
 - in layout: horizontal cards
