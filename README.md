@@ -115,6 +115,7 @@ It is also developped with the support of Laboratoire Parole et Langage <https:/
 
 - a secure dialog, useful for authentication
 - a progress dialog
-- multiple-checkbox
+- a tooltip dialog: is opened on hover dans closed on leave
+- a multiple-checkbox
 - documentation of layouts
 - in layout: horizontal cards
