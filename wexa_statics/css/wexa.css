@@ -285,8 +285,8 @@
     --font-weight-black: 750;
     --font-size: calc(14px / var(--fontsize-divisor));
     --line-height: 1.2;
-    --typography-spacing-vertical: 1.2rem;
-    --typography-spacing-horizontal: 0.8rem;
+    --typography-spacing-vertical: calc(1.2 * 14px / var(--size-divisor));
+    --typography-spacing-horizontal: calc(0.8 * 14px / var(--size-divisor));
     --letter-spacing: 0.04rem;
     --word-spacing: 0.06rem;
 
@@ -320,8 +320,8 @@
     --font-weight-black: 800;
     --font-size: calc(16px / var(--size-divisor));
     --line-height: 1.5;
-    --typography-spacing-vertical: 2rem;
-    --typography-spacing-horizontal: 1.6rem;
+    --typography-spacing-vertical: calc(1.2 * 16px / var(--size-divisor));
+    --typography-spacing-horizontal: calc(0.8 * 16px / var(--size-divisor));
     --letter-spacing: 0.12rem;
     --word-spacing: 0.16rem;
 
@@ -765,7 +765,7 @@ nav ul, nav dl {
 }
 
 nav li, nav dt, nav dd, nav a {
-    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
+    padding: calc(var(--typography-spacing-horizontal) * 0.35) calc(var(--typography-spacing-vertical) * 0.35);
     margin: 0;
 }
 
@@ -928,8 +928,8 @@ code {
 pre {
     font-family: var(--font-family-pre);
     font-size: calc(0.9 * var(--font-size));
-    padding-top: calc(0.5*var(--typography-spacing-vertical));
-    padding-bottom: calc(0.5*var(--typography-spacing-vertical));
+    padding-top: calc(0.35*var(--typography-spacing-vertical));
+    padding-bottom: calc(0.35*var(--typography-spacing-vertical));
     padding-left: var(--typography-spacing-horizontal);
     margin-left: var(--typography-spacing-horizontal);
     margin-bottom: var(--typography-spacing-horizontal);
@@ -1094,7 +1094,7 @@ dd:before {
 }
 
 dd+dt {
-    padding-top: calc(0.5*var(--typography-spacing-vertical));
+    padding-top: calc(0.35*var(--typography-spacing-vertical));
 }
 
 /* -------------------------------- Table(s) ----------------------------- */
@@ -1181,8 +1181,7 @@ button, *[role=button], *[role=menuitem], summary {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-
-    padding: calc(var(--typography-spacing-horizontal) * 0.5) calc(var(--typography-spacing-vertical) * 0.5);
+    padding: 0.2rem;
     margin: 0;
 }
 
@@ -1207,7 +1206,7 @@ button, *[role=button], *[role=menuitem] {
     flex-direction: row;
 
     /* for the buttons embedded in a box */
-    flex-grow: 1;      /* default is 0 */
+    flex-grow: 0;      /* default is 0 */
     flex-shrink: 1;    /* default is 1 */
     flex-basis: auto;  /* default is auto */
 }

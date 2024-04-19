@@ -79,9 +79,9 @@ body > nav input[type=checkbox] {
 }
 
 [role=menuitem]:not(button) {
-    min-width: calc(8rem / var(--size-divisor));
+    min-width: calc(6rem / var(--size-divisor));
     max-width: calc(16rem / var(--size-divisor));
-    width: calc(10rem / var(--size-divisor));
+    width: calc(8rem / var(--size-divisor));
 }
 
 /* a different width for <button> menu items */
@@ -99,10 +99,9 @@ button[role=menuitem] {
 
 [role=menuitem] > img {
     display: inline-block;
-    width: calc(2rem / var(--size-divisor));
-    height: calc(2rem / var(--size-divisor));
+    width: calc(1.8rem / var(--size-divisor));
+    height: calc(1.8rem / var(--size-divisor));
     cursor: pointer;
-    vertical-align: middle;
     padding: 0;
     margin: 0;
 }
