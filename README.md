@@ -64,7 +64,6 @@ It is used by the setup application of SPPAS software tool.
 ### Projects using Whakerexa
 
 Whakerexa is used by "ClammingPy", a tool to create automatically python documentation <https://clamming.sf.net>.
-It is used by the websites: <https://auto-cuedspeech.org> and <https://sppas.org>.
 
 
 
@@ -80,7 +79,7 @@ See the AUTHORS file for the full list of contributors.
 ## Support
 
 Whakerexa was initially developed within <https://auto-cuedspeech.org> project, generously funded by FIRAH (Fondation Internationale de Recherche Appliquée sur le Handicap), <https://www.firah.org/>.
-It is also developped with the support of Laboratoire Parole et Langage <https://www.lpl-aix.fr>.
+It is also developed with the support of Laboratoire Parole et Langage <https://www.lpl-aix.fr>.
 
 
 
