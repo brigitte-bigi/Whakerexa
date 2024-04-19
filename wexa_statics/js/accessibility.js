@@ -327,7 +327,7 @@ class AccessibilityScheme {
         let custom_url = new URL(element.href);
 
         if (this.#activated_color !== "") {
-            custom_url.searchParams.set(AccessibilityScheme.CONTRAST_PARAMETER_NAME, this.#activated_color);
+            custom_url.searchParams.set(AccessibilityScheme.COLOR_PARAMETER_NAME, this.#activated_color);
         }
 
         if (this.#activated_contrast !== "") {
