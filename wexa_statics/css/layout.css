@@ -243,16 +243,11 @@ main > .panel-item:nth-child(even) * {
     display: flex;
     flex-direction: column;
     box-shadow: var(--card-box-shadow);
-    opacity: 90%;
     cursor: default;
 }
 
 .card-horiz {
     flex-direction: row;
-}
-
-.card:hover {
-    opacity: 100%;
 }
 
 
@@ -403,12 +398,13 @@ li.enumerate-cards-item::before {
     align-items: center;
 }
 
+/*
 li.enumerate-cards-item:nth-child(even) {
     background: var(--table-row-stripped-bg-color);
     flex-direction: row-reverse;
     margin-right: -2rem;
     margin-left: 2rem;
-}
+}*/
 
 
 /* ----------------------------------------------------------------------- */
