@@ -41,10 +41,12 @@
 }
 
 html {
-    margin-left: var(--toc-width);
+    /* nav-width + its left- right- margins */
+    margin-left: var(--toc-width); /* + 2 * var(--typography-spacing-horizontal));*/
 }
 
 body {
+    width: 100%;
     counter-reset: chapter;
 }
 
@@ -135,11 +137,8 @@ nav.side-nav {
     position: fixed;
     top: var(--typography-spacing-vertical);
     left: 0;
-    padding-left: 0.5rem;
-    padding-top: 1rem;
     padding-bottom: 3rem;
-    margin-top: -1rem;
-    margin-left: 1rem;
+    margin-top: calc(var(--typography-spacing-vertical) - (2*var(--typography-spacing-vertical)));
     font-size: 90%;
     overflow: unset;
     overflow-x: hidden;
