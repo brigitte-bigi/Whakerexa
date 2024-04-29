@@ -1017,7 +1017,6 @@ a.external-link::after {
 /* --------------------------------- List(s) ----------------------------- */
 
 ol, ul, dl {
-    line-height: calc(1.4 * var(--line-height));
     margin-bottom: var(--typography-spacing-vertical);
     background-color: unset;
     padding-left: calc(0.5*var(--typography-spacing-horizontal));
@@ -1036,6 +1035,7 @@ ul > li {
     list-style-type: none;
     list-style-position: outside;
     /*list-style-image: none;*/
+    line-height: calc(1.2 * var(--line-height));
 }
 
 ul > li > ul > * {
