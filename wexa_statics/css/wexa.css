@@ -388,18 +388,18 @@
     --shadow-color: rgba(110, 120, 140, 0.8);
 
     /* Alerts */
-    --question-color: rgba(180, 80, 220, 0.5);
-    --question-bg-color: rgba(180, 80, 220, 0.1);
-    --tips-color: rgba(220, 180, 80, 0.5);
-    --tips-bg-color: rgba(180, 180, 80, 0.1);
-    --success-color: rgba(0, 150, 0, 0.5);
-    --success-bg-color: rgba(0, 150, 0, 0.1);
-    --error-color: rgba(225, 0, 0, 0.5);
-    --error-bg-color: rgba(225, 0, 0, 0.1);
-    --warning-color: rgba(220, 80, 0, 0.5);
-    --warning-bg-color: rgba(220, 80, 0, 0.1);
-    --info-color: rgba(0, 0, 255, 0.5);
-    --info-bg-color: rgba(0, 0, 255, 0.1);
+    --question-color: rgb(180, 80, 220);
+    --question-bg-color: rgb(255, 210, 255);
+    --tips-color: rgb(220, 180, 80);
+    --tips-bg-color: rgb(240, 230, 210);
+    --success-color: rgb(0, 150, 0);
+    --success-bg-color: rgb(220, 255, 220);
+    --error-color: rgb(200, 40, 10);
+    --error-bg-color: rgb(255, 220, 220);
+    --warning-color: rgb(255, 100, 20);
+    --warning-bg-color: rgb(250, 215, 190);
+    --info-color: rgb(40, 40, 200);
+    --info-bg-color: rgb(220, 220, 255);
 }
 
 /*
@@ -453,18 +453,18 @@ or (prefers-color-scheme: dark)
         --blockquote-footer-color: rgb(200, 180, 200);
 
         /* Alerts */
-        --question-color: rgb(180, 80, 220);
-        --question-bg-color: rgba(180, 80, 220, 0.1);
-        --tips-color: rgb(230, 200, 100);
-        --tips-bg-color: rgba(230, 200, 70, 0.1);
-        --success-color: rgb(140, 200, 150);
-        --success-bg-color: rgba(100, 200, 150, 0.1);
-        --error-color: rgb(225, 0, 0);
-        --error-bg-color: rgba(225, 0, 0, 0.1);
-        --warning-color: rgb(220, 80, 0);
-        --warning-bg-color: rgba(220, 80, 0, 0.1);
-        --info-color: rgb(100, 130, 200);
-        --info-bg-color: rgba(70, 100, 200, 0.1);
+        --question-color: rgb(215, 115, 255);
+        --question-bg-color: rgb(60, 0, 100);
+        --tips-color: rgb(255, 215, 115);
+        --tips-bg-color: rgb(110, 80, 0);
+        --success-color: rgb(35, 185, 35);
+        --success-bg-color: rgb(0, 80, 20);
+        --error-color: rgb(235, 85, 55);
+        --error-bg-color: rgb(80, 0, 0);
+        --warning-color: rgb(255, 140, 60);
+        --warning-bg-color: rgb(80, 20, 20);
+        --info-color: rgb(110, 110, 255);
+        --info-bg-color: rgb(0, 0, 80);
     }
 }
 
@@ -1582,6 +1582,9 @@ dialog {
     border-radius: var(--dialog-border-radius);
     border: var(--dialog-border-width) solid var(--border-color);
     box-shadow: var(--dialog-box-shadow);
+    margin: 0;
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
 }
 
 dialog[open] {

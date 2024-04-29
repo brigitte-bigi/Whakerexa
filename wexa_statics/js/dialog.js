@@ -49,7 +49,7 @@ function open_dialog(id_dialog, is_modal = false) {
     let button = document.createElement("button");
     button.name = "popup-close-btn";
     button.onclick = () => close_dialog(id_dialog);
-    button.innerHTML = "&#10060;";
+    button.innerHTML = "&#10060;";  /* Cross 'X' character */
 
     dialog.appendChild(button);
 

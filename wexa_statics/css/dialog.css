@@ -195,4 +195,5 @@ dialog button[name="popup-close-btn"] {
     position: absolute;
     top: 1vh;
     right: 1vw;
+    background: #eeeeee;
 }
