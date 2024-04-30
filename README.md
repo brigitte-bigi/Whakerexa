@@ -100,7 +100,7 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 - Added layout.css, a set of classes to easily organize HTML content
 - Added accordion.js which must be added when using "rise-panel"
 
-## Version 0.3 - latest stable
+## Version 0.3
 
 - Changed some colors of code.css
 - Added variable 'border-radius' in wexa.css
@@ -108,13 +108,17 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 - The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
 - Added modal dialogs to show an alert message: info, success, warning, error, tips, question
 
-## Version 0.4 - develop
+## Version 0.4 - latest stable
 
-## Hopefully incoming:
+This is mainly a bug-correction version: adjusted some width, removed transparency of 
+background dialogs, corrected a bug in accessibility.
 
-- a secure dialog, useful for authentication
-- a progress dialog
-- a tooltip dialog: is opened on hover dans closed on leave
+## Version 0.5 - develop
+
+### Hopefully incoming:
+
+- a connexion dialog, useful for authentication
+- a tooltip dialog which is opened on hover dans closed on leave
 - a multiple-checkbox
 - documentation of layouts
-- in layout: horizontal cards
+- in layout: an horizontal cards panel
