@@ -398,14 +398,6 @@ li.enumerate-cards-item::before {
     align-items: center;
 }
 
-/*
-li.enumerate-cards-item:nth-child(even) {
-    background: var(--table-row-stripped-bg-color);
-    flex-direction: row-reverse;
-    margin-right: -2rem;
-    margin-left: 2rem;
-}*/
-
 
 /* ----------------------------------------------------------------------- */
 
@@ -414,14 +406,13 @@ li.enumerate-cards-item:nth-child(even) {
 summary button.accordion-action, summary a[role=button].accordion-action {
     flex: 1;
     max-width: 2.5rem;
-    border: var(--outline-size) solid transparent;
-    border-radius: calc(2 * var(--outline-size));
+    border: none;
     position: relative;
-    margin: 0.1rem;
+    margin: 0;
+    display: block;
+    height: 100%;
 }
 
-/* Like the main :hover */
-summary button.accordion-action:hover, summary a[role=button].accordion-action:hover {
-    border: var(--outline-size) dashed var(--outline-color);
-    border-radius: calc(2 * var(--outline-size));
+summary button.accordion-action img, summary a[role=button].accordion-action img{
+    max-height: 100%;
 }

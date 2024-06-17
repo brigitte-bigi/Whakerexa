@@ -1190,8 +1190,8 @@ button, *[role=button], *[role=menuitem] {
     border-radius: var(--border-radius);
 
     /* Ensure a minimum of character + padding */
-    min-height: calc(var(--font-size) * 2);
-    min-width: calc(var(--font-size) * 2);
+    min-height: calc(var(--font-size) * 1.2);
+    min-width: calc(var(--font-size) * 1.2);
 
     font-weight: normal;
     font-style: normal;
@@ -1304,12 +1304,12 @@ summary {
     font-weight: var(--font-weight-semibold);
     border: none;
     margin: 0;
-    height: 2.4rem;
+    vertical-align: middle;
+    /*height: 2.4rem;*/
 
-    /* Ensure a minimum of semibold-character + padding */
-    min-height: calc(var(--font-size) * 3);
+    /* Ensure a minimum of semibold-character + padding*/
+    min-height: calc(var(--font-size) * 1.2);
     min-width: calc(var(--font-size) * 3);
-
 }
 
 details[open] summary {
@@ -1325,9 +1325,13 @@ details[open] > *:not(summary) {
 summary button, summary a[role=button] {
     float: right;
     margin: 0;
+    padding: 0;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
     margin-left: 0.2rem;
+    margin-rigth: 0.2rem;
     vertical-align: center;
-    height: 90%;
+    max-height: 90%;
     width: auto;
 }
 
@@ -1462,7 +1466,7 @@ select[multiple] option:checked::before {
 }
 
 select {
-    padding: calc(var(--typography-spacing-vertical) * 0.5) calc(var(--typography-spacing-horizontal) * 0.5);
+    padding: calc(var(--typography-spacing-vertical) * 0.25) calc(var(--typography-spacing-horizontal) * 0.25);
     text-transform: none;
 }
 
