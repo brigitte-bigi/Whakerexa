@@ -323,19 +323,29 @@ class AccessibilityScheme {
             return;
         }
 
-        // it's an internal link, we add get parameters for the color and contrast scheme
-        let custom_url = new URL(element.href);
+        // set the new url to redirect the client
+        document.location.href = this.set_url_with_parameters(element.href);
+    }
 
+    // -----------------------------------------------------------------------
+
+    set_url_with_parameters(url) {
+        let custom_url = new URL(url);
+
+        // it's an internal link, we add get parameters for the color and contrast scheme
         if (this.#activated_color !== "") {
             custom_url.searchParams.set(AccessibilityScheme.COLOR_PARAMETER_NAME, this.#activated_color);
+        } else {
+            custom_url.searchParams.delete(AccessibilityScheme.COLOR_PARAMETER_NAME);
         }
 
         if (this.#activated_contrast !== "") {
             custom_url.searchParams.set(AccessibilityScheme.CONTRAST_PARAMETER_NAME, this.#activated_contrast);
+        } else {
+            custom_url.searchParams.delete(AccessibilityScheme.CONTRAST_PARAMETER_NAME);
         }
 
-        // set the new url to redirect the client
-        document.location.href = custom_url.href;
+        return custom_url.href;
     }
 
 
