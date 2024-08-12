@@ -454,17 +454,17 @@ or (prefers-color-scheme: dark)
 
         /* Alerts */
         --question-color: rgb(215, 115, 255);
-        --question-bg-color: rgb(60, 0, 100);
+        --question-bg-color: rgb(40, 0, 90);
         --tips-color: rgb(255, 215, 115);
         --tips-bg-color: rgb(110, 80, 0);
         --success-color: rgb(35, 185, 35);
-        --success-bg-color: rgb(0, 80, 20);
+        --success-bg-color: rgb(0, 60, 10);
         --error-color: rgb(235, 85, 55);
         --error-bg-color: rgb(80, 0, 0);
         --warning-color: rgb(255, 140, 60);
         --warning-bg-color: rgb(80, 20, 20);
-        --info-color: rgb(110, 110, 255);
-        --info-bg-color: rgb(0, 0, 80);
+        --info-color: rgb(140, 180, 255);
+        --info-bg-color: rgb(15, 10, 60);
     }
 }
 

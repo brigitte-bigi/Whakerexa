@@ -107,11 +107,14 @@ main > .panel-item:nth-child(even) * {
 /* ----------------------------------------------------------------------- */
 
 .flex-panel {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     justify-content: space-evenly;
     row-gap: 0.5rem;
     column-gap: 0.5rem;
     flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
 }
 
 .flex-panel > * {
