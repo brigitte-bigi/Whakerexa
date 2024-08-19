@@ -102,6 +102,7 @@
         transform: translateX(0);
     }
 }
+
 @keyframes slideInFromRight {
     0% {
         transform: translateX(100%);
@@ -110,6 +111,7 @@
         transform: translateX(0);
     }
 }
+
 @keyframes slideInFromTop {
     0% {
         transform: translateY(-100%);
@@ -118,6 +120,7 @@
         transform: translateX(0);
     }
 }
+
 @keyframes slideInFromBottom {
     0% {
         transform: translateY(100%);
@@ -126,6 +129,7 @@
         transform: translateX(0);
     }
 }
+
 @keyframes animDisabled {
     100% {
         transform: none;
@@ -157,6 +161,24 @@
         opacity: 0;
         transform: scaleY(0);
         display: none;
+    }
+}
+
+@keyframes darkenBackground {
+    from {
+        background-color: transparent;
+    }
+    to {
+        background-color: var(--bg-color);
+    }
+}
+
+@keyframes brightenBackground {
+    from {
+        background-color: var(--bg-color);
+    }
+    to {
+        background-color: transparent;
     }
 }
 
@@ -354,6 +376,7 @@
     --progress-bg-color: rgb(49, 47, 85);
     --mark-bg-color: rgba(255, 250, 100, 0.5);
     --inputs-bg-color: rgba(225, 225, 220, 0.5);
+    --selection-bg-color: rgb(174, 194, 255);
 
     /* Foreground colors */
     --header-fg-color: rgb(241, 241, 245);
@@ -424,6 +447,7 @@ or (prefers-color-scheme: dark)
         --buttons-bg-color: rgb(80, 80, 70);
         --progress-bg-color: rgb(67, 77, 97);
         --inputs-bg-color: rgba(80, 80, 70, 0.5);
+        --selection-bg-color: rgb(114, 114, 205);
 
         /* Foreground colors */
         --header-fg-color: rgb(41, 41, 45);
@@ -592,6 +616,16 @@ or (prefers-color-scheme: dark)
 ::after, ::before {
     text-decoration: inherit;
     vertical-align: inherit
+}
+
+::selection {
+    background: var(--selection-bg-color);
+    color: var(--fg-color);
+}
+
+::-moz-selection {
+    background: var(--selection-bg-color);
+    color: var(--fg-color);
 }
 
 html {
