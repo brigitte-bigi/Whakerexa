@@ -183,4 +183,36 @@ class RequestManager {
 
         return request_response_data;
     }
+
+    /**
+     * Uploads a file (only one) from an input to the server.
+     * Returns the server response in json format (already decoded).
+     *
+     * @param input {HTMLInputElement} - the input that contains the file to upload
+     * @param accept_type {string} - mimetype of the server response, json by default.
+     * @param token {string} - the token of the user to authenticate the request
+     * @returns {Promise<*>} The server response.
+     */
+    async upload_file(input, accept_type = "application/json", token = "") {
+        let response_data = null;
+        // format file to upload to the server
+        let data = new FormData();
+        data.append('file', input.files[0]);
+        // send request to the back-end and wait the response (response in json)
+        await fetch(this.request_url, {
+            method: 'POST',
+            headers: {
+                'Accept': accept_type,
+                "Authorization": 'Bearer ' + token
+            },
+            body: data
+        })
+            // get the response and update the current status code
+            .then(async response => {
+                this.#status = response.status;
+                response_data = await response.json();
+            });
+
+        return response_data;
+    }
 }
