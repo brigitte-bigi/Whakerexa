@@ -95,6 +95,7 @@ button[role=menuitem] {
 [role=menuitem].nav-current  {
     color: var(--a-color);
     background-color: var(--bg-color);
+    opacity: 0.5;
 }
 
 [role=menuitem] > img {
