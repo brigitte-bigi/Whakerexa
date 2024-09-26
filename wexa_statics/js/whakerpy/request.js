@@ -1,11 +1,10 @@
 /**
 :filename: whakerpy.js.request.js
-:author: Florian Lopitaux
+:author: Florian Lopitaux, Brigitte Bigi
 :contact: contact@sppas.org
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
-.. _This file is part of WhakerPy: https://sourceforge.net/projects/whakerpy/ ,
-.. on 2024-02-28.
+.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
     -------------------------------------------------------------------------
 
     Copyright (C) 2011-2024  Brigitte Bigi
@@ -39,6 +38,23 @@ paradigm consult the javascript documentation:
 https://developer.mozilla.org/fr/docs/Learn/JavaScript/Asynchronous
 (only async and await keywords are necessary to understand to used the
 asynchronous class methods)
+
+Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
+
+- protocol: Specifies the protocol name be used to access the resource on 
+  the Internet. 
+  For example: HTTP (without SSL) or HTTPS (with SSL)
+- hostname: Host name specifies the host that owns the resource. 
+  For example, www.somewhere.org. 
+  A server provides services using the name of the host.
+- port: A port number used to recognize a specific process to which an Internet
+  or other network message is to be forwarded when it arrives at a server.
+- pathname: The path gives info about the specific resource within the host t
+  that the Web client wants to access.
+  For example, /index.html.
+- search: A query string follows the path component, and provides a string
+  of information that the resource can utilize for some purpose.
+- hash: The anchor portion of a URL, includes the hash sign (#).
 
 */
 
@@ -108,13 +124,13 @@ class RequestManager {
     /**
      * This method is used to send a GET HTTP request to the python server.
      *
-     * @param uri {string} - The parameters (after the url) of the GET request.
+     * @param uri {string} - The pathname of the GET request.
      * @param is_json_response {boolean} - False by default.
      *                                     Boolean value to know if the server response is a json object to parse.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_get_request(uri, is_json_response = false) {
+    async send_get_request(uri = "", is_json_response = false) {
         const complete_url = this.request_url + uri;
         let request_response_data = null;
 
@@ -146,11 +162,13 @@ class RequestManager {
      * This method is used to send a POST HTTP request to the python server.
      * The content of the posted data must be in JSON format.
      *
+     * @param uri {string} - The pathname of the POST request.
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters) {
+    async send_post_request(post_parameters, uri = "") {
+		const complete_url = this.request_url + uri;
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
@@ -162,7 +180,7 @@ class RequestManager {
         }
 
         // send request to the server
-        await fetch(this.request_url, {
+        await fetch(complete_url, {
             method: "POST",
             headers: request_header,
             body: post_parameters
