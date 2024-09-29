@@ -41,11 +41,11 @@ asynchronous class methods)
 
 Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
 
-- protocol: Specifies the protocol name be used to access the resource on 
-  the Internet. 
+- protocol: Specifies the protocol name be used to access the resource on
+  the Internet.
   For example: HTTP (without SSL) or HTTPS (with SSL)
-- hostname: Host name specifies the host that owns the resource. 
-  For example, www.somewhere.org. 
+- hostname: Host name specifies the host that owns the resource.
+  For example, www.somewhere.org.
   A server provides services using the name of the host.
 - port: A port number used to recognize a specific process to which an Internet
   or other network message is to be forwarded when it arrives at a server.
@@ -164,17 +164,19 @@ class RequestManager {
      *
      * @param uri {string} - The pathname of the POST request.
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
+     * @param accept_type {string} - mime type of the server response, json by default.
+     * @param uri {string} - The pathname of the GET request.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters, uri = "") {
+    async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
 		const complete_url = this.request_url + uri;
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
         post_parameters = JSON.stringify(post_parameters);
         let request_header = {
-            'Accept': "application/json",
+            'Accept': accept_type,
             'Content-Type': "application/json; charset=utf-8",
             'Content-Length': post_parameters.length.toString()
         }
@@ -188,9 +190,13 @@ class RequestManager {
             // then gets content of the server response
             .then(async response =>  {
                 // get the status response and check if there is an error
-                this.#status = response.status
+                this.#status = response.status;
 
-                request_response_data = await response.json();
+                if (accept_type.includes("application/json")) {
+                    request_response_data = await response.json();
+                } else {
+                    request_response_data = await response.blob();
+                }
             })
             // handle error
             .catch(error => {
@@ -209,15 +215,19 @@ class RequestManager {
      * @param input {HTMLInputElement} - the input that contains the file to upload
      * @param accept_type {string} - mimetype of the server response, json by default.
      * @param token {string} - the token of the user to authenticate the request
+     * @param uri {string} - The pathname of the GET request.
+     *
      * @returns {Promise<*>} The server response.
      */
-    async upload_file(input, accept_type = "application/json", token = "") {
+    async upload_file(input, accept_type = "application/json", token = "", uri = "") {
         let response_data = null;
+        const complete_url = this.request_url + uri;
+
         // format file to upload to the server
         let data = new FormData();
         data.append('file', input.files[0]);
-        // send request to the back-end and wait the response (response in json)
-        await fetch(this.request_url, {
+        // send request to the back-end and wait for the response (response in json)
+        await fetch(complete_url, {
             method: 'POST',
             headers: {
                 'Accept': accept_type,

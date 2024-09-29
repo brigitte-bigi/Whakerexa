@@ -102,7 +102,6 @@
         transform: translateX(0);
     }
 }
-
 @keyframes slideInFromRight {
     0% {
         transform: translateX(100%);
@@ -111,7 +110,6 @@
         transform: translateX(0);
     }
 }
-
 @keyframes slideInFromTop {
     0% {
         transform: translateY(-100%);
@@ -120,7 +118,6 @@
         transform: translateX(0);
     }
 }
-
 @keyframes slideInFromBottom {
     0% {
         transform: translateY(100%);
@@ -129,7 +126,6 @@
         transform: translateX(0);
     }
 }
-
 @keyframes animDisabled {
     100% {
         transform: none;
@@ -161,24 +157,6 @@
         opacity: 0;
         transform: scaleY(0);
         display: none;
-    }
-}
-
-@keyframes darkenBackground {
-    from {
-        background-color: transparent;
-    }
-    to {
-        background-color: var(--bg-color);
-    }
-}
-
-@keyframes brightenBackground {
-    from {
-        background-color: var(--bg-color);
-    }
-    to {
-        background-color: transparent;
     }
 }
 
@@ -358,7 +336,7 @@
 /*      COLORS: Default color scheme is light       */
 /* ------------------------------------------------ */
 
-:root:not([data-theme=dark]), [data-theme=light] {
+:root:not([data-theme=dark]), [data-theme=light], .light {
     /* Main colors */
     --bg-color: rgb(250, 250, 252);
     --bg-color-alt: rgb(240, 240, 240);
@@ -376,7 +354,6 @@
     --progress-bg-color: rgb(49, 47, 85);
     --mark-bg-color: rgba(255, 250, 100, 0.5);
     --inputs-bg-color: rgba(225, 225, 220, 0.5);
-    --selection-bg-color: rgb(174, 194, 255);
 
     /* Foreground colors */
     --header-fg-color: rgb(241, 241, 245);
@@ -447,7 +424,6 @@ or (prefers-color-scheme: dark)
         --buttons-bg-color: rgb(80, 80, 70);
         --progress-bg-color: rgb(67, 77, 97);
         --inputs-bg-color: rgba(80, 80, 70, 0.5);
-        --selection-bg-color: rgb(114, 114, 205);
 
         /* Foreground colors */
         --header-fg-color: rgb(41, 41, 45);
@@ -478,17 +454,17 @@ or (prefers-color-scheme: dark)
 
         /* Alerts */
         --question-color: rgb(215, 115, 255);
-        --question-bg-color: rgb(40, 0, 90);
+        --question-bg-color: rgb(60, 0, 100);
         --tips-color: rgb(255, 215, 115);
         --tips-bg-color: rgb(110, 80, 0);
         --success-color: rgb(35, 185, 35);
-        --success-bg-color: rgb(0, 60, 10);
+        --success-bg-color: rgb(0, 80, 20);
         --error-color: rgb(235, 85, 55);
         --error-bg-color: rgb(80, 0, 0);
         --warning-color: rgb(255, 140, 60);
         --warning-bg-color: rgb(80, 20, 20);
-        --info-color: rgb(140, 180, 255);
-        --info-bg-color: rgb(15, 10, 60);
+        --info-color: rgb(110, 110, 255);
+        --info-bg-color: rgb(0, 0, 80);
     }
 }
 
@@ -616,16 +592,6 @@ or (prefers-color-scheme: dark)
 ::after, ::before {
     text-decoration: inherit;
     vertical-align: inherit
-}
-
-::selection {
-    background: var(--selection-bg-color);
-    color: var(--fg-color);
-}
-
-::-moz-selection {
-    background: var(--selection-bg-color);
-    color: var(--fg-color);
 }
 
 html {
@@ -842,7 +808,7 @@ body > main > h1,
 body > main > * h1
 {
     font-size: calc(2.25*var(--font-size));
-    line-height: calc(3*var(--font-size));
+    line-height: calc(2.25*var(--typography-spacing-vertical));
     padding-bottom: calc(1.5 * var(--typography-spacing-vertical));
 }
 
@@ -855,7 +821,7 @@ h2 {
 body > main > h2,
 body > main > * h2 {
     font-size: calc(1.8 * var(--font-size));
-    line-height: calc(2 * var(--font-size));
+    line-height: calc(1.8 * var(--typography-spacing-vertical));
     padding-bottom: var(--typography-spacing-vertical);
     position: relative;
 }
@@ -868,7 +834,7 @@ body > footer > h2
 
 h3 {
     font-size: calc(1.5 * var(--font-size));
-    line-height: calc(1.8 * var(--font-size));
+    line-height: calc(1.5 * var(--typography-spacing-vertical));
     font-weight: var(--font-weight-semibold);
     color: var(--h3-color);
     letter-spacing: calc(2*var(--letter-spacing));
