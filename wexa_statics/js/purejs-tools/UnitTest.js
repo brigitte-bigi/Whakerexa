@@ -1,5 +1,5 @@
 /**
-:filename: src.UnitTest.js
+:filename: purejs-tools.UnitTest.js
 :author: Florian Lopitaux
 :contact: florian.lopitaux@gmail.com
 :summary: file that contains the UnitTest class.

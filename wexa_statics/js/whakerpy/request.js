@@ -1,7 +1,7 @@
 /**
 :filename: whakerpy.js.request.js
-:contributor: Florian Lopitaux
 :author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 

@@ -1,5 +1,5 @@
 /**
-:filename: src.OnLoadManager.js
+:filename: purejs-tools.OnLoadManager.js
 :author: Florian Lopitaux
 :contact: florian.lopitaux@gmail.com
 :summary: file that contains the OnLoadManager class to process multiple functions in an onload event.

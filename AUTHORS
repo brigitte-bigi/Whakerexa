@@ -2,7 +2,7 @@
 -------------------------------------------------------------------------
 
 Whakerexa
-Copyright (C) 2023-2024  Brigitte Bigi
+Copyright (C) 2023-2024  Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 -------------------------------------------------------------------------
@@ -10,7 +10,7 @@ Laboratoire Parole et Langage, Aix-en-Provence, France
 See the accompanying LICENSE file for details.
 
 A contributing author is a person or company who contributed code that
-is now part of WhakerPy.
+is now part of Whakerexa.
 
 For the purpose of copyright and licensing, this is the official list
 of contributing authors.
@@ -23,6 +23,6 @@ Main author, contributor, maintainer, developer:
 
 Contributors:
 
-	* april-june 2023 Mathias Cazals
+    * april-june 2023 Mathias Cazals
     * april-june 2023 Florian Lopitaux
     * march-june 2024 Florian Lopitaux

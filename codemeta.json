@@ -1,0 +1,46 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "codeRepository": "https://whakerexa.sf.net/",
+    "contIntegration": "",
+    "dateCreated": "2024-03-06",
+    "datePublished": "2024-03-30",
+    "dateModified": "2024-10-12",
+    "downloadUrl": "https://sourceforge.net/projects/whakerexa/files/latest/download",
+    "name": "Whakerexa",
+    "version": "0.5",
+    "description": "Whakerexa offers CSS frameworks and JavaScript scripts to generate an accessible HTML content.",
+    "applicationCategory": "Computer Science",
+    "releaseNotes": "",
+    "referencePublication": "",
+    "keywords": [
+        "HTML",
+        "CSS",
+        "JS",
+        "web",
+        "RGAA",
+        "accessibility"
+    ],
+    "programmingLanguage": [
+        "CSS",
+        "JavaScript"
+    ],
+    "operatingSystem": [
+        "Windows",
+        "MacOS",
+        "Linux"
+    ],
+    "author": [
+        {
+            "@type": "Person",
+            "@id": "http://orcid.org/0000-0003-1834-6918",
+            "givenName": "Brigitte",
+            "familyName": "Bigi",
+            "email": "contact@sppas.org",
+            "affiliation": {
+                "@type": "Organization",
+                "name": "Laboratoire Parole et Langage, CNRS, Aix Marseille Univ, Aix-en-Provence, France"
+            }
+        }
+    ]
+}

@@ -23,7 +23,7 @@ It can be combined with the use of `WhakerPy`, an open source library to create 
 
 ## License
 
-Whakerexa is under the terms of the GNU General Public License, version 3.
+Whakerexa is under the terms of the GNU Affero General Public License, version 3.
 
 
 
@@ -118,6 +118,7 @@ background dialogs, corrected a bug in accessibility.
 - Added accessibility icons
 - Added upload of files in request.js
 - Minor CSS changes
+- Migrated license, from GPL to AGPL.
 
 ## Version 0.6 - develop
 
