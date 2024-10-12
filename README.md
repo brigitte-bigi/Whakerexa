@@ -69,7 +69,7 @@ Whakerexa is used by "ClammingPy", a tool to create automatically python documen
 
 ## Author/Copyright
 
-Copyright (C) 2023-2024 - Brigitte Bigi - <contact@sppas.org>
+Copyright (C) 2023-2024 - Brigitte Bigi, CNRS - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France.
 
 See the AUTHORS file for the full list of contributors.
@@ -108,17 +108,21 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 - The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
 - Added modal dialogs to show an alert message: info, success, warning, error, tips, question
 
-## Version 0.4 - latest stable
+## Version 0.4
 
 This is mainly a bug-correction version: adjusted some width, removed transparency of 
 background dialogs, corrected a bug in accessibility.
 
-## Version 0.5 - develop
+## Version 0.5 - latest stable
+
+- Added accessibility icons
+- Added upload of files in request.js
+- Minor CSS changes
+
+## Version 0.6 - develop
 
 ### Hopefully incoming:
 
 - a connexion dialog, useful for authentication
-- a tooltip dialog which is opened on hover dans closed on leave
 - a multiple-checkbox
 - documentation of layouts
-- in layout: an horizontal cards panel

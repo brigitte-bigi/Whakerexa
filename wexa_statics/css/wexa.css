@@ -4,31 +4,31 @@
 :contact: contact@sppas.org
 :summary: a CSS framework to make nice accessible web content
 
-.. _This file is part of Whakerexa: https://whakerexa.sf.net/
-..
-    -------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
-    Laboratoire Parole et Langage, Aix-en-Provence, France
+This file is part of Whakerexa: https://whakerexa.sf.net/
 
-    Use of this software is governed by the GNU Public License, version 3.
+Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Whakerexa is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Use of this software is governed by the GNU Public License, version 3.
 
-    Whakerexa is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Whakerexa is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    You should have received a copy of the GNU General Public License
-    along with Whakerexa. If not, see <http://www.gnu.org/licenses/>.
+Whakerexa is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    This banner notice must not be removed.
+You should have received a copy of the GNU General Public License
+along with Whakerexa. If not, see <http://www.gnu.org/licenses/>.
 
-    -------------------------------------------------------------------------
+This banner notice must not be removed.
+
+-------------------------------------------------------------------------
 
 */
 
@@ -293,8 +293,8 @@
     /* Thin borders */
     --border-width: 1px;
     --border-radius: 2px;
-    --outline-size: 2px;
     --table-border-width: 1px;
+    --outline-size: 2px;
 }
 
 /* Re-define some global variables for disabilities */
@@ -309,7 +309,7 @@
        - Word spacing to at least 0.16 times the font size.
 
     Conforming to this criteria provides accommodation for people to modify
-    their text styles according to their needs.*/
+    their text styles according to their needs. */
 
     --font-family-sans: ContrastFont, SansFont, 'Verdana', sans-serif;
     --font-weight-thin: 300;
@@ -318,17 +318,14 @@
     --font-weight-semibold: 600;
     --font-weight-bold: 750;
     --font-weight-black: 800;
-    --font-size: calc(16px / var(--size-divisor));
     --line-height: 1.5;
-    --typography-spacing-vertical: calc(1.2 * 16px / var(--size-divisor));
-    --typography-spacing-horizontal: calc(0.8 * 16px / var(--size-divisor));
     --letter-spacing: 0.12rem;
     --word-spacing: 0.16rem;
 
     /* Larger borders */
-    --border-width: 3px;
-    --border-radius: 6px;
-    --table-border-width: 3px;
+    --border-width: 2px;
+    --border-radius: 4px;
+    --table-border-width: 2px;
     --outline-size: 3px;
 }
 
@@ -992,7 +989,7 @@ a, [role=link] {
 }
 
 :where(a:not([role=button])), [role=link] {
-    text-underline-offset: 0.2em;
+    text-underline-offset: 0.25em;
 }
 
 a:hover {
