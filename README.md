@@ -122,6 +122,9 @@ background dialogs, corrected a bug in accessibility.
 
 ## Version 0.6 - develop
 
+- Added sortatable: a CSS/JS utility designed for sorting table rows in ascending or descending order
+
+
 ### Hopefully incoming:
 
 - a connexion dialog, useful for authentication

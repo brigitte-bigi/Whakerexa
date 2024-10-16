@@ -71,6 +71,10 @@ class SortaTable {
         this.#className = ".sortatable";
     }
 
+    // ----------------------------------------------------------------------
+    // PUBLIC
+    // ----------------------------------------------------------------------
+
     /**
      * Attaches event listeners to table headers with the class 'sortable'.
      * The headers are expected to have a 'data-sort' attribute which specifies the column to sort.
@@ -91,13 +95,11 @@ class SortaTable {
                 // Check if the current header is already sorted in ascending order
                 const currentIsAsc = button.classList.contains('sort-asc');
 
+                // Remove sort classes from all headers to reset the state
                 this._tableElt.querySelectorAll(this.#className).forEach(h => {
                     h.classList.remove('sort-asc', 'sort-desc');
                 });
-                // Remove sort classes from all headers to reset the state
-                document.querySelectorAll(this.#className).forEach(h => {
-                    h.classList.remove('sort-asc', 'sort-desc');
-                });
+
                 // Add the appropriate sort class based on the current sort state
                 button.classList.add(currentIsAsc ? 'sort-desc' : 'sort-asc');
                 // Call the sortTable function to sort the table rows
