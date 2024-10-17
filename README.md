@@ -129,5 +129,4 @@ background dialogs, corrected a bug in accessibility.
 ### Hopefully incoming:
 
 - a connexion dialog, useful for authentication
-- a multiple-checkbox
 - documentation of layouts
