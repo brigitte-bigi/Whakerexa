@@ -47,13 +47,22 @@ This banner notice must not be removed.
 .sortatable::after {
     content: '';
     display: inline-block;
-    width: 0;
-    height: 0;
+    width: 0.8rem;
+    height: 0.6rem;
     margin-left: 1rem;
     vertical-align: middle;
     border-style: solid;
+    border-color: var(--a-color);
 }
 
+/* No sorted: a square */
+.sortatable:not(.sort-asc):not(.sort-desc)::after {
+    width: 0.8rem;
+    height: 0;
+    border-top: 0.1rem solid var(--a-color);
+}
+
+/* Sorted: an arrow */
 .sort-asc::after {
     border-width: 0 0.4rem 0.4rem 0.4rem;
     border-color: transparent transparent var(--a-color) transparent;

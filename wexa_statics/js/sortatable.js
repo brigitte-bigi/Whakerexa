@@ -73,6 +73,13 @@ class SortaTable {
             // Table element is not found, log a warning and prevent further execution
             console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
         }
+
+        // Store original rows order
+        const tbody = this._tableElt.querySelector('tbody');
+        const rows = Array.from(tbody.getElementsByTagName('tr'));
+        rows.forEach((row, index) => {
+            row.setAttribute('data-original-index', index);
+        });
     }
 
     // ----------------------------------------------------------------------
@@ -117,18 +124,28 @@ class SortaTable {
 
                 // Retrieve the data-sort attribute from the clicked header
                 const sortAttribute = button.getAttribute('data-sort');
-                // Check if the current header is already sorted in ascending order
-                const currentIsAsc = button.classList.contains('sort-asc');
+                const isAsc = button.classList.contains('sort-asc');
+                const isDesc = button.classList.contains('sort-desc');
 
                 // Remove sort classes from all headers to reset the state
                 this._tableElt.querySelectorAll(this._className).forEach(h => {
                     h.classList.remove('sort-asc', 'sort-desc');
                 });
 
-                // Add the appropriate sort class based on the current sort state
-                button.classList.add(currentIsAsc ? 'sort-desc' : 'sort-asc');
-                // Call the sortTable function to sort the table rows
-                this.#sortTable(sortAttribute, !currentIsAsc);
+                // Call the sortTable function to sort the table rows and update button
+                // Toggle between 3 states: no sort -> ascending -> descending
+                if (isAsc) {
+                    button.classList.remove('sort-asc');
+                    button.classList.add('sort-desc');
+                    this.#sortTable(sortAttribute, false);
+                } else if (isDesc) {
+                    button.classList.remove('sort-desc');
+                    // No sort applied, reset table
+                    this.#noSortTable();
+                } else {
+                    button.classList.add('sort-asc');
+                    this.#sortTable(sortAttribute, true);
+                }
 
                 event.stopPropagation();
             });
@@ -159,7 +176,103 @@ class SortaTable {
     }
 
     // ----------------------------------------------------------------------
+
+    /**
+     * Update the visibility of toggable columns in the table.
+     *
+     * @param {NodeList} checkBoxes - List of checkboxes with data-toggle attribute
+     *
+     */
+    toggleColumnVisibility(checkBoxes) {
+        // Iterate over each checkbox in checkBoxes
+        checkBoxes.forEach(checkbox => {
+            // Check if the checkbox has a data-toggle attribute
+            const columnName = checkbox.getAttribute('data-toggle');
+            if (!columnName) {
+                console.warn("Checkbox does not have a data-toggle attribute. Skipping...");
+                return; // Skip this checkbox if it doesn't have a data-toggle attribute
+            }
+
+            // Initialize column index
+            let columnIndex = -1;
+
+            // Iterate through the header cells to find the index
+            const headerCells = this._tableElt.querySelectorAll('thead th');
+            for (let index = 0; index < headerCells.length; index++) {
+                const cell = headerCells[index];
+
+                // Check if the cell has the data-sort attribute matching columnName
+                if (cell.getAttribute('data-sort') === columnName) {
+                    columnIndex = index; // Store the column index
+                    break; // Exit the loop early since we've found the column
+                }
+
+                // Find the button with class "sortatable"
+                const button = cell.querySelector(this._className);
+                // Check if the button exists and matches the column name
+                if (button && button.getAttribute('data-sort') === columnName) {
+                    columnIndex = index; // Store the column index
+                    break; // Exit the loop early since we've found the column
+                }
+            }
+
+            // If columnIndex is found, toggle its visibility
+            if (columnIndex !== -1) {
+                // Get the checkbox state (checked or not)
+                const checkboxState = checkbox.checked;
+
+                // Use the columnVisibility method to update the visibility
+                this.columnVisibility(columnIndex, checkboxState);
+            } else {
+                console.warn(`Column with name "${columnName}" not found.`);
+            }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Enable or disable the visibility of a column in the table.
+     *
+     * @param {number} columnIndex - The index of the column to toggle.
+     * @param {boolean} show - Whether to show or hide the column.
+     *
+     */
+    columnVisibility(columnIndex, show) {
+        // Get all table rows
+        const rows = this._tableElt.rows;
+
+        // Iterate over each row (including header)
+        for (let i = 0; i < rows.length; i++) {
+            const cell = rows[i].cells[columnIndex];
+            if (cell) {
+                // Toggle the 'hidden' class based on the show flag
+                if (show) {
+                    cell.classList.remove('hidden');
+                } else {
+                    cell.classList.add('hidden');
+                }
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
     // PRIVATE
+    // ----------------------------------------------------------------------
+
+    /**
+     * Resets the table to its original state (no sorting).
+     *
+     */
+    #noSortTable() {
+        const tbody = this._tableElt.querySelector('tbody');
+        const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+        // Re-organize lines by their original order
+        rows.sort((a, b) => a.getAttribute('data-original-index') - b.getAttribute('data-original-index'));
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
     // ----------------------------------------------------------------------
 
     /**

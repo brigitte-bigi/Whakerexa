@@ -50,12 +50,61 @@ This banner notice must not be removed.
     --card-border-radius: 12px;
 }
 
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
+}
 
 /* =======================================================================
                             CLASSES FOR SIZES
   ======================================================================== */
 
+.width_10 {
+    min-width: 18%;
+}
 
+.width_20 {
+    min-width: 18%;
+}
+
+.width_30 {
+    min-width: 28%;
+}
+
+.width_40 {
+    width: 38%;
+}
+
+.width_50 {
+    width: 48%;
+}
+
+.width_60 {
+    width: 58%;
+}
+
+.width_70 {
+    width: 68%;
+}
+
+.width_80 {
+    width: 78%;
+}
+
+.width_90 {
+    width: 88%;
+}
+
+.width_95 {
+    width: 95%;
+}
+
+.width_full {
+    width: 100%;
+}
 
 /* =======================================================================
                             CLASSES FOR CONTAINERS

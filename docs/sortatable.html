@@ -8,14 +8,18 @@
     <title>Whakerexa</title>
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/sortatable.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../wexa_statics/css/toggleselect.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="screen" />
 
     <script src="../wexa_statics/js/sortatable.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/toggleselect.js" type="application/javascript"></script>
     <style>
         :root:not([data-theme=dark]), [data-theme=light] {
             --header-height: 30vh;
             --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
         }
     </style>
+
 </head>
 <body>
 
@@ -126,7 +130,7 @@ class AdvancedSortaTable extends SortaTable {
         <h2>CSS</h2>
 
         <p>The <code>sortatable</code> class is used to style the buttons in the table headers and adds
-            up/down arrows to indicate sorting direction. <em>This class must be added to the buttons in
+            up/down arrows to indicate a sorting direction. <em>This class must be added to the buttons in
                 the header.</em></p>
         <p>The <code>sortatable</code> class ensures that the buttons are fully responsive, occupying the
             available space in their respective header cells. The class also sets a uniform height and
@@ -280,18 +284,113 @@ class AdvancedSortaTable extends SortaTable {
             </tbody>
         </table>
 
+        <h2>Example 3</h2>
+
+        <section class="flex-panel">
+            <details class="flex-item" id="toggable-details">
+                <summary class="summary-choice">
+                    <span>Columns visibility:</span>
+                    <button class="accordion-action" data-toggle
+                            onclick="toggleSelector.toggleSelection(event);"
+                            onkeydown="toggleSelector.toggleSelection(event);">
+                        <img src="../wexa_statics/icons/checked.png" alt="X" />
+                    </button>
+                </summary>
+                <main>
+                    <ul>
+                        <li class="check-item">
+                            <input id="event_input" type="checkbox" aria-labelledby="event_label" checked="checked" data-toggle="event"/>
+                            <label for="event_input" id="event_label">
+                                Show/Hide event
+                            </label>
+                        </li>
+                        <li class="check-item">
+                            <input id="date_input" type="checkbox" aria-labelledby="date_label" data-toggle="date"/>
+                            <label for="date_input" id="date_label">
+                                Show/Hide date
+                            </label>
+                        </li>
+                        <li class="check-item">
+                            <input id="descr_input" type="checkbox" aria-labelledby="descr_label" checked="checked" data-toggle="description"/>
+                            <label for="descr_input" id="descr_label">
+                                Show/Hide description
+                            </label>
+                        </li>
+                    </ul>
+                </main>
+            </details>
+            <button onclick="sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());">Appliquer</button>
+        </section>
+
+        <table id="toggable-table">
+            <thead>
+            <tr>
+                <th>
+                    <button class="sortatable" data-sort="name">
+                        Name
+                    </button>
+                </th>
+                <th>
+                    <button class="sortatable" data-sort="event">
+                        Event
+                    </button>
+                </th>
+                <th>
+                    <button class="sortatable" data-sort="date">
+                        Date
+                    </button>
+                </th>
+                <th data-sort="description">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Sarah</td>
+                <td>Connor</td>
+                <td>1984-05-12</td>
+                <td>Terminator's target</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>Connor</td>
+                <td>2029-07-11</td>
+                <td>Leader of the human resistance</td>
+            </tr>
+            <tr>
+                <td>Kyle</td>
+                <td>Reese</td>
+                <td>1984-05-12</td>
+                <td>Sent back to protect Sarah Connor</td>
+            </tr>
+            <tr>
+                <td>Skynet</td>
+                <td>Activation</td>
+                <td>1997-08-29</td>
+                <td>Skynet becomes self-aware</td>
+            </tr>
+            <tr>
+                <td>Judgment Day</td>
+                <td>Event</td>
+                <td>1997-08-29</td>
+                <td>Skynet launches a nuclear attack</td>
+            </tr>
+            <tr>
+                <td>T-800</td>
+                <td>Arrival</td>
+                <td>1984-05-12</td>
+                <td>Sent to kill Sarah Connor</td>
+            </tr>
+            </tbody>
+        </table>
     </section>
-
-
 </main>
-
 
 <footer id="footer-content">
     <section>
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <p class="right-bottom print-off">
-            <a role="button" href="#main-content">  Scroll Up  </a>
+            <a role="button" href="#main-content">Scroll Up</a>
         </p>
     </section>
 </footer>
@@ -304,6 +403,14 @@ class AdvancedSortaTable extends SortaTable {
     sortatable2.attachSortListeners();
     // Ascendant sort on lastname
     sortatable2.sort("lastname", true);
+
+    sortatable3 = new SortaTable("toggable-table");
+    sortatable3.attachSortListeners();
+
+    toggleSelector = new ToggleSelector("../wexa_statics/icons/", "toggable-details");
+    toggleSelector.handleInputsOnLoad();
+    sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());
+
 </script>
 
 </body>

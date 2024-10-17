@@ -123,6 +123,7 @@ background dialogs, corrected a bug in accessibility.
 ## Version 0.6 - develop
 
 - Added sortatable: a CSS/JS utility designed for sorting table rows in ascending or descending order
+- Added toggleselect: CSS/JS utility for toggling checkbox states.
 
 
 ### Hopefully incoming:
