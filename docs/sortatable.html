@@ -286,8 +286,8 @@ class AdvancedSortaTable extends SortaTable {
 
         <h2>Example 3</h2>
 
-        <section class="flex-panel">
-            <details class="flex-item" id="toggable-details">
+        <div class="flex-panel" style="justify-content: start; margin-bottom: 1rem;">
+            <details class="flex-item width_30" id="toggable-details">
                 <summary class="summary-choice">
                     <span>Columns visibility:</span>
                     <button class="accordion-action" data-toggle
@@ -319,8 +319,11 @@ class AdvancedSortaTable extends SortaTable {
                     </ul>
                 </main>
             </details>
-            <button onclick="sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());">Appliquer</button>
-        </section>
+            <button class="flex-item"
+                    onclick="sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());">
+                Apply
+            </button>
+        </div>
 
         <table id="toggable-table">
             <thead>
