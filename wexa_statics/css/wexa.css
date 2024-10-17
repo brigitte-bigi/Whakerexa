@@ -1008,6 +1008,87 @@ a.external-link::after {
     text-decoration: underline;
 }
 
+/* ----------------- Button, Label and Input tags ----------------------- */
+
+button, input, a[role=button], select, textarea {
+    overflow: visible;
+}
+
+button, select, a[role=button], select, textarea {
+    text-transform: none;
+    text-decoration: none;
+}
+
+button, [type=button], [type=reset], [type=submit], [role=button] {
+    -webkit-appearance: button;
+}
+
+button, *[role=button], *[role=menuitem], summary {
+    background-color: var(--buttons-bg-color);
+    color: var(--buttons-fg-color);
+
+    cursor: pointer;
+    transition: all 0.4s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0.2rem;
+    margin: 0;
+}
+
+button, *[role=button], *[role=menuitem] {
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+
+    /* Ensure a minimum of character + padding */
+    min-height: calc(var(--font-size) * 1.2);
+    min-width: calc(var(--font-size) * 1.2);
+
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-size: 0.9rem;
+    overflow: hidden;
+
+    /* a button is a box with centered elements */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    /* for the buttons embedded in a box */
+    flex-grow: 0;      /* default is 0 */
+    flex-shrink: 1;    /* default is 1 */
+    flex-basis: auto;  /* default is auto */
+}
+
+[role=button]:is(:hover,:active,:focus),
+[role=button]:is([aria-current]:not([aria-current=false])),
+[type=button]:is(:hover,:active,:focus),
+[type=button]:is([aria-current]:not([aria-current=false])),
+[type=file]::file-selector-button:is(:hover,:active,:focus),
+[type=file]::file-selector-button:is([aria-current]:not([aria-current=false])),
+[type=reset]:is(:hover,:active,:focus),
+[type=reset]:is([aria-current]:not([aria-current=false])),
+[type=submit]:is(:hover,:active,:focus),
+[type=submit]:is([aria-current]:not([aria-current=false])),
+button:enabled:is(:hover,:active,:focus),
+button:enabled:is([aria-current]:not([aria-current=false])),
+summary:is(:hover,:active,:focus) {
+    opacity: 75%;
+}
+
+button:enabled img:hover {
+    /*transform: scale(1.2);*/
+    opacity: 75%;
+}
+
+/* Propagate button colors to its children */
+button *, *[role=button] *, *[role=menuitem] * {
+    background-color: transparent;
+    color: var(--buttons-fg-color);
+}
 
 /* --------------------------------- List(s) ----------------------------- */
 
@@ -1120,6 +1201,10 @@ table[role=grid] thead * {
     font-weight: var(--font-weight-bold);
 }
 
+thead td, thead th {
+    padding: var(--typography-spacing-horizontal) calc(var(--typography-spacing-vertical)) ;
+}
+
 tfoot td, tfoot th {
     border-top: var(--table-border-width) solid var(--table-border-color);
     border-bottom: 0;
@@ -1151,88 +1236,10 @@ caption span {
     color: inherit;
 }
 
-/* ----------------- Button, Label and Input tags ----------------------- */
-
-button, input, a[role=button], select, textarea {
-    overflow: visible;
+[role=presentation], table[role=presentation] td {
+    border: none;
+    text-align: left;
 }
-
-button, select, a[role=button], select, textarea {
-    text-transform: none;
-    text-decoration: none;
-}
-
-button, [type=button], [type=reset], [type=submit], [role=button] {
-    -webkit-appearance: button;
-}
-
-button, *[role=button], *[role=menuitem], summary {
-    background-color: var(--buttons-bg-color);
-    color: var(--buttons-fg-color);
-
-    cursor: pointer;
-    transition: all 0.4s;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    padding: 0.2rem;
-    margin: 0;
-}
-
-button, *[role=button], *[role=menuitem] {
-    border: var(--border-width) solid var(--border-color);
-    border-radius: var(--border-radius);
-
-    /* Ensure a minimum of character + padding */
-    min-height: calc(var(--font-size) * 1.2);
-    min-width: calc(var(--font-size) * 1.2);
-
-    font-weight: normal;
-    font-style: normal;
-    font-variant: normal;
-    font-size: 0.9rem;
-    overflow: hidden;
-
-    /* a button is a box with centered elements */
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-
-    /* for the buttons embedded in a box */
-    flex-grow: 0;      /* default is 0 */
-    flex-shrink: 1;    /* default is 1 */
-    flex-basis: auto;  /* default is auto */
-}
-
-[role=button]:is(:hover,:active,:focus),
-[role=button]:is([aria-current]:not([aria-current=false])),
-[type=button]:is(:hover,:active,:focus),
-[type=button]:is([aria-current]:not([aria-current=false])),
-[type=file]::file-selector-button:is(:hover,:active,:focus),
-[type=file]::file-selector-button:is([aria-current]:not([aria-current=false])),
-[type=reset]:is(:hover,:active,:focus),
-[type=reset]:is([aria-current]:not([aria-current=false])),
-[type=submit]:is(:hover,:active,:focus),
-[type=submit]:is([aria-current]:not([aria-current=false])),
-button:enabled:is(:hover,:active,:focus),
-button:enabled:is([aria-current]:not([aria-current=false])),
-summary:is(:hover,:active,:focus) {
-    opacity: 75%;
-}
-
-button:enabled img:hover {
-    /*transform: scale(1.2);*/
-    opacity: 75%;
-}
-
-/* Propagate button colors to its children */
-button *, *[role=button] *, *[role=menuitem] * {
-    background-color: transparent;
-    color: var(--buttons-fg-color);
-}
-
 
 /* ----------------- media & figure ----------- */
 

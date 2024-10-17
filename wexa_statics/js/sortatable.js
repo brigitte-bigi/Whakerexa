@@ -43,7 +43,7 @@ This banner notice must not be removed.
  *
  * Fields:
  * - _tableElt: The table element selected by its ID.
- * - #className: A private field that stores the class name of sortable headers.
+ * - _className: Stores the class name of sortable headers.
  *
  * Usage:
  * const sortable = new SortaTable('myTableId');
@@ -53,7 +53,7 @@ class SortaTable {
 
     // FIELDS
     _tableElt
-    #className
+    _className
 
     // CONSTRUCTOR
     /**
@@ -63,12 +63,16 @@ class SortaTable {
      *
      */
     constructor(tableId) {
+        // Name of the CSS class used by the button in the <th> element
+        this._className = ".sortatable";
+        console.debug("Sortatable is instantiated for table element: ", tableId);
+
+        // The <table> element which is manipulated in this class
         this._tableElt = document.getElementById(tableId);
         if (!this._tableElt) {
-            console.error('No table element is matching id ' + tableId);
+            // Table element is not found, log a warning and prevent further execution
+            console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
         }
-        // The name of the CSS class used by the button in the <th> element
-        this.#className = ".sortatable";
     }
 
     // ----------------------------------------------------------------------
@@ -76,19 +80,40 @@ class SortaTable {
     // ----------------------------------------------------------------------
 
     /**
+     * Returns the identifier (ID) of the table element.
+     *
+     * This method retrieves the 'id' attribute of the table element that
+     * was passed during the instantiation of the class. It allows
+     * access to the ID of the HTML table for further manipulations or
+     * reference purposes.
+     *
+     * @returns {string} The ID of the table element.
+     *
+     */
+    getTableId() {
+        return this._tableElt.getAttribute("id");
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
      * Attaches event listeners to table headers with the class 'sortable'.
+     *
      * The headers are expected to have a 'data-sort' attribute which specifies the column to sort.
      *
      */
     attachSortListeners() {
-        console.debug(" **** attach sort listeners for table " + this._tableElt);
+        if (!this._tableElt) {
+            return;
+        }
+        console.debug("Attach sort listeners for table " + this._tableElt);
         // Add event listeners to all headers with class 'sortatable'
-        const sortButtons = this._tableElt.querySelectorAll(this.#className);
+        const sortButtons = this._tableElt.querySelectorAll(this._className);
         console.debug("Found " + sortButtons.length + " sort buttons in headers");
 
         sortButtons.forEach(button => {
-            console.debug("Found sort button: ", `[${button}]`);
             button.addEventListener('click', (event) => {
+                console.debug(" ... button: ", `[${button}]`);
 
                 // Retrieve the data-sort attribute from the clicked header
                 const sortAttribute = button.getAttribute('data-sort');
@@ -96,7 +121,7 @@ class SortaTable {
                 const currentIsAsc = button.classList.contains('sort-asc');
 
                 // Remove sort classes from all headers to reset the state
-                this._tableElt.querySelectorAll(this.#className).forEach(h => {
+                this._tableElt.querySelectorAll(this._className).forEach(h => {
                     h.classList.remove('sort-asc', 'sort-desc');
                 });
 
@@ -110,11 +135,14 @@ class SortaTable {
         });
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Sorts the table based on a specified column.
      *
      * @param {string} column - The name of the column to sort by.
      * @param {boolean} [isAsc=true] - Whether to sort in ascending order (true) or descending (false).
+     *
      */
     sort(column, isAsc = true) {
         // Sort the table based on the specified column
@@ -123,7 +151,7 @@ class SortaTable {
         // Optionally, update the class on the header to reflect the current sort direction
         const headerButton = this._tableElt.querySelector(`button[data-sort="${column}"]`);
         if (headerButton) {
-            this._tableElt.querySelectorAll(this.#className).forEach(h => {
+            this._tableElt.querySelectorAll(this._className).forEach(h => {
                 h.classList.remove('sort-asc', 'sort-desc');
             });
             headerButton.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
