@@ -68,7 +68,7 @@ class RequestManager {
     #port;
     #url;
     #status;
-
+    maxFileSize;
 
     // CONSTRUCTOR
     /**
@@ -80,6 +80,7 @@ class RequestManager {
         this.#port = window.location.port;
         this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + "/";
         this.#status = null;
+        this.maxFileSize = 0;  // No upload file size limit
     }
 
     // ----------------------------------------------------------------------
@@ -249,11 +250,18 @@ class RequestManager {
 
         // Exit the function if no file is selected
         if (!input || !input.files || !input.files[0]) {
-            console.error("No file selected for upload.");
+            console.warn("No file selected for upload.");
             // Return a JSON object with status 400 and an error message
-            return {
-                error: "No file or empty file selected for upload."
-            };
+            return { error: "No file or empty file selected for upload." };
+        }
+
+        console.debug("Defined size limit: ", this.maxFileSize);
+        console.debug("File size to upload: ", input.files[0].size);
+        // Exit the function if size limit
+        if (this.maxFileSize !== 0 && input.files[0].size > this.maxFileSize) {
+            console.error("File size exceeds maximum of ${this.maxFileSize} bytes.");
+            // Return a JSON object with status 400 and an error message
+            return { error: "File size exceeds maximum allowed length." };
         }
 
         // Create a new File instance, with the sanitized filename (no diacritics)
@@ -266,7 +274,6 @@ class RequestManager {
         // Format file to upload to the server
         let data = new FormData();
         data.append('file', sanitizedFile);
-        console.debug("request to upload data: ", data);
 
         // Send request to the back-end and wait for the response (response in json)
         await fetch(complete_url, {
