@@ -223,6 +223,9 @@ class SortaTable {
 
                 // Use the columnVisibility method to update the visibility
                 this.columnVisibility(columnIndex, checkboxState);
+
+                // Optionally recalculate table width after updating visibility
+                this._tableElt.style.width = '100%';
             } else {
                 console.warn(`Column with name "${columnName}" not found.`);
             }

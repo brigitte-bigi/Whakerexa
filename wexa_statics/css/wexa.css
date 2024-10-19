@@ -1241,6 +1241,26 @@ caption span {
     text-align: left;
 }
 
+table[role="grid"] {
+    width: 100%;
+    table-layout: fixed; /* All columns will have equal width based on the table width */
+    border-collapse: collapse;
+}
+
+table[role="grid"] th,
+table[role="grid"] td {
+    width: 10%; /* Set a default width for each column */
+    max-width: 50%; /* Limit the width of any column */
+    overflow: hidden; /* Prevent content from overflowing */
+    word-wrap: break-word; /* Break words to avoid overflow */
+}
+
+table {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
 /* ----------------- media & figure ----------- */
 
 figure {
