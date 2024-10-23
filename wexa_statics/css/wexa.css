@@ -237,16 +237,32 @@ This banner notice must not be removed.
 /* All global variables for any screen or condition */
 /* ------------------------------------------------ */
 
+@media not print {
+    :root {
+        /* Sizes */
+        --screen-width: calc(1024px / var(--size-divisor));
+        /* Animations and transitions */
+        --header-slidein: slideInFromBottom;
+        --footer-slidein: animDisabled;
+        --transition: 0.4s ease-in-out;
+    }
+}
+
+@media print {
+    :root {
+        /* Sizes */
+        --screen-width: 720px;
+        /* Animations and transitions */
+        --header-slidein: none;
+        --footer-slidein: none;
+        --transition: none;
+    }
+}
+
 :root {
     /* Sizes */
-    --screen-width: calc(1024px / var(--size-divisor));
     --header-height: 60vh;
     --footer-height: 20vh;
-
-    /* Animations and transitions */
-    --header-slidein: slideInFromBottom;
-    --footer-slidein: animDisabled;
-    --transition: 0.4s ease-in-out;
 
     /* Font definitions */
     --font-family-sans: SansFont, Commissioner, 'Verdana', sans-serif;
@@ -1650,4 +1666,53 @@ dialog[role=alertdialog] * {
     backdrop-filter: grayscale(90%) blur(0.3rem);
 }
 
+/* =======================================================================
+                           Printing rules
+   ======================================================================= */
 
+/* ------------ Override any already defined properties ------------------ */
+
+@media print {
+
+    html {
+        background: white;  /* For toner saving */
+    }
+
+    body {
+        background: white;  /* For toner saving */
+        display: block;
+    }
+
+    main > section, main > * section {
+        padding: 0;
+    }
+
+    figure, table, img, svg {
+        break-inside: avoid;
+        break-before: region;
+    }
+
+    section, article, article p {
+        orphans: 2; /* no less than 2 lines at the bottom of the page */
+        widows: 2;  /* no less than 2 lines at the top of next page */
+    }
+
+    /* ---------------- Optional formatting rules ------------------------ */
+
+    /* Force a page break immediately prior to any "chapter" section. */
+    .chapter {
+        break-before: always;
+    }
+
+    /* For any element to force adding a blank page */
+    .blank-page {
+        page: blank;
+        page-break-after: always;
+    }
+
+    /* For any element that will be hidden when printing: */
+    .print-off {
+        display: none;
+    }
+
+}
