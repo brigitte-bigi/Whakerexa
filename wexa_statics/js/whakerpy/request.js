@@ -179,15 +179,18 @@ class RequestManager {
 
     // ----------------------------------------------------------------------
 
+
     /**
-     * This method is used to send a POST HTTP request to the python server.
-     * The content of the posted data must be in JSON format.
+     * Sends a POST HTTP request to the server, posting data in JSON format.
      *
-     * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
-     * @param accept_type {string} - mime type of the server response, json by default.
-     * @param uri {string} - The pathname of the POST request.
+     * Manages both JSON and Blob responses, and opens HTML error pages (like
+     * 500 errors) in a new tab if encountered.
      *
-     * @returns {Promise<*>} - The server data response.
+     * @param {Object} post_parameters - Data to be sent in the POST request, in JSON format.
+     * @param {string} [accept_type="application/json"] - Expected MIME type of the server's response, defaults to JSON.
+     * @param {string} [uri=""] - Additional path to append to the base request URL.
+     * @returns {Promise<*>} - Returns the parsed response data (JSON or Blob), or an error object.
+     * @throws {Error} - Throws an error if there is a network or if an HTML error page is received.
      *
      */
     async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
@@ -214,8 +217,33 @@ class RequestManager {
                 this.#status = response.status;
 
                 if (accept_type.includes("application/json")) {
-                    request_response_data = await response.json();
-                } else {
+                    try {
+                        request_response_data = await response.json();
+                    } catch (error) {
+                        console.error("Failed to parse JSON response", error);
+                        const responseText = await response.text();
+                        request_response_data = {
+                            status: response.status,
+                            error: "Failed to parse JSON. See error details in the newly opened tab.",
+                            html: responseText
+                        };
+                        // Open a new tab to display the error content -- probably HTML
+                        this.openErrorTab(responseText);
+                    }
+                }
+                // Handle HTML responses (e.g., error pages)
+                else if (accept_type.includes("text/html")) {
+                    // If response is HTML, treat it as a failed request (500 error or other)
+                    const responseText = await response.text();
+                    request_response_data = {
+                        status: response.status,
+                        error: "Received HTML instead of JSON. See error details in the newly opened tab.",
+                        html: responseText
+                    };
+                    // Open a new tab to display the HTML error content
+                    this.openErrorTab(responseText);
+                }
+                else {
                     request_response_data = await response.blob();
                 }
             })
@@ -227,6 +255,26 @@ class RequestManager {
         ;
 
         return request_response_data;
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * This function opens a new tab to display the HTML error content received from the server.
+     * It is used when the server returns HTML content, typically in error cases.
+     *
+     * @param responseText {string} - The HTML response text to display in the new tab.
+     */
+    openErrorTab(responseText) {
+        // Optionally open a new tab to display the HTML error content
+        const errorTab = window.open();
+        if (errorTab) {
+            errorTab.document.open();
+            errorTab.document.write(responseText);
+            errorTab.document.close();
+        } else {
+            console.error("Failed to open a new tab for the error page.");
+        }
     }
 
     // ----------------------------------------------------------------------
