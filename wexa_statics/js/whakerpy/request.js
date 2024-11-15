@@ -328,7 +328,7 @@ class RequestManager {
             method: 'POST',
             headers: {
                 'Accept': accept_type,
-                "Authorization": 'Bearer ' + token
+                'X-Auth-Token': 'Bearer ' + token
             },
             body: data
         })
