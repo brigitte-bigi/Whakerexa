@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <title>button.css</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
+
+    <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
+
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
+            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
+            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+        </ul>
+    </nav>
+    <h1>button.css</h1>
+    <h2>CSS for custom buttons</h2>
+</header>
+
+<main>
+
+    <h1>Toggle switch</h1>
+
+    <p>The switch class provides a highly customizable toggle switch component,
+        designed to be accessible, responsive, and visually adaptable to various themes.
+        It allows developers to create switches with or without text labels, in both
+        square and rounded styles.</p>
+
+    <p>This component supports dynamic theming through CSS custom properties <code>(--variables)</code>
+        and integrates seamlessly into modern web projects.</p>
+
+    <p>The following CSS custom properties can be adjusted to customize the appearance of the switch:</p>
+
+    <table>
+    <thead>
+        <tr>
+            <th>Variable</th>
+            <th>Description</th>
+            <th>Default Value</th>
+            <th>Example</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>--switch-width</code></td>
+            <td>Defines the width of the entire switch.</td>
+            <td><code>calc(var(--font-size) * 5)</code></td>
+            <td><code>--switch-width: 100px;</code></td>
+        </tr>
+        <tr>
+            <td><code>--switch-height</code></td>
+            <td>Sets the height of the switch.</td>
+            <td><code>calc(var(--font-size) * 2.8)</code></td>
+            <td><code>--switch-height: 40px;</code></td>
+        </tr>
+        <tr>
+            <td><code>--switch-bg-color</code></td>
+            <td>Background color of the switch slider in both on and off states.</td>
+            <td><code>var(--buttons-bg-color)</code></td>
+            <td><code>--switch-bg-color: #ccc;</code></td>
+        </tr>
+        <tr>
+            <td><code>--switch-fg-color</code></td>
+            <td>Color of the text or foreground elements on the switch.</td>
+            <td><code>var(--buttons-bg-color)</code></td>
+            <td><code>--switch-fg-color: #000;</code></td>
+        </tr>
+        <tr>
+            <td><code>--switch-slider-off-color</code></td>
+            <td>Background color of the slider in the "off" state.</td>
+            <td><code>var(--fg-color-alt)</code></td>
+            <td><code>--switch-slider-off-color: #e0e0e0;</code></td>
+        </tr>
+        <tr>
+            <td><code>--switch-slider-on-color</code></td>
+            <td>Background color of the slider in the "on" state.</td>
+            <td><code>var(--fg-color-alt)</code></td>
+            <td><code>--switch-slider-on-color: #4caf50;</code></td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <h2>Minimalistic switch, without text</h2>
+
+      <label class="switch" for="s1" id="l1">
+          <input type="checkbox" id="s1" aria-labelledby="l1">
+          <span class="switch-slider switch-no-text"></span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider switch-no-text round"></span>
+      </label>
+
+    <h2>With text inside</h2>
+
+       <label class="switch">
+          <input type="checkbox" checked>
+          <span class="switch-slider">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider">
+              <span class="switch-off-text">OU</span>
+              <span class="switch-on-text">ET</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider">
+              <span class="switch-on-text">XXX</span>
+              <span class="switch-off-text"></span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider">
+              <span class="switch-on-text">+</span>
+              <span class="switch-off-text">-</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider">
+              <span class="switch-on-text">Too long ON text</span>
+              <span class="switch-off-text">OFF too long text-</span>
+        </span>
+      </label>
+
+    <h2>Rounded, with text inside</h2>
+
+       <label class="switch">
+          <input type="checkbox" checked>
+          <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider round">
+              <span class="switch-off-text">OU</span>
+              <span class="switch-on-text">ET</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider switch-no-text round">
+              <span class="switch-on-text">X</span>
+        </span>
+      </label>
+
+      <label class="switch">
+          <input type="checkbox">
+          <span class="switch-slider switch-no-text round">
+              <span class="switch-off-text">#</span>
+        </span>
+      </label>
+
+
+    <h2>Variables</h2>
+
+    <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
+          <input type="checkbox" checked>
+          <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+    </label>
+
+    <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
+          <input type="checkbox" checked>
+          <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+      </label>
+
+    <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
+          <input type="checkbox" checked>
+          <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+    </label>
+
+    <p></p>
+
+    <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
+          <input type="checkbox" checked>
+          <span class="switch-slider">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+    </label>
+
+    <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
+          <input type="checkbox" checked>
+          <span class="switch-slider">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+      </label>
+
+</main>
+
+<footer>
+    <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+</footer>
+</body>
+</html>
