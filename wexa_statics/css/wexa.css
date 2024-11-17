@@ -1483,7 +1483,7 @@ textarea {
 
 select::-ms-expand {
     border:0;
-    background-color:transparent
+    background-color: transparent
 }
 
 select[multiple] option:checked {

@@ -148,6 +148,9 @@ button[role=menuitem] {
 /* ----------------------- mobile screen and print ---------------------- */
 
 @media all and (max-width: 896px) {
+    body > nav {
+        min-height: calc(max(var(--nav-min-height), calc(6rem / var(--size-divisor))));
+    }
 
     .skip {
         font-size: 0.75rem;

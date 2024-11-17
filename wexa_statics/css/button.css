@@ -41,10 +41,10 @@ This banner notice must not be removed.
 :root {
   --switch-width: calc(var(--font-size) * 5);
   --switch-height: calc(var(--font-size) * 2.8);
-  --switch-bg-color: var(--buttons-bg-color);
-  --switch-fg-color: var(--buttons-bg-color);
+  --switch-bg-color: var(--inputs-bg-color);
+  --switch-fg-color: var(--bg-color-alt);
   --switch-slider-off-color: var(--fg-color-alt);
-  --switch-slider-on-color: var(--fg-color-alt);
+  --switch-slider-on-color: var(--fg-color);
 }
 
 /* The switch container. Usually it's a label element. */
@@ -60,7 +60,7 @@ label.switch {
     display: inline-block;
     width: var(--switch-width);
     height: var(--switch-height);
-
+    font-family: var(--font-family-serif);
 }
 
 .switch input {
@@ -81,7 +81,7 @@ label.switch {
     background-color: var(--switch-bg-color);
     transition: background-color 0.4s ease, transform 0.4s ease;
     border-radius: var(--border-radius);
-    border: var(--border-width) solid var(--border-color);
+    border: var(--border-width) solid var(--border-color-alt);
 }
 
 .switch-slider:before {
@@ -187,4 +187,47 @@ input:checked + .switch-slider .switch-on-text {
 input[type="checkbox"]:focus + .switch-slider {
   outline: var(--outline-size) solid var(--outline-color);
   box-shadow: 0 0 calc(var(--font-size) / 3) var(--shadow-color);
+}
+
+/* -----------------------------------------------------------------------
+ Gradient buttons: left/right gradient and shadow for a better contrast.
+ action-button: img + span
+ apply-button: text only
+ ----------------------------------------------------------------------- */
+
+.action-button {
+    min-height: 2.4rem;
+    box-shadow: 0 0 2px 2px var(--border-color);
+}
+
+.action-button,
+.apply-button {
+    border-radius: 0.2rem;
+    background: linear-gradient(to right, var(--bg-color-alt), var(--buttons-bg-color));
+    color: var(--fg-color-alt);
+    transform: all 0.3s ease;
+}
+
+.action-button:hover,
+.apply-button:hover {
+    background: linear-gradient(to right, var(--buttons-bg-color), var(--bg-color-alt));
+}
+
+.action-button > img {
+    padding: 0.2rem;
+    background: none;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 10px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 20px rgba(255, 255, 255, 0.4))
+            drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+}
+
+.action-button > span {
+    background: none;
+    padding: 0.2rem;
+}
+
+.apply-button {
+    height: 2.2rem;
+    margin-left: 0.5rem
 }
