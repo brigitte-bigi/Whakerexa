@@ -9,25 +9,132 @@
     <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
+
+    <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
 
 </head>
 
 <body>
 
-<header>
+<header id="header-content">
+    <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+        Skip to main content
+    </a>
     <nav>
         <ul>
             <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
             <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
             <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
         </ul>
+        <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme();">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+        </button>
+        <button role="menuitem" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+        </button>
     </nav>
     <h1>button.css</h1>
     <h2>CSS for custom buttons</h2>
 </header>
 
-<main>
+<main id="main-content">
+
+    <h1>Gradient button</h1>
+
+    <h2>.action-button</h2>
+
+    <p>The <code>.action-button</code> class is used to style action buttons that combine two visual
+    elements: an image (&lt;img&gt;) and a text (&lt;span&gt;). These buttons feature a horizontal
+    gradient background that enhances contrast for better readability. A shadow effect around the
+    button improves its prominence and creates a more interactive appearance. On hover, the gradient
+    reverses direction, providing immediate visual feedback to the user. Images within the buttons
+    are styled with drop-shadow filters, creating a luminous, layered effect in dark mode, while the
+    text is padded to ensure consistent alignment and spacing.</p>
+
+    <h2>.apply-button</h2>
+
+    <p>The <code>.apply-button</code> class is tailored for simpler buttons containing text only. Despite
+        its minimalistic design, it shares the same horizontal gradient background as the .action-button
+        class, ensuring visual consistency across the interface. Its slightly reduced height reflects
+        its purpose as a less visually intensive button, fitting seamlessly into contexts requiring
+        subtle interactions. A small left margin (margin-left) separates it naturally from adjacent
+        elements, such as grouped controls. On hover, the gradient background also reverses, maintaining
+        the interactive design language.</p>
+
+    <h2>Examples</h2>
+
+    <section class="flex-panel">
+        <button class="flex-item action-button" onclick="accessibility_manager.switch_contrast_scheme();">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Change contrast</span>
+        </button>
+        <button class="flex-item action-button" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Change color</span>
+        </button>
+    </section>
+
+    <section class="flex-panel">
+        <button class="flex-item apply-button">Apply</button>
+        <button class="flex-item apply-button">Cancel</button>
+        <button class="flex-item apply-button">Something</button>
+    </section>
+
+    <!--      --------------------------------------------- -->
+
+    <h1>Text-reveal</h1>
+
+    <p>The Text-Reveal Button is a custom-styled button that combines an image
+        and a hidden text label. By default, only the image is visible, providing
+        a compact visual interface. When the button is hovered or gains focus,
+        the text is revealed next to the image, creating an accessible and
+        user-friendly design. This component is ideal for scenarios where space
+        is limited, and additional context is needed only during user interaction.
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Variable</th>
+            <th>Description</th>
+            <th>Default Value</th>
+            <th>Customization Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>--text-reveal-height</code></td>
+            <td>Controls the fixed height of the button, ensuring consistent vertical sizing across all instances.</td>
+            <td><code>calc(var(--font-size) * 1.5)</code></td>
+            <td> <code> --text-reveal-height: 2rem; </code> </td>
+        </tr>
+        <tr>
+            <td><code>--text-reveal-width</code></td>
+            <td>Defines the initial width of the button before the text is revealed.</td>
+            <td><code>calc(var(--font-size) * 1.5)</code></td>
+            <td> <code> --text-reveal-width: 3rem; </code> </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Examples</h2>
+
+    <section class="flex-panel">
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Change contrast</span>
+        </button>
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Change color</span>
+        </button>
+    </section>
+
+
+    <!--      --------------------------------------------- -->
 
     <h1>Toggle switch</h1>
 
@@ -88,10 +195,11 @@
             <td><code>--switch-slider-on-color: #4caf50;</code></td>
         </tr>
     </tbody>
-</table>
+    </table>
 
+    <h2>Examples</h2>
 
-    <h2>Minimalistic switch, without text</h2>
+    <h3>Minimalistic switch, without text</h3>
 
       <label class="switch" for="s1" id="l1">
           <input type="checkbox" id="s1" aria-labelledby="l1">
@@ -103,7 +211,7 @@
           <span class="switch-slider switch-no-text round"></span>
       </label>
 
-    <h2>With text inside</h2>
+    <h3>With text inside</h3>
 
        <label class="switch">
           <input type="checkbox" checked>
@@ -145,7 +253,7 @@
         </span>
       </label>
 
-    <h2>Rounded, with text inside</h2>
+    <h3>Rounded, with text inside</h3>
 
        <label class="switch">
           <input type="checkbox" checked>
@@ -177,28 +285,27 @@
         </span>
       </label>
 
-
-    <h2>Variables</h2>
+    <h3>Use variables</h3>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-          <input type="checkbox" checked>
-          <span class="switch-slider round">
+        <input type="checkbox" checked>
+        <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
         </span>
     </label>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-          <input type="checkbox" checked>
-          <span class="switch-slider round">
+        <input type="checkbox" checked>
+        <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
         </span>
-      </label>
+    </label>
 
     <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-          <input type="checkbox" checked>
-          <span class="switch-slider round">
+        <input type="checkbox" checked>
+        <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
         </span>
@@ -207,20 +314,28 @@
     <p></p>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-          <input type="checkbox" checked>
-          <span class="switch-slider">
+        <input type="checkbox" checked>
+        <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
         </span>
     </label>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-          <input type="checkbox" checked>
-          <span class="switch-slider">
+        <input type="checkbox" checked>
+        <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
         </span>
-      </label>
+    </label>
+
+    <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
+        <input type="checkbox" checked>
+        <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+    </label>
 
 </main>
 

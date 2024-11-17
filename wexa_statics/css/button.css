@@ -30,21 +30,21 @@ This banner notice must not be removed.
 
 */
 
-:root {
-    --font-size: 12px;
-}
-
 /* -----------------------------------------------------------------------
- Toggle switch -- with or without text.
+ Toggle switch -- with or without text; squared or rounded.
  ----------------------------------------------------------------------- */
 
 :root {
-  --switch-width: calc(var(--font-size) * 5);
-  --switch-height: calc(var(--font-size) * 2.8);
-  --switch-bg-color: var(--inputs-bg-color);
-  --switch-fg-color: var(--bg-color-alt);
-  --switch-slider-off-color: var(--fg-color-alt);
-  --switch-slider-on-color: var(--fg-color);
+    --switch-width: calc(var(--font-size) * 5);
+    --switch-height: calc(var(--font-size) * 2.8);
+    --switch-bg-color: var(--inputs-bg-color);
+    --switch-fg-color: var(--bg-color-alt);
+    --switch-slider-off-color: var(--fg-color-alt);
+    --switch-slider-on-color: var(--fg-color);
+    --action-height: calc(var(--font-size) * 2.8);
+    --apply-height: calc(var(--font-size) * 2.1);
+    --text-reveal-height: calc(var(--font-size) * 1.6);
+    --text-reveal-width: calc(var(--font-size) * 1.6);
 }
 
 /* The switch container. Usually it's a label element. */
@@ -191,35 +191,46 @@ input[type="checkbox"]:focus + .switch-slider {
 
 /* -----------------------------------------------------------------------
  Gradient buttons: left/right gradient and shadow for a better contrast.
- action-button: img + span
- apply-button: text only
+ - action-button: img + span
+ - apply-button: text only
  ----------------------------------------------------------------------- */
 
 .action-button {
-    min-height: 2.4rem;
-    box-shadow: 0 0 2px 2px var(--border-color);
+    height: var(--action-height);
+    min-height: 2rem;
+}
+
+.apply-button {
+    height: var(--apply-height);
+    min-height: 1.4rem;
+    padding: 0.2rem;
 }
 
 .action-button,
 .apply-button {
-    border-radius: 0.2rem;
+    box-shadow: 0 0 var(--border-width) var(--border-width) var(--border-color);
+    border-radius: var(--border-radius);
     background: linear-gradient(to right, var(--bg-color-alt), var(--buttons-bg-color));
     color: var(--fg-color-alt);
     transform: all 0.3s ease;
+    margin-left: 0.5rem
 }
 
-.action-button:hover,
-.apply-button:hover {
+.action-button:hover, .action-button:focus,
+.apply-button:hover, .apply-button:focus {
     background: linear-gradient(to right, var(--buttons-bg-color), var(--bg-color-alt));
 }
 
 .action-button > img {
+    object-fit: contain;
+    flex-shrink: 0;
+    max-height: 95%;
     padding: 0.2rem;
     background: none;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
-            drop-shadow(0 0 10px rgba(255, 255, 255, 0.6))
-            drop-shadow(0 0 20px rgba(255, 255, 255, 0.4))
-            drop-shadow(0 0 40px rgba(255, 255, 255, 0.2));
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 8px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 16px rgba(255, 255, 255, 0.4))
+            drop-shadow(0 0 32px rgba(255, 255, 255, 0.2));
 }
 
 .action-button > span {
@@ -227,7 +238,62 @@ input[type="checkbox"]:focus + .switch-slider {
     padding: 0.2rem;
 }
 
-.apply-button {
-    height: 2.2rem;
-    margin-left: 0.5rem
+/* -----------------------------------------------------------------------
+ Text-reveal button: img + a span text displayed on hover.
+ No transition is defined because of "width: auto".
+ ----------------------------------------------------------------------- */
+
+.text-reveal-button {
+    border: var(--border-width) solid var(--buttons-fg-color);
+    padding: 0.2rem;
+    height: var(--text-reveal-height);
+    width: var(--text-reveal-width);
+    margin-right: 0.5rem;
+    align-items: center;
+    overflow: hidden;
+    justify-content: center;
+    position: relative;
+    white-space: nowrap;
+}
+
+.text-reveal-button > img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    max-width: 1.5rem;
+    max-height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.text-reveal-button > span {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    display: none;
+    opacity: 0;
+}
+
+.text-reveal-button:hover,
+.text-reveal-button:focus {
+    width: auto;
+    margin: 0;
+}
+
+/* Reveal text when hovered */
+.text-reveal-button:hover > span,
+.text-reveal-button:focus:hover > span {
+    opacity: 1;
+    display: inline;
+}
+
+/* When the button is clicked */
+.text-reveal-button[data-clicked="true"] > span {
+    opacity: 0;
+    display: none;
+}
+
+/* Hide text after a click (when focus is lost) */
+.text-reveal-button:not(:focus):not(:hover) > span {
+    opacity: 0;
+    display: none;
 }
