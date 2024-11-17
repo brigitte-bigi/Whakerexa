@@ -30,6 +30,10 @@ This banner notice must not be removed.
 
 */
 
+:root {
+    --nav-min-height: calc(6rem / var(--size-divisor));
+}
+
 /* --------------------- Skip button -------------------------------------
    Important for screen readers: it allows to skip to main content,
    ignoring the header and nav.
@@ -54,7 +58,6 @@ This banner notice must not be removed.
 /* --------------------- The body > 'nav' sticky menu -------------------- */
 
 body > nav {
-    --nav-min-height: calc(6rem / var(--size-divisor));
     min-height: var(--nav-min-height);
 }
 
@@ -66,6 +69,10 @@ body > nav * {
 
 body > nav input[type=checkbox] {
     display: none;
+}
+
+body > nav ul > li {
+    position: relative; /* Nécessaire pour positionner le sous-menu */
 }
 
 /* ------------------- Items in nav ---------------- */
@@ -204,10 +211,11 @@ button[role=menuitem] {
 
     body > nav > * *:hover .submenu,
     body > nav > * *:focus-within .submenu {
+        box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
         position: absolute;
         display: flex;
-        box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
-        top: calc((4rem / var(--size-divisor)));  /* about the height of the menuitem */
+        top: 100%;
+        min-width: 100%;
     }
 
 }
