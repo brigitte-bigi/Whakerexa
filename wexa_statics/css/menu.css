@@ -72,7 +72,7 @@ body > nav input[type=checkbox] {
 }
 
 body > nav ul > li {
-    position: relative; /* Nécessaire pour positionner le sous-menu */
+    position: relative;  /* Nécessaire pour positionner le sous-menu */
 }
 
 /* ------------------- Items in nav ---------------- */

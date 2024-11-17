@@ -8,9 +8,11 @@
     <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/book.css" type="text/css" media="all" />
     <style>
         :root {
+            --header-height: 30rem;
             --toc-width: 18rem;
         }
     </style>
@@ -34,6 +36,8 @@
             // book.fill_table(false);
         });
     </script>
+    <script type="application/javascript" src="../wexa_statics/js/accessibility.js"></script>
+
 </head>
 
 <!-- ---------------------------------------------------------------- -->
@@ -42,11 +46,20 @@
 
 <header>
     <nav>
+        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+            Skip to main content
+        </a>
         <ul>
-            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+            <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerexa.sf.net">Whakerexa</a></li>
         </ul>
+        <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme()">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+        </button>
+        <button role="menuitem" onclick="accessibility_manager.switch_color_scheme()">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+        </button>
     </nav>
     <h1>book.css with ToC</h1>
     <h2>A CSS framework to make automatically the ToC of a book</h2>
