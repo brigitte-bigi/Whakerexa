@@ -15,6 +15,13 @@
     <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
     <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
 
+    <style>
+        :root:not([data-theme=dark]), [data-theme=light] {
+            --nav-min-height: 4rem;
+            --header-height: 26rem;
+            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
+        }
+    </style>
 </head>
 
 <body>
@@ -23,11 +30,11 @@
     <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
         Skip to main content
     </a>
-    <nav>
+    <nav style="position: absolute; top: 0;">
         <ul>
-            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+            <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerexa.sf.net">Whakerexa</a></li>
         </ul>
         <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme();">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
@@ -89,10 +96,10 @@
 
     <p>The Text-Reveal Button is a custom-styled button that combines an image
         and a hidden text label. By default, only the image is visible, providing
-        a compact visual interface. When the button is hovered or gains focus,
-        the text is revealed next to the image, creating an accessible and
-        user-friendly design. This component is ideal for scenarios where space
-        is limited, and additional context is needed only during user interaction.
+        a compact visual interface. When the button is hovered, the text is revealed
+        next to the image, creating a user-friendly design. This component is ideal
+        for scenarios where space is limited, and additional context is needed only
+        during user interaction.
     </p>
 
     <table>
@@ -128,6 +135,40 @@
             <span>Change contrast</span>
         </button>
         <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Change color</span>
+        </button>
+
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Change contrast</span>
+        </button>
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Change color</span>
+        </button>
+
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Change contrast</span>
+        </button>
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Change color</span>
+        </button>
+    </section>
+    <section class="flex-panel">
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 6);">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Change contrast</span>
+        </button>
+        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 3);">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>

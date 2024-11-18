@@ -245,38 +245,38 @@ input[type="checkbox"]:focus + .switch-slider {
 
 .text-reveal-button {
     border: var(--border-width) solid var(--buttons-fg-color);
-    padding: 0.2rem;
     height: var(--text-reveal-height);
     width: var(--text-reveal-width);
-    margin-right: 0.5rem;
     align-items: center;
     overflow: hidden;
     justify-content: center;
     position: relative;
     white-space: nowrap;
-}
-
-.text-reveal-button > img {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-    max-width: 1.5rem;
-    max-height: 100%;
     padding: 0;
     margin: 0;
 }
 
+.text-reveal-button > img {
+    object-fit: contain; /*cover;*/
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 0.2rem;
+    margin: 0;
+}
+
 .text-reveal-button > span {
-    margin-left: 0.5rem;
     font-size: 0.8rem;
     display: none;
     opacity: 0;
+    padding: 0.2rem;
+    margin: 0;
 }
 
 .text-reveal-button:hover,
 .text-reveal-button:focus {
     width: auto;
-    margin: 0;
 }
 
 /* Reveal text when hovered */

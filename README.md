@@ -1,4 +1,4 @@
-# Whakerexa - A minimalist and lightweight web kit for accessible contents
+# Whakerexa — A minimalist and lightweight web kit for accessible contents
 
 
 ## Overview
@@ -20,13 +20,6 @@ It can be combined with the use of `WhakerPy`, an open source library to create 
 - No extra library or framework needed
 
 
-
-## License
-
-Whakerexa is under the terms of the GNU Affero General Public License, version 3.
-
-
-
 ## Install Whakerexa
 
 Whakerexa is a ZIP archive. You only need to unpack-it.
@@ -43,6 +36,8 @@ For the use of the proposed CSS/JS frameworks, take a look at the HTML files in 
     <link rel="stylesheet" href="whakerexa/wexa_statics/css/wexa.css" type="text/css" media="all" />
 </head>
 ```
+
+See HTML files in the `docs` folder for examples.
 
 
 ## Projects using Whakerexa
@@ -74,6 +69,10 @@ Laboratoire Parole et Langage, Aix-en-Provence, France.
 
 See the AUTHORS file for the full list of contributors.
 
+
+## License
+
+Whakerexa is under the terms of the GNU Affero General Public License, version 3.
 
 
 ## Support
@@ -113,20 +112,24 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 This is mainly a bug-correction version: adjusted some width, removed transparency of 
 background dialogs, corrected a bug in accessibility.
 
-## Version 0.5 - latest stable
+## Version 0.5 
 
 - Added accessibility icons
 - Added upload of files in request.js
 - Minor CSS changes
 - Migrated license, from GPL to AGPL.
 
-## Version 0.6 - develop
+## Version 0.6 - latest stable
 
-- Added sortatable: a CSS/JS utility designed for sorting table rows in ascending or descending order
-- Added toggleselect: CSS/JS utility for toggling checkbox states.
+- Added `sortatable`: a CSS/JS utility designed for sorting table rows in ascending or descending order
+- Added `toggleselect`: CSS/JS utility for toggling checkbox states.
+- Added custom buttons: introduced CSS classes `text-reveal-button`, `action-button`, `apply-button` and `switch`.
+- Updated request.js: better support of upload, better error management in post.
+
+## Version 0.7 - develop
 
 
 ### Hopefully incoming:
 
-- a connexion dialog, useful for authentication
+- a ready-to-use login dialog, useful for authentication
 - documentation of layouts

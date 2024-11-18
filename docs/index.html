@@ -16,21 +16,31 @@
 
     <style>
         :root:not([data-theme=dark]), [data-theme=light] {
+            --nav-min-height: 4rem;
+            --header-height: 26rem;
             --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
         }
-        .dark {
-        }
     </style>
+
 </head>
 <body>
 
 <header id="header-content">
-    <nav>
+    <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+        Skip to main content
+    </a>
+    <nav style="position: absolute; top: 0;">
         <ul>
-            <li><a class="external-link" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a></li>
+            <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+            <li><a class="external-link" role="menuitem" href="https://whakerexa.sf.net">Whakerexa</a></li>
         </ul>
+        <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme();">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+        </button>
+        <button role="menuitem" onclick="accessibility_manager.switch_color_scheme();">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+        </button>
     </nav>
     <h1>Whakerexa</h1>
     <h2>A minimalist and lightweight web kit for accessible contents</h2>
@@ -62,9 +72,6 @@
     <section class="cards-panel">
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>wexa.css</h2>
                 <p>A CSS framework to make the web easy and accessible</p>
@@ -75,9 +82,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>wexa.css & book.css</h2>
                 <p>Two CSS frameworks to make books easy and accessible</p>
@@ -88,9 +92,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>book with ToC</h2>
                 <p>A CSS/JS framework to create automatically the ToC of a book</p>
@@ -101,9 +102,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>layout.css</h2>
                 <p>A minimalistic CSS framework to organize HTML elements</p>
@@ -114,9 +112,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>dialog css/js</h2>
                 <p>A framework to easily open a modal 'dialog'</p>
@@ -127,9 +122,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>code.css</h2>
                 <p>Custom colors for pygments code</p>
@@ -140,9 +132,6 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>progress.js</h2>
                 <p>A JS to deal with progress bars</p>
@@ -153,15 +142,22 @@
         </article>
 
         <article class="card">
-            <header>
-                <img src="" alt="">
-            </header>
             <main>
                 <h2>sortatable css/js</h2>
                 <p>Sort rows of a table by clicking its columns</p>
             </main>
             <footer>
                 <a href="sortatable.html">sortatable</a>
+            </footer>
+        </article>
+
+        <article class="card">
+            <main>
+                <h2>button.css</h2>
+                <p>Customized buttons</p>
+            </main>
+            <footer>
+                <a href="button.html">button</a>
             </footer>
         </article>
     </section>
@@ -176,7 +172,7 @@
         <p class="center">We do not collect any information and do not use cookies.</p>
         <p class="right-bottom print-off">
             <a role="button" href="#main-content">
-                <img src="./statics/icons/up.png" class="small-logo" alt="Scroll Up">
+                <img src="../wexa_statics/icons/up.png" class="small-logo" alt="Scroll Up">
             </a>
         </p>
     </section>
