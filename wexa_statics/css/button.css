@@ -174,7 +174,7 @@ input:checked + .switch-slider.switch-no-text:before {
 
 input:checked + .switch-slider .switch-off-text {
   opacity: var(--switch-slider-unselected-opacity);
-  transform: translateY(-50%) translateX(calc(-1 * var(--font-size * 0.75)));
+  transform: translateY(-50%) translateX(0);
 }
 
 input:checked + .switch-slider .switch-on-text {
