@@ -119,14 +119,19 @@ background dialogs, corrected a bug in accessibility.
 - Minor CSS changes
 - Migrated license, from GPL to AGPL.
 
-## Version 0.6 - latest stable
+## Version 0.6
 
 - Added `sortatable`: a CSS/JS utility designed for sorting table rows in ascending or descending order
 - Added `toggleselect`: CSS/JS utility for toggling checkbox states.
 - Added custom buttons: introduced CSS classes `text-reveal-button`, `action-button`, `apply-button` and `switch`.
 - Updated request.js: better support of upload, better error management in post.
 
-## Version 0.7 - develop
+## Version 0.7 - latest stable
+
+- re-organized documentation
+- updated the switch button
+
+## Version 0.8 - develop
 
 
 ### Hopefully incoming:
