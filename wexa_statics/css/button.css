@@ -41,6 +41,7 @@ This banner notice must not be removed.
     --switch-fg-color: var(--bg-color-alt);
     --switch-slider-off-color: var(--fg-color-alt);
     --switch-slider-on-color: var(--fg-color);
+    --switch-slider-unselected-opacity: 0;
     --action-height: calc(var(--font-size) * 2.8);
     --apply-height: calc(var(--font-size) * 2.1);
     --text-reveal-height: calc(var(--font-size) * 1.6);
@@ -125,7 +126,7 @@ label.switch {
 .switch-slider .switch-on-text {
     background-color: var(--switch-slider-on-color);
     right: calc(var(--font-size) * 0.4);
-    opacity: 0;
+    opacity: var(--switch-slider-unselected-opacity);
 }
 
 .switch-slider.switch-no-text:before {
@@ -172,8 +173,8 @@ input:checked + .switch-slider.switch-no-text:before {
 }
 
 input:checked + .switch-slider .switch-off-text {
-  opacity: 0;
-  transform: translateY(-50%) translateX(calc(-1 * var(--font-size) * 0.8));
+  opacity: var(--switch-slider-unselected-opacity);
+  transform: translateY(-50%) translateX(calc(-1 * var(--font-size * 0.75)));
 }
 
 input:checked + .switch-slider .switch-on-text {

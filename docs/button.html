@@ -235,6 +235,12 @@
             <td><code>var(--fg-color)</code></td>
             <td><code>--switch-slider-on-color: #4caf50;</code></td>
         </tr>
+            <tr>
+            <td><code>--switch-slider-unselected-opacity</code></td>
+            <td>Opacity of the un-selected state.</td>
+            <td><code>0</code></td>
+            <td><code>--switch-slider-unselected-opacity: 10%;</code></td>
+        </tr>
     </tbody>
     </table>
 
@@ -371,6 +377,16 @@
     </label>
 
     <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
+        <input type="checkbox" checked>
+        <span class="switch-slider round">
+              <span class="switch-off-text">OFF</span>
+              <span class="switch-on-text">ON</span>
+        </span>
+    </label>
+
+    <p></p>
+
+    <label class="switch" style="--switch-slider-unselected-opacity: 10%; --switch-width: calc(var(--font-size) * 6); --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
         <input type="checkbox" checked>
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
