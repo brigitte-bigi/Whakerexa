@@ -51,7 +51,7 @@
  */
 class ToggleSelector {
     // Define base path and icon names as member variables
-    static ICON_PATH = "./statics/icons";
+    static ICON_PATH = "./whakerkit/icons";
 
     // Icon names for different states
     static ICONS = {
