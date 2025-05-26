@@ -1157,12 +1157,16 @@ ul:not(nav *)  > li > ul> li> ul > li:before {
 }
 
 /* Add a dot after the item number */
-ol li {
-    list-style-type: none;
-    counter-increment: item;
+ol {
+    counter-reset: item;
 }
 
-ol li:before {
+ol > li {
+    counter-increment: item;
+    list-style-type: none; /* si nécessaire */
+}
+
+ol > li:before {
     content: counter(item) ". ";
     color: var(--li-color);
     font-weight: var(--font-weight-semibold);
