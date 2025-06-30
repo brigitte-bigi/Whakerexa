@@ -1,6 +1,7 @@
 /*
 :filename: statics/css/video_player.css
-:author: Florian Lopitaux
+:author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: a CSS framework to have video in a dialog
 
@@ -8,7 +9,7 @@
 
 This file is part of Whakerexa: https://whakerexa.sf.net/
 
-Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Copyright (C) 2023-2025 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -29,6 +30,16 @@ This banner notice must not be removed.
 -------------------------------------------------------------------------
 
 */
+:root:not([data-theme=dark]), [data-theme=light], .light {
+    --dialog-img-preview-bg-color: rgb(128, 128, 128);
+}
+
+@media not print {
+    .dark {
+        --dialog-img-preview-bg-color: rgb(128, 128, 128);
+    }
+}
+
 
 /* A figure which is clicked to open the dialog */
 /* -------------------------------------------- */
@@ -44,7 +55,7 @@ figure.img-video-visualization {
     align-items: center;
     flex-direction: column;
 
-    background-color: rgb(128, 128, 128);
+    background-color: var(--dialog-img-preview-bg-color);
 }
 
 figure.img-video-visualization img {
@@ -193,5 +204,9 @@ dialog button[name="popup-close-btn"] {
     position: absolute;
     top: 1vh;
     right: 1vw;
-    background: #eeeeee;
+    background-color: var(--buttons-bg-color);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.3rem 0.6rem;
+    font-weight: bold;
 }
