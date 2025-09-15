@@ -225,7 +225,7 @@ input[type="checkbox"]:focus + .switch-slider {
 .action-button > img {
     object-fit: contain;
     flex-shrink: 0;
-    max-height: 95%;
+    max-height: calc(var(--action-height) * 0.9);
     padding: 0.2rem;
     background: none;
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))

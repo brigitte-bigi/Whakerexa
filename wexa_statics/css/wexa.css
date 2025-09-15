@@ -466,6 +466,7 @@ or (prefers-color-scheme: dark)
         --s-color: rgb(180, 180, 180);
         --blockquote-border-color: rgb(200, 180, 200);
         --blockquote-footer-color: rgb(200, 180, 200);
+        --li-color: rgb(200, 80, 80);
 
         /* Alerts */
         --info-color: rgb(130, 160, 255);
