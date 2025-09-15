@@ -64,7 +64,7 @@ Whakerexa is used by "ClammingPy", a tool to create automatically python documen
 
 ## Author/Copyright
 
-Copyright (C) 2023-2024 - Brigitte Bigi, CNRS - <contact@sppas.org>
+Copyright (C) 2023-2025 - Brigitte Bigi, CNRS - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France.
 
 See the AUTHORS file for the full list of contributors.
@@ -126,12 +126,17 @@ background dialogs, corrected a bug in accessibility.
 - Added custom buttons: introduced CSS classes `text-reveal-button`, `action-button`, `apply-button` and `switch`.
 - Updated request.js: better support of upload, better error management in post.
 
-## Version 0.7 - latest stable
+## Version 0.7
 
-- re-organized documentation
-- updated the switch button
+- Re-organized documentation
+- Updated the switch button
+- Debug of action-button
+- Minor changes in wexa.css
 
-## Version 0.8 - develop
+## Version 0.8 - latest stable
+
+
+## Version 0.9 - develop
 
 
 ### Hopefully incoming:
