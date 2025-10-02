@@ -31,7 +31,38 @@ This banner notice must not be removed.
 */
 
 :root {
+    /* Default behavior is an horizontal menu, with a min height and no min width.
+    For a side menu, fix a min-height to 0 and the desired min width.  */
     --nav-min-height: calc(6rem / var(--size-divisor));
+    --nav-min-width: 0;
+
+    /* All menu items */
+    --nav-item-min-height: calc(2rem / var(--size-divisor));
+    --nav-item-height: calc(2.5rem / var(--size-divisor));
+    --nav-item-max-height: calc(3rem / var(--size-divisor));
+
+    --nav-item-min-width-h: calc(4rem / var(--size-divisor));
+    --nav-item-width-h:    calc(6rem / var(--size-divisor));
+    --nav-item-max-width-h: calc(15rem / var(--size-divisor));
+
+    /* Vertical side widths */
+    --nav-expanded-width: calc(16rem / var(--size-divisor)); /* open side */
+    --nav-item-width-v-collapsed: var(--nav-min-width);
+    --nav-item-width-v-expanded:  var(--nav-expanded-width);
+
+    /* Mobile checkbox-expand */
+    --nav-mobile-expanded-item-min-width: calc(800px / var(--size-divisor));
+    --nav-mobile-submenu-item-min-width: calc(500px / var(--size-divisor));
+}
+
+html {
+    transition: margin-left 0.3s ease;
+    margin-left: calc(var(--nav-min-width));
+}
+
+/* When the side menu is pinned expanded */
+html:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) {
+    margin-left: var(--nav-expanded-width);
 }
 
 /* --------------------- Skip button -------------------------------------
@@ -59,6 +90,7 @@ This banner notice must not be removed.
 
 body > nav {
     min-height: var(--nav-min-height);
+    min-width: var(--nav-min-width);
 }
 
 /* Reset margin and padding of all elements */
@@ -75,35 +107,179 @@ body > nav ul > li {
     position: relative;  /* Nécessaire pour positionner le sous-menu */
 }
 
+/* --------------------------------------------------------------------- */
+/* Main navigation placement (#nav-content)                              */
+/* Its default position in wexa.css is horizontal, sticky at top         */
+/* Can be fixed at: top (.top), bottom (.bottom) or left-side vertical   */
+/* menu (.side).                                                         */
+/* --------------------------------------------------------------------- */
+
+body > nav#nav-content {
+    min-height: var(--nav-min-height);
+    min-width: var(--nav-min-width);
+}
+
+body > nav#nav-content.top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Fixed at the bottom of the page */
+body > nav#nav-content.bottom {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: var(--typography-spacing-horizontal);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Vertical menu on the left side */
+body > nav#nav-content.side {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: var(--nav-min-width);
+    box-shadow: none;
+}
+
+/* Side collapsed */
+nav#nav-content.side.collapsible {
+    width: var(--nav-min-width);
+}
+
+/* Side collapsed */
+nav#nav-content.side.collapsible {
+    width: var(--nav-min-width);
+}
+
+/* Side expanded (hover, focus, or .expanded) */
+nav#nav-content.side.collapsible:hover,
+nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible),
+nav#nav-content.side.collapsible.expanded {
+    width: var(--nav-expanded-width);
+}
+
+/* ----------------------------------------------------------------------- */
 /* ------------------- Items in nav ---------------- */
+/* ----------------------------------------------------------------------- */
 
+/* Base sizing for all nav items */
 [role=menuitem] {
-    min-height: 2rem;
-    max-height: 4rem;
-    height: 3rem;
+    min-height: var(--nav-item-min-height);
+    height:     var(--nav-item-height);
+    max-height: var(--nav-item-max-height);
+
+    /* Horizontal defaults (used when not overridden) */
+    min-width: var(--nav-item-min-width-h);
+    width:     var(--nav-item-width-h);
+    max-width: var(--nav-item-max-width-h);
 }
 
-[role=menuitem]:not(button) {
-    min-width: calc(6rem / var(--size-divisor));
-    max-width: calc(16rem / var(--size-divisor));
-    width: calc(8rem / var(--size-divisor));
+/* Specific style for the menu items of the main menu. */
+body > nav#nav-content [role=menuitem] {
+    opacity: 1;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
+    text-decoration: none;
+    color: var(--nav-fg-color);
+    background-color: var(--nav-bg-color);
 }
 
-/* a different width for <button> menu items */
-button[role=menuitem] {
-    min-width: calc(4rem / var(--size-divisor));
-    max-width: calc(8rem / var(--size-divisor));
-    width: calc(6rem / var(--size-divisor));
+nav#nav-content.side [role="menuitem"] {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
 }
 
-/* A class to indicate the current nav item */
+/* Children of the menuitem */
+
+body > nav#nav-content [role=menuitem] span {
+    font-variant: small-caps;
+    font-size: 0.8rem;
+}
+
+body > nav#nav-content [role=menuitem] * {
+    color: inherit;
+}
+
+/* ---------------------- Vertical at side ------------------- */
+
+/* Fixed, non-collapsible: show labels and use expanded width */
+nav#nav-content.side:not(.collapsible) [role="menuitem"] {
+    min-width: var(--nav-item-width-v-expanded);
+    width:     var(--nav-item-width-v-expanded);
+    max-width: var(--nav-item-width-v-expanded);
+}
+
+
+/* ------------------ Expand side if collapsible --------------- */
+
+/* Collapsible — collapsed = icons only, labels hidden */
+nav#nav-content.side.collapsible:not(.expanded) [role="menuitem"] {
+    min-width: var(--nav-item-width-v-collapsed);
+    width:     var(--nav-item-width-v-collapsed);
+    max-width: var(--nav-item-width-v-collapsed);
+}
+
+nav#nav-content.side.collapsible:not(.expanded) [role="menuitem"] span {
+    display: none;
+}
+
+/* Collapsible — expand on hover, keyboard focus (via :has), or .expanded */
+
+nav#nav-content.side.collapsible:hover [role="menuitem"],
+nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"],
+nav#nav-content.side.collapsible.expanded [role="menuitem"] {
+    min-width: var(--nav-item-width-v-expanded);
+    width:     var(--nav-item-width-v-expanded);
+    max-width: var(--nav-item-width-v-expanded);
+}
+
+nav#nav-content.side.collapsible:hover [role="menuitem"] span,
+nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"] span,
+nav#nav-content.side.collapsible.expanded [role="menuitem"] span {
+    display: inline;
+}
+
+/* Smooth transition for menu items and container */
+nav#nav-content.side.collapsible,
+nav#nav-content.side.collapsible [role="menuitem"] {
+    transition: min-width 0.3s ease, width 0.3s ease, max-width 0.3s ease;
+}
+
+/* ---------------- the current nav item ----------------- */
+
 [role=menuitem].nav-current  {
     color: var(--a-color);
     background-color: var(--bg-color);
     opacity: 0.5;
 }
 
-[role=menuitem] > img {
+[role=menuitem] > img,
+[role=menuitem] > svg {
     display: inline-block;
     width: calc(1.8rem / var(--size-divisor));
     height: calc(1.8rem / var(--size-divisor));
@@ -111,7 +287,6 @@ button[role=menuitem] {
     padding: 0;
     margin: 0;
 }
-
 
 /* --------------- text style in items ---------------- */
 
@@ -145,6 +320,28 @@ button[role=menuitem] {
 }
 
 
+/* ---------------------------- Pin button (same sizing as other menu items) */
+
+#pin-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--nav-min-width);
+    height: var(--nav-item-height);
+    color: inherit;
+}
+
+/* Highlight when menu is pinned */
+body > nav#nav-content [role=menuitem]#pin-menu[aria-pressed="true"] {
+    /* conserver le style nav
+    color: var(--nav-fg-color);
+    background-color: var(--nav-bg-color);*/
+
+    border-color: var(--nav-fg-color);
+    box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
+    opacity: 0.7;
+}
+
 /* ----------------------- mobile screen and print ---------------------- */
 
 @media all and (max-width: 896px) {
@@ -174,6 +371,7 @@ button[role=menuitem] {
     }
 
     /* Expanded 'nav' content */
+
     body > nav input[type=checkbox]:checked + * {
         background-color: transparent;
         color: var(--nav-fg-color);
@@ -182,15 +380,14 @@ button[role=menuitem] {
         align-items: stretch;
         flex-direction: column;
         margin-bottom: var(--typography-spacing-vertical);
-        border: 1px solid var(--nav-fg-color);
+        border: var(--border-width) solid var(--nav-fg-color);
     }
 
     body > nav input[type=checkbox]:checked + * [role=menuitem] {
-        min-width: calc(800px / var(--size-divisor));
+        min-width: var(--nav-mobile-expanded-item-min-width);
     }
-
     body > nav input[type=checkbox]:checked + * .submenu * [role=menuitem] {
-        min-width: calc(500px / var(--size-divisor));
+        min-width: var(--nav-mobile-submenu-item-min-width);
     }
 
 }

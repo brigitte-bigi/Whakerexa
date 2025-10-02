@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="menu, app, mobile, web, css, html5, framework, accessibility, disability"/>
 
-    <title>app.css</title>
+    <title>app-side.css</title>
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/app.css" type="text/css" />
@@ -18,10 +18,30 @@
         :root {
             --header-height: 20vh;
             --header-slidein: none;
-            --nav-min-height: 4rem;
+            --nav-min-height: 0;
+            --nav-min-width: calc(4rem / var(--size-divisor));
+            --nav-expanded-width: calc(12rem / var(--size-divisor));
+            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
+            --nav-item-width-v-expanded: calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
+            --app-submenu-align: left top;
             --border-radius: 1rem;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const nav = document.querySelector("nav#nav-content.side.collapsible");
+            const pinBtn = document.getElementById("pin-menu");
+
+            if (nav && pinBtn) {
+                pinBtn.addEventListener("click", () => {
+                    const isPinned = nav.classList.toggle("expanded");
+                    nav.setAttribute("aria-pinned", isPinned ? "true" : "false");
+                    pinBtn.setAttribute("aria-pressed", isPinned);
+                    pinBtn.setAttribute("aria-label", isPinned ? "Unpin menu" : "Pin menu");
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -57,29 +77,46 @@
     </header>
 
     <!-- Mobile Menu at the bottom -->
-    <nav id="nav-content" class="bottom" aria-label="Main navigation">
-        <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
-            ☰
-            <span>Menu</span>
-        </button>
-        <button aria-label="Applications" role="menuitem">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="4" width="6" height="16" rx="1"/>
-                <rect x="14" y="4" width="6" height="6" rx="1"/>
-                <rect x="14" y="14" width="6" height="6" rx="1"/>
-            </svg>
-            <span>Apps</span>
-        </button>
-        <button aria-label="Help" role="menuitem">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
-                <circle cx="12" cy="17" r="1"/>
-            </svg>
-            <span>Help</span>
-        </button>
+    <nav id="nav-content" class="side collapsible" aria-label="Main navigation">
+            <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
+                ☰
+                <span>Menu</span>
+            </button>
+            <button aria-label="Applications" role="menuitem">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" fill-opacity="0.5">
+                    <rect x="4" y="4" width="6" height="16" rx="1"/>
+                    <rect x="14" y="4" width="6" height="6" rx="1"/>
+                    <rect x="14" y="14" width="6" height="6" rx="1"/>
+                </svg>
+                <span>Apps</span>
+            </button>
+            <button aria-label="Help" role="menuitem">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                    <circle cx="12" cy="17" r="1"/>
+                </svg>
+                <span>Help</span>
+            </button>
+            <button aria-label="Pin menu" role="menuitem"
+                    id="pin-menu"
+                    type="button"
+                    aria-controls="nav-content"
+                    aria-pressed="true"
+                    title="Pin menu"
+                    class="menu-pin">
+
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     aria-label="Pushpin">
+                    <path d="M9 3h6l-1 8H10L9 3z"/>
+                    <path d="M7 13h10"/>
+                    <path d="M12 13v9"/>
+                </svg>
+            </button>
     </nav>
 
     <!-- Submenu for the Menu button -->

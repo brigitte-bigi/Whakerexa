@@ -705,6 +705,7 @@ body > main {
     z-index: 1;
     /*background-color: var(--bg-color);*/
     margin-top: var(--typography-spacing-vertical);
+
     margin-bottom: var(--typography-spacing-vertical);
 }
 
@@ -741,7 +742,6 @@ body > header > *,  body > footer > * {
     text-align: center;
     padding-top: var(--typography-spacing-vertical);
 }
-
 
 
 /* =======================================================================
