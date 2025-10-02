@@ -30,9 +30,16 @@ This banner notice must not be removed.
 
 */
 
+
+/* =======================================================================
+                            VARIABLE DEFINITIONS
+  ======================================================================== */
+
+
 :root {
-    /* Default behavior is an horizontal menu, with a min height and no min width.
-    For a side menu, fix a min-height to 0 and the desired min width.  */
+    /* Default behavior is an horizontal menu, with a min height and no
+    min width. For a side menu, fix a min-height to 0 and the desired min
+    width.  */
     --nav-min-height: calc(6rem / var(--size-divisor));
     --nav-min-width: 0;
 
@@ -41,8 +48,8 @@ This banner notice must not be removed.
     --nav-item-height: calc(2.5rem / var(--size-divisor));
     --nav-item-max-height: calc(3rem / var(--size-divisor));
 
-    --nav-item-min-width-h: calc(4rem / var(--size-divisor));
-    --nav-item-width-h:    calc(6rem / var(--size-divisor));
+    --nav-item-min-width-h: calc(6rem / var(--size-divisor));
+    --nav-item-width-h:    calc(8rem / var(--size-divisor));
     --nav-item-max-width-h: calc(15rem / var(--size-divisor));
 
     /* Vertical side widths */
@@ -53,40 +60,15 @@ This banner notice must not be removed.
     /* Mobile checkbox-expand */
     --nav-mobile-expanded-item-min-width: calc(800px / var(--size-divisor));
     --nav-mobile-submenu-item-min-width: calc(500px / var(--size-divisor));
-}
 
-html {
-    transition: margin-left 0.3s ease;
-    margin-left: calc(var(--nav-min-width));
-}
-
-/* When the side menu is pinned expanded */
-html:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) {
-    margin-left: var(--nav-expanded-width);
-}
-
-/* --------------------- Skip button -------------------------------------
-   Important for screen readers: it allows to skip to main content,
-   ignoring the header and nav.
-   ----------------------------------------------------------------------- */
-
-.skip {
-    opacity: 0;
-    background-color: var(--buttons-bg-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 0.5rem;
-    transition: opacity 0.3s ease;
-}
-
-.skip:focus {
-    opacity: 1;
-    z-index: 10;  /* Highest priority. Must be over any other element. */
+    --appmenu-position: left;
+    --appmenu-align: left top;
 }
 
 
-/* --------------------- The body > 'nav' sticky menu -------------------- */
+/* =======================================================================
+                            OVERRIDES STYLE
+  ======================================================================== */
 
 body > nav {
     min-height: var(--nav-min-height);
@@ -99,19 +81,51 @@ body > nav * {
     padding: 0;
 }
 
+/* Required for a submenu positioning */
+body > nav ul > li {
+    position: relative;
+}
+
+/* Hide checkboxes */
 body > nav input[type=checkbox] {
     display: none;
 }
 
-body > nav ul > li {
-    position: relative;  /* Nécessaire pour positionner le sous-menu */
+body > main {
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: calc(6*var(--typography-spacing-horizontal)); /* the scrollbar...*/
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
 }
 
+
+/* =======================================================================
+                            TARGETED STYLE
+  ======================================================================== */
+
 /* --------------------------------------------------------------------- */
-/* Main navigation placement (#nav-content)                              */
-/* Its default position in wexa.css is horizontal, sticky at top         */
-/* Can be fixed at: top (.top), bottom (.bottom) or left-side vertical   */
-/* menu (.side).                                                         */
+/* Header navigation placement (#header-nav-content)                     */
+/* --------------------------------------------------------------------- */
+
+body > header > nav#header-nav-content {
+    position: absolute;
+    bottom: auto;
+    top: 1rem;
+    left: auto;
+    right: 2rem;
+    background: transparent;
+}
+
+/* ----------------------------------------------------------------------
+   Main navigation placement (#nav-content)
+   ---------------------------------------------------------------------
+   Its default position in wexa.css is horizontal, sticky at top
+
+   Below, it can be fixed at:
+    - top (.top), horizontally,
+    - bottom (.bottom), horizontally,  or
+    - left-side (.side), vertically.
+
 /* --------------------------------------------------------------------- */
 
 body > nav#nav-content {
@@ -119,6 +133,7 @@ body > nav#nav-content {
     min-width: var(--nav-min-width);
 }
 
+/* -------- Fixed at the top of the page --------- */
 body > nav#nav-content.top {
     position: fixed;
     top: 0;
@@ -130,7 +145,12 @@ body > nav#nav-content.top {
     padding-bottom: 0;
 }
 
-/* Fixed at the bottom of the page */
+/* When the top menu is present, push down the page content */
+body:has(nav#nav-content.top) {
+    padding-top: var(--nav-item-height);
+}
+
+/* -------- Fixed at the bottom of the page -------- */
 body > nav#nav-content.bottom {
     position: fixed;
     top: auto;
@@ -143,7 +163,12 @@ body > nav#nav-content.bottom {
     padding-bottom: 0;
 }
 
-/* Vertical menu on the left side */
+/* When the bottom menu is present, push up the page content */
+body:has(nav#nav-content.bottom) {
+    padding-bottom: var(--nav-item-height);
+}
+
+/* -------- Fixed vertically on the left side --------- */
 body > nav#nav-content.side {
     margin: 0;
     padding-left: 0;
@@ -158,33 +183,45 @@ body > nav#nav-content.side {
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    min-width: var(--nav-min-width);
     width: var(--nav-min-width);
     box-shadow: none;
 }
 
-/* Side collapsed */
+/* When the side menu is collapsed */
 nav#nav-content.side.collapsible {
     width: var(--nav-min-width);
 }
 
-/* Side collapsed */
-nav#nav-content.side.collapsible {
-    width: var(--nav-min-width);
+body:has(nav#nav-content.side) {
+    transition: padding-left 0.3s ease;
+    padding-left: var(--nav-min-width);
+    margin: 0;  /* avoid cumulative spacing */
+    width: 100%;
 }
 
-/* Side expanded (hover, focus, or .expanded) */
+/* When the side menu is pinned-expanded */
+body:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) {
+    padding-left: var(--nav-expanded-width);
+}
+
+/* When the side menu is expanded either with hover, focus, or .expanded */
 nav#nav-content.side.collapsible:hover,
 nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible),
 nav#nav-content.side.collapsible.expanded {
     width: var(--nav-expanded-width);
 }
 
-/* ----------------------------------------------------------------------- */
-/* ------------------- Items in nav ---------------- */
-/* ----------------------------------------------------------------------- */
 
-/* Base sizing for all nav items */
-[role=menuitem] {
+/* =======================================================================
+                            MENUITEM STYLE
+  ======================================================================== */
+
+/* -----------------------------------------------------------------------
+    Base style for all nav menu items
+   ----------------------------------------------------------------------- */
+
+[role="menuitem"] {
     min-height: var(--nav-item-min-height);
     height:     var(--nav-item-height);
     max-height: var(--nav-item-max-height);
@@ -195,8 +232,43 @@ nav#nav-content.side.collapsible.expanded {
     max-width: var(--nav-item-max-width-h);
 }
 
-/* Specific style for the menu items of the main menu. */
-body > nav#nav-content [role=menuitem] {
+/* -------- the current nav item -------- */
+[role="menuitem"].nav-current  {
+    color: var(--a-color);
+    background-color: var(--bg-color);
+    opacity: 0.5;
+}
+
+/* -------- images in items -------- */
+[role="menuitem"] > img,
+[role="menuitem"] > svg {
+    display: inline-block;
+    width: calc(1.8rem / var(--size-divisor));
+    height: calc(1.8rem / var(--size-divisor));
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+/* -------- text in items -------- */
+[role="menuitem"]:not(img) {
+    text-align: center;
+    font-family: inherit;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.9rem;  /* smaller size because in bold */
+    overflow: hidden;
+    position: relative;
+}
+
+
+/* -----------------------------------------------------------------------
+    Specific style for the menu items of the main menu
+   ----------------------------------------------------------------------- */
+
+body > nav#nav-content [role="menuitem"],
+aside.appmenu nav [role="menuitem"]{
     opacity: 1;
     width: auto;
     display: flex;
@@ -208,15 +280,20 @@ body > nav#nav-content [role=menuitem] {
     background-color: var(--nav-bg-color);
 }
 
+/* ---------------------- Vertical at side main menu ------------------- */
+
 nav#nav-content.side [role="menuitem"] {
     flex-direction: column;
     justify-content: center;
     width: 100%;
 }
 
-/* Children of the menuitem */
+nav#nav-content.side [role="menuitem"]:hover,
+nav#nav-content.side [role="menuitem"]:focus-visible {
+    background-color: rgba(128, 128, 128, 0.5);
+}
 
-body > nav#nav-content [role=menuitem] span {
+body > nav#nav-content [role="menuitem"] span {
     font-variant: small-caps;
     font-size: 0.8rem;
 }
@@ -225,15 +302,12 @@ body > nav#nav-content [role=menuitem] * {
     color: inherit;
 }
 
-/* ---------------------- Vertical at side ------------------- */
-
 /* Fixed, non-collapsible: show labels and use expanded width */
 nav#nav-content.side:not(.collapsible) [role="menuitem"] {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
 }
-
 
 /* ------------------ Expand side if collapsible --------------- */
 
@@ -249,7 +323,6 @@ nav#nav-content.side.collapsible:not(.expanded) [role="menuitem"] span {
 }
 
 /* Collapsible — expand on hover, keyboard focus (via :has), or .expanded */
-
 nav#nav-content.side.collapsible:hover [role="menuitem"],
 nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"],
 nav#nav-content.side.collapsible.expanded [role="menuitem"] {
@@ -270,39 +343,10 @@ nav#nav-content.side.collapsible [role="menuitem"] {
     transition: min-width 0.3s ease, width 0.3s ease, max-width 0.3s ease;
 }
 
-/* ---------------- the current nav item ----------------- */
 
-[role=menuitem].nav-current  {
-    color: var(--a-color);
-    background-color: var(--bg-color);
-    opacity: 0.5;
-}
-
-[role=menuitem] > img,
-[role=menuitem] > svg {
-    display: inline-block;
-    width: calc(1.8rem / var(--size-divisor));
-    height: calc(1.8rem / var(--size-divisor));
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
-}
-
-/* --------------- text style in items ---------------- */
-
-[role=menuitem]:not(img) {
-    text-align: center;
-    font-family: inherit;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;  /* smaller size because in bold */
-    overflow: hidden;
-    position: relative;
-}
-
-
-/* --------------------- Sub-menu ------------------ */
+/* =======================================================================
+                            SUBMENUS
+  ======================================================================== */
 
 .submenu {
     display: flex;
@@ -319,27 +363,22 @@ nav#nav-content.side.collapsible [role="menuitem"] {
     font-weight: var(--font-weight-normal);
 }
 
+/* -------- Submenus background colors -------- */
 
-/* ---------------------------- Pin button (same sizing as other menu items) */
-
-#pin-menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: var(--nav-min-width);
-    height: var(--nav-item-height);
-    color: inherit;
+.submenu-gray {
+    background-color: rgba(128, 128, 128, 0.5);
 }
 
-/* Highlight when menu is pinned */
-body > nav#nav-content [role=menuitem]#pin-menu[aria-pressed="true"] {
-    /* conserver le style nav
-    color: var(--nav-fg-color);
-    background-color: var(--nav-bg-color);*/
+.submenu-red {
+    background-color: rgba(255, 50, 50, 0.5);
+}
 
-    border-color: var(--nav-fg-color);
-    box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
-    opacity: 0.7;
+.submenu-green {
+    background-color: rgba(29, 72, 18, 0.5);
+}
+
+.submenu-orange {
+    background-color: rgba(154, 109, 38, 0.5);
 }
 
 /* ----------------------- mobile screen and print ---------------------- */
@@ -353,7 +392,7 @@ body > nav#nav-content [role=menuitem]#pin-menu[aria-pressed="true"] {
         font-size: 0.75rem;
     }
 
-    /* Elements of the nav when collapsed */
+    /* Elements of the nav when collapsed  */
     body > nav input[type=checkbox] + * {
         display: none;
     }
@@ -371,7 +410,6 @@ body > nav#nav-content [role=menuitem]#pin-menu[aria-pressed="true"] {
     }
 
     /* Expanded 'nav' content */
-
     body > nav input[type=checkbox]:checked + * {
         background-color: transparent;
         color: var(--nav-fg-color);
@@ -417,24 +455,228 @@ body > nav#nav-content [role=menuitem]#pin-menu[aria-pressed="true"] {
         top: 100%;
         min-width: 100%;
     }
-
 }
 
-/* ----------- Submenus colors ----------- */
+/* ----------------------------------------------------------------------- */
+/* ------------  Menu or Sub-Menu for mobile applications  --------------- */
+/* ----------------------------------------------------------------------- */
 
-.submenu-gray {
+aside.appmenu {
+    position: fixed;
+    z-index: 150; /* keep overlay priority */
+    visibility: hidden;  /* Make it invisible by default */
+    background: inherit;
+    height: 100%;
+}
+
+aside.appmenu nav {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Alignment horizontal */
+aside.appmenu[data-submenu-align-horizontal="left"]  nav { align-items: flex-start; }
+aside.appmenu[data-submenu-align-horizontal="center"]nav { align-items: center; }
+aside.appmenu[data-submenu-align-horizontal="right"] nav { align-items: flex-end; }
+
+/* Alignment vertical */
+aside.appmenu[data-submenu-align-vertical="top"]    nav { justify-content: flex-start; }
+aside.appmenu[data-submenu-align-vertical="center"] nav { justify-content: center; }
+aside.appmenu[data-submenu-align-vertical="bottom"] nav { justify-content: flex-end; }
+
+/* Size */
+aside.appmenu nav [role="menuitem"] {
+    min-width: var(--nav-item-width-v-expanded);
+    width:     var(--nav-item-width-v-expanded);
+    max-width: var(--nav-item-width-v-expanded);
+}
+
+/* Hover/Focus */
+aside.appmenu [role="menuitem"]:hover,
+aside.appmenu [role="menuitem"]:focus-visible {
     background-color: rgba(128, 128, 128, 0.5);
 }
 
-.submenu-red {
-    background-color: rgba(255, 50, 50, 0.5);
+/* -------- Sub-menu positioning, initially hidden off-screen,
+   with a smooth slide-in animation when opened. -------- */
+
+aside.appmenu[data-submenu-position="left"] {
+    top: 0;
+    left: -100%;
+    min-width: var(--nav-expanded-width);
+    width: var(--nav-expanded-width);
+    height: 100%;
+    transition: left var(--transition), visibility 0s 0.3s;  /* Transition only position and visibility */
+    box-shadow: 0.2rem 0 0.4rem var(--shadow-color);
 }
 
-.submenu-green {
-    background-color: rgba(29, 72, 18, 0.5);
+aside.appmenu[data-submenu-position="right"] {
+    top: 0;
+    right: -100%;
+    min-width: var(--nav-expanded-width);
+    width: var(--nav-expanded-width);
+    height: 100%;
+    transition: right var(--transition), visibility 0s 0.3s;  /* Transition only position and visibility */
+    box-shadow: 0 0.2rem 0.4rem var(--shadow-color);
 }
 
-.submenu-orange {
-    background-color: rgba(154, 109, 38, 0.5);
+aside.appmenu[data-submenu-position="bottom"] {
+    top: auto;
+    bottom: -100%;  /* Initially off-screen at the bottom */
+    width: 100%;    /* Set the width for the bottom submenu */
+    height: auto;   /* Auto height to fit content */
+    transition: bottom var(--transition), visibility 0s 0.3s;
 }
 
+aside.appmenu[data-submenu-position="top"] {
+    bottom: auto;
+    top: -100%;    /* Initially off-screen at the top */
+    width: 100%;   /* Set the width for the top submenu */
+    height: auto;  /* Auto height to fit content */
+    transition: top var(--transition), visibility 0s 0.3s;
+}
+
+/* -------------- Alignment of elements inside the submenu --------------- */
+
+aside.appmenu[data-submenu-align-vertical="top"] nav {
+    position: absolute;
+    top: 0;
+}
+
+aside.appmenu[data-submenu-align-vertical="bottom"] nav {
+    position: absolute;
+    bottom: 0;
+}
+
+/* Optional: Align horizontally based on left/right */
+aside.appmenu[data-submenu-align-horizontal="left"] nav {
+    align-items: center;
+}
+
+aside.appmenu[data-submenu-align-horizontal="right"] nav {
+    align-items: center;
+}
+
+aside.appmenu[data-submenu-align-horizontal="center"] nav {
+    align-items: center;
+}
+
+/* ----------------- When submenu is open, slide it in ------------------- */
+
+aside.appmenu.open {
+    visibility: visible;
+}
+
+aside.appmenu.open[data-submenu-position="left"] {
+    left: 0;
+}
+
+body:has(nav#nav-content.side) aside.appmenu.open[data-submenu-position="left"] {
+    left: var(--nav-min-width);
+    padding-left: 0;
+    margin: 0; /* avoid cumulative spacing */
+}
+body:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) aside.appmenu.open[data-submenu-position="left"] {
+    left: var(--nav-expanded-width);
+    padding-left: 0;
+    margin: 0; /* avoid cumulative spacing */
+}
+
+aside.appmenu.open[data-submenu-position="right"] {
+    right: 0;
+}
+
+aside.appmenu.open[data-submenu-position="bottom"] {
+    bottom: 0;
+}
+
+aside.appmenu.open[data-submenu-position="top"] {
+    top: 0;
+}
+
+/* ----------------- Submenu menuitem styling ------------------- */
+
+@media (min-width: 920px) {
+    body > nav#nav-content {
+        height: calc(var(--nav-min-height));
+    }
+
+    body > nav#nav-content [role=menuitem] {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+        width: auto;
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 920px) {
+
+    body > nav#nav-content {
+        height: calc(var(--nav-min-height) * 2);
+    }
+
+    body > nav#nav-content [role=menuitem] {
+        flex-direction: column; /* Stack image and text vertically */
+        gap: 0.5rem;
+        width: 100%; /* Occupy the full width */
+        flex-grow: 1; /* Make buttons take all available space */
+        height: auto;
+    }
+}
+
+
+/* =======================================================================
+                            BUTTONS
+  ======================================================================== */
+
+/* --------------------- Skip button -------------------------------------
+   Important for screen readers: it allows to skip to main content,
+   ignoring the header and nav. It must have the highest priority:
+   it must be over any other element.
+   ----------------------------------------------------------------------- */
+
+.skip {
+    opacity: 0;
+    background-color: var(--buttons-bg-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.skip:focus {
+    opacity: 1;
+    z-index: 100;
+}
+
+/* ------------------ Pin button -----------------------------------------
+  Optionally used by a side menu to pin it in expanded mode.
+  It has the same sizing as other menu items.
+  ------------------------------------------------------------------------ */
+
+#pin-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--nav-min-width);
+    height: var(--nav-item-height);
+    color: inherit;
+}
+
+/* Highlight when menu is pinned, mimics a toggle. */
+body > nav#nav-content.side [role=menuitem]#pin-menu[aria-pressed="true"] {
+    border-color: var(--nav-fg-color);
+    box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
+    opacity: 0.7;
+}

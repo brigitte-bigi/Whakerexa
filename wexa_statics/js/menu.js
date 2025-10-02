@@ -1,8 +1,8 @@
 /**
- :filename: wexa_statics.js.app.js
+ :filename: wexa_statics.js.menu.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
- :summary: A class to manage submenus in apps.
+ :summary: A class to manage menus/submenus in web apps.
 
  -------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@
 
 'use strict';
 
-class SubmenuManager {
+class MenuManager {
     // Protected members
     #asideElement;
     #toggleButton;
@@ -44,13 +44,13 @@ class SubmenuManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Creates a SubmenuManager instance.
+     * Creates a MenuManager instance.
      *
      * @param {string} asideId - ID of the aside element containing the submenu.
      * @param {string} toggleButtonId - ID of the button that toggles the submenu.
      *
      */
-    constructor(asideId = 'app-submenu', toggleButtonId = 'submenu-toggle') {
+    constructor(asideId = 'appmenu', toggleButtonId = 'submenu-toggle') {
         this.#asideElement = document.getElementById(asideId);
         this.#toggleButton = document.getElementById(toggleButtonId);
         // Include <a> and <button> elements as submenu items
@@ -66,6 +66,39 @@ class SubmenuManager {
     // ----------------------------------------------------------------------
 
     /**
+     * Initializes pin/unpin behavior for a side menu.
+     *
+     * This handles the click on the "pin menu" button to expand/collapse
+     * the side navigation bar, updating ARIA attributes accordingly.
+     *
+     * @param {string} navSelector - CSS selector of the side nav element.
+     * @param {string} pinButtonId - ID of the pin/unpin button.
+     * @returns {void}
+     */
+    initSideMenu(navSelector = 'nav#nav-content.side.collapsible', pinButtonId = 'pin-menu') {
+        const nav = document.querySelector(navSelector);
+        const pinBtn = document.getElementById(pinButtonId);
+
+        if (!nav) {
+            console.warn(`MenuManager: Side menu not found with selector '${navSelector}'.`);
+            return;
+        }
+        if (!pinBtn) {
+            console.warn(`MenuManager: Pin button not found with id '${pinButtonId}'.`);
+            return;
+        }
+
+        pinBtn.addEventListener('click', () => {
+            const isPinned = nav.classList.toggle('expanded');
+            nav.setAttribute('aria-pinned', isPinned ? 'true' : 'false');
+            pinBtn.setAttribute('aria-pressed', String(isPinned));
+            pinBtn.setAttribute('aria-label', isPinned ? 'Unpin menu' : 'Pin menu');
+        });
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
      * Initializes event listeners and default states.
      *
      * @private
@@ -73,7 +106,7 @@ class SubmenuManager {
      */
     #init() {
         if (!this.#asideElement || !this.#toggleButton) {
-            console.warn('SubmenuManager: Required elements not found.');
+            console.warn('MenuManager: Required elements not found.');
             return;
         }
 
@@ -101,22 +134,33 @@ class SubmenuManager {
         // Initial positioning and alignment
         this.adjustSubmenuPosition();
         this.adjustSubmenuAlignment();
+
+        // Close all appmenus when the mouse re-enters the side menu
+        const sideMenu = document.querySelector('nav#nav-content.side');
+        if (sideMenu) {
+            sideMenu.addEventListener('mouseenter', () => {
+                document.querySelectorAll('aside.appmenu.open').forEach(submenu => {
+                    submenu.classList.remove('open');
+                    submenu.setAttribute('aria-hidden', 'true');
+                });
+            });
+        }
     }
 
     // ----------------------------------------------------------------------
 
     /**
-     * Initializes the SubmenuManager when the DOM content is fully loaded.
+     * Initializes the MenuManager when the DOM content is fully loaded.
      *
      * It listens for the 'DOMContentLoaded' event and calls the method
-     * to attach specific event listeners related to the SubmenuManager.
+     * to attach specific event listeners related to the MenuManager.
      *
      * @returns {void}
      *
      */
-    handleSubmenuManagerOnLoad() {
+    handleMenuManagerOnLoad() {
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('SubmenuManager loaded /// attached listener');
+            console.log('MenuManager loaded /// attached listener');
             this.attachSubmenuListeners();
         });
     }
@@ -125,7 +169,7 @@ class SubmenuManager {
 
     /**
      * Attaches event listeners to the body for managing clicks related
-     * to the SubmenuManager's functionality.
+     * to the MenuManager's functionality.
      *
      * This method listens for click events on the body element and
      * delegates them to the handleBodyClick method to handle specific
@@ -166,14 +210,14 @@ class SubmenuManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Reads CSS variable '--app-submenu-position' and applies it.
+     * Reads CSS variable '--appmenu-position' and applies it.
      *
      * @returns {void}
      *
      */
     adjustSubmenuPosition() {
         const position = getComputedStyle(this.#asideElement)
-            .getPropertyValue('--app-submenu-position')
+            .getPropertyValue('--appmenu-position')
             .trim();
 
         if (position === '') {
@@ -192,14 +236,14 @@ class SubmenuManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Reads CSS variable '--app-submenu-align' and applies horizontal/vertical alignment.
+     * Reads CSS variable '--appmenu-align' and applies horizontal/vertical alignment.
      *
      * @returns {void}
      *
      */
     adjustSubmenuAlignment() {
         const align = getComputedStyle(this.#asideElement)
-            .getPropertyValue('--app-submenu-align')
+            .getPropertyValue('--appmenu-align')
             .trim();
         const [horizontal = 'center', vertical = 'center'] = align.split(' ');
 
@@ -240,7 +284,7 @@ class SubmenuManager {
 
         // Close any other opened submenu
         if (opened) {
-            document.querySelectorAll('.app-submenu').forEach(submenu => {
+            document.querySelectorAll('.appmenu').forEach(submenu => {
                 if (submenu !== this.#asideElement) {
                     submenu.classList.remove('open');
                     submenu.querySelectorAll('[role="menuitem"]').forEach(item => item.tabIndex = -1);

@@ -6,42 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="menu, app, mobile, web, css, html5, framework, accessibility, disability"/>
 
-    <title>app-side.css</title>
+    <title>menu-side.css</title>
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/app.css" type="text/css" />
     <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
     <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
-    <script src="../wexa_statics/js/app.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/menu.js" type="application/javascript"></script>
+
+    <script type="application/javascript">
+        OnLoadManager.addLoadFunction(() => {
+            const manager = new MenuManager();
+            manager.initSideMenu();
+        });
+    </script>
 
     <style>
         :root {
+
             --header-height: 20vh;
             --header-slidein: none;
+
             --nav-min-height: 0;
             --nav-min-width: calc(4rem / var(--size-divisor));
+
+            --nav-item-min-width-h: calc(4rem / var(--size-divisor));
+            --nav-item-width-h:    calc(6rem / var(--size-divisor));
+            --nav-item-max-width-h: calc(15rem / var(--size-divisor));
+
             --nav-expanded-width: calc(12rem / var(--size-divisor));
             --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
             --nav-item-width-v-expanded: calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
-            --app-submenu-align: left top;
             --border-radius: 1rem;
+
+            --appmenu-position: left;
+            --appmenu-align: left top;
+        }
+
+        :root:not([data-theme=dark]), [data-theme=light], .light {
+            --nav-bg-color: linear-gradient(180deg,rgba(2, 1, 20, 1) 0%, rgba(6, 6, 71, 1) 35%, rgba(10, 55, 128, 1) 100%);
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const nav = document.querySelector("nav#nav-content.side.collapsible");
-            const pinBtn = document.getElementById("pin-menu");
 
-            if (nav && pinBtn) {
-                pinBtn.addEventListener("click", () => {
-                    const isPinned = nav.classList.toggle("expanded");
-                    nav.setAttribute("aria-pinned", isPinned ? "true" : "false");
-                    pinBtn.setAttribute("aria-pressed", isPinned);
-                    pinBtn.setAttribute("aria-label", isPinned ? "Unpin menu" : "Pin menu");
-                });
-            }
-        });
-    </script>
 </head>
 
 <body>
@@ -60,20 +65,7 @@
             <a role="menuitem" class="print-off" href="https://whakerexa.sourceforge.io">
                 <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa home page" />
             </a>
-            <button id="submenu-toggle-profile" role="menuitem" class="print-off">
-                Profile
-            </button>
         </nav>
-
-        <!-- Submenu for the Profile button -->
-        <aside class="app-submenu" id="app-submenu-profile"
-               style="--app-submenu-position: top; --app-submenu-align: right top" aria-label="Submenu">
-            <nav>
-                <a role="menuitem" href="#">Setting 1</a>
-                <a role="menuitem" href="#">Setting 2</a>
-            </nav>
-        </aside>
-
     </header>
 
     <!-- Mobile Menu at the bottom -->
@@ -120,7 +112,7 @@
     </nav>
 
     <!-- Submenu for the Menu button -->
-    <aside class="app-submenu" id="app-submenu-menu" aria-label="Submenu">
+    <aside class="appmenu" id="appmenu-menu" aria-label="Submenu">
         <nav>
             <a role="menuitem" href="#">Option 1</a>
             <a role="menuitem" href="#">Option 2</a>
@@ -133,45 +125,18 @@
         <h1>Welcome to Whakerexa</h1>
         <p>Testing mobile application menu functionality</p>
 
-        <p>
-            The International Conference on Speech and Computer (SPECOM) has become a regular event since the first SPECOM that was held in St. Petersburg, Russian Federation, in October 1996. 25 years ago, SPECOM was established by the St. Petersburg Institute for Informatics and Automation of the Russian Academy of Sciences (SPIIRAS). SPECOM is a conference with a long tradition that attracts researchers in the area of computer speech processing, including recognition, synthesis, understanding etc. and related domains like signal processing, language and text processing, computational paralinguistics, multi--modal speech processing or human–computer interaction. The SPECOM International Conference is an ideal platform for know-how exchange - especially for experts working on Slavic or other highly inflectional languages - including both, under-resourced and regular well-resourced languages.
-
-            SPECOM Proceedings are published by the Springer Nature publisher as a book in the Lecture Notes in Computer Science (subseries Lecture Notes in Artificial Intelligence) LNCS/LNAI series listed in all major citation databases such as Scopus, Web of Science, DBLP, etc.
-
-            SPECOM is included in the "Best Conferences in Computer Science" list of the Research.com portal.
-        </p>
-
-        <p>
-            The International Conference on Speech and Computer (SPECOM) has become a regular event since the first SPECOM that was held in St. Petersburg, Russian Federation, in October 1996. 25 years ago, SPECOM was established by the St. Petersburg Institute for Informatics and Automation of the Russian Academy of Sciences (SPIIRAS). SPECOM is a conference with a long tradition that attracts researchers in the area of computer speech processing, including recognition, synthesis, understanding etc. and related domains like signal processing, language and text processing, computational paralinguistics, multi--modal speech processing or human–computer interaction. The SPECOM International Conference is an ideal platform for know-how exchange - especially for experts working on Slavic or other highly inflectional languages - including both, under-resourced and regular well-resourced languages.
-
-            SPECOM Proceedings are published by the Springer Nature publisher as a book in the Lecture Notes in Computer Science (subseries Lecture Notes in Artificial Intelligence) LNCS/LNAI series listed in all major citation databases such as Scopus, Web of Science, DBLP, etc.
-
-            SPECOM is included in the "Best Conferences in Computer Science" list of the Research.com portal.
-        </p>
-
-        <p>
-            The International Conference on Speech and Computer (SPECOM) has become a regular event since the first SPECOM that was held in St. Petersburg, Russian Federation, in October 1996. 25 years ago, SPECOM was established by the St. Petersburg Institute for Informatics and Automation of the Russian Academy of Sciences (SPIIRAS). SPECOM is a conference with a long tradition that attracts researchers in the area of computer speech processing, including recognition, synthesis, understanding etc. and related domains like signal processing, language and text processing, computational paralinguistics, multi--modal speech processing or human–computer interaction. The SPECOM International Conference is an ideal platform for know-how exchange - especially for experts working on Slavic or other highly inflectional languages - including both, under-resourced and regular well-resourced languages.
-
-            SPECOM Proceedings are published by the Springer Nature publisher as a book in the Lecture Notes in Computer Science (subseries Lecture Notes in Artificial Intelligence) LNCS/LNAI series listed in all major citation databases such as Scopus, Web of Science, DBLP, etc.
-
-            SPECOM is included in the "Best Conferences in Computer Science" list of the Research.com portal.
-        </p>
-
-        <p>
-            The International Conference on Speech and Computer (SPECOM) has become a regular event since the first SPECOM that was held in St. Petersburg, Russian Federation, in October 1996. 25 years ago, SPECOM was established by the St. Petersburg Institute for Informatics and Automation of the Russian Academy of Sciences (SPIIRAS). SPECOM is a conference with a long tradition that attracts researchers in the area of computer speech processing, including recognition, synthesis, understanding etc. and related domains like signal processing, language and text processing, computational paralinguistics, multi--modal speech processing or human–computer interaction. The SPECOM International Conference is an ideal platform for know-how exchange - especially for experts working on Slavic or other highly inflectional languages - including both, under-resourced and regular well-resourced languages.
-
-            SPECOM Proceedings are published by the Springer Nature publisher as a book in the Lecture Notes in Computer Science (subseries Lecture Notes in Artificial Intelligence) LNCS/LNAI series listed in all major citation databases such as Scopus, Web of Science, DBLP, etc.
-
-            SPECOM is included in the "Best Conferences in Computer Science" list of the Research.com portal.
-        </p>
-
     </main>
-    <script type="application/javascript">
-        window.profilemenu = new SubmenuManager('app-submenu-profile', 'submenu-toggle-profile');
-        window.profilemenu.handleSubmenuManagerOnLoad();
 
-        window.mainmenu = new SubmenuManager('app-submenu-menu', 'submenu-toggle-menu');
-        window.mainmenu.handleSubmenuManagerOnLoad();
+    <footer id="footer-content">
+        <p class="center">This site respects your privacy.</p>
+        <p class="center">We do not collect any information and do not use cookies.</p>
+        <hr>
+        <p>Copyright @ 2023-2025 Brigitte Bigi - CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    </footer>
+
+    <script type="application/javascript">
+        window.mainmenu = new MenuManager('appmenu-menu', 'submenu-toggle-menu');
+        window.mainmenu.handleMenuManagerOnLoad();
 
         console.log("... C'est chargé !")
     </script>

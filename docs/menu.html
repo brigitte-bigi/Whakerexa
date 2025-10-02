@@ -12,6 +12,13 @@
     <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
     <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
 
+    <style>
+        :root {
+            --header-height: 34vh;
+            --header-slidein: none;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -20,7 +27,7 @@
         <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
-        <nav style="position: absolute; top: 0;">
+        <nav id="header-nav-content" aria-label="Accessibility navigation">
             <ul>
                 <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
                 <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
@@ -31,7 +38,6 @@
         <h2>A CSS framework for custom 'nav'</h2>
     </header>
 
-
     <nav id="nav-content">
 
         <!-- An example of 'nav' content which is always visible -->
@@ -41,7 +47,7 @@
         <label for="mobile">Show/ Hide menu</label>
         <input type="checkbox" id="mobile" role="button">
         <ul> <!-- the expanded/collapsed content -->
-            <li><a class="expand" role="menuitem" href="#">MenuItem 1</a>
+            <li><a class="expand" role="menuitem" href="#">Item 1</a>
                 <ul class="submenu submenu-gray">
                     <li><a role="menuitem" href="#">SubItem 1.1</a></li>
                     <li><a role="menuitem" href="#">SubItem 1.2</a></li>
@@ -55,19 +61,22 @@
                 </ul>
             </li>
             <li><a role="menuitem" href="#">MenuItem 3</a></li>
-            <li><a role="menuitem" href="#">MenuItem 4</a></li>
+            <li><a role="menuitem" href="#">Item 4</a></li>
         </ul>
 
         <!-- Another example of 'nav' content which is always visible -->
         <section>
-            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_contrast_scheme()" onkeydown="accessibility_manager.switch_contrast_scheme()" aria-label="Contrast switcher">
+            <button role="menuitem" class="print-off"
+                    onclick="accessibility_manager.switch_contrast_scheme()"
+                    aria-label="Contrast switcher">
                 <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast" aria-label="Changement du contraste des pages"/>
             </button>
-            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_color_scheme()" onkeydown="accessibility_manager.switch_color_scheme()" aria-label="Color switcher">
+            <button role="menuitem" class="print-off"
+                    onclick="accessibility_manager.switch_color_scheme()"
+                    aria-label="Color switcher">
                 <img src="../wexa_statics/icons/theme_switcher.png" alt="Color" id="img-theme"/>
             </button>
         </section>
-
     </nav>
 
 
@@ -76,7 +85,7 @@
         <section id="description">
             <h1>Description</h1>
 
-            <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
+            <p>This page shows how a page looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
             <pre>
 &lt;link
     rel="stylesheet"
@@ -84,24 +93,149 @@
     media="all" /&gt;
 &lt;link
     rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/menu.css?format=raw"
-    media="all" /&gt;
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/menu.css?format=raw"/&gt;
             </pre>
 
             <h2>Overview</h2>
 
-            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
-                accessible web content, and to minimize the use of CSS classes for enhancing the
-                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
-                CSS framework of  <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.
-            </p>
-            <p><b>menu.css</b> is a CSS framework based on wexa.css, allowing you to add
-                a nice sticky navigation bar at top of the page. </p>
+            <p><b>menu.css/js</b> is an extension of the <b>wexa.css</b> framework dedicated to
+                navigation menus. It provides both the styling and the interactive behavior to
+                create accessible and responsive navigation bars.</p>
+            <p>With <b>menu.css</b> you can design menus at the top, bottom or left-side of the page,
+                including collapsible and pinnable side menus. The companion <b>menu.js</b>
+                adds the necessary JavaScript to manage interactivity such as opening and
+                closing submenus, pinning/unpinning the side menu, and maintaining keyboard
+                accessibility.</p>
+            <p>The framework is designed to be lightweight, accessible by default, and to
+                require a minimum of additional HTML classes, keeping source code clear and
+                readable.</p>
             <p>Not convinced? Take a look at the source code of this page!</p>
+
+            <h2>Usage</h2>
+
+            <p>By default, <b>menu.css</b> creates a horizontal navigation bar that is
+                sticky at the top of the page. This is the most common layout, suitable for
+                desktop and responsive websites.</p>
+            <p>Other layouts are available:</p>
+            <ul>
+                <li><b>Top</b>: horizontal bar fixed at the top of the page.</li>
+                <li><b>Bottom</b>: horizontal bar fixed at the bottom of the page. Useful
+                    for mobile apps where bottom navigation is preferred.
+                    <a href="menu-bottom.html">See this example.</a></li>
+                <li><b>Side</b>: vertical navigation bar attached to the left side. It can
+                    be collapsible and pinnable, allowing more space for the main content
+                    while keeping quick access to menu items.
+                    <a href="menu-side.html">See this example.</a></li>
+            </ul>
+            <p>Each layout reuses the same HTML structure, but applies different CSS
+                rules depending on the <code>class</code> of the <code>&lt;nav&gt;</code>
+                element (<code>top</code>, <code>bottom</code>, or <code>side</code>).
+                Customization is achieved with the variables defined above, so developers
+                can easily adapt height, width, or expanded/collapsed behavior.</p>
+            <p>The companion <b>menu.js</b> ensures interactivity: it manages toggle
+                buttons, pin/unpin actions for side menus, submenu open/close states, and
+                ARIA attributes for accessibility. Keyboard navigation (Tab, Shift+Tab,
+                Escape) is fully supported by default.</p>
 
             <h2>The variables</h2>
 
-            nav-min-height: 6rem
+            <p>Menus can be fully customized through CSS variables. These variables allow
+                you to adapt the size, width, or alignment of menu items without modifying
+                the CSS code directly. They make it easy to create consistent designs across
+                different types of menus (top, bottom, side) while keeping flexibility for
+                application-specific needs.</p>
+
+            <table role="grid">
+                <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Default value</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>--nav-min-height</td>
+                    <td>calc(6rem / var(--size-divisor))</td>
+                    <td>Minimum height of the main nav bar (top/bottom).</td>
+                </tr>
+                <tr>
+                    <td>--nav-min-width</td>
+                    <td>0</td>
+                    <td>Minimum width of the nav (set &gt;0 for side menus).</td>
+                </tr>
+
+                <tr>
+                    <td>--nav-item-min-height</td>
+                    <td>calc(2rem / var(--size-divisor))</td>
+                    <td>Minimum height of any menu item.</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-height</td>
+                    <td>calc(2.5rem / var(--size-divisor))</td>
+                    <td>Default height of any menu item.</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-max-height</td>
+                    <td>calc(3rem / var(--size-divisor))</td>
+                    <td>Maximum height of any menu item.</td>
+                </tr>
+
+                <tr>
+                    <td>--nav-item-min-width-h</td>
+                    <td>calc(4rem / var(--size-divisor))</td>
+                    <td>Min width of horizontal items (top/bottom).</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-width-h</td>
+                    <td>calc(6rem / var(--size-divisor))</td>
+                    <td>Default width of horizontal items.</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-max-width-h</td>
+                    <td>calc(15rem / var(--size-divisor))</td>
+                    <td>Max width of horizontal items.</td>
+                </tr>
+
+                <tr>
+                    <td>--nav-expanded-width</td>
+                    <td>calc(16rem / var(--size-divisor))</td>
+                    <td>Width of the side menu when expanded/pinned.</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-width-v-collapsed</td>
+                    <td>var(--nav-min-width)</td>
+                    <td>Item width in side menu (collapsed).</td>
+                </tr>
+                <tr>
+                    <td>--nav-item-width-v-expanded</td>
+                    <td>var(--nav-expanded-width)</td>
+                    <td>Item width in side menu (expanded).</td>
+                </tr>
+
+                <tr>
+                    <td>--nav-mobile-expanded-item-min-width</td>
+                    <td>calc(800px / var(--size-divisor))</td>
+                    <td>Min width of items when the mobile checkbox expands the nav.</td>
+                </tr>
+                <tr>
+                    <td>--nav-mobile-submenu-item-min-width</td>
+                    <td>calc(500px / var(--size-divisor))</td>
+                    <td>Min width of items inside expanded mobile submenus.</td>
+                </tr>
+
+                <tr>
+                    <td>--appmenu-position</td>
+                    <td>left</td>
+                    <td>Default off-canvas edge for app submenus (left/right/top/bottom).</td>
+                </tr>
+                <tr>
+                    <td>--appmenu-align</td>
+                    <td>left bottom</td>
+                    <td>Submenu inner alignment (horizontal vertical).</td>
+                </tr>
+                </tbody>
+            </table>
 
         </section>
     </main>
@@ -110,7 +244,7 @@
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <hr>
-        <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p>Copyright @ 2023-2025 Brigitte Bigi - CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
     </footer>
 
 </body>

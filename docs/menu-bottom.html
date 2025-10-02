@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en'">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="menu, app, mobile, web, css, html5, framework, accessibility, disability"/>
+
+    <title>app.css</title>
+    <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+    <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
+    <script src="../wexa_statics/js/menu.js" type="application/javascript"></script>
+
+    <style>
+        :root {
+            --header-height: 20vh;
+            --header-slidein: none;
+            --nav-min-height: 4rem;
+            --border-radius: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section for the mobile menu -->
+    <header>
+        <h2>Menu for web and mobile applications</h2>
+
+        <nav id="header-nav-content" aria-label="Accessibility navigation">
+            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_contrast_scheme()" aria-label="Contrast switcher">
+                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast" aria-label="Changement du contraste des pages"/>
+            </button>
+            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_color_scheme()" aria-label="Color switcher">
+                <img src="../wexa_statics/icons/theme_switcher.png" alt="Color" id="img-theme"/>
+            </button>
+            <a role="menuitem" class="print-off" href="https://whakerexa.sourceforge.io">
+                <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa home page" />
+            </a>
+            <button id="submenu-toggle-profile" role="menuitem" class="print-off">
+                Profile
+            </button>
+        </nav>
+
+        <!-- Submenu for the Profile button -->
+        <aside class="appmenu" id="appmenu-profile"
+               style="--appmenu-position: top; --appmenu-align: right top" aria-label="Submenu">
+            <nav>
+                <a role="menuitem" href="#">Setting 1</a>
+                <a role="menuitem" href="#">Setting 2</a>
+            </nav>
+        </aside>
+
+    </header>
+
+    <!-- Mobile Menu at the bottom -->
+    <nav id="nav-content" class="bottom" aria-label="Main navigation">
+        <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
+            ☰
+            <span>Menu</span>
+        </button>
+        <button aria-label="Applications" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="6" height="16" rx="1"/>
+                <rect x="14" y="4" width="6" height="6" rx="1"/>
+                <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+            <span>Apps</span>
+        </button>
+        <button aria-label="Help" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                <circle cx="12" cy="17" r="1"/>
+            </svg>
+            <span>Help</span>
+        </button>
+    </nav>
+
+    <!-- Submenu for the Menu button -->
+    <aside class="appmenu"  id="appmenu-menu"
+           style="--appmenu-position: left; --appmenu-align: left bottom; " aria-label="Submenu">
+        <nav>
+            <a role="menuitem" href="#">Option 1</a>
+            <a role="menuitem" href="#">Option 2</a>
+            <a role="menuitem" href="#">Option 3</a>
+        </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main id="main-content">
+        <h1>Welcome to Whakerexa</h1>
+        <p>Testing mobile application menu functionality</p>
+
+    </main>
+
+    <footer id="footer-content">
+        <p class="center">This site respects your privacy.</p>
+        <p class="center">We do not collect any information and do not use cookies.</p>
+        <hr>
+        <p>Copyright @ 2023-2025 Brigitte Bigi - CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    </footer>
+
+
+    <script type="application/javascript">
+        window.profilemenu = new MenuManager('appmenu-profile', 'submenu-toggle-profile');
+        window.profilemenu.handleMenuManagerOnLoad();
+
+        window.mainmenu = new MenuManager('appmenu-menu', 'submenu-toggle-menu');
+        window.mainmenu.handleMenuManagerOnLoad();
+
+        console.log("... C'est chargé !")
+    </script>
+
+</body>
+</html>
