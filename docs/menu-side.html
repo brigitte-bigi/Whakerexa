@@ -13,13 +13,6 @@
     <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
     <script src="../wexa_statics/js/menu.js" type="application/javascript"></script>
 
-    <script type="application/javascript">
-        OnLoadManager.addLoadFunction(() => {
-            const manager = new MenuManager();
-            manager.initSideMenu();
-        });
-    </script>
-
     <style>
         :root {
 
@@ -27,9 +20,9 @@
             --header-slidein: none;
 
             --nav-min-height: 0;
-            --nav-min-width: calc(4rem / var(--size-divisor));
+            --nav-min-width: max(calc(4rem / var(--size-divisor)), 3rem);
 
-            --nav-item-min-width-h: calc(4rem / var(--size-divisor));
+            --nav-item-min-width-h: max(calc(4rem / var(--size-divisor)), 3rem);
             --nav-item-width-h:    calc(6rem / var(--size-divisor));
             --nav-item-max-width-h: calc(15rem / var(--size-divisor));
 
@@ -53,6 +46,14 @@
 
     <!-- Header Section for the mobile menu -->
     <header>
+        <!-- Accessible and responsive menu management -->
+        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+            Skip to main content
+        </a>
+        <!-- label for="mobile" id="menu-button" tabindex="0"></label>-->
+        <button id="menu-button" aria-controls="nav-content" aria-expanded="false"></button>
+        <input type="checkbox" id="mobile" role="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+
         <h2>Menu for web and mobile applications</h2>
 
         <nav id="header-nav-content" aria-label="Accessibility navigation">
@@ -70,45 +71,53 @@
 
     <!-- Mobile Menu at the bottom -->
     <nav id="nav-content" class="side collapsible" aria-label="Main navigation">
-            <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
-                ☰
-                <span>Menu</span>
-            </button>
-            <button aria-label="Applications" role="menuitem">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
-                     stroke-linejoin="round" fill-opacity="0.5">
-                    <rect x="4" y="4" width="6" height="16" rx="1"/>
-                    <rect x="14" y="4" width="6" height="6" rx="1"/>
-                    <rect x="14" y="14" width="6" height="6" rx="1"/>
-                </svg>
-                <span>Apps</span>
-            </button>
-            <button aria-label="Help" role="menuitem">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
-                    <circle cx="12" cy="17" r="1"/>
-                </svg>
-                <span>Help</span>
-            </button>
-            <button aria-label="Pin menu" role="menuitem"
-                    id="pin-menu"
-                    type="button"
-                    aria-controls="nav-content"
-                    aria-pressed="true"
-                    title="Pin menu"
-                    class="menu-pin">
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                     viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                     aria-label="Pushpin">
-                    <path d="M9 3h6l-1 8H10L9 3z"/>
-                    <path d="M7 13h10"/>
-                    <path d="M12 13v9"/>
-                </svg>
-            </button>
+        <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" fill-opacity="0.5">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>Options</span>
+        </button>
+        <button aria-label="Applications" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" fill-opacity="0.5">
+                <rect x="4" y="4" width="6" height="16" rx="1"/>
+                <rect x="14" y="4" width="6" height="6" rx="1"/>
+                <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+            <span>Apps</span>
+        </button>
+        <button aria-label="Help" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                <circle cx="12" cy="17" r="1"/>
+            </svg>
+            <span>Help</span>
+        </button>
+        <button aria-label="Pin menu" role="menuitem"
+                id="pin-menu"
+                type="button"
+                aria-controls="nav-content"
+                aria-pressed="true"
+                title="Pin menu"
+                class="menu-pin">
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 aria-label="Pushpin">
+                <path d="M9 3h6l-1 8H10L9 3z"/>
+                <path d="M7 13h10"/>
+                <path d="M12 13v9"/>
+            </svg>
+        </button>
     </nav>
 
     <!-- Submenu for the Menu button -->
@@ -137,6 +146,8 @@
     <script type="application/javascript">
         window.mainmenu = new MenuManager('appmenu-menu', 'submenu-toggle-menu');
         window.mainmenu.handleMenuManagerOnLoad();
+        window.mainmenu.initSideMenu();
+        window.mainmenu.initMobileToggle();
 
         console.log("... C'est chargé !")
     </script>

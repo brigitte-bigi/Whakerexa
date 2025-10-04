@@ -40,22 +40,22 @@ This banner notice must not be removed.
     /* Default behavior is an horizontal menu, with a min height and no
     min width. For a side menu, fix a min-height to 0 and the desired min
     width.  */
-    --nav-min-height: calc(6rem / var(--size-divisor));
+    --nav-min-height: max(calc(6rem / var(--size-divisor)), 4rem);
     --nav-min-width: 0;
 
     /* All menu items */
-    --nav-item-min-height: calc(2rem / var(--size-divisor));
-    --nav-item-height: calc(2.5rem / var(--size-divisor));
-    --nav-item-max-height: calc(3rem / var(--size-divisor));
+    --nav-item-min-height: max(calc(2rem / var(--size-divisor)), 2rem);
+    --nav-item-height: max(calc(2.5rem / var(--size-divisor)), 2.5rem);
+    --nav-item-max-height: max(calc(3rem / var(--size-divisor)), 3rem);
 
-    --nav-item-min-width-h: calc(6rem / var(--size-divisor));
-    --nav-item-width-h:    calc(8rem / var(--size-divisor));
-    --nav-item-max-width-h: calc(15rem / var(--size-divisor));
+    --nav-item-min-width-h: max(calc(6rem / var(--size-divisor)), 4rem);
+    --nav-item-width-h: max(calc(8rem / var(--size-divisor)), 6rem);
+    --nav-item-max-width-h: max(calc(15rem / var(--size-divisor)), 12rem);
 
     /* Vertical side widths */
-    --nav-expanded-width: calc(16rem / var(--size-divisor)); /* open side */
+    --nav-expanded-width: max(calc(16rem / var(--size-divisor)), 14rem); /* open side */
     --nav-item-width-v-collapsed: var(--nav-min-width);
-    --nav-item-width-v-expanded:  var(--nav-expanded-width);
+    --nav-item-width-v-expanded: var(--nav-expanded-width);
 
     /* Mobile checkbox-expand */
     --nav-mobile-expanded-item-min-width: calc(800px / var(--size-divisor));
@@ -63,6 +63,8 @@ This banner notice must not be removed.
 
     --appmenu-position: left;
     --appmenu-align: left top;
+
+    --menu-button-size: max(calc(4rem / var(--size-divisor)), 3rem);
 }
 
 
@@ -173,7 +175,7 @@ body > nav#nav-content.side {
     margin: 0;
     padding-left: 0;
     padding-right: 0;
-    padding-top: var(--typography-spacing-vertical);
+    padding-top: calc(2 * var(--typography-spacing-vertical) + var(--menu-button-size));
     padding-bottom: var(--typography-spacing-vertical);
     position: fixed;
     top: 0;
@@ -268,7 +270,7 @@ nav#nav-content.side.collapsible.expanded {
    ----------------------------------------------------------------------- */
 
 body > nav#nav-content [role="menuitem"],
-aside.appmenu nav [role="menuitem"]{
+aside.appmenu nav [role="menuitem"] {
     opacity: 1;
     width: auto;
     display: flex;
@@ -381,16 +383,63 @@ nav#nav-content.side.collapsible [role="menuitem"] {
     background-color: rgba(154, 109, 38, 0.5);
 }
 
-/* ----------------------- mobile screen and print ---------------------- */
+/* ======================================================================= */
+/*      Mobile menu toggle           */
+/* ======================================================================= */
+
+/* -------- via #mobile + .expanded  -------- */
+
+#mobile {
+    display: none;
+}
+
+
+#menu-button {
+    position: fixed;
+    top: var(--typography-spacing-vertical);
+    left: var(--typography-spacing-horizontal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--menu-button-size);
+    height: var(--menu-button-size);
+
+    border-radius: 50%;
+    border: var(--border-width) solid var(--buttons-bg-color);
+    color: var(--fg-color);
+    cursor: pointer;
+
+    /*box-shadow: 0 0 0 3px var(--bg-color), 0 2px 6px var(--shadow-color);*/
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    /* Look */
+    background-color: var(--nav-bg-color);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Fond --%3E%3Ccircle cx='16' cy='16' r='15' fill='%230B0B1E'/%3E%3C!-- Ligne 1 --%3E%3Ccircle cx='8' cy='10' r='1' stroke='%23E84545' fill='none' stroke-width='2'/%3E%3Cline x1='13' y1='10' x2='24' y2='10' stroke='%23E84545' stroke-width='4'/%3E%3C!-- Ligne 2 --%3E%3Ccircle cx='8' cy='16' r='1' stroke='%239370DB' fill='none' stroke-width='2'/%3E%3Cline x1='13' y1='16' x2='24' y2='16' stroke='%239370DB' stroke-width='4'/%3E%3C!-- Ligne 3 --%3E%3Ccircle cx='8' cy='22' r='1' stroke='%23EA8533' fill='none' stroke-width='2'/%3E%3Cline x1='13' y1='22' x2='24' y2='22' stroke='%23EA8533' stroke-width='4'/%3E%3C/svg%3E");
+    z-index: 100;
+}
+
+#menu-button:hover {
+    background-color: var(--nav-fg-color);
+    color: var(--bg-color);
+    transform: scale(1.05);
+}
+
+/* -------- mobile screen and print -------- */
+/* The code below is preserved but some is deprecated */
+@media screen and (max-width: 896px) {
+    #menu-button {
+        display: inline-flex;
+    }
+    body > nav#nav-content.side #pin-menu {
+        display: none;
+    }
+}
 
 @media all and (max-width: 896px) {
-    body > nav {
-        min-height: calc(max(var(--nav-min-height), calc(6rem / var(--size-divisor))));
-    }
-
-    .skip {
-        font-size: 0.75rem;
-    }
 
     /* Elements of the nav when collapsed  */
     body > nav input[type=checkbox] + * {
@@ -407,6 +456,18 @@ nav#nav-content.side.collapsible [role="menuitem"] {
         text-align: center;
         border: var(--border-width) solid var(--nav-fg-color);
         color: var(--nav-fg-color);
+    }
+
+    /* Hide expanded side menu */
+    nav#nav-content.side {
+        display: none;
+    }
+    nav#nav-content.side.expanded {
+        display: flex;
+    }
+    /* Remove body left padding when side menu is hidden */
+    body:has(nav#nav-content.side) {
+        padding-left: 0;
     }
 
     /* Expanded 'nav' content */
@@ -439,6 +500,10 @@ nav#nav-content.side.collapsible [role="menuitem"] {
         display: none;
     }
 
+    #menu-button {
+        display: none;
+    }
+
     [role=menuitem].expand::after {
         content: " ▼";
     }
@@ -463,7 +528,7 @@ nav#nav-content.side.collapsible [role="menuitem"] {
 
 aside.appmenu {
     position: fixed;
-    z-index: 150; /* keep overlay priority */
+    z-index: 50; /* keep overlay priority */
     visibility: hidden;  /* Make it invisible by default */
     background: inherit;
     height: 100%;
@@ -649,15 +714,17 @@ aside.appmenu.open[data-submenu-position="top"] {
     opacity: 0;
     background-color: var(--buttons-bg-color);
     position: fixed;
-    top: 0;
-    left: 0;
+    top: var(--typography-spacing-vertical);
+    left: calc(var(--menu-button-size) + 2 * var(--typography-spacing-horizontal));
     padding: 0.5rem;
+    margin: 0;
     transition: opacity 0.3s ease;
+    font-weight: var(--font-weight-semibold);
 }
 
 .skip:focus {
     opacity: 1;
-    z-index: 100;
+    z-index: 200;
 }
 
 /* ------------------ Pin button -----------------------------------------
@@ -665,18 +732,14 @@ aside.appmenu.open[data-submenu-position="top"] {
   It has the same sizing as other menu items.
   ------------------------------------------------------------------------ */
 
-#pin-menu {
-    display: flex;
+body > nav#nav-content.side [role=menuitem]#pin-menu {
     align-items: center;
     justify-content: center;
-    min-width: var(--nav-min-width);
-    height: var(--nav-item-height);
-    color: inherit;
+    color: var(--nav-fg-color);
 }
 
-/* Highlight when menu is pinned, mimics a toggle. */
 body > nav#nav-content.side [role=menuitem]#pin-menu[aria-pressed="true"] {
     border-color: var(--nav-fg-color);
     box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
-    opacity: 0.7;
+    background-color: rgba(128, 128, 128, 0.5);
 }

@@ -99,6 +99,59 @@ class MenuManager {
     // ----------------------------------------------------------------------
 
     /**
+     * Initializes mobile menu toggle behavior.
+     *
+     * This method links the hidden checkbox, the navigation container,
+     * and the visible menu button. It ensures that the menu state is
+     * consistent and accessible: the checkbox holds the state, the nav
+     * applies visual/ARIA changes, and the button is fully focusable
+     * and activable via keyboard.
+     *
+     * @param {string} checkboxId - ID of the checkbox that controls the menu.
+     * @param {string} navId - ID of the navigation container to expand/collapse.
+     * @param {string} menuButtonId - ID of the visible menu button.
+     * @returns {void}
+     */
+    initMobileToggle(checkboxId = 'mobile', navId = 'nav-content', menuButtonId = 'menu-button') {
+        const checkbox = document.getElementById(checkboxId);
+        const nav = document.getElementById(navId);
+        const menuBtn = document.getElementById(menuButtonId);
+
+        if (!checkbox || !nav) {
+            console.warn('MenuManager: Cannot initialize mobile toggle: elements missing.');
+            return;
+        }
+
+        /**
+         * Update the state of the nav and button based on the checkbox.
+         * - Toggle the 'expanded' class on nav.
+         * - Sync aria-expanded on nav and menu button.
+         */
+        const updateMenuState = () => {
+            const expanded = checkbox.checked;
+            nav.classList.toggle('expanded', expanded);
+            nav.setAttribute('aria-expanded', String(expanded));
+            if (menuBtn) {
+                menuBtn.setAttribute('aria-expanded', String(expanded));
+            }
+        };
+
+        // React to direct checkbox changes
+        checkbox.addEventListener('change', updateMenuState);
+        updateMenuState();
+
+        // React to clicks on the visible button (toggle the checkbox state)
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                checkbox.checked = !checkbox.checked;
+                updateMenuState();
+            });
+        }
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
      * Initializes event listeners and default states.
      *
      * @private
