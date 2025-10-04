@@ -28,8 +28,6 @@
         <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
-        <label for="mobile">Show/Hide menu</label>
-        <input type="checkbox" id="mobile" role="button">
 
         <nav id="header-nav-content" aria-label="Accessibility navigation">
             <ul>
@@ -43,11 +41,11 @@
     </header>
 
     <nav id="nav-content">
+        <!-- this default menu is sticky, horizontal, not responsive -->
 
-        <!-- An example of 'nav' content which is always visible -->
         <a class="nav-current external-link" role="menuitem" href="https://whakerexa.sourceforge.io">Home</a>
 
-        <ul> <!-- the expanded/collapsed content -->
+        <ul>
             <li><a class="expand" role="menuitem" href="#">Item 1</a>
                 <ul class="submenu submenu-gray">
                     <li><a role="menuitem" href="#">SubItem 1.1</a></li>
@@ -65,7 +63,6 @@
             <li><a role="menuitem" href="#">Item 4</a></li>
         </ul>
 
-        <!-- Another example of 'nav' content which is always visible -->
         <section>
             <button role="menuitem" class="print-off"
                     onclick="accessibility_manager.switch_contrast_scheme()"
@@ -97,6 +94,7 @@
     href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/menu.css?format=raw"/&gt;
             </pre>
 
+
             <h2>Overview</h2>
 
             <p><b>menu.css/js</b> is an extension of the <b>wexa.css</b> framework dedicated to
@@ -112,11 +110,13 @@
                 readable.</p>
             <p>Not convinced? Take a look at the source code of this page!</p>
 
+
             <h2>Usage</h2>
 
             <p>By default, <b>menu.css</b> creates a horizontal navigation bar that is
                 sticky at the top of the page. This is the most common layout, suitable for
-                desktop and responsive websites.</p>
+                desktop websites. This solution is not responsive.</p>
+
             <p>Other layouts are available:</p>
             <ul>
                 <li><b>Top</b>: horizontal bar fixed at the top of the page.</li>
@@ -137,6 +137,26 @@
                 buttons, pin/unpin actions for side menus, submenu open/close states, and
                 ARIA attributes for accessibility. Keyboard navigation (Tab, Shift+Tab,
                 Escape) is fully supported by default.</p>
+            <p>The class <code>.focus-visible-only</code> defines a visual behavior for
+                interactive elements that stay hidden until they receive keyboard focus.
+                It can be applied to skip links or other accessibility controls to ensure
+                they become visible only when navigated by keyboard.
+            </p>
+
+
+            <h2>Menu buttons</h2>
+
+            <p>The navigation framework defines three dedicated buttons, each one designed for a specific type of menu and screen size:</p>
+
+            <ul>
+                <li><strong>Menu button (<code>#menu-button</code>)</strong> — Used exclusively with the <code>.side</code> (collapsible) menu.
+                    It appears automatically on screens narrower than 896 px and toggles the visibility of the side navigation.
+                    Fully keyboard accessible; manages <code>aria-expanded</code> consistently with the menu state.</li>
+                <li><strong>Pin button (<code>#pin-menu</code>)</strong> — Optional control for the <code>.side.collapsible</code> menu on wide screens.
+                    When activated, it keeps the side navigation permanently expanded (<code>aria-pinned="true"</code>).
+                    Hidden on screens below 896 px and updates <code>aria-pressed</code> / <code>aria-label</code> dynamically.</li>
+            </ul>
+
 
             <h2>The variables</h2>
 
@@ -157,7 +177,7 @@
                 <tbody>
                 <tr>
                     <td>--nav-min-height</td>
-                    <td>calc(6rem / var(--size-divisor))</td>
+                    <td>max(calc(6rem / var(--size-divisor)), 4rem);</td>
                     <td>Minimum height of the main nav bar (top/bottom).</td>
                 </tr>
                 <tr>
@@ -168,39 +188,39 @@
 
                 <tr>
                     <td>--nav-item-min-height</td>
-                    <td>calc(2rem / var(--size-divisor))</td>
+                    <td>max(calc(2rem / var(--size-divisor)), 2rem)</td>
                     <td>Minimum height of any menu item.</td>
                 </tr>
                 <tr>
                     <td>--nav-item-height</td>
-                    <td>calc(2.5rem / var(--size-divisor))</td>
+                    <td>max(calc(2.5rem / var(--size-divisor)), 2.5rem)</td>
                     <td>Default height of any menu item.</td>
                 </tr>
                 <tr>
                     <td>--nav-item-max-height</td>
-                    <td>calc(3rem / var(--size-divisor))</td>
+                    <td>max(calc(3rem / var(--size-divisor)), 3rem)</td>
                     <td>Maximum height of any menu item.</td>
                 </tr>
 
                 <tr>
                     <td>--nav-item-min-width-h</td>
-                    <td>calc(4rem / var(--size-divisor))</td>
+                    <td>max(calc(6rem / var(--size-divisor)), 4rem)</td>
                     <td>Min width of horizontal items (top/bottom).</td>
                 </tr>
                 <tr>
                     <td>--nav-item-width-h</td>
-                    <td>calc(6rem / var(--size-divisor))</td>
+                    <td>max(calc(8rem / var(--size-divisor)), 6rem)</td>
                     <td>Default width of horizontal items.</td>
                 </tr>
                 <tr>
                     <td>--nav-item-max-width-h</td>
-                    <td>calc(15rem / var(--size-divisor))</td>
+                    <td>max(calc(15rem / var(--size-divisor)), 12rem)</td>
                     <td>Max width of horizontal items.</td>
                 </tr>
 
                 <tr>
                     <td>--nav-expanded-width</td>
-                    <td>calc(16rem / var(--size-divisor))</td>
+                    <td>max(calc(16rem / var(--size-divisor)), 14rem);</td>
                     <td>Width of the side menu when expanded/pinned.</td>
                 </tr>
                 <tr>
@@ -215,17 +235,6 @@
                 </tr>
 
                 <tr>
-                    <td>--nav-mobile-expanded-item-min-width</td>
-                    <td>calc(800px / var(--size-divisor))</td>
-                    <td>Min width of items when the mobile checkbox expands the nav.</td>
-                </tr>
-                <tr>
-                    <td>--nav-mobile-submenu-item-min-width</td>
-                    <td>calc(500px / var(--size-divisor))</td>
-                    <td>Min width of items inside expanded mobile submenus.</td>
-                </tr>
-
-                <tr>
                     <td>--appmenu-position</td>
                     <td>left</td>
                     <td>Default off-canvas edge for app submenus (left/right/top/bottom).</td>
@@ -235,7 +244,13 @@
                     <td>left bottom</td>
                     <td>Submenu inner alignment (horizontal vertical).</td>
                 </tr>
+                <tr>
+                    <td>--menu-button-size</td>
+                    <td>max(calc(4rem / var(--size-divisor)), 3rem)</td>
+                    <td>Size of the hamburger menu button</td>
+                </tr>
                 </tbody>
+
             </table>
 
         </section>

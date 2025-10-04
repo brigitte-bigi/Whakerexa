@@ -57,10 +57,6 @@ This banner notice must not be removed.
     --nav-item-width-v-collapsed: var(--nav-min-width);
     --nav-item-width-v-expanded: var(--nav-expanded-width);
 
-    /* Mobile checkbox-expand */
-    --nav-mobile-expanded-item-min-width: calc(800px / var(--size-divisor));
-    --nav-mobile-submenu-item-min-width: calc(500px / var(--size-divisor));
-
     --appmenu-position: left;
     --appmenu-align: left top;
 
@@ -347,11 +343,10 @@ nav#nav-content.side.collapsible [role="menuitem"] {
 
 
 /* =======================================================================
-                            SUBMENUS
+                            SUBMENUS (for the default sticky)
   ======================================================================== */
 
 .submenu {
-    display: flex;
     flex-direction: column;
     z-index: 100;
     padding-left: var(--typography-spacing-horizontal);
@@ -363,6 +358,19 @@ nav#nav-content.side.collapsible [role="menuitem"] {
 .submenu [role=menuitem] {
     background-color: var(--bg-color-alt);
     font-weight: var(--font-weight-normal);
+}
+
+.submenu {
+    display: none;
+}
+
+body > nav > * *:hover .submenu,
+body > nav > * *:focus-within .submenu {
+    box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
+    position: absolute;
+    display: flex;
+    top: 100%;
+    min-width: 100%;
 }
 
 /* -------- Submenus background colors -------- */
@@ -383,6 +391,7 @@ nav#nav-content.side.collapsible [role="menuitem"] {
     background-color: rgba(154, 109, 38, 0.5);
 }
 
+
 /* ======================================================================= */
 /*      Mobile menu toggle           */
 /* ======================================================================= */
@@ -392,7 +401,6 @@ nav#nav-content.side.collapsible [role="menuitem"] {
 #mobile {
     display: none;
 }
-
 
 #menu-button {
     position: fixed;
@@ -441,23 +449,6 @@ nav#nav-content.side.collapsible [role="menuitem"] {
 
 @media all and (max-width: 896px) {
 
-    /* Elements of the nav when collapsed  */
-    body > nav input[type=checkbox] + * {
-        display: none;
-    }
-
-    /* Visible toggle */
-    body > nav label {
-        display: inline-block;
-        max-width: 90%;
-        padding: var(--typography-spacing-horizontal) var(--typography-spacing-vertical);
-        margin-top: var(--typography-spacing-vertical);
-        margin-bottom: var(--typography-spacing-vertical);
-        text-align: center;
-        border: var(--border-width) solid var(--nav-fg-color);
-        color: var(--nav-fg-color);
-    }
-
     /* Hide expanded side menu */
     nav#nav-content.side {
         display: none;
@@ -469,58 +460,25 @@ nav#nav-content.side.collapsible [role="menuitem"] {
     body:has(nav#nav-content.side) {
         padding-left: 0;
     }
-
-    /* Expanded 'nav' content */
-    body > nav input[type=checkbox]:checked + * {
-        background-color: transparent;
-        color: var(--nav-fg-color);
-        display: flex;
-        justify-content: space-evenly;
-        align-items: stretch;
-        flex-direction: column;
-        margin-bottom: var(--typography-spacing-vertical);
-        border: var(--border-width) solid var(--nav-fg-color);
-    }
-
-    body > nav input[type=checkbox]:checked + * [role=menuitem] {
-        min-width: var(--nav-mobile-expanded-item-min-width);
-    }
-    body > nav input[type=checkbox]:checked + * .submenu * [role=menuitem] {
-        min-width: var(--nav-mobile-submenu-item-min-width);
-    }
-
 }
 
 /* ----------------------- 'nav' wide screens ---------------------- */
 
 @media only screen and (min-width: 896px) {
-
-    /* Toggle to expand/collapse the 'nav' content. Invisible. */
-    body > nav label {
-        display: none;
-    }
-
     #menu-button {
         display: none;
     }
-
-    [role=menuitem].expand::after {
-        content: " ▼";
-    }
-
-    .submenu {
-        display: none;
-    }
-
-    body > nav > * *:hover .submenu,
-    body > nav > * *:focus-within .submenu {
-        box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);  /* same as 'nav' */
-        position: absolute;
-        display: flex;
-        top: 100%;
-        min-width: 100%;
-    }
 }
+
+/* Toggle to expand/collapse the 'nav' content. Invisible. */
+body > nav label {
+    display: none;
+}
+
+[role=menuitem].expand::after {
+    content: " ▼";
+}
+
 
 /* ----------------------------------------------------------------------- */
 /* ------------  Menu or Sub-Menu for mobile applications  --------------- */
@@ -549,14 +507,26 @@ aside.appmenu nav {
 }
 
 /* Alignment horizontal */
-aside.appmenu[data-submenu-align-horizontal="left"]  nav { align-items: flex-start; }
-aside.appmenu[data-submenu-align-horizontal="center"]nav { align-items: center; }
-aside.appmenu[data-submenu-align-horizontal="right"] nav { align-items: flex-end; }
+aside.appmenu[data-submenu-align-horizontal="left"]  nav {
+    align-items: flex-start;
+}
+aside.appmenu[data-submenu-align-horizontal="center"]nav {
+    align-items: center;
+}
+aside.appmenu[data-submenu-align-horizontal="right"] nav {
+    align-items: flex-end;
+}
 
 /* Alignment vertical */
-aside.appmenu[data-submenu-align-vertical="top"]    nav { justify-content: flex-start; }
-aside.appmenu[data-submenu-align-vertical="center"] nav { justify-content: center; }
-aside.appmenu[data-submenu-align-vertical="bottom"] nav { justify-content: flex-end; }
+aside.appmenu[data-submenu-align-vertical="top"]    nav {
+    justify-content: flex-start;
+}
+aside.appmenu[data-submenu-align-vertical="center"] nav {
+    justify-content: center;
+}
+aside.appmenu[data-submenu-align-vertical="bottom"] nav {
+    justify-content: flex-end;
+}
 
 /* Size */
 aside.appmenu nav [role="menuitem"] {
@@ -710,7 +680,8 @@ aside.appmenu.open[data-submenu-position="top"] {
    it must be over any other element.
    ----------------------------------------------------------------------- */
 
-.skip {
+.skip,
+.focus-visible-only {
     opacity: 0;
     background-color: var(--buttons-bg-color);
     position: fixed;
@@ -722,7 +693,8 @@ aside.appmenu.open[data-submenu-position="top"] {
     font-weight: var(--font-weight-semibold);
 }
 
-.skip:focus {
+.skip:focus,
+.focus-visible-only:focus {
     opacity: 1;
     z-index: 200;
 }
