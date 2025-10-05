@@ -169,6 +169,12 @@ body:has(nav.nav-wexa.bottom) {
     padding-bottom: var(--nav-item-height);
 }
 
+nav.nav-wexa.top,
+nav.nav-wexa.bottom {
+    overflow-x: auto;
+    max-width: 100vw;
+}
+
 /* -------- Fixed vertically on the left side --------- */
 nav.nav-wexa.side {
     margin: 0;
@@ -187,6 +193,11 @@ nav.nav-wexa.side {
     min-width: var(--nav-min-width);
     width: var(--nav-min-width);
     box-shadow: none;
+}
+
+nav.nav-wexa.side {
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 /* When the side menu is collapsed */
@@ -280,6 +291,13 @@ aside.appmenu nav [role="menuitem"] {
     color: var(--nav-fg-color);
     background-color: var(--nav-bg-color);
 }
+
+/* ---- the menuitem is opening a submenu ---- */
+
+[role="menuitem"][aria-haspopup="true"] {
+    border-left: calc(4 * var(--border-width)) solid var(--a-color);
+}
+
 
 /* ---------------------- Vertical at side main menu ------------------- */
 
@@ -648,7 +666,7 @@ aside.appmenu.open[data-submenu-position="top"] {
     nav#nav-content [role=menuitem] {
         flex-direction: row;
         align-items: center;
-        gap: 2rem;
+        gap: 0.5rem;
         flex-grow: 1;
         width: auto;
     }

@@ -4,14 +4,17 @@
 <head>
 
     <title>wexa.css</title>
+
     <meta charset="utf-8" />
     <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
+
+    <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
-    <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-    <script type="application/javascript" src="../wexa_statics/js/accessibility.js"></script>
+
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
 
 </head>
 
@@ -29,10 +32,10 @@
                 <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
                 <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
             </ul>
-            <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme()">
+            <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme()">
                 <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
             </button>
-            <button role="menuitem" onclick="accessibility_manager.switch_color_scheme()">
+            <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme()">
                 <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
             </button>
         </nav>

@@ -1,5 +1,5 @@
 /**
-:filename: statics.js.video_popup.js
+:filename: statics.js.dialog.js
 :author: Brigitte Bigi
 :contributor: Florian Lopitaux
 :contact: contact@sppas.org
@@ -9,7 +9,7 @@
 
 This file is part of Whakerexa: https://whakerexa.sf.net/
 
-Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Copyright (C) 2023-2025 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -106,3 +106,114 @@ function close_popup_video(id_popup) {
     let video = document.getElementById("popup-video-" + id_popup);
     video.pause();
 }
+
+// --------------------------------------------------------------------------
+// For a future version
+// --------------------------------------------------------------------------
+
+/**
+ * @class DialogManager
+ * @classdesc
+ * Controls HTML <dialog> elements with accessibility, lazy content loading,
+ * and basic keyboard handling (Escape to close). Designed for lightweight,
+ * independent use in Whakerexa-based websites.
+ *
+ * Each instance can manage one or more dialogs identified by their IDs.
+ * When opened, a dialog becomes modal, centers itself, and can contain
+ * dynamically loaded content (e.g. videos, iframes).
+ *
+ * @example
+ * const dialogs = new DialogManager();
+ * dialogs.open('videoDialog');   // Opens the dialog with this ID
+ * dialogs.close('videoDialog');  // Closes it
+ */
+class DialogManager {
+    #dialogs = new Map();
+
+    /**
+     * Register a dialog by its ID.
+     * @param {string} dialogId - The ID of the <dialog> element.
+     * @returns {void}
+     */
+    register(dialogId) {
+        const dialog = document.getElementById(dialogId);
+        if (!dialog) {
+            console.warn(`DialogManager: dialog '${dialogId}' not found.`);
+            return;
+        }
+        this.#dialogs.set(dialogId, dialog);
+        dialog.addEventListener('keydown', ev => this.#handleKey(ev, dialog));
+    }
+
+    /**
+     * Open a dialog (modal or not), mirroring legacy behavior:
+     * - replace 'hidden-alert' with 'hidden-alert-open'
+     * - inject a single close button that calls close()
+     *
+     * @param {string} dialogId
+     * @param {boolean} [isModal=false]
+     * @returns {void}
+     */
+    open(dialogId, isModal = false) {
+        const dialog = this.#dialogs.get(dialogId);
+        if (!dialog) throw new Error(`DialogManager: '${dialogId}' not registered.`);
+        dialog.classList.replace('hidden-alert', 'hidden-alert-open');
+        this.#ensureCloseButton(dialog);
+        if (isModal && typeof dialog.showModal === 'function') dialog.showModal();
+        else if (typeof dialog.show === 'function') dialog.show();
+        else dialog.setAttribute('open', '');
+    }
+
+    /**
+     * Closes a dialog and cleans up its dynamic content if necessary.
+     * @param {string} dialogId - The ID of the dialog to close.
+     * @returns {void}
+     */
+    close(dialogId) {
+        const dialog = this.#dialogs.get(dialogId);
+        if (!dialog) return;
+        dialog.classList.replace('hidden-alert-open', 'hidden-alert');
+        dialog.close?.();
+        this.#resetContent(dialog);
+    }
+
+    /**
+     * Handles the Escape key to close dialogs.
+     * @private
+     * @param {KeyboardEvent} ev
+     * @param {HTMLDialogElement} dialog
+     */
+    #handleKey(ev, dialog) {
+        if (ev.key === 'Escape') {
+            ev.preventDefault();
+            this.close(dialog.id);
+        }
+    }
+
+    /**
+     * Clears media content (e.g. video, iframe) inside the dialog to free resources.
+     * @private
+     * @param {HTMLDialogElement} dialog
+     */
+    #resetContent(dialog) {
+        dialog.querySelectorAll('video, iframe').forEach(el => {
+            el.pause?.();
+            el.removeAttribute('src');
+            el.load?.();
+        });
+    }
+
+    /** @private */
+    #ensureCloseButton(dialog) {
+        if (dialog.querySelector('button[name="popup-close-btn"]')) return;
+        const btn = document.createElement('button');
+        btn.name = 'popup-close-btn';
+        btn.type = 'button';
+        btn.innerHTML = '&#10060;';
+        btn.addEventListener('click', () => this.close(dialog.id));
+        dialog.appendChild(btn);
+    }
+
+}
+
+

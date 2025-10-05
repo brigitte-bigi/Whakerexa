@@ -1,3 +1,5 @@
+import { WexaLogger } from './logger.js';
+
 /**
  :filename: wexa_statics.js.menu.js
  :author: Brigitte Bigi
@@ -31,7 +33,6 @@
  */
 
 'use strict';
-
 
 // --------------------------------------------------------------------------
 // Manager for an accessible sub-menu
@@ -88,7 +89,7 @@ class SubMenuManager {
      */
     #init() {
         if (!this.#asideElement || !this.#toggleButton) {
-            console.warn('MenuManager: Required elements not found.');
+            WexaLogger.warn('MenuManager: Required elements not found.');
             return;
         }
 
@@ -116,6 +117,8 @@ class SubMenuManager {
         // Initial positioning and alignment
         this.adjustSubmenuPosition();
         this.adjustSubmenuAlignment();
+
+        WexaLogger.debug("MenuManager: Initialized.");
     }
 
     // ----------------------------------------------------------------------
@@ -151,11 +154,11 @@ class SubMenuManager {
 
         // Close the submenu if the click is outside the aside or toggle button
         if (!this.#asideElement.contains(target) && target !== this.#toggleButton) {
-            console.debug("Clicked on " + target);
+            WexaLogger.debug("Clicked on " + target);
             if (!['img', 'button', 'a', 'span', 'checkbox', 'input'].includes(target.localName)) {
                 this.closeSubmenu(); // Close submenu when clicking outside
             } else {
-                console.debug("  ==> this target do not allow to close the aside.")
+                WexaLogger.debug("  ==> this target do not allow to close the aside.")
             }
         }
     }
@@ -174,13 +177,13 @@ class SubMenuManager {
             .trim();
 
         if (position === '') {
-            console.warn("No valid position found, defaulting to 'left'");
+            WexaLogger.warn("No valid position found, defaulting to 'left'");
             this.#asideElement.style.left = '0';
         }
 
         // Set the data-submenu-position dynamically
         this.#asideElement.setAttribute('data-submenu-position', position);
-        console.debug("Adjust submenu position: ", position);
+        WexaLogger.debug("Adjust submenu position: ", position);
 
         // Force reflow to ensure the styles are updated based on the new data-submenu-position
         this.#asideElement.offsetHeight;
@@ -203,8 +206,8 @@ class SubMenuManager {
         // Set the data-submenu-align dynamically
         this.#asideElement.setAttribute('data-submenu-align-horizontal', horizontal);
         this.#asideElement.setAttribute('data-submenu-align-vertical', vertical);
-        console.debug("Additional alignment horizontal: ", horizontal);
-        console.debug("Additional alignment vertical: ", vertical);
+        WexaLogger.debug("Additional alignment horizontal: ", horizontal);
+        WexaLogger.debug("Additional alignment vertical: ", vertical);
 
         // Force reflow to ensure the styles are updated based on the new data-submenu-position
         this.#asideElement.offsetHeight;
@@ -254,7 +257,7 @@ class SubMenuManager {
             document.addEventListener('keydown', this._focusTrapHandler, true);
             // Wait for the menu transition to complete, then focus
             const onTransitionEnd = (ev) => {
-                if (ev.propertyName === 'left') {
+                if (['left', 'right', 'top', 'bottom'].includes(ev.propertyName)) {
                     this.#menuLinks[0]?.focus();
                     this.#asideElement.removeEventListener('transitionend', onTransitionEnd);
                 }
@@ -336,15 +339,31 @@ class SubMenuManager {
 // --------------------------------------------------------------------------
 // Manager for an accessible menu
 // --------------------------------------------------------------------------
-
 /**
- * To be documented.
+ * @class MenuManager
+ * @classdesc
+ * Controls the behavior of navigation menus within Whakerexa.
+ * This class manages both global and contextual menus, registers
+ * submenus, and ensures accessibility compliance (ARIA, focus, keyboard).
+ *
+ * A single instance should control one main <nav> element.
+ * The default target is the element with id 'nav-content', unless
+ * another id is provided at construction.
+ *
+ * @example
+ * // Typical initialization
+ * const menu = new MenuManager();                // Uses #nav-content
+ * menu.initSideMenu();
+ * menu.registerSubmenu('appmenu-profile', 'submenu-toggle-profile');
+ *
+ * @property {HTMLElement} #navElement - The main navigation element controlled by this instance.
+ * @property {Array<SubMenuManager>} #submenus - A list of registered submenus managed by this instance.
+ * @static {string} DEFAULT_NAV_ID - Default id of the main navigation element.
+ *
  */
-class MenuManager {
+export class MenuManager {
     // Protected members
     #navElement;
-    // ... pin
-    // ... menu
     #submenus = [];
 
     static DEFAULT_NAV_ID = 'nav-content';
@@ -389,7 +408,7 @@ class MenuManager {
     registerSubmenu(asideId, toggleButtonId) {
         const submenu = this.#createSubmenuInstance(asideId, toggleButtonId);
         if (!submenu) {
-            console.warn(`MenuManager: Failed to register submenu '${asideId}'.`);
+            WexaLogger.warn(`MenuManager: Failed to register submenu '${asideId}'.`);
             return;
         }
         this.#attachSubmenu(submenu);
@@ -413,11 +432,11 @@ class MenuManager {
         const pinBtn = document.getElementById(pinButtonId);
 
         if (!nav) {
-            console.warn(`MenuManager: Side menu not found with selector '${navSelector}'.`);
+            WexaLogger.warn(`MenuManager: Side menu not found with selector '${navSelector}'.`);
             return;
         }
         if (!pinBtn) {
-            console.warn(`MenuManager: Pin button not found with id '${pinButtonId}'.`);
+            WexaLogger.warn(`MenuManager: Pin button not found with id '${pinButtonId}'.`);
             return;
         }
 
@@ -449,7 +468,7 @@ class MenuManager {
         const menuBtn = document.getElementById(menuButtonId);
 
         if (!checkbox || !menuBtn) {
-            console.warn('MenuManager: Cannot initialize mobile toggle — elements missing.');
+            WexaLogger.warn('MenuManager: Cannot initialize mobile toggle — elements missing.');
             return;
         }
 
@@ -512,9 +531,9 @@ class MenuManager {
         try {
             submenu.attachSubmenuListeners();
         } catch (err) {
-            console.error('MenuManager: Unable to attach submenu listeners.', err);
+            WexaLogger.error('MenuManager: Unable to attach submenu listeners.', err);
         }
     }
-
 }
 
+window.MenuManager = MenuManager;

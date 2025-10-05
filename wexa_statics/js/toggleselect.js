@@ -1,10 +1,10 @@
 /**
- :filename: js.toggleselect.js
+ :filename: statics.js.toggleselect.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: Class for toggling checkbox states.
 
- Copyright (C) 2024, Brigitte Bigi, CNRS
+ Copyright (C) 2023-2025, Brigitte Bigi, CNRS
  Laboratoire Parole et Langage, Aix-en-Provence, France
 
  This program is free software: you can redistribute it and/or modify

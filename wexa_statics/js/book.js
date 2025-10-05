@@ -3,13 +3,13 @@
 :author: Brigitte Bigi
 :contributor: Florian Lopitaux
 :contact: contact@sppas.org
-:summary: A class to filled the table of content.
+:summary: A class to fill automatically the table of content.
 
 -------------------------------------------------------------------------
 
 This file is part of Whakerexa: https://whakerexa.sf.net/
 
-Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Copyright (C) 2023-2025 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify

@@ -1,5 +1,5 @@
 /**
-:filename: statics.js.sortable.js
+:filename: statics.js.sortatable.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Class to sort rows of a table.

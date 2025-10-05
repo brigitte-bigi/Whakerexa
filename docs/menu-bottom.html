@@ -7,12 +7,10 @@
     <meta name="keywords" content="menu, app, mobile, web, css, html5, framework, accessibility, disability"/>
 
     <title>app.css</title>
+
+    <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
-    <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-    <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
-    <script src="../wexa_statics/js/menu.js" type="application/javascript"></script>
-
     <style>
         :root {
             --header-height: 20vh;
@@ -21,6 +19,18 @@
             --border-radius: 1rem;
         }
     </style>
+
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <script type="module">
+        window.Wexa.OnLoadManager.addLoadFunction(() => {
+            const { MenuManager } = window.Wexa;
+            window.menu = new MenuManager();
+            window.menu.initSideMenu();
+            window.menu.registerSubmenu('appmenu-profile', 'submenu-toggle-profile');
+            window.menu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
+        });
+    </script>
+
 </head>
 
 <body>
@@ -30,10 +40,10 @@
         <h2>Menu for web and mobile applications</h2>
 
         <nav id="header-nav-content" aria-label="Accessibility navigation">
-            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_contrast_scheme()" aria-label="Contrast switcher">
+            <button role="menuitem" class="print-off" onclick="AccessibilityManager.switch_contrast_scheme()" aria-label="Contrast switcher">
                 <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast" aria-label="Changement du contraste des pages"/>
             </button>
-            <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_color_scheme()" aria-label="Color switcher">
+            <button role="menuitem" class="print-off" onclick="AccessibilityManager.switch_color_scheme()" aria-label="Color switcher">
                 <img src="../wexa_statics/icons/theme_switcher.png" alt="Color" id="img-theme"/>
             </button>
             <a role="menuitem" class="print-off" href="https://whakerexa.sourceforge.io">
@@ -81,7 +91,7 @@
         </button>
     </nav>
 
-    <!-- Submenu for the Menu button -->
+    <!-- Submenu for the 'Options' button -->
     <aside class="appmenu"  id="appmenu-menu"
            style="--appmenu-position: left; --appmenu-align: left bottom; " aria-label="Submenu">
         <nav>
@@ -104,15 +114,6 @@
         <hr>
         <p>Copyright @ 2023-2025 Brigitte Bigi - CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
     </footer>
-
-
-    <script type="application/javascript">
-        window.menu = new MenuManager();
-        window.menu.registerSubmenu('appmenu-profile', 'submenu-toggle-profile');
-        window.menu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
-
-        console.log("... C'est chargé !")
-    </script>
 
 </body>
 </html>

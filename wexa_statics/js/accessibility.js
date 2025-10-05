@@ -9,7 +9,7 @@
 
 This file is part of Whakerexa: https://whakerexa.sf.net/
 
-Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Copyright (C) 2023-2025 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ This banner notice must not be removed.
 */
 
 
-class AccessibilityScheme {
+export class AccessibilityManager {
 
     // -----------------------------------------------------------------------
     // FIELDS
@@ -333,15 +333,15 @@ class AccessibilityScheme {
 
         // it's an internal link, we add get parameters for the color and contrast scheme
         if (this.#activated_color !== "") {
-            custom_url.searchParams.set(AccessibilityScheme.COLOR_PARAMETER_NAME, this.#activated_color);
+            custom_url.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activated_color);
         } else {
-            custom_url.searchParams.delete(AccessibilityScheme.COLOR_PARAMETER_NAME);
+            custom_url.searchParams.delete(AccessibilityManager.COLOR_PARAMETER_NAME);
         }
 
         if (this.#activated_contrast !== "") {
-            custom_url.searchParams.set(AccessibilityScheme.CONTRAST_PARAMETER_NAME, this.#activated_contrast);
+            custom_url.searchParams.set(AccessibilityManager.CONTRAST_PARAMETER_NAME, this.#activated_contrast);
         } else {
-            custom_url.searchParams.delete(AccessibilityScheme.CONTRAST_PARAMETER_NAME);
+            custom_url.searchParams.delete(AccessibilityManager.CONTRAST_PARAMETER_NAME);
         }
 
         return custom_url.href;
@@ -362,28 +362,28 @@ class AccessibilityScheme {
         const params = new URLSearchParams(window.location.search);
 
         // manage color scheme
-        if (params.has(AccessibilityScheme.COLOR_PARAMETER_NAME)) {
-            const color_parameter = params.get(AccessibilityScheme.COLOR_PARAMETER_NAME).toLowerCase();
+        if (params.has(AccessibilityManager.COLOR_PARAMETER_NAME)) {
+            const color_parameter = params.get(AccessibilityManager.COLOR_PARAMETER_NAME).toLowerCase();
 
             if (this.#colors.includes(color_parameter)) {
                 this.#activated_color = color_parameter;
                 document.body.classList.add(color_parameter);
 
             } else {
-                console.log(AccessibilityScheme.COLOR_PARAMETER_NAME + " get parameter unknown : " + color_parameter);
+                console.log(AccessibilityManager.COLOR_PARAMETER_NAME + " get parameter unknown : " + color_parameter);
             }
         }
 
         // manage contrast scheme
-        if (params.has(AccessibilityScheme.CONTRAST_PARAMETER_NAME)) {
-            const contrast_param = params.get(AccessibilityScheme.CONTRAST_PARAMETER_NAME).toLowerCase();
+        if (params.has(AccessibilityManager.CONTRAST_PARAMETER_NAME)) {
+            const contrast_param = params.get(AccessibilityManager.CONTRAST_PARAMETER_NAME).toLowerCase();
 
             if (this.#contrasts.includes(contrast_param)) {
                 this.#activated_contrast = contrast_param;
                 document.body.classList.add(contrast_param);
 
             } else {
-                console.log(AccessibilityScheme.CONTRAST_PARAMETER_NAME + " get parameter unknown : " + contrast_param);
+                console.log(AccessibilityManager.CONTRAST_PARAMETER_NAME + " get parameter unknown : " + contrast_param);
             }
         }
     }
@@ -405,9 +405,6 @@ class AccessibilityScheme {
     }
 }
 
-
-
 // -----------------------------------------------------------------------
-
-// instantiate the AccessibilityScheme to set properties and use it after in other scripts
-let accessibility_manager = new AccessibilityScheme();
+// instantiate the AccessibilityManager to set properties and use it after in other scripts
+window.AccessibilityManager = new AccessibilityManager();

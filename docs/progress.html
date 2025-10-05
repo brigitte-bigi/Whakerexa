@@ -4,19 +4,59 @@
 <head>
 
     <title>progress.js</title>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
 
+    <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+    <style>
+        :root {
 
-    <script src="../wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-    <script src="../wexa_statics/js/accessibility.js" type="application/javascript"></script>
+            --header-height: 20vh;
+            --header-slidein: none;
 
+            --nav-min-height: 0;
+            --nav-min-width: max(calc(7 * var(--font-size) / var(--size-divisor)), 6rem);
+
+            --nav-item-min-width-h: max(calc(4rem / var(--size-divisor)), 3rem);
+            --nav-item-width-h:    calc(6rem / var(--size-divisor));
+            --nav-item-max-width-h: calc(15rem / var(--size-divisor));
+
+            --nav-expanded-width: calc(12rem / var(--size-divisor));
+            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
+            --nav-item-width-v-expanded: calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
+            --border-radius: 1rem;
+
+            --appmenu-position: left;
+            --appmenu-align: left top;
+        }
+
+        :root:not([data-theme=dark]), [data-theme=light], .light {
+            --nav-bg-color: linear-gradient(180deg,rgba(2, 1, 20, 1) 0%, rgba(6, 6, 71, 1) 35%, rgba(10, 55, 128, 1) 100%);
+        }
+    </style>
+
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
     <script src="../wexa_statics/js/progress.js" type="application/javascript"></script>
-    <script type="application/javascript">
-        OnLoadManager.addLoadFunction(() => {
+    <script type="module">
+        window.Wexa.OnLoadManager.addLoadFunction(() => {
+            // For the menu
+            const {MenuManager} = window.Wexa;
+            window.mainmenu = new MenuManager();
+            window.mainmenu.initSideMenu();
+            window.mainmenu.initMobileToggle();
+            window.mainmenu.registerSubmenu('appmenu-get', 'submenu-toggle-get');
+            window.mainmenu.registerSubmenu('appmenu-discover', 'submenu-toggle-discover');
+            window.mainmenu.registerSubmenu('appmenu-book', 'submenu-toggle-book');
+        });
+    </script>
+
+    <script type="module">
+        window.Wexa.OnLoadManager.addLoadFunction(() => {
+            // For the Progress
              let interval;
              let advancement = 0;
 
@@ -42,28 +82,92 @@
 
 <body>
 
-<header>
-    <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
-        Skip to main content
-    </a>
-    <nav style="position: absolute; top: 0;">
-        <ul>
-            <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
-        </ul>
-        <button role="menuitem" onclick="accessibility_manager.switch_contrast_scheme();">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
-        </button>
-        <button role="menuitem" onclick="accessibility_manager.switch_color_scheme();">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
-        </button>
-    </nav>
-    <h1>progress.js</h1>
-    <h2>A JS to deal with progress bars</h2>
-</header>
+    <header>
+        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+            Skip to main content
+        </a>
+        <button id="menu-button" aria-controls="nav-content" aria-expanded="false"></button>
+        <input type="checkbox" id="mobile" role="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
 
-<main id="main-content">
+        <nav class="wexa-nav top">
+            <ul>
+                <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
+                <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+                <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
+            </ul>
+            <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme();">
+                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+            </button>
+            <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme();">
+                <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+            </button>
+        </nav>
+        <h1>progress.js</h1>
+        <h2>A JS to deal with progress bars</h2>
+    </header>
+
+    <nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
+
+        <button aria-label="Pin menu" role="menuitem"
+                id="pin-menu"
+                type="button"
+                aria-controls="nav-content"
+                aria-pressed="true"
+                title="Pin menu"
+                class="menu-pin">
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 aria-label="Pushpin">
+                <path d="M9 3h6l-1 8H10L9 3z"/>
+                <path d="M7 13h10"/>
+                <path d="M12 13v9"/>
+            </svg>
+        </button>
+
+        <!-- Main menu entries -->
+        <a role="menuitem" href="index.html" class="nav-current">Home</a>
+        <button role="menuitem" id="submenu-toggle-get" aria-haspopup="true" aria-controls="appmenu-get"> Get SPPAS </button>
+        <button role="menuitem" id="submenu-toggle-discover" aria-haspopup="true" aria-controls="appmenu-discover"> Discover </button>
+        <button role="menuitem" id="submenu-toggle-book" aria-haspopup="true" aria-controls="appmenu-book"> Book </button>
+        <a role="menuitem" href="resources.html">Languages</a>
+        <a role="menuitem" href="scripting.html">Scripting</a>
+
+        <!-- Submenus -->
+        <aside id="appmenu-get" class="appmenu" aria-label="Get SPPAS submenu">
+            <nav class="submenu-orange">
+                <a role="menuitem" href="download.html">Download</a>
+                <a role="menuitem" href="installation.html">Install</a>
+                <a role="menuitem" href="https://sourceforge.net/projects/sppas/" class="external-link">Source Code</a>
+            </nav>
+        </aside>
+
+        <aside id="appmenu-discover" class="appmenu submenu-red" role="menu" aria-label="Discover submenu">
+            <nav>
+                <a role="menuitem" href="features.html">Features</a>
+                <a role="menuitem" href="tutorial.html">Tutorials</a>
+                <a role="menuitem" href="workdemo.html">Solution samples</a>
+                <a role="menuitem" href="events.html">Events</a>
+            </nav>
+        </aside>
+
+        <aside id="appmenu-book" class="appmenu submenu-gray" role="menu" aria-label="Book submenu">
+            <nav>
+                <a role="menuitem" href="book_01_introduction.html">Introduction</a>
+                <a role="menuitem" href="book_02_interface.html">Interfaces</a>
+                <a role="menuitem" href="book_03_annotations.html">Annotations</a>
+                <a role="menuitem" href="book_04_convert.html">Convert</a>
+                <a role="menuitem" href="book_05_analyses.html">Analyses</a>
+                <a role="menuitem" href="book_06_references.html">References</a>
+                <a role="menuitem" href="book_07_changes.html">Changes</a>
+                <a role="menuitem" href="book_08_annexes.html">Annexes</a>
+            </nav>
+        </aside>
+
+    </nav>
+
+
+    <main id="main-content">
 
         <h2>Description</h2>
         <p>

@@ -135,8 +135,12 @@ background dialogs, corrected a bug in accessibility.
 
 ## Version 0.8 - latest stable
 
+- This is mainly some debug.
 
 ## Version 0.9 - develop
+
+- Menu(s) are fully re-implemented. Backward compatibility is not fully ensured. See the menu.html documentation file for details.
+- JS scripts migrated to modules.
 
 
 ### Hopefully incoming:
