@@ -32,7 +32,21 @@
 
 'use strict';
 
-class MenuManager {
+
+// --------------------------------------------------------------------------
+// Manager for an accessible sub-menu
+// --------------------------------------------------------------------------
+
+/**
+ * Manages the behavior of a single accessible submenu.
+ * Handles opening/closing, ARIA attributes, focus management,
+ * and alignment according to CSS variables.
+ *
+ * Instances are created by MenuManager to manage each submenu
+ * independently.
+ *
+ */
+class SubMenuManager {
     // Protected members
     #asideElement;
     #toggleButton;
@@ -41,10 +55,11 @@ class MenuManager {
     // Bound focus-trap handler so it can be added/removed
     _focusTrapHandler;
 
+
     // ----------------------------------------------------------------------
 
     /**
-     * Creates a MenuManager instance.
+     * Creates a SubMenuManager instance.
      *
      * @param {string} asideId - ID of the aside element containing the submenu.
      * @param {string} toggleButtonId - ID of the button that toggles the submenu.
@@ -55,98 +70,12 @@ class MenuManager {
         this.#toggleButton = document.getElementById(toggleButtonId);
         // Include <a> and <button> elements as submenu items
         this.#menuLinks = this.#asideElement
-            ? this.#menuLinks = this.#asideElement.querySelectorAll('a, button')
+            ? this.#asideElement.querySelectorAll('a, button')
             : [];
         // Prepare a bound handler for focus trapping
         this._focusTrapHandler = this.#trapFocus.bind(this);
 
         this.#init();
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Initializes pin/unpin behavior for a side menu.
-     *
-     * This handles the click on the "pin menu" button to expand/collapse
-     * the side navigation bar, updating ARIA attributes accordingly.
-     *
-     * @param {string} navSelector - CSS selector of the side nav element.
-     * @param {string} pinButtonId - ID of the pin/unpin button.
-     * @returns {void}
-     */
-    initSideMenu(navSelector = 'nav#nav-content.side.collapsible', pinButtonId = 'pin-menu') {
-        const nav = document.querySelector(navSelector);
-        const pinBtn = document.getElementById(pinButtonId);
-
-        if (!nav) {
-            console.warn(`MenuManager: Side menu not found with selector '${navSelector}'.`);
-            return;
-        }
-        if (!pinBtn) {
-            console.warn(`MenuManager: Pin button not found with id '${pinButtonId}'.`);
-            return;
-        }
-
-        pinBtn.addEventListener('click', () => {
-            const isPinned = nav.classList.toggle('expanded');
-            nav.setAttribute('aria-pinned', isPinned ? 'true' : 'false');
-            pinBtn.setAttribute('aria-pressed', String(isPinned));
-            pinBtn.setAttribute('aria-label', isPinned ? 'Unpin menu' : 'Pin menu');
-        });
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Initializes mobile menu toggle behavior.
-     *
-     * This method links the hidden checkbox, the navigation container,
-     * and the visible menu button. It ensures that the menu state is
-     * consistent and accessible: the checkbox holds the state, the nav
-     * applies visual/ARIA changes, and the button is fully focusable
-     * and activable via keyboard.
-     *
-     * @param {string} checkboxId - ID of the checkbox that controls the menu.
-     * @param {string} navId - ID of the navigation container to expand/collapse.
-     * @param {string} menuButtonId - ID of the visible menu button.
-     * @returns {void}
-     */
-    initMobileToggle(checkboxId = 'mobile', navId = 'nav-content', menuButtonId = 'menu-button') {
-        const checkbox = document.getElementById(checkboxId);
-        const nav = document.getElementById(navId);
-        const menuBtn = document.getElementById(menuButtonId);
-
-        if (!checkbox || !nav) {
-            console.warn('MenuManager: Cannot initialize mobile toggle: elements missing.');
-            return;
-        }
-
-        /**
-         * Update the state of the nav and button based on the checkbox.
-         * - Toggle the 'expanded' class on nav.
-         * - Sync aria-expanded on nav and menu button.
-         */
-        const updateMenuState = () => {
-            const expanded = checkbox.checked;
-            nav.classList.toggle('expanded', expanded);
-            nav.setAttribute('aria-expanded', String(expanded));
-            if (menuBtn) {
-                menuBtn.setAttribute('aria-expanded', String(expanded));
-            }
-        };
-
-        // React to direct checkbox changes
-        checkbox.addEventListener('change', updateMenuState);
-        updateMenuState();
-
-        // React to clicks on the visible button (toggle the checkbox state)
-        if (menuBtn) {
-            menuBtn.addEventListener('click', () => {
-                checkbox.checked = !checkbox.checked;
-                updateMenuState();
-            });
-        }
     }
 
     // ----------------------------------------------------------------------
@@ -187,35 +116,6 @@ class MenuManager {
         // Initial positioning and alignment
         this.adjustSubmenuPosition();
         this.adjustSubmenuAlignment();
-
-        // Close all appmenus when the mouse re-enters the side menu
-        const sideMenu = document.querySelector('nav#nav-content.side');
-        if (sideMenu) {
-            sideMenu.addEventListener('mouseenter', () => {
-                document.querySelectorAll('aside.appmenu.open').forEach(submenu => {
-                    submenu.classList.remove('open');
-                    submenu.setAttribute('aria-hidden', 'true');
-                });
-            });
-        }
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Initializes the MenuManager when the DOM content is fully loaded.
-     *
-     * It listens for the 'DOMContentLoaded' event and calls the method
-     * to attach specific event listeners related to the MenuManager.
-     *
-     * @returns {void}
-     *
-     */
-    handleMenuManagerOnLoad() {
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('MenuManager loaded /// attached listener');
-            this.attachSubmenuListeners();
-        });
     }
 
     // ----------------------------------------------------------------------
@@ -381,7 +281,8 @@ class MenuManager {
         if (this.#asideElement.classList.contains('open')) {
             this.#asideElement.classList.remove('open');
             this.#setLinksTabIndex(-1);
-            this.#asideElement.removeEventListener('keydown', this._focusTrapHandler);
+            //this.#asideElement.removeEventListener('keydown', this._focusTrapHandler);
+            document.removeEventListener('keydown', this._focusTrapHandler);
             this.#toggleButton.focus();
         }
     }
@@ -429,5 +330,191 @@ class MenuManager {
             link.tabIndex = value;
         }
     }
+}
+
+
+// --------------------------------------------------------------------------
+// Manager for an accessible menu
+// --------------------------------------------------------------------------
+
+/**
+ * To be documented.
+ */
+class MenuManager {
+    // Protected members
+    #navElement;
+    // ... pin
+    // ... menu
+    #submenus = [];
+
+    static DEFAULT_NAV_ID = 'nav-content';
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Creates a manager bound to a specific <nav>.
+     *
+     * @param {string} [navId=MenuManager.DEFAULT_NAV_ID] - ID of the <nav> to control.
+     * @throws {Error} If the <nav> element cannot be found.
+     */
+    constructor(navId = MenuManager.DEFAULT_NAV_ID) {
+        this.#navElement = document.getElementById(navId);
+        if (!this.#navElement) {
+            throw new Error(`MenuManager: nav with id '${navId}' not found.`);
+        }
+        this.#submenus = [];
+
+        // Close all appmenus when the mouse re-enters the side menu
+        const sideMenu = this.#navElement.matches('.side') ? this.#navElement : null;
+        if (sideMenu) {
+            sideMenu.addEventListener('mouseenter', () => {
+                document.querySelectorAll('aside.appmenu.open').forEach(submenu => {
+                    submenu.classList.remove('open');
+                    submenu.setAttribute('aria-hidden', 'true');
+                });
+            });
+        }
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Registers a submenu by creating its manager, attaching listeners,
+     * and adding it to the internal list.
+     *
+     * @param {string} asideId - The ID of the submenu <aside> element.
+     * @param {string} toggleButtonId - The ID of the button controlling this submenu.
+     * @returns {void}
+     */
+    registerSubmenu(asideId, toggleButtonId) {
+        const submenu = this.#createSubmenuInstance(asideId, toggleButtonId);
+        if (!submenu) {
+            console.warn(`MenuManager: Failed to register submenu '${asideId}'.`);
+            return;
+        }
+        this.#attachSubmenu(submenu);
+        this.#submenus.push(submenu);
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Initializes pin/unpin behavior for a side menu.
+     *
+     * This handles the click on the "pin menu" button to expand/collapse
+     * the side navigation bar, updating ARIA attributes accordingly.
+     *
+     * @param {string} navSelector - CSS selector of the side nav element.
+     * @param {string} pinButtonId - ID of the pin/unpin button.
+     * @returns {void}
+     */
+    initSideMenu(navSelector = 'nav#nav-content.side.collapsible', pinButtonId = 'pin-menu') {
+        const nav = document.querySelector(navSelector);
+        const pinBtn = document.getElementById(pinButtonId);
+
+        if (!nav) {
+            console.warn(`MenuManager: Side menu not found with selector '${navSelector}'.`);
+            return;
+        }
+        if (!pinBtn) {
+            console.warn(`MenuManager: Pin button not found with id '${pinButtonId}'.`);
+            return;
+        }
+
+        pinBtn.addEventListener('click', () => {
+            const isPinned = nav.classList.toggle('expanded');
+            nav.setAttribute('aria-pinned', isPinned ? 'true' : 'false');
+            pinBtn.setAttribute('aria-pressed', String(isPinned));
+            pinBtn.setAttribute('aria-label', isPinned ? 'Unpin menu' : 'Pin menu');
+        });
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Initializes mobile menu toggle behavior.
+     *
+     * This method links the hidden checkbox, the navigation container,
+     * and the visible menu button. It ensures that the menu state is
+     * consistent and accessible: the checkbox holds the state, the nav
+     * applies visual/ARIA changes, and the button is fully focusable
+     * and activable via keyboard.
+     *
+     * @param {string} checkboxId - ID of the checkbox that controls the menu.
+     * @param {string} menuButtonId - ID of the visible menu button.
+     * @returns {void}
+     */
+    initMobileToggle(checkboxId = 'mobile', menuButtonId = 'menu-button') {
+        const checkbox = document.getElementById(checkboxId);
+        const menuBtn = document.getElementById(menuButtonId);
+
+        if (!checkbox || !menuBtn) {
+            console.warn('MenuManager: Cannot initialize mobile toggle — elements missing.');
+            return;
+        }
+
+        /**
+         * Update the state of the nav and button based on the checkbox.
+         * - Toggle the 'expanded' class on nav.
+         * - Sync aria-expanded on nav and menu button.
+         */
+        const updateMenuState = () => {
+            const expanded = checkbox.checked;
+            this.#navElement.classList.toggle('expanded', expanded);
+            this.#navElement.setAttribute('aria-expanded', String(expanded));
+            if (menuBtn) {
+                menuBtn.setAttribute('aria-expanded', String(expanded));
+            }
+        };
+
+        // React to direct checkbox changes
+        checkbox.addEventListener('change', updateMenuState);
+        updateMenuState();
+
+        // React to clicks on the visible button (toggle the checkbox state)
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                checkbox.checked = !checkbox.checked;
+                updateMenuState();
+            });
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Private
+    // ----------------------------------------------------------------------
+
+    /**
+     * Creates a SubMenuManager instance if DOM elements exist.
+     *
+     * @private
+     * @param {string} asideId
+     * @param {string} toggleButtonId
+     * @returns {SubMenuManager|null}
+     */
+    #createSubmenuInstance(asideId, toggleButtonId) {
+        const aside = document.getElementById(asideId);
+        const toggle = document.getElementById(toggleButtonId);
+        if (!aside || !toggle) return null;
+        return new SubMenuManager(asideId, toggleButtonId);
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Attaches listeners to a given submenu instance.
+     *
+     * @private
+     * @param {SubMenuManager} submenu
+     * @returns {void}
+     */
+    #attachSubmenu(submenu) {
+        try {
+            submenu.attachSubmenuListeners();
+        } catch (err) {
+            console.error('MenuManager: Unable to attach submenu listeners.', err);
+        }
+    }
+
 }
 

@@ -144,10 +144,10 @@
     </footer>
 
     <script type="application/javascript">
-        window.mainmenu = new MenuManager('appmenu-menu', 'submenu-toggle-menu');
-        window.mainmenu.handleMenuManagerOnLoad();
+        window.mainmenu = new MenuManager();
         window.mainmenu.initSideMenu();
         window.mainmenu.initMobileToggle();
+        window.mainmenu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
 
         console.log("... C'est chargé !")
     </script>

@@ -652,21 +652,6 @@ body {
                      HTML DOCUMENT STRUCTURE
    ======================================================================= */
 
-header {
-    color: var(--header-fg-color);
-    background: var(--header-bg-color);
-}
-
-nav {
-    color: var(--nav-fg-color);
-    background: var(--nav-bg-color);
-}
-
-footer {
-    background: var(--footer-bg-color);
-    color: var(--footer-fg-color);
-}
-
 body > header {
     z-index: 10;
     display: flex;
@@ -682,31 +667,22 @@ body > header {
     animation: 1s ease-out 0s 1 var(--header-slidein);
 }
 
+/*
 body > header > nav {
     position: absolute;
     top: 2rem;
     right: 2.5rem;
 }
-
-/* Always visible navigation bar */
-body > nav {
-    z-index: 10;
-    color: inherit;
-    position: -webkit-sticky;  /* Safari */
-    position: sticky;   /* is positioned based on the user's scroll position */
-    top: 0;
-    margin: auto;
-    overflow: unset;
-    /* box-shadow: [h-offset] [v-offset] [blur-radius] [spread-radius] [color]; */
-    box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);
-}
+*/
 
 body > main {
     z-index: 1;
-    /*background-color: var(--bg-color);*/
     margin-top: var(--typography-spacing-vertical);
-
     margin-bottom: var(--typography-spacing-vertical);
+    padding-left: var(--typography-spacing-horizontal);
+    padding-right: calc(6*var(--typography-spacing-horizontal)); /* the scrollbar...*/
+    padding-top: var(--typography-spacing-vertical);
+    padding-bottom: var(--typography-spacing-vertical);
 }
 
 body > footer {
@@ -748,11 +724,28 @@ body > header > *,  body > footer > * {
                        HTML ELEMENTS STYLING
   ======================================================================== */
 
+header {
+    color: var(--header-fg-color);
+    background: var(--header-bg-color);
+}
+
+footer {
+    background: var(--footer-bg-color);
+    color: var(--footer-fg-color);
+}
+
 /* -------------------------------- menu --------------------------------- */
 
 nav {
-    text-align: center;
+    color: var(--nav-fg-color);
+    background: var(--nav-bg-color);
+    z-index: 10;
+    position: -webkit-sticky;  /* Safari */
+    position: sticky;          /* is positioned based on the user's scroll position */
+    top: 0;
     margin: auto;
+    overflow: unset;
+    text-align: center;
     padding-left: var(--typography-spacing-horizontal);
     padding-right: var(--typography-spacing-horizontal);
     min-height: calc(4rem / var(--size-divisor));

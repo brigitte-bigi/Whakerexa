@@ -56,7 +56,7 @@
     </header>
 
     <!-- Mobile Menu at the bottom -->
-    <nav id="nav-content" class="bottom" aria-label="Main navigation">
+    <nav id="nav-content" class="nav-wexa bottom" aria-label="Main navigation">
         <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu">
             ☰
             <span>Menu</span>
@@ -107,11 +107,9 @@
 
 
     <script type="application/javascript">
-        window.profilemenu = new MenuManager('appmenu-profile', 'submenu-toggle-profile');
-        window.profilemenu.handleMenuManagerOnLoad();
-
-        window.mainmenu = new MenuManager('appmenu-menu', 'submenu-toggle-menu');
-        window.mainmenu.handleMenuManagerOnLoad();
+        window.menu = new MenuManager();
+        window.menu.registerSubmenu('appmenu-profile', 'submenu-toggle-profile');
+        window.menu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
 
         console.log("... C'est chargé !")
     </script>

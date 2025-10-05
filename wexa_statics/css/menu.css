@@ -40,7 +40,7 @@ This banner notice must not be removed.
     /* Default behavior is an horizontal menu, with a min height and no
     min width. For a side menu, fix a min-height to 0 and the desired min
     width.  */
-    --nav-min-height: max(calc(6rem / var(--size-divisor)), 4rem);
+    --nav-min-height: max(calc(4rem / var(--size-divisor)), 3rem);
     --nav-min-width: 0;
 
     /* All menu items */
@@ -68,34 +68,26 @@ This banner notice must not be removed.
                             OVERRIDES STYLE
   ======================================================================== */
 
-body > nav {
+nav {
     min-height: var(--nav-min-height);
     min-width: var(--nav-min-width);
 }
 
 /* Reset margin and padding of all elements */
-body > nav * {
+nav * {
     margin: 0;
     padding: 0;
 }
 
 /* Required for a submenu positioning */
-body > nav ul > li {
+nav ul > li {
     position: relative;
 }
 
 /* Hide checkboxes */
-body > nav input[type=checkbox] {
+nav input[type=checkbox] {
     display: none;
 }
-
-body > main {
-    padding-left: var(--typography-spacing-horizontal);
-    padding-right: calc(6*var(--typography-spacing-horizontal)); /* the scrollbar...*/
-    padding-top: var(--typography-spacing-vertical);
-    padding-bottom: var(--typography-spacing-vertical);
-}
-
 
 /* =======================================================================
                             TARGETED STYLE
@@ -105,13 +97,14 @@ body > main {
 /* Header navigation placement (#header-nav-content)                     */
 /* --------------------------------------------------------------------- */
 
-body > header > nav#header-nav-content {
+nav#header-nav-content {
     position: absolute;
     bottom: auto;
     top: 1rem;
     left: auto;
     right: 2rem;
     background: transparent;
+    box-shadow: none;
 }
 
 /* ----------------------------------------------------------------------
@@ -126,13 +119,23 @@ body > header > nav#header-nav-content {
 
 /* --------------------------------------------------------------------- */
 
-body > nav#nav-content {
+nav {
     min-height: var(--nav-min-height);
     min-width: var(--nav-min-width);
 }
 
+.nav-wexa {
+    color: var(--nav-fg-color);
+    background: var(--nav-bg-color);
+}
+
+#nav-content {
+    /* box-shadow: [h-offset] [v-offset] [blur-radius] [spread-radius] [color]; */
+    box-shadow: 0 0.3rem 0.4rem 0.2rem var(--shadow-color);
+}
+
 /* -------- Fixed at the top of the page --------- */
-body > nav#nav-content.top {
+nav.nav-wexa.top {
     position: fixed;
     top: 0;
     left: 0;
@@ -144,12 +147,12 @@ body > nav#nav-content.top {
 }
 
 /* When the top menu is present, push down the page content */
-body:has(nav#nav-content.top) {
-    padding-top: var(--nav-item-height);
+body:has(nav.nav-wexa.top) {
+    padding-top: var(--nav-min-height);
 }
 
 /* -------- Fixed at the bottom of the page -------- */
-body > nav#nav-content.bottom {
+nav.nav-wexa.bottom {
     position: fixed;
     top: auto;
     bottom: 0;
@@ -162,12 +165,12 @@ body > nav#nav-content.bottom {
 }
 
 /* When the bottom menu is present, push up the page content */
-body:has(nav#nav-content.bottom) {
+body:has(nav.nav-wexa.bottom) {
     padding-bottom: var(--nav-item-height);
 }
 
 /* -------- Fixed vertically on the left side --------- */
-body > nav#nav-content.side {
+nav.nav-wexa.side {
     margin: 0;
     padding-left: 0;
     padding-right: 0;
@@ -187,11 +190,11 @@ body > nav#nav-content.side {
 }
 
 /* When the side menu is collapsed */
-nav#nav-content.side.collapsible {
+nav.nav-wexa.side.collapsible {
     width: var(--nav-min-width);
 }
 
-body:has(nav#nav-content.side) {
+body:has(nav.nav-wexa.side) {
     transition: padding-left 0.3s ease;
     padding-left: var(--nav-min-width);
     margin: 0;  /* avoid cumulative spacing */
@@ -199,14 +202,14 @@ body:has(nav#nav-content.side) {
 }
 
 /* When the side menu is pinned-expanded */
-body:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) {
+body:has(nav.nav-wexa.side.collapsible.expanded[aria-pinned="true"]) {
     padding-left: var(--nav-expanded-width);
 }
 
 /* When the side menu is expanded either with hover, focus, or .expanded */
-nav#nav-content.side.collapsible:hover,
-nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible),
-nav#nav-content.side.collapsible.expanded {
+nav.nav-wexa.side.collapsible:hover,
+nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible),
+nav.nav-wexa.side.collapsible.expanded {
     width: var(--nav-expanded-width);
 }
 
@@ -265,7 +268,7 @@ nav#nav-content.side.collapsible.expanded {
     Specific style for the menu items of the main menu
    ----------------------------------------------------------------------- */
 
-body > nav#nav-content [role="menuitem"],
+nav.nav-wexa [role="menuitem"],
 aside.appmenu nav [role="menuitem"] {
     opacity: 1;
     width: auto;
@@ -280,28 +283,28 @@ aside.appmenu nav [role="menuitem"] {
 
 /* ---------------------- Vertical at side main menu ------------------- */
 
-nav#nav-content.side [role="menuitem"] {
+nav.nav-wexa.side [role="menuitem"] {
     flex-direction: column;
     justify-content: center;
     width: 100%;
 }
 
-nav#nav-content.side [role="menuitem"]:hover,
-nav#nav-content.side [role="menuitem"]:focus-visible {
+nav.nav-wexa.side [role="menuitem"]:hover,
+nav.nav-wexa.side [role="menuitem"]:focus-visible {
     background-color: rgba(128, 128, 128, 0.5);
 }
 
-body > nav#nav-content [role="menuitem"] span {
+nav.nav-wexa [role="menuitem"] span {
     font-variant: small-caps;
     font-size: 0.8rem;
 }
 
-body > nav#nav-content [role=menuitem] * {
+nav.nav-wexa [role=menuitem] * {
     color: inherit;
 }
 
 /* Fixed, non-collapsible: show labels and use expanded width */
-nav#nav-content.side:not(.collapsible) [role="menuitem"] {
+nav.nav-wexa.side:not(.collapsible) [role="menuitem"] {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
@@ -310,34 +313,34 @@ nav#nav-content.side:not(.collapsible) [role="menuitem"] {
 /* ------------------ Expand side if collapsible --------------- */
 
 /* Collapsible — collapsed = icons only, labels hidden */
-nav#nav-content.side.collapsible:not(.expanded) [role="menuitem"] {
+nav.nav-wexa.side.collapsible:not(.expanded) [role="menuitem"] {
     min-width: var(--nav-item-width-v-collapsed);
     width:     var(--nav-item-width-v-collapsed);
     max-width: var(--nav-item-width-v-collapsed);
 }
 
-nav#nav-content.side.collapsible:not(.expanded) [role="menuitem"] span {
+nav.nav-wexa.side.collapsible:not(.expanded) [role="menuitem"] span {
     display: none;
 }
 
 /* Collapsible — expand on hover, keyboard focus (via :has), or .expanded */
-nav#nav-content.side.collapsible:hover [role="menuitem"],
-nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"],
-nav#nav-content.side.collapsible.expanded [role="menuitem"] {
+nav.nav-wexa.side.collapsible:hover [role="menuitem"],
+nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"],
+nav.nav-wexa.side.collapsible.expanded [role="menuitem"] {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
 }
 
-nav#nav-content.side.collapsible:hover [role="menuitem"] span,
-nav#nav-content.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"] span,
-nav#nav-content.side.collapsible.expanded [role="menuitem"] span {
+nav.nav-wexa.side.collapsible:hover [role="menuitem"] span,
+nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible) [role="menuitem"] span,
+nav.nav-wexa.side.collapsible.expanded [role="menuitem"] span {
     display: inline;
 }
 
 /* Smooth transition for menu items and container */
-nav#nav-content.side.collapsible,
-nav#nav-content.side.collapsible [role="menuitem"] {
+nav.nav-wexa.side.collapsible,
+nav.nav-wexa.side.collapsible [role="menuitem"] {
     transition: min-width 0.3s ease, width 0.3s ease, max-width 0.3s ease;
 }
 
@@ -442,7 +445,7 @@ body > nav > * *:focus-within .submenu {
     #menu-button {
         display: inline-flex;
     }
-    body > nav#nav-content.side #pin-menu {
+    nav.nav-wexa.side #pin-menu {
         display: none;
     }
 }
@@ -450,14 +453,14 @@ body > nav > * *:focus-within .submenu {
 @media all and (max-width: 896px) {
 
     /* Hide expanded side menu */
-    nav#nav-content.side {
+    nav.nav-wexa.side {
         display: none;
     }
-    nav#nav-content.side.expanded {
+    nav.nav-wexa.side.expanded {
         display: flex;
     }
     /* Remove body left padding when side menu is hidden */
-    body:has(nav#nav-content.side) {
+    body:has(nav.nav-wexa.side) {
         padding-left: 0;
     }
 }
@@ -615,12 +618,12 @@ aside.appmenu.open[data-submenu-position="left"] {
     left: 0;
 }
 
-body:has(nav#nav-content.side) aside.appmenu.open[data-submenu-position="left"] {
+body:has(nav.nav-wexa.side) aside.appmenu.open[data-submenu-position="left"] {
     left: var(--nav-min-width);
     padding-left: 0;
     margin: 0; /* avoid cumulative spacing */
 }
-body:has(nav#nav-content.side.collapsible.expanded[aria-pinned="true"]) aside.appmenu.open[data-submenu-position="left"] {
+body:has(nav.nav-wexa.side.collapsible.expanded[aria-pinned="true"]) aside.appmenu.open[data-submenu-position="left"] {
     left: var(--nav-expanded-width);
     padding-left: 0;
     margin: 0; /* avoid cumulative spacing */
@@ -638,29 +641,22 @@ aside.appmenu.open[data-submenu-position="top"] {
     top: 0;
 }
 
-/* ----------------- Submenu menuitem styling ------------------- */
+/* ----------------- #nav-content ------------------- */
 
 @media (min-width: 920px) {
-    body > nav#nav-content {
-        height: calc(var(--nav-min-height));
-    }
 
-    body > nav#nav-content [role=menuitem] {
+    nav#nav-content [role=menuitem] {
         flex-direction: row;
         align-items: center;
         gap: 2rem;
-        width: auto;
         flex-grow: 1;
+        width: auto;
     }
 }
 
 @media (max-width: 920px) {
 
-    body > nav#nav-content {
-        height: calc(var(--nav-min-height) * 2);
-    }
-
-    body > nav#nav-content [role=menuitem] {
+    nav#nav-content [role=menuitem] {
         flex-direction: column; /* Stack image and text vertically */
         gap: 0.5rem;
         width: 100%; /* Occupy the full width */
@@ -704,13 +700,13 @@ aside.appmenu.open[data-submenu-position="top"] {
   It has the same sizing as other menu items.
   ------------------------------------------------------------------------ */
 
-body > nav#nav-content.side [role=menuitem]#pin-menu {
+nav.nav-wexa.side [role=menuitem]#pin-menu {
     align-items: center;
     justify-content: center;
     color: var(--nav-fg-color);
 }
 
-body > nav#nav-content.side [role=menuitem]#pin-menu[aria-pressed="true"] {
+nav.nav-wexa.side [role=menuitem]#pin-menu[aria-pressed="true"] {
     border-color: var(--nav-fg-color);
     box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
     background-color: rgba(128, 128, 128, 0.5);
