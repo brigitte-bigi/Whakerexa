@@ -244,6 +244,10 @@ class SubMenuManager {
         // Force reflow now menu is open
         void this.#asideElement.offsetHeight;
 
+        // toggle visual state
+        document.querySelectorAll('[role="menuitem"].nav-current')
+            .forEach(el => el.classList.remove('nav-current'));
+
         // Close any other opened submenu
         if (opened) {
             document.querySelectorAll('.appmenu').forEach(submenu => {
@@ -252,6 +256,7 @@ class SubMenuManager {
                     submenu.querySelectorAll('[role="menuitem"]').forEach(item => item.tabIndex = -1);
                 }
             });
+            this.#toggleButton.classList.add('nav-current');
         }
 
         // Update menu items list and tabindex
@@ -293,6 +298,7 @@ class SubMenuManager {
             this.#setLinksTabIndex(-1);
             //this.#asideElement.removeEventListener('keydown', this._focusTrapHandler);
             document.removeEventListener('keydown', this._focusTrapHandler);
+            this.#toggleButton.classList.remove('nav-current');
             this.#toggleButton.focus();
         }
     }
