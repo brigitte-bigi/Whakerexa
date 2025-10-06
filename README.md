@@ -133,14 +133,28 @@ background dialogs, corrected a bug in accessibility.
 - Debug of action-button
 - Minor changes in wexa.css
 
-## Version 0.8 - latest stable
+## Version 0.8
 
 - This is mainly some debug.
 
-## Version 1.0 - develop
 
-- Menu(s) are fully re-implemented. Backward compatibility is not fully ensured. See the menu.html documentation file for details.
-- JS scripts migrated to modules.
+## Version 1.0 — stable
+
+Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered on a unified entry point.
+
+- Core entry point: `wexa.js`, which instantiates:
+    1. OnLoadManager — Delayed, ordered component initialization.
+    2. WexaLogger — Unified logging.
+    3. AccessibilityManager — Themes and contrast.
+    4. MenuManager — Navigation menus and submenus.
+    5. DialogManager — Opening/closing dialogs and popup videos.
+
+- Menus are fully re-implemented (CSS + JS). See `docs/menu.html`.
+- Dialogs are managed by `DialogManager` (legacy functions replaced).
+- Backward compatibility with pre-1.0 procedural APIs is limited and not fully ensured.
+- Not all minor/specialized classes have been ported (e.g., `Book`, `ToggleSelector`, `SortaTable`).
+
+This version also includes a set of monochrome SVG icons.
 
 
 ### Hopefully incoming:

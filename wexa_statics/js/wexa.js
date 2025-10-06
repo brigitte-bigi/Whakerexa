@@ -40,12 +40,14 @@
  * @property {WexaLogger} WexaLogger - Provides unified logging across all modules.
  * @property {AccessibilityManager} AccessibilityManager - Manages accessibility options (themes, contrast, etc.).
  * @property {MenuManager} MenuManager - Controls all navigation menus and submenus.
+ * @property {DialogManager} DialogManager - Controls opening and closing of dialogs and popup videos.
  *
  */
 import { OnLoadManager } from './dom-loader.js';
 import { WexaLogger } from './logger.js';
 import { AccessibilityManager } from './accessibility.js';
 import { MenuManager } from './menu.js';
+import { DialogManager } from './dialog.js';
 
 // Global namespace exposing Whakerexa core managers
-window.Wexa = { OnLoadManager, WexaLogger, AccessibilityManager, MenuManager };
+window.Wexa = { OnLoadManager, WexaLogger, AccessibilityManager, MenuManager, DialogManager };

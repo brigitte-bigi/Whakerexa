@@ -32,11 +32,79 @@
 
             --appmenu-position: left;
             --appmenu-align: left top;
+
         }
 
         :root:not([data-theme=dark]), [data-theme=light], .light {
             --nav-bg-color: linear-gradient(180deg,rgba(2, 1, 20, 1) 0%, rgba(6, 6, 71, 1) 35%, rgba(10, 55, 128, 1) 100%);
         }
+
+        /* ============================================================
+        Custom Navigation
+        ============================================================ */
+
+        nav#nav-content.nav-wexa.side:not(.dark) {
+            background: linear-gradient(180deg,
+            rgb(20, 20, 50) 0%,
+            rgb(60, 70, 120) 25%,
+            rgb(100, 120, 200) 45%,
+            rgb(140, 150, 210) 100%);
+        }
+        .dark nav#nav-content.nav-wexa.side {
+            background: linear-gradient(180deg,
+            rgb(120, 40, 70) 0%,
+            rgb(160, 90, 140) 25%,
+            rgb(200, 160, 220) 45%,
+            rgb(240, 170, 230) 100%);
+        }
+
+            #nav-content [role='menuitem'] {
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 0.5rem;
+                transition: background 0.25s ease, transform 0.15s ease, color 0.25s ease;
+                box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
+            }
+/*
+                #nav-content [role='menuitem']:hover {
+                    background: rgba(255, 255, 255, 0.12);
+                    transform: translateX(3px);
+                    color: #ffffff;
+                }
+
+                #nav-content .nav-current {
+                    background: rgba(255, 255, 255, 0.18);
+                    color: #ffffff;
+                }
+
+                #nav-content [role='menuitem'][aria-haspopup='true'] {
+                    background: rgba(255, 255, 255, 0.08);
+                    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+                }
+
+                #nav-content [role='menuitem'][aria-haspopup='true']:hover {
+                    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4);
+                }
+
+                aside.appmenu nav {
+                    background: rgba(20, 40, 70, 0.95);
+                    border-radius: 0.8rem;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+                    padding: 0.6rem 1rem;
+
+                }
+
+                aside.appmenu [role='menuitem'] {
+                    border-radius: 0.4rem;
+                    color: #fff;
+                    transition: background 0.3s ease;
+                }
+
+                aside.appmenu [role='menuitem']:hover {
+                    background: rgba(100, 160, 220, 0.25);
+                }
+
+         */
+
     </style>
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>

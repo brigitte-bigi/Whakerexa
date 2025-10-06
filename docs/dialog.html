@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" media="all" />
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>
-    <script src="../wexa_statics/js/dialog.js" type="application/javascript"></script>
 
 </head>
 
@@ -153,29 +152,29 @@
                 <dialog id="info-dlg" role="alertdialog" class="info hidden-alert">
                     <p id="popup-video-msg">This is irrelevant information...</p>
                 </dialog>
-                <button name="info-btn" onclick="open_dialog('info-dlg')">Open info</button>
-                <button name="info-modal-btn" onclick="open_dialog('info-dlg', true)">Open info (modal version)</button>
+                <button name="info-btn" onclick="DialogManager.open('info-dlg')">Open info</button>
+                <button name="info-modal-btn" onclick="DialogManager.open('info-dlg', true)">Open info (modal version)</button>
             </td>
             <td>
                 <dialog id="warning-dlg" role="alertdialog" class="warning hidden-alert">
                     <p>This is an irrelevant warning...</p>
                 </dialog>
-                <button name="warning-btn" onclick="open_dialog('warning-dlg')">Open warning</button>
-                <button name="warning-modal-btn" onclick="open_dialog('warning-dlg', true)">Open warning (modal version)</button>
+                <button name="warning-btn" onclick="DialogManager.open('warning-dlg')">Open warning</button>
+                <button name="warning-modal-btn" onclick="DialogManager.open('warning-dlg', true)">Open warning (modal version)</button>
             </td>
             <td>
                 <dialog id="error-dlg" role="alertdialog" class="error hidden-alert">
                     <p>This is an irrelevant error...</p>
                 </dialog>
-                <button name="error-btn" onclick="open_dialog('error-dlg')">Open error</button>
-                <button name="error-modal-btn" onclick="open_dialog('error-dlg', true)">Open error (modal version)</button>
+                <button name="error-btn" onclick="DialogManager.open('error-dlg')">Open error</button>
+                <button name="error-modal-btn" onclick="DialogManager.open('error-dlg', true)">Open error (modal version)</button>
             </td>
             <td>
                 <dialog id="success-dlg" role="alertdialog" class="success hidden-alert">
                     <p>This is a great success...</p>
                 </dialog>
-                <button name="success-btn" onclick="open_dialog('success-dlg')">Open success</button>
-                <button name="success-modal-btn" onclick="open_dialog('success-dlg', true)">Open success (modal version)</button>
+                <button name="success-btn" onclick="DialogManager.open('success-dlg')">Open success</button>
+                <button name="success-modal-btn" onclick="DialogManager.open('success-dlg', true)">Open success (modal version)</button>
             </td>
         </tr>
         <tr>
@@ -184,8 +183,8 @@
                     <p>This alert is hidden when it isn't open!</p>
                     <p>Add "hidden-alert" in the class attribute of the dialog element</p>
                 </dialog>
-                <button name="tips-btn" onclick="open_dialog('tips-dlg')">Open hidden tips</button>
-                <button name="tips-modal-btn" onclick="open_dialog('tips-dlg', true)">Open hidden tips (modal version)</button>
+                <button name="tips-btn" onclick="DialogManager.open('tips-dlg')">Open hidden tips</button>
+                <button name="tips-modal-btn" onclick="DialogManager.open('tips-dlg', true)">Open hidden tips (modal version)</button>
             </td>
         </tr>
     </table>
@@ -205,19 +204,19 @@
     <h2>Popup video with image pre-visualisation</h2>
     <figure class="img-video-visualization" style="width: 35vw; height: auto;">
         <img src="images/demo_video.png" alt="Video preview"/>
-        <button name="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
+        <button name="play-btn" onclick="DialogManager.playVideo('demo')">&#9658;</button>
     </figure>
 
     <h2>Popup video with just a play button</h2>
     <!-- use a container if you want to center the button (not necessary a 'figure', the figure is required only for image pre-visualization) -->
-    <button name="play-btn" onclick="play_popup_video('demo')">&#9658;</button>
+    <button name="play-btn" onclick="DialogManager.playVideo('demo')">&#9658;</button>
 </main>
 
 <footer>
     <p class="center">This site respects your privacy.</p>
     <p class="center">We do not collect any information and do not use cookies.</p>
     <hr>
-    <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
 </footer>
 </body>
 </html>

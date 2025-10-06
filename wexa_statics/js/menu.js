@@ -48,6 +48,10 @@ import { WexaLogger } from './logger.js';
  *
  */
 class SubMenuManager {
+    // --------------------------------------------------------------------
+    // Members
+    // --------------------------------------------------------------------
+
     // Protected members
     #asideElement;
     #toggleButton;
@@ -56,9 +60,9 @@ class SubMenuManager {
     // Bound focus-trap handler so it can be added/removed
     _focusTrapHandler;
 
-
-    // ----------------------------------------------------------------------
-
+    // --------------------------------------------------------------------
+    // Constructor
+    // --------------------------------------------------------------------
     /**
      * Creates a SubMenuManager instance.
      *
@@ -121,7 +125,9 @@ class SubMenuManager {
         WexaLogger.debug("MenuManager: Initialized.");
     }
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    // Public methods
+    // --------------------------------------------------------------------
 
     /**
      * Attaches event listeners to the body for managing clicks related
@@ -272,6 +278,7 @@ class SubMenuManager {
         // Re-apply position/alignment if changed
         this.adjustSubmenuPosition();
         this.adjustSubmenuAlignment();
+
     }
 
     // ----------------------------------------------------------------------
@@ -290,7 +297,9 @@ class SubMenuManager {
         }
     }
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
+    // Private methods
+    // --------------------------------------------------------------------
 
     /**
      * Traps focus within the submenu when Tab is pressed.
@@ -335,10 +344,10 @@ class SubMenuManager {
     }
 }
 
-
 // --------------------------------------------------------------------------
 // Manager for an accessible menu
 // --------------------------------------------------------------------------
+
 /**
  * @class MenuManager
  * @classdesc
