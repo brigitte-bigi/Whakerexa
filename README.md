@@ -3,27 +3,27 @@
 
 ## Overview
 
-`Whakerexa` offers CSS frameworks and JavaScript to generate an HTML content.
-It is intended to be as simple as possible to make **accessible web content**, and to minimize the use of CSS classes for enhancing the readability of HTML code.
+`Whakerexa` is a lightweight front-end toolkit that blends clarity, accessibility, and flexibility.
+It provides a modern CSS foundation and modular JavaScript components to build interfaces that are both elegant and inclusive — with minimal code and maximum readability.
 
-It was designed to be easily customizable, allowing users to adjust properties such as fonts, colors, borders, etc., effortlessly. Most of the properties are stored into variables which makes possible to re-define them, then to obtain a custom different style, enabling users to achieve a unique style easily.
+Designed around accessibility from the start, Whakerexa makes it easy to craft clean, human-friendly HTML that just works — without drowning your pages in class names or dependencies.
+Every visual aspect — colors, typography, spacing, animations — is defined through CSS variables, giving you full creative control with a few redefinitions.
 
-It can be combined with the use of `WhakerPy`, an open source library to create dynamic HTML content; it's a light web application framework.
+It pairs naturally with `WhakerPy`, the lightweight Python library for generating dynamic HTML, offering a seamless workflow from code to design.
 
 ### Features
 
-- Lightweight and semantic
-- Light or dark mode
-- Normal or high-Contrast mode
-- Easy use and customization
-- Human-readable: could be extended or composed for your specific needs
-- No extra library or framework needed
+- ✨ Lightweight, semantic, and modular
+- 🌓 Built-in light / dark themes
+- 🔆 High-contrast accessibility mode
+- 🎨 Fully customizable through CSS variables
+- 🧩 Composable and extensible — adapt to your needs
+- ⚙️ Zero dependencies, 100 % open source
 
 
 ## Install Whakerexa
 
 Whakerexa is a ZIP archive. You only need to unpack-it.
-
 
 
 ## Quick Start
@@ -52,14 +52,13 @@ It is used by the website of the "AutoCuedSpeech" project at <https://auto-cueds
 
 ### Applications
 
-It is used by the setup application of SPPAS software tool.
+It is used by the Setup of SPPAS software tool.
 
 
 
 ### Projects using Whakerexa
 
-Whakerexa is used by "ClammingPy", a tool to create automatically python documentation <https://clamming.sf.net>.
-
+Whakerexa is used by "ClammingPy", a tool to create automatically Python accessible documentation <https://clamming.sf.net>.
 
 
 ## Author/Copyright
@@ -156,8 +155,3 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
-
-### Hopefully incoming:
-
-- a ready-to-use login dialog, useful for authentication
-- documentation of layouts
