@@ -137,7 +137,7 @@ background dialogs, corrected a bug in accessibility.
 
 - This is mainly some debug.
 
-## Version 0.9 - develop
+## Version 1.0 - develop
 
 - Menu(s) are fully re-implemented. Backward compatibility is not fully ensured. See the menu.html documentation file for details.
 - JS scripts migrated to modules.

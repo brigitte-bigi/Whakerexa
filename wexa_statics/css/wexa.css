@@ -284,6 +284,10 @@ This banner notice must not be removed.
     --dialog-border-radius: 4px;
     --dialog-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
 
+    /* Accessibility icons (base64 SVG) */
+    --icon-contrast: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBhcmlhLWxhYmVsPSJDb250cmFzdCBzd2l0Y2hlciBpY29uIj4KICA8cGF0aCBkPSJNMiAxNnM0LTggMTQtOCAxNCA4IDE0IDgtNCA4LTE0IDhTMiAxNiAyIDE2eiIvPgogIDwhLS0gdGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9ImN1cnJlbnRDb2xvciIgZm9udC1mYW1pbHk9IkNvbW1pc3Npb25lciwgc2Fucy1zZXJpZiI+QTwvdGV4dCAtLT4KICA8IS0tIExldHRlciBBIGRyYXduIHdpdGggdGhyZWUgbGluZXMgLS0+CiAgPGxpbmUgeDE9IjEzIiB5MT0iMjAiIHgyPSIxNiIgeTI9IjEyIi8+CiAgPGxpbmUgeDE9IjE5IiB5MT0iMjAiIHgyPSIxNiIgeTI9IjEyIi8+CiAgPGxpbmUgeDE9IjE0IiB5MT0iMTgiIHgyPSIxOCIgeTI9IjE4Ii8+CiAgCiAgPCEtLSBQbHVzIHNpZ24gKHRvcC1sZWZ0KSAtLT4KICA8bGluZSB4MT0iNS41IiB5MT0iNS41IiB4Mj0iNS41IiB5Mj0iOC41Ii8+CiAgPGxpbmUgeDE9IjQiIHkxPSI3IiB4Mj0iNyIgeTI9IjciLz4KCiAgPCEtLSBNaW51cyBzaWduIChib3R0b20tcmlnaHQpIC0tPgogIDxsaW5lIHgxPSIyNSIgeTE9IjI1IiB4Mj0iMjgiIHkyPSIyNSIvPgo8L3N2Zz4=");
+    --icon-theme: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiI+CiAgPCEtLSBPdXRlciBjaXJjbGUgLS0+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTMiLz4KICA8IS0tIERpYWdvbmFsIGhhbGYgZmlsbCAtLT4KICA8Y2xpcFBhdGggaWQ9ImN1dCI+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsMzIgMzIsMCAzMiwzMiIvPgogIDwvY2xpcFBhdGg+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTMiIGZpbGw9ImN1cnJlbnRDb2xvciIgY2xpcC1wYXRoPSJ1cmwoI2N1dCkiIHN0cm9rZT0ibm9uZSIvPgo8L3N2Zz4=");
+
 }
 
 /* Variables overridden by "contrast" */
@@ -1717,5 +1721,35 @@ dialog[role=alertdialog] * {
     .print-off {
         display: none;
     }
+}
+/* =======================================================================
+                           Wexa Accessibility
+   ======================================================================= */
 
+[role='menuitem'].accessibility {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    transition: transform var(--transition);
+    color: inherit;
+    opacity: 1;
+}
+
+#btn-contrast.accessibility {
+    opacity: 1;
+    background-image: var(--icon-contrast);
+}
+
+#btn-theme.accessibility {
+    opacity: 1;
+    background-image: var(--icon-theme);
+}
+
+/* Toggle visual effect */
+[role='menuitem'][aria-pressed='true'].accessibility {
+    transform: scaleX(-1);
+    opacity: 1;
+    background-color: color-mix(in srgb, currentColor 50%, transparent);
+    box-shadow: inset 0 0 calc(var(--font-size) / 3) currentColor;
 }

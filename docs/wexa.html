@@ -32,12 +32,10 @@
                 <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
                 <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
             </ul>
-            <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme()">
-                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
-            </button>
-            <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme()">
-                <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
-            </button>
+            <button id="btn-contrast" class="accessibility" role="menuitem"
+                    aria-pressed="false" onclick="AccessibilityManager.switch_contrast_scheme()"></button>
+            <button id="btn-theme" class="accessibility" role="menuitem"
+                    aria-pressed="false" onclick="AccessibilityManager.switch_color_scheme()"></button>
         </nav>
 
         <h1>wexa.css</h1>

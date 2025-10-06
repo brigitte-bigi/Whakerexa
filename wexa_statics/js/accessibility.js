@@ -234,6 +234,10 @@ export class AccessibilityManager {
             this.#activated_color = "";
             document.body.classList.remove(this.#colors[0]);
         }
+
+        // Update state of the theme button
+        this.#updateButtonState('btn-theme');
+
     }
 
     // -----------------------------------------------------------------------
@@ -280,6 +284,9 @@ export class AccessibilityManager {
             this.#activated_contrast = "";
             document.body.classList.remove(this.#contrasts[0]);
         }
+
+        // Update state of the contrast button
+        this.#updateButtonState('btn-contrast');
     }
 
     // -----------------------------------------------------------------------
@@ -403,6 +410,26 @@ export class AccessibilityManager {
             });
         });
     }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Update the visual pressed state of a specific accessibility button.
+     * @private
+     * @param {string} buttonId - 'btn-contrast' or 'btn-theme'.
+     */
+    #updateButtonState(buttonId) {
+        const btn = document.getElementById(buttonId);
+        if (btn === null) { console.error(`Button not found: ${buttonId}.`); return; }
+
+        let pressed = false;
+        if (buttonId === 'btn-contrast') { pressed = this.#activated_contrast !== ''; }
+        else if (buttonId === 'btn-theme') { pressed = this.#activated_color !== ''; }
+        else { console.error(`Unknown button id: ${buttonId}.`); return; }
+
+        btn.setAttribute('aria-pressed', String(pressed));
+    }
+
 }
 
 // -----------------------------------------------------------------------
