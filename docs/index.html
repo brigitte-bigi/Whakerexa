@@ -24,9 +24,31 @@
             --header-height: 26rem;
             --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
         }
+        /* Light mode: subtle blue-violet gradient */
+        :root:not([data-theme=dark]), [data-theme=light] {
+            --card-bg-color: linear-gradient(
+                    145deg,
+                    rgba(215,245,225,0.9) 0%,
+                    rgba(225,235,230,0.9) 50%,
+                    rgba(255,255,235,0.9) 100%
+            );
+        }
+
+        /* Dark mode: violet-magenta gradient matching the header */
+        .dark {
+            --card-bg-color: linear-gradient(
+                    145deg,
+                    rgba(100,30,50,0.85) 0%,
+                    rgba(140,70,120,0.85) 40%,
+                    rgba(160,90,190,0.85) 100%
+            );
+        }
 
         nav {
             justify-content: center;
+        }
+        header {
+            border-radius: 1rem;
         }
 
         [role='menuitem'] {
@@ -34,6 +56,31 @@
             border-radius: 0.5rem;
             transition: background 0.25s ease, transform 0.15s ease, color 0.25s ease;
             box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
+        }
+
+        .card main {
+            background: var(--card-bg-color);
+        }
+
+        .card main * {
+            background: transparent;
+        }
+
+        /* Card footer link styling */
+        .card footer a {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 0.2rem;
+            transition: color 0.25s ease, transform 0.15s ease;
+            background: none;
+            border: none;
+        }
+
+        .card footer a:hover {
+            transform: translateY(-2px);
         }
 
     </style>
@@ -56,7 +103,11 @@
                 aria-pressed="false" onclick="AccessibilityManager.switch_color_scheme()"></button>
     </nav>
     <h1>Whakerexa</h1>
-    <h2>A minimalist and lightweight web kit for accessible contents</h2>
+    <h2>Build accessible, elegant web pages with one lightweight toolkit</h2>
+    <p class="center" style="margin-top:1rem;">
+        <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa logo" style="height:5rem;">
+    </p>
+
 </header>
 
 <main id="main-content" class="panel">
@@ -86,6 +137,11 @@
     </p>
 
     <h1>Whakerexa in action</h1>
+
+    <section style="text-align:center;margin-bottom:2rem;">
+        <p>Explore the components below to see Whakerexa in action.</p>
+        <p><strong>Click a card</strong> to open the live example.</p>
+    </section>
 
     <section class="cards-panel">
 
@@ -198,16 +254,10 @@
     <section>
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
-        <p class="right-bottom print-off">
-            <a role="button" href="#main-content">
-                <img src="docs/icons/up.png" alt="Scroll Up" style="width: 3rem; height: auto;">
-            </a>
-        </p>
-
         <p class="copyright">
-        Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France
+        Copyright @ 2023-2025 <a href="https://sppas.org/bigi/" class="external-link">Brigitte Bigi</a>,
+            CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France
         </p>
-
     </section>
 
 </footer>
