@@ -281,6 +281,8 @@ nav.nav-wexa.side.collapsible.expanded {
 
 nav.nav-wexa [role="menuitem"],
 aside.appmenu nav [role="menuitem"] {
+    font-variant: small-caps;
+    font-size: 0.8rem;
     opacity: 1;
     width: auto;
     display: flex;
@@ -728,4 +730,9 @@ nav.nav-wexa.side [role=menuitem]#pin-menu[aria-pressed="true"] {
     border-color: var(--nav-fg-color);
     box-shadow: inset 0 0 0 var(--border-width) var(--nav-fg-color);
     background-color: rgba(128, 128, 128, 0.5);
+}
+
+/* Force the side menu to stay collapsed when a submenu is active */
+nav.nav-wexa.side.collapsible.submenu-active {
+    width: var(--nav-min-width) !important;
 }

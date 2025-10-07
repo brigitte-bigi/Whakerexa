@@ -44,35 +44,35 @@
 
 <body>
 
-<header id="header-content">
-    <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
-        Skip to main content
-    </a>
-    <nav>
-        <ul>
-            <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
-            <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
-            <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
-        </ul>
-        <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme()">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
-        </button>
-        <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme()">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
-        </button>
+    <header id="header-content">
+        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+            Skip to main content
+        </a>
+        <nav>
+            <ul>
+                <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
+                <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+                <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
+            </ul>
+            <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme()">
+                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+            </button>
+            <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme()">
+                <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+            </button>
+        </nav>
+        <h1>book.css with ToC</h1>
+        <h2>A CSS framework to make automatically the ToC of a book</h2>
+    </header>
+
+    <nav id="nav-content" class="side-nav">
+        <h1>Automatic ToC</h1>
+        <p><a class="external-link" href="https://whakerexa.sourceforge.io">Whakerexa</a></p>
+        <h2>Table of Content</h2>
+        <ul id="toc"></ul>
     </nav>
-    <h1>book.css with ToC</h1>
-    <h2>A CSS framework to make automatically the ToC of a book</h2>
-</header>
 
-<nav id="nav-content" class="side-nav">
-    <h1>Automatic ToC</h1>
-    <p><a class="external-link" href="https://whakerexa.sourceforge.io">Whakerexa</a></p>
-    <h2>Table of Content</h2>
-    <ul id="toc"></ul>
-</nav>
-
-<main id="main-content">
+    <main id="main-content">
 
     <section id="description" class="chapter">
         <h1> Description </h1>
@@ -143,14 +143,14 @@
 
     </section>
 
-</main>
+    </main>
 
-<footer>
-    <p class="center">This site respects your privacy.</p>
-    <p class="center">We do not collect any information and do not use cookies.</p>
-    <hr>
-    <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-</footer>
+    <footer>
+        <p class="center">This site respects your privacy.</p>
+        <p class="center">We do not collect any information and do not use cookies.</p>
+        <hr>
+        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    </footer>
 
 </body>
 </html>

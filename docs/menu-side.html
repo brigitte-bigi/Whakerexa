@@ -11,18 +11,6 @@
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
-
-    <script src="../wexa_statics/js/wexa.js" type="module"></script>
-    <script type="module">
-        window.Wexa.OnLoadManager.addLoadFunction(() => {
-            const { MenuManager } = window.Wexa;
-            window.mainmenu = new MenuManager();
-            window.mainmenu.initSideMenu();
-            window.mainmenu.initMobileToggle();
-            window.mainmenu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
-        });
-    </script>
-
     <style>
         :root {
 
@@ -49,6 +37,17 @@
             --nav-bg-color: linear-gradient(180deg,rgba(2, 1, 20, 1) 0%, rgba(6, 6, 71, 1) 35%, rgba(10, 55, 128, 1) 100%);
         }
     </style>
+
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <script type="module">
+        window.Wexa.OnLoadManager.addLoadFunction(() => {
+            const { MenuManager } = window.Wexa;
+            window.mainmenu = new MenuManager();
+            window.mainmenu.initSideMenu();
+            window.mainmenu.initMobileToggle();
+            window.mainmenu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
+        });
+    </script>
 
 </head>
 
@@ -116,7 +115,7 @@
                 id="pin-menu"
                 type="button"
                 aria-controls="nav-content"
-                aria-pressed="true"
+                aria-pressed="false"
                 title="Pin menu"
                 class="menu-pin">
 

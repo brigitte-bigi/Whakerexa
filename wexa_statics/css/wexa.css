@@ -707,6 +707,10 @@ header *, body > header * {
     background-color: transparent;
 }
 
+header > nav {
+    background-color: var(--nav-bg-color);
+}
+
 nav *, body > nav * {
     color: var(--nav-fg-color);
     background-color: transparent;

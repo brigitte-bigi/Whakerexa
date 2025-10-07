@@ -34,95 +34,46 @@ import { WexaLogger } from './logger.js';
 
 'use strict';
 
+
 // --------------------------------------------------------------------------
-// Manager for an accessible sub-menu
+// Class: SubMenuManager
 // --------------------------------------------------------------------------
 
 /**
- * Manages the behavior of a single accessible submenu.
- * Handles opening/closing, ARIA attributes, focus management,
- * and alignment according to CSS variables.
+ * Manage the behavior of a single accessible submenu.
  *
- * Instances are created by MenuManager to manage each submenu
- * independently.
- *
+ * This class handles only the submenu content itself:
+ * open/close transitions, focus management, and CSS-based
+ * positioning or alignment. It does not handle any parent
+ * menu logic or toggle button events.
  */
 class SubMenuManager {
     // --------------------------------------------------------------------
-    // Members
-    // --------------------------------------------------------------------
-
     // Protected members
+    // --------------------------------------------------------------------
     #asideElement;
-    #toggleButton;
     #menuLinks;
-
-    // Bound focus-trap handler so it can be added/removed
     _focusTrapHandler;
 
     // --------------------------------------------------------------------
     // Constructor
     // --------------------------------------------------------------------
+
     /**
-     * Creates a SubMenuManager instance.
+     * Create a SubMenuManager instance.
      *
      * @param {string} asideId - ID of the aside element containing the submenu.
-     * @param {string} toggleButtonId - ID of the button that toggles the submenu.
-     *
      */
-    constructor(asideId = 'appmenu', toggleButtonId = 'submenu-toggle') {
+    constructor(asideId = 'appmenu') {
         this.#asideElement = document.getElementById(asideId);
-        this.#toggleButton = document.getElementById(toggleButtonId);
-        // Include <a> and <button> elements as submenu items
+
+        // Include both <a> and <button> elements as focusable links.
         this.#menuLinks = this.#asideElement
             ? this.#asideElement.querySelectorAll('a, button')
             : [];
-        // Prepare a bound handler for focus trapping
+
+        // Bind the focus trap handler to preserve context when used as an event listener.
         this._focusTrapHandler = this.#trapFocus.bind(this);
-
-        this.#init();
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Initializes event listeners and default states.
-     *
-     * @private
-     *
-     */
-    #init() {
-        if (!this.#asideElement || !this.#toggleButton) {
-            WexaLogger.warn('MenuManager: Required elements not found.');
-            return;
-        }
-
-        // Disable focus on submenu items by default
-        this.#setLinksTabIndex(-1);
-
-        // Open submenu on toggle button click
-        this.#toggleButton.addEventListener('click', (e) => {
-            // Prevent default focus jump and stop propagation
-            e.preventDefault();
-            e.stopPropagation();
-            this.openSubmenu();
-        });
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.closeSubmenu();
-            }
-        });
-
-        // Close when clicking outside submenu
-        document.body.addEventListener('click', (e) => this.handleBodyClick(e));
-
-        // Initial positioning and alignment
-        this.adjustSubmenuPosition();
-        this.adjustSubmenuAlignment();
-
-        WexaLogger.debug("MenuManager: Initialized.");
     }
 
     // --------------------------------------------------------------------
@@ -130,143 +81,54 @@ class SubMenuManager {
     // --------------------------------------------------------------------
 
     /**
-     * Attaches event listeners to the body for managing clicks related
-     * to the MenuManager's functionality.
-     *
-     * This method listens for click events on the body element and
-     * delegates them to the handleBodyClick method to handle specific
-     * click actions.
+     * Open the submenu and manage its internal focus state.
      *
      * @returns {void}
-     *
-     */
-    attachSubmenuListeners() {
-        document.querySelector('body').addEventListener('click', (event) => {
-            this.handleBodyClick(event);  // Close the menu if clicked outside
-        });
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Handles click events on the body element.
-     * Closes the aside if the click is outside specified elements.
-     *
-     * @param {Event} event - The event object triggered by a click.
-     *
-     */
-    handleBodyClick(event) {
-        const target = event.target;
-
-        // Close the submenu if the click is outside the aside or toggle button
-        if (!this.#asideElement.contains(target) && target !== this.#toggleButton) {
-            WexaLogger.debug("Clicked on " + target);
-            if (!['img', 'button', 'a', 'span', 'checkbox', 'input'].includes(target.localName)) {
-                this.closeSubmenu(); // Close submenu when clicking outside
-            } else {
-                WexaLogger.debug("  ==> this target do not allow to close the aside.")
-            }
-        }
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Reads CSS variable '--appmenu-position' and applies it.
-     *
-     * @returns {void}
-     *
-     */
-    adjustSubmenuPosition() {
-        const position = getComputedStyle(this.#asideElement)
-            .getPropertyValue('--appmenu-position')
-            .trim();
-
-        if (position === '') {
-            WexaLogger.warn("No valid position found, defaulting to 'left'");
-            this.#asideElement.style.left = '0';
-        }
-
-        // Set the data-submenu-position dynamically
-        this.#asideElement.setAttribute('data-submenu-position', position);
-        WexaLogger.debug("Adjust submenu position: ", position);
-
-        // Force reflow to ensure the styles are updated based on the new data-submenu-position
-        this.#asideElement.offsetHeight;
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Reads CSS variable '--appmenu-align' and applies horizontal/vertical alignment.
-     *
-     * @returns {void}
-     *
-     */
-    adjustSubmenuAlignment() {
-        const align = getComputedStyle(this.#asideElement)
-            .getPropertyValue('--appmenu-align')
-            .trim();
-        const [horizontal = 'center', vertical = 'center'] = align.split(' ');
-
-        // Set the data-submenu-align dynamically
-        this.#asideElement.setAttribute('data-submenu-align-horizontal', horizontal);
-        this.#asideElement.setAttribute('data-submenu-align-vertical', vertical);
-        WexaLogger.debug("Additional alignment horizontal: ", horizontal);
-        WexaLogger.debug("Additional alignment vertical: ", vertical);
-
-        // Force reflow to ensure the styles are updated based on the new data-submenu-position
-        this.#asideElement.offsetHeight;
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Toggles the submenu open/closed, manages focus and traps it inside.
-     *
-     * This method is responsible for opening and closing the submenu when triggered,
-     * and also ensures the proper management of focus within the submenu.
-     * It prevents the user from tabbing out of the submenu and ensures smooth focus management.
-     *
-     * The submenu is opened when it was previously closed, and closed when it was previously opened.
-     * When opening the submenu, it forces a reflow, ensures any other submenu is closed,
-     * updates the tabindex of the menu items, enables focus trapping, and places focus on the first item.
-     * When closing, it disables the focus trap and returns focus to the toggle button.
-     *
-     * This method listens for the `transitionend` event to ensure the submenu's transition is completed
-     * before applying focus to the first menu item. This is important for smooth focus behavior,
-     * especially when CSS transitions are used for the submenu's positioning or visibility.
-     *
-     * @returns {void} No return value.
      */
     openSubmenu() {
-        const opened = this.#asideElement.classList.toggle('open');
-        // Force reflow now menu is open
-        void this.#asideElement.offsetHeight;
+        this.#setOpenState(true);
+    }
 
-        // toggle visual state
-        document.querySelectorAll('[role="menuitem"].nav-current')
-            .forEach(el => el.classList.remove('nav-current'));
+    // --------------------------------------------------------------------
 
-        // Close any other opened submenu
-        if (opened) {
-            document.querySelectorAll('.appmenu').forEach(submenu => {
-                if (submenu !== this.#asideElement) {
-                    submenu.classList.remove('open');
-                    submenu.querySelectorAll('[role="menuitem"]').forEach(item => item.tabIndex = -1);
-                }
-            });
-            this.#toggleButton.classList.add('nav-current');
-        }
+    /**
+     * Close the submenu and disable focus trapping.
+     *
+     * @returns {void}
+     */
+    closeSubmenu() {
+        this.#setOpenState(false);
+    }
 
-        // Update menu items list and tabindex
-        this.#menuLinks = this.#asideElement.querySelectorAll('a, button');
+    // --------------------------------------------------------------------
+    // Private methods
+    // --------------------------------------------------------------------
+
+    /**
+     * Define the open or closed state of the submenu.
+     *
+     * When opened, tabindex values are enabled and focus is trapped
+     * within the submenu. When closed, all links become unfocusable.
+     *
+     * @private
+     * @param {boolean} open - True to open the submenu, false to close it.
+     * @returns {void}
+     */
+    #setOpenState(open) {
+        if (this.#asideElement === null) return;
+
+        const opened = open === true;
+
+        // Toggle CSS class to open or close the submenu.
+        this.#asideElement.classList.toggle('open', opened);
+
+        // Update tab index of contained links.
         this.#setLinksTabIndex(opened ? 0 : -1);
 
-        if (opened) {
-            // Enable focus trap immediately
+        // Manage focus trapping when opened.
+        if (opened === true) {
             document.addEventListener('keydown', this._focusTrapHandler, true);
-            // Wait for the menu transition to complete, then focus
+
             const onTransitionEnd = (ev) => {
                 if (['left', 'right', 'top', 'bottom'].includes(ev.propertyName)) {
                     this.#menuLinks[0]?.focus();
@@ -275,57 +137,80 @@ class SubMenuManager {
             };
             this.#asideElement.addEventListener('transitionend', onTransitionEnd);
         } else {
-            // Remove trap and return focus
             document.removeEventListener('keydown', this._focusTrapHandler, true);
-            this.#toggleButton.focus();
         }
 
-        // Re-apply position/alignment if changed
-        this.adjustSubmenuPosition();
-        this.adjustSubmenuAlignment();
-
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Closes the submenu and cleans up focus trap listener.
-     *
-     */
-    closeSubmenu() {
-        if (this.#asideElement.classList.contains('open')) {
-            this.#asideElement.classList.remove('open');
-            this.#setLinksTabIndex(-1);
-            //this.#asideElement.removeEventListener('keydown', this._focusTrapHandler);
-            document.removeEventListener('keydown', this._focusTrapHandler);
-            this.#toggleButton.classList.remove('nav-current');
-            this.#toggleButton.focus();
-        }
+        // Apply CSS-based positioning and alignment.
+        this.#adjustSubmenuPosition();
+        this.#adjustSubmenuAlignment();
     }
 
     // --------------------------------------------------------------------
-    // Private methods
-    // --------------------------------------------------------------------
 
     /**
-     * Traps focus within the submenu when Tab is pressed.
+     * Read CSS variable '--appmenu-position' and update the data attribute.
      *
-     * @param {KeyboardEvent} e - The keydown event.
      * @private
+     * @returns {void}
+     */
+    #adjustSubmenuPosition() {
+        const position = getComputedStyle(this.#asideElement)
+            .getPropertyValue('--appmenu-position')
+            .trim();
+
+        // Default to 'left' if no value found.
+        this.#asideElement.setAttribute('data-submenu-position', position || 'left');
+
+        // Force a reflow to ensure visual update.
+        this.#asideElement.offsetHeight;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Read CSS variable '--appmenu-align' and update alignment attributes.
      *
+     * @private
+     * @returns {void}
+     */
+    #adjustSubmenuAlignment() {
+        const align = getComputedStyle(this.#asideElement)
+            .getPropertyValue('--appmenu-align')
+            .trim();
+
+        const [horizontal = 'center', vertical = 'center'] = align.split(' ');
+
+        this.#asideElement.setAttribute('data-submenu-align-horizontal', horizontal);
+        this.#asideElement.setAttribute('data-submenu-align-vertical', vertical);
+
+        // Force reflow to apply updated alignment.
+        this.#asideElement.offsetHeight;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Trap focus inside the submenu when the Tab key is pressed.
+     *
+     * @private
+     * @param {KeyboardEvent} e - The keyboard event.
+     * @returns {void}
      */
     #trapFocus(e) {
         if (e.key !== 'Tab') return;
+
         const focusable = Array.from(this.#menuLinks);
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
 
-        if (e.shiftKey) {  // Shift + Tab
+        if (e.shiftKey) {
+            // Shift + Tab: move from first to last
             if (document.activeElement === first) {
                 e.preventDefault();
                 last.focus();
             }
-        } else {  // Tab
+        } else {
+            // Tab: move from last to first
             if (document.activeElement === last) {
                 e.preventDefault();
                 first.focus();
@@ -333,17 +218,16 @@ class SubMenuManager {
         }
     }
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     /**
-     * Sets the tabindex attribute for each submenu link.
+     * Set tabindex for each submenu link.
      *
-     * @param {number} value - Tabindex value (-1 to disable, 0 to enable).
      * @private
-     *
+     * @param {number} value - Tabindex value (-1 to disable, 0 to enable).
+     * @returns {void}
      */
     #setLinksTabIndex(value) {
-        // Loop through each link and set its tabindex
         for (const link of this.#menuLinks) {
             link.tabIndex = value;
         }
@@ -377,10 +261,18 @@ class SubMenuManager {
  *
  */
 export class MenuManager {
+    // --------------------------------------------------------------------
     // Protected members
+    // --------------------------------------------------------------------
+    // The '<nav>' element this class is managing
     #navElement;
-    #submenus = [];
+    // A dictionary of registered submenus: each key is the submenu
+    // identifier, and the value is its associated toggle button element.
+    #submenus = new Map();
 
+    // --------------------------------------------------------------------
+    // Public members
+    // --------------------------------------------------------------------
     static DEFAULT_NAV_ID = 'nav-content';
 
     // ----------------------------------------------------------------------
@@ -396,38 +288,49 @@ export class MenuManager {
         if (!this.#navElement) {
             throw new Error(`MenuManager: nav with id '${navId}' not found.`);
         }
-        this.#submenus = [];
 
-        // Close all appmenus when the mouse re-enters the side menu
+        // Dictionary of registered submenus.
+        this.#submenus = new Map();
+
+        // Close all registered submenus when the mouse re-enters the side menu.
         const sideMenu = this.#navElement.matches('.side') ? this.#navElement : null;
         if (sideMenu) {
             sideMenu.addEventListener('mouseenter', () => {
-                document.querySelectorAll('aside.appmenu.open').forEach(submenu => {
-                    submenu.classList.remove('open');
-                    submenu.setAttribute('aria-hidden', 'true');
-                });
+                // Iterate over the dictionary to close only registered submenus.
+                for (const [submenu /* SubMenuManager */, /* toggle */] of this.#submenus) {
+                    submenu.closeSubmenu();
+                }
             });
         }
+
+        document.addEventListener('click', (e) => this.#handleBodyClick(e), true);
     }
 
     // ----------------------------------------------------------------------
 
     /**
-     * Registers a submenu by creating its manager, attaching listeners,
-     * and adding it to the internal list.
+     * Register a submenu and its toggle button.
      *
-     * @param {string} asideId - The ID of the submenu <aside> element.
-     * @param {string} toggleButtonId - The ID of the button controlling this submenu.
+     * @param {string} asideId - ID of the submenu <aside> element.
+     * @param {string} toggleButtonId - ID of the button controlling this submenu.
      * @returns {void}
      */
     registerSubmenu(asideId, toggleButtonId) {
-        const submenu = this.#createSubmenuInstance(asideId, toggleButtonId);
-        if (!submenu) {
-            WexaLogger.warn(`MenuManager: Failed to register submenu '${asideId}'.`);
+        const aside = document.getElementById(asideId);
+        const toggle = document.getElementById(toggleButtonId);
+
+        // Validate required elements.
+        if (aside === null || toggle === null) {
+            WexaLogger.warn(`MenuManager: Invalid submenu registration: '${asideId}'.`);
             return;
         }
-        this.#attachSubmenu(submenu);
-        this.#submenus.push(submenu);
+
+        // Create submenu instance and store association.
+        const submenu = new SubMenuManager(asideId);
+        this.#submenus.set(submenu, toggle);
+
+        this.#initToggleAttributes(toggle, asideId);
+        this.#bindToggleEvents(submenu, toggle);
     }
 
     // ----------------------------------------------------------------------
@@ -466,52 +369,38 @@ export class MenuManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Initializes mobile menu toggle behavior.
+     * Initialize mobile menu toggle behavior.
      *
-     * This method links the hidden checkbox, the navigation container,
-     * and the visible menu button. It ensures that the menu state is
-     * consistent and accessible: the checkbox holds the state, the nav
-     * applies visual/ARIA changes, and the button is fully focusable
-     * and activable via keyboard.
+     * Link the hidden checkbox, navigation container, and visible menu button.
+     * Ensure synchronization between checkbox state and ARIA attributes.
      *
-     * @param {string} checkboxId - ID of the checkbox that controls the menu.
-     * @param {string} menuButtonId - ID of the visible menu button.
+     * @param {string} checkboxId - ID of the controlling checkbox.
+     * @param {string} buttonId - ID of the visible menu button.
      * @returns {void}
      */
-    initMobileToggle(checkboxId = 'mobile', menuButtonId = 'menu-button') {
+    initMobileToggle(checkboxId = 'mobile', buttonId = 'menu-button') {
         const checkbox = document.getElementById(checkboxId);
-        const menuBtn = document.getElementById(menuButtonId);
+        const button = document.getElementById(buttonId);
 
-        if (!checkbox || !menuBtn) {
-            WexaLogger.warn('MenuManager: Cannot initialize mobile toggle — elements missing.');
+        // Validate required elements.
+        if (checkbox === null || button === null) {
+            WexaLogger.warn('MenuManager: Missing elements for mobile toggle.');
             return;
         }
 
-        /**
-         * Update the state of the nav and button based on the checkbox.
-         * - Toggle the 'expanded' class on nav.
-         * - Sync aria-expanded on nav and menu button.
-         */
-        const updateMenuState = () => {
-            const expanded = checkbox.checked;
-            this.#navElement.classList.toggle('expanded', expanded);
-            this.#navElement.setAttribute('aria-expanded', String(expanded));
-            if (menuBtn) {
-                menuBtn.setAttribute('aria-expanded', String(expanded));
-            }
-        };
+        // Bind state synchronization.
+        checkbox.addEventListener('change', () => {
+            this.#updateMobileState(checkbox, button);
+        });
 
-        // React to direct checkbox changes
-        checkbox.addEventListener('change', updateMenuState);
-        updateMenuState();
+        // Bind button activation.
+        button.addEventListener('click', () => {
+            checkbox.checked = !checkbox.checked;
+            this.#updateMobileState(checkbox, button);
+        });
 
-        // React to clicks on the visible button (toggle the checkbox state)
-        if (menuBtn) {
-            menuBtn.addEventListener('click', () => {
-                checkbox.checked = !checkbox.checked;
-                updateMenuState();
-            });
-        }
+        // Initialize current state.
+        this.#updateMobileState(checkbox, button);
     }
 
     // ----------------------------------------------------------------------
@@ -519,36 +408,113 @@ export class MenuManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Creates a SubMenuManager instance if DOM elements exist.
+     * Initialize ARIA attributes of a toggle button.
      *
      * @private
-     * @param {string} asideId
-     * @param {string} toggleButtonId
-     * @returns {SubMenuManager|null}
+     * @param {HTMLElement} toggle - Toggle button element.
+     * @param {string} asideId - ID of the associated submenu.
      */
-    #createSubmenuInstance(asideId, toggleButtonId) {
-        const aside = document.getElementById(asideId);
-        const toggle = document.getElementById(toggleButtonId);
-        if (!aside || !toggle) return null;
-        return new SubMenuManager(asideId, toggleButtonId);
+    #initToggleAttributes(toggle, asideId) {
+        toggle.setAttribute('aria-controls', asideId);
+        toggle.setAttribute('aria-haspopup', 'menu');
+        toggle.setAttribute('aria-expanded', 'false');
     }
 
     // ----------------------------------------------------------------------
 
     /**
-     * Attaches listeners to a given submenu instance.
+     * Bind activation events for the toggle button.
      *
      * @private
-     * @param {SubMenuManager} submenu
-     * @returns {void}
+     * @param {SubMenuManager} submenu - Associated submenu manager.
+     * @param {HTMLElement} toggle - Toggle button element.
      */
-    #attachSubmenu(submenu) {
-        try {
-            submenu.attachSubmenuListeners();
-        } catch (err) {
-            WexaLogger.error('MenuManager: Unable to attach submenu listeners.', err);
+    #bindToggleEvents(submenu, toggle) {
+        const activate = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            // Collapse main menu if not pinned.
+            const pin = document.getElementById('pin-menu');
+            const isPinned = pin !== null && pin.getAttribute('aria-pressed') === 'true';
+            if (isPinned === false) {
+                this.#navElement.classList.remove('expanded');
+                this.#navElement.setAttribute('aria-expanded', 'false');
+            }
+
+            this.#closeOtherSubmenus(submenu);
+            submenu.openSubmenu();
+            toggle.setAttribute('aria-expanded', 'true');
+        };
+
+        toggle.addEventListener('click', activate);
+        toggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') activate(e);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Close all registered submenus except the given one.
+     *
+     * @private
+     * @param {SubMenuManager} current - Submenu to keep open.
+     */
+    #closeOtherSubmenus(current) {
+        for (const [submenu, toggle] of this.#submenus) {
+            if (submenu !== current) {
+                submenu.closeSubmenu();
+                toggle.setAttribute('aria-expanded', 'false');
+            }
         }
     }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Handle clicks on the document body to close submenus.
+     *
+     * @private
+     * @param {MouseEvent} event - The click event.
+     * @returns {void}
+     */
+    #handleBodyClick(event) {
+        const target = event.target;
+
+        // Ignore clicks inside the main nav or any open aside
+        const insideNav   = this.#navElement.contains(target);
+        const insideAside = target.closest('aside.appmenu.open') !== null;
+
+        if (insideNav || insideAside) return;
+
+        // Otherwise close all submenus
+        for (const [submenu, toggle] of this.#submenus) {
+            submenu.closeSubmenu();
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+
+        // Remove transient state flags
+        this.#navElement.classList.remove('submenu-active');
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Update ARIA attributes and menu class for the mobile toggle.
+     *
+     * @private
+     * @param {HTMLInputElement} checkbox - Checkbox controlling the menu.
+     * @param {HTMLElement} button - Visible menu button.
+     * @returns {void}
+     */
+    #updateMobileState(checkbox, button) {
+        const expanded = checkbox.checked === true;
+        this.#navElement.classList.toggle('expanded', expanded);
+        this.#navElement.setAttribute('aria-expanded', String(expanded));
+        button.setAttribute('aria-expanded', String(expanded));
+    }
+
 }
 
 window.MenuManager = MenuManager;
