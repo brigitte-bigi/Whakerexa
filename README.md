@@ -28,16 +28,13 @@ Whakerexa is a ZIP archive. You only need to unpack-it.
 
 ## Quick Start
 
-For the use of the proposed CSS/JS frameworks, take a look at the HTML files in the `docs` folder.
+For usage examples of the CSS and JS frameworks, visit the **online documentation**:
 
-```html
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="whakerexa/wexa_statics/css/wexa.css" type="text/css" media="all" />
-</head>
-```
+👉 <https://whakerexa.sourceforge.io>
 
-See HTML files in the `docs` folder for examples.
+The HTML files available in the `docs` folder are also provided for offline reference,
+but note that dynamic examples (those using JavaScript modules) require a web server
+and will not work if opened directly from your disk (`file://` protocol).
 
 
 ## Projects using Whakerexa
