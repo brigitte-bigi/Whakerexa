@@ -110,9 +110,7 @@
             window.mainmenu = new MenuManager();
             window.mainmenu.initSideMenu();
             window.mainmenu.initMobileToggle();
-            window.mainmenu.registerSubmenu('appmenu-get', 'submenu-toggle-get');
-            window.mainmenu.registerSubmenu('appmenu-discover', 'submenu-toggle-discover');
-            window.mainmenu.registerSubmenu('appmenu-book', 'submenu-toggle-book');
+            window.mainmenu.registerSubmenu('appmenu-menu', 'submenu-toggle-menu');
         });
     </script>
 
@@ -173,11 +171,41 @@
 
     <nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
 
+        <button id="submenu-toggle-menu" role="menuitem" aria-label="Menu" aria-haspopup="true" aria-controls="appmenu-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" fill-opacity="0.5">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>Options</span>
+        </button>
+        <button aria-label="Applications" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" fill-opacity="0.5">
+                <rect x="4" y="4" width="6" height="16" rx="1"/>
+                <rect x="14" y="4" width="6" height="6" rx="1"/>
+                <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+            <span>Apps</span>
+        </button>
+        <button aria-label="Help" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4" />
+                <circle cx="12" cy="17" r="1"/>
+            </svg>
+            <span>Help</span>
+        </button>
         <button aria-label="Pin menu" role="menuitem"
                 id="pin-menu"
                 type="button"
                 aria-controls="nav-content"
-                aria-pressed="true"
+                aria-pressed="false"
                 title="Pin menu"
                 class="menu-pin">
 
@@ -190,91 +218,12 @@
             </svg>
         </button>
 
-        <!-- Main menu entries -->
-        <a role="menuitem" href="index.html" class="nav-current">Home</a>
-        <button role="menuitem" id="submenu-toggle-get"
-                aria-haspopup="true" aria-controls="appmenu-get">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 32 32"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path d="M16 5v16"/>
-                <polyline points="10 15 16 21 22 15"/>
-                <line x1="6" y1="27" x2="26" y2="27"/>
-            </svg>
-            <span>Get SPPAS</span>
-        </button>
-        <button role="menuitem" id="submenu-toggle-discover"
-                aria-haspopup="true" aria-controls="appmenu-discover">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 32 32"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-                <!-- Outer circle -->
-                <circle cx="16" cy="16" r="13"/>
-                <!-- Compass ticks -->
-                <line x1="16" y1="2" x2="16" y2="4"/>
-                <line x1="16" y1="28" x2="16" y2="30"/>
-                <line x1="2" y1="16" x2="4" y2="16"/>
-                <line x1="28" y1="16" x2="30" y2="16"/>
-                <!-- Needle (angled ~30°) -->
-                <polygon points="18 8 22 18 14 24 10 14"/>
-                <circle cx="16" cy="16" r="1"/>
-            </svg>
-            <span>Discover</span>
-        </button>
-
-        <button role="menuitem" id="submenu-toggle-book"
-                aria-haspopup="true" aria-controls="appmenu-book">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 32 32"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
-                <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
-            </svg>
-            <span>Book</span>
-        </button>
-        <a role="menuitem" href="resources.html">Languages</a>
-        <a role="menuitem" href="scripting.html">Scripting</a>
-
-        <!-- Submenus -->
-        <aside id="appmenu-get" class="appmenu" aria-label="Get SPPAS submenu">
-            <nav class="submenu-orange">
-                <a role="menuitem" href="download.html">Download</a>
-                <a role="menuitem" href="installation.html">Install</a>
-                <a role="menuitem" href="https://sourceforge.net/projects/sppas/" class="external-link">Source Code</a>
-            </nav>
-        </aside>
-
-        <aside id="appmenu-discover" class="appmenu submenu-red" role="menu" aria-label="Discover submenu">
+        <!-- Submenu for the Menu button -->
+        <aside class="appmenu" id="appmenu-menu" aria-label="Submenu">
             <nav>
-                <a role="menuitem" href="features.html">Features</a>
-                <a role="menuitem" href="tutorial.html">Tutorials</a>
-                <a role="menuitem" href="workdemo.html">Solution samples</a>
-                <a role="menuitem" href="events.html">Events</a>
-            </nav>
-        </aside>
-
-        <aside id="appmenu-book" class="appmenu submenu-gray" role="menu" aria-label="Book submenu">
-            <nav>
-                <a role="menuitem" href="book_01_introduction.html">Introduction</a>
-                <a role="menuitem" href="book_02_interface.html">Interfaces</a>
-                <a role="menuitem" href="book_03_annotations.html">Annotations</a>
-                <a role="menuitem" href="book_04_convert.html">Convert</a>
-                <a role="menuitem" href="book_05_analyses.html">Analyses</a>
-                <a role="menuitem" href="book_06_references.html">References</a>
-                <a role="menuitem" href="book_07_changes.html">Changes</a>
-                <a role="menuitem" href="book_08_annexes.html">Annexes</a>
+                <a role="menuitem" href="#">Option 1</a>
+                <a role="menuitem" href="#">Option 2</a>
+                <a role="menuitem" href="#">Option 3</a>
             </nav>
         </aside>
 
