@@ -41,6 +41,7 @@
  * @property {AccessibilityManager} AccessibilityManager - Manages accessibility options (themes, contrast, etc.).
  * @property {MenuManager} MenuManager - Controls all navigation menus and submenus.
  * @property {DialogManager} DialogManager - Controls opening and closing of dialogs and popup videos.
+ * @property {LinkController} LinkController - Controls user interactions on clickable elements that open URLs.
  *
  */
 import { OnLoadManager } from './dom-loader.js';
@@ -48,6 +49,7 @@ import { WexaLogger } from './logger.js';
 import { AccessibilityManager } from './accessibility.js';
 import { MenuManager } from './menu.js';
 import { DialogManager } from './dialog.js';
+import { LinkController } from './links.js';
 
 // Global namespace exposing Whakerexa core managers
-window.Wexa = { OnLoadManager, WexaLogger, AccessibilityManager, MenuManager, DialogManager };
+window.Wexa = { OnLoadManager, WexaLogger, AccessibilityManager, MenuManager, DialogManager, LinkController };
