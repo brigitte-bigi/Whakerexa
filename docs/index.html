@@ -136,6 +136,28 @@
         <a href="https://sourceforge.net/projects/whakerexa/">https://sourceforge.net/projects/whakerexa/</a>
     </p>
 
+    <h2>About ES6 modules and the bundle</h2>
+    <p>
+      Whakerexa is implemented as native <strong>ES6 modules</strong>. In a normal application,
+      each feature (menus, dialogs, progress bars, accessibility helpers) is imported dynamically
+      with <code>import</code> statements and loaded by the browser from separate files.
+    </p>
+    <p>
+      This modular architecture is ideal for maintainable web applications, but it requires a
+      module-capable HTTP server and cannot be used directly with <code>file://</code> URLs.
+      To simplify quick tests, offline usage, and teaching examples, Whakerexa also provides
+      a <strong>bundle</strong>: a single JavaScript file named <code>wexa.bundle.js</code>.
+    </p>
+    <p>
+      The bundle packs the main Whakerexa modules into one file and exposes them on a global
+      namespace. You can then write standard scripts without any ES6 <code>import</code>,
+      while still using the same components (for example <code>MenuManager</code>,
+      <code>AccessibilityManager</code>, <code>DialogManager</code>, and <code>ProgressBar</code>).
+    </p>
+    <p>See the <a href="./wexa.bundle.html">Wexa Bundle Demo</a>.</p>
+
+    <!-- ---------------------------------------------------------------- -->
+
     <h1>Whakerexa in action</h1>
 
     <section style="text-align:center;margin-bottom:2rem;">

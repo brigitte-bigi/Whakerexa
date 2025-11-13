@@ -39,23 +39,13 @@ and will not work if opened directly from your disk (`file://` protocol).
 
 ## Projects using Whakerexa
 
-Whakerexa was initially developed within SPPAS <https://sppas.org>. It was extracted from its original software in 2024 by the author to lead its own life as standalone tool.
+Whakerexa was initially developed within SPPAS <https://sppas.org>. 
+It was extracted from its original software in 2024 by the author to lead its own life as standalone tool.
 
 
 ### Websites
 
 It is used by the website of the "AutoCuedSpeech" project at <https://auto-cuedspeech.org> and the website of SPPAS <https://sppas.org>.
-
-
-### Applications
-
-It is used by the Setup of SPPAS software tool.
-
-
-
-### Projects using Whakerexa
-
-Whakerexa is used by "ClammingPy", a tool to create automatically Python accessible documentation <https://clamming.sf.net>.
 
 
 ## Author/Copyright
@@ -152,3 +142,11 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
+## Version 1.1 — develop
+
+- progress function is deprecated. Make use of the ProgressBar class instead.
+See the progressbar.html file in the docs folder.
+- WexaLogger is extended: It now mimics Python's logging system with numeric
+levels from 0 (silent) to 50 (critical). Only messages with a severity less than or
+equal to the current `logLevel` are displayed.
+- 
