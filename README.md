@@ -152,10 +152,3 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
-
-## Version develop
-
-- Added a LinkController() javascript class to control user interactions on clickable elements that open URLs.
-
-
-

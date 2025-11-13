@@ -1,6 +1,7 @@
 /**
-:filename: OnLoadManager.js
+:filename: wexa_statics.js.dom-loader.js
 :author: Florian Lopitaux
+:contributor: Brigitte Bigi
 :contact: florian.lopitaux@gmail.com
 :summary: file that contains the OnLoadManager class to process multiple functions in an onload event.
 
