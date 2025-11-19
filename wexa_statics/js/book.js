@@ -32,7 +32,7 @@ This banner notice must not be removed.
 */
 
 
-class Book {
+export class Book {
     // FIELDS
     #toc_element;
     #headings_container;

@@ -56,10 +56,3 @@ export class OnLoadManager {
         });
     }
 }
-
-window.OnLoadManager = OnLoadManager;
-
-// set the window onload event
-window.onload = () => {
-    OnLoadManager.runLoadFunctions();
-};

@@ -40,12 +40,10 @@
         <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
         <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
     </ul>
-    <button role="menuitem" onclick="AccessibilityManager.switch_contrast_scheme();">
-        <img src="../wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
-    </button>
-    <button role="menuitem" onclick="AccessibilityManager.switch_color_scheme();">
-        <img src="../wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
-    </button>
+    <button id="btn-contrast" class="accessibility" role="menuitem"
+            aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
+    <button id="btn-theme" class="accessibility" role="menuitem"
+            aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 
 <main id="main-content">
@@ -75,11 +73,11 @@
     <h2>Examples</h2>
 
     <section class="flex-panel">
-        <button class="flex-item action-button" onclick="accessibility_manager.switch_contrast_scheme();">
+        <button class="flex-item action-button" onclick="Wexa.accessibility.switchContrastScheme();">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
             <span>Change contrast</span>
         </button>
-        <button class="flex-item action-button" onclick="accessibility_manager.switch_color_scheme();">
+        <button class="flex-item action-button" onclick="Wexa.accessibility.switchColorScheme();">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>
@@ -131,50 +129,49 @@
     <h2>Examples</h2>
 
     <section class="flex-panel">
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();">
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
             <span>Change contrast</span>
         </button>
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();">
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>
 
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
             <span>Change contrast</span>
         </button>
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>
 
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
             <span>Change contrast</span>
         </button>
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>
     </section>
     <section class="flex-panel">
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 6);">
             <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
             <span>Change contrast</span>
         </button>
-        <button class="flex-item text-reveal-button" onclick="accessibility_manager.switch_color_scheme();"
+        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
                 style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 3);">
             <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
             <span>Change color</span>
         </button>
     </section>
-
 
     <!--      --------------------------------------------- -->
 
@@ -401,6 +398,8 @@
     <p class="center">This site respects your privacy.</p>
     <p class="center">We do not collect any information and do not use cookies.</p>
     <hr>
-    <p>Copyright @ 2023-2024 Brigitte Bigi - Laboratoire Parole et Langage, Aix-en-Provence, France</p></footer>
+    <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+</footer>
+
 </body>
 </html>

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
 
-    <script type="module" src="../wexa_statics/js/wexa.js"></script>
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
 
     <style>
         :root:not([data-theme=dark]), [data-theme=light] {
@@ -98,9 +98,9 @@
                    href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
         </ul>
         <button id="btn-contrast" class="accessibility" role="menuitem"
-                aria-pressed="false" onclick="AccessibilityManager.switch_contrast_scheme()"></button>
+                aria-pressed="false" onclick="Wexa.accessibility.switch_contrast_scheme()"></button>
         <button id="btn-theme" class="accessibility" role="menuitem"
-                aria-pressed="false" onclick="AccessibilityManager.switch_color_scheme()"></button>
+                aria-pressed="false" onclick="Wexa.accessibility.switch_color_scheme()"></button>
     </nav>
     <h1>Whakerexa</h1>
     <h2>Build accessible, elegant web pages with one lightweight toolkit</h2>
@@ -239,11 +239,11 @@
 
         <article class="card">
             <main>
-                <h2>progress.js</h2>
+                <h2>progressbar.js</h2>
                 <p>A JS to deal with progress bars</p>
             </main>
             <footer>
-                <a href="progress.html">progress</a>
+                <a href="progressbar.html">progress</a>
             </footer>
         </article>
 

@@ -177,15 +177,23 @@ export class BaseManager {
             respInfo = response.info || "";
 
         } catch (error) {
-            // Handle any request or network error
-            respError = error.toString();
+            // Do not handle any request or network error: it's probably a standard server, not a WhakerPy one!
+            // respError = error.toString();
+            // No backend available: ignore silently
+            return;
         }
 
-        // Display the result in case of error
+        // Server replied: process normally
         if (respError || respInfo) {
             this._showActionResult(respError, '', true);
             return;
         }
+
+        // No server response: ignore silently
+        if (!response) {
+            return;
+        }
+
         // Return the response if no message sent
         return response;
     }
@@ -238,5 +246,3 @@ export class BaseManager {
         }
     }
 }
-
-window.BaseManager = BaseManager

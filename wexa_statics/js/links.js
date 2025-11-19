@@ -40,7 +40,7 @@
  *
  * Usage example::
  *
- *     import LinkController from './link_manager.js';
+ *     import LinkController from './links.js';
  *     const linkManager = new LinkController();
  *     linkManager.handleLinks(['doc_btn', 'help_link', 'open_video']);
  *
@@ -58,98 +58,98 @@
  */
 export class LinkController {
 
-  /**
-   * Initialize a LinkController instance.
-   * This class is self-contained and does not listen automatically.
-   */
-  constructor() {
-    // Nothing to initialize; listeners are attached explicitly via handleLinks().
-  }
-
-  // ----------------------------------------------------------------------
-
-  /**
-   * Attach event listeners to all elements whose ids are listed in `selectors`.
-   *
-   * Each valid element will respond to both mouse clicks and Enter key events,
-   * invoking the internal `_handleActivation()` method.
-   *
-   * @param {string[]} selectors - List of element ids to be handled.
-   * @returns {void}
-   */
-  handleLinks(selectors) {
-    if (!Array.isArray(selectors)) {
-      console.error('LinkController: Expected a list of element ids.');
-      return;
+    /**
+     * Initialize a LinkController instance.
+     * This class is self-contained and does not listen automatically.
+     */
+    constructor() {
+        // Nothing to initialize; listeners are attached explicitly via handleLinks().
     }
 
-    for (const id of selectors) {
-      const element = document.getElementById(id);
-      if (element === null) {
-        console.warn(`LinkController: No element found with id "${id}".`);
-        continue;
-      }
+    // ----------------------------------------------------------------------
 
-      // Avoid multiple bindings on the same element
-      element.removeEventListener('click', this._handleActivation);
-      element.removeEventListener('keydown', this._handleActivation);
+    /**
+     * Attach event listeners to all elements whose ids are listed in `selectors`.
+     *
+     * Each valid element will respond to both mouse clicks and Enter key events,
+     * invoking the internal `_handleActivation()` method.
+     *
+     * @param {string[]} selectors - List of element ids to be handled.
+     * @returns {void}
+     */
+    handleLinks(selectors) {
+        if (!Array.isArray(selectors)) {
+            console.error('LinkController: Expected a list of element ids.');
+            return;
+        }
 
-      element.addEventListener('click', (event) => this._handleActivation(event, element));
-      element.addEventListener('keydown', (event) => this._handleActivation(event, element));
-    }
-  }
+        for (const id of selectors) {
+            const element = document.getElementById(id);
+            if (element === null) {
+                console.warn(`LinkController: No element found with id "${id}".`);
+                continue;
+            }
 
-  // ----------------------------------------------------------------------
+            // Avoid multiple bindings on the same element
+            element.removeEventListener('click', this._handleActivation);
+            element.removeEventListener('keydown', this._handleActivation);
 
-  /**
-   * Handle a click or keydown (Enter) event and open the appropriate target.
-   *
-   * @param {Event} event - The event object.
-   * @param {HTMLElement} element - The element that triggered the event.
-   * @private
-   */
-  _handleActivation(event, element) {
-    const isClick = (event.type === 'click');
-    const isEnter = (event.type === 'keydown' && event.key === 'Enter');
-
-    if (!isClick && !isEnter) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const url = element.getAttribute('href') || element.dataset.href;
-    if (!url) {
-      console.warn(`LinkController: No URL defined for element id="${element.id}".`);
-      return;
+            element.addEventListener('click', (event) => this._handleActivation(event, element));
+            element.addEventListener('keydown', (event) => this._handleActivation(event, element));
+        }
     }
 
-    const target = element.dataset.target || '_blank';
-    this._openUrl(url, target);
-  }
+    // ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
+    /**
+     * Handle a click or keydown (Enter) event and open the appropriate target.
+     *
+     * @param {Event} event - The event object.
+     * @param {HTMLElement} element - The element that triggered the event.
+     * @private
+     */
+    _handleActivation(event, element) {
+        const isClick = (event.type === 'click');
+        const isEnter = (event.type === 'keydown' && event.key === 'Enter');
 
-  /**
-   * Open the given URL according to the specified target.
-   *
-   * @param {string} url - The URL to open.
-   * @param {string} target - The target mode: `_blank`, `_self`, or iframe id.
-   * @private
-   */
-  _openUrl(url, target) {
-    if (target === '_blank' || target === '_self') {
-      window.open(url, target, 'noopener');
-      return;
+        if (!isClick && !isEnter) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const url = element.getAttribute('href') || element.dataset.href;
+        if (!url) {
+            console.warn(`LinkController: No URL defined for element id="${element.id}".`);
+            return;
+        }
+
+        const target = element.dataset.target || '_blank';
+        this._openUrl(url, target);
     }
 
-    const iframe = document.getElementById(target);
-    if (iframe && iframe.tagName.toLowerCase() === 'iframe') {
-      iframe.src = url;
-    } else {
-      console.warn(`LinkController: No iframe found with id="${target}". Opening in new tab.`);
-      window.open(url, '_blank', 'noopener');
+    // ----------------------------------------------------------------------
+
+    /**
+     * Open the given URL according to the specified target.
+     *
+     * @param {string} url - The URL to open.
+     * @param {string} target - The target mode: `_blank`, `_self`, or iframe id.
+     * @private
+     */
+    _openUrl(url, target) {
+        if (target === '_blank' || target === '_self') {
+            window.open(url, target, 'noopener');
+            return;
+        }
+
+        const iframe = document.getElementById(target);
+        if (iframe && iframe.tagName.toLowerCase() === 'iframe') {
+            iframe.src = url;
+        } else {
+            console.warn(`LinkController: No iframe found with id="${target}". Opening in new tab.`);
+            window.open(url, '_blank', 'noopener');
+        }
     }
-  }
 }

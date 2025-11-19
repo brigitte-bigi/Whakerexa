@@ -37,11 +37,11 @@
       <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
     </ul>
     <button id="btn-contrast" class="accessibility" role="menuitem"
-            aria-pressed="false" onclick="window.Wexa.AccessibilityManager.switchContrastScheme()">
+            aria-pressed="false" onclick="window.Wexa.accessibility.switchContrastScheme()">
       Contrast
     </button>
     <button id="btn-theme" class="accessibility" role="menuitem"
-            aria-pressed="false" onclick="window.Wexa.AccessibilityManager.switchColorScheme()">
+            aria-pressed="false" onclick="window.Wexa.accessibility.switchColorScheme()">
       Theme
     </button>
   </nav>
@@ -111,15 +111,14 @@
 </footer>
 
 <script>
-  const { ProgressBar, DialogManager } = window.Wexa;
 
-  // Progress demo
+    // Progress demo
   (function () {
     const startBtn = document.getElementById('start-progress');
     if (!startBtn) { return; }
 
     startBtn.addEventListener('click', () => {
-      const bar = new ProgressBar({
+      const bar = new Wexa.ProgressBar({
         updateCallback: async () => {
           const el = document.getElementById('demo-progress');
           if (!el) {
@@ -154,7 +153,7 @@
     if (!openBtn) { return; }
 
     openBtn.addEventListener('click', () => {
-      DialogManager.open('demo-dialog');
+        Wexa.dialog.open('demo-dialog');
     });
   })();
 </script>

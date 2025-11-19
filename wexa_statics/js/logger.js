@@ -128,5 +128,3 @@ export class WexaLogger {
         console.error(`[WexaCritical] ${msg}`, err || '');
     }
 }
-
-window.WexaLogger = WexaLogger;

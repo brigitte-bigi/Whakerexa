@@ -164,7 +164,22 @@ export class RequestManager {
 
                 // get the content of the server response and parse them if it's a json format
                 if (is_json_response) {
-                    request_response_data = await response.json();
+                    const text = await response.text();
+
+                    if (text.trim() === '') {
+                        request_response_data = {};   // JSON vide → objet vide
+                    } else {
+                        try {
+                            request_response_data = JSON.parse(text);
+                        } catch (error) {
+                            console.error('Failed to parse JSON response', error);
+                            request_response_data = {
+                                status: response.status,
+                                error: 'Failed to parse JSON.',
+                                raw: text
+                            };
+                        }
+                    }
                 } else {
                     request_response_data = await response.text();
                 }
@@ -179,7 +194,6 @@ export class RequestManager {
     }
 
     // ----------------------------------------------------------------------
-
 
     /**
      * Sends a POST HTTP request to the server, posting data in JSON format.
@@ -219,18 +233,23 @@ export class RequestManager {
                 if (accept_type.includes("application/json")) {
                     const text = await response.text();
                     if (text.trim() === '') {
-                        request_response_data = {}; // réponse vide = objet vide
+                        request_response_data = {};
                     } else {
                         try {
                             request_response_data = JSON.parse(text);
                         } catch (error) {
-                            console.error("Failed to parse JSON response", error);
-                            request_response_data = {
-                                status: response.status,
-                                error: "Failed to parse JSON. See error details in the newly opened tab.",
-                                html: text
-                            };
-                            this.openErrorTab(text);
+                            if (!response.headers.get('Content-Type')?.includes('application/json')) {
+                                // No backend available: ignore silently
+                                return {};
+                            } else {
+                                console.error("Failed to parse JSON response: " + error);
+                                request_response_data = {
+                                    status: response.status,
+                                    error: "Failed to parse JSON. See error details in the newly opened tab.",
+                                    html: text
+                                };
+                                this.openErrorTab(text);
+                            }
                         }
                     }
                 }
@@ -359,5 +378,3 @@ export class RequestManager {
         return response_data;
     }
 }
-
-window.RequestManager = RequestManager

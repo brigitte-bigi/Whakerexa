@@ -235,6 +235,3 @@ export class DialogManager {
         dialog.appendChild(btn);
     }
 }
-
-// Instantiate for global access
-window.DialogManager = new DialogManager();

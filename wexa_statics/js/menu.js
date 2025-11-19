@@ -516,5 +516,3 @@ export class MenuManager {
     }
 
 }
-
-window.MenuManager = MenuManager;

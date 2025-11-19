@@ -49,7 +49,7 @@
  * can be selected, enhancing user experience through clear visual cues.
  *
  */
-class ToggleSelector {
+export class ToggleSelector {
     // Define base path and icon names as member variables
     static ICON_PATH = "./whakerkit/icons";
 

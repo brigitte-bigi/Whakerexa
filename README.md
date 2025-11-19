@@ -3,27 +3,35 @@
 
 ## Overview
 
-`Whakerexa` is a lightweight front-end toolkit that blends clarity, accessibility, and flexibility.
-It provides a modern CSS foundation and modular JavaScript components to build interfaces that are both elegant and inclusive — with minimal code and maximum readability.
+`Whakerexa` is a lightweight front-end toolkit that blends clarity, accessibility, and flexibility, and long-term maintainability.
+It provides a modern CSS foundation and a fully modular ES6 JavaScript components to build interfaces that are both elegant and inclusive — with minimal code and maximum readability, without dependencies.
 
 Designed around accessibility from the start, Whakerexa makes it easy to craft clean, human-friendly HTML that just works — without drowning your pages in class names or dependencies.
 Every visual aspect — colors, typography, spacing, animations — is defined through CSS variables, giving you full creative control with a few redefinitions.
 
+Version 2.0 introduces a unified public API through `wexa.js` and a stable global namespace through `wexa.bundle.js`, ensuring support for both modern ES6 module-based applications and offline/static environments.
+
 It pairs naturally with `WhakerPy`, the lightweight Python library for generating dynamic HTML, offering a seamless workflow from code to design.
+
+
 
 ### Features
 
-- ✨ Lightweight, semantic, and modular
+- ✨ Lightweight, semantic, dependency-free, and modular
 - 🌓 Built-in light / dark themes
 - 🔆 High-contrast accessibility mode
 - 🎨 Fully customizable through CSS variables
 - 🧩 Composable and extensible — adapt to your needs
+- ⚙️ Object-oriented ES6 components
+- ⚙️ Unified API (`import … from "wexa.js"` or `Wexa.*`)
+- ⚙️ Single-file bundle for no-module environments
 - ⚙️ Zero dependencies, 100 % open source
 
 
 ## Install Whakerexa
 
-Whakerexa is a ZIP archive. You only need to unpack-it.
+Whakerexa is distributed as a ZIP archive.  
+Simply unpack it.
 
 
 ## Quick Start
@@ -35,6 +43,12 @@ For usage examples of the CSS and JS frameworks, visit the **online documentatio
 The HTML files available in the `docs` folder are also provided for offline reference,
 but note that dynamic examples (those using JavaScript modules) require a web server
 and will not work if opened directly from your disk (`file://` protocol).
+
+Browse the local documentation with:
+``` 
+> python -m http.server 8000 
+```
+Then open a new tab into Firefox with the url: http://localhost:8000/docs/
 
 
 ## Projects using Whakerexa
@@ -142,11 +156,19 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
-## Version 1.1 — develop
 
+## Version 2.0 — develop
+
+Version 2.0 is a complete modernization.
+Previous procedural APIs are not preserved.
+
+- Unified ES6 entry point (wexa.js) exporting all components.
+- Global namespace through wexa.bundle.js:
 - progress function is deprecated. Make use of the ProgressBar class instead.
-See the progressbar.html file in the docs folder.
+See the progressbar.html file in the `docs` folder.
+- Make use of Wexa.onload instead of OnLoadManager, Wexa.dialog instead of DialogManager, etc
 - WexaLogger is extended: It now mimics Python's logging system with numeric
 levels from 0 (silent) to 50 (critical). Only messages with a severity less than or
 equal to the current `logLevel` are displayed.
-- 
+- Improved request.js: JSON detection through Content-Type with silent fallback for non-JSON responses.
+- Updated documentation and offline demos.

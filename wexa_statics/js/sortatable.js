@@ -49,7 +49,7 @@ This banner notice must not be removed.
  * const sortable = new SortaTable('myTableId');
  * sortable.attachSortListeners();
  */
-class SortaTable {
+export class SortaTable {
 
     // FIELDS
     _tableElt

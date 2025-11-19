@@ -1,4 +1,6 @@
 import { BaseManager } from './transport/base_manager.js';
+import { OnLoadManager } from './dom-loader.js';
+
 /**
 :filename: statics.js.accessibility.js
 :author: Brigitte Bigi
@@ -594,7 +596,3 @@ export class AccessibilityManager extends BaseManager {
     }
 
 }
-
-// -----------------------------------------------------------------------
-// instantiate the AccessibilityManager to set properties and use it after in other scripts
-window.AccessibilityManager = new AccessibilityManager();
