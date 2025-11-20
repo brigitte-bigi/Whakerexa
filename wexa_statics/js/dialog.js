@@ -144,9 +144,9 @@ export class DialogManager {
     /**
      * Open a video popup and pre-load its content.
      *
-     * This method replaces the legacy `play_popup_video()` function. It opens the
-     * corresponding dialog in modal mode and triggers a short play/pause sequence to
-     * force early loading of the video resource by the browser.
+     * This method opens the corresponding dialog in modal mode and
+     * triggers a short play/pause sequence to force early loading of the
+     * video resource by the browser.
      *
      * @param {string} id - Popup identifier (without prefix).
      * @returns {Promise<void>}

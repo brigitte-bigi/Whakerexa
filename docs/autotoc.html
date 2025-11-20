@@ -20,8 +20,8 @@
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>
     <script type="module">
-        Wexa.OnLoadManager.addLoadFunction(() => {
-            let book = new Book("main-content");
+        Wexa.onload.addLoadFunction(() => {
+            let book = new Wexa.Book("main-content");
 
             // method to add or remove html tags that the book detect
             // By default html tags take in account by the book are : h1, h2, h3, h4

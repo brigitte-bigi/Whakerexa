@@ -14,13 +14,12 @@
 			--footer-text: "Brigitte Bigi - Whakerexa Slides - page ";
 		}
 	</style>
-	<link rel="logo icon" href="../wexa_statics/logos/whakerexa.ico" type="image/x-icon">
+	<link rel="logo icon" href="../wexa_statics/logos/whakerexa.png" type="image/x-icon">
 	<link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
+	<link rel="stylesheet" href="../wexa_statics/css/sortatable.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/slides.css">
-
-    <script src="../wexa_statics/js/wexa.bundle.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -31,11 +30,9 @@
 
     <dialog id="popup-extract" class="popup-video">
         <video id="popup-video-extract" controls preload="metadata">
-            <source src="./statics/media/extract.webm" type="video/webm"/>
+            <source src="./video/demo_video.webm" type="video/webm"/>
         </video>
     </dialog>
-
-
 
     <!-- ================================================================ -->
     <!-- Title -->
@@ -52,13 +49,251 @@
         	</section>
 
 	<!-- ================================================================ -->
-	<!-- CuedSpeech -->
+	<!-- Basics -->
 	<!-- ================================================================ -->
 
     <section class="slide">
         <h1>Introduction to SlidesManager</h1>
     </section>
 
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Lists in action</h2>
+        <h3>A simple list</h3>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3
+                <ol>
+                    <li> Item 3.1
+                    <li> Item 3.2
+                </ol>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h3>Incremental lists</h3>
+        <ul class="incremental">
+            <li>Item incremental 1</li>
+            <li>Item incremental 2</li>
+            <li>Item 3
+                <ul>
+                    <li> Item 3.1</li>
+                    <li> Item 3.2</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="incremental incremental-invisible">
+            <li>Item incremental invisible 1</li>
+            <li>Item incremental invisible 2</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <blockquote>
+            These slides are powered by the Whakerexa ES6 Slides module.
+        </blockquote>
+        <details>
+            <summary>And you can see details here:</summary>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Nulla ac dui eu est feugiat lacinia sit amet nec leo.
+                Mauris eu ipsum leo. Nulla mi odio, cursus sed sollicitudin non,
+                fringilla id magna. Suspendisse sit amet posuere elit. Maecenas
+                iaculis, turpis a placerat imperdiet, libero lorem feugiat nisi,
+                nec tincidunt diam nibh sit amet massa. Vestibulum quis adipiscing
+                tellus. Maecenas sollicitudin sodales pulvinar. Donec dui ipsum,
+                bibendum facilisis consequat interdum, tempus ut mauris. Aliquam
+                ut dolor nec odio scelerisque bibendum quis in neque. Aliquam dui
+                dui, pulvinar quis fermentum quis, gravida eu augue. Nunc tristique
+                dolor a urna pulvinar bibendum. Curabitur mollis cursus neque, in
+                scelerisque metus porta non. Donec tempor enim in nibh vestibulum
+                et convallis nisi malesuada. Duis ut lectus sed metus venenatis porttitor id pharetra quam. Suspendisse sapien turpis, ornare in molestie et, gravida eget turpis.
+            </p>
+        </details>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Media</h2>
+
+        <p>A documentation here...</p>
+
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h3>Image Example</h3>
+        <figure>
+            <img class="width_50" src="./images/demo_video.png" alt="demo image"/>
+            <figcaption>An image embedded into a figure</figcaption>
+        </figure>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h3>Video Example</h3>
+        <figure class="img-video-visualization" style="width: 320px; height: auto;">
+            <img src="./images/demo_video.png" alt="Video preview"/>
+            <button name="play-btn" onclick="Wexa.dialog.playVideo('extract')">&#9658;</button>
+            <figcaption>A video with a preview image, with a fixed width</figcaption>
+        </figure>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Table with sortable columns</h2>
+        <table id="terminator-dates-table" role="table">
+            <thead>
+            <tr>
+                <th role="gridcell" data-col="1">
+                    <button class="sortatable" data-sort="name">Name</button>
+                </th>
+                <th role="gridcell" data-col="2">
+                    <button class="sortatable" data-sort="event">Event</button>
+                </th>
+                <th role="gridcell" data-col="3">
+                    <button class="sortatable" data-sort="date">Date</button>
+                </th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Sarah</td>
+                <td>Connor</td>
+                <td>1984-05-12</td>
+                <td>Terminator's target</td>
+            </tr>
+            <tr>
+                <td>John</td>
+                <td>Connor</td>
+                <td>2029-07-11</td>
+                <td>Leader of the human resistance</td>
+            </tr>
+            <tr>
+                <td>Kyle</td>
+                <td>Reese</td>
+                <td>1984-05-12</td>
+                <td>Sent back to protect Sarah Connor</td>
+            </tr>
+            <tr>
+                <td>Skynet</td>
+                <td>Activation</td>
+                <td>1997-08-29</td>
+                <td>Skynet becomes self-aware</td>
+            </tr>
+            <tr>
+                <td>Judgment Day</td>
+                <td>Event</td>
+                <td>1997-08-29</td>
+                <td>Skynet launches a nuclear attack</td>
+            </tr>
+            <tr>
+                <td>T-800</td>
+                <td>Arrival</td>
+                <td>1984-05-12</td>
+                <td>Sent to kill Sarah Connor</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- Features -->
+    <!-- ================================================================ -->
+
+    <section class="slide">
+        <h1>Features overview</h1>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Fullscreen test</h2>
+        <button onclick="app.fullscreen.toggle()">Toggle fullscreen</button>
+        <p>Check that fullscreen mode works correctly.</p>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Button navigation</h2>
+
+        <button id="btn-prev">Prev slide</button>
+        <button id="btn-next">Next slide</button>
+        <button id="btn-back">Back to start</button>
+
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Overflow tests</h2>
+        <h3>Overflow test 1</h3>
+        <p>Very large and tall image:</p>
+        <img src="./images/demo_video.png" style="width:200%;" alt="too big image"/>
+    </section>
+
+    <section class="slide">
+        <h3>Overflow test 2</h3>
+        <p>Very tall block:</p>
+            <div style="height:150vh; background:indianred;">Tall block text content</div>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Hash navigation</h2>
+        <ul class="incremental">
+            <li>Go to <code>#3.1</code> in the URL bar.</li>
+            <li>The slide and incremental must sync correctly.</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Robustness tests</h2>
+
+        <h3>Empty incremental</h3>
+        <div class="incremental"></div>
+        <p>This block should not crash the slide engine.</p>
+
+        <h3>Incremental with missing items</h3>
+        <div class="incremental"><!-- intentionally empty --></div>
+        <p>The slide should remain stable even without list items.</p>
+
+        <h3>Slide with minimal content</h3>
+        <p>This slide contains almost nothing. It must still display correctly.</p>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Overview mode</h2>
+        <p>Press keyboard character: <kbd>&nbsp;o&nbsp;</kbd> to toggle overview mode.</p>
+        <p>Press keyboard character <kbd>&nbsp;o&nbsp;</kbd> again to switch back to the
+            slides view.</p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- Legal notices -->
+    <!-- ================================================================ -->
+
+    <section class="slide">
+        <h1>Legal notices</h1>
+    </section>
 
     <!-- ---------------------------------------------------------------- -->
 
@@ -79,18 +314,20 @@
         <table role="presentation">
             <tr>
                 <td style="width: 15%; text-align: center;">
-                    <img class="width_90" src="./statics/logos/cc-by-nc-nd.png" alt="Logo licence CC-by-NC-ND">
+                    <img class="width_90" src="./images/cc-by-nc-nd.png"
+                         alt="CC-by-NC-ND">
                 </td>
                 <td style="font-size: 80%;">
                     <p>This document is a creative work, the exclusive property of CNRS,
-                        protected by French and international intellectual property law, and licensed under
-                        CC BY-NC-ND (Attribution / Non-Commercial / No Derivatives).</p>
+                        protected by French and international intellectual property law,
+                        and licensed under CC BY-NC-ND
+                        (Attribution / Non-Commercial / No Derivatives).</p>
                     <p>This license permits any distribution (sharing, copying, reproducing,
                         distributing, communicating), <i>except for commercial purposes</i>,
                         by any means and in any format, provided that the work is distributed
                         <mark>without modification and in its entirety</mark>.</p>
                     <p>You are free to copy, distribute, and transmit this document, provided that
-                        <mark>you credit the AutoCuedSpeech project</mark>.</p>
+                        <mark>you credit the Whakerexa project</mark>.</p>
                 </td>
             </tr>
         </table>
@@ -105,12 +342,41 @@
         <div id="progress-bar"></div>
     </div>
 
-    <div id="license-container" class="top right">
-        <img src="../wexa_statics/logos/cc-by-nc-nd.png" alt="CC-by-NC-ND"
-             class="license-logo">
+    <div id="overview-container">
+        <div id="overview-grid"></div>
     </div>
 
-    <script src="../wexa_statics/js/slides/slides.js" type="text/javascript"></script>
+    <div id="license-container" class="top right">
+        <img src="./images/cc-by-nc-nd.png" alt="CC-by-NC-ND" class="license-logo"/>
+    </div>
 
+    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <script src="../wexa_statics/js/slides/slides.js" type="module"></script>
+    <script type="module">
+        import Slides from '../wexa_statics/js/slides/slides.js';
+        Wexa.onload.addLoadFunction(() => {
+            const app = new Slides({
+                slides: document.querySelectorAll('section.slide'),
+                progressBar: document.getElementById('progress-bar')
+            });
+
+            // Browse slides with buttons
+            app._app._keyboard._prevButton = document.getElementById('btn-prev');
+            app._app._keyboard._nextButton = document.getElementById('btn-next');
+            app._app._keyboard._backButton = document.getElementById('btn-back');
+            app.init();
+
+            // Expose the Slides instance to the global scope for inline HTML event handlers
+            window.app = app;
+
+        });
+
+        // Table: Manage column sorting in the example
+        import { SortaTable } from '../wexa_statics/js/wexa.js';
+        window.SortaTable = SortaTable;
+        const sortaTable = new SortaTable("terminator-dates-table");
+        sortaTable.attachSortListeners();
+
+    </script>
 </body>
 </html>

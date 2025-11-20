@@ -96,7 +96,7 @@ body {
         position: absolute;
         top: 50%;
         overflow: hidden;
-        display: none;
+        /*****display: none;***/
         cursor: default;
         /* To look like a "screen" and clearly see the un-used part
         when the ratio is not 16:9 */
@@ -165,10 +165,6 @@ section.slide[aria-selected] {
 @media screen {
     html.view {
         overflow: visible;
-    }
-
-    body.loaded {
-        display: block;
     }
 
     #progress-container {
@@ -264,9 +260,10 @@ section.slide[aria-selected] {
     }
 
     /* No footer on the first slide, it's the presentation title */
-    .slide:first-child:before {
+    .slide[aria-selected="true"]:first-of-type:before {
         content: "";
     }
+
 }
 
 /*=============================  TITLES  ==================================*/
@@ -352,11 +349,25 @@ section.slide > h3 {
 
 /*=============================  OTHERS  ==================================*/
 
-table {
+section.slide table,
+section.slide details {
     margin: auto;
 }
 
-ul, ol, p, blockquote, article, .cards-panel {
+section.slide table *,
+.sortatable,
+section.slide details {
+    font-size: calc(var(--font-size) * 0.8);
+}
+
+section.slide ul,
+section.slide ol,
+section.slide p,
+section.slide blockquote,
+section.slide article,
+section.slide details,
+section.slide table,
+section.slide .cards-panel {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
@@ -371,11 +382,16 @@ li li li, li li li p { font-size: 85%; }
 
 q { quotes: "“" "”" "‘" "’"; }
 
+section.slide details > *:not(summary) {
+    max-height: 60vh;
+    overflow: auto;
+    display: block;
+}
 
 /*=============================  MEDIA  ==================================*/
 
 /* Figures are displayed full-page, with the caption on bottom of the image. */
-figure {
+section.slide figure {
     display: block;
     text-align: center;
     max-width: 90%;
@@ -393,7 +409,8 @@ li figure { text-align: left; }
 /* class text-top for image aligned with text top */
 .text-top img { vertical-align:text-top;}
 
-audio, video {
+section.slide audio,
+section.slide video {
     background-color: transparent;
     border-width:     0; 
     border-style:     none;
@@ -403,7 +420,7 @@ audio, video {
     position:         relative;
 }
 
-img {
+section.slide img {
     background-color: transparent;
     border-width:     0; 
     border-style:     none;
@@ -413,12 +430,13 @@ img {
     position:         relative;
 }
 
-figcaption {
+section.slide figcaption {
     position:       relative;
     font-size:      60%;
 	padding-bottom: 10px;
+    color: var(--main-color1);
+    background-color: transparent;
 }
- 
 
 /*=============================  EFFECTS  ==================================*/
 

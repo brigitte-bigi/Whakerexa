@@ -1222,7 +1222,7 @@ td, th {
     border-bottom: var(--table-border-width) solid var(--table-border-color);
 }
 
-table[role=grid] thead * {
+table:not([role="presentation"]) thead * {
     background-color: var(--table-head-bg-color);
     color: var(--table-head-fg-color);
     font-weight: var(--font-weight-bold);
@@ -1237,7 +1237,7 @@ tfoot td, tfoot th {
     border-bottom: 0;
 }
 
-table[role=grid] tbody tr:nth-child(even) * {
+table:not([role="presentation"]) tbody tr:nth-child(even) * {
     background-color: var(--table-row-stripped-bg-color);
 }
 
@@ -1271,7 +1271,6 @@ caption span {
 table[role="grid"] {
     width: 100%;
     table-layout: fixed; /* All columns will have equal width based on the table width */
-    border: var(--table-border-width) solid var(--table-border-color);
 }
 
 table[role="grid"] th,
@@ -1280,6 +1279,11 @@ table[role="grid"] td {
     max-width: 50%; /* Limit the width of any column */
     overflow: hidden; /* Prevent content from overflowing */
     word-wrap: break-word; /* Break words to avoid overflow */
+}
+
+table:not([role="presentation"]) {
+    border: var(--table-border-width) solid var(--table-border-color);
+    max-width: 100%;
 }
 
 table {
