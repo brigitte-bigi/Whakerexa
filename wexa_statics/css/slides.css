@@ -263,7 +263,6 @@ section.slide[aria-selected] {
     .slide[aria-selected="true"]:first-of-type:before {
         content: "";
     }
-
 }
 
 /*=============================  TITLES  ==================================*/
@@ -469,6 +468,7 @@ section.slide figcaption {
     .incremental {
         opacity: 0.15;
     }
+
     .incremental[active] {
         opacity: 1;
     }
@@ -488,6 +488,7 @@ section.slide figcaption {
         opacity: 0.2;
     }
 
+    /* An invisible incremental */
     .incremental-invisible {
         opacity: 0.05;
     }
@@ -497,13 +498,21 @@ section.slide figcaption {
 
 }
 
-/* --------------------- THIS PRESENTATION -------------------- */
+/* --------------------- **** -------------------- */
 
 .no-padding {
     padding: 0 !important;
 }
+
 .no-margin {
     margin: 0 !important;
+}
+
+.margin-left {
+    margin-left: 2rem;
+}
+.margin-right {
+    margin-right: 2rem;
 }
 
 .center {
@@ -516,34 +525,6 @@ section.slide figcaption {
     font-size: 50%;
 }
 
-.idee  {
-    max-height: 3.2rem;
-    width: auto;
-}
-
-.small-logo  {
-    max-height: 3rem;
-    width: auto;
-}
-
-.medium-logo {
-    max-height: 6.5rem;
-    width: auto;
-}
-
-.large-logo {
-    max-height: 10rem;
-    width: auto;
-}
-
-.extra-large-logo {
-    width: 40rem;
-    min-width: 15rem;
-}
-
-.margin-right {
-    margin-right: 2rem;
-}
 
 /* ========== BACKGROUND POUR LES SLIDES ========== */
 
@@ -557,4 +538,20 @@ section.slide figcaption {
     section.slide.no-background {
         background: white;
     }
+
+
+
+    #slides-controls {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        z-index: 2000;
+    }
+
+    #slides-controls.controls-hidden {
+        display: none;
+    }
+
 }

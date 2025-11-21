@@ -220,20 +220,15 @@
     <!-- ---------------------------------------------------------------- -->
 
     <section class="slide">
-        <h2>Fullscreen test</h2>
+        <h2>Keyboard shortcuts</h2>
+
+        <ul>
+            <li>Toggle fullscreen with <kbd>&nbsp;f&nbsp;</kbd></li>
+
+        </ul>
+
         <button onclick="app.fullscreen.toggle()">Toggle fullscreen</button>
         <p>Check that fullscreen mode works correctly.</p>
-    </section>
-
-    <!-- ---------------------------------------------------------------- -->
-
-    <section class="slide">
-        <h2>Button navigation</h2>
-
-        <button id="btn-prev">Prev slide</button>
-        <button id="btn-next">Next slide</button>
-        <button id="btn-back">Back to start</button>
-
     </section>
 
     <!-- ---------------------------------------------------------------- -->
@@ -338,16 +333,26 @@
     <!-- Do not modify....                                                -->
     <!-- ---------------------------------------------------------------- -->
 
+    <!-- Add the license icon at the top-right of the page -->
+    <div id="license-container" class="top right">
+        <img src="./images/cc-by-nc-nd.png" alt="CC-by-NC-ND" class="license-logo"/>
+    </div>
+
+    <!-- Add the progress bar at the bottom of the slides -->
     <div id="progress-container">
         <div id="progress-bar"></div>
     </div>
 
+    <!-- Add an overview of the slides, visible with 'o' key -->
     <div id="overview-container">
         <div id="overview-grid"></div>
     </div>
 
-    <div id="license-container" class="top right">
-        <img src="./images/cc-by-nc-nd.png" alt="CC-by-NC-ND" class="license-logo"/>
+    <!-- Add controls of the slides, visible with 'n' key -->
+    <div id="slides-controls" class="controls-hidden">
+        <button id="btn-prev">Prev</button>
+        <button id="btn-next">Next</button>
+        <button id="btn-back">Back</button>
     </div>
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>
@@ -357,13 +362,9 @@
         Wexa.onload.addLoadFunction(() => {
             const app = new Slides({
                 slides: document.querySelectorAll('section.slide'),
-                progressBar: document.getElementById('progress-bar')
+                progressBar: document.getElementById('progress-bar'),
+                controls: document.getElementById('slides-controls')
             });
-
-            // Browse slides with buttons
-            app._app._keyboard._prevButton = document.getElementById('btn-prev');
-            app._app._keyboard._nextButton = document.getElementById('btn-next');
-            app._app._keyboard._backButton = document.getElementById('btn-back');
             app.init();
 
             // Expose the Slides instance to the global scope for inline HTML event handlers

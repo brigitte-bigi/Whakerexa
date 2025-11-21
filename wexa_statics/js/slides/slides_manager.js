@@ -46,6 +46,7 @@ export default class SlidesManager {
      * @param {Object} [options] - Configuration options.
      * @param {boolean} [options.autoPlayEnabled=false] - Enable automatic video playback.
      * @param {boolean} [options.viewMode=false] - Initial overview mode.
+     * @param {boolean} [options.controlsVisible=false] - Initial controls mode.
      * @param {Object} [dependencies] - Optional collaborators.
      * @param {Object} [dependencies.view] - View adapter for rendering.
      * @param {Object} [dependencies.fullscreen] -
@@ -66,8 +67,9 @@ export default class SlidesManager {
         this._currentIndex = 1;
         this._currentStep = 0;
 
-        this._autoPlayEnabled = options.autoPlayEnabled === true;
-        this._viewMode = options.viewMode === true;
+        this._controlsVisible = Boolean(options.controlsVisible);
+        this._viewMode        = Boolean(options.viewMode);
+        this._autoPlayEnabled = Boolean(options.autoPlayEnabled);
 
         if (
             typeof dependencies.view === 'object' && dependencies.view !== null
@@ -93,7 +95,6 @@ export default class SlidesManager {
         } else {
             this._focusController = null;
         }
-
     }
 
     /**
@@ -121,6 +122,9 @@ export default class SlidesManager {
         });
 
         this._view.renderSlide(this._currentIndex, -1);
+
+        console.debug(self.controlsVisible)
+        this._view.renderControls(this._controlsVisible);
 
     }
 
@@ -267,6 +271,14 @@ export default class SlidesManager {
         } else {
             console.log("No fullscreen available.");
         }
+    }
+
+    /**
+     * Toggle the controls panel visibility.
+     */
+    toggleControls() {
+        this._controlsVisible = !this._controlsVisible;
+        this._view.renderControls(this._controlsVisible);
     }
 
     /**

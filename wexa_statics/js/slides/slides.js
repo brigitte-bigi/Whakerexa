@@ -40,6 +40,7 @@ export default class Slides {
      * @param {Object} config - User configuration.
      * @param {NodeList|HTMLElement[]|Array} config.slides - Slide elements.
      * @param {HTMLElement|null} config.progressBar - Progress bar element.
+     * @param {HTMLElement|null} config.controls - Slides controls element.
      * @param {...any} others - Other configuration options.
      */
     constructor(config = {}) {

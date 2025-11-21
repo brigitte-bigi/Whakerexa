@@ -41,15 +41,14 @@ export default class SlidesView {
     /**
      * Create the visual view.
      *
-     * @param {HTMLElement[]} slides
-     *   List of slide elements, already validated by the Slides facade.
-     *
-     * @param {HTMLElement|null} progressBar
-     *   Optional progress bar inner element.
+     * @param {HTMLElement[]} slides - List of slide elements, already validated by the Slides facade.
+     * @param {HTMLElement|null} progressBar - Optional progress bar inner element.
+     * @param {HTMLElement|null} controlsElement - Global controls' element.
      */
-    constructor(slides, progressBar = null) {
+    constructor(slides, progressBar = null, controlsElement = null) {
         this._slides = slides;
         this._progressBar = progressBar;
+        this._controls = controlsElement;
 
         this._viewMode = false;               // true = overview active
         this._overviewContainer = null;       // <div id="overview-container">
@@ -184,6 +183,20 @@ export default class SlidesView {
         if (this._progressBar instanceof HTMLElement) {
             this._progressBar.style.width = String(widthPercent) + '%';
         }
+    }
+
+    /**
+     * Show or hide the controls panel.
+     *
+     * @param {boolean} visible - true = controls mode ON, false = OFF.
+     */
+    renderControls(visible) {
+        console.debug(visible);
+        if (this._controls === null) {
+            console.info("Controls can't be enabled/disabled: No controls found!");
+            return;
+        }
+        this._controls.classList.toggle('controls-hidden', visible === false);
     }
 
     /**

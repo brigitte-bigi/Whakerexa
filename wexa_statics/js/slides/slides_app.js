@@ -4,6 +4,7 @@ import SlidesFocusController from './focus.js';
 import SlidesKeyboardAndButtonsController from './keyboard.js';
 import SlidesTouchController from './touch.js';
 import SlidesFullscreenController from './fullscreen.js';
+import SlidesControlsController from './controls.js';
 
 /**
  :filename: statics.js.slides.slides_app.js
@@ -56,9 +57,7 @@ export default class SlidesApp {
      * @param {Object} config - All external inputs needed for instantiation.
      * @param {HTMLElement[]} config.slides - Array of <section class="slide">.
      * @param {HTMLElement|null} config.progressBar - Progress bar inner element.
-     * @param {HTMLElement|null} [config.nextButton] - Optional "next" button.
-     * @param {HTMLElement|null} [config.prevButton] - Optional "previous" button.
-     * @param {HTMLElement|null} [config.backButton] - Optional "back-to-start" button.
+     * @param {HTMLElement|null} config.controls - Slides controls element.
      * @param {boolean} [config.autoPlayEnabled=false] - Video autoplay.
      * @param {boolean} [config.viewMode=false] - Initial overview mode.
      */
@@ -73,7 +72,8 @@ export default class SlidesApp {
         /** @private */
         this._view = new SlidesView(
             config.slides,
-            config.progressBar
+            config.progressBar,
+            config.controls
         );
 
         /** @private */
@@ -82,7 +82,11 @@ export default class SlidesApp {
         /** @private */
         this._manager = new SlidesManager(
             config.slides,
-            {},    // options
+            {
+                autoPlayEnabled: false,
+                viewMode: false,
+                controlsVisible: true
+            },
             { // dependencies
                 view: this._view,
                 fullscreen: this._fullscreen
@@ -93,6 +97,15 @@ export default class SlidesApp {
         this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
         /** @private */
         this._touch = new SlidesTouchController(this._manager);
+        /** @private */
+        this._controls = new SlidesControlsController(
+            this._manager,
+            {
+                prevButton: config.controls?.querySelector('#btn-prev') || null,
+                nextButton: config.controls?.querySelector('#btn-next') || null,
+                backButton: config.controls?.querySelector('#btn-back') || null
+            }
+        );
 
         // MVC: View emits → Manager handles
         this._view.onSelectSlide = (index) => {

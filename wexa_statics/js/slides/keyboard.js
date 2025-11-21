@@ -115,6 +115,12 @@ export default class SlidesKeyboardAndButtonsController {
             this._manager.toggleFullscreen();
         }
 
+        // Controls panel
+        if (event.key === 'n' || event.key === 'N') {
+            console.debug("== Keyboard for controls panel ==")
+            this._manager.toggleControls();
+        }
+
         // Left / Up / PageUp
         if (key === 37 || key === 38 || key === 33) {
             event.preventDefault();
