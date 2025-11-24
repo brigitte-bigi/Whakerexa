@@ -39,20 +39,26 @@
  *
  */
 export default class SlidesManager {
+
+    // ----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // ----------------------------------------------------------------------
     /**
      * Create a SlidesManager.
      *
-     * @param {NodeListOf<HTMLElement>|HTMLElement[]} slides - Slide elements.
-     * @param {Object} [options] - Configuration options.
-     * @param {boolean} [options.autoPlayEnabled=false] - Enable automatic video playback.
-     * @param {boolean} [options.viewMode=false] - Initial overview mode.
-     * @param {boolean} [options.controlsVisible=false] - Initial controls mode.
-     * @param {Object} [dependencies] - Optional collaborators.
-     * @param {Object} [dependencies.view] - View adapter for rendering.
-     * @param {Object} [dependencies.fullscreen] -
-     * @param {Object} [dependencies.focusController] - Focus controller.
+     * @param {HTMLElement[]} slides - List of slide elements. Must be validated upstream.
+     * @param {Object} [options={}] -
+     * @param {boolean} [options.autoPlayEnabled=false] - If true, videos autoplay when their slide becomes active.
+     * @param {boolean} [options.controlsVisible=true] - If true, slide controls are initially visible.
+     * @param {Object} [dependencies={}] -
+     * @param {Object} [dependencies.view] - Object implementing the rendering API (SlidesView).
+     * @param {Object} [dependencies.fullscreen] - Fullscreen handler (toggle only).
+     * @param {Object} [dependencies.focusController] - Optional focus manager.
      */
     constructor(slides, options = {}, dependencies = {}) {
+
+        // Slides validation
+        // ------------------------------
         if (!Array.isArray(slides)) {
             console.error('SlidesManager: slides must be an array.');
             this._slides = [];
@@ -64,69 +70,64 @@ export default class SlidesManager {
             console.warn('SlidesManager: no slides found.');
         }
 
-        this._currentIndex = 1;
+        // State
+        // ------------------------------
+        this._currentIndex = 1;  // 1-based
         this._currentStep = 0;
 
-        this._controlsVisible = Boolean(options.controlsVisible);
-        this._viewMode        = Boolean(options.viewMode);
         this._autoPlayEnabled = Boolean(options.autoPlayEnabled);
+        this._controlsVisible = Boolean(options.controlsVisible);
 
-        if (
-            typeof dependencies.view === 'object' && dependencies.view !== null
-        ) {
-            this._view = dependencies.view;
-        } else {
-            this._view = null;
-        }
+        // Dependencies
+        // ------------------------------
+        this._view =
+            (typeof dependencies.view === 'object' && dependencies.view !== null)
+                ? dependencies.view
+                : null;
 
-        if (
-            typeof dependencies.fullscreen === 'object' && dependencies.fullscreen !== null
-        ) {
-            this._fullscreen = dependencies.fullscreen;
-        } else {
-            this._fullscreen = null;
-        }
+        this._fullscreen =
+            (typeof dependencies.fullscreen === 'object' && dependencies.fullscreen !== null)
+                ? dependencies.fullscreen
+                : null;
 
-        if (
-            typeof dependencies.focusController === 'object' &&
-            dependencies.focusController !== null
-        ) {
-            this._focusController = dependencies.focusController;
-        } else {
-            this._focusController = null;
-        }
+        this._focusController =
+            (typeof dependencies.focusController === 'object' &&
+                dependencies.focusController !== null)
+                ? dependencies.focusController
+                : null;
     }
+
+    // ----------------------------------------------------------------------
+    // INITIALIZATION
+    // ----------------------------------------------------------------------
 
     /**
      * Initialize the manager state and apply the initial rendering.
-     *
      * This method must be called once after construction.
      *
      * @returns {void}
      */
     init() {
-        if (typeof window !== 'undefined') {
-            this.updateFromHash(window.location.hash);
-        } else {
-            this._currentIndex = this._clampIndex(this._currentIndex);
-            this._currentStep = this._clampStep(this._currentIndex, this._currentStep);
-
-            if (this._slides.length === 0) {
-                return;   // nothing to do, no slides
-            }
-            this._notifyAll(null, 0);
+        // Clamp index (safety)
+        if (this._slides.length === 0) {
+            return;
         }
 
-        window.addEventListener('hashchange', () => {
-            this.updateFromHash(window.location.hash);
-        });
+        // Initial render
+        this._view.renderSlide(this._currentIndex, 0);
+        this._view.renderIncremental(this._currentIndex, this._currentStep);
 
-        this._view.renderSlide(this._currentIndex, -1);
+        // Initial progress
+        const pct = (this._currentIndex - 1) * 100 / (this._slides.length - 1);
+        this._view.renderProgress(pct);
 
-        console.debug(self.controlsVisible)
+        // Controls visibility
         this._view.renderControls(this._controlsVisible);
-
     }
+
+    // ----------------------------------------------------------------------
+    //  Public API
+    // ----------------------------------------------------------------------
 
     /**
      * Advance to the next incremental item or slide.
@@ -148,6 +149,8 @@ export default class SlidesManager {
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Go back to the previous incremental item or slide.
      *
@@ -167,6 +170,8 @@ export default class SlidesManager {
             this.goTo(this._currentIndex, this._currentStep - 1);
         }
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Go directly to a slide index and incremental step.
@@ -207,6 +212,8 @@ export default class SlidesManager {
         this._notifyAll(previousIndex, previousStep);
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Go to the very first slide.
      *
@@ -215,6 +222,8 @@ export default class SlidesManager {
     goStart() {
         this.goTo(1, 0);
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Go to the very last slide and last incremental step.
@@ -226,6 +235,18 @@ export default class SlidesManager {
         const lastStep = this.getIncrementalCount(lastIndex);
         this.goTo(lastIndex, lastStep);
     }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Change view mode (pass-through only).
+     * Manager does NOT decide anything.
+     */
+    setViewMode(mode) {
+        this._view?.setMode?.(mode);
+    }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Toggle play/pause on the active slide video, if any.
@@ -250,14 +271,7 @@ export default class SlidesManager {
         }
     }
 
-    /**
-     * Toggle overview mode.
-     * Called by the keyboard controller or external controls.
-     */
-    toggleOverview() {
-        this._viewMode = !this._viewMode;
-        this._view.setOverview(this._viewMode);
-    }
+    // ----------------------------------------------------------------------
 
     /**
      * Toggle fullscreen mode for the presentation.
@@ -273,6 +287,8 @@ export default class SlidesManager {
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Toggle the controls panel visibility.
      */
@@ -280,6 +296,8 @@ export default class SlidesManager {
         this._controlsVisible = !this._controlsVisible;
         this._view.renderControls(this._controlsVisible);
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Update internal state from a hash fragment.
@@ -318,6 +336,8 @@ export default class SlidesManager {
         this._notifyAll(previousIndex, previousStep);
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the currently active slide element.
      *
@@ -330,6 +350,8 @@ export default class SlidesManager {
         }
         return this._slides[index - 1];
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Get the number of incremental items for a slide index.
@@ -348,6 +370,8 @@ export default class SlidesManager {
         return items.length;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the first video element inside a slide.
      *
@@ -363,6 +387,10 @@ export default class SlidesManager {
         const isVideo = video instanceof HTMLVideoElement;
         return isVideo === true ? video : null;
     }
+
+    // ----------------------------------------------------------------------
+    // PRIVATE
+    // ----------------------------------------------------------------------
 
     /**
      * Notify the view and focus controller after a state change.
@@ -402,6 +430,8 @@ export default class SlidesManager {
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Pause video playback for a slide if present.
      *
@@ -415,6 +445,8 @@ export default class SlidesManager {
             video.pause();
         }
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Autoplay video for a slide if enabled.
@@ -433,6 +465,8 @@ export default class SlidesManager {
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Clamp a slide index to valid bounds.
      *
@@ -449,6 +483,8 @@ export default class SlidesManager {
         }
         return index;
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Clamp a step value to valid bounds for a slide.

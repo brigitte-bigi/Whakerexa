@@ -345,7 +345,6 @@
 
     <!-- Add an overview of the slides, visible with 'o' key -->
     <div id="overview-container">
-        <div id="overview-grid"></div>
     </div>
 
     <!-- Add controls of the slides, visible with 'n' key -->
@@ -355,8 +354,11 @@
         <button id="btn-back">First</button>
         <button id="btn-last">Last</button>
         <button id="btn-goto">Go to</button>
-        <button id="btn-overview">Overview</button>
         <button id="btn-fullscreen">Fullscreen</button>
+        <div id="slides-controls-view">
+            <button id="btn-overview">Overview</button>
+            <button id="btn-presentation">Slides View</button>
+        </div>
     </div>
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>
@@ -368,7 +370,8 @@
                 slides: document.querySelectorAll('section.slide'),
                 progressBar: document.getElementById('progress-bar'),
                 controls: document.getElementById('slides-controls'),
-                overviewPanel: document.getElementById('overview-container')
+                controlsView: document.getElementById('slides-controls-view'),
+                overviewContainer: document.getElementById('overview-container')
             });
             app.init();
 

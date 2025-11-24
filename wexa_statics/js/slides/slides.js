@@ -41,13 +41,14 @@ export default class Slides {
      * @param {NodeList|HTMLElement[]|Array} config.slides - Slide elements.
      * @param {HTMLElement|null} config.progressBar - Progress bar element.
      * @param {HTMLElement|null} config.controls - Slides controls element.
+     * @param {HTMLElement|null} config.controlsView - Slides controls view element.
+     * @param {HTMLElement|null} config.overviewContainer - Slides overview container.
      * @param {...any} others - Other configuration options.
      */
     constructor(config = {}) {
 
         // --- Normalize configuration -----------------------------------------
         // We guarantee that "slides" is ALWAYS a true Array.
-        // No magic. No compact syntax. No ambiguity.
         // If user gives a NodeList, we convert it.
         // If user gives null/undefined, we use an empty Array.
         // Internal classes never need to question it.

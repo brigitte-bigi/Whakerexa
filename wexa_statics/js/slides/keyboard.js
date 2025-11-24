@@ -1,3 +1,5 @@
+import SlidesView from './slides_view.js';
+
 /**
  :filename: statics.js.slides.keyboard.js
  :author: Brigitte Bigi
@@ -33,13 +35,33 @@
 'use strict';
 
 /**
- * This controller handles all *user-triggered navigation inputs* except touch:
- * - keyboard (left, right, up, down, pageUp, pageDown, home, end, space)
- * - optional buttons: next, prev, backToStart
+ * Keyboard & button controller.
  *
- * No visual logic. No state. Delegates everything to SlidesManager.
+ * PURE INPUT LAYER:
+ * - no visual logic
+ * - no mode logic
+ * - no validation logic
+ * - always delegates to SlidesManager
+ *
+ * Manager is free to expose:
+ *   next()
+ *   prev()
+ *   goStart()
+ *   goEnd()
+ *   toggleContent()
+ *   setViewMode()
+ *   toggleFullscreen()
+ *   toggleControls()
+ *   ...
+ *
+ * This controller *never* decides what these actions mean.
  */
 export default class SlidesKeyboardAndButtonsController {
+
+    // ----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // ----------------------------------------------------------------------
+
     /**
      * @param {Object} slidesManager - Instance of SlidesManager.
      * @param {Object} [options] - Optional configuration.
@@ -60,6 +82,10 @@ export default class SlidesKeyboardAndButtonsController {
 
         this._boundKeyHandler = this._onKeyDown.bind(this);
     }
+
+    // ----------------------------------------------------------------------
+    // INITIALIZATION
+    // ----------------------------------------------------------------------
 
     /**
      * Activate listeners.
@@ -86,9 +112,7 @@ export default class SlidesKeyboardAndButtonsController {
     // ---------------------------------------------------------------------
 
     /**
-     * Handle keydown events.
-     *
-     * @param {KeyboardEvent} event - Keyboard event.
+     * @param {KeyboardEvent} event
      * @private
      * @returns {void}
      */
@@ -96,104 +120,105 @@ export default class SlidesKeyboardAndButtonsController {
         if (event.altKey || event.ctrlKey || event.metaKey) {
             return;
         }
+
         const dialog = document.querySelector('dialog[open]');
         if (dialog instanceof HTMLElement) {
-            return;  // A modal dialog is open → ignore slide navigation
-        }
-
-        const key = event.keyCode;
-
-        // Overview
-        if (event.key === 'o' || event.key === 'O') {
-            console.debug("== Keyboard for overview ==")
-            this._manager.toggleOverview();
-        }
-
-        // Full screen
-        if (event.key === 'f' || event.key === 'F') {
-            console.debug("== Keyboard for fullscreen ==")
-            this._manager.toggleFullscreen();
-        }
-
-        // Controls panel
-        if (event.key === 'n' || event.key === 'N') {
-            console.debug("== Keyboard for controls panel ==")
-            this._manager.toggleControls();
-        }
-
-        // Left / Up / PageUp
-        if (key === 37 || key === 38 || key === 33) {
-            event.preventDefault();
-            this._manager.prev();
             return;
         }
 
-        // Right / Down / PageDown
-        if (key === 39 || key === 40 || key === 34) {
-            event.preventDefault();
-            this._manager.next();
-            return;
-        }
+        const key = event.key;
 
-        // Home
-        if (key === 36) {
-            event.preventDefault();
-            this._manager.goStart();
-            return;
-        }
+        switch (key) {
+            // Switch to the default view mode
+            case 'Escape':
+                this._manager.setViewMode?.(SlidesView.DEFAULT_MODE);
+                return;
 
-        // End
-        if (key === 35) {
-            event.preventDefault();
-            this._manager.goEnd();
-            return;
-        }
+            // Switch to Presentation mode
+            case 's':
+            case 'S':
+                this._manager.setViewMode?.(SlidesView.MODES.PRESENTATION);
+                return;
 
-        // Space = toggle content (video play/pause)
-        if (key === 32) {
-            event.preventDefault();
-            this._manager.toggleContent();
-            return;
-        }
+            // Switch to Overview mode
+            case 'o':
+            case 'O':
+                this._manager.setViewMode?.(SlidesView.MODES.OVERVIEW);
+                return;
 
+            // Fullscreen toggle
+            case 'f':
+            case 'F':
+                this._manager.toggleFullscreen?.();
+                return;
+
+            // Controls panel toggle
+            case 'n':
+            case 'N':
+                this._manager.toggleControls?.();
+                return;
+
+            // Navigation backward
+            case 'ArrowLeft':
+            case 'ArrowUp':
+            case 'PageUp':
+                event.preventDefault();
+                this._manager.prev();
+                return;
+
+            // Navigation forward
+            case 'ArrowRight':
+            case 'ArrowDown':
+            case 'PageDown':
+                event.preventDefault();
+                this._manager.next();
+                return;
+
+            // Home
+            case 'Home':
+                event.preventDefault();
+                this._manager.goStart();
+                return;
+
+            // End
+            case 'End':
+                event.preventDefault();
+                this._manager.goEnd();
+                return;
+
+            // Space = toggle content (video)
+            case ' ':
+                event.preventDefault();
+                this._manager.toggleContent();
+                return;
+
+            default:
+                return;
+        }
     }
 
     // ---------------------------------------------------------------------
     // Buttons
     // ---------------------------------------------------------------------
 
-    /**
-     * Attach click listeners to configured buttons.
-     *
-     * @private
-     * @returns {void}
-     */
+    /** @private */
     _attachButtons() {
         if (this._nextButton !== null) {
-            this._nextButton.addEventListener('click', () => {
-                this._manager.next();
-            });
+            this._nextButton.addEventListener('click', () => this._manager.next());
         }
 
         if (this._prevButton !== null) {
-            this._prevButton.addEventListener('click', () => {
-                this._manager.prev();
-            });
+            this._prevButton.addEventListener('click', () => this._manager.prev());
         }
 
         if (this._backButton !== null) {
-            this._backButton.addEventListener('click', () => {
-                this._manager.goStart();
-            });
+            this._backButton.addEventListener('click', () => this._manager.goStart());
         }
     }
 
-    /**
-     * Detach click listeners (cleanup).
-     *
-     * @private
-     * @returns {void}
-     */
+    // ---------------------------------------------------------------------
+
+    /** @private */
     _detachButtons() {
         if (this._nextButton !== null) {
             this._nextButton.replaceWith(this._nextButton.cloneNode(true));
@@ -213,9 +238,7 @@ export default class SlidesKeyboardAndButtonsController {
     // ---------------------------------------------------------------------
 
     /**
-     * Normalize an element reference.
-     *
-     * @param {*} element - Input value.
+     * @param {*} element
      * @private
      * @returns {HTMLElement|null}
      */
@@ -223,3 +246,4 @@ export default class SlidesKeyboardAndButtonsController {
         return element instanceof HTMLElement ? element : null;
     }
 }
+

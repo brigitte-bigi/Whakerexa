@@ -36,65 +36,78 @@
  * The overview displays a list of slide copies.
  * Each item contains: <header> number, <main> clone, <footer> GoTo button.
  *
- * Cloned slides are visually identical but non-interactive.
+ * SlidesOverview builds and displays the overview mode, a panel of cloned
+ * slides, each with:
+ * - <header> : slide number
+ * - <main>   : full clone of the slide content
+ * - <footer> : GoTo button
+ *
+ * SlidesOverview has its own isolated copy of the slide list to ensure
+ * full separation between visual modes (presentation vs overview).
  */
 export default class SlidesOverview {
     /**
      * @constructor
+     * Create an Overview view.
+     *
+     * @param {HTMLElement[]} slides - The list of slides managed by the module.
      * @param {HTMLElement} panelElement - The <section> used as overview panel.
+     * @param {function(number):void} onSelectSlide - Callback invoked on GoTo.
      */
-    constructor(panelElement, onSelectSlide) {
+    constructor(slides, panelElement, onSelectSlide) {
+        /** @private @type {HTMLElement[]} */
+        this._slides = Array.isArray(slides) ? slides : [];
+
         /** @private @type {HTMLElement|null} */
         this._panel = panelElement instanceof HTMLElement ? panelElement : null;
 
         /** @private @type {function(number):void|null} */
-        this._onSelectSlide = typeof onSelectSlide === 'function' ? onSelectSlide : null;
+        this._onSelectSlide = (typeof onSelectSlide === 'function') ? onSelectSlide : null;
 
         if (this._panel !== null) {
             this._panel.style.display = 'none'; // hidden by default
         }
     }
 
+    // -------------------------------------------------------------------------
+    //  Public API
+    // -------------------------------------------------------------------------
+
     /**
-     * Build the overview content:
-     * - Clear panel
-     * - For each slide DOM element, build an article:
-     *   <article class="overview-item">
-     *     <header>n</header>
-     *     <main>[cloneNode(true)]</main>
-     *     <footer><button>GoTo</button></footer>
-     *   </article>
+     * Build the overview panel.
      *
-     * @param {HTMLElement[]} slidesDomList - Ordered list of slide DOM elements.
      * @returns {void}
      */
-    build(slidesDomList) {
+    build() {
         if (this._panel === null) {
             return;
         }
 
         this._panel.innerHTML = '';
 
-        for (let i = 0; i < slidesDomList.length; i++) {
-            const slide = slidesDomList[i];
+        const total = this._slides.length;
+
+        for (let i = 0; i < total; i++) {
+            const slide = this._slides[i];
             const index = i + 1;
 
-            // <article>
+            // Create the <article> container.
             const article = document.createElement('article');
             article.className = 'overview-item';
 
-            // <header>
+            // Header: slide number.
             const header = document.createElement('header');
             header.textContent = String(index);
             article.appendChild(header);
 
-            // <main>
+            // Main: clone of the slide.
             const main = document.createElement('main');
-            const clone = slide.cloneNode(true);
-            main.appendChild(clone);
+            // only the content, not the section container
+            const fragment = document.createRange().createContextualFragment(slide.innerHTML);
+            main.appendChild(fragment);
             article.appendChild(main);
 
-            // <footer> with GoTo button
+            // Footer: GoTo button.
             const footer = document.createElement('footer');
             const btn = document.createElement('button');
             btn.type = 'button';
@@ -110,13 +123,15 @@ export default class SlidesOverview {
             footer.appendChild(btn);
             article.appendChild(footer);
 
-            // Insert article in panel
             this._panel.appendChild(article);
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Show the overview panel.
+     *
      * @returns {void}
      */
     show() {
@@ -125,8 +140,11 @@ export default class SlidesOverview {
         }
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Hide the overview panel.
+     *
      * @returns {void}
      */
     hide() {
@@ -134,4 +152,5 @@ export default class SlidesOverview {
             this._panel.style.display = 'none';
         }
     }
+
 }

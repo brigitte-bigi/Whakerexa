@@ -1,4 +1,5 @@
 import SlidesOverview from './overview.js';
+import SlidesPresentation from './presentation.js';
 
 /**
  :filename: statics.js.slides.slides_view.js
@@ -37,220 +38,224 @@ import SlidesOverview from './overview.js';
 /**
  * SlidesView is responsible for display only. It never decides navigation.
  * It receives state from SlidesManager and updates the DOM accordingly.
+ *
+ *
+ * To achieve full MVC separation and modularity, SlidesView delegates
+ * work to SlidesPresentation or SlidesOverview, keeping SlidesManager
+ * blind to internal sub-view components.
+ *
  */
 export default class SlidesView {
+    // ---------------------------------------------------------------------------
+    // STATIC ENUM OF MODES
+    // ---------------------------------------------------------------------------
 
     /**
-     * Create the visual view.
+     * Modes supported by this view orchestrator.
+     */
+    static MODES = {
+        PRESENTATION: 'presentation',
+        OVERVIEW: 'overview',
+        //PRINT: 'print',
+        //NOTES: 'notes'
+    }
+
+    static DEFAULT_MODE = SlidesView.MODES.PRESENTATION;
+
+    // ---------------------------------------------------------------------------
+    // CONSTRUCTOR
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Construct the view orchestrator.
      *
-     * @param {HTMLElement[]} slides - List of slide elements, already validated by the Slides facade.
+     * @param {HTMLElement[]} slides - Source slide elements.
      * @param {HTMLElement|null} progressBar - Optional progress bar inner element.
-     * @param {HTMLElement|null} controlsElement - Global controls' element.
-     * @param {HTMLElement|null} overviewPanel - overview container element.
+     * @param {HTMLElement|null} controlsElement - Global control's container.
+     * @param {HTMLElement|null} controlsViewElement - The container for view modes.
+     * @param {HTMLElement|null} overviewContainer - Overview container element.
      */
     constructor(slides,
                 progressBar = null,
                 controlsElement = null,
-                overviewPanel = null) {
-        this._slides = slides;
-        this._progressBar = progressBar;
-        this._controls = controlsElement;
+                controlsViewElement  = null,
+                overviewContainer = null) {
 
-        /** @private @type {boolean} */
-        this._viewMode = false;   // true = overview active
+        /** @private @type {HTMLElement[]} */
+        this._slides = slides;
+
+        // Sub-views
+
+        /** @private @type {SlidesPresentation} */
+        this._presentation = new SlidesPresentation(
+            slides,
+            progressBar,
+            controlsElement
+        );
 
         /** @private @type {HTMLElement|null} */
-        this._overviewPanel = overviewPanel instanceof HTMLElement ? overviewPanel : null;
+        this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
+        this._controls = controlsElement instanceof HTMLElement ? controlsElement : null;
+        this._overviewContainer = overviewContainer instanceof HTMLElement ? overviewContainer : null;
 
         /** @private @type {SlidesOverview|null} */
         this._overview = null;
 
-        /** @public @type {function(number):void|null}
-         * Callback to notify the controller when a slide card is clicked
-         * in overview mode.
-         * Signature: onSelectSlide(index : number)
+        /** @private @type {string} */
+        this._viewMode = SlidesView.MODES.PRESENTATION;
+
+        /**
+         * @public @type {function(number):void|null}
+         * Callback for clicking a slide in the overview.
          */
         this.onSelectSlide = null;
     }
 
-    /**
-     * Render the selected slide.
-     *
-     * @param {number} newIndex  - New visible slide (1-based).
-     * @param {number} oldIndex  - Previously visible slide (1-based).
-     */
-    renderSlide(newIndex, oldIndex) {
-        if (oldIndex >= 1 && oldIndex <= this._slides.length) {
-            const prev = this._slides[oldIndex - 1];
-            if (prev instanceof HTMLElement) {
-                prev.removeAttribute('aria-selected');
-            }
-        }
-
-        if (newIndex >= 1 && newIndex <= this._slides.length) {
-            const curr = this._slides[newIndex - 1];
-            if (curr instanceof HTMLElement) {
-                curr.setAttribute('aria-selected', 'true');
-            }
-        }
-    }
+    // -----------------------------------------------------------------------
+    // INITIALIZATION
+    // -----------------------------------------------------------------------
 
     /**
-     * Render incremental items of a slide.
+     * Create the SlidesOverview instance.
      *
-     * @param {number} currentIndex - Slide index (1-based).
-     * @param {number} step         - Incremental step index (0 = none).
-     */
-    renderIncremental(currentIndex, step) {
-        const slide = this._getSlide(currentIndex);
-        if (slide === null) {
-            return;
-        }
-
-        // reset all containers + items
-        const containers = slide.querySelectorAll('.incremental');
-        containers.forEach(container => this._clearIncrementals(container));
-
-        if (step === 0) {
-            return;
-        }
-
-        const items = slide.querySelectorAll('.incremental > *');
-        const count = items.length;
-        if (count === 0 || step > count) {
-            return;
-        }
-
-        const target = items[step - 1];
-        const parent = target.parentElement;
-
-        if (parent instanceof HTMLElement) {
-            parent.setAttribute('active', 'true');   // same convention as your earlier version
-        }
-        target.setAttribute('aria-selected', 'true');
-    }
-
-    /**
-     * Update progress bar width (%).
+     * @param {function(number):void} onSelectSlide
+     *        Called when a GoTo button is clicked in the overview.
      *
-     * @param {number} widthPercent - Range 0–100.
-     */
-    renderProgress(widthPercent) {
-        if (this._progressBar instanceof HTMLElement) {
-            this._progressBar.style.width = String(widthPercent) + '%';
-        }
-    }
-
-    /**
-     * Show or hide the controls panel.
-     *
-     * @param {boolean} visible - true = controls mode ON, false = OFF.
-     */
-    renderControls(visible) {
-        console.debug(visible);
-        if (this._controls === null) {
-            console.info("Controls can't be enabled/disabled: No controls found!");
-            return;
-        }
-        this._controls.classList.toggle('controls-hidden', visible === false);
-    }
-
-    /**
-     * Initialize overview support.
-     *
-     * @param {function(number):void} onSelectSlide - Called when user clicks GoTo.
      * @returns {void}
      */
     initOverview(onSelectSlide) {
-        if (this._overviewPanel !== null) {
-            this._overview = new SlidesOverview(this._overviewPanel, onSelectSlide);
+        if (this._overviewContainer !== null) {
+            this._overview = new SlidesOverview(
+                /** @type {HTMLElement[]} */ (
+                    this._slides.map((slide) => slide.cloneNode(true))
+                ),
+                this._overviewContainer,
+                onSelectSlide
+            );
         }
     }
 
-    // ----------------------------------------------------------------------
-
     /**
-     * Build the overview using the internal slide list.
-     * A shallow copy is passed to avoid accidental mutations.
+     * Build the overview panel contents.
      *
      * @returns {void}
      */
     buildOverview() {
-
         if (this._overview !== null) {
-            this._overview.build([...this._slides]);
+            this._overview.build();
         }
     }
 
+    // ---------------------------------------------------------------------------
+    // MODE SWITCHING
+    // ---------------------------------------------------------------------------
+
     /**
-     * Enable or disable overview mode.
+     * Set the active view mode.
      *
-     * @param {boolean} active - Overview on/off.
+     * @param {string} mode - One of SlidesView.MODES.*
      * @returns {void}
      */
-    setOverview(active) {
-        this._viewMode = active;
+    setMode(mode) {
+        this._mode = mode;
 
-        // Show or hide normal slides
-        for (const slide of this._slides) {
-            if (active === true) {
-                slide.style.display = 'none';
-            } else {
-                slide.style.display = 'block';
-            }
-        }
-
-        // Show or hide overview panel
-        if (this._overview !== null) {
-            if (active === true) {
-                this._overview.show();
-            } else {
-                this._overview.hide();
-            }
-        }
-    }
-
-    /**
-     * @returns {boolean} true if overview mode is active.
-     */
-    get isOverview() {
-        return this._viewMode;
-    }
-
-    // ---------------------------------------------------------------------
-    // Private helper utilities
-    // ---------------------------------------------------------------------
-
-    /**
-     * Reset incremental visual markers in a container.
-     *
-     * @param {HTMLElement} container
-     * @private
-     */
-    _clearIncrementals(container) {
-        if (!(container instanceof HTMLElement)) {
+        if (mode === SlidesView.MODES.PRESENTATION) {
+            this._enterPresentation();
             return;
         }
 
-        container.removeAttribute('active');
-
-        const items = container.querySelectorAll('*');
-        items.forEach(item => {
-            item.removeAttribute('aria-selected');
-        });
+        if (mode === SlidesView.MODES.OVERVIEW) {
+            this._enterOverview();
+            return;
+        }
     }
 
     /**
-     * Safe slide getter.
-     *
-     * @param {number} index - 1-based slide index.
-     * @returns {HTMLElement|null}
-     * @private
+     * @returns {string}
      */
-    _getSlide(index) {
-        if (index < 1 || index > this._slides.length) {
-            return null;
-        }
-        return this._slides[index - 1];
+    get mode() {
+        return this._mode;
     }
+
+    // ---------------------------------------------------------------------------
+    // RENDERING (CALLED ONLY BY SlidesManager)
+    // ---------------------------------------------------------------------------
+
+    /**
+     * @param {number} newIndex
+     * @param {number} oldIndex
+     * @returns {void}
+     */
+    renderSlide(newIndex, oldIndex) {
+        if (this._mode === SlidesView.MODES.PRESENTATION) {
+            this._presentation.renderSlide(newIndex, oldIndex);
+        }
+    }
+
+    /**
+     * @param {number} index
+     * @param {number} step
+     * @returns {void}
+     */
+    renderIncremental(index, step) {
+        if (this._mode === SlidesView.MODES.PRESENTATION) {
+            this._presentation.renderIncremental(index, step);
+        }
+    }
+
+    /**
+     * @param {number} percent
+     * @returns {void}
+     */
+    renderProgress(percent) {
+        if (this._mode === SlidesView.MODES.PRESENTATION) {
+            this._presentation.renderProgress(percent);
+        }
+    }
+
+    /**
+     * @param {boolean} visible
+     * @returns {void}
+     */
+    renderControls(visible) {
+        if (this._mode === SlidesView.MODES.PRESENTATION) {
+            this._presentation.renderControls(visible);
+        }
+
+        if (this._controlsView instanceof HTMLElement) {
+            this._controlsView.classList.toggle('controls-hidden', visible === false);
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // PRIVATE: MODE ENTRY HANDLERS
+    // ----------------------------------------------------------------------
+
+    /**
+     * Enter presentation mode.
+     *
+     * @private
+     * @returns {void}
+     */
+    _enterPresentation() {
+        if (this._overview !== null) {
+            this._overview.hide();
+        }
+        this._presentation.showPresentation();
+    }
+
+    /**
+     * Enter overview mode.
+     *
+     * @private
+     * @returns {void}
+     */
+    _enterOverview() {
+        this._presentation.hidePresentation();
+        if (this._overview !== null) {
+            this._overview.show();
+        }
+    }
+
+
 }

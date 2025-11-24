@@ -51,17 +51,20 @@ import SlidesControlsController from './controls.js';
  *
  * No logic. No UI. No navigation.
  * Its sole purpose is to assemble the module cleanly.
+ * @param {Object} config - All external inputs needed for instantiation.
+ * @param {HTMLElement[]} config.slides - Array of <section class="slide">.
+ * @param {HTMLElement|null} config.progressBar - Progress bar inner element.
+ * @param {HTMLElement|null} config.controls - Slides controls element.
+ * @param {HTMLElement|null} config.controlsView - Container element for view control.
+ * @param {HTMLElement|null} config.overviewContainer - Overview container element.
+ * @param {boolean} [config.autoPlayEnabled=false] - Video autoplay.
+ * @param {boolean} [config.viewMode="presentation"] - Initial view mode name.
  */
 export default class SlidesApp {
-    /**
-     * @param {Object} config - All external inputs needed for instantiation.
-     * @param {HTMLElement[]} config.slides - Array of <section class="slide">.
-     * @param {HTMLElement|null} config.progressBar - Progress bar inner element.
-     * @param {HTMLElement|null} config.controls - Slides controls element.
-     * @param {HTMLElement|null} config.overviewPanel - Overview container element.
-     * @param {boolean} [config.autoPlayEnabled=false] - Video autoplay.
-     * @param {boolean} [config.viewMode=false] - Initial overview mode.
-     */
+
+    // ----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // ----------------------------------------------------------------------
 
     /**
      * @param {Object} config
@@ -75,7 +78,8 @@ export default class SlidesApp {
             config.slides,
             config.progressBar,
             config.controls,
-            config.overviewPanel
+            config.controlsView,
+            config.overviewContainer
         );
 
         /** @private */
@@ -86,7 +90,6 @@ export default class SlidesApp {
             config.slides,
             {
                 autoPlayEnabled: false,
-                viewMode: false,
                 controlsVisible: true
             },
             { // dependencies
@@ -108,7 +111,8 @@ export default class SlidesApp {
                 backButton: config.controls?.querySelector('#btn-back') || null,
                 lastButton:  config.controls?.querySelector('#btn-last')  || null,
                 goToButton: config.controls?.querySelector('#btn-goto') || null,
-                overviewButton: config.controls?.querySelector('#btn-overview')  || null,
+                overviewButton: config.controlsView?.querySelector('#btn-overview')  || null,
+                presentationButton: config.controlsView?.querySelector('#btn-presentation')  || null,
                 fullscreenButton: config.controls?.querySelector('#btn-fullscreen')|| null
             }
         );
@@ -118,23 +122,39 @@ export default class SlidesApp {
             this._manager.goTo(index, 0);
         };
 
-        // Overview: callback wiring (MVC strict)
-        this._view.initOverview((index) => {
-            this._manager.goTo(index, 0);
-            this._manager.toggleOverview(false);
-        });
+        // Normalize initial mode safely
+        this._initialViewMode = SlidesView.MODES.PRESENTATION;
+        if (typeof config.mode === 'string') {
+            const values = Object.values(SlidesView.MODES);
+            if (values.includes(config.mode)) {
+                this._initialViewMode = config.mode;
+            }
+        }
+
+        // Initialize overview only if an overview container is provided
+        if (this._view && config.overviewContainer) {
+            this._view.initOverview((index) => this._manager.goTo(index, 0));
+        }
     }
 
+    // ----------------------------------------------------------------------
+    // INITIALIZATION
+    // ----------------------------------------------------------------------
+
     /**
-     * Initialize all sub-modules.
+     * Initialize all submodules.
      */
     init() {
         this._view.buildOverview();
-        this._view.setOverview(false);
+        this._view.setMode(this._initialViewMode);
         this._manager.init();
         this._keyboard.init();
         this._touch.init();
     }
+
+    // ----------------------------------------------------------------------
+    //  Public API
+    // ----------------------------------------------------------------------
 
     /** @returns {SlidesManager} */
     get manager() {

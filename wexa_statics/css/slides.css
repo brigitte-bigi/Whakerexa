@@ -135,7 +135,7 @@ body {
     -ms-transform: none !important;
 }
 
-section.slide {
+.slide {
     position: absolute;
     pointer-events: none;
     width: 100%;
@@ -144,7 +144,7 @@ section.slide {
     padding: 0;
 }
 
-.view section.slide {
+.view .slide {
     pointer-events: auto;
     position: static;
     width: var(--screen-width);
@@ -154,11 +154,11 @@ section.slide {
     -ms-transform: scale(.4);
 }
 
-.view section.slide > * {
+.view .slide > * {
     pointer-events: none;
 }
 
-section.slide[aria-selected] {
+.slide[aria-selected] {
     pointer-events: auto;
 }
 
@@ -217,7 +217,7 @@ section.slide[aria-selected] {
 }
 
 @media print {
-    section.slide {
+    .slide {
         display: block !important; /* Affiche toutes les diapositives */
         position: relative !important; /* Empêche les diapositives de se superposer */
         width: 100%;
@@ -269,12 +269,12 @@ section.slide[aria-selected] {
 
 /* Main title of a section: only the title at the center of the slide */
 
-section.slide h1,
-section.slide > h2,
-section.slide > h3,
-section.slide > h4,
-section.slide > h5,
-section.slide > h6 {
+.slide h1,
+.slide > h2,
+.slide > h3,
+.slide > h4,
+.slide > h5,
+.slide > h6 {
     font-family: var(--font-family-sans), sans-serif;
     /*margin-top: 0.5rem;
     margin-bottom: 1rem;
@@ -286,7 +286,7 @@ section.slide > h6 {
     padding-left: 0.5rem;
 }
 
-section.slide h1 {
+.slide h1 {
     font-weight: bold;
     font-style: normal;
     font-variant: normal;
@@ -301,7 +301,7 @@ section.slide h1 {
     width: 100%;
 }
 
-section.slide h1.title {
+.slide h1.title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
     text-align: center;
@@ -312,7 +312,7 @@ section.slide h1.title {
     background: var(--main-color2);
 }
 
-section.slide h1.sub-title {
+.slide h1.sub-title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
     text-align: center;
@@ -325,7 +325,7 @@ section.slide h1.sub-title {
 
 
 /* Title at the top of each slide */
-section.slide > h2 {
+.slide > h2 {
     margin-top: 0;
     background: linear-gradient(0deg, var(--bg-color-alt) 0%, var(--main-color2) 100%);;
     font-weight: var(--font-weight-bold);
@@ -337,7 +337,7 @@ section.slide > h2 {
 }
 
 /* Sub-Title at the top of the slide */
-section.slide > h3 {
+.slide > h3 {
     font-weight: var(--font-weight-semibold);
     font-style: normal;
     font-variant: normal;
@@ -348,25 +348,25 @@ section.slide > h3 {
 
 /*=============================  OTHERS  ==================================*/
 
-section.slide table,
-section.slide details {
+.slide table,
+.slide details {
     margin: auto;
 }
 
-section.slide table *,
+.slide table *,
 .sortatable,
-section.slide details {
+.slide details {
     font-size: calc(var(--font-size) * 0.8);
 }
 
-section.slide ul,
-section.slide ol,
-section.slide p,
-section.slide blockquote,
-section.slide article,
-section.slide details,
-section.slide table,
-section.slide .cards-panel {
+.slide ul,
+.slide ol,
+.slide p,
+.slide blockquote,
+.slide article,
+.slide details,
+.slide table,
+.slide .cards-panel {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
@@ -381,7 +381,7 @@ li li li, li li li p { font-size: 85%; }
 
 q { quotes: "“" "”" "‘" "’"; }
 
-section.slide details > *:not(summary) {
+.slide details > *:not(summary) {
     max-height: 60vh;
     overflow: auto;
     display: block;
@@ -390,7 +390,7 @@ section.slide details > *:not(summary) {
 /*=============================  MEDIA  ==================================*/
 
 /* Figures are displayed full-page, with the caption on bottom of the image. */
-section.slide figure {
+.slide figure {
     display: block;
     text-align: center;
     max-width: 90%;
@@ -408,8 +408,8 @@ li figure { text-align: left; }
 /* class text-top for image aligned with text top */
 .text-top img { vertical-align:text-top;}
 
-section.slide audio,
-section.slide video {
+.slide audio,
+.slide video {
     background-color: transparent;
     border-width:     0; 
     border-style:     none;
@@ -419,7 +419,7 @@ section.slide video {
     position:         relative;
 }
 
-section.slide img {
+.slide img {
     background-color: transparent;
     border-width:     0; 
     border-style:     none;
@@ -429,7 +429,7 @@ section.slide img {
     position:         relative;
 }
 
-section.slide figcaption {
+.slide figcaption {
     position:       relative;
     font-size:      60%;
 	padding-bottom: 10px;
@@ -443,7 +443,7 @@ section.slide figcaption {
 @media screen {
 
     /* Transition effect when changing slide */
-    section.slide {
+    .slide {
       -moz-transition:    left 250ms linear 0s;
       -webkit-transition: left 250ms linear 0s;
       -ms-transition:     left 250ms linear 0s;
@@ -451,15 +451,15 @@ section.slide figcaption {
     }
 
     /* Before */
-    section.slide {
+    .slide {
         left: -150%;
     }
 
     /* Now */
-    section.slide[aria-selected] { left: 0; }
+    .slide[aria-selected] { left: 0; }
 
     /* After */
-    section.slide[aria-selected] ~ section.slide { left: +150%; }
+    .slide[aria-selected] ~ .slide { left: +150%; }
 
 
     /* Incremental elements */
@@ -530,16 +530,14 @@ section.slide figcaption {
 
 @media screen {
     /* Appliquer le background uniquement aux <section class="slide"> qui n'ont PAS .no-background */
-    section.slide:not(.no-background) {
+    .slide:not(.no-background) {
         background: url("../images/slides_background.jpg") no-repeat center center;
         background-size: cover;
     }
     /* Pour celles avec .no-background, on annule */
-    section.slide.no-background {
+    .slide.no-background {
         background: white;
     }
-
-
 
     #slides-controls {
         position: fixed;
@@ -550,7 +548,13 @@ section.slide figcaption {
         z-index: 2000;
     }
 
-    #slides-controls.controls-hidden {
+    #slides-controls-view {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    #slides-controls.controls-hidden,
+    #slides-controls-view.controls-hidden {
         display: none;
     }
 
