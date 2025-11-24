@@ -84,6 +84,8 @@ export default class SlidesApp {
 
         /** @private */
         this._fullscreen = new SlidesFullscreenController();
+        /** @private */
+        this._focusController = new SlidesFocusController();
 
         /** @private */
         this._manager = new SlidesManager(
@@ -94,12 +96,17 @@ export default class SlidesApp {
             },
             { // dependencies
                 view: this._view,
-                fullscreen: this._fullscreen
+                fullscreen: this._fullscreen,
+                focusController: this._focusController
             }
         );
 
         /** @private */
-        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
+        // THIS DOES NOT CHANGE THE PROBLEM: 'Enter' or 'Space' does not work properly
+        // BUT 'ALT+DOWN' works properly with 'Select'!!
+        // this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, document.body);
+        // THIS MAKES THE ERROR: "container" must be an HTMLElement"
+        // this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, config.slides);
         /** @private */
         this._touch = new SlidesTouchController(this._manager);
         /** @private */

@@ -188,6 +188,11 @@ export default class SlidesView {
      */
     renderSlide(newIndex, oldIndex) {
         if (this._mode === SlidesView.MODES.PRESENTATION) {
+            // Show only the active slide
+            const total = this._slides.length;
+            for (let i = 0; i < total; i++) {
+                this._slides[i].style.display = (i === newIndex - 1) ? 'block' : 'none';
+            }
             this._presentation.renderSlide(newIndex, oldIndex);
         }
     }

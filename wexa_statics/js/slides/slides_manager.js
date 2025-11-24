@@ -210,6 +210,10 @@ export default class SlidesManager {
         }
 
         this._notifyAll(previousIndex, previousStep);
+
+        if (this._focusController !== null) {
+            this._focusController.updateFocus(this._slides, this._currentIndex);
+        }
     }
 
     // ----------------------------------------------------------------------
@@ -401,8 +405,6 @@ export default class SlidesManager {
      * @private
      */
     _notifyAll(previousIndex, previousStep) {
-        console.debug('SlidesManager.notifyAll', previousIndex, previousStep, this._currentIndex, this._currentStep);
-
         if (this._view !== null) {
             const hasRenderSlide = typeof this._view.renderSlide === 'function';
             const hasRenderIncremental = typeof this._view.renderIncremental === 'function';

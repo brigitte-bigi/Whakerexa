@@ -64,17 +64,23 @@ export default class SlidesKeyboardAndButtonsController {
 
     /**
      * @param {Object} slidesManager - Instance of SlidesManager.
+     * @param {HTMLElement} container - The slide container; required. All keyboard
+     *   events must be captured ONLY inside this container.
      * @param {Object} [options] - Optional configuration.
      * @param {HTMLElement|null} [options.nextButton] - "Next" button.
      * @param {HTMLElement|null} [options.prevButton] - "Previous" button.
      * @param {HTMLElement|null} [options.backButton] - "Back to start" button.
      */
-    constructor(slidesManager, options = {}) {
+    constructor(slidesManager, container, options = {}) {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
             throw new Error('SlidesKeyboardAndButtonsController: "slidesManager" must be an object.');
         }
+        if (!(container instanceof HTMLElement)) {
+            throw new Error('SlidesKeyboardAndButtonsController: "container" must be an HTMLElement.');
+        }
 
         this._manager = slidesManager;
+        this._container = container;
 
         this._nextButton = this._elementOrNull(options.nextButton);
         this._prevButton = this._elementOrNull(options.prevButton);
@@ -93,7 +99,7 @@ export default class SlidesKeyboardAndButtonsController {
      * @returns {void}
      */
     init() {
-        window.addEventListener('keydown', this._boundKeyHandler, false);
+        this._container.addEventListener('keydown', this._boundKeyHandler, false);
         this._attachButtons();
     }
 
@@ -117,6 +123,7 @@ export default class SlidesKeyboardAndButtonsController {
      * @returns {void}
      */
     _onKeyDown(event) {
+        console.debug('onKeyDown', event);
         if (event.altKey || event.ctrlKey || event.metaKey) {
             return;
         }
@@ -129,6 +136,9 @@ export default class SlidesKeyboardAndButtonsController {
         const key = event.key;
 
         switch (key) {
+            default:
+                return;
+
             // Switch to the default view mode
             case 'Escape':
                 this._manager.setViewMode?.(SlidesView.DEFAULT_MODE);
@@ -192,8 +202,6 @@ export default class SlidesKeyboardAndButtonsController {
                 this._manager.toggleContent();
                 return;
 
-            default:
-                return;
         }
     }
 

@@ -53,7 +53,8 @@ export default class SlidesFocusController {
             'select',
             'textarea',
             'details',
-            '[tabindex]',
+            'summary',
+            '[tabindex]:not([tabindex="-1"])',
             '[contenteditable="true"]',
             'video[controls]',
             'audio[controls]'
@@ -63,6 +64,7 @@ export default class SlidesFocusController {
             ? options.focusableSelector
             : defaultSelector;
     }
+
     /**
      * Update focusability of all slides.
      *
@@ -72,6 +74,7 @@ export default class SlidesFocusController {
      */
     updateFocus(slides, activeIndex) {
         if (!Array.isArray(slides) || slides.length === 0) {
+            console.warn("Update focus not available. No slides found.");
             return;
         }
 
@@ -159,6 +162,7 @@ export default class SlidesFocusController {
             return true;
         }
 
+        /*
         const tabIndexAttribute = element.getAttribute('tabindex');
         if (tabIndexAttribute !== null) {
             const parsed = parseInt(tabIndexAttribute, 10);
@@ -166,7 +170,7 @@ export default class SlidesFocusController {
             if (isNumber === true && parsed < 0) {
                 return true;
             }
-        }
+        }*/
 
         return false;
     }
