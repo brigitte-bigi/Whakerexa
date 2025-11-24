@@ -1,3 +1,5 @@
+import SlidesOverview from './overview.js';
+
 /**
  :filename: statics.js.slides.slides_view.js
  :author: Brigitte Bigi
@@ -44,77 +46,31 @@ export default class SlidesView {
      * @param {HTMLElement[]} slides - List of slide elements, already validated by the Slides facade.
      * @param {HTMLElement|null} progressBar - Optional progress bar inner element.
      * @param {HTMLElement|null} controlsElement - Global controls' element.
+     * @param {HTMLElement|null} overviewPanel - overview container element.
      */
-    constructor(slides, progressBar = null, controlsElement = null) {
+    constructor(slides,
+                progressBar = null,
+                controlsElement = null,
+                overviewPanel = null) {
         this._slides = slides;
         this._progressBar = progressBar;
         this._controls = controlsElement;
 
-        this._viewMode = false;               // true = overview active
-        this._overviewContainer = null;       // <div id="overview-container">
-        this._overviewGrid = null;            // <div id="overview-grid">
+        /** @private @type {boolean} */
+        this._viewMode = false;   // true = overview active
 
-        /**
+        /** @private @type {HTMLElement|null} */
+        this._overviewPanel = overviewPanel instanceof HTMLElement ? overviewPanel : null;
+
+        /** @private @type {SlidesOverview|null} */
+        this._overview = null;
+
+        /** @public @type {function(number):void|null}
          * Callback to notify the controller when a slide card is clicked
          * in overview mode.
          * Signature: onSelectSlide(index : number)
          */
         this.onSelectSlide = null;
-    }
-
-    /**
-     * Initialize the view structure.
-     * Sets up overview containers and builds the overview grid.
-     */
-    init() {
-        this._initOverviewElements();
-        this._buildOverview();
-    }
-
-    /**
-     * Bind DOM elements used by overview mode.
-     *
-     * HTML must contain:
-     *   <div id="overview-container">
-     *     <div id="overview-grid"></div>
-     *   </div>
-     */
-    _initOverviewElements() {
-        this._overviewContainer = document.getElementById('overview-container');
-        this._overviewGrid = document.getElementById('overview-grid');
-
-        if (this._overviewContainer instanceof HTMLElement) {
-            this._overviewContainer.style.display = 'none';   // hidden by default
-        }
-    }
-
-    /**
-     * Build the overview grid by cloning each slide content.
-     * Each slide becomes a clickable overview "card".
-     */
-    _buildOverview() {
-        if (!(this._overviewGrid instanceof HTMLElement)) {
-            return;
-        }
-
-        this._overviewGrid.innerHTML = '';
-
-        this._slides.forEach((slide, index) => {
-            const card = document.createElement('div');
-            card.className = 'slide-card';
-
-            // Clone visible HTML content (not deep-clone DOM)
-            card.innerHTML = slide.innerHTML;
-
-            card.addEventListener('click', () => {
-                if (typeof this.onSelectSlide === 'function') {
-                    this.onSelectSlide(index + 1);
-                }
-                this.setOverview(false);
-            });
-
-            this._overviewGrid.appendChild(card);
-        });
     }
 
     /**
@@ -200,25 +156,58 @@ export default class SlidesView {
     }
 
     /**
+     * Initialize overview support.
+     *
+     * @param {function(number):void} onSelectSlide - Called when user clicks GoTo.
+     * @returns {void}
+     */
+    initOverview(onSelectSlide) {
+        if (this._overviewPanel !== null) {
+            this._overview = new SlidesOverview(this._overviewPanel, onSelectSlide);
+        }
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Build the overview using the internal slide list.
+     * A shallow copy is passed to avoid accidental mutations.
+     *
+     * @returns {void}
+     */
+    buildOverview() {
+
+        if (this._overview !== null) {
+            this._overview.build([...this._slides]);
+        }
+    }
+
+    /**
      * Enable or disable overview mode.
      *
-     * @param {boolean} active - true = overview mode ON, false = OFF.
+     * @param {boolean} active - Overview on/off.
+     * @returns {void}
      */
     setOverview(active) {
         this._viewMode = active;
 
-        if (!(this._overviewContainer instanceof HTMLElement)) {
-            return;
+        // Show or hide normal slides
+        for (const slide of this._slides) {
+            if (active === true) {
+                slide.style.display = 'none';
+            } else {
+                slide.style.display = 'block';
+            }
         }
 
-        this._overviewContainer.style.display = active ? 'block' : 'none';
-
-        // Hide normal slides during overview
-        this._slides.forEach(slide => {
-            if (slide instanceof HTMLElement) {
-                slide.style.display = active ? 'none' : 'block';
+        // Show or hide overview panel
+        if (this._overview !== null) {
+            if (active === true) {
+                this._overview.show();
+            } else {
+                this._overview.hide();
             }
-        });
+        }
     }
 
     /**

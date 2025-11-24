@@ -58,6 +58,7 @@ export default class SlidesApp {
      * @param {HTMLElement[]} config.slides - Array of <section class="slide">.
      * @param {HTMLElement|null} config.progressBar - Progress bar inner element.
      * @param {HTMLElement|null} config.controls - Slides controls element.
+     * @param {HTMLElement|null} config.overviewPanel - Overview container element.
      * @param {boolean} [config.autoPlayEnabled=false] - Video autoplay.
      * @param {boolean} [config.viewMode=false] - Initial overview mode.
      */
@@ -73,7 +74,8 @@ export default class SlidesApp {
         this._view = new SlidesView(
             config.slides,
             config.progressBar,
-            config.controls
+            config.controls,
+            config.overviewPanel
         );
 
         /** @private */
@@ -103,7 +105,11 @@ export default class SlidesApp {
             {
                 prevButton: config.controls?.querySelector('#btn-prev') || null,
                 nextButton: config.controls?.querySelector('#btn-next') || null,
-                backButton: config.controls?.querySelector('#btn-back') || null
+                backButton: config.controls?.querySelector('#btn-back') || null,
+                lastButton:  config.controls?.querySelector('#btn-last')  || null,
+                goToButton: config.controls?.querySelector('#btn-goto') || null,
+                overviewButton: config.controls?.querySelector('#btn-overview')  || null,
+                fullscreenButton: config.controls?.querySelector('#btn-fullscreen')|| null
             }
         );
 
@@ -111,13 +117,19 @@ export default class SlidesApp {
         this._view.onSelectSlide = (index) => {
             this._manager.goTo(index, 0);
         };
+
+        // Overview: callback wiring (MVC strict)
+        this._view.initOverview((index) => {
+            this._manager.goTo(index, 0);
+            this._manager.toggleOverview(false);
+        });
     }
 
     /**
      * Initialize all sub-modules.
      */
     init() {
-        this._view.init();
+        this._view.buildOverview();
         this._view.setOverview(false);
         this._manager.init();
         this._keyboard.init();

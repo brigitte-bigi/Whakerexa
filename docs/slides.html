@@ -352,7 +352,11 @@
     <div id="slides-controls" class="controls-hidden">
         <button id="btn-prev">Prev</button>
         <button id="btn-next">Next</button>
-        <button id="btn-back">Back</button>
+        <button id="btn-back">First</button>
+        <button id="btn-last">Last</button>
+        <button id="btn-goto">Go to</button>
+        <button id="btn-overview">Overview</button>
+        <button id="btn-fullscreen">Fullscreen</button>
     </div>
 
     <script src="../wexa_statics/js/wexa.js" type="module"></script>
@@ -363,7 +367,8 @@
             const app = new Slides({
                 slides: document.querySelectorAll('section.slide'),
                 progressBar: document.getElementById('progress-bar'),
-                controls: document.getElementById('slides-controls')
+                controls: document.getElementById('slides-controls'),
+                overviewPanel: document.getElementById('overview-container')
             });
             app.init();
 

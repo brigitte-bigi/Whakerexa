@@ -42,12 +42,23 @@ export default class SlidesControlsController {
 
     /**
      * @param {SlidesManager} manager - Slides logic controller.
-     * @param {Object} options - Optional buttons.
-     * @param {HTMLElement|null} options.prevButton - Previous slide button.
-     * @param {HTMLElement|null} options.nextButton - Next slide button.
-     * @param {HTMLElement|null} options.backButton - Back-to-start button.
+     * @param {HTMLElement|null} prevButton - Previous slide button.
+     * @param {HTMLElement|null} nextButton - Next slide button.
+     * @param {HTMLElement|null} backButton - Back-to-start button.
+     * @param {HTMLElement|null} lastButton - Go-to-last button.
+     * @param {HTMLElement|null} overviewButton - Overview button.
+     * @param {HTMLElement|null} fullscreenButton - Fullscreen button.
+     * @param {HTMLElement|null} goToButton - go to slide button.
      */
-    constructor(manager, { prevButton = null, nextButton = null, backButton = null }) {
+    constructor(manager, {
+        prevButton = null,
+        nextButton = null,
+        backButton = null,
+        lastButton =null,
+        overviewButton = null,
+        fullscreenButton = null,
+        goToButton = null
+    }) {
         this._manager = manager;
 
         if (prevButton !== null) {
@@ -67,5 +78,33 @@ export default class SlidesControlsController {
                 this._manager.goStart();
             });
         }
+
+        if (lastButton !== null) {
+            lastButton.addEventListener('click', () => {
+                this._manager.goEnd();
+            });
+        }
+
+        if (goToButton !== null) {
+            goToButton.addEventListener('click', () => {
+                const index = window.prompt('Go to slide number:');
+                if (index !== null) {
+                    this._manager.goTo(Number(index), 0);
+                }
+            });
+        }
+
+        if (overviewButton !== null) {
+            overviewButton.addEventListener('click', () => {
+                this._manager.toggleOverview();
+            });
+        }
+
+        if (fullscreenButton !== null) {
+            fullscreenButton.addEventListener('click', () => {
+                this._manager._fullscreen.toggle();
+            });
+        }
+
     }
 }
