@@ -102,11 +102,7 @@ export default class SlidesApp {
         );
 
         /** @private */
-        // THIS DOES NOT CHANGE THE PROBLEM: 'Enter' or 'Space' does not work properly
-        // BUT 'ALT+DOWN' works properly with 'Select'!!
-        // this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, document.body);
-        // THIS MAKES THE ERROR: "container" must be an HTMLElement"
-        // this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, config.slides);
+        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, document.body);
         /** @private */
         this._touch = new SlidesTouchController(this._manager);
         /** @private */

@@ -37,26 +37,39 @@ import SlidesView from './slides_view.js';
 /**
  * Keyboard & button controller.
  *
- * PURE INPUT LAYER:
- * - no visual logic
- * - no mode logic
- * - no validation logic
- * - always delegates to SlidesManager
+ * This controller is *pure input* and must never interfere with the
+ * browser’s native accessibility behaviors. It implements a strict rule:
  *
- * Manager is free to expose:
- *   next()
- *   prev()
- *   goStart()
- *   goEnd()
- *   toggleContent()
- *   setViewMode()
- *   toggleFullscreen()
- *   toggleControls()
- *   ...
+ *     > The browser must always receive Enter, Space, and all navigation
+ *     > keys whenever the focused element is interactive.
  *
- * This controller *never* decides what these actions mean.
+ * As a consequence, this controller:
+ * - Only listens for a restricted list of “slide keys”.
+ * - Never handles Enter or Space.
+ * - Never handles arrow keys, PageUp/PageDown, or Home/End if the
+ *   focus is inside an interactive element (input, button, select…).
+ *
+ * This approach is unusual in slide frameworks, but it is the correct
+ * design for accessibility. Screen readers, keyboard-only users, and
+ * browser native controls must always retain full priority.
+ *
  */
 export default class SlidesKeyboardAndButtonsController {
+
+    /**
+     * The definitive list of keys supported by the Slides UI.
+     * No other keys must ever be handled by this controller.
+     */
+    static SLIDE_KEYS = new Set([
+        'Escape',
+        'o', 'O',
+        's', 'S',
+        'f', 'F',
+        'n', 'N',
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+        'PageUp', 'PageDown',
+        'Home', 'End'
+    ]);
 
     // ----------------------------------------------------------------------
     // CONSTRUCTOR
@@ -64,12 +77,13 @@ export default class SlidesKeyboardAndButtonsController {
 
     /**
      * @param {Object} slidesManager - Instance of SlidesManager.
-     * @param {HTMLElement} container - The slide container; required. All keyboard
-     *   events must be captured ONLY inside this container.
-     * @param {Object} [options] - Optional configuration.
-     * @param {HTMLElement|null} [options.nextButton] - "Next" button.
-     * @param {HTMLElement|null} [options.prevButton] - "Previous" button.
-     * @param {HTMLElement|null} [options.backButton] - "Back to start" button.
+     * @param {HTMLElement} container - The slide container; required.
+     *   All keyboard events MUST be captured here, then filtered so
+     *   the browser always keeps priority on native interactions.
+     * @param {Object} [options]
+     * @param {HTMLElement|null} [options.nextButton]
+     * @param {HTMLElement|null} [options.prevButton]
+     * @param {HTMLElement|null} [options.backButton]
      */
     constructor(slidesManager, container, options = {}) {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
@@ -114,57 +128,64 @@ export default class SlidesKeyboardAndButtonsController {
     }
 
     // ---------------------------------------------------------------------
-    // Keyboard handling
+    // PRIVATE — ACCESSIBILITY-FIRST KEYBOARD HANDLING
     // ---------------------------------------------------------------------
 
     /**
+     * Master keyboard handler.
+     * Accessibility rules:
+     *  1. If the key is not a slide key → ignore.
+     *  2. Enter and Space → ALWAYS ignored (browser must handle them).
+     *  3. If the target is interactive → ignore all slide keys.
+     *
      * @param {KeyboardEvent} event
      * @private
-     * @returns {void}
      */
     _onKeyDown(event) {
-        console.debug('onKeyDown', event);
-        if (event.altKey || event.ctrlKey || event.metaKey) {
-            return;
-        }
-
-        const dialog = document.querySelector('dialog[open]');
-        if (dialog instanceof HTMLElement) {
-            return;
-        }
-
         const key = event.key;
 
-        switch (key) {
-            default:
-                return;
+        // --- RULE 1: Ignore all keys not part of the Slides UI ----------------
+        if (!SlidesKeyboardAndButtonsController.SLIDE_KEYS.has(key)) {
+            return;
+        }
 
-            // Switch to the default view mode
+        // --- RULE 2: Never handle Enter or Space ------------------------------
+        // Space is " " (U+0020)
+        if (key === 'Enter' || key === ' ') {
+            return;
+        }
+
+        // --- RULE 3: If focus is on an interactive element → browser priority -
+        if (this._isInteractiveTarget(event.target)) {
+            return;
+        }
+
+        // ----------------------------------------------------------------------
+        // From here, we know safely:
+        //  - The key is a slide key
+        //  - It is not Enter/Space
+        //  - The focused element is *not* interactive
+        // ----------------------------------------------------------------------
+
+        switch (key) {
+
             case 'Escape':
                 this._manager.setViewMode?.(SlidesView.DEFAULT_MODE);
                 return;
 
-            // Switch to Presentation mode
-            case 's':
-            case 'S':
-                this._manager.setViewMode?.(SlidesView.MODES.PRESENTATION);
-                return;
-
-            // Switch to Overview mode
-            case 'o':
-            case 'O':
+            case 'o': case 'O':
                 this._manager.setViewMode?.(SlidesView.MODES.OVERVIEW);
                 return;
 
-            // Fullscreen toggle
-            case 'f':
-            case 'F':
+            case 's': case 'S':
+                this._manager.setViewMode?.(SlidesView.MODES.PRESENTATION);
+                return;
+
+            case 'f': case 'F':
                 this._manager.toggleFullscreen?.();
                 return;
 
-            // Controls panel toggle
-            case 'n':
-            case 'N':
+            case 'n': case 'N':
                 this._manager.toggleControls?.();
                 return;
 
@@ -184,25 +205,69 @@ export default class SlidesKeyboardAndButtonsController {
                 this._manager.next();
                 return;
 
-            // Home
             case 'Home':
                 event.preventDefault();
                 this._manager.goStart();
                 return;
 
-            // End
             case 'End':
                 event.preventDefault();
                 this._manager.goEnd();
                 return;
 
-            // Space = toggle content (video)
-            case ' ':
-                event.preventDefault();
-                this._manager.toggleContent();
+            default:
                 return;
-
         }
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Detect whether event.target is an interactive element.
+     *
+     * This method is intentionally very liberal: anything that a browser
+     * would treat as focusable or clickable must return true.
+     *
+     * @param {HTMLElement} target
+     * @returns {boolean}
+     * @private
+     */
+    _isInteractiveTarget(target) {
+        if (!(target instanceof HTMLElement)) {
+            return true;
+        }
+
+        const tag = target.tagName.toLowerCase();
+
+        // Native interactive elements
+        if (tag === 'input' ||
+            tag === 'select' ||
+            tag === 'textarea' ||
+            tag === 'button' ||
+            tag === 'summary') {
+            return true;
+        }
+
+        // Links
+        if (tag === 'a' && target.hasAttribute('href')) {
+            return true;
+        }
+
+        // Media controls
+        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls')) {
+            return true;
+        }
+
+        // Any element with tabindex >= 0 is interactive
+        const tab = target.getAttribute('tabindex');
+        if (tab !== null) {
+            const n = parseInt(tab, 10);
+            if (!Number.isNaN(n) && n >= 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // ---------------------------------------------------------------------
