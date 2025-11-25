@@ -102,7 +102,7 @@ export default class SlidesApp {
         );
 
         /** @private */
-        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager, document.body);
+        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
         /** @private */
         this._touch = new SlidesTouchController(this._manager);
         /** @private */

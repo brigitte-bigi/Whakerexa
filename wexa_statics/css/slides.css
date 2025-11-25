@@ -31,226 +31,64 @@ This banner notice must not be removed.
 */
 
 /* =======================================================================
-                            VARIABLE DEFINITIONS
-  ======================================================================== */
+                           WEXA VARIABLE OVERRIDES
+   ======================================================================== */
 
-@media print {
-    :root:not(.contrast) {
-        --font-size: 14px;
-        --line-height: 1.2;
-        --screen-width: 800px;
-        --height: 420px;
-    }
+:root:not(.contrast),
+:root .contrast {
+    --font-size: 32px;
+    --line-height: 1.4;
 }
 
-@media not print {
-    :root:not(.contrast)  {
-        --font-size: 32px;
-        --line-height: 1.4;
-        --screen-width: calc(var(--font-size) * 40);
-        --height: calc(var(--font-size) * 22.5);
-    }
+:root:not(.contrast) .slide-overview {
+    --font-size: 16px;
+    --line-height: 1.2;
 }
+
+:root.contrast .slide-overview {
+    --font-size: 18px;
+    --line-height: 1.4;
+}
+
+
+/* =======================================================================
+                          NEW VARIABLE DEFINITIONS
+   ======================================================================== */
 
 :root {
-    --logo-color: rgb(88, 118, 177);
-    --main-color1: rgb(41, 35, 92);
-    --main-color2: rgb(29, 113, 184);
+    --footer-text: "";
+    --footer-margin-left: calc((var(--screen-width) / 2) - 1rem);
+    --custom-color1: rgb(41, 35, 92);
+    --custom-color2: rgb(29, 113, 184);
 }
 
 
-:root:not([data-theme=dark]), [data-theme=light], .light {
-    --bg-color: transparent;  /* important */
-    --bg-color-alt: rgb(240, 240, 240);
-    --fg-color: rgb(0, 5, 10);
-    --h2-color: var(--main-color1);
-    --progress-bg-color: var(--main-color1);
-    --progress-fg-color: var(--main-color2);
-    --progress-height: 0.2rem;
-    --blockquote-border-color: var(--main-color1);
-    --li-color: rgb(88, 118, 177);
-}
+/* =======================================================================
+                             RULES FOR ALL VIEWS
+   ======================================================================== */
 
-/* ===========================  MAIN PAGE  ================================= */
-
-[role="note"] {
+body > header,
+body > footer {
     display: none;
 }
 
-html {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    width: var(--screen-width);
-    box-sizing: border-box;
-    max-width: 100%;
-}
-
-@media screen {
-    body {
-        background-color: var(--bg-color-alt);
-        height: var(--height);
-        margin-top: calc(var(--height)/-2);
-        position: absolute;
-        top: 50%;
-        overflow: hidden;
-        /*****display: none;***/
-        cursor: default;
-        /* To look like a "screen" and clearly see the un-used part
-        when the ratio is not 16:9 */
-        border-radius: 0;
-        box-shadow: 0 0 var(--border-width) var(--border-width) var(--border-color);
-        counter-reset: slides;
-
-        /* to center horizontally */
-        left: 50%;
-        right: auto;
-        margin-left: calc(var(--screen-width)/-2);
-        margin-right: auto;
-    }
-}
-
-@media print {
-    body {
-        height: auto;
-        margin: 1rem;
-        position: static;
-        overflow: visible !important;
-        display: block !important;
-    }
-}
-
-
-/* ========================= Slides ======================= */
-
-.view body {
-    position: static;
-    display: inline-block;
-    overflow: visible;
-    overflow-x: hidden;
-    /* undo Dz.onresize */
-    transform: none !important;
-    -ms-transform: none !important;
-}
-
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.slide[aria-selected] {
-    pointer-events: auto;
-}
-
-@media screen {
-    html.view {
-        overflow: visible;
-    }
-
-    #progress-container {
-        position: absolute;    /* ou fixed si vous voulez qu’elle reste visible */
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: var(--progress-height);
-        background-color: var(--progress-bg-color);
-        /* si vous avez déjà #progress-bar positionné, supprimez l’ancien positionnement */
-    }
-
-    /* 2) Barre interne (valeur) */
-    #progress-bar {
-        height: 100%;
-        width: 0;               /* initialement vide ; le JS va mettre XX% */
-        background-color: var(--progress-fg-color);
-        transition: width 0.2s ease; /* optionnel : animation fluide */
-    }
-
-    /* Barre d’arrière-plan */
-    #progress-bar::-webkit-progress-bar {
-        background: var(--progress-bg-color);
-        border-radius: var(--border-radius);
-    }
-    /* Valeur active */
-    #progress-bar::-webkit-progress-value {
-        background: var(--progress-fg-color);
-        border-radius: var(--border-radius);
-    }
-    /* Firefox */
-    #progress-bar::-moz-progress-bar {
-        background: var(--progress-fg-color);
-        border-radius: var(--border-radius);
-    }
-
-    #license-container {
-        position: fixed;
-        pointer-events: none;
-        z-index: 10;
-    }
-    #license-container .license-logo {
-        width: 64px;
-    }
-
-    #license-container.top    { top: 0; bottom: auto}
-    #license-container.bottom { bottom: 0; top: auto}
-    #license-container.left   { left: 0; right: auto}
-    #license-container.right  { right: var(--typography-spacing-horizontal); left: auto}
-}
-
-@media print {
-    .slide {
-        display: block !important; /* Affiche toutes les diapositives */
-        position: relative !important; /* Empêche les diapositives de se superposer */
-        width: 100%;
-        height: auto;
-        page-break-inside: avoid; /* Empêche les diapositives d'être coupées */
-        margin-bottom: 2rem; /* Ajoute un espacement entre les diapositives */
-        transition: none;
-        transform: none;
-    }
-
-    .slide:before {
-        position: relative !important; /* Ne pas utiliser fixed */
-        margin-top: 0; /* Ajuster les marges */
-        margin-left: 0;
-    }
-
-    #progress-bar {
-        display: none;
-    }
-}
-
-/* =======================================================================
-                       HTML ELEMENTS STYLING
-  ======================================================================== */
-
-/*=============================  SLIDE  ==================================*/
-
 /* Add page number at footer */
-@media screen {
-    .slide:before {
-        counter-increment: slides;
-        font-family: var(--font-family-pre), cursive;
-        font-size: 40%;
-        position: fixed;
-        color: var(--main-color1);
-        content: var(--footer-text) counter(slides);
-        margin-top: calc((var(--height)) - var(--typography-spacing-vertical) - 0.2rem);
-        margin-left: 13rem;
-        z-index: 1;
-    }
-
-    /* No footer on the first slide, it's the presentation title */
-    .slide[aria-selected="true"]:first-of-type:before {
-        content: "";
-    }
+.slide:before {
+    counter-increment: slides;
+    font-family: var(--font-family-pre), cursive;
+    font-size: 40%;
+    position: fixed;
+    color: var(--custom-color1);
+    content: var(--footer-text) counter(slides);
+    margin-top: calc((var(--height)) - var(--typography-spacing-vertical) - 0.2rem);
+    margin-left: var(--footer-margin-left);
+    z-index: 1;
 }
 
-/*=============================  TITLES  ==================================*/
+/* No footer on the first slide, it's the presentation title */
+.slide[aria-selected="true"]:first-of-type:before {
+    content: "";
+}
 
 /* Main title of a section: only the title at the center of the slide */
 
@@ -261,10 +99,6 @@ body {
 .slide > h5,
 .slide > h6 {
     font-family: var(--font-family-sans), sans-serif;
-    /*margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;*/
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-right: 0;
@@ -279,9 +113,8 @@ body {
     text-align: left;
     letter-spacing: 2px;
     margin-top: calc((var(--height) * 0.35));
-    /*border-bottom: 4px solid var(--h1-color);*/
-    border-bottom: 4px solid transparent;
-    border-image: linear-gradient(0.25turn, var(--main-color2), rgb(210, 210, 210), var(--main-color1));
+    border-bottom: 0.35rem solid transparent;
+    border-image: linear-gradient(0.25turn, var(--custom-color2), rgb(210, 210, 210), var(--custom-color1));
     border-image-slice: 1;
     width: 100%;
 }
@@ -293,8 +126,8 @@ body {
     border-bottom: none;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    color: var(--main-color1);
-    background: var(--main-color2);
+    color: var(--custom-color1);
+    background: var(--custom-color2);
 }
 
 .slide h1.sub-title {
@@ -304,15 +137,15 @@ body {
     border-bottom: none;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    color: var(--main-color2);
-    background: var(--main-color2);
+    color: var(--custom-color2);
+    background: var(--custom-color2);
 }
 
 
 /* Title at the top of each slide */
 .slide > h2 {
     margin-top: 0;
-    background: linear-gradient(0deg, var(--bg-color-alt) 0%, var(--main-color2) 100%);;
+    background: linear-gradient(0deg, var(--bg-color-alt) 0%, var(--custom-color2) 100%);;
     font-weight: var(--font-weight-bold);
     font-style: normal;
     font-variant: normal;
@@ -330,8 +163,6 @@ body {
     text-align: left;
     letter-spacing: 1px;
 }
-
-/*=============================  OTHERS  ==================================*/
 
 .slide table,
 .slide details {
@@ -366,181 +197,250 @@ li li li, li li li p { font-size: 85%; }
 
 q { quotes: "“" "”" "‘" "’"; }
 
+/* Ensure that links containing media do not expand to the full line width.
+Because <a> is inline and inherits text-align:center from its parent,
+it normally stretches across the entire line box, causing the hover and
+focus outlines to trigger outside the actual image area. Switching <a>
+to inline-block makes it shrink to its content size, so the outline
+matches the media element exactly. */
+.slide a {
+    display: inline-block;
+}
+
 .slide details > *:not(summary) {
     max-height: 60vh;
     overflow: auto;
     display: block;
 }
 
-/*=============================  MEDIA  ==================================*/
-
 /* Figures are displayed full-page, with the caption on bottom of the image. */
-.slide figure {
+/* Full-page figure only when it is a direct child of .slide */
+.slide > figure {
     display: block;
     text-align: center;
     max-width: 90%;
     max-height: 90%;
 }
 
-/* remove center align (from <figure>) inside <li> */
-figure li, figure p { text-align: left; }
-li figure { text-align: left; }
+/* For nested figures: use normal document flow */
+.slide figure {
+    text-align: initial;   /* reset alignment */
+    max-width: initial;
+    max-height: initial;
+}
 
-/* class right-image for floating image at right side */
-.right-image img { float: right; margin: 0 10px 0 5px;}
-.left-image img { float: left; margin: 0 10px 0 5px;}
-
-/* class text-top for image aligned with text top */
-.text-top img { vertical-align:text-top;}
+.slide figcaption {
+    position:       relative;
+    font-size:      60%;
+    padding-bottom: 10px;
+    color: var(--custom-color1);
+    background-color: transparent;
+}
 
 .slide audio,
 .slide video {
     background-color: transparent;
-    border-width:     0; 
+    border-width:     0;
     border-style:     none;
     margin:           0 auto;
-    max-width:        90%; 
+    max-width:        90%;
     max-height:       60%;
     position:         relative;
 }
 
 .slide img {
     background-color: transparent;
-    border-width:     0; 
+    border-width:     0;
     border-style:     none;
     margin:           0 auto;
-    max-width:        100%; 
+    max-width:        100%;
     max-height:       90%;
     position:         relative;
 }
 
-.slide figcaption {
-    position:       relative;
-    font-size:      60%;
-	padding-bottom: 10px;
-    color: var(--main-color1);
-    background-color: transparent;
+/* =======================================================================
+                          THE PRESENTATION VIEW
+
+    The presentation-view class is automatically added by the JS class 
+    SlidesView, to the <body> element whenever the presentation mode is
+    requested. It's the default mode. 
+
+   ======================================================================== */
+
+body.presentation-view {
+    /*--screen-width: calc(var(--screen-width) * 0.9);*/
+    --height: calc(var(--screen-width) * 9 / 16);
+
+    box-sizing: border-box;
+    height: var(--height);
+    margin-top: calc(var(--height)/-2);
+    position: absolute;
+    top: 50%;
+
+    /* To look like a "screen" and clearly see the un-used part when the ratio is not 16:9 */
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 var(--border-width) var(--border-width) var(--border-color);
+    counter-reset: slides;
+
+    /* to center horizontally */
+    left: 50%;
+    right: auto;
+    margin-left: calc(var(--screen-width)/-2);
+    margin-right: auto;
 }
 
-/*=============================  EFFECTS  ==================================*/
-
-
-@media screen {
-
-    /* Transition effect when changing slide */
-    .slide {
-      -moz-transition:    left 250ms linear 0s;
-      -webkit-transition: left 250ms linear 0s;
-      -ms-transition:     left 250ms linear 0s;
-      transition:         left 250ms linear 0s;
-    }
-
-    /* Before */
-    .slide {
-        left: -150%;
-    }
-
-    /* Now */
-    .slide[aria-selected] { left: 0; }
-
-    /* After */
-    .slide[aria-selected] ~ .slide { left: +150%; }
-
-
-    /* Incremental elements */
-    /* -------------------- */
-
-    .incremental {
-        opacity: 0.15;
-    }
-
-    .incremental[active] {
-        opacity: 1;
-    }
-
-    .incremental > * {
-        opacity: 1;
-    }
-
-    /* The current item */
-    .incremental > *[aria-selected] {
-        color: var(--fg-color);
-        opacity: 1;
-    }
-
-    /* The items to-be-selected */
-    .incremental > *[aria-selected] ~ * {
-        opacity: 0.2;
-    }
-
-    /* An invisible incremental */
-    .incremental-invisible {
-        opacity: 0.05;
-    }
-    .incremental-invisible > *[aria-selected] ~ * {
-        opacity: 0.05;
-    }
-
+[role="note"] {
+    display: none;
 }
 
-/* --------------------- **** -------------------- */
+/* ========================= Presentation Slides ======================= */
 
-.no-padding {
-    padding: 0 !important;
+.presentation-view .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.no-margin {
-    margin: 0 !important;
+.presentation-view .slide[aria-selected] {
+    pointer-events: auto;
 }
 
-.margin-left {
-    margin-left: 2rem;
-}
-.margin-right {
-    margin-right: 2rem;
-}
-
-.center {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+/* Transition effect applied to the 1st slide only */
+.presentation-view .slide {
+    -moz-transition:    left 500ms linear 0s;
+    -webkit-transition: left 250ms linear 0s;
+    -ms-transition:     left 250ms linear 0s;
+    transition:         left 500ms linear 0s;
 }
 
-.tiny {
-    font-size: 50%;
+/* =======================================================================
+
+                              CONTAINERS
+
+   ======================================================================== */
+
+/* Container of the slide progress bar */
+#progress-container {
+    position: absolute;          /* or 'fixed' if it must remain visible */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--progress-height);
+    background-color: var(--progress-bg-color);
+}
+
+/* Inner bar (current progress value) */
+#progress-bar {
+    height: 100%;
+    width: 0;      /* updated by JS (percentage) */
+    background-color: var(--progress-fg-color);
+    transition: width 0.2s ease; /* smooth animation */
+}
+
+/* WebKit */
+#progress-bar::-webkit-progress-bar {
+    background: var(--progress-bg-color);
+    border-radius: var(--border-radius);
+}
+
+#progress-bar::-webkit-progress-value {
+    background: var(--progress-fg-color);
+    border-radius: var(--border-radius);
+}
+
+/* Firefox */
+#progress-bar::-moz-progress-bar {
+    background: var(--progress-fg-color);
+    border-radius: var(--border-radius);
+}
+
+#license-container {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10;
+}
+#license-container .license-logo {
+    width: 64px;
+}
+
+#license-container.top    { top: 0; bottom: auto}
+#license-container.bottom { bottom: 0; top: auto}
+#license-container.left   { left: 0; right: auto}
+#license-container.right  { right: var(--typography-spacing-horizontal); left: auto}
+
+
+/* =======================================================================
+                       HTML ELEMENTS STYLING
+  ======================================================================== */
+
+/* Before */
+.slide {
+    left: -150%;
+}
+
+/* Now */
+.slide[aria-selected] { left: 0; }
+
+/* After */
+.slide[aria-selected] ~ .slide { left: +150%; }
+
+
+/* Incremental elements */
+/* -------------------- */
+
+.incremental {
+    opacity: 0.15;
+}
+
+.incremental[active] {
+    opacity: 1;
+}
+
+.incremental > * {
+    opacity: 1;
+}
+
+/* The current item */
+.incremental > *[aria-selected] {
+    color: var(--fg-color);
+    opacity: 1;
+}
+
+/* The items to-be-selected */
+.incremental > *[aria-selected] ~ * {
+    opacity: 0.2;
+}
+
+/* An invisible incremental */
+.incremental-invisible {
+    opacity: 0.05;
+}
+.incremental-invisible > *[aria-selected] ~ * {
+    opacity: 0.05;
 }
 
 
-/* ========== BACKGROUND POUR LES SLIDES ========== */
+/* ========== CONTROLS FOR SLIDES ========== */
 
-@media screen {
-    /* Appliquer le background uniquement aux <section class="slide"> qui n'ont PAS .no-background */
-    .slide:not(.no-background) {
-        background: url("../images/slides_background.jpg") no-repeat center center;
-        background-size: cover;
-    }
-    /* Pour celles avec .no-background, on annule */
-    .slide.no-background {
-        background: white;
-    }
-
-    #slides-controls {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        display: flex;
-        gap: 0.5rem;
-        z-index: 2000;
-    }
-
-    #slides-controls-view {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    #slides-controls.controls-hidden,
-    #slides-controls-view.controls-hidden {
-        display: none;
-    }
-
+#slides-controls {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 2000;
 }
+
+#slides-controls-view {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#slides-controls.controls-hidden,
+#slides-controls-view.controls-hidden {
+    display: none;
+}
+
+

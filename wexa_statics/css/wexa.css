@@ -631,8 +631,10 @@ html {
 body {
     margin: 0 auto;
     width: var(--screen-width);
+    max-width: 100%;
     position: relative;
     cursor: default;
+    overflow: hidden;
 
     background-color: var(--bg-color);
     background-clip: content-box;

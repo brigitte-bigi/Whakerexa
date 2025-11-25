@@ -77,24 +77,17 @@ export default class SlidesKeyboardAndButtonsController {
 
     /**
      * @param {Object} slidesManager - Instance of SlidesManager.
-     * @param {HTMLElement} container - The slide container; required.
-     *   All keyboard events MUST be captured here, then filtered so
-     *   the browser always keeps priority on native interactions.
      * @param {Object} [options]
      * @param {HTMLElement|null} [options.nextButton]
      * @param {HTMLElement|null} [options.prevButton]
      * @param {HTMLElement|null} [options.backButton]
      */
-    constructor(slidesManager, container, options = {}) {
+    constructor(slidesManager, options = {}) {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
             throw new Error('SlidesKeyboardAndButtonsController: "slidesManager" must be an object.');
         }
-        if (!(container instanceof HTMLElement)) {
-            throw new Error('SlidesKeyboardAndButtonsController: "container" must be an HTMLElement.');
-        }
 
         this._manager = slidesManager;
-        this._container = container;
 
         this._nextButton = this._elementOrNull(options.nextButton);
         this._prevButton = this._elementOrNull(options.prevButton);
@@ -113,7 +106,7 @@ export default class SlidesKeyboardAndButtonsController {
      * @returns {void}
      */
     init() {
-        this._container.addEventListener('keydown', this._boundKeyHandler, false);
+        document.body.addEventListener('keydown', this._boundKeyHandler, false);
         this._attachButtons();
     }
 

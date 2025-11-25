@@ -13,8 +13,17 @@
 		:root {
 			--footer-text: "Brigitte Bigi - Whakerexa Slides - page ";
 		}
+
+        /* **** Overrides wexa.css variables for a custom look **** */
+        :root:not([data-theme=dark]), [data-theme=light], .light {
+            --progress-bg-color: var(--custom-color1);
+            --progress-fg-color: var(--custom-color2);
+            --progress-height: 0.2rem;
+            --blockquote-border-color: var(--custom-color1);
+        }
+
 	</style>
-	<link rel="logo icon" href="../wexa_statics/logos/whakerexa.png" type="image/x-icon">
+	<link rel="logo icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon">
 	<link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
@@ -38,22 +47,50 @@
     <!-- Title -->
     <!-- ================================================================ -->
 
-	<section class="slide no-background center">
+	<section class="slide" style="text-align: center; margin: auto;">
 		<h1 class="title">
             Whakerexa in action: <br><br>
-            Make easily slides with the ES6 SlidesManager
+            Make easily slides with the ES6 Slides package
 		</h1>
-        <p style="color: var(--main-color1); font-weight: var(--font-weight-semibold);">
+
+        <h2 class="title" style="text-align: center;">
             Brigitte Bigi
-        </p>
-        	</section>
+        </h2>
+
+        <a href="https://whakerexa.sourceforge.io" target="_blank">
+            <img style="height: 30vh;" src="../wexa_statics/logos/whakerexa.webp" alt="https://whakerexa.sourceforge.io"/>
+        </a>
+
+    </section>
 
 	<!-- ================================================================ -->
 	<!-- Basics -->
 	<!-- ================================================================ -->
 
     <section class="slide">
-        <h1>Introduction to SlidesManager</h1>
+        <h1>Introduction to Slides</h1>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+    <section class="slide">
+        <h2>Accessibility</h2>
+
+        <p>
+            The Whakerexa Slides package is designed so that accessibility is not an
+            add-on, but a built-in principle. Every component, interaction and visual
+            element aims to be usable by as many people as possible.
+        </p>
+
+        <blockquote>
+            The Web is fundamentally designed to work for all people, whatever their
+            hardware, software, language, location, or ability. When the Web meets
+            this goal, it is accessible to people with a diverse range of hearing,
+            movement, sight, and cognitive ability.
+            <cite>
+                World Wide Web Consortium (W3C), Web Accessibility Initiative (WAI) —
+                “Introduction to Web Accessibility”.
+            </cite>
+        </blockquote>
     </section>
 
     <!-- ---------------------------------------------------------------- -->
@@ -90,6 +127,39 @@
         <ul class="incremental incremental-invisible">
             <li>Item incremental invisible 1</li>
             <li>Item incremental invisible 2</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2 class="title">Main figure example</h2>
+
+        <!-- Direct child of .slide → centered, large -->
+        <figure style="width: 40%;">
+            <img src="../wexa_statics/logos/whakerexa.webp" alt="Full-page example" />
+            <figcaption>Full-page figure with centered caption</figcaption>
+        </figure>
+    </section>
+
+    <section class="slide">
+
+        <h3 class="title">Nested figure example</h3>
+
+        <p>
+            This slide contains a nested figure inside a paragraph.
+            It must follow normal document flow (not the full-page layout).
+        </p>
+
+        <ul>
+            <li>
+                Text before the figure.
+                <figure style="width: 10%;">
+                    <img src="../wexa_statics/logos/whakerexa.webp" alt="Nested figure" />
+                    <figcaption>Nested figure with normal flow</figcaption>
+                </figure>
+                Text after the figure.
+            </li>
         </ul>
     </section>
 

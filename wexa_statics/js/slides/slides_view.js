@@ -153,20 +153,24 @@ export default class SlidesView {
     /**
      * Set the active view mode.
      *
-     * @param {string} mode - One of SlidesView.MODES.*
+     * @param {string} mode - One of SlidesView.MODES.* [presentation by default]
      * @returns {void}
      */
     setMode(mode) {
         this._mode = mode;
 
-        if (mode === SlidesView.MODES.PRESENTATION) {
-            this._enterPresentation();
-            return;
-        }
+        // Manage the body class="view" to enable the relevant CSS render class
+        this._removeBodyView()
+        document.body.classList.add(`${mode}-view`);
 
-        if (mode === SlidesView.MODES.OVERVIEW) {
-            this._enterOverview();
-            return;
+        // switch to the requested view [presentation by default]
+        switch (mode) {
+            case SlidesView.MODES.OVERVIEW:
+                this._enterOverview();
+                return;
+            default:
+                this._enterPresentation();
+                return;
         }
     }
 
@@ -262,5 +266,16 @@ export default class SlidesView {
         }
     }
 
-
+    /**
+     * Remove any body view class.
+     *
+     * @private
+     * @returns {void}
+     */
+    _removeBodyView() {
+        const modes = Object.values(SlidesView.MODES);
+        modes.forEach(mode => {
+            document.body.classList.remove(`${mode}-view`);
+        });
+    }
 }
