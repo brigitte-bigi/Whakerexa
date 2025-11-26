@@ -68,8 +68,6 @@ export default class SlidesControlsController {
         if (typeof manager !== 'object' || manager === null) {
             throw new Error('SlidesControlsController: "manager" must be an object.');
         }
-
-        /** @private */
         this._manager = manager;
 
         /**

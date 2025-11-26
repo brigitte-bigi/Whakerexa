@@ -61,12 +61,14 @@ export default class SlidesKeyboardAndButtonsController {
      * No other keys must ever be handled by this controller.
      */
     static SLIDE_KEYS = new Set([
-        'Escape',
-        'o', 'O',
-        's', 'S',
-        'f', 'F',
-        'n', 'N',
-        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+        'Escape',  // Switch to Presentation mode
+        'o', 'O',  // Switch to Overview mode
+        's', 'S',  // Switch to Presentation mode
+        'f', 'F',  // Enable/Disable Fullscreen
+        'n', 'N',  // Show/Hide controls
+        'b', 'B',  // Show/Hide progress bar
+        'l', 'L',  // Show/Hide logo
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',  // Browse slides
         'PageUp', 'PageDown',
         'Home', 'End'
     ]);
@@ -86,7 +88,6 @@ export default class SlidesKeyboardAndButtonsController {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
             throw new Error('SlidesKeyboardAndButtonsController: "slidesManager" must be an object.');
         }
-
         this._manager = slidesManager;
 
         this._nextButton = this._elementOrNull(options.nextButton);
@@ -179,7 +180,21 @@ export default class SlidesKeyboardAndButtonsController {
                 return;
 
             case 'n': case 'N':
-                this._manager.toggleControls?.();
+                if (this._manager.visibilityManager !== null) {
+                    this._manager.visibilityManager.toggle('controls');
+                }
+                return;
+
+            case 'l': case 'L':
+                if (this._manager.visibilityManager !== null) {
+                    //this._manager.visibilityManager.toggle('logo');
+                }
+                return;
+
+            case 'b': case 'B':
+                if (this._manager.visibilityManager !== null) {
+                    //this._manager.visibilityManager.toggle('progress');
+                }
                 return;
 
             // Navigation backward

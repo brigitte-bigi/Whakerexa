@@ -54,6 +54,7 @@ export default class SlidesManager {
      * @param {Object} [dependencies.view] - Object implementing the rendering API (SlidesView).
      * @param {Object} [dependencies.fullscreen] - Fullscreen handler (toggle only).
      * @param {Object} [dependencies.focusController] - Optional focus manager.
+     * @param {Object} [dependencies.visibilityManager] - Optional visibility manager.
      */
     constructor(slides, options = {}, dependencies = {}) {
 
@@ -80,6 +81,13 @@ export default class SlidesManager {
 
         // Dependencies
         // ------------------------------
+
+        if (typeof dependencies.visibilityManager === 'object' && dependencies.visibilityManager !== null) {
+            this._visibilityManager = dependencies.visibilityManager;
+        } else {
+            this._visibilityManager = null;
+        }
+
         this._view =
             (typeof dependencies.view === 'object' && dependencies.view !== null)
                 ? dependencies.view
@@ -278,7 +286,7 @@ export default class SlidesManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Toggle fullscreen mode for the presentation.
+     * Toggle fullscreen mode.
      *
      * Called by keyboard or UI controls. Delegates the action
      * to the fullscreen controller.

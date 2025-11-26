@@ -237,25 +237,20 @@ matches the media element exactly. */
     background-color: transparent;
 }
 
-.slide audio,
-.slide video {
+.slide > img,
+.slide > video,
+.slide > audio {
     background-color: transparent;
     border-width:     0;
     border-style:     none;
     margin:           0 auto;
     max-width:        90%;
-    max-height:       60%;
+    max-height:       90%;
     position:         relative;
 }
 
-.slide img {
-    background-color: transparent;
-    border-width:     0;
-    border-style:     none;
-    margin:           0 auto;
-    max-width:        100%;
-    max-height:       90%;
-    position:         relative;
+.slide [role="note"] {
+    display: none;
 }
 
 /* =======================================================================
@@ -289,10 +284,6 @@ body.presentation-view {
     margin-right: auto;
 }
 
-[role="note"] {
-    display: none;
-}
-
 /* ========================= Presentation Slides ======================= */
 
 .presentation-view .slide {
@@ -307,19 +298,16 @@ body.presentation-view {
     pointer-events: auto;
 }
 
-/* Transition effect applied to the 1st slide only */
-.presentation-view .slide {
-    -moz-transition:    left 500ms linear 0s;
-    -webkit-transition: left 250ms linear 0s;
-    -ms-transition:     left 250ms linear 0s;
-    transition:         left 500ms linear 0s;
-}
 
 /* =======================================================================
 
-                              CONTAINERS
+                            CONTAINERS
+                     Optionally added on each slide
 
    ======================================================================== */
+
+
+/* ============================== Progress Bar ============================ */
 
 /* Container of the slide progress bar */
 #progress-container {
@@ -336,7 +324,6 @@ body.presentation-view {
     height: 100%;
     width: 0;      /* updated by JS (percentage) */
     background-color: var(--progress-fg-color);
-    transition: width 0.2s ease; /* smooth animation */
 }
 
 /* WebKit */
@@ -356,19 +343,22 @@ body.presentation-view {
     border-radius: var(--border-radius);
 }
 
-#license-container {
+/* =============================== Logo Image ============================= */
+
+#logo-container {
     position: fixed;
     pointer-events: none;
-    z-index: 10;
+    z-index: 100;
 }
-#license-container .license-logo {
-    width: 64px;
+#logo-container .img-logo {
+    width: calc(var(--font-size) * 2);
+    height: auto;
 }
 
-#license-container.top    { top: 0; bottom: auto}
-#license-container.bottom { bottom: 0; top: auto}
-#license-container.left   { left: 0; right: auto}
-#license-container.right  { right: var(--typography-spacing-horizontal); left: auto}
+#logo-container.top    { top: 0; bottom: auto}
+#logo-container.bottom { bottom: 0; top: auto}
+#logo-container.left   { left: var(--typography-spacing-horizontal); right: auto}
+#logo-container.right  { right: var(--typography-spacing-horizontal); left: auto}
 
 
 /* =======================================================================

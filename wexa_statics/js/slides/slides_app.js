@@ -5,6 +5,7 @@ import SlidesKeyboardAndButtonsController from './keyboard.js';
 import SlidesTouchController from './touch.js';
 import SlidesFullscreenController from './fullscreen.js';
 import SlidesControlsController from './controls.js';
+import SlidesVisibilityManager from './visibility_manager.js';
 
 /**
  :filename: statics.js.slides.slides_app.js
@@ -84,8 +85,14 @@ export default class SlidesApp {
 
         /** @private */
         this._fullscreen = new SlidesFullscreenController();
+
         /** @private */
         this._focusController = new SlidesFocusController();
+
+        /** @private */
+        this._visibilityManager = new SlidesVisibilityManager({
+            controls: config.controls instanceof HTMLElement ? config.controls : null
+        });
 
         /** @private */
         this._manager = new SlidesManager(
@@ -97,14 +104,17 @@ export default class SlidesApp {
             { // dependencies
                 view: this._view,
                 fullscreen: this._fullscreen,
-                focusController: this._focusController
+                focusController: this._focusController,
+                visibilityManager: this._visibilityManager
             }
         );
 
         /** @private */
-        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
-        /** @private */
         this._touch = new SlidesTouchController(this._manager);
+
+        /** @private */
+        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
+
         /** @private */
         this._controls = new SlidesControlsController(
             this._manager,
