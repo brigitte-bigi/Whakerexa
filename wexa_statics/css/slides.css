@@ -263,7 +263,7 @@ matches the media element exactly. */
    ======================================================================== */
 
 body.presentation-view {
-    /*--screen-width: calc(var(--screen-width) * 0.9);*/
+    --screen-width: calc(1024px / var(--size-divisor));
     --height: calc(var(--screen-width) * 9 / 16);
 
     box-sizing: border-box;
@@ -296,6 +296,33 @@ body.presentation-view {
 
 .presentation-view .slide[aria-selected] {
     pointer-events: auto;
+}
+
+/* =======================================================================
+                          THE OVERVIEW VIEW
+
+    The overview-view class is automatically added by the JS class
+    SlidesView, to the <body> element whenever the presentation mode is
+    requested.
+
+   ======================================================================== */
+
+body.overview-view {
+    --font-size: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
+.overview-view .slide {
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid var(--border-color);
+    width: calc(var(--screen-width) * 0.45)  !important;
+    height: calc(var(--screen-width) * 9 / 16)  !important;
+    margin: 0;
+    padding: 0;
+    background-color: red;
 }
 
 

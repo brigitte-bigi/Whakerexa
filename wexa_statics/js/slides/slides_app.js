@@ -166,6 +166,8 @@ export default class SlidesApp {
         /** @private */
         this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
         this._manager.viewModeManager = this._viewModeManager;
+        this._manager.init();
+        this._viewModeManager.set(this._initialViewMode);
 
     }
 
