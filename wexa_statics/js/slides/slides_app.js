@@ -6,6 +6,7 @@ import SlidesTouchController from './touch.js';
 import SlidesFullscreenController from './fullscreen.js';
 import SlidesControlsController from './controls.js';
 import SlidesVisibilityManager from './visibility_manager.js';
+import SlidesViewModeManager from "./modeview.js";
 
 /**
  :filename: statics.js.slides.slides_app.js
@@ -74,6 +75,9 @@ export default class SlidesApp {
      */
     constructor(config) {
 
+        // ****** VIEWS ******
+        // -------------------
+
         /** @private */
         this._view = new SlidesView(
             config.slides,
@@ -83,11 +87,17 @@ export default class SlidesApp {
             config.overviewContainer
         );
 
+        // ****** CONTROLLERS ******
+        // -------------------------
+
         /** @private */
         this._fullscreen = new SlidesFullscreenController();
 
         /** @private */
         this._focusController = new SlidesFocusController();
+
+        // ****** MANAGERS ******
+        // -------------------------
 
         /** @private */
         this._visibilityManager = new SlidesVisibilityManager({
@@ -130,6 +140,9 @@ export default class SlidesApp {
             }
         );
 
+        // ********** VIEWS INITIALIZATIONS *********
+        // ------------------------------------------
+
         // MVC: View emits → Manager handles
         this._view.onSelectSlide = (index) => {
             this._manager.goTo(index, 0);
@@ -148,6 +161,12 @@ export default class SlidesApp {
         if (this._view && config.overviewContainer) {
             this._view.initOverview((index) => this._manager.goTo(index, 0));
         }
+
+        // ***** VIEW !!! ******
+        /** @private */
+        this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
+        this._manager.viewModeManager = this._viewModeManager;
+
     }
 
     // ----------------------------------------------------------------------

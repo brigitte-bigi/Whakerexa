@@ -93,6 +93,40 @@ export default class SlidesControlsController {
     // ----------------------------------------------------------------------
 
     /**
+     * Update the enabled/disabled state of the two view-mode buttons.
+     *
+     * This method is called exclusively by the ViewModeManager.
+     * It must not change the view mode itself.
+     *
+     * @param {string} mode - Expected SlidesView.MODES.* value.
+     * @returns {void}
+     */
+    updateViewButtons(mode) {
+
+        // Update the OVERVIEW button
+        // Disable it only when the current mode *is* overview.
+        if (this._buttons.overview instanceof HTMLElement) {
+            if (mode === 'overview') {
+                this._buttons.overview.setAttribute('disabled', '');
+            } else {
+                this._buttons.overview.removeAttribute('disabled');
+            }
+        }
+
+        // Update the PRESENTATION button
+        // Disable it only when the current mode *is* presentation.
+        if (this._buttons.presentation instanceof HTMLElement) {
+            if (mode === 'presentation') {
+                this._buttons.presentation.setAttribute('disabled', '');
+            } else {
+                this._buttons.presentation.removeAttribute('disabled');
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
      * Bind click handlers for all known buttons.
      *
      * @private
@@ -204,56 +238,21 @@ export default class SlidesControlsController {
     // ----------------------------------------------------------------------
 
     /**
-     * Switch view mode and update UI controls accordingly.
-     * Only UI state changes happen here; logic is delegated to the manager.
+     * Delegate the view-mode change to the ViewModeManager.
      *
-     * @param {string} viewMode - A SlidesView.MODES.* value.
+     * This method no longer updates any button state locally.
+     * The ViewModeManager becomes the single and authoritative
+     * dispatcher of view-mode changes.
+     *
+     * @param {string} viewMode
+     * @returns {void}
      */
     _switchView(viewMode) {
-
-        // Update the two view-mode buttons (overview / presentation)
-        const viewButtons = ['overview', 'presentation'];
-        for (const name of viewButtons) {
-            const btn = this._buttons[name];
-            if (!btn) continue;
-
-            // Disable the button matching the current view mode
-            // Enable the other one
-            if (name === viewMode) {
-                btn.setAttribute('disabled', '');
-            } else {
-                btn.removeAttribute('disabled');
-            }
+        if (this._manager.viewModeManager !== null &&
+            typeof this._manager.viewModeManager.set === 'function') {
+            this._manager.viewModeManager.set(viewMode);
         }
-
-        // Update navigation buttons depending on the view mode
-        if (viewMode === 'overview') {
-
-            // In overview mode, classic navigation (prev/next/back/last) is irrelevant
-            for (const name of ['prev','next','back','last']) {
-                const btn = this._buttons[name];
-                if (btn) btn.setAttribute('disabled', '');
-            }
-
-            // goto + fullscreen always remain available in overview
-            for (const name of ['goto','fullscreen']) {
-                const btn = this._buttons[name];
-                if (btn) btn.removeAttribute('disabled');
-            }
-
-        } else {
-
-            // In presentation mode, all navigation buttons are enabled
-            for (const name of ['prev','next','back','last','goto','fullscreen']) {
-                const btn = this._buttons[name];
-                if (btn) btn.removeAttribute('disabled');
-            }
-        }
-
-        // Trigger the actual view-mode change in the manager
-        this._manager.setViewMode(viewMode);
     }
-
 
     // ----------------------------------------------------------------------
 

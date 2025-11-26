@@ -37,22 +37,22 @@
  * between presentation / overview modes. It notifies both the SlidesView and
  * the ControlsController to keep the UI perfectly synchronized.
  */
-export default class ViewModeManager {
+export default class SlidesViewModeManager {
 
     /**
-     * @param {Object} config
-     * @param {Object} config.slidesView - Instance of SlidesView.
-     * @param {Object} config.controlsController - Instance of SlidesControlsController.
+     * @param {Object} slidesView - Instance of SlidesView.
+     * @param {Object} controlsController - Instance of SlidesControlsController.
      */
-    constructor(config) {
-        if (typeof config.slidesView === 'object' && config.slidesView !== null) {
-            this._slidesView = config.slidesView;
+    constructor(slidesView, controlsController) {
+
+        if (typeof slidesView === 'object' && slidesView !== null) {
+            this._slidesView = slidesView;
         } else {
             this._slidesView = null;
         }
 
-        if (typeof config.controlsController === 'object' && config.controlsController !== null) {
-            this._controlsController = config.controlsController;
+        if (typeof controlsController === 'object' && controlsController !== null) {
+            this._controlsController = controlsController;
         } else {
             this._controlsController = null;
         }

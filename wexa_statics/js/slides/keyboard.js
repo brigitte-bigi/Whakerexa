@@ -164,15 +164,21 @@ export default class SlidesKeyboardAndButtonsController {
         switch (key) {
 
             case 'Escape':
-                this._manager.setViewMode?.(SlidesView.DEFAULT_MODE);
+                if (this._manager.viewModeManager !== null) {
+                    this._manager.viewModeManager.set(SlidesView.DEFAULT_MODE);
+                }
                 return;
 
             case 'o': case 'O':
-                this._manager.setViewMode?.(SlidesView.MODES.OVERVIEW);
+                if (this._manager.viewModeManager !== null) {
+                    this._manager.viewModeManager.set(SlidesView.MODES.OVERVIEW);
+                }
                 return;
 
             case 's': case 'S':
-                this._manager.setViewMode?.(SlidesView.MODES.PRESENTATION);
+                if (this._manager.viewModeManager !== null) {
+                    this._manager.viewModeManager.set(SlidesView.MODES.PRESENTATION);
+                }
                 return;
 
             case 'f': case 'F':

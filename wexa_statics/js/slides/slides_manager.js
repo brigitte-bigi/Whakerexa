@@ -55,6 +55,7 @@ export default class SlidesManager {
      * @param {Object} [dependencies.fullscreen] - Fullscreen handler (toggle only).
      * @param {Object} [dependencies.focusController] - Optional focus manager.
      * @param {Object} [dependencies.visibilityManager] - Optional visibility manager.
+     * @param {Object} [dependencies.viewModeManager] - Optional view mode manager.
      */
     constructor(slides, options = {}, dependencies = {}) {
 
@@ -83,9 +84,15 @@ export default class SlidesManager {
         // ------------------------------
 
         if (typeof dependencies.visibilityManager === 'object' && dependencies.visibilityManager !== null) {
-            this._visibilityManager = dependencies.visibilityManager;
+            this.visibilityManager = dependencies.visibilityManager;
         } else {
-            this._visibilityManager = null;
+            this.visibilityManager = null;
+        }
+
+        if (typeof dependencies.viewModeManager === 'object' && dependencies.viewModeManager !== null) {
+            this.viewModeManager = dependencies.viewModeManager;
+        } else {
+            this.viewModeManager = null;
         }
 
         this._view =
@@ -251,16 +258,6 @@ export default class SlidesManager {
     // ----------------------------------------------------------------------
 
     /**
-     * Change view mode (pass-through only).
-     * Manager does NOT decide anything.
-     */
-    setViewMode(mode) {
-        this._view?.setMode?.(mode);
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
      * Toggle play/pause on the active slide video, if any.
      *
      * @returns {void}
@@ -297,16 +294,6 @@ export default class SlidesManager {
         } else {
             console.log("No fullscreen available.");
         }
-    }
-
-    // ----------------------------------------------------------------------
-
-    /**
-     * Toggle the controls panel visibility.
-     */
-    toggleControls() {
-        this._controlsVisible = !this._controlsVisible;
-        this._view.renderControls(this._controlsVisible);
     }
 
     // ----------------------------------------------------------------------
