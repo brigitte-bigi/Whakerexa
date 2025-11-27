@@ -1,7 +1,7 @@
 import SlidesManager from './slides_manager.js';
 import SlidesView from './slides_view.js';
 import SlidesFocusController from './focus.js';
-import SlidesKeyboardAndButtonsController from './keyboard.js';
+import SlidesKeyboardController from './keyboard.js';
 import SlidesTouchController from './touch.js';
 import SlidesFullscreenController from './fullscreen.js';
 import SlidesControlsController from './controls.js';
@@ -47,7 +47,7 @@ import SlidesViewModeManager from "./modeview.js";
  * - SlidesManager
  * - SlidesView
  * - SlidesFocusController
- * - SlidesKeyboardAndButtonsController
+ * - SlidesKeyboardController
  * - SlidesTouchController
  * - SlidesFullscreenController
  *
@@ -123,7 +123,7 @@ export default class SlidesApp {
         this._touch = new SlidesTouchController(this._manager);
 
         /** @private */
-        this._keyboard = new SlidesKeyboardAndButtonsController(this._manager);
+        this._keyboard = new SlidesKeyboardController(this._manager);
 
         /** @private */
         this._controls = new SlidesControlsController(
@@ -166,8 +166,6 @@ export default class SlidesApp {
         /** @private */
         this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
         this._manager.viewModeManager = this._viewModeManager;
-        this._manager.init();
-        this._viewModeManager.set(this._initialViewMode);
 
     }
 
@@ -181,6 +179,7 @@ export default class SlidesApp {
     init() {
         this._view.buildOverview();
         this._view.setMode(this._initialViewMode);
+        this._viewModeManager.set(this._initialViewMode);
         this._manager.init();
         this._keyboard.init();
         this._touch.init();
@@ -195,7 +194,7 @@ export default class SlidesApp {
         return this._manager;
     }
 
-    /** @returns {SlidesKeyboardAndButtonsController} */
+    /** @returns {SlidesKeyboardController} */
     get keyboard() {
         return this._keyboard;
     }

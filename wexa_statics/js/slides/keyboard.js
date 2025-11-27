@@ -54,7 +54,7 @@ import SlidesView from './slides_view.js';
  * browser native controls must always retain full priority.
  *
  */
-export default class SlidesKeyboardAndButtonsController {
+export default class SlidesKeyboardController {
 
     /**
      * The definitive list of keys supported by the Slides UI.
@@ -86,13 +86,9 @@ export default class SlidesKeyboardAndButtonsController {
      */
     constructor(slidesManager, options = {}) {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
-            throw new Error('SlidesKeyboardAndButtonsController: "slidesManager" must be an object.');
+            throw new Error('SlidesKeyboardController: "slidesManager" must be an object.');
         }
         this._manager = slidesManager;
-
-        this._nextButton = this._elementOrNull(options.nextButton);
-        this._prevButton = this._elementOrNull(options.prevButton);
-        this._backButton = this._elementOrNull(options.backButton);
 
         this._boundKeyHandler = this._onKeyDown.bind(this);
     }
@@ -108,7 +104,6 @@ export default class SlidesKeyboardAndButtonsController {
      */
     init() {
         document.body.addEventListener('keydown', this._boundKeyHandler, false);
-        this._attachButtons();
     }
 
     /**
@@ -118,7 +113,6 @@ export default class SlidesKeyboardAndButtonsController {
      */
     destroy() {
         window.removeEventListener('keydown', this._boundKeyHandler, false);
-        this._detachButtons();
     }
 
     // ---------------------------------------------------------------------
@@ -139,7 +133,7 @@ export default class SlidesKeyboardAndButtonsController {
         const key = event.key;
 
         // --- RULE 1: Ignore all keys not part of the Slides UI ----------------
-        if (!SlidesKeyboardAndButtonsController.SLIDE_KEYS.has(key)) {
+        if (!SlidesKeyboardController.SLIDE_KEYS.has(key)) {
             return;
         }
 
@@ -282,42 +276,6 @@ export default class SlidesKeyboardAndButtonsController {
         }
 
         return false;
-    }
-
-    // ---------------------------------------------------------------------
-    // Buttons
-    // ---------------------------------------------------------------------
-
-    /** @private */
-    _attachButtons() {
-        if (this._nextButton !== null) {
-            this._nextButton.addEventListener('click', () => this._manager.next());
-        }
-
-        if (this._prevButton !== null) {
-            this._prevButton.addEventListener('click', () => this._manager.prev());
-        }
-
-        if (this._backButton !== null) {
-            this._backButton.addEventListener('click', () => this._manager.goStart());
-        }
-    }
-
-    // ---------------------------------------------------------------------
-
-    /** @private */
-    _detachButtons() {
-        if (this._nextButton !== null) {
-            this._nextButton.replaceWith(this._nextButton.cloneNode(true));
-        }
-
-        if (this._prevButton !== null) {
-            this._prevButton.replaceWith(this._prevButton.cloneNode(true));
-        }
-
-        if (this._backButton !== null) {
-            this._backButton.replaceWith(this._backButton.cloneNode(true));
-        }
     }
 
     // ---------------------------------------------------------------------
