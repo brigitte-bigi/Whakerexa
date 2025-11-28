@@ -74,15 +74,18 @@ body > footer {
 
 /* Add page number at footer */
 .slide:before {
+    z-index: 1;
     counter-increment: slides;
     font-family: var(--font-family-pre), cursive;
     font-size: 40%;
-    position: fixed;
     color: var(--custom-color1);
     content: var(--footer-text) counter(slides);
-    margin-top: calc((var(--height)) - var(--typography-spacing-vertical) - 0.2rem);
-    margin-left: var(--footer-margin-left);
-    z-index: 1;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    line-height: 1rem;
 }
 
 /* No footer on the first slide, it's the presentation title */
@@ -297,6 +300,15 @@ body.presentation-view {
 .presentation-view .slide[aria-selected] {
     pointer-events: auto;
 }
+
+/* Transition effect when changing slide */
+.presentation-view .slide {
+    -moz-transition:    left 250ms linear 0s;
+    -webkit-transition: left 250ms linear 0s;
+    -ms-transition:     left 250ms linear 0s;
+    transition:         left 250ms linear 0s;
+}
+
 
 /* =======================================================================
                           THE OVERVIEW VIEW

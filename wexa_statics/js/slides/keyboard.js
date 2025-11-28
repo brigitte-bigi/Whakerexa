@@ -35,15 +35,15 @@ import SlidesView from './slides_view.js';
 'use strict';
 
 /**
- * Keyboard & button controller.
+ * Keyboard events listener.
  *
- * This controller is *pure input* and must never interfere with the
+ * This listener is *pure input* and must never interfere with the
  * browser’s native accessibility behaviors. It implements a strict rule:
  *
  *     > The browser must always receive Enter, Space, and all navigation
  *     > keys whenever the focused element is interactive.
  *
- * As a consequence, this controller:
+ * As a consequence, this listener:
  * - Only listens for a restricted list of “slide keys”.
  * - Never handles Enter or Space.
  * - Never handles arrow keys, PageUp/PageDown, or Home/End if the
@@ -112,7 +112,7 @@ export default class SlidesKeyboardController {
      * @returns {void}
      */
     destroy() {
-        window.removeEventListener('keydown', this._boundKeyHandler, false);
+        document.body.removeEventListener('keydown', this._boundKeyHandler, false);
     }
 
     // ---------------------------------------------------------------------

@@ -167,7 +167,7 @@ export default class SlidesPresentation {
     // -------------------------------------------------------------------------
 
     /**
-     * Show all slides (presentation mode active).
+     * Show all slides (this presentation mode active).
      *
      * @returns {void}
      */
@@ -180,7 +180,7 @@ export default class SlidesPresentation {
     // -------------------------------------------------------------------------
 
     /**
-     * Hide all slides (overview active).
+     * Hide all slides (another view mode is active).
      *
      * @returns {void}
      */
