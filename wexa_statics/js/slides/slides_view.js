@@ -186,15 +186,22 @@ export default class SlidesView {
     // ---------------------------------------------------------------------------
 
     /**
-     * @param {number} newIndex
-     * @param {number} oldIndex
-     * @returns {void}
+     * Render the active slide for any current mode.
+     * Mandatory: always update views before mode application
+     * so hash-based navigation (#N.S) works at load time.
+     *
+     * @param {number} newIndex 1-based index of the new active slide
+     * @param {number} oldIndex 1-based index of the previous slide
      */
     renderSlide(newIndex, oldIndex) {
-        if (this._mode === SlidesView.MODES.PRESENTATION) {
-            /* Show only the active slide */
-            this._presentation.renderSlide(newIndex, oldIndex);
-        }
+
+        // Presentation view update (always required)
+        this._presentation.renderSlide(newIndex, oldIndex);
+
+        /* Overview view update (safe no-op when inactive)
+        if (typeof this._overview.renderSlide === 'function') {
+            this._overview.renderSlide(newIndex, oldIndex);
+        }*/
     }
 
     /**

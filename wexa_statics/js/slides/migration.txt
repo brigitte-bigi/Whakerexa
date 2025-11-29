@@ -1,8 +1,3 @@
-1. DEBUG - DONE
-
-- mode presentation : garder toutes les slides dans la presentation, car si la présentation ne contient
- que la slide active, il y a deux effets de bord ... 1/ pour l'affichage du numéro de page et
- 2/ pour les transitions (css).
 
 
 2. NETTOYAGE

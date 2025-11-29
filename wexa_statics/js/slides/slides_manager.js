@@ -128,6 +128,9 @@ export default class SlidesManager {
             return;
         }
 
+        // Apply default mode BEFORE any rendering (mandatory for hash)
+        // this._view.setMode(this._view.DEFAULT_MODE);
+
         // Initial render
         this._view.renderSlide(this._currentIndex, 0);
         this._view.renderIncremental(this._currentIndex, this._currentStep);
