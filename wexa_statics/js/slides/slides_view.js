@@ -81,33 +81,25 @@ export default class SlidesView {
                 controlsViewElement  = null,
                 overviewContainer = null) {
 
-        /** @private @type {HTMLElement[]} */
         this._slides = slides;
 
         // Sub-views
 
-        /** @private @type {SlidesPresentation} */
         this._presentation = new SlidesPresentation(
             slides,
             progressBar,
             controlsElement
         );
 
-        /** @private @type {HTMLElement|null} */
         this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
         this._controls = controlsElement instanceof HTMLElement ? controlsElement : null;
         this._overviewContainer = overviewContainer instanceof HTMLElement ? overviewContainer : null;
 
-        /** @private @type {SlidesOverview|null} */
         this._overview = null;
 
-        /** @private @type {string} */
         this._viewMode = SlidesView.MODES.PRESENTATION;
 
-        /**
-         * @public @type {function(number):void|null}
-         * Callback for clicking a slide in the overview.
-         */
+        // Callback for clicking a slide in the overview.
         this.onSelectSlide = null;
     }
 
@@ -126,7 +118,7 @@ export default class SlidesView {
     initOverview(onSelectSlide) {
         if (this._overviewContainer !== null) {
             this._overview = new SlidesOverview(
-                /** @type {HTMLElement[]} */ (
+                (
                     this._slides.map((slide) => slide.cloneNode(true))
                 ),
                 this._overviewContainer,

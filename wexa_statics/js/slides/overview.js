@@ -55,13 +55,10 @@ export default class SlidesOverview {
      * @param {function(number):void} onSelectSlide - Callback invoked on GoTo.
      */
     constructor(slides, panelElement, onSelectSlide) {
-        /** @private @type {HTMLElement[]} */
         this._slides = Array.isArray(slides) ? slides : [];
 
-        /** @private @type {HTMLElement|null} */
         this._panel = panelElement instanceof HTMLElement ? panelElement : null;
 
-        /** @private @type {function(number):void|null} */
         this._onSelectSlide = (typeof onSelectSlide === 'function') ? onSelectSlide : null;
 
         if (this._panel !== null) {

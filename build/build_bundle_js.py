@@ -37,6 +37,7 @@ This banner notice must not be removed.
 """
 
 import os
+import re
 from datetime import datetime
 
 # Inputs
@@ -146,14 +147,45 @@ def remove_exports(text):
     """Remove ES6 'export' keywords from the code."""
     out = []
     for line in text.splitlines(keepends=True):
-        stripped = line.strip()
-        # Remove "export " in front of declarations
+        stripped = line.lstrip()
+
+        # export default
+        if stripped.startswith("export default "):
+            new_line = line.replace("export default ", "", 1)
+            out.append(new_line)
+            continue
+
+        # export class / export function / export const...
         if stripped.startswith("export "):
-            # Remove only the keyword, keep the rest of the line
-            out.append(line.replace("export ", "", 1))
-        else:
-            out.append(line)
+            new_line = line.replace("export ", "", 1)
+            out.append(new_line)
+            continue
+
+        # normal line
+        out.append(line)
     return "".join(out)
+
+def remove_export_blocks(text):
+    """Remove ES6 export blocks: export { A, B, C };"""
+    lines = text.splitlines(keepends=True)
+    output = []
+    in_block = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        if stripped.startswith('export {'):
+            in_block = True
+            continue
+
+        if in_block is True:
+            if stripped == '};':
+                in_block = False
+            continue
+
+        output.append(line)
+
+    return ''.join(output)
 
 # ---------------------------------------------------------------------------
 
@@ -169,6 +201,41 @@ def remove_imports(text):
         out.append(line)
     return "".join(out)
 
+# ---------------------------------------------------------------------------
+
+def extract_class_names(js_code):
+    """Extract all top-level class names in the given JS code.
+
+    Matches: 'class Name', 'class Name extends X'.
+    :return: (list) a list of class names (strings).
+
+    """
+    pattern = r'^\s*class\s+([A-Za-z0-9_]+)'
+    return re.findall(pattern, js_code, flags=re.MULTILINE)
+
+# ---------------------------------------------------------------------------
+
+
+def generate_wexa_exports(class_names):
+    """Given a list of class names ['Slides', 'SlidesManager', ...],
+
+    :return: (str) a JS string that assigns each class to window.Wexa.
+
+    """
+    if not class_names:
+        return ""
+
+    out = []
+    out.append("\n// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----\n")
+    out.append("if (typeof window.Wexa !== 'object') { window.Wexa = {}; }\n")
+
+    for name in class_names:
+        out.append(f"window.Wexa.{name} = {name};\n")
+
+    out.append("// ---- END AUTO-GENERATED EXPORTS ----\n\n")
+    return "".join(out)
+
+# ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 
 
@@ -189,11 +256,20 @@ if __name__ == '__main__':
         with open(filepath, "r", encoding="utf-8") as fp:
             content = fp.read()
             content = remove_jsdoc(content)
-            content = remove_block_comments(content)
+            # content = remove_block_comments(content)
             content = remove_empty_lines(content)
             content = remove_exports(content)
+            content = remove_export_blocks(content)
             content = remove_imports(content)
         buffer.append(content)
+
+        # --- Extract class names in this module
+        class_names = extract_class_names(content)
+
+        # --- Generate export lines for these classes
+        if class_names:
+            export_block = generate_wexa_exports(class_names)
+            buffer.append(export_block)
 
     with open(JS_BUNDLE, "w", encoding="utf-8") as fp:
         fp.write(f"// Bundle automatically generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2025-11-28 17:47:19
+// Bundle automatically generated on 2025-11-29 22:48:12
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -29,9 +29,15 @@ class WexaLogger {
         console.error(`[WexaCritical] ${msg}`, err || '');
     }
 }
-// ---------------- slides\controls.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.WexaLogger = WexaLogger;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/controls.js ---------------
 'use strict';
-default class SlidesControlsController {
+class SlidesControlsController {
     constructor(manager, {
         prevButton = null,
         nextButton = null,
@@ -167,9 +173,15 @@ default class SlidesControlsController {
         return element instanceof HTMLElement ? element : null;
     }
 }
-// ---------------- slides\focus.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesControlsController = SlidesControlsController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/focus.js ---------------
 'use strict';
-default class SlidesFocusController {
+class SlidesFocusController {
     constructor(options = {}) {
         const defaultSelector = [
             'a[href]',
@@ -243,12 +255,27 @@ default class SlidesFocusController {
         if (ariaDisabled !== null && ariaDisabled.toLowerCase() === 'true') {
             return true;
         }
+        /*
+        const tabIndexAttribute = element.getAttribute('tabindex');
+        if (tabIndexAttribute !== null) {
+            const parsed = parseInt(tabIndexAttribute, 10);
+            const isNumber = Number.isNaN(parsed) === false;
+            if (isNumber === true && parsed < 0) {
+                return true;
+            }
+        }*/
         return false;
     }
 }
-// ---------------- slides\fullscreen.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesFocusController = SlidesFocusController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/fullscreen.js ---------------
 'use strict';
-default class SlidesFullscreenController {
+class SlidesFullscreenController {
     constructor(target = null) {
         const defaultTarget = typeof document !== 'undefined'
             ? document.documentElement
@@ -296,9 +323,15 @@ default class SlidesFullscreenController {
         }
     }
 }
-// ---------------- slides\keyboard.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesFullscreenController = SlidesFullscreenController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/keyboard.js ---------------
 'use strict';
-default class SlidesKeyboardController {
+class SlidesKeyboardController {
     static SLIDE_KEYS = new Set([
         'Escape',  // Switch to Presentation mode
         'o', 'O',  // Switch to Overview mode
@@ -453,9 +486,15 @@ default class SlidesKeyboardController {
         return element instanceof HTMLElement ? element : null;
     }
 }
-// ---------------- slides\modeview.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesKeyboardController = SlidesKeyboardController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/modeview.js ---------------
 'use strict';
-default class SlidesViewModeManager {
+class SlidesViewModeManager {
     constructor(slidesView, controlsController) {
         if (typeof slidesView === 'object' && slidesView !== null) {
             this._slidesView = slidesView;
@@ -467,6 +506,8 @@ default class SlidesViewModeManager {
         } else {
             this._controlsController = null;
         }
+        this._mode = null;
+    }
     set(mode) {
         this._mode = mode;
         if (this._slidesView !== null &&
@@ -482,10 +523,26 @@ default class SlidesViewModeManager {
         return this._mode;
     }
 }
-// ---------------- slides\overview.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesViewModeManager = SlidesViewModeManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/overview.js ---------------
 'use strict';
-default class SlidesOverview {
+class SlidesOverview {
     constructor(slides, panelElement, onSelectSlide) {
+        this._slides = Array.isArray(slides) ? slides : [];
+        this._panel = panelElement instanceof HTMLElement ? panelElement : null;
+        this._onSelectSlide = (typeof onSelectSlide === 'function') ? onSelectSlide : null;
+        if (this._panel !== null) {
+            this._panel.style.display = 'none'; // hidden by default
+        }
+    }
+    // -------------------------------------------------------------------------
+    //  Public API
+    // -------------------------------------------------------------------------
     build() {
         if (this._panel === null) {
             return;
@@ -537,10 +594,23 @@ default class SlidesOverview {
         }
     }
 }
-// ---------------- slides\presentation.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesOverview = SlidesOverview;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/presentation.js ---------------
 'use strict';
-default class SlidesPresentation {
+class SlidesPresentation {
     constructor(slides, progressBar = null, controlsElement = null) {
+        this._slides = Array.isArray(slides) ? slides : [];
+        this._progressBar = progressBar;
+        this._controls = controlsElement;
+    }
+    // -------------------------------------------------------------------------
+    //  Public API
+    // -------------------------------------------------------------------------
     renderSlide(newIndex, oldIndex) {
         const total = this._slides.length;
         if (oldIndex >= 1 && oldIndex <= total) {
@@ -624,9 +694,15 @@ default class SlidesPresentation {
         });
     }
 }
-// ---------------- slides\slides.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesPresentation = SlidesPresentation;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/slides.js ---------------
 'use strict';
-default class Slides {
+class Slides {
     constructor(config = {}) {
         // --- Normalize configuration -----------------------------------------
         // We guarantee that "slides" is ALWAYS a true Array.
@@ -661,15 +737,94 @@ default class Slides {
         return this._app.fullscreen;
     }
 }
-// ---------------- slides\slides_app.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Slides = Slides;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/slides_app.js ---------------
 'use strict';
-default class SlidesApp {
+class SlidesApp {
     // ----------------------------------------------------------------------
     // CONSTRUCTOR
     // ----------------------------------------------------------------------
     constructor(config) {
         // ****** VIEWS ******
         // -------------------
+        this._view = new SlidesView(
+            config.slides,
+            config.progressBar,
+            config.controls,
+            config.controlsView,
+            config.overviewContainer
+        );
+        // ****** CONTROLLERS ******
+        // -------------------------
+        this._fullscreen = new SlidesFullscreenController();
+        this._focusController = new SlidesFocusController();
+        // ****** MANAGERS ******
+        // -------------------------
+        this._visibilityManager = new SlidesVisibilityManager({
+            controls: config.controls instanceof HTMLElement ? config.controls : null
+        });
+        this._manager = new SlidesManager(
+            config.slides,
+            {
+                autoPlayEnabled: false,
+                controlsVisible: true
+            },
+            { // dependencies
+                view: this._view,
+                fullscreen: this._fullscreen,
+                focusController: this._focusController,
+                visibilityManager: this._visibilityManager
+            }
+        );
+        this._touch = new SlidesTouchController(this._manager);
+        this._keyboard = new SlidesKeyboardController(this._manager);
+        this._controls = new SlidesControlsController(
+            this._manager,
+            {
+                prevButton: config.controls?.querySelector('#btn-prev') || null,
+                nextButton: config.controls?.querySelector('#btn-next') || null,
+                backButton: config.controls?.querySelector('#btn-back') || null,
+                lastButton:  config.controls?.querySelector('#btn-last')  || null,
+                goToButton: config.controls?.querySelector('#btn-goto') || null,
+                overviewButton: config.controlsView?.querySelector('#btn-overview')  || null,
+                presentationButton: config.controlsView?.querySelector('#btn-presentation')  || null,
+                fullscreenButton: config.controls?.querySelector('#btn-fullscreen')|| null
+            }
+        );
+        // ********** VIEWS INITIALIZATIONS *********
+        // ------------------------------------------
+        // MVC: View emits → Manager handles
+        this._view.onSelectSlide = (index) => {
+            this._manager.goTo(index, 0);
+        };
+        // Normalize initial mode safely
+        this._initialViewMode = SlidesView.MODES.PRESENTATION;
+        if (typeof config.mode === 'string') {
+            const values = Object.values(SlidesView.MODES);
+            if (values.includes(config.mode)) {
+                this._initialViewMode = config.mode;
+            }
+        }
+        // Initialize overview only if an overview container is provided
+        if (this._view && config.overviewContainer) {
+            this._view.initOverview((index) => this._manager.goTo(index, 0));
+        }
+        // ***** VIEW !!! ******
+        this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
+        this._manager.viewModeManager = this._viewModeManager;
+        this._manager.updateFromHash(window.location.hash);
+        window.addEventListener('hashchange', () => {
+            this._manager.updateFromHash(window.location.hash);
+        });
+    }
+    // ----------------------------------------------------------------------
+    // INITIALIZATION
+    // ----------------------------------------------------------------------
     init() {
         this._view.buildOverview();
         this._view.setMode(this._initialViewMode);
@@ -681,9 +836,28 @@ default class SlidesApp {
     // ----------------------------------------------------------------------
     //  Public API
     // ----------------------------------------------------------------------
-// ---------------- slides\slides_manager.js ---------------
+    get manager() {
+        return this._manager;
+    }
+    get keyboard() {
+        return this._keyboard;
+    }
+    get touch() {
+        return this._touch;
+    }
+    get fullscreen() {
+        return this._fullscreen;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesApp = SlidesApp;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/slides_manager.js ---------------
 'use strict';
-default class SlidesManager {
+class SlidesManager {
     // ----------------------------------------------------------------------
     // CONSTRUCTOR
     // ----------------------------------------------------------------------
@@ -739,6 +913,8 @@ default class SlidesManager {
         if (this._slides.length === 0) {
             return;
         }
+        // Apply default mode BEFORE any rendering (mandatory for hash)
+        // this._view.setMode(this._view.DEFAULT_MODE);
         // Initial render
         this._view.renderSlide(this._currentIndex, 0);
         this._view.renderIncremental(this._currentIndex, this._currentStep);
@@ -961,9 +1137,15 @@ default class SlidesManager {
         return step;
     }
 }
-// ---------------- slides\slides_view.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesManager = SlidesManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/slides_view.js ---------------
 'use strict';
-default class SlidesView {
+class SlidesView {
     // ---------------------------------------------------------------------------
     // STATIC ENUM OF MODES
     // ---------------------------------------------------------------------------
@@ -982,6 +1164,19 @@ default class SlidesView {
                 controlsElement = null,
                 controlsViewElement  = null,
                 overviewContainer = null) {
+        this._slides = slides;
+        // Sub-views
+        this._presentation = new SlidesPresentation(
+            slides,
+            progressBar,
+            controlsElement
+        );
+        this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
+        this._controls = controlsElement instanceof HTMLElement ? controlsElement : null;
+        this._overviewContainer = overviewContainer instanceof HTMLElement ? overviewContainer : null;
+        this._overview = null;
+        this._viewMode = SlidesView.MODES.PRESENTATION;
+        // Callback for clicking a slide in the overview.
         this.onSelectSlide = null;
     }
     // -----------------------------------------------------------------------
@@ -990,6 +1185,14 @@ default class SlidesView {
     initOverview(onSelectSlide) {
         if (this._overviewContainer !== null) {
             this._overview = new SlidesOverview(
+                (
+                    this._slides.map((slide) => slide.cloneNode(true))
+                ),
+                this._overviewContainer,
+                onSelectSlide
+            );
+        }
+    }
     buildOverview() {
         if (this._overview !== null) {
             this._overview.build();
@@ -1020,9 +1223,12 @@ default class SlidesView {
     // RENDERING (CALLED ONLY BY SlidesManager)
     // ---------------------------------------------------------------------------
     renderSlide(newIndex, oldIndex) {
-        if (this._mode === SlidesView.MODES.PRESENTATION) {
-            this._presentation.renderSlide(newIndex, oldIndex);
-        }
+        // Presentation view update (always required)
+        this._presentation.renderSlide(newIndex, oldIndex);
+        /* Overview view update (safe no-op when inactive)
+        if (typeof this._overview.renderSlide === 'function') {
+            this._overview.renderSlide(newIndex, oldIndex);
+        }*/
     }
     renderIncremental(index, step) {
         if (this._mode === SlidesView.MODES.PRESENTATION) {
@@ -1064,9 +1270,15 @@ default class SlidesView {
         });
     }
 }
-// ---------------- slides\touch.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesView = SlidesView;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/touch.js ---------------
 'use strict';
-default class SlidesTouchController {
+class SlidesTouchController {
     constructor(slidesManager, options = {}) {
         if (typeof slidesManager !== 'object' || slidesManager === null) {
             throw new Error('SlidesTouchController: "slidesManager" must be an object.');
@@ -1121,9 +1333,15 @@ default class SlidesTouchController {
         }
     }
 }
-// ---------------- slides\visibility.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesTouchController = SlidesTouchController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/visibility.js ---------------
 'use strict';
-default class SlidesVisibilityController {
+class SlidesVisibilityController {
     constructor(element) {
         this._element = element instanceof HTMLElement ? element : null;
     }
@@ -1149,10 +1367,23 @@ default class SlidesVisibilityController {
         }
     }
 }
-// ---------------- slides\visibility_manager.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesVisibilityController = SlidesVisibilityController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- slides/visibility_manager.js ---------------
 'use strict';
-default class SlidesVisibilityManager {
+class SlidesVisibilityManager {
     constructor(elementsMap = {}) {
+        this._controllers = {};
+        const names = Object.keys(elementsMap);
+        for (const name of names) {
+            const element = elementsMap[name];
+            this._controllers[name] = new SlidesVisibilityController(element);
+        }
+    }
     show(name) {
         const controller = this._controllers[name];
         if (controller instanceof SlidesVisibilityController) {
@@ -1187,7 +1418,13 @@ default class SlidesVisibilityManager {
         return Object.keys(this._controllers);
     }
 }
-// ---------------- transport\request.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesVisibilityManager = SlidesVisibilityManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- transport/request.js ---------------
 class RequestManager {
     // FIELDS
     // The declaration outside the constructor and the '#' symbol notify a private attribute.
@@ -1401,7 +1638,13 @@ class RequestManager {
         return response_data;
     }
 }
-// ---------------- transport\base_manager.js ---------------
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.RequestManager = RequestManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- transport/base_manager.js ---------------
 'use strict';
 class BaseManager {
     // ----------------------------------------------------------------------
@@ -1503,6 +1746,12 @@ class BaseManager {
         }
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BaseManager = BaseManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- dom-loader.js ---------------
 class OnLoadManager {
     // FIELDS
@@ -1517,6 +1766,12 @@ class OnLoadManager {
         });
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.OnLoadManager = OnLoadManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- accessibility.js ---------------
 class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
@@ -1774,6 +2029,12 @@ class AccessibilityManager extends BaseManager {
         btn.setAttribute('aria-pressed', String(pressed));
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.AccessibilityManager = AccessibilityManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- menu.js ---------------
 'use strict';
 // --------------------------------------------------------------------------
@@ -1912,7 +2173,7 @@ class MenuManager {
         if (sideMenu) {
             sideMenu.addEventListener('mouseenter', () => {
                 // Iterate over the dictionary to close only registered submenus.
-                for (const [submenu , ] of this.#submenus) {
+                for (const [submenu /* SubMenuManager */, /* toggle */] of this.#submenus) {
                     submenu.closeSubmenu();
                 }
             });
@@ -2035,6 +2296,13 @@ class MenuManager {
         button.setAttribute('aria-expanded', String(expanded));
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SubMenuManager = SubMenuManager;
+window.Wexa.MenuManager = MenuManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- dialog.js ---------------
 'use strict';
 class DialogManager {
@@ -2144,6 +2412,12 @@ class DialogManager {
         dialog.appendChild(btn);
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.DialogManager = DialogManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- progressbar.js ---------------
 class ProgressBar extends BaseManager {
     // ------------------------------------------------------------------------
@@ -2264,6 +2538,12 @@ class ProgressBar extends BaseManager {
         }
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ProgressBar = ProgressBar;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- book.js ---------------
 class Book {
     // FIELDS
@@ -2303,9 +2583,11 @@ class Book {
     fill_table(only_numerate_headings = true) {
         const headings = this.#get_headings(only_numerate_headings);
         headings.forEach((heading, index) => {
+            /* Add the anchor right before the heading */
             let anchor = document.createElement('a');
             anchor.setAttribute("id", 'toc' + index);
             anchor.setAttribute("name", 'toc' + index);
+            /* Add an entry into the table of content */
             let link = document.createElement('a');
             link.setAttribute('href', '#toc' + index);
             link.textContent = heading.textContent;
@@ -2334,6 +2616,12 @@ class Book {
         return headings;
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Book = Book;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- sortatable.js ---------------
 class SortaTable {
     // FIELDS
@@ -2512,6 +2800,12 @@ class SortaTable {
         rows.forEach(row => tableBody.appendChild(row));
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SortaTable = SortaTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- toggleselect.js ---------------
 // --------------------------------------------------------------------------
 class ToggleSelector {
@@ -2652,6 +2946,12 @@ class ToggleSelector {
         });
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ToggleSelector = ToggleSelector;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- links.js ---------------
 'use strict';
 class LinkController {
@@ -2709,6 +3009,12 @@ class LinkController {
         }
     }
 }
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.LinkController = LinkController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- wexa.js ---------------
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
@@ -2723,19 +3029,6 @@ console.debug('Imports OK:', {
     ProgressBar,
     Book
 });
-// ----- Exports (framework public API) -----
-{
-    OnLoadManager,
-    WexaLogger,
-    AccessibilityManager,
-    MenuManager,
-    DialogManager,
-    LinkController,
-    ProgressBar,
-    SortaTable,
-    ToggleSelector,
-    Book
-};
 // ---------------------------------------------------------------------------
 // Global namespace for Whakerexa.
 //

@@ -78,7 +78,6 @@ export default class SlidesApp {
         // ****** VIEWS ******
         // -------------------
 
-        /** @private */
         this._view = new SlidesView(
             config.slides,
             config.progressBar,
@@ -90,21 +89,16 @@ export default class SlidesApp {
         // ****** CONTROLLERS ******
         // -------------------------
 
-        /** @private */
         this._fullscreen = new SlidesFullscreenController();
-
-        /** @private */
         this._focusController = new SlidesFocusController();
 
         // ****** MANAGERS ******
         // -------------------------
 
-        /** @private */
         this._visibilityManager = new SlidesVisibilityManager({
             controls: config.controls instanceof HTMLElement ? config.controls : null
         });
 
-        /** @private */
         this._manager = new SlidesManager(
             config.slides,
             {
@@ -119,13 +113,10 @@ export default class SlidesApp {
             }
         );
 
-        /** @private */
         this._touch = new SlidesTouchController(this._manager);
 
-        /** @private */
         this._keyboard = new SlidesKeyboardController(this._manager);
 
-        /** @private */
         this._controls = new SlidesControlsController(
             this._manager,
             {
@@ -163,7 +154,6 @@ export default class SlidesApp {
         }
 
         // ***** VIEW !!! ******
-        /** @private */
         this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
         this._manager.viewModeManager = this._viewModeManager;
         this._manager.updateFromHash(window.location.hash);
@@ -194,22 +184,30 @@ export default class SlidesApp {
     //  Public API
     // ----------------------------------------------------------------------
 
-    /** @returns {SlidesManager} */
+    /**
+     * @returns {SlidesManager}
+     */
     get manager() {
         return this._manager;
     }
 
-    /** @returns {SlidesKeyboardController} */
+    /**
+     * @returns {SlidesKeyboardController}
+     */
     get keyboard() {
         return this._keyboard;
     }
 
-    /** @returns {SlidesTouchController} */
+    /**
+     * @returns {SlidesTouchController}
+     */
     get touch() {
         return this._touch;
     }
 
-    /** @returns {SlidesFullscreenController} */
+    /**
+     * @returns {SlidesFullscreenController}
+     */
     get fullscreen() {
         return this._fullscreen;
     }

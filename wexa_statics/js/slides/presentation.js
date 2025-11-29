@@ -56,13 +56,10 @@ export default class SlidesPresentation {
      * @param {HTMLElement|null} controlsElement - The global control's container.
      */
     constructor(slides, progressBar = null, controlsElement = null) {
-        /** @private @type {HTMLElement[]} */
         this._slides = Array.isArray(slides) ? slides : [];
 
-        /** @private @type {HTMLElement|null} */
         this._progressBar = progressBar;
 
-        /** @private @type {HTMLElement|null} */
         this._controls = controlsElement;
     }
 

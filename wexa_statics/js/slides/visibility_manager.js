@@ -47,7 +47,6 @@ export default class SlidesVisibilityManager {
      *        Keys = names, values = HTMLElements to manage.
      */
     constructor(elementsMap = {}) {
-        /** @private */
         this._controllers = {};
 
         const names = Object.keys(elementsMap);

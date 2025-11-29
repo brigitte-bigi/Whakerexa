@@ -57,7 +57,6 @@ export default class SlidesViewModeManager {
             this._controlsController = null;
         }
 
-        /** @private @type {string} */
         this._mode = null;
     }
 
