@@ -522,7 +522,33 @@
         }
     </script>
 
+    <!--
+        <script src="../wexa_statics/js/wexa.bundle.js"></script>
+        <script>
+            window.addEventListener('load', () => {
 
+                const slidesNodeList = document.querySelectorAll('.slide');
+                const slides = Array.from(slidesNodeList);
+
+                const app = new Wexa.SlidesApp({
+                    slides: slides,
+                    progressBar: document.getElementById('progress-bar'),
+                    controls: document.getElementById('slides-controls'),
+                    controlsView: document.getElementById('slides-controls-view'),
+                    overviewContainer: document.getElementById('overview-container'),
+                    mode: 'presentation'
+                });
+
+                app.init();
+
+            });
+            window.Wexa.dialog = new Wexa.DialogManager();
+            window.Wexa.links  = new Wexa.LinkController();
+
+            const tableSorter = new Wexa.SortaTable('terminator-dates-table');
+            tableSorter.attachSortListeners();
+        </script>
+        -->
 
 </body>
 </html>
