@@ -137,8 +137,7 @@ background dialogs, corrected a bug in accessibility.
 
 - This is mainly some debug.
 
-
-## Version 1.0 — stable
+## Version 1.0
 
 Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered on a unified entry point.
 
@@ -157,18 +156,16 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 This version also includes a set of monochrome SVG icons.
 
 
-## Version 2.0 — develop
+## Version 2.0 — stable
 
 Version 2.0 is a complete modernization.
 Previous procedural APIs are not preserved.
 
-- Unified ES6 entry point (wexa.js) exporting all components.
-- Global namespace through wexa.bundle.js:
-- progress function is deprecated. Make use of the ProgressBar class instead.
-See the progressbar.html file in the `docs` folder.
-- Make use of Wexa.onload instead of OnLoadManager, Wexa.dialog instead of DialogManager, etc
-- WexaLogger is extended: It now mimics Python's logging system with numeric
-levels from 0 (silent) to 50 (critical). Only messages with a severity less than or
-equal to the current `logLevel` are displayed.
-- Improved request.js: JSON detection through Content-Type with silent fallback for non-JSON responses.
-- Updated documentation and offline demos.
+- Unified ES6 entry point (`wexa.js`) exporting all components.
+- `wexa.bundle.js` exposes the global namespace `window.Wexa` for `file://` usage.
+- The `progress()` function is removed. Use the `ProgressBar` class instead (see `docs/progressbar.html`).
+- Use `Wexa.onload` instead of `OnLoadManager`, `Wexa.dialog` instead of `DialogManager`, etc.
+- `WexaLogger` is extended: numeric levels from 0 (most verbose) to 50 (critical only). Messages are shown when their level is >= the current `logLevel`.
+- Improved `request.js`: JSON detection through `Content-Type` with silent fallback for non-JSON responses.
+- Updated documentation and offline demos. Fixed license documentation to GFDL 1.3, except for slides. See: <https://www.gnu.org/licenses/fdl-1.3.en.html> for details.
+- Added an "extra" JS package for slides. Currently proposed as a PoC.
