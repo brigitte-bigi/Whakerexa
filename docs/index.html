@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
+    <title>Whakerexa</title>
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="keywords" content="framework, html, css, javascript" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>Whakerexa</title>
+
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
-
-    <script src="../wexa_statics/js/wexa.js" type="module"></script>
 
     <style>
         :root:not([data-theme=dark]), [data-theme=light] {
@@ -58,32 +58,23 @@
             box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
         }
 
-        .card main {
-            background: var(--card-bg-color);
-        }
-
-        .card main * {
-            background: transparent;
-        }
-
-        /* Card footer link styling */
-        .card footer a {
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            text-decoration: underline;
-            text-underline-offset: 0.2rem;
-            transition: color 0.25s ease, transform 0.15s ease;
-            background: none;
-            border: none;
-        }
-
-        .card footer a:hover {
-            transform: translateY(-2px);
-        }
-
     </style>
+
+    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+    <script>
+        (function () {
+            const usingFile = (window.location.protocol === 'file:');
+            const s = document.createElement('script');
+            if (usingFile) {
+                s.src = '../wexa_statics/js/wexa.bundle.js';
+            } else {
+                s.type = 'module';
+                s.src = '../wexa_statics/js/wexa.js';
+            }
+            document.head.appendChild(s);
+        })();
+    </script>
+
 </head>
 
 <body>
@@ -98,9 +89,9 @@
                    href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
         </ul>
         <button id="btn-contrast" class="accessibility" role="menuitem"
-                aria-pressed="false" onclick="Wexa.accessibility.switch_contrast_scheme()"></button>
+                aria-label="contrast" aria-pressed="false" onclick="Wexa.accessibility.switch_contrast_scheme()"></button>
         <button id="btn-theme" class="accessibility" role="menuitem"
-                aria-pressed="false" onclick="Wexa.accessibility.switch_color_scheme()"></button>
+                aria-label="color" aria-pressed="false" onclick="Wexa.accessibility.switch_color_scheme()"></button>
     </nav>
     <h1>Whakerexa</h1>
     <h2>Build accessible, elegant web pages with one lightweight toolkit</h2>
@@ -112,8 +103,17 @@
 
 <main id="main-content" class="panel">
 
-    <h1> Overview </h1>
+    <p></p>
+    <blockquote style="border: 1px solid rgba(128, 128, 128, 0.5); border-radius: 1rem; ">
+        <p>Whakerexa exists to keep HTML readable and accessible without a heavy framework:
+            semantic tags first, minimal classes, customization via CSS variables, and optional JS for behavior only.
+            <span style="color: rgba(200, 100, 100);"> No private services, no tracking</span>, works online and offline (bundle for file:// when needed).
+        </p>
+        <p>This documentation is demo + reference: view the page, then read its HTML.</p>
+    </blockquote>
+    <p></p>
 
+    <h1> Overview </h1>
     <p>
         Whakerexa offers CSS frameworks and JavaScript for any HTML content.
         It is intended to be as simple as possible to make <b>accessible web content</b>,
@@ -136,137 +136,174 @@
         <a href="https://sourceforge.net/projects/whakerexa/">https://sourceforge.net/projects/whakerexa/</a>
     </p>
 
-    <h2>About ES6 modules and the bundle</h2>
-    <p>
-      Whakerexa is implemented as native <strong>ES6 modules</strong>. In a normal application,
-      each feature (menus, dialogs, progress bars, accessibility helpers) is imported dynamically
-      with <code>import</code> statements and loaded by the browser from separate files.
-    </p>
-    <p>
-      This modular architecture is ideal for maintainable web applications, but it requires a
-      module-capable HTTP server and cannot be used directly with <code>file://</code> URLs.
-      To simplify quick tests, offline usage, and teaching examples, Whakerexa also provides
-      a <strong>bundle</strong>: a single JavaScript file named <code>wexa.bundle.js</code>.
-    </p>
-    <p>
-      The bundle packs the main Whakerexa modules into one file and exposes them on a global
-      namespace. You can then write standard scripts without any ES6 <code>import</code>,
-      while still using the same components (for example <code>MenuManager</code>,
-      <code>AccessibilityManager</code>, <code>DialogManager</code>, and <code>ProgressBar</code>).
-    </p>
-    <p>See the <a href="./wexa.bundle.html">Wexa Bundle Demo</a>.</p>
+    <!-- ------------------------ -->
 
-    <!-- ---------------------------------------------------------------- -->
+    <h1>Start</h1>
 
-    <h1>Whakerexa in action</h1>
+    <p>Beginner path: open one page below, view the result, then read the HTML of that page.</p>
 
-    <section style="text-align:center;margin-bottom:2rem;">
-        <p>Explore the components below to see Whakerexa in action.</p>
-        <p><strong>Click a card</strong> to open the live example.</p>
-    </section>
+    <h3>Online documentation</h3>
+    <p>Open the hosted docs in your browser: <a class="external-link" href="https://whakerexa.sourceforge.io">Open online docs</a></p>
+
+    <h3>Run locally (recommended)</h3>
+    <p>Browsers block ES6 modules on <code>file://</code>. Run a tiny local server:</p>
+        <pre>python -m http.server 8000</pre>
+        <p>Then open: <code>http://localhost:8000/docs/</code></p>
+
+    <h3>Open directly (file://)</h3>
+    <p>If you NEED TO open the docs from disk, use pages that rely on <code>wexa.bundle.js</code>.
+    This index auto-loads the bundle when opened in <code>file://</code>.
+    </p>
+
+    <details>
+        <summary>Advanced: ES6 modules vs bundle (why there are two)</summary>
+        <p>
+            Modules (<code>wexa.js</code>) are for normal web usage with an HTTP server.
+            The bundle (<code>wexa.bundle.js</code>) exists only for offline/static environments where modules are blocked.
+        </p>
+    </details>
+    <p></p>
+
+    <!-- ------------------------ -->
+
+    <h1>Documentation</h1>
+
+    <h2>CSS foundations</h2>
 
     <section class="cards-panel">
-
         <article class="card">
-            <main>
-                <h2>wexa.css</h2>
-                <p>A CSS framework to make the web easy and accessible</p>
-            </main>
-            <footer>
-                <a href="wexa.html">wexa</a>
-            </footer>
+            <h3>Wexa</h3>
+            <p>Base styles + variables + themes (light/dark/contrast).</p>
+            <footer><a href="wexa.html">Open wexa.css doc</a></footer>
         </article>
 
         <article class="card">
-            <main>
-                <h2>menu.css</h2>
-                <p>A CSS framework to make accessible and modern menus</p>
-            </main>
-            <footer>
-                <a href="menu.html">menu</a>
-            </footer>
+            <h3>Layout</h3>
+            <p>Layout helpers (cards, panels, spacing).</p>
+            <footer><a href="layout.html">Open layout doc</a></footer>
         </article>
 
         <article class="card">
-            <main>
-                <h2>wexa.css & book.css</h2>
-                <p>Two CSS frameworks to make books easy and accessible</p>
-            </main>
-            <footer>
-                <a href="book.html">book</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>book with ToC</h2>
-                <p>A CSS/JS framework to create automatically the ToC of a book</p>
-            </main>
-            <footer>
-                <a href="autotoc.html">auto toc</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>layout.css</h2>
-                <p>A minimalistic CSS framework to organize HTML elements</p>
-            </main>
-            <footer>
-                <a href="layout.html">layout</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>dialog css/js</h2>
-                <p>A framework to easily open a modal 'dialog'</p>
-            </main>
-            <footer>
-                <a href="dialog.html">dialog</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>code.css</h2>
-                <p>Custom colors for pygments code</p>
-            </main>
-            <footer>
-                <a href="code.html">code</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>progressbar.js</h2>
-                <p>A JS to deal with progress bars</p>
-            </main>
-            <footer>
-                <a href="progressbar.html">progress</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>sortatable css/js</h2>
-                <p>Sort rows of a table by clicking its columns</p>
-            </main>
-            <footer>
-                <a href="sortatable.html">sortatable</a>
-            </footer>
-        </article>
-
-        <article class="card">
-            <main>
-                <h2>button.css</h2>
-                <p>Customized buttons</p>
-            </main>
-            <footer>
-                <a href="button.html">button</a>
-            </footer>
+            <h3>Code</h3>
+            <p>Pygments-friendly code colors and readable blocks.</p>
+            <footer><a href="code.html">Open code doc</a></footer>
         </article>
     </section>
+
+    <h2>UI components</h2>
+
+    <section class="cards-panel">
+        <article class="card">
+            <h3>Buttons</h3>
+            <p>Buttons, action buttons, switches.</p>
+            <footer><a href="button.html">Open buttons doc</a></footer>
+        </article>
+
+        <article class="card">
+            <h3>Dialogs</h3>
+            <p>Modal dialogs + accessibility behaviors.</p>
+            <footer><a href="dialog.html">Open dialog doc</a></footer>
+        </article>
+
+        <article class="card">
+            <h3>Menus</h3>
+            <p>Navigation bars + submenus (top / bottom / side).</p>
+            <footer>
+                <a href="menu.html">Top</a> <br>
+                <a href="menu-bottom.html">Bottom</a><br>
+                <a href="menu-side.html">Side</a>
+            </footer>
+        </article>
+
+        <article class="card">
+            <h3>Links</h3>
+            <p>Consistent behavior for links/buttons: _blank, _self, or iframe.</p>
+            <footer><a href="links.html">Open links doc</a></footer>
+        </article>
+
+        <article class="card">
+            <h3>Progress Bar</h3>
+            <p>Managed mode (callback) + autonomous mode (RequestManager).</p>
+            <footer><a href="progressbar.html">Open progressbar doc</a></footer>
+        </article>
+    </section>
+
+    <h2>Content / document helpers</h2>
+
+    <section class="cards-panel">
+        <article class="card">
+            <h3>Book</h3>
+            <p>Book-like layout built on wexa.css.</p>
+            <footer><a href="book.html">Open book doc</a></footer>
+        </article>
+
+        <article class="card">
+            <h3>Auto ToC</h3>
+            <p>Generate a table of contents from headings.</p>
+            <footer><a href="autotoc.html">Open autotoc doc</a></footer>
+        </article>
+    </section>
+
+
+    <h2>Utilities</h2>
+
+    <section class="cards-panel">
+        <article class="card">
+            <h3>Sortable Table</h3>
+            <p>Sortable HTML tables (click headers).</p>
+            <footer><a href="sortatable.html">Open sortatable doc</a></footer>
+        </article>
+    </section>
+
+    <h2>Internal JS utilities</h2>
+
+    <p>
+        Implementation helpers (example: <code>dom-loader.js</code>) are not beginner pages.
+        Document them only if users need the API.
+    </p>
+
+    <h2>About ES6 modules and the bundle</h2>
+
+    <p>
+        Whakerexa is implemented as native <strong>ES6 modules</strong>. In a normal application,
+        each feature (menus, dialogs, progress bars, accessibility helpers) is imported dynamically
+        with <code>import</code> statements and loaded by the browser from separate files.
+    </p>
+    <p>
+        This modular architecture is ideal for maintainable web applications, but it requires a
+        module-capable HTTP server and cannot be used directly with <code>file://</code> URLs.
+        To simplify quick tests, offline usage, and teaching examples, Whakerexa also provides
+        a <strong>bundle</strong>: a single JavaScript file named <code>wexa.bundle.js</code>.
+    </p>
+    <p>
+        The bundle packs the main Whakerexa modules into one file and exposes them on a global
+        namespace. You can then write standard scripts without any ES6 <code>import</code>,
+        while still using the same components (for example <code>MenuManager</code>,
+        <code>AccessibilityManager</code>, <code>DialogManager</code>, and <code>ProgressBar</code>).
+    </p>
+
+    <article class="card">
+        <h3>Bundle demo</h3>
+        <p>Single-file demo for bundle usage (offline).</p>
+        <footer><a href="wexa.bundle.html">Open bundle demo</a></footer>
+    </article>
+
+
+    <!-- ------------------------ -->
+
+
+    <h1>Extras</h1>
+
+    <div class="cards-panel">
+        <article class="card">
+            <h3>Slides</h3>
+            <p>Presentation/overview controls (extra package).</p>
+            <footer>
+                <a href="slides.html">Slides (modules)</a> <br>
+                <a href="slides_bundle.html">Slides (bundle)</a>
+            </footer>
+        </article>
+    </div>
 
 </main>
 
@@ -277,7 +314,7 @@
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <p class="copyright">
-        Copyright @ 2023-2025 <a href="https://sppas.org/bigi/" class="external-link">Brigitte Bigi</a>,
+            Copyright @ 2023-2025 <a href="https://sppas.org/bigi/" class="external-link">Brigitte Bigi</a>,
             CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France
         </p>
     </section>

@@ -3,7 +3,8 @@
 <html lang="en">
 <head>
 
-    <title>Book.css</title>
+    <title>Book</title>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
@@ -13,7 +14,16 @@
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/book.css" type="text/css" media="all" />
 
-    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <style>
+        :root {
+            --nav-min-height: 4rem;
+            --header-height: 26rem;
+        }
+        :root:not([data-theme=dark]), [data-theme=light] {
+            --nav-fg-color: rgba(240, 230, 240);
+            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
+        }
+    </style>
 
 </head>
 
@@ -25,37 +35,25 @@
         <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
-        <nav class="wexa-nav top">
+        <nav class="nav-wexa top">
             <ul>
                 <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
                 <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
                 <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
             </ul>
             <button id="btn-contrast" class="accessibility" role="menuitem"
-                    aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
+                    aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()" aria-label="Switch contrast scheme"></button>
             <button id="btn-theme" class="accessibility" role="menuitem"
-                    aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
+                    aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()" aria-label="Switch color scheme"></button>
         </nav>
-        <h1>Wexa.css & Book.css</h1>
-        <h2>Two CSS frameworks to make books easy and accessible</h2>
+        <h1>Make books easy and accessible</h1>
+        <h2>by Whakerexa</h2>
     </header>
 
     <main id="main-content">
 
         <section id="description" class="chapter">
             <h1> Description </h1>
-
-            <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
-            <pre>
-&lt;link
-    rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/wexa.css?format=raw"
-    media="all" /&gt;
-&lt;link
-    rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/book.css?format=raw"
-    media="all" /&gt;
-            </pre>
 
             <section class="ssection"><h2>Overview</h2>
                 <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
@@ -70,6 +68,19 @@
                 </p>
 
                 <p>Not convinced? Take a look at the source code of this page!</p>
+
+                <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
+                <pre>
+&lt;link
+    rel="stylesheet"
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/wexa.css?format=raw"
+    media="all" /&gt;
+&lt;link
+    rel="stylesheet"
+    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/book.css?format=raw"
+    media="all" /&gt;
+            </pre>
+
             </section>
 
             <section class="ssection"><h2>The custom classes</h2>
@@ -111,19 +122,32 @@
 
             <section class="ssection"><h2>The variables</h2>
 
-                <p>Only one variable is introduced. It allows to fix the color of the numbering.</p>
-            <pre>&lt;style&gt;
-    :root {
-        /* if you like gray */
-        --numbers-color: rgb(60, 60, 60);
-    }
-    .dark {
-        --numbers-color: rgb(180, 180, 180);
-    }
-&lt;/style&gt;</pre>
-
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Description</th>
+                        <th>Default</th>
+                        <th>Customization Example</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>--numbers-color</code></td>
+                        <td>Color used for generated section numbers (via CSS counters).</td>
+                        <td><code>rgb(140, 40, 40)</code></td>
+                        <td><code>--numbers-color: rgb(25, 128, 180);</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>--toc-width</code></td>
+                        <td>Width reserved for the table of contents (left margin of the document).</td>
+                        <td><code>0</code></td>
+                        <td><code>--toc-width: 16rem;</code></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </section>
             </section>
-        </section>
 
         <!-- ------------------------------------------------------------- -->
         <!-- ------------------------------------------------------------- -->
@@ -340,8 +364,27 @@
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <hr>
-        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS<br>
+            Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
+            This document is under the terms of the GNU Free Documentation License, v1.3.</a>
+        </p>
     </footer>
+
+    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+    <script>
+        (function () {
+            const usingFile = (window.location.protocol === 'file:');
+            const s = document.createElement('script');
+            if (usingFile) {
+                s.src = '../wexa_statics/js/wexa.bundle.js';
+            } else {
+                s.type = 'module';
+                s.src = '../wexa_statics/js/wexa.js';
+            }
+            document.head.appendChild(s);
+        })();
+    </script>
 
     </body>
 </html>

@@ -3,15 +3,16 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>LinkController</title>
+    <title>Link Controller</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css"/>
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css"/>
+
     <style>
         :root {
-            --header-height: 25vh;
+            --header-height: 32vh;
             --header-slidein: none;
 
             --nav-min-height: 0;
@@ -33,7 +34,7 @@
 
         :root:not([data-theme=dark]), [data-theme=light] {
             --nav-bg-color: rgba(100, 55, 128, 0.5);
-            --header-bg-color: rgb(0, 0, 40);
+            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
         }
 
         .dark {
@@ -75,7 +76,36 @@
             border-radius: .5rem;
         }
     </style>
-    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+<script>
+  (function () {
+    const usingFile = (window.location.protocol === 'file:');
+    const s = document.createElement('script');
+
+    function initLinks() {
+      if (!window.Wexa || typeof window.Wexa.LinkController !== 'function') {
+        console.error('[links] Wexa.LinkController is not available.');
+        return;
+      }
+      if (!window.Wexa.links) {
+        window.Wexa.links = new window.Wexa.LinkController();
+      }
+      window.Wexa.links.handleLinks(['doc_link', 'self_link', 'video_btn']);
+    }
+
+    if (usingFile) {
+      s.src = '../wexa_statics/js/wexa.bundle.js';
+      s.onload = initLinks;
+      document.head.appendChild(s);
+      return;
+    }
+
+    s.type = 'module';
+    s.src = '../wexa_statics/js/wexa.js';
+    s.onload = initLinks;
+    document.head.appendChild(s);
+  })();
+</script>
 
 </head>
 
@@ -92,18 +122,39 @@
                 <li><a class="external-link" role="menuitem" href="https://sourceforge.net/projects/whakerexa/">Whakerexa</a></li>
             </ul>
             <button id="btn-contrast" class="accessibility" role="menuitem"
-                    aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
+                    aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()" aria-label="Switch contrast scheme"></button>
             <button id="btn-theme" class="accessibility" role="menuitem"
-                    aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
+                    aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()" aria-label="Switch color scheme"></button>
         </nav>
-        <h1>LinkController</h1>
+        <h1>Link Controller</h1>
+        <h2>by Whakerexa</h2>
     </header>
 
     <main id="main-content">
 
-        <h1>LinkController minimal test</h1>
+        <h1>Description</h1>
 
         <blockquote>Manage user interactions on clickable elements that open URLs.</blockquote>
+
+        <section id="description">
+            <h2>What it is for</h2>
+            <p>
+                <code>LinkController</code> standardizes how clickable elements open URLs.
+                It makes both mouse click and <kbd>Enter</kbd> behave the same way, and lets you target
+                a new tab, the current page, or an iframe preview.
+            </p>
+
+            <h2>Rules</h2>
+            <ul>
+                <li><b>Activation</b>: click or <kbd>Enter</kbd>.</li>
+                <li><b>URL</b>: <code>href</code> is used first; if missing/empty, <code>data-href</code> is used.</li>
+                <li><b>Target</b> (<code>data-target</code>): <code>_blank</code> (default), <code>_self</code>, or an iframe id.</li>
+                <li>If <code>data-target</code> matches an existing <code>&lt;iframe&gt;</code> id, the URL is loaded into that iframe.</li>
+                <li>Default navigation is prevented (so behavior stays consistent).</li>
+            </ul>
+        </section>
+
+        <h2>Examples</h2>
 
         <!-- Opens in new tab by default -->
         <div class="row">
@@ -127,7 +178,11 @@
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <hr>
-        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS<br>
+            Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
+            This document is under the terms of the GNU Free Documentation License, v1.3.</a>
+        </p>
     </footer>
 
     <!-- ------------------- LINKS MANAGEMENT IS HERE --------------------- -->

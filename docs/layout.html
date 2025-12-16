@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>layout.css</title>
+    <title>Layout</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
 
@@ -12,7 +12,16 @@
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css">
 
-    <script src="../wexa_statics/js/wexa.js" type="module"></script>
+    <style>
+        :root {
+            --nav-min-height: 4rem;
+            --header-height: 26rem;
+        }
+        :root:not([data-theme=dark]), [data-theme=light] {
+            --nav-fg-color: rgba(240, 230, 240);
+            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
+        }
+    </style>
 
 </head>
 <body>
@@ -32,14 +41,29 @@
             <button id="btn-theme" class="accessibility" role="menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
         </nav>
-        <h1>layout.css</h1>
-        <h2>A CSS framework to organize HTML elements</h2>
+        <h1>Layout</h1>
+        <h2>by Whakerexa</h2>
     </header>
+
 
     <main id="main-content">
 
         <section id="description">
             <h1>Description</h1>
+
+            <h2>Overview</h2>
+
+            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
+                accessible web content, and to minimize the use of CSS classes for enhancing the
+                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
+                CSS framework of  <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.
+            </p>
+            <p><b>layout.css</b> is a CSS framework based on wexa.css, allowing you to manage
+                layouts of HTML elements. It includes the possibility to add
+                content that looks like a card. At this time, it is provided as-is, offering
+                a streamlined selection of customization solutions.</p>
+
+            <p>Not convinced? Take a look at the source code of this page!</p>
 
             <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
             <pre>
@@ -53,18 +77,6 @@
     media="all" /&gt;
             </pre>
 
-            <h2>Overview</h2>
-
-            <p><b>wexa.css</b> is a CSS framework intended to be as simple as possible to make
-                accessible web content, and to minimize the use of CSS classes for enhancing the
-                readability of HTML code, like it should always be! <b>wexa.css</b> is the main
-                CSS framework of  <a class="external-link" href="https://whakerexa.sf.net">Whakerexa</a>.
-            </p>
-            <p><b>layout.css</b> is a CSS framework based on wexa.css, allowing you to manage
-                layouts of HTML elements. It includes the possibility to add
-                content that looks like a card. At this time, it is provided as-is, offering
-                a streamlined selection of customization solutions.</p>
-            <p>Not convinced? Take a look at the source code of this page!</p>
 
             <h2>The containers</h2>
 
@@ -72,7 +84,7 @@
             <h3>Scrolled panel</h3>
             <h3>Flex panel</h3>
             <h3>Grid panel</h3>
-            <h3>Collapsible panel</h3>
+            <h3>Collapsible panel (HTML <code>&lt;details&gt;</code>)</h3>
 
             <h3>Cards panel</h3>
             <p>layout.css provides a container allowing to organize cards:
@@ -146,15 +158,46 @@
             </table>
 
             <h2>The variables</h2>
-            <p>cards.css is allowing to set the following four variables:</p>
-            <ol>
-                <li><code>card-max-width</code>, not efficient if full-cards-panel</li>
-                <li><code>card-border-width</code> is '2px' by default</li>
-                <li><code>card-border-radius</code> is '8px' by default</li>
-                <li><code>card-box-shadow</code></li>
-            </ol>
-            <p>In the following example, the max width and the border width of a card are both
-                increased, and the border radius and shadow are canceled:</p>
+            <p><code>layout.css</code> allows to override the following variables:</p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Description</th>
+                    <th>Default</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>--card-max-width</code></td>
+                    <td>Max width of cards in <code>.cards-panel</code>.</td>
+                    <td><code>15rem</code></td>
+                </tr>
+                <tr>
+                    <td><code>--card-border-width</code></td>
+                    <td>Border width of a <code>.card</code>.</td>
+                    <td><code>2px</code></td>
+                </tr>
+                <tr>
+                    <td><code>--card-border-radius</code></td>
+                    <td>Border radius of a <code>.card</code>.</td>
+                    <td><code>8px</code></td>
+                </tr>
+                <tr>
+                    <td><code>--card-box-shadow</code></td>
+                    <td>Shadow of a <code>.card</code>.</td>
+                    <td><code>-0.2rem 0.2rem 0.6rem 0.2rem var(--shadow-color)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--columns-sep-color</code></td>
+                    <td>Color used for column separators (if enabled in custom layouts).</td>
+                    <td><code>rgba(128, 128, 128, 128)</code></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p>Example: override variables in the <code>&lt;head&gt;</code> (after the CSS links):</p>
             <pre>&lt;style&gt;
     :root {
         --card-max-width: 15rem;
@@ -162,13 +205,16 @@
         --card-border-radius: 0;
         --card-box-shadow: none;
     }
-            </pre>
+&lt;/style&gt;</pre>
+
         </section>
 
         <section id="demo">
             <h1>Demos</h1>
 
             <h2>Cards</h2>
+
+            <p><em>Note:</em> images used in this page are decorative; keeping <code>alt=""</code> is intended.</p>
 
             <h3>Create cards in a section with article elements</h3>
             <section class="cards-panel">
@@ -193,7 +239,7 @@
                     <main>
                         <h2> A card </h2>
                         <p>Le read more ci-dessous est un lien avec role button.</p>
-                        <a role="button" aria-hidden="true" id="desc-a-card" href="#somewhere3">Read more →</a>
+                        <a role="button" id="desc-a-card" href="#somewhere3">Read more →</a>
                     </main>
                     <footer>
                         <p>This is a text inside the footer of the card.</p>
@@ -207,7 +253,7 @@
                     <main>
                         <h2>Another card instance</h2>
                         <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
-                        <button aria-hidden="true" id="desc-third-card-instance">Read more →</button>
+                        <button id="desc-third-card-instance">Read more →</button>
                     </main>
                     <footer>
                         <p>This is a text inside the footer of the card.</p>
@@ -252,11 +298,34 @@
 
         </section>
     </main>
+
     <footer>
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
         <hr>
-        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p>Copyright @ 2023-2025 Brigitte Bigi, CNRS<br>
+            Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+        <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
+            This document is under the terms of the GNU Free Documentation License, v1.3.</a>
+        </p>
     </footer>
+
+    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+    <script>
+        (function () {
+            const usingFile = (window.location.protocol === 'file:');
+            const script = document.createElement('script');
+
+            if (usingFile) {
+                script.src = '../wexa_statics/js/wexa.bundle.js';
+            } else {
+                script.type = 'module';
+                script.src = '../wexa_statics/js/wexa.js';
+            }
+
+            document.head.appendChild(script);
+        })();
+    </script>
+
 </body>
 </html>
