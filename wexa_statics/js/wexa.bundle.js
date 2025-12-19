@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2025-11-30 11:35:47
+// Bundle automatically generated on 2025-12-19 20:10:28
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -272,6 +272,7 @@ class BaseManager {
         this._requestManager = new RequestManager();
         let url = new URL(window.location.href);
         this._uri = url.pathname.substring(1);
+        this._dialog = new DialogManager();
     }
     // ----------------------------------------------------------------------
     _showActionResult(error = "", info = "", reload = true) {
@@ -341,7 +342,7 @@ class BaseManager {
         let dlg = document.getElementById(dialogId);
         if (dlg != null) {
             dlg.innerHTML = `<p>${message}</p>`;
-            DialogManager.open(dialogId);
+            this._dialog.open(dialogId);
         } else {
             alert(message);
         }
@@ -351,7 +352,7 @@ class BaseManager {
         let dlg = document.getElementById(dialogId);
         if (dlg != null) {
             dlg.innerHTML = ``;
-            DialogManager.close(dialogId);
+            this._dialog.close(dialogId);
         } else {
             WexaLogger.warn(`No such dialog ${dialogId}`);
         }
@@ -363,7 +364,7 @@ window.Wexa.BaseManager = BaseManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/visibility.js ---------------
+// ---------------- extras/slides/visibility.js ---------------
 'use strict';
 class SlidesVisibilityController {
     constructor(element) {
@@ -397,7 +398,7 @@ window.Wexa.SlidesVisibilityController = SlidesVisibilityController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/visibility_manager.js ---------------
+// ---------------- extras/slides/visibility_manager.js ---------------
 'use strict';
 class SlidesVisibilityManager {
     constructor(elementsMap = {}) {
@@ -448,7 +449,7 @@ window.Wexa.SlidesVisibilityManager = SlidesVisibilityManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/focus.js ---------------
+// ---------------- extras/slides/focus.js ---------------
 'use strict';
 class SlidesFocusController {
     constructor(options = {}) {
@@ -542,7 +543,7 @@ window.Wexa.SlidesFocusController = SlidesFocusController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/fullscreen.js ---------------
+// ---------------- extras/slides/fullscreen.js ---------------
 'use strict';
 class SlidesFullscreenController {
     constructor(target = null) {
@@ -598,7 +599,7 @@ window.Wexa.SlidesFullscreenController = SlidesFullscreenController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/keyboard.js ---------------
+// ---------------- extras/slides/keyboard.js ---------------
 'use strict';
 class SlidesKeyboardController {
     static SLIDE_KEYS = new Set([
@@ -761,7 +762,7 @@ window.Wexa.SlidesKeyboardController = SlidesKeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/overview.js ---------------
+// ---------------- extras/slides/overview.js ---------------
 'use strict';
 class SlidesOverview {
     constructor(slides, panelElement, onSelectSlide) {
@@ -832,7 +833,7 @@ window.Wexa.SlidesOverview = SlidesOverview;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/presentation.js ---------------
+// ---------------- extras/slides/presentation.js ---------------
 'use strict';
 class SlidesPresentation {
     constructor(slides, progressBar = null, controlsElement = null) {
@@ -932,7 +933,7 @@ window.Wexa.SlidesPresentation = SlidesPresentation;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/slides_view.js ---------------
+// ---------------- extras/slides/slides_view.js ---------------
 'use strict';
 class SlidesView {
     // ---------------------------------------------------------------------------
@@ -1065,7 +1066,7 @@ window.Wexa.SlidesView = SlidesView;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/slides_manager.js ---------------
+// ---------------- extras/slides/slides_manager.js ---------------
 'use strict';
 class SlidesManager {
     // ----------------------------------------------------------------------
@@ -1353,7 +1354,7 @@ window.Wexa.SlidesManager = SlidesManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/touch.js ---------------
+// ---------------- extras/slides/touch.js ---------------
 'use strict';
 class SlidesTouchController {
     constructor(slidesManager, options = {}) {
@@ -1416,7 +1417,7 @@ window.Wexa.SlidesTouchController = SlidesTouchController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/controls.js ---------------
+// ---------------- extras/slides/controls.js ---------------
 'use strict';
 class SlidesControlsController {
     constructor(manager, {
@@ -1560,7 +1561,7 @@ window.Wexa.SlidesControlsController = SlidesControlsController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/modeview.js ---------------
+// ---------------- extras/slides/modeview.js ---------------
 'use strict';
 class SlidesViewModeManager {
     constructor(slidesView, controlsController) {
@@ -1597,7 +1598,7 @@ window.Wexa.SlidesViewModeManager = SlidesViewModeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/slides_app.js ---------------
+// ---------------- extras/slides/slides_app.js ---------------
 'use strict';
 class SlidesApp {
     // ----------------------------------------------------------------------
@@ -1709,7 +1710,7 @@ window.Wexa.SlidesApp = SlidesApp;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- slides/slides.js ---------------
+// ---------------- extras/slides/slides.js ---------------
 'use strict';
 class Slides {
     constructor(config = {}) {

@@ -56,6 +56,8 @@ import { SortaTable } from './sortatable.js';
 import { ToggleSelector } from './toggleselect.js';
 import { Book } from './book.js';
 
+import { BaseManager } from './transport/base_manager.js';
+
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
     OnLoadManager,
@@ -67,7 +69,8 @@ console.debug('Imports OK:', {
     SortaTable,
     ToggleSelector,
     ProgressBar,
-    Book
+    Book,
+    BaseManager
 });
 
 // ----- Exports (framework public API) -----
@@ -81,7 +84,8 @@ export {
     ProgressBar,
     SortaTable,
     ToggleSelector,
-    Book
+    Book,
+    BaseManager
 };
 
 // ---------------------------------------------------------------------------

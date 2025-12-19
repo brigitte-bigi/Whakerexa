@@ -41,26 +41,26 @@ import re
 from datetime import datetime
 
 # Inputs
-JS_FOLDER = os.path.join("..", "wexa_statics", "js")
+JS_FOLDER = os.path.join("wexa_statics", "js")
 JS_FILES = [
     'logger.js',
     os.path.join('transport', 'request.js'),
     os.path.join('transport', 'base_manager.js'),
 
-    os.path.join('slides', 'visibility.js'),
-    os.path.join('slides', 'visibility_manager.js'),
-    os.path.join('slides', 'focus.js'),
-    os.path.join('slides', 'fullscreen.js'),
-    os.path.join('slides', 'keyboard.js'),
-    os.path.join('slides', 'overview.js'),
-    os.path.join('slides', 'presentation.js'),
-    os.path.join('slides', 'slides_view.js'),
-    os.path.join('slides', 'slides_manager.js'),
-    os.path.join('slides', 'touch.js'),
-    os.path.join('slides', 'controls.js'),
-    os.path.join('slides', 'modeview.js'),
-    os.path.join('slides', 'slides_app.js'),
-    os.path.join('slides', 'slides.js'),
+    os.path.join('extras', 'slides', 'visibility.js'),
+    os.path.join('extras', 'slides', 'visibility_manager.js'),
+    os.path.join('extras', 'slides', 'focus.js'),
+    os.path.join('extras', 'slides', 'fullscreen.js'),
+    os.path.join('extras', 'slides', 'keyboard.js'),
+    os.path.join('extras', 'slides', 'overview.js'),
+    os.path.join('extras', 'slides', 'presentation.js'),
+    os.path.join('extras', 'slides', 'slides_view.js'),
+    os.path.join('extras', 'slides', 'slides_manager.js'),
+    os.path.join('extras', 'slides', 'touch.js'),
+    os.path.join('extras', 'slides', 'controls.js'),
+    os.path.join('extras', 'slides', 'modeview.js'),
+    os.path.join('extras', 'slides', 'slides_app.js'),
+    os.path.join('extras', 'slides', 'slides.js'),
 
     'dom-loader.js',
     'accessibility.js',

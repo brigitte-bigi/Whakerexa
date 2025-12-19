@@ -1,4 +1,5 @@
 import { WexaLogger } from '../logger.js';
+import { DialogManager } from '../dialog.js';
 import { RequestManager } from './request.js';
 /**
 _This file is part of Whakerexa: https://whakerexa.sourceforge.io
@@ -75,6 +76,7 @@ export class BaseManager {
         this._requestManager = new RequestManager();
         let url = new URL(window.location.href);
         this._uri = url.pathname.substring(1);
+        this._dialog = new DialogManager();
     }
 
     // ----------------------------------------------------------------------
@@ -217,7 +219,7 @@ export class BaseManager {
         let dlg = document.getElementById(dialogId);
         if (dlg != null) {
             dlg.innerHTML = `<p>${message}</p>`;
-            DialogManager.open(dialogId);
+            this._dialog.open(dialogId);
         } else {
             alert(message);
         }
@@ -240,7 +242,7 @@ export class BaseManager {
         let dlg = document.getElementById(dialogId);
         if (dlg != null) {
             dlg.innerHTML = ``;
-            DialogManager.close(dialogId);
+            this._dialog.close(dialogId);
         } else {
             WexaLogger.warn(`No such dialog ${dialogId}`);
         }

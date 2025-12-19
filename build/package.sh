@@ -23,7 +23,7 @@ HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROGRAM_DIR=$HERE
 PROGRAM_NAME="Whakerexa"
 
-VERSION_FILE="$PROGRAM_DIR/codemeta.json"
+VERSION_FILE="$PROGRAM_DIR/../codemeta.json"
 PROGRAM_VERSION=$(grep -e '"version"' "$VERSION_FILE" | awk -F':' '{print $2}' | cut -f2 -d'"')
 
 TODAY=$(date "+%Y-%m-%d")
@@ -55,7 +55,7 @@ function fct_echo_header {
 function fct_build_bundle {
     fct_echo_title "Building Whakerexa JavaScript bundle"
 
-    python3 "$PROGRAM_DIR/build/build_bundle_js.py"
+    python3 "$PROGRAM_DIR/build_bundle_js.py"
     if [ "$?" != 0 ]; then
         echo "Error: bundle creation failed."
         exit 1
@@ -76,7 +76,7 @@ function fct_package {
 
     pushd "$PROGRAM_DIR" > /dev/null
 
-    zip -q -r "$PACKAGE_NAME" wexa_statics README.md LICENSE docs
+    zip -q -r "$PACKAGE_NAME" wexa_statics docs README.md AUTHORS LICENSE
 
     popd > /dev/null
 
