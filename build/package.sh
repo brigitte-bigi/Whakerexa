@@ -72,11 +72,11 @@ function fct_build_bundle {
 function fct_package {
     fct_echo_title "Creating Whakerexa ZIP archive"
 
-    PACKAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}-${TODAY}.zip"
+    PACKAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}.zip"
 
     pushd "$PROGRAM_DIR" > /dev/null
 
-    zip -q -r "$PACKAGE_NAME" wexa_statics docs README.md AUTHORS LICENSE
+    zip -q -r "$PACKAGE_NAME" $PROGRAM_DIR/../wexa_statics $PROGRAM_DIR/../docs $PROGRAM_DIR/../README.md $PROGRAM_DIR/../AUTHORS $PROGRAM_DIR/../LICENSE
 
     popd > /dev/null
 

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2025-12-19 20:10:28
+// Bundle automatically generated on 2025-12-20 15:55:31
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -35,7 +35,7 @@ window.Wexa.WexaLogger = WexaLogger;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- transport/request.js ---------------
+// ---------------- transport\request.js ---------------
 class RequestManager {
     // FIELDS
     // The declaration outside the constructor and the '#' symbol notify a private attribute.
@@ -255,7 +255,7 @@ window.Wexa.RequestManager = RequestManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- transport/base_manager.js ---------------
+// ---------------- transport\base_manager.js ---------------
 'use strict';
 class BaseManager {
     // ----------------------------------------------------------------------
@@ -364,7 +364,7 @@ window.Wexa.BaseManager = BaseManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/visibility.js ---------------
+// ---------------- extras\slides\visibility.js ---------------
 'use strict';
 class SlidesVisibilityController {
     constructor(element) {
@@ -398,7 +398,7 @@ window.Wexa.SlidesVisibilityController = SlidesVisibilityController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/visibility_manager.js ---------------
+// ---------------- extras\slides\visibility_manager.js ---------------
 'use strict';
 class SlidesVisibilityManager {
     constructor(elementsMap = {}) {
@@ -449,7 +449,7 @@ window.Wexa.SlidesVisibilityManager = SlidesVisibilityManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/focus.js ---------------
+// ---------------- extras\slides\focus.js ---------------
 'use strict';
 class SlidesFocusController {
     constructor(options = {}) {
@@ -543,7 +543,7 @@ window.Wexa.SlidesFocusController = SlidesFocusController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/fullscreen.js ---------------
+// ---------------- extras\slides\fullscreen.js ---------------
 'use strict';
 class SlidesFullscreenController {
     constructor(target = null) {
@@ -599,7 +599,7 @@ window.Wexa.SlidesFullscreenController = SlidesFullscreenController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/keyboard.js ---------------
+// ---------------- extras\slides\keyboard.js ---------------
 'use strict';
 class SlidesKeyboardController {
     static SLIDE_KEYS = new Set([
@@ -762,7 +762,7 @@ window.Wexa.SlidesKeyboardController = SlidesKeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/overview.js ---------------
+// ---------------- extras\slides\overview.js ---------------
 'use strict';
 class SlidesOverview {
     constructor(slides, panelElement, onSelectSlide) {
@@ -833,7 +833,7 @@ window.Wexa.SlidesOverview = SlidesOverview;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/presentation.js ---------------
+// ---------------- extras\slides\presentation.js ---------------
 'use strict';
 class SlidesPresentation {
     constructor(slides, progressBar = null, controlsElement = null) {
@@ -933,7 +933,7 @@ window.Wexa.SlidesPresentation = SlidesPresentation;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides_view.js ---------------
+// ---------------- extras\slides\slides_view.js ---------------
 'use strict';
 class SlidesView {
     // ---------------------------------------------------------------------------
@@ -1066,7 +1066,7 @@ window.Wexa.SlidesView = SlidesView;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides_manager.js ---------------
+// ---------------- extras\slides\slides_manager.js ---------------
 'use strict';
 class SlidesManager {
     // ----------------------------------------------------------------------
@@ -1354,7 +1354,7 @@ window.Wexa.SlidesManager = SlidesManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/touch.js ---------------
+// ---------------- extras\slides\touch.js ---------------
 'use strict';
 class SlidesTouchController {
     constructor(slidesManager, options = {}) {
@@ -1417,7 +1417,7 @@ window.Wexa.SlidesTouchController = SlidesTouchController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/controls.js ---------------
+// ---------------- extras\slides\controls.js ---------------
 'use strict';
 class SlidesControlsController {
     constructor(manager, {
@@ -1561,7 +1561,7 @@ window.Wexa.SlidesControlsController = SlidesControlsController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/modeview.js ---------------
+// ---------------- extras\slides\modeview.js ---------------
 'use strict';
 class SlidesViewModeManager {
     constructor(slidesView, controlsController) {
@@ -1598,7 +1598,7 @@ window.Wexa.SlidesViewModeManager = SlidesViewModeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides_app.js ---------------
+// ---------------- extras\slides\slides_app.js ---------------
 'use strict';
 class SlidesApp {
     // ----------------------------------------------------------------------
@@ -1710,7 +1710,7 @@ window.Wexa.SlidesApp = SlidesApp;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides.js ---------------
+// ---------------- extras\slides\slides.js ---------------
 'use strict';
 class Slides {
     constructor(config = {}) {
@@ -3015,3 +3015,65 @@ if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.LinkController = LinkController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
+
+// ---------------- wexa.js ---------------
+// --- Debug -------------------------------------------------------
+console.debug('Imports OK:', {
+    OnLoadManager,
+    WexaLogger,
+    AccessibilityManager,
+    MenuManager,
+    DialogManager,
+    LinkController,
+    SortaTable,
+    ToggleSelector,
+    ProgressBar,
+    Book,
+    BaseManager,
+    RequestManager
+});
+// ----- Exports (framework public API) -----
+// ---------------------------------------------------------------------------
+// Global namespace for Whakerexa.
+//
+// This namespace exposes:
+// - Singletons: framework-level managers that must exist exactly once.
+// - Classes: reusable components that applications can instantiate freely.
+//
+// This unified API ensures consistency between ES6 module usage and the
+// bundled (non-module) version. Applications can safely rely on Wexa.*
+// regardless of whether modules are loaded or the bundle is used.
+// ---------------------------------------------------------------------------
+window.Wexa = {
+    // ---------------------------------------------------------------
+    // Singletons (global services)
+    // ---------------------------------------------------------------
+    // Logger is a class with only static methods → no cost / no instance.
+    logger: WexaLogger,
+    // Note: OnLoadManager is not instantiated because it is a scheduler /
+    // dispatcher whose methods are static or utility-like.
+    onload: OnLoadManager,
+    accessibility: new AccessibilityManager(),
+    dialog: new DialogManager(),
+    links: new LinkController(),
+    // ---------------------------------------------------------------
+    // Public classes (instantiable components)
+    // ---------------------------------------------------------------
+    WexaLogger,
+    OnLoadManager,
+    AccessibilityManager,
+    DialogManager,
+    LinkController,
+    MenuManager,
+    ProgressBar,
+    ToggleSelector,
+    SortaTable,
+    Book,
+    BaseManager,
+    RequestManager
+};
+// Register the global onload handler so that all deferred load functions
+// declared across Whakerexa modules are executed once the document is ready.
+window.onload = () => {
+    OnLoadManager.runLoadFunctions();
+};

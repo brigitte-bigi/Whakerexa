@@ -57,6 +57,7 @@ import { ToggleSelector } from './toggleselect.js';
 import { Book } from './book.js';
 
 import { BaseManager } from './transport/base_manager.js';
+import { RequestManager } from './transport/request.js';
 
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
@@ -70,7 +71,8 @@ console.debug('Imports OK:', {
     ToggleSelector,
     ProgressBar,
     Book,
-    BaseManager
+    BaseManager,
+    RequestManager
 });
 
 // ----- Exports (framework public API) -----
@@ -85,7 +87,8 @@ export {
     SortaTable,
     ToggleSelector,
     Book,
-    BaseManager
+    BaseManager,
+    RequestManager
 };
 
 // ---------------------------------------------------------------------------
@@ -129,7 +132,9 @@ window.Wexa = {
     ProgressBar,
     ToggleSelector,
     SortaTable,
-    Book
+    Book,
+    BaseManager,
+    RequestManager
 };
 
 // Register the global onload handler so that all deferred load functions

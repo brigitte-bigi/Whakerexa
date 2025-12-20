@@ -73,6 +73,10 @@ JS_FILES = [
     'links.js'
 ]
 
+# Main module
+JS_MODULE = "wexa.js"
+MODULE_NAME = "Wexa"
+
 # Output
 JS_BUNDLE = os.path.join(JS_FOLDER, "wexa.bundle.js")
 
@@ -139,13 +143,24 @@ def remove_block_comments(text):
 
 
 def remove_empty_lines(text):
+    """Remove empty lines of a given text.
+
+    :param text: (str)
+    :return: (str)
+
+    """
     return "\n".join(line for line in text.splitlines() if line.strip() != "")
 
 # ---------------------------------------------------------------------------
 
 
 def remove_exports(text):
-    """Remove ES6 'export' keywords from the code."""
+    """Remove ES6 'export' keywords from the code.
+
+    :param text: (str)
+    :return: (str)
+
+    """
     out = []
     for line in text.splitlines(keepends=True):
         stripped = line.lstrip()
@@ -166,27 +181,54 @@ def remove_exports(text):
         out.append(line)
     return "".join(out)
 
+# ---------------------------------------------------------------------------
+
+
 def remove_export_blocks(text):
-    """Remove ES6 export blocks: export { A, B, C };"""
-    lines = text.splitlines(keepends=True)
-    output = []
-    in_block = False
+    """Remove ES6 export blocks.
 
-    for line in lines:
-        stripped = line.strip()
+    Removes:
+    - single line: export { A, B, C };
+    - multi line:  export {
+                      A,
+                      B
+                   };
+                 (semicolon optional)
 
-        if stripped.startswith('export {'):
-            in_block = True
+    :param text: (str) The text to be analyzed
+    :return: (str) The text without ES6 export blocks
+
+    """
+    out = list()
+    in_export = False
+    brace_level = 0
+
+    for line in text.splitlines(keepends=True):
+        if in_export is False:
+            stripped = line.lstrip()
+            if stripped.startswith("export"):
+                after = stripped[len("export"):].lstrip()
+                if after.startswith("{"):
+                    in_export = True
+                    brace_level = after.count("{") - after.count("}")
+                    # If the whole block is on the same line and ends with ';'
+                    if brace_level <= 0 and ";" in after:
+                        in_export = False
+                        brace_level = 0
+                    continue
+            out.append(line)
             continue
 
-        if in_block is True:
-            if stripped == '};':
-                in_block = False
-            continue
+        # We are inside an export { ... } block: skip lines until it closes.
+        brace_level += line.count("{") - line.count("}")
+        if brace_level <= 0:
+            # Optional semicolon may be on this line or next line; skip only this line here.
+            in_export = False
+            brace_level = 0
+        # Always skip lines while in_export, including the closing line.
+        continue
 
-        output.append(line)
-
-    return ''.join(output)
+    return "".join(out)
 
 # ---------------------------------------------------------------------------
 
@@ -204,6 +246,7 @@ def remove_imports(text):
 
 # ---------------------------------------------------------------------------
 
+
 def extract_class_names(js_code):
     """Extract all top-level class names in the given JS code.
 
@@ -217,9 +260,11 @@ def extract_class_names(js_code):
 # ---------------------------------------------------------------------------
 
 
-def generate_wexa_exports(class_names):
+def generate_wexa_exports(class_names, module_name):
     """Given a list of class names ['Slides', 'SlidesManager', ...],
 
+    :param class_names: (str)
+    :param module_name: (str)
     :return: (str) a JS string that assigns each class to window.Wexa.
 
     """
@@ -228,21 +273,26 @@ def generate_wexa_exports(class_names):
 
     out = []
     out.append("\n// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----\n")
-    out.append("if (typeof window.Wexa !== 'object') { window.Wexa = {}; }\n")
+    out.append(f"if (typeof window.{module_name} !== 'object') {{ window.{module_name} = {{}}; }}\n")
 
     for name in class_names:
-        out.append(f"window.Wexa.{name} = {name};\n")
+        out.append(f"window.{module_name}.{name} = {name};\n")
 
     out.append("// ---- END AUTO-GENERATED EXPORTS ----\n\n")
     return "".join(out)
 
 # ---------------------------------------------------------------------------
+# MAIN
 # ---------------------------------------------------------------------------
 
 
 if __name__ == '__main__':
+
+    # Lines of the bundle, stored in a list
     buffer = list()
 
+    # Load and store each defined JS module
+    # -------------------------------------
     for filename in JS_FILES:
 
         # Full JS file path
@@ -259,8 +309,8 @@ if __name__ == '__main__':
             content = remove_jsdoc(content)
             # content = remove_block_comments(content)
             content = remove_empty_lines(content)
-            content = remove_exports(content)
             content = remove_export_blocks(content)
+            content = remove_exports(content)
             content = remove_imports(content)
         buffer.append(content)
 
@@ -269,9 +319,27 @@ if __name__ == '__main__':
 
         # --- Generate export lines for these classes
         if class_names:
-            export_block = generate_wexa_exports(class_names)
+            export_block = generate_wexa_exports(class_names, MODULE_NAME)
             buffer.append(export_block)
 
+    # The JS main module
+    # ------------------
+
+    # File check
+    main_module_path = os.path.join(JS_FOLDER, JS_MODULE)
+    if os.path.exists(main_module_path) is True:
+        buffer.append(f"\n// ---------------- {JS_MODULE} ---------------\n")
+        with open(main_module_path, "r", encoding="utf-8") as fp:
+            content = fp.read()
+            content = remove_jsdoc(content)
+            content = remove_empty_lines(content)
+            content = remove_export_blocks(content)
+            content = remove_exports(content)
+            content = remove_imports(content)
+            buffer.append(content)
+
+    # Output bundle
+    # -------------
     with open(JS_BUNDLE, "w", encoding="utf-8") as fp:
         fp.write(f"// Bundle automatically generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         fp.write("".join(buffer))
