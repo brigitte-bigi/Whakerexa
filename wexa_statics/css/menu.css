@@ -245,10 +245,10 @@ nav.nav-wexa.side.collapsible.expanded {
 }
 
 /* -------- the current nav item -------- */
-[role="menuitem"].nav-current  {
-    color: var(--a-color);
-    background-color: var(--bg-color);
-    opacity: 0.5;
+nav.nav-wexa [role="menuitem"][aria-current] {
+    opacity: 0.65;
+    box-shadow: none;
+    filter: none;
 }
 
 /* -------- images in items -------- */
@@ -279,11 +279,11 @@ nav.nav-wexa.side.collapsible.expanded {
     Specific style for the menu items of the main menu
    ----------------------------------------------------------------------- */
 
+
 nav.nav-wexa [role="menuitem"],
 aside.appmenu nav [role="menuitem"] {
     font-variant: small-caps;
     font-size: 0.8rem;
-    opacity: 1;
     width: auto;
     display: flex;
     flex-direction: column;
@@ -294,12 +294,10 @@ aside.appmenu nav [role="menuitem"] {
     background-color: var(--nav-bg-color);
 }
 
-/* ---- the menuitem is opening a submenu ---- */
-
-[role="menuitem"][aria-haspopup="true"] {
-    border-left: calc(4 * var(--border-width)) solid var(--a-color);
+nav.nav-wexa [role="menuitem"]:not([aria-current]),
+aside.appmenu nav [role="menuitem"]:not([aria-current]) {
+    opacity: 1;
 }
-
 
 /* ---------------------- Vertical at side main menu ------------------- */
 
