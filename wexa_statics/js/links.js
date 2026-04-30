@@ -6,7 +6,7 @@
  *
  *  -------------------------------------------------------------------------
  *
- *  This file is part of Whakerexa: https://whakerexa.sf.net/
+ *  This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
  *
  *  Copyright (C) 2023-2026 Brigitte Bigi, CNRS
  *  Laboratoire Parole et Langage, Aix-en-Provence, France
@@ -121,8 +121,8 @@ export class LinkController {
             }
 
             // Avoid multiple bindings on the same element
-            element.removeEventListener('click', this._handleActivation);
-            element.removeEventListener('keydown', this._handleActivation);
+            if (element.dataset.linkBound) continue;
+            element.dataset.linkBound = '1';
 
             element.addEventListener('click', (event) => this._handleActivation(event, element, withParameters));
             element.addEventListener('keydown', (event) => this._handleActivation(event, element, withParameters));

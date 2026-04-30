@@ -330,7 +330,7 @@ export class RequestManager {
         console.debug("File size to upload: ", input.files[0].size);
         // Exit the function if size limit
         if (this.maxFileSize !== 0 && input.files[0].size > this.maxFileSize) {
-            console.error("File size exceeds maximum of ${this.maxFileSize} bytes.");
+            console.error(`File size exceeds maximum of ${this.maxFileSize} bytes.`);
             // Return a JSON object with status 400 and an error message
             return { error: "File size exceeds maximum allowed length." };
         }

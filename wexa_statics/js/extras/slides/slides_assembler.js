@@ -6,7 +6,7 @@
 
  -------------------------------------------------------------------------
 
- This file is part of Whakerexa: https://whakerexa.sf.net/
+ This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
 
  Copyright (C) 2023-2026 Brigitte Bigi, CNRS
  Laboratoire Parole et Langage, Aix-en-Provence, France
@@ -59,6 +59,8 @@ import ButtonsController   from './buttons_controller.js';
  * @param {HTMLElement|null} [config.controls]
  * @param {HTMLElement|null} [config.controlsView]
  * @param {HTMLElement|null} [config.overviewContainer]
+ * @param {HTMLElement|null} [config.progressBarContainer]
+ * @param {HTMLElement|null} [config.logo]
  * @param {boolean} [config.autoPlayEnabled=false]
  * @param {string} [config.mode='presentation']
  */

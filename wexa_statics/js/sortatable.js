@@ -72,6 +72,7 @@ export class SortaTable {
         if (!this._tableElt) {
             // Table element is not found, log a warning and prevent further execution
             console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
+            return;
         }
 
         // Store original rows order

@@ -10,7 +10,7 @@ import { OnLoadManager } from './dom-loader.js';
 
 -------------------------------------------------------------------------
 
-This file is part of Whakerexa: https://whakerexa.sf.net/
+This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
 
 Copyright (C) 2023-2026 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
@@ -557,7 +557,7 @@ export class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
 
     /**
-     * Custom the click event of all 'a' html element to call the goToLink function.
+     * Customize the click event of all 'a' html elements to call the goToLink function.
      */
     #setAllLinksCustom() {
         let link_elements = Array.from(document.querySelectorAll("a"));

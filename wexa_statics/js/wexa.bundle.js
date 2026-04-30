@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-04-30 11:02:59
+// Bundle automatically generated on 2026-04-30 11:14:39
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -205,7 +205,7 @@ class RequestManager {
         console.debug("File size to upload: ", input.files[0].size);
         // Exit the function if size limit
         if (this.maxFileSize !== 0 && input.files[0].size > this.maxFileSize) {
-            console.error("File size exceeds maximum of ${this.maxFileSize} bytes.");
+            console.error(`File size exceeds maximum of ${this.maxFileSize} bytes.`);
             // Return a JSON object with status 400 and an error message
             return { error: "File size exceeds maximum allowed length." };
         }
@@ -730,15 +730,6 @@ class SlidesFocusController {
         if (ariaDisabled !== null && ariaDisabled.toLowerCase() === 'true') {
             return true;
         }
-        /*
-        const tabIndexAttribute = element.getAttribute('tabindex');
-        if (tabIndexAttribute !== null) {
-            const parsed = parseInt(tabIndexAttribute, 10);
-            const isNumber = Number.isNaN(parsed) === false;
-            if (isNumber === true && parsed < 0) {
-                return true;
-            }
-        }*/
         return false;
     }
 }
@@ -1397,9 +1388,7 @@ class OnLoadManager {
         OnLoadManager.#functions.push(func);
     }
     static runLoadFunctions() {
-        OnLoadManager.#functions.forEach(async func => {
-            await func();
-        });
+        OnLoadManager.#functions.forEach(func => func());
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -2294,6 +2283,7 @@ class SortaTable {
         if (!this._tableElt) {
             // Table element is not found, log a warning and prevent further execution
             console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
+            return;
         }
         // Store original rows order
         const tbody = this._tableElt.querySelector('tbody');
@@ -2637,8 +2627,8 @@ class LinkController {
                 continue;
             }
             // Avoid multiple bindings on the same element
-            element.removeEventListener('click', this._handleActivation);
-            element.removeEventListener('keydown', this._handleActivation);
+            if (element.dataset.linkBound) continue;
+            element.dataset.linkBound = '1';
             element.addEventListener('click', (event) => this._handleActivation(event, element, withParameters));
             element.addEventListener('keydown', (event) => this._handleActivation(event, element, withParameters));
         }
