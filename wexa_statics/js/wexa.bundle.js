@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-03-29 10:24:31
+// Bundle automatically generated on 2026-04-30 10:55:38
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -364,6 +364,214 @@ window.Wexa.BaseManager = BaseManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- extras/slides/slides_data.js ---------------
+'use strict';
+class SlidesData {
+    constructor(slides) {
+        this.slides = Array.isArray(slides) ? slides : [];
+        this.currentIndex = 1;   // 1-based
+        this.currentStep  = 0;
+        this.previousIndex = 0;  // 0 = no previous (initial state)
+        this.mode = 'presentation';
+        this.autoPlay = false;
+    }
+    get count() {
+        return this.slides.length;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesData = SlidesData;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/navigation_logic.js ---------------
+'use strict';
+class NavigationLogic {
+    constructor(data) {
+        this._data = data;
+        this._onNavigate = null;
+    }
+    set onNavigate(fn) {
+        this._onNavigate = typeof fn === 'function' ? fn : null;
+    }
+    // -----------------------------------------------------------------------
+    // Public API
+    // -----------------------------------------------------------------------
+    next() {
+        const { currentIndex, currentStep } = this._data;
+        const maxStep = this._incrementalCount(currentIndex);
+        if (currentIndex === this._data.count && currentStep >= maxStep) {
+            return;
+        }
+        if (currentStep >= maxStep) {
+            this._navigateTo(currentIndex + 1, 0);
+        } else {
+            this._navigateTo(currentIndex, currentStep + 1);
+        }
+    }
+    prev() {
+        const { currentIndex, currentStep } = this._data;
+        if (currentIndex === 1 && currentStep === 0) {
+            return;
+        }
+        if (currentStep === 0) {
+            const prevIdx = currentIndex - 1;
+            this._navigateTo(prevIdx, this._incrementalCount(prevIdx));
+        } else {
+            this._navigateTo(currentIndex, currentStep - 1);
+        }
+    }
+    goTo(index, step = 0) {
+        this._navigateTo(index, step);
+    }
+    goStart() {
+        this._navigateTo(1, 0);
+    }
+    goEnd() {
+        const last = this._data.count;
+        this._navigateTo(last, this._incrementalCount(last));
+    }
+    toggleContent() {
+        const slide = this._data.slides[this._data.currentIndex - 1];
+        if (!(slide instanceof HTMLElement)) {
+            return;
+        }
+        const video = slide.querySelector('video');
+        if (!(video instanceof HTMLVideoElement)) {
+            return;
+        }
+        if (video.paused || video.ended) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    }
+    updateFromHash(hash) {
+        if (typeof hash !== 'string' || hash === '' || hash[0] !== '#') {
+            this._setPosition(1, 0);
+            return;
+        }
+        const parts = hash.substring(1).split('.');
+        const idx = parseInt(parts[0], 10);
+        const stp = parts.length > 1 ? parseInt(parts[1], 10) : 0;
+        this._setPosition(
+            Number.isNaN(idx) ? 1 : idx,
+            Number.isNaN(stp) ? 0 : stp
+        );
+    }
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _navigateTo(index, step) {
+        const changed = this._setPosition(index, step);
+        if (changed) {
+            window.location.hash = `#${this._data.currentIndex}.${this._data.currentStep}`;
+        }
+    }
+    _setPosition(index, step) {
+        const clamped = this._clampIndex(index);
+        const clampedStep = this._clampStep(clamped, step);
+        const isInitial = this._data.previousIndex === 0;
+        const unchanged = clamped === this._data.currentIndex
+                       && clampedStep === this._data.currentStep;
+        if (!isInitial && unchanged) {
+            return false;
+        }
+        // Pause video on the slide we're leaving
+        const prevSlide = this._data.slides[this._data.currentIndex - 1];
+        if (prevSlide instanceof HTMLElement) {
+            const v = prevSlide.querySelector('video');
+            if (v instanceof HTMLVideoElement) {
+                v.pause();
+            }
+        }
+        this._data.previousIndex = this._data.currentIndex;
+        this._data.currentIndex  = clamped;
+        this._data.currentStep   = clampedStep;
+        // Autoplay video on the slide we're entering
+        if (this._data.autoPlay) {
+            const currSlide = this._data.slides[clamped - 1];
+            if (currSlide instanceof HTMLElement) {
+                const v = currSlide.querySelector('video');
+                if (v instanceof HTMLVideoElement) {
+                    v.play();
+                }
+            }
+        }
+        if (this._onNavigate !== null) {
+            this._onNavigate(this._data);
+        }
+        return true;
+    }
+    _incrementalCount(index) {
+        const slide = this._data.slides[this._clampIndex(index) - 1];
+        if (!(slide instanceof HTMLElement)) {
+            return 0;
+        }
+        return slide.querySelectorAll('.incremental > *').length;
+    }
+    _clampIndex(index) {
+        const n = this._data.count;
+        if (n === 0) {
+            return 1;
+        }
+        return Math.max(1, Math.min(index, n));
+    }
+    _clampStep(index, step) {
+        return Math.max(0, Math.min(step, this._incrementalCount(index)));
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.NavigationLogic = NavigationLogic;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/viewmode_logic.js ---------------
+'use strict';
+class ViewModeLogic {
+    static MODES = {
+        PRESENTATION: 'presentation',
+        OVERVIEW:     'overview',
+    };
+    static DEFAULT = 'presentation';
+    constructor(data) {
+        this._data = data;
+        this._onModeChange = null;
+    }
+    set onModeChange(fn) {
+        this._onModeChange = typeof fn === 'function' ? fn : null;
+    }
+    get current() {
+        return this._data.mode;
+    }
+    set(mode) {
+        const valid = Object.values(ViewModeLogic.MODES);
+        if (!valid.includes(mode)) {
+            return;
+        }
+        this._data.mode = mode;
+        if (this._onModeChange !== null) {
+            this._onModeChange(this._data);
+        }
+    }
+    toggle() {
+        const next = this._data.mode === ViewModeLogic.MODES.OVERVIEW
+            ? ViewModeLogic.MODES.PRESENTATION
+            : ViewModeLogic.MODES.OVERVIEW;
+        this._data.mode = next;
+        if (this._onModeChange !== null) {
+            this._onModeChange(this._data);
+        }
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ViewModeLogic = ViewModeLogic;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- extras/slides/visibility.js ---------------
 'use strict';
 class SlidesVisibilityController {
@@ -384,12 +592,9 @@ class SlidesVisibilityController {
         if (!(this._element instanceof HTMLElement)) {
             return;
         }
-        const current = this._element.style.display;
-        if (current === 'none') {
-            this._element.style.display = 'block';
-        } else {
-            this._element.style.display = 'none';
-        }
+        // Use getComputedStyle to handle elements visible via CSS rules (not inline style).
+        const computed = window.getComputedStyle(this._element).display;
+        this._element.style.display = computed === 'none' ? 'block' : 'none';
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -599,252 +804,53 @@ window.Wexa.SlidesFullscreenController = SlidesFullscreenController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/keyboard.js ---------------
+// ---------------- extras/slides/presentation_view.js ---------------
 'use strict';
-class SlidesKeyboardController {
-    static SLIDE_KEYS = new Set([
-        'Escape',  // Switch to Presentation mode
-        'o', 'O',  // Switch to Overview mode
-        's', 'S',  // Switch to Presentation mode
-        'f', 'F',  // Enable/Disable Fullscreen
-        'n', 'N',  // Show/Hide controls
-        'b', 'B',  // Show/Hide progress bar
-        'l', 'L',  // Show/Hide logo
-        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',  // Browse slides
-        'PageUp', 'PageDown',
-        'Home', 'End'
-    ]);
-    // ----------------------------------------------------------------------
-    // CONSTRUCTOR
-    // ----------------------------------------------------------------------
-    constructor(slidesManager, options = {}) {
-        if (typeof slidesManager !== 'object' || slidesManager === null) {
-            throw new Error('SlidesKeyboardController: "slidesManager" must be an object.');
-        }
-        this._manager = slidesManager;
-        this._boundKeyHandler = this._onKeyDown.bind(this);
+class PresentationView {
+    constructor(slides, progressBar = null, controlsElement = null, controlsViewElement = null) {
+        this._slides       = Array.isArray(slides) ? slides : [];
+        this._progressBar  = progressBar instanceof HTMLElement ? progressBar : null;
+        this._controls     = controlsElement instanceof HTMLElement ? controlsElement : null;
+        this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
     }
-    // ----------------------------------------------------------------------
-    // INITIALIZATION
-    // ----------------------------------------------------------------------
-    init() {
-        document.body.addEventListener('keydown', this._boundKeyHandler, false);
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via navLogic.onNavigate
+    // -----------------------------------------------------------------------
+    render(data) {
+        this._renderSlide(data.currentIndex, data.previousIndex);
+        this._renderIncremental(data.currentIndex, data.currentStep);
+        this._renderProgress(data.currentIndex, data.count);
     }
-    destroy() {
-        document.body.removeEventListener('keydown', this._boundKeyHandler, false);
-    }
-    // ---------------------------------------------------------------------
-    // PRIVATE — ACCESSIBILITY-FIRST KEYBOARD HANDLING
-    // ---------------------------------------------------------------------
-    _onKeyDown(event) {
-        const key = event.key;
-        // --- RULE 1: Ignore all keys not part of the Slides UI ----------------
-        if (!SlidesKeyboardController.SLIDE_KEYS.has(key)) {
-            return;
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via modeLogic.onModeChange
+    // -----------------------------------------------------------------------
+    onModeChange(data) {
+        // Sync body class
+        const allModes = ['presentation', 'overview'];
+        allModes.forEach(m => document.body.classList.remove(`${m}-view`));
+        document.body.classList.add(`${data.mode}-view`);
+        if (data.mode === 'presentation') {
+            this._showSlides();
+        } else {
+            this._hideSlides();
         }
-        // --- RULE 2: Never handle Enter or Space ------------------------------
-        // Space is " " (U+0020)
-        if (key === 'Enter' || key === ' ') {
-            return;
-        }
-        // --- RULE 3: If focus is on an interactive element → browser priority -
-        if (this._isInteractiveTarget(event.target)) {
-            return;
-        }
-        // ----------------------------------------------------------------------
-        // From here, we know safely:
-        //  - The key is a slide key
-        //  - It is not Enter/Space
-        //  - The focused element is *not* interactive
-        // ----------------------------------------------------------------------
-        switch (key) {
-            case 'Escape':
-                if (this._manager.viewModeManager !== null) {
-                    this._manager.viewModeManager.set(SlidesView.DEFAULT_MODE);
-                }
-                return;
-            case 'o': case 'O':
-                if (this._manager.viewModeManager !== null) {
-                    this._manager.viewModeManager.set(SlidesView.MODES.OVERVIEW);
-                }
-                return;
-            case 's': case 'S':
-                if (this._manager.viewModeManager !== null) {
-                    this._manager.viewModeManager.set(SlidesView.MODES.PRESENTATION);
-                }
-                return;
-            case 'f': case 'F':
-                this._manager.toggleFullscreen?.();
-                return;
-            case 'n': case 'N':
-                if (this._manager.visibilityManager !== null) {
-                    this._manager.visibilityManager.toggle('controls');
-                }
-                return;
-            case 'l': case 'L':
-                if (this._manager.visibilityManager !== null) {
-                    //this._manager.visibilityManager.toggle('logo');
-                }
-                return;
-            case 'b': case 'B':
-                if (this._manager.visibilityManager !== null) {
-                    //this._manager.visibilityManager.toggle('progress');
-                }
-                return;
-            // Navigation backward
-            case 'ArrowLeft':
-            case 'ArrowUp':
-            case 'PageUp':
-                event.preventDefault();
-                this._manager.prev();
-                return;
-            // Navigation forward
-            case 'ArrowRight':
-            case 'ArrowDown':
-            case 'PageDown':
-                event.preventDefault();
-                this._manager.next();
-                return;
-            case 'Home':
-                event.preventDefault();
-                this._manager.goStart();
-                return;
-            case 'End':
-                event.preventDefault();
-                this._manager.goEnd();
-                return;
-            default:
-                return;
+        // The view-mode buttons panel visibility mirrors the active mode
+        if (this._controlsView instanceof HTMLElement) {
+            this._controlsView.classList.toggle('controls-hidden', data.mode !== 'presentation');
         }
     }
-    // ----------------------------------------------------------------------
-    _isInteractiveTarget(target) {
-        if (!(target instanceof HTMLElement)) {
-            return true;
-        }
-        const tag = target.tagName.toLowerCase();
-        // Native interactive elements
-        if (tag === 'input' ||
-            tag === 'select' ||
-            tag === 'textarea' ||
-            tag === 'button' ||
-            tag === 'summary') {
-            return true;
-        }
-        // Links
-        if (tag === 'a' && target.hasAttribute('href')) {
-            return true;
-        }
-        // Media controls
-        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls')) {
-            return true;
-        }
-        // Any element with tabindex >= 0 is interactive
-        const tab = target.getAttribute('tabindex');
-        if (tab !== null) {
-            const n = parseInt(tab, 10);
-            if (!Number.isNaN(n) && n >= 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-    // ---------------------------------------------------------------------
-    // Utils
-    // ---------------------------------------------------------------------
-    _elementOrNull(element) {
-        return element instanceof HTMLElement ? element : null;
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesKeyboardController = SlidesKeyboardController;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- extras/slides/overview.js ---------------
-'use strict';
-class SlidesOverview {
-    constructor(slides, panelElement, onSelectSlide) {
-        this._slides = Array.isArray(slides) ? slides : [];
-        this._panel = panelElement instanceof HTMLElement ? panelElement : null;
-        this._onSelectSlide = (typeof onSelectSlide === 'function') ? onSelectSlide : null;
-        if (this._panel !== null) {
-            this._panel.style.display = 'none'; // hidden by default
+    // -----------------------------------------------------------------------
+    // Visibility of the controls panel (toggled via keyboard / buttons)
+    // -----------------------------------------------------------------------
+    renderControls(visible) {
+        if (this._controls instanceof HTMLElement) {
+            this._controls.classList.toggle('controls-hidden', visible === false);
         }
     }
-    // -------------------------------------------------------------------------
-    //  Public API
-    // -------------------------------------------------------------------------
-    build() {
-        if (this._panel === null) {
-            return;
-        }
-        this._panel.innerHTML = '';
-        const total = this._slides.length;
-        for (let i = 0; i < total; i++) {
-            const slide = this._slides[i];
-            const index = i + 1;
-            // Create the <article> container.
-            const article = document.createElement('article');
-            article.className = 'overview-item';
-            // Header: slide number.
-            const header = document.createElement('header');
-            header.textContent = String(index);
-            article.appendChild(header);
-            // Main: clone of the slide.
-            const main = document.createElement('main');
-            // only the content, not the section container
-            const fragment = document.createRange().createContextualFragment(slide.innerHTML);
-            main.appendChild(fragment);
-            article.appendChild(main);
-            // Footer: GoTo button.
-            const footer = document.createElement('footer');
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.textContent = 'GoTo';
-            btn.addEventListener('click', () => {
-                if (typeof this._onSelectSlide === 'function') {
-                    this._onSelectSlide(index);
-                }
-                this.hide();
-            });
-            footer.appendChild(btn);
-            article.appendChild(footer);
-            this._panel.appendChild(article);
-        }
-    }
-    // ----------------------------------------------------------------------
-    show() {
-        if (this._panel !== null) {
-            this._panel.style.display = 'block';
-        }
-    }
-    // ----------------------------------------------------------------------
-    hide() {
-        if (this._panel !== null) {
-            this._panel.style.display = 'none';
-        }
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesOverview = SlidesOverview;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- extras/slides/presentation.js ---------------
-'use strict';
-class SlidesPresentation {
-    constructor(slides, progressBar = null, controlsElement = null) {
-        this._slides = Array.isArray(slides) ? slides : [];
-        this._progressBar = progressBar;
-        this._controls = controlsElement;
-    }
-    // -------------------------------------------------------------------------
-    //  Public API
-    // -------------------------------------------------------------------------
-    renderSlide(newIndex, oldIndex) {
+    // -----------------------------------------------------------------------
+    // Private rendering helpers
+    // -----------------------------------------------------------------------
+    _renderSlide(newIndex, oldIndex) {
         const total = this._slides.length;
         if (oldIndex >= 1 && oldIndex <= total) {
             const prev = this._slides[oldIndex - 1];
@@ -859,854 +865,486 @@ class SlidesPresentation {
             }
         }
     }
-    // -------------------------------------------------------------------------
-    renderIncremental(currentIndex, step) {
-        const slide = this._getSlide(currentIndex);
+    _renderIncremental(index, step) {
+        const slide = this._getSlide(index);
         if (slide === null) {
             return;
         }
-        const containers = slide.querySelectorAll('.incremental');
-        containers.forEach(c => this._clearIncrementals(c));
+        // Clear all incremental state on this slide
+        slide.querySelectorAll('.incremental').forEach(container => {
+            container.removeAttribute('active');
+            container.querySelectorAll('*').forEach(item => item.removeAttribute('aria-selected'));
+        });
         if (step === 0) {
             return;
         }
         const items = slide.querySelectorAll('.incremental > *');
-        const totalItems = items.length;
-        if (totalItems === 0 || step > totalItems) {
+        if (items.length === 0 || step > items.length) {
             return;
         }
         const target = items[step - 1];
-        const parent = target.parentElement;
-        if (parent instanceof HTMLElement) {
-            parent.setAttribute('active', 'true');
+        if (target.parentElement instanceof HTMLElement) {
+            target.parentElement.setAttribute('active', 'true');
         }
         target.setAttribute('aria-selected', 'true');
     }
-    // -------------------------------------------------------------------------
-    renderProgress(widthPercent) {
-        if (this._progressBar instanceof HTMLElement) {
-            this._progressBar.style.width = String(widthPercent) + '%';
+    _renderProgress(currentIndex, count) {
+        if (!(this._progressBar instanceof HTMLElement)) {
+            return;
         }
+        const pct = count <= 1 ? 0 : (currentIndex - 1) * 100 / (count - 1);
+        this._progressBar.style.width = `${pct}%`;
     }
-    // -------------------------------------------------------------------------
-    renderControls(visible) {
-        if (this._controls instanceof HTMLElement) {
-            this._controls.classList.toggle('controls-hidden', visible === false);
-        }
-    }
-    // -------------------------------------------------------------------------
-    showPresentation() {
+    _showSlides() {
         for (const slide of this._slides) {
             slide.style.display = 'block';
         }
     }
-    // -------------------------------------------------------------------------
-    hidePresentation() {
+    _hideSlides() {
         for (const slide of this._slides) {
             slide.style.display = 'none';
         }
     }
-    // -------------------------------------------------------------------------
-    //  Private Helpers
-    // -------------------------------------------------------------------------
     _getSlide(index) {
         if (index < 1 || index > this._slides.length) {
             return null;
         }
         return this._slides[index - 1];
     }
-    // -------------------------------------------------------------------------
-    _clearIncrementals(container) {
-        if (!(container instanceof HTMLElement)) {
-            return;
-        }
-        container.removeAttribute('active');
-        const items = container.querySelectorAll('*');
-        items.forEach(item => {
-            item.removeAttribute('aria-selected');
-        });
-    }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesPresentation = SlidesPresentation;
+window.Wexa.PresentationView = PresentationView;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides_view.js ---------------
+// ---------------- extras/slides/overview_view.js ---------------
 'use strict';
-class SlidesView {
-    // ---------------------------------------------------------------------------
-    // STATIC ENUM OF MODES
-    // ---------------------------------------------------------------------------
-    static MODES = {
-        PRESENTATION: 'presentation',
-        OVERVIEW: 'overview',
-        //PRINT: 'print',
-        //NOTES: 'notes'
-    }
-    static DEFAULT_MODE = SlidesView.MODES.PRESENTATION;
-    // ---------------------------------------------------------------------------
-    // CONSTRUCTOR
-    // ---------------------------------------------------------------------------
-    constructor(slides,
-                progressBar = null,
-                controlsElement = null,
-                controlsViewElement  = null,
-                overviewContainer = null) {
-        this._slides = slides;
-        // Sub-views
-        this._presentation = new SlidesPresentation(
-            slides,
-            progressBar,
-            controlsElement
-        );
-        this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
-        this._controls = controlsElement instanceof HTMLElement ? controlsElement : null;
-        this._overviewContainer = overviewContainer instanceof HTMLElement ? overviewContainer : null;
-        this._overview = null;
-        this._viewMode = SlidesView.MODES.PRESENTATION;
-        // Callback for clicking a slide in the overview.
-        this.onSelectSlide = null;
+class OverviewView {
+    constructor(slides, panelElement) {
+        this._slides = Array.isArray(slides)
+            ? slides.map(s => s.cloneNode(true))
+            : [];
+        this._panel = panelElement instanceof HTMLElement ? panelElement : null;
+        if (this._panel !== null) {
+            this._panel.style.display = 'none';
+        }
     }
     // -----------------------------------------------------------------------
-    // INITIALIZATION
+    // Called once during init
     // -----------------------------------------------------------------------
-    initOverview(onSelectSlide) {
-        if (this._overviewContainer !== null) {
-            this._overview = new SlidesOverview(
-                (
-                    this._slides.map((slide) => slide.cloneNode(true))
-                ),
-                this._overviewContainer,
-                onSelectSlide
+    build() {
+        if (this._panel === null) {
+            return;
+        }
+        this._panel.innerHTML = '';
+        this._slides.forEach((slide, i) => {
+            const index = i + 1;
+            const article = document.createElement('article');
+            article.className = 'overview-item';
+            // Header: slide number
+            const header = document.createElement('header');
+            header.textContent = String(index);
+            article.appendChild(header);
+            // Main: cloned slide content (inner HTML only)
+            const main = document.createElement('main');
+            main.appendChild(
+                document.createRange().createContextualFragment(slide.innerHTML)
             );
-        }
-    }
-    buildOverview() {
-        if (this._overview !== null) {
-            this._overview.build();
-        }
-    }
-    // ---------------------------------------------------------------------------
-    // MODE SWITCHING
-    // ---------------------------------------------------------------------------
-    setMode(mode) {
-        this._mode = mode;
-        // Manage the body class="view" to enable the relevant CSS render class
-        this._removeBodyView()
-        document.body.classList.add(`${mode}-view`);
-        // switch to the requested view [presentation by default]
-        switch (mode) {
-            case SlidesView.MODES.OVERVIEW:
-                this._enterOverview();
-                return;
-            default:
-                this._enterPresentation();
-                return;
-        }
-    }
-    get mode() {
-        return this._mode;
-    }
-    // ---------------------------------------------------------------------------
-    // RENDERING (CALLED ONLY BY SlidesManager)
-    // ---------------------------------------------------------------------------
-    renderSlide(newIndex, oldIndex) {
-        // Presentation view update (always required)
-        this._presentation.renderSlide(newIndex, oldIndex);
-        /* Overview view update (safe no-op when inactive)
-        if (typeof this._overview.renderSlide === 'function') {
-            this._overview.renderSlide(newIndex, oldIndex);
-        }*/
-    }
-    renderIncremental(index, step) {
-        if (this._mode === SlidesView.MODES.PRESENTATION) {
-            this._presentation.renderIncremental(index, step);
-        }
-    }
-    renderProgress(percent) {
-        if (this._mode === SlidesView.MODES.PRESENTATION) {
-            this._presentation.renderProgress(percent);
-        }
-    }
-    renderControls(visible) {
-        if (this._mode === SlidesView.MODES.PRESENTATION) {
-            this._presentation.renderControls(visible);
-        }
-        if (this._controlsView instanceof HTMLElement) {
-            this._controlsView.classList.toggle('controls-hidden', visible === false);
-        }
-    }
-    // ----------------------------------------------------------------------
-    // PRIVATE: MODE ENTRY HANDLERS
-    // ----------------------------------------------------------------------
-    _enterPresentation() {
-        if (this._overview !== null) {
-            this._overview.hide();
-        }
-        this._presentation.showPresentation();
-    }
-    _enterOverview() {
-        this._presentation.hidePresentation();
-        if (this._overview !== null) {
-            this._overview.show();
-        }
-    }
-    _removeBodyView() {
-        const modes = Object.values(SlidesView.MODES);
-        modes.forEach(mode => {
-            document.body.classList.remove(`${mode}-view`);
+            article.appendChild(main);
+            // Footer: GoTo button
+            const footer = document.createElement('footer');
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = 'GoTo';
+            btn.addEventListener('click', () => {
+                // Navigate to this slide and switch back to presentation
+                document.dispatchEvent(new CustomEvent('slides:navigate', {
+                    detail: { action: 'goTo', index, step: 0 }
+                }));
+                document.dispatchEvent(new CustomEvent('slides:viewmode', {
+                    detail: { mode: 'presentation' }
+                }));
+            });
+            footer.appendChild(btn);
+            article.appendChild(footer);
+            this._panel.appendChild(article);
         });
     }
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via modeLogic.onModeChange
+    // -----------------------------------------------------------------------
+    onModeChange(data) {
+        if (this._panel === null) {
+            return;
+        }
+        this._panel.style.display = data.mode === 'overview' ? 'block' : 'none';
+    }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesView = SlidesView;
+window.Wexa.OverviewView = OverviewView;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/slides_manager.js ---------------
+// ---------------- extras/slides/keyboard_controller.js ---------------
 'use strict';
-class SlidesManager {
-    // ----------------------------------------------------------------------
-    // CONSTRUCTOR
-    // ----------------------------------------------------------------------
-    constructor(slides, options = {}, dependencies = {}) {
-        // Slides validation
-        // ------------------------------
-        if (!Array.isArray(slides)) {
-            console.error('SlidesManager: slides must be an array.');
-            this._slides = [];
-        } else {
-            this._slides = slides;
-        }
-        if (this._slides.length === 0) {
-            console.warn('SlidesManager: no slides found.');
-        }
-        // State
-        // ------------------------------
-        this._currentIndex = 1;  // 1-based
-        this._currentStep = 0;
-        this._autoPlayEnabled = Boolean(options.autoPlayEnabled);
-        this._controlsVisible = Boolean(options.controlsVisible);
-        // Dependencies
-        // ------------------------------
-        if (typeof dependencies.visibilityManager === 'object' && dependencies.visibilityManager !== null) {
-            this.visibilityManager = dependencies.visibilityManager;
-        } else {
-            this.visibilityManager = null;
-        }
-        if (typeof dependencies.viewModeManager === 'object' && dependencies.viewModeManager !== null) {
-            this.viewModeManager = dependencies.viewModeManager;
-        } else {
-            this.viewModeManager = null;
-        }
-        this._view =
-            (typeof dependencies.view === 'object' && dependencies.view !== null)
-                ? dependencies.view
-                : null;
-        this._fullscreen =
-            (typeof dependencies.fullscreen === 'object' && dependencies.fullscreen !== null)
-                ? dependencies.fullscreen
-                : null;
-        this._focusController =
-            (typeof dependencies.focusController === 'object' &&
-                dependencies.focusController !== null)
-                ? dependencies.focusController
-                : null;
+class KeyboardController {
+    static SLIDE_KEYS = new Set([
+        'Escape',
+        'o', 'O',
+        's', 'S',
+        'f', 'F',
+        'n', 'N',
+        'b', 'B',
+        'l', 'L',
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+        'PageUp', 'PageDown',
+        'Home', 'End',
+    ]);
+    constructor() {
+        this._boundHandler = this._onKeyDown.bind(this);
     }
-    // ----------------------------------------------------------------------
-    // INITIALIZATION
-    // ----------------------------------------------------------------------
     init() {
-        // Clamp index (safety)
-        if (this._slides.length === 0) {
-            return;
-        }
-        // Apply default mode BEFORE any rendering (mandatory for hash)
-        // this._view.setMode(this._view.DEFAULT_MODE);
-        // Initial render
-        this._view.renderSlide(this._currentIndex, 0);
-        this._view.renderIncremental(this._currentIndex, this._currentStep);
-        // Initial progress
-        const pct = (this._currentIndex - 1) * 100 / (this._slides.length - 1);
-        this._view.renderProgress(pct);
-        // Controls visibility
-        this._view.renderControls(this._controlsVisible);
+        document.body.addEventListener('keydown', this._boundHandler, false);
     }
-    // ----------------------------------------------------------------------
-    //  Public API
-    // ----------------------------------------------------------------------
-    next() {
-        const lastIndex = this._slides.length;
-        const incrementalCount = this.getIncrementalCount(this._currentIndex);
-        if (this._currentIndex === lastIndex && this._currentStep >= incrementalCount) {
-            return;
-        }
-        if (this._currentStep >= incrementalCount) {
-            this.goTo(this._currentIndex + 1, 0);
-        } else {
-            this.goTo(this._currentIndex, this._currentStep + 1);
-        }
+    destroy() {
+        document.body.removeEventListener('keydown', this._boundHandler, false);
     }
-    // ----------------------------------------------------------------------
-    prev() {
-        const atFirstSlide = this._currentIndex === 1 && this._currentStep === 0;
-        if (atFirstSlide === true) {
-            return;
-        }
-        if (this._currentStep === 0) {
-            const previousIndex = this._currentIndex - 1;
-            const lastStep = this.getIncrementalCount(previousIndex);
-            this.goTo(previousIndex, lastStep);
-        } else {
-            this.goTo(this._currentIndex, this._currentStep - 1);
-        }
-    }
-    // ----------------------------------------------------------------------
-    goTo(index, step = 0) {
-        const previousIndex = this._currentIndex;
-        const previousStep = this._currentStep;
-        const clampedIndex = this._clampIndex(index);
-        const clampedStep = this._clampStep(clampedIndex, step);
-        if (clampedIndex === previousIndex && clampedStep === previousStep) {
-            return;
-        }
-        const previousSlide = this.getActiveSlide();
-        if (previousSlide !== null) {
-            this._pauseVideo(previousSlide);
-        }
-        this._currentIndex = clampedIndex;
-        this._currentStep = clampedStep;
-        const currentSlide = this.getActiveSlide();
-        if (currentSlide !== null) {
-            this._autoplayVideo(currentSlide);
-        }
-        if (typeof window !== 'undefined') {
-            const hashValue = '#' + String(this._currentIndex) + '.' + String(this._currentStep);
-            window.location.hash = hashValue;
-        }
-        this._notifyAll(previousIndex, previousStep);
-        if (this._focusController !== null) {
-            this._focusController.updateFocus(this._slides, this._currentIndex);
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _onKeyDown(event) {
+        const key = event.key;
+        if (!KeyboardController.SLIDE_KEYS.has(key)) return;
+        if (key === 'Enter' || key === ' ')            return;
+        if (this._isInteractiveTarget(event.target))   return;
+        switch (key) {
+            case 'Escape':
+            case 's': case 'S':
+                this._emit('slides:viewmode', { mode: 'presentation' });
+                return;
+            case 'o': case 'O':
+                this._emit('slides:viewmode', { action: 'toggle' });
+                return;
+            case 'f': case 'F':
+                this._emit('slides:fullscreen', {});
+                return;
+            case 'n': case 'N':
+                this._emit('slides:visibility', { name: 'controls', action: 'toggle' });
+                return;
+            case 'b': case 'B':
+                this._emit('slides:visibility', { name: 'progress', action: 'toggle' });
+                return;
+            case 'l': case 'L':
+                this._emit('slides:visibility', { name: 'logo', action: 'toggle' });
+                return;
+            case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+                event.preventDefault();
+                this._emit('slides:navigate', { action: 'prev' });
+                return;
+            case 'ArrowRight': case 'ArrowDown': case 'PageDown':
+                event.preventDefault();
+                this._emit('slides:navigate', { action: 'next' });
+                return;
+            case 'Home':
+                event.preventDefault();
+                this._emit('slides:navigate', { action: 'goStart' });
+                return;
+            case 'End':
+                event.preventDefault();
+                this._emit('slides:navigate', { action: 'goEnd' });
+                return;
         }
     }
-    // ----------------------------------------------------------------------
-    goStart() {
-        this.goTo(1, 0);
+    _emit(type, detail) {
+        document.dispatchEvent(new CustomEvent(type, { detail }));
     }
-    // ----------------------------------------------------------------------
-    goEnd() {
-        const lastIndex = this._slides.length;
-        const lastStep = this.getIncrementalCount(lastIndex);
-        this.goTo(lastIndex, lastStep);
-    }
-    // ----------------------------------------------------------------------
-    toggleContent() {
-        const slide = this.getActiveSlide();
-        if (slide === null) {
-            return;
+    _isInteractiveTarget(target) {
+        if (!(target instanceof HTMLElement)) {
+            return true;
         }
-        const video = this.getVideo(slide);
-        if (video === null) {
-            return;
+        const tag = target.tagName.toLowerCase();
+        if (['input', 'select', 'textarea', 'button', 'summary'].includes(tag)) {
+            return true;
         }
-        if (video.ended === true || video.paused === true) {
-            video.play();
-        } else {
-            video.pause();
+        if (tag === 'a' && target.hasAttribute('href')) {
+            return true;
         }
-    }
-    // ----------------------------------------------------------------------
-    toggleFullscreen() {
-        if (this._fullscreen) {
-            this._fullscreen.toggle();
-        } else {
-            console.log("No fullscreen available.");
+        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls')) {
+            return true;
         }
-    }
-    // ----------------------------------------------------------------------
-    updateFromHash(hash) {
-        const previousIndex = this._currentIndex;
-        const previousStep = this._currentStep;
-        const isString = typeof hash === 'string';
-        const isEmpty = hash === '';
-        const startsWithHash = isString === true && hash.charAt(0) === '#';
-        if (isString === false || isEmpty === true || startsWithHash === false) {
-            this._currentIndex = this._clampIndex(1);
-            this._currentStep = this._clampStep(this._currentIndex, 0);
-            this._notifyAll(previousIndex, previousStep);
-            return;
-        }
-        const cursor = hash.substring(1).split('.');
-        const parsedIndex = parseInt(cursor[0], 10);
-        const parsedStep = cursor.length > 1 ? parseInt(cursor[1], 10) : 0;
-        const safeIndex = Number.isNaN(parsedIndex) ? 1 : parsedIndex;
-        const safeStep = Number.isNaN(parsedStep) ? 0 : parsedStep;
-        const clampedIndex = this._clampIndex(safeIndex);
-        const clampedStep = this._clampStep(clampedIndex, safeStep);
-        this._currentIndex = clampedIndex;
-        this._currentStep = clampedStep;
-        this._notifyAll(previousIndex, previousStep);
-    }
-    // ----------------------------------------------------------------------
-    getActiveSlide() {
-        const index = this._currentIndex;
-        if (index < 1 || index > this._slides.length) {
-            return null;
-        }
-        return this._slides[index - 1];
-    }
-    // ----------------------------------------------------------------------
-    getIncrementalCount(index) {
-        const slideIndex = typeof index === 'number' ? index : this._currentIndex;
-        const clampedIndex = this._clampIndex(slideIndex);
-        const slide = this._slides[clampedIndex - 1];
-        if (!(slide instanceof HTMLElement)) {
-            return 0;
-        }
-        const items = slide.querySelectorAll('.incremental > *');
-        return items.length;
-    }
-    // ----------------------------------------------------------------------
-    getVideo(slide) {
-        const isElement = slide instanceof HTMLElement;
-        if (isElement === false) {
-            return null;
-        }
-        const video = slide.querySelector('video');
-        const isVideo = video instanceof HTMLVideoElement;
-        return isVideo === true ? video : null;
-    }
-    // ----------------------------------------------------------------------
-    // PRIVATE
-    // ----------------------------------------------------------------------
-    _notifyAll(previousIndex, previousStep) {
-        if (this._view !== null) {
-            const hasRenderSlide = typeof this._view.renderSlide === 'function';
-            const hasRenderIncremental = typeof this._view.renderIncremental === 'function';
-            const hasUpdateProgress = typeof this._view.renderProgress === 'function';
-            if (hasRenderSlide === true) {
-                this._view.renderSlide(this._currentIndex, previousIndex);
-            }
-            if (hasRenderIncremental === true) {
-                this._view.renderIncremental(this._currentIndex, this._currentStep);
-            }
-            if (hasUpdateProgress === true) {
-                const totalSlides = this._slides.length - 1;
-                const progressPercent = (this._currentIndex - 1) * 100 / totalSlides;
-                this._view.renderProgress(progressPercent);
+        const tab = target.getAttribute('tabindex');
+        if (tab !== null) {
+            const n = parseInt(tab, 10);
+            if (!Number.isNaN(n) && n >= 0) {
+                return true;
             }
         }
-        const hasFocusController = this._focusController !== null;
-        const hasUpdateFocus = hasFocusController === true
-            && typeof this._focusController.updateFocus === 'function';
-        if (hasUpdateFocus === true) {
-            this._focusController.updateFocus(this._slides, this._currentIndex);
-        }
-    }
-    // ----------------------------------------------------------------------
-    _pauseVideo(slide) {
-        const video = this.getVideo(slide);
-        if (video !== null) {
-            video.pause();
-        }
-    }
-    // ----------------------------------------------------------------------
-    _autoplayVideo(slide) {
-        if (this._autoPlayEnabled === false) {
-            return;
-        }
-        const video = this.getVideo(slide);
-        if (video !== null) {
-            video.play();
-        }
-    }
-    // ----------------------------------------------------------------------
-    _clampIndex(index) {
-        if (index < 1) {
-            return 1;
-        }
-        if (index > this._slides.length) {
-            return this._slides.length;
-        }
-        return index;
-    }
-    // ----------------------------------------------------------------------
-    _clampStep(index, step) {
-        if (step < 0) {
-            return 0;
-        }
-        const maxSteps = this.getIncrementalCount(index);
-        if (this._slides.length === 0) {
-            return 0;
-        }
-        if (step > maxSteps) {
-            return maxSteps;
-        }
-        return step;
+        return false;
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesManager = SlidesManager;
+window.Wexa.KeyboardController = KeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/touch.js ---------------
+// ---------------- extras/slides/touch_controller.js ---------------
 'use strict';
-class SlidesTouchController {
-    constructor(slidesManager, options = {}) {
-        if (typeof slidesManager !== 'object' || slidesManager === null) {
-            throw new Error('SlidesTouchController: "slidesManager" must be an object.');
-        }
-        this._manager = slidesManager;
+class TouchController {
+    constructor(options = {}) {
         const target = options.target;
         this._target = target instanceof HTMLElement ? target : document.body;
         const threshold = options.threshold;
         this._threshold = typeof threshold === 'number' && threshold > 0 ? threshold : 100;
         this._tracking = false;
-        this._originX = 0;
+        this._originX  = 0;
         this._onStart = this._touchStart.bind(this);
-        this._onMove = this._touchMove.bind(this);
+        this._onMove  = this._touchMove.bind(this);
     }
     init() {
         this._target.addEventListener('touchstart', this._onStart, { passive: false });
-        this._target.addEventListener('touchmove', this._onMove, { passive: false });
+        this._target.addEventListener('touchmove',  this._onMove,  { passive: false });
     }
     destroy() {
         this._target.removeEventListener('touchstart', this._onStart, false);
-        this._target.removeEventListener('touchmove', this._onMove, false);
+        this._target.removeEventListener('touchmove',  this._onMove,  false);
     }
-    // ---------------------------------------------------------------------
-    // Private methods
-    // ---------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
     _touchStart(event) {
         if (event.changedTouches.length === 0) {
             return;
         }
         event.preventDefault();
         this._tracking = true;
-        this._originX = event.changedTouches[0].pageX;
+        this._originX  = event.changedTouches[0].pageX;
     }
     _touchMove(event) {
-        if (this._tracking === false) {
+        if (!this._tracking || event.changedTouches.length === 0) {
             return;
         }
-        if (event.changedTouches.length === 0) {
-            return;
-        }
-        const newX = event.changedTouches[0].pageX;
-        const delta = this._originX - newX;
+        const delta = this._originX - event.changedTouches[0].pageX;
         if (delta > this._threshold) {
             this._tracking = false;
-            this._manager.next();
-            return;
-        }
-        if (delta < -this._threshold) {
+            document.dispatchEvent(new CustomEvent('slides:navigate', {
+                detail: { action: 'next' }
+            }));
+        } else if (delta < -this._threshold) {
             this._tracking = false;
-            this._manager.prev();
-            return;
+            document.dispatchEvent(new CustomEvent('slides:navigate', {
+                detail: { action: 'prev' }
+            }));
         }
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesTouchController = SlidesTouchController;
+window.Wexa.TouchController = TouchController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/controls.js ---------------
+// ---------------- extras/slides/buttons_controller.js ---------------
 'use strict';
-class SlidesControlsController {
-    constructor(manager, {
-        prevButton = null,
-        nextButton = null,
-        backButton = null,
-        lastButton = null,
-        overviewButton = null,
+class ButtonsController {
+    constructor({
+        prevButton         = null,
+        nextButton         = null,
+        backButton         = null,
+        lastButton         = null,
+        overviewButton     = null,
         presentationButton = null,
-        fullscreenButton = null,
-        goToButton = null
+        fullscreenButton   = null,
+        goToButton         = null,
     } = {}) {
-        if (typeof manager !== 'object' || manager === null) {
-            throw new Error('SlidesControlsController: "manager" must be an object.');
-        }
-        this._manager = manager;
-        this._buttons = {
-            prev: this._elementOrNull(prevButton),
-            next: this._elementOrNull(nextButton),
-            back: this._elementOrNull(backButton),
-            last: this._elementOrNull(lastButton),
-            overview: this._elementOrNull(overviewButton),
-            presentation: this._elementOrNull(presentationButton),
-            fullscreen: this._elementOrNull(fullscreenButton),
-            goto: this._elementOrNull(goToButton)
+        this._b = {
+            prev:         this._el(prevButton),
+            next:         this._el(nextButton),
+            back:         this._el(backButton),
+            last:         this._el(lastButton),
+            overview:     this._el(overviewButton),
+            presentation: this._el(presentationButton),
+            fullscreen:   this._el(fullscreenButton),
+            goto:         this._el(goToButton),
         };
         this._bindEvents();
     }
-    // ----------------------------------------------------------------------
-    updateViewButtons(mode) {
-        // Update the OVERVIEW button
-        // Disable it only when the current mode *is* overview.
-        if (this._buttons.overview instanceof HTMLElement) {
-            if (mode === 'overview') {
-                this._buttons.overview.setAttribute('disabled', '');
-            } else {
-                this._buttons.overview.removeAttribute('disabled');
-            }
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via modeLogic.onModeChange
+    // -----------------------------------------------------------------------
+    onModeChange(data) {
+        if (this._b.overview instanceof HTMLElement) {
+            this._b.overview.toggleAttribute('disabled', data.mode === 'overview');
         }
-        // Update the PRESENTATION button
-        // Disable it only when the current mode *is* presentation.
-        if (this._buttons.presentation instanceof HTMLElement) {
-            if (mode === 'presentation') {
-                this._buttons.presentation.setAttribute('disabled', '');
-            } else {
-                this._buttons.presentation.removeAttribute('disabled');
-            }
+        if (this._b.presentation instanceof HTMLElement) {
+            this._b.presentation.toggleAttribute('disabled', data.mode === 'presentation');
         }
     }
-    // ----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
     _bindEvents() {
-        const b = this._buttons;
-        if (b.prev !== null) {
-            b.prev.addEventListener('click', () => {
-                this._manager.prev();
-            });
-        }
-        if (b.next !== null) {
-            b.next.addEventListener('click', () => {
-                this._manager.next();
-            });
-        }
-        if (b.back !== null) {
-            b.back.addEventListener('click', () => {
-                this._manager.goStart();
-            });
-        }
-        if (b.last !== null) {
-            b.last.addEventListener('click', () => {
-                this._manager.goEnd();
-            });
-        }
-        if (b.goto !== null) {
-            b.goto.addEventListener('click', () => {
-                const index = window.prompt('Go to slide number: ');
-                if (index !== null) {
-                    // If currently in overview mode, switch to presentation first
-                    if (this._manager._view?.mode === SlidesView.MODES.OVERVIEW) {
-                        this._switchView(SlidesView.MODES.PRESENTATION);
-                    }
-                    this._manager.goTo(Number(index), 0);
-                }
-            });
-        }
-        if (b.overview !== null) {
-            b.overview.addEventListener('click', () => {
-                this._switchView(SlidesView.MODES.OVERVIEW);
-            });
-        }
-        if (b.presentation !== null) {
-            b.presentation.addEventListener('click', () => {
-                this._switchView(SlidesView.MODES.PRESENTATION);
-            });
-        }
-        if (b.fullscreen !== null) {
-            b.fullscreen.addEventListener('click', () => {
-                if (this._manager._fullscreen &&
-                    typeof this._manager._fullscreen.toggle === 'function') {
-                    this._manager._fullscreen.toggle();
-                }
-            });
-        }
-    }
-    // ----------------------------------------------------------------------
-    disableAll() {
-        for (const key in this._buttons) {
-            if (!Object.prototype.hasOwnProperty.call(this._buttons, key)) {
-                continue;
+        const b = this._b;
+        const nav  = (action, index, step) =>
+            document.dispatchEvent(new CustomEvent('slides:navigate', {
+                detail: { action, index, step }
+            }));
+        const mode = (m) =>
+            document.dispatchEvent(new CustomEvent('slides:viewmode', {
+                detail: { mode: m }
+            }));
+        b.prev?.addEventListener('click',     () => nav('prev'));
+        b.next?.addEventListener('click',     () => nav('next'));
+        b.back?.addEventListener('click',     () => nav('goStart'));
+        b.last?.addEventListener('click',     () => nav('goEnd'));
+        b.overview?.addEventListener('click', () => mode('overview'));
+        b.presentation?.addEventListener('click', () => mode('presentation'));
+        b.fullscreen?.addEventListener('click', () =>
+            document.dispatchEvent(new CustomEvent('slides:fullscreen', { detail: {} }))
+        );
+        b.goto?.addEventListener('click', () => {
+            const input = window.prompt('Go to slide number:');
+            if (input !== null) {
+                nav('goTo', Number(input), 0);
+                mode('presentation');
             }
-            const btn = this._buttons[key];
-            if (btn instanceof HTMLElement) {
-                btn.setAttribute('disabled', '');
-            }
-        }
+        });
     }
-    // ----------------------------------------------------------------------
-    enable(feature) {
-        if (typeof feature !== 'string') {
-            return;
-        }
-        const btn = this._buttons[feature];
-        if (btn instanceof HTMLElement) {
-            btn.removeAttribute('disabled');
-        }
-    }
-    // ----------------------------------------------------------------------
-    _switchView(viewMode) {
-        if (this._manager.viewModeManager !== null &&
-            typeof this._manager.viewModeManager.set === 'function') {
-            this._manager.viewModeManager.set(viewMode);
-        }
-    }
-    // ----------------------------------------------------------------------
-    _elementOrNull(element) {
-        return element instanceof HTMLElement ? element : null;
+    _el(e) {
+        return e instanceof HTMLElement ? e : null;
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesControlsController = SlidesControlsController;
+window.Wexa.ButtonsController = ButtonsController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/slides/modeview.js ---------------
+// ---------------- extras/slides/slides_assembler.js ---------------
 'use strict';
-class SlidesViewModeManager {
-    constructor(slidesView, controlsController) {
-        if (typeof slidesView === 'object' && slidesView !== null) {
-            this._slidesView = slidesView;
-        } else {
-            this._slidesView = null;
-        }
-        if (typeof controlsController === 'object' && controlsController !== null) {
-            this._controlsController = controlsController;
-        } else {
-            this._controlsController = null;
-        }
-        this._mode = null;
-    }
-    set(mode) {
-        this._mode = mode;
-        if (this._slidesView !== null &&
-            typeof this._slidesView.setMode === 'function') {
-            this._slidesView.setMode(mode);
-        }
-        if (this._controlsController !== null &&
-            typeof this._controlsController.updateViewButtons === 'function') {
-            this._controlsController.updateViewButtons(mode);
-        }
-    }
-    get() {
-        return this._mode;
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesViewModeManager = SlidesViewModeManager;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- extras/slides/slides_app.js ---------------
-'use strict';
-class SlidesApp {
-    // ----------------------------------------------------------------------
-    // CONSTRUCTOR
-    // ----------------------------------------------------------------------
+class SlidesAssembler {
     constructor(config) {
-        // ****** VIEWS ******
-        // -------------------
-        this._view = new SlidesView(
+        // ── 1. DATA ──────────────────────────────────────────────────────────
+        this._data = new SlidesData(config.slides);
+        this._data.autoPlay = Boolean(config.autoPlayEnabled);
+        // ── 2. LOGIC ─────────────────────────────────────────────────────────
+        this._navLogic  = new NavigationLogic(this._data);
+        this._modeLogic = new ViewModeLogic(this._data);
+        // ── 3. VIEWS ─────────────────────────────────────────────────────────
+        this._presentationView = new PresentationView(
             config.slides,
-            config.progressBar,
-            config.controls,
-            config.controlsView,
-            config.overviewContainer
+            config.progressBar   instanceof HTMLElement ? config.progressBar   : null,
+            config.controls      instanceof HTMLElement ? config.controls      : null,
+            config.controlsView  instanceof HTMLElement ? config.controlsView  : null
         );
-        // ****** CONTROLLERS ******
-        // -------------------------
+        this._overviewView = config.overviewContainer instanceof HTMLElement
+            ? new OverviewView(config.slides, config.overviewContainer)
+            : null;
+        // ── 4. UTILITIES ─────────────────────────────────────────────────────
+        this._focus      = new SlidesFocusController();
         this._fullscreen = new SlidesFullscreenController();
-        this._focusController = new SlidesFocusController();
-        // ****** MANAGERS ******
-        // -------------------------
         this._visibilityManager = new SlidesVisibilityManager({
-            controls: config.controls instanceof HTMLElement ? config.controls : null
+            controls: config.controls          instanceof HTMLElement ? config.controls          : null,
+            progress: config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
+            logo:     config.logo              instanceof HTMLElement ? config.logo              : null,
         });
-        this._manager = new SlidesManager(
-            config.slides,
-            {
-                autoPlayEnabled: false,
-                controlsVisible: true
-            },
-            { // dependencies
-                view: this._view,
-                fullscreen: this._fullscreen,
-                focusController: this._focusController,
-                visibilityManager: this._visibilityManager
-            }
-        );
-        this._touch = new SlidesTouchController(this._manager);
-        this._keyboard = new SlidesKeyboardController(this._manager);
-        this._controls = new SlidesControlsController(
-            this._manager,
-            {
-                prevButton: config.controls?.querySelector('#btn-prev') || null,
-                nextButton: config.controls?.querySelector('#btn-next') || null,
-                backButton: config.controls?.querySelector('#btn-back') || null,
-                lastButton:  config.controls?.querySelector('#btn-last')  || null,
-                goToButton: config.controls?.querySelector('#btn-goto') || null,
-                overviewButton: config.controlsView?.querySelector('#btn-overview')  || null,
-                presentationButton: config.controlsView?.querySelector('#btn-presentation')  || null,
-                fullscreenButton: config.controls?.querySelector('#btn-fullscreen')|| null
-            }
-        );
-        // ********** VIEWS INITIALIZATIONS *********
-        // ------------------------------------------
-        // MVC: View emits → Manager handles
-        this._view.onSelectSlide = (index) => {
-            this._manager.goTo(index, 0);
+        // ── 5. CONTROLLERS ───────────────────────────────────────────────────
+        this._keyboard = new KeyboardController();
+        this._touch    = new TouchController();
+        const c = config.controls;
+        const v = config.controlsView;
+        this._buttons = new ButtonsController({
+            prevButton:         c?.querySelector('#btn-prev')         || null,
+            nextButton:         c?.querySelector('#btn-next')         || null,
+            backButton:         c?.querySelector('#btn-back')         || null,
+            lastButton:         c?.querySelector('#btn-last')         || null,
+            goToButton:         c?.querySelector('#btn-goto')         || null,
+            overviewButton:     v?.querySelector('#btn-overview')     || null,
+            presentationButton: v?.querySelector('#btn-presentation') || null,
+            fullscreenButton:   c?.querySelector('#btn-fullscreen')   || null,
+        });
+        // ── 6. WIRE LOGIC → VIEWS (callbacks) ────────────────────────────────
+        this._navLogic.onNavigate = (data) => {
+            this._presentationView.render(data);
+            this._focus.updateFocus(data.slides, data.currentIndex);
         };
-        // Normalize initial mode safely
-        this._initialViewMode = SlidesView.MODES.PRESENTATION;
+        this._modeLogic.onModeChange = (data) => {
+            this._presentationView.onModeChange(data);
+            if (this._overviewView !== null) {
+                this._overviewView.onModeChange(data);
+            }
+            this._buttons.onModeChange(data);
+        };
+        // ── 7. WIRE CUSTOM EVENTS → LOGIC ────────────────────────────────────
+        document.addEventListener('slides:navigate', (e) => {
+            this._dispatch(e.detail);
+        });
+        document.addEventListener('slides:viewmode', (e) => {
+            const { mode, action } = e.detail;
+            if (action === 'toggle') { this._modeLogic.toggle(); }
+            else { this._modeLogic.set(mode); }
+        });
+        document.addEventListener('slides:visibility', (e) => {
+            const { name, action } = e.detail;
+            if (action === 'toggle') { this._visibilityManager.toggle(name); }
+            else if (action === 'show')   { this._visibilityManager.show(name);   }
+            else if (action === 'hide')   { this._visibilityManager.hide(name);   }
+        });
+        document.addEventListener('slides:fullscreen', () => {
+            this._fullscreen.toggle();
+        });
+        // ── 8. HASH CHANGE ───────────────────────────────────────────────────
+        window.addEventListener('hashchange', () => {
+            this._navLogic.updateFromHash(window.location.hash);
+        });
+        // ── 9. INITIAL MODE ──────────────────────────────────────────────────
+        this._initialMode = ViewModeLogic.DEFAULT;
         if (typeof config.mode === 'string') {
-            const values = Object.values(SlidesView.MODES);
-            if (values.includes(config.mode)) {
-                this._initialViewMode = config.mode;
+            const modes = Object.values(ViewModeLogic.MODES);
+            if (modes.includes(config.mode)) {
+                this._initialMode = config.mode;
             }
         }
-        // Initialize overview only if an overview container is provided
-        if (this._view && config.overviewContainer) {
-            this._view.initOverview((index) => this._manager.goTo(index, 0));
-        }
-        // ***** VIEW !!! ******
-        this._viewModeManager = new SlidesViewModeManager(this._view, this._controls);
-        this._manager.viewModeManager = this._viewModeManager;
-        this._manager.updateFromHash(window.location.hash);
-        window.addEventListener('hashchange', () => {
-            this._manager.updateFromHash(window.location.hash);
-        });
     }
-    // ----------------------------------------------------------------------
-    // INITIALIZATION
-    // ----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
+    // Public API
+    // -----------------------------------------------------------------------
     init() {
-        this._view.buildOverview();
-        this._view.setMode(this._initialViewMode);
-        this._viewModeManager.set(this._initialViewMode);
-        this._manager.init();
+        // Build overview panel (before any mode is applied)
+        if (this._overviewView !== null) {
+            this._overviewView.build();
+        }
+        // Apply initial mode (fires onModeChange → updates views + buttons)
+        this._modeLogic.set(this._initialMode);
+        // Navigate to position from URL hash (fires onNavigate → renders)
+        this._navLogic.updateFromHash(window.location.hash);
+        // Start input controllers
         this._keyboard.init();
         this._touch.init();
-    }
-    // ----------------------------------------------------------------------
-    //  Public API
-    // ----------------------------------------------------------------------
-    get manager() {
-        return this._manager;
-    }
-    get keyboard() {
-        return this._keyboard;
-    }
-    get touch() {
-        return this._touch;
     }
     get fullscreen() {
         return this._fullscreen;
     }
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _dispatch(detail) {
+        const { action, index, step } = detail;
+        switch (action) {
+            case 'next':          this._navLogic.next();                           break;
+            case 'prev':          this._navLogic.prev();                           break;
+            case 'goStart':       this._navLogic.goStart();                        break;
+            case 'goEnd':         this._navLogic.goEnd();                          break;
+            case 'goTo':          this._navLogic.goTo(Number(index) || 1, Number(step) || 0); break;
+            case 'toggleContent': this._navLogic.toggleContent();                  break;
+        }
+    }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SlidesApp = SlidesApp;
+window.Wexa.SlidesAssembler = SlidesAssembler;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -1735,13 +1373,10 @@ class Slides {
             slides: slidesArray
         };
         // --- Instantiate the internal application -----------------------------
-        this._app = new SlidesApp(cleanedConfig);
+        this._app = new SlidesAssembler(cleanedConfig);
     }
     init() {
         this._app.init();
-    }
-    get manager() {
-        return this._app.manager;
     }
     get fullscreen() {
         return this._app.fullscreen;
@@ -3079,7 +2714,7 @@ console.debug('Imports OK:', {
 // bundled (non-module) version. Applications can safely rely on Wexa.*
 // regardless of whether modules are loaded or the bundle is used.
 // ---------------------------------------------------------------------------
-window.Wexa = {
+window.Wexa = Object.assign(window.Wexa || {}, {
     // ---------------------------------------------------------------
     // Singletons (global services)
     // ---------------------------------------------------------------
@@ -3106,7 +2741,7 @@ window.Wexa = {
     Book,
     BaseManager,
     RequestManager
-};
+});
 // Register the global onload handler so that all deferred load functions
 // declared across Whakerexa modules are executed once the document is ready.
 window.onload = () => {

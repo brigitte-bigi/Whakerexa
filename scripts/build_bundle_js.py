@@ -47,19 +47,19 @@ JS_FILES = [
     os.path.join('transport', 'request.js'),
     os.path.join('transport', 'base_manager.js'),
 
+    os.path.join('extras', 'slides', 'slides_data.js'),
+    os.path.join('extras', 'slides', 'navigation_logic.js'),
+    os.path.join('extras', 'slides', 'viewmode_logic.js'),
     os.path.join('extras', 'slides', 'visibility.js'),
     os.path.join('extras', 'slides', 'visibility_manager.js'),
     os.path.join('extras', 'slides', 'focus.js'),
     os.path.join('extras', 'slides', 'fullscreen.js'),
-    os.path.join('extras', 'slides', 'keyboard.js'),
-    os.path.join('extras', 'slides', 'overview.js'),
-    os.path.join('extras', 'slides', 'presentation.js'),
-    os.path.join('extras', 'slides', 'slides_view.js'),
-    os.path.join('extras', 'slides', 'slides_manager.js'),
-    os.path.join('extras', 'slides', 'touch.js'),
-    os.path.join('extras', 'slides', 'controls.js'),
-    os.path.join('extras', 'slides', 'modeview.js'),
-    os.path.join('extras', 'slides', 'slides_app.js'),
+    os.path.join('extras', 'slides', 'presentation_view.js'),
+    os.path.join('extras', 'slides', 'overview_view.js'),
+    os.path.join('extras', 'slides', 'keyboard_controller.js'),
+    os.path.join('extras', 'slides', 'touch_controller.js'),
+    os.path.join('extras', 'slides', 'buttons_controller.js'),
+    os.path.join('extras', 'slides', 'slides_assembler.js'),
     os.path.join('extras', 'slides', 'slides.js'),
 
     'dom-loader.js',
@@ -92,12 +92,16 @@ def remove_jsdoc(text):
     for line in lines:
         stripped = line.lstrip()
 
-        # Start of JSDoc block
+        # Start of a JSDoc block
         if stripped.startswith("/**"):
+            # Single-line block: /** ... */ — skip only this line
+            if "*/" in stripped[3:]:
+                continue
+            # Multi-line block: start skipping
             skip = True
             continue
 
-        # End of JSDoc block
+        # End of a multi-line JSDoc block
         if skip is True:
             if "*/" in stripped:
                 skip = False

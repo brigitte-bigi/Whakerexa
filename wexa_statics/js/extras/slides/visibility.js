@@ -81,12 +81,8 @@ export default class SlidesVisibilityController {
             return;
         }
 
-        const current = this._element.style.display;
-
-        if (current === 'none') {
-            this._element.style.display = 'block';
-        } else {
-            this._element.style.display = 'none';
-        }
+        // Use getComputedStyle to handle elements visible via CSS rules (not inline style).
+        const computed = window.getComputedStyle(this._element).display;
+        this._element.style.display = computed === 'none' ? 'block' : 'none';
     }
 }

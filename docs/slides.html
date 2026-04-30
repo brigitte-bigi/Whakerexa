@@ -358,8 +358,10 @@
     <section class="slide">
         <h2>Hash navigation</h2>
         <ul class="incremental">
-            <li>Go to <code>#3.1</code> in the URL bar.</li>
-            <li>The slide and incremental must sync correctly.</li>
+            <li>Go to <code>#5.1</code> in the URL bar → slide 5, step 1.</li>
+            <li>Go to <code>#5.2</code> → slide 5, step 2.</li>
+            <li>Go to <code>#5.0</code> → slide 5, no incremental active.</li>
+            <li>Slide and incremental step must be restored correctly each time.</li>
         </ul>
     </section>
 
@@ -384,9 +386,49 @@
 
     <section class="slide">
         <h2>Overview mode</h2>
-        <p>Press keyboard character: <kbd>&nbsp;o&nbsp;</kbd> to toggle overview mode.</p>
-        <p>Press keyboard character <kbd>&nbsp;o&nbsp;</kbd> again to switch back to the
-            slides view.</p>
+        <p>Press <kbd>&nbsp;o&nbsp;</kbd> to enter overview mode.</p>
+        <p>Press <kbd>&nbsp;Escape&nbsp;</kbd> or <kbd>&nbsp;s&nbsp;</kbd> to return to presentation.</p>
+        <p>In overview, click a <strong>GoTo</strong> button → must navigate to that slide
+            and return to presentation mode automatically.</p>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- Keyboard & visibility tests -->
+    <!-- ================================================================ -->
+
+    <section class="slide">
+        <h2>Controls visibility — <kbd>&nbsp;n&nbsp;</kbd></h2>
+        <ul>
+            <li>Press <kbd>&nbsp;n&nbsp;</kbd> : the navigation buttons should appear.</li>
+            <li>Press <kbd>&nbsp;n&nbsp;</kbd> again : they should disappear.</li>
+            <li>Repeat several times — toggle must stay stable.</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Progress bar — <kbd>&nbsp;b&nbsp;</kbd> &amp; logo — <kbd>&nbsp;l&nbsp;</kbd></h2>
+        <ul>
+            <li>Press <kbd>&nbsp;b&nbsp;</kbd> : the progress bar at the bottom should disappear.</li>
+            <li>Press <kbd>&nbsp;b&nbsp;</kbd> again : it should reappear.</li>
+            <li>Press <kbd>&nbsp;l&nbsp;</kbd> : the logo at the top-right should disappear.</li>
+            <li>Press <kbd>&nbsp;l&nbsp;</kbd> again : it should reappear.</li>
+            <li>Alternate both — they must be independent.</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Inline video — autoplay</h2>
+        <p>Navigate away from this slide, then return to it.</p>
+        <p>If <code>autoPlayEnabled: true</code> is set in the config, playback starts automatically on arrival.</p>
+        <video controls preload="metadata" style="max-width: 60%;">
+            <source src="./video/demo_video.webm" type="video/webm"/>
+            <track kind="captions" src="./video/demo_video.vtt" srclang="fr" label="Français" default/>
+        </video>
+        <p>The video must also pause automatically when leaving this slide.</p>
     </section>
 
     <!-- ================================================================ -->
@@ -480,12 +522,14 @@
 
                 const slides = Array.from(document.querySelectorAll('section.slide'));
 
-                const app = new window.Wexa.SlidesApp({
+                const app = new window.Wexa.Slides({
                     slides: slides,
                     progressBar: document.getElementById('progress-bar'),
                     controls: document.getElementById('slides-controls'),
                     controlsView: document.getElementById('slides-controls-view'),
                     overviewContainer: document.getElementById('overview-container'),
+                    progressBarContainer: document.getElementById('progress-container'),
+                    logo: document.getElementById('logo-container'),
                     mode: 'presentation'
                 });
                 app.init();
@@ -511,7 +555,9 @@
                 progressBar: document.getElementById('progress-bar'),
                 controls: document.getElementById('slides-controls'),
                 controlsView: document.getElementById('slides-controls-view'),
-                overviewContainer: document.getElementById('overview-container')
+                overviewContainer: document.getElementById('overview-container'),
+                progressBarContainer: document.getElementById('progress-container'),
+                logo: document.getElementById('logo-container'),
             });
             app.init();
             window.app = app;

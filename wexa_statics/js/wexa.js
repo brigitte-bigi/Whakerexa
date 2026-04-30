@@ -102,7 +102,7 @@ export {
 // bundled (non-module) version. Applications can safely rely on Wexa.*
 // regardless of whether modules are loaded or the bundle is used.
 // ---------------------------------------------------------------------------
-window.Wexa = {
+window.Wexa = Object.assign(window.Wexa || {}, {
 
     // ---------------------------------------------------------------
     // Singletons (global services)
@@ -135,7 +135,7 @@ window.Wexa = {
     Book,
     BaseManager,
     RequestManager
-};
+});
 
 // Register the global onload handler so that all deferred load functions
 // declared across Whakerexa modules are executed once the document is ready.
