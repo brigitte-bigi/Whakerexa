@@ -1,4 +1,4 @@
-import SlidesApp from './slides_app.js';
+import SlidesAssembler from './slides_assembler.js';
 
 /**
  :filename: statics.js.slides.slides.js
@@ -75,7 +75,7 @@ export default class Slides {
 
         // --- Instantiate the internal application -----------------------------
 
-        this._app = new SlidesApp(cleanedConfig);
+        this._app = new SlidesAssembler(cleanedConfig);
     }
 
     /**
@@ -84,14 +84,6 @@ export default class Slides {
      */
     init() {
         this._app.init();
-    }
-
-    /**
-     * Expose SlidesManager to the outside.
-     * @returns {SlidesManager}
-     */
-    get manager() {
-        return this._app.manager;
     }
 
     /**
