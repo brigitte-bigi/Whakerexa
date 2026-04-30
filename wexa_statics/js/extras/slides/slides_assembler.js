@@ -135,7 +135,9 @@ export default class SlidesAssembler {
         });
 
         document.addEventListener('slides:viewmode', (e) => {
-            this._modeLogic.set(e.detail.mode);
+            const { mode, action } = e.detail;
+            if (action === 'toggle') { this._modeLogic.toggle(); }
+            else { this._modeLogic.set(mode); }
         });
 
         document.addEventListener('slides:visibility', (e) => {

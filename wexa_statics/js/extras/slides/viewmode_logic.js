@@ -79,4 +79,15 @@ export default class ViewModeLogic {
             this._onModeChange(this._data);
         }
     }
+
+    /** Toggle between presentation and overview. */
+    toggle() {
+        const next = this._data.mode === ViewModeLogic.MODES.OVERVIEW
+            ? ViewModeLogic.MODES.PRESENTATION
+            : ViewModeLogic.MODES.OVERVIEW;
+        this._data.mode = next;
+        if (this._onModeChange !== null) {
+            this._onModeChange(this._data);
+        }
+    }
 }

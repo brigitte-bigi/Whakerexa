@@ -92,12 +92,16 @@ def remove_jsdoc(text):
     for line in lines:
         stripped = line.lstrip()
 
-        # Start of JSDoc block
+        # Start of a JSDoc block
         if stripped.startswith("/**"):
+            # Single-line block: /** ... */ — skip only this line
+            if "*/" in stripped[3:]:
+                continue
+            # Multi-line block: start skipping
             skip = True
             continue
 
-        # End of JSDoc block
+        # End of a multi-line JSDoc block
         if skip is True:
             if "*/" in stripped:
                 skip = False
