@@ -91,10 +91,9 @@ export default class SlidesAssembler {
         this._fullscreen = new SlidesFullscreenController();
 
         this._visibilityManager = new SlidesVisibilityManager({
-            controls: config.controls instanceof HTMLElement ? config.controls : null,
-            // Uncomment when the elements are wired in the HTML:
-            // progress: config.progressBarContainer ?? null,
-            // logo:     config.logo ?? null,
+            controls: config.controls          instanceof HTMLElement ? config.controls          : null,
+            progress: config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
+            logo:     config.logo              instanceof HTMLElement ? config.logo              : null,
         });
 
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
