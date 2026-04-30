@@ -1,0 +1,137 @@
+/*
+:filename: wexa_statics/css/print.css
+:author: Brigitte Bigi
+:contact: contact@sppas.org
+:summary: Print stylesheet for Whakerexa — loaded only when printing.
+
+-------------------------------------------------------------------------
+
+This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
+
+Copyright (C) 2023-2026 Brigitte Bigi, CNRS
+Laboratoire Parole et Langage, Aix-en-Provence, France
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+This banner notice must not be removed.
+
+-------------------------------------------------------------------------
+*/
+
+/* =======================================================================
+   This file is loaded with media="print" — no @media print wrapper needed.
+   ======================================================================= */
+
+/* -----------------------------------------------------------------------
+   Page setup
+   ----------------------------------------------------------------------- */
+
+@page {
+    margin: 2cm;
+}
+
+/* -----------------------------------------------------------------------
+   Base reset for print
+   ----------------------------------------------------------------------- */
+
+:root {
+    --screen-width: 100%;
+    --header-slidein: none;
+    --footer-slidein: none;
+    --transition: none;
+}
+
+html, body {
+    width: 100%;
+    background: white;
+    color: black;
+    font-size: 12pt;
+}
+
+/* -----------------------------------------------------------------------
+   Header: keep for document identification, simplify visuals
+   ----------------------------------------------------------------------- */
+
+body > header {
+    background: white;
+    color: black;
+    border-bottom: 1pt solid black;
+    padding: 0.5cm 0;
+    margin-bottom: 1cm;
+    width: 100%;
+}
+
+body > header * {
+    background: transparent;
+    color: black;
+}
+
+body > header nav {
+    display: none;
+}
+
+/* -----------------------------------------------------------------------
+   Footer: keep copyright/info, hide navigation
+   ----------------------------------------------------------------------- */
+
+body > footer {
+    background: white;
+    color: black;
+    border-top: 1pt solid black;
+    font-size: 10pt;
+    margin-top: 1cm;
+}
+
+body > footer * {
+    background: transparent;
+    color: black;
+}
+
+body > footer nav {
+    display: none;
+}
+
+/* -----------------------------------------------------------------------
+   Hide screen-only elements
+   ----------------------------------------------------------------------- */
+
+dialog,
+button,
+[role="button"],
+.print-off {
+    display: none;
+}
+
+/* -----------------------------------------------------------------------
+   Pagination
+   ----------------------------------------------------------------------- */
+
+figure, table, img, svg {
+    break-inside: avoid;
+}
+
+section, article, article p {
+    orphans: 2;
+    widows: 2;
+}
+
+/* Force a page break before any chapter section */
+.chapter {
+    break-before: always;
+}
+
+/* Force a blank page */
+.blank-page {
+    page-break-after: always;
+}
