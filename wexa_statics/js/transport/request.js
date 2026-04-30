@@ -9,7 +9,7 @@
 
 This file is part of Whakerexa: https://whakerexa.sourceforge.io
 
-Copyright (C) 2023-2025 Brigitte Bigi, CNRS
+Copyright (C) 2023-2026 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 Use of this software is governed by the GNU Public License, version 3.
