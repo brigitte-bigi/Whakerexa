@@ -48,22 +48,26 @@ This banner notice must not be removed.
 
 @font-face {
     font-family: SansFont;
-    src: url('../fonts/Commissioner.ttf') format('truetype');
+    src: url('../fonts/Commissioner.woff2') format('woff2');
+    font-display: swap;
 }
 
 @font-face {
     font-family: SerifFont;
-    src: url('../fonts/SourceSerifPro.ttf') format('truetype');
+    src: url('../fonts/SourceSerifPro.woff2') format('woff2');
+    font-display: swap;
 }
 
 @font-face {
     font-family: MonoFont;
-    src: url('../fonts/FiraCode.ttf') format('truetype');
+    src: url('../fonts/FiraCode.woff2') format('woff2');
+    font-display: swap;
 }
 
 @font-face {
     font-family: PreFont;
-    src: url('../fonts/NotoSansMono.ttf') format('truetype');
+    src: url('../fonts/NotoSansMono.woff2') format('woff2');
+    font-display: swap;
 }
 
 @font-face {
