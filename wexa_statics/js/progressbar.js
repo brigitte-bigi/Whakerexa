@@ -90,7 +90,6 @@ export class ProgressBar extends BaseManager {
         this._requestManager = options.requestManager || null;
         this._targetUrl = options.targetUrl || '';
         this._intervalMs = options.intervalMs || 1500;
-        this._domIds = { percent: '', text: '', header: '' };
         this._domIds = options.domIds || {
             percent: 'percent_progress',
             text: 'progress_text',

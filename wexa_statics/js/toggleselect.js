@@ -181,7 +181,7 @@ export class ToggleSelector {
         } else if (oneChecked && !check) {
             imgSrc = isDarkMode ?
                 `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED_DARK}` :
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_CHECKED}`;
+                `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED}`;
         } else {
             imgSrc = anyChecked
                 ? (isDarkMode ?

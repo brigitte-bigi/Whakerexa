@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-04-30 11:14:39
+// Bundle automatically generated on 2026-04-30 11:49:12
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -327,7 +327,7 @@ class BaseManager {
         }
         // Server replied: process normally
         if (respError || respInfo) {
-            this._showActionResult(respError, '', true);
+            this._showActionResult(respError, respInfo, true);
             return;
         }
         // No server response: ignore silently
@@ -2075,7 +2075,6 @@ class ProgressBar extends BaseManager {
         this._requestManager = options.requestManager || null;
         this._targetUrl = options.targetUrl || '';
         this._intervalMs = options.intervalMs || 1500;
-        this._domIds = { percent: '', text: '', header: '' };
         this._domIds = options.domIds || {
             percent: 'percent_progress',
             text: 'progress_text',
@@ -2246,7 +2245,8 @@ class Book {
     }
     // PRIVATE METHODS
     #get_headings(only_numerate_headings) {
-        let titles = [].slice.call(this.#headings_container.querySelectorAll(this.#html_tags));
+        if (!(this.#headings_container instanceof HTMLElement)) return [];
+        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
         let headings = [];
         titles.forEach(current => {
             if (only_numerate_headings) {
@@ -2536,7 +2536,7 @@ class ToggleSelector {
         } else if (oneChecked && !check) {
             imgSrc = isDarkMode ?
                 `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED_DARK}` :
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_CHECKED}`;
+                `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED}`;
         } else {
             imgSrc = anyChecked
                 ? (isDarkMode ?

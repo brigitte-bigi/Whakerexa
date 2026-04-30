@@ -153,7 +153,8 @@ export class Book {
      * @returns {Array[HTMLElement]} the headings array
      */
     #get_headings(only_numerate_headings) {
-        let titles = [].slice.call(this.#headings_container.querySelectorAll(this.#html_tags));
+        if (!(this.#headings_container instanceof HTMLElement)) return [];
+        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
         let headings = [];
 
         titles.forEach(current => {

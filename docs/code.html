@@ -70,17 +70,17 @@
         <pre>
 &lt;link
     rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/wexa.css?format=raw"
+    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/wexa.css"
     media="all" /&gt;
 &lt;link
     rel="stylesheet"
-    href="https://sourceforge.net/p/whakerexa/code/ci/master/tree/statics/css/code.css?format=raw"
+    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/code.css"
     media="all" /&gt;
             </pre>
 
         <h2>Examples</h2>
 
-        <p>The following examples were automatically generated with <a href="https://clamming.sf.net" class="external-link">
+        <p>The following examples were automatically generated with <a href="https://github.com/brigitte-bigi/ClammingPy" class="external-link">
             ClammingPy</a> 1.7.</p>
 
         <pre class="highlight"><code><span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -89,7 +89,7 @@
   <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;## Package `</span><span class="si">{:s}</span><span class="s1">`</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__name</span><span class="p">))</span>
   <span class="k">for</span> <span class="n">clams</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__clams</span><span class="p">:</span>
       <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clams</span><span class="o">.</span><span class="n">markdown</span><span class="p">())</span>
-  <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">~ Created using [Clamming](https://clamming.sf.net) version </span><span class="si">{:s}</span><span class="s1"> ~</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+  <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version </span><span class="si">{:s}</span><span class="s1"> ~</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
   <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
 </code></pre>
 

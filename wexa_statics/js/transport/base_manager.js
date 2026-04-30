@@ -2,7 +2,7 @@ import { WexaLogger } from '../logger.js';
 import { DialogManager } from '../dialog.js';
 import { RequestManager } from './request.js';
 /**
-_This file is part of Whakerexa: https://whakerexa.sourceforge.io
+_This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
 
 -------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ _This file is part of Whakerexa: https://whakerexa.sourceforge.io
 
 -------------------------------------------------------------------------
 
-Copyright (C) 2024-2025 Brigitte Bigi, CNRS
+Copyright (C) 2024-2026 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -187,7 +187,7 @@ export class BaseManager {
 
         // Server replied: process normally
         if (respError || respInfo) {
-            this._showActionResult(respError, '', true);
+            this._showActionResult(respError, respInfo, true);
             return;
         }
 
