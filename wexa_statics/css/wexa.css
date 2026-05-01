@@ -709,15 +709,13 @@ body > header {
     min-height: var(--header-height);
     padding-bottom: var(--typography-spacing-vertical);
     animation: 1s ease-out 0s 1 var(--header-slidein);
+    color: var(--header-fg-color);
+    background: var(--header-bg-color);
 }
 
-/*
 body > header > nav {
-    position: absolute;
-    top: 2rem;
-    right: 2.5rem;
+    background-color: var(--nav-bg-color);
 }
-*/
 
 body > main {
     z-index: 1;
@@ -736,27 +734,25 @@ body > footer {
     padding-top: var(--typography-spacing-vertical);
     min-height: var(--footer-height);
     animation: 1s ease-out 0s 1 var(--footer-slidein);
+    background: var(--footer-bg-color);
+    color: var(--footer-fg-color);
 }
 
 /* Elements inside */
 /* All elements in any header/footer/nav must have same colors than the parent.
 It also means that links won't be blue! */
 
-header *, body > header * {
+body > header * {
     color: var(--header-fg-color);
     background-color: transparent;
 }
 
-header > nav {
-    background-color: var(--nav-bg-color);
-}
-
-nav *, body > nav * {
+body > nav * {
     color: var(--nav-fg-color);
     background-color: transparent;
 }
 
-footer *, body > footer * {
+body > footer * {
     color: var(--footer-fg-color);
     background-color: transparent;
 }
@@ -771,16 +767,6 @@ body > header > *,  body > footer > * {
 /* =======================================================================
                        HTML ELEMENTS STYLING
   ======================================================================== */
-
-header {
-    color: var(--header-fg-color);
-    background: var(--header-bg-color);
-}
-
-footer {
-    background: var(--footer-bg-color);
-    color: var(--footer-fg-color);
-}
 
 /* -------------------------------- menu --------------------------------- */
 
