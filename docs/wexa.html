@@ -96,6 +96,24 @@
                 the corresponding variables, enabling users to achieve a unique style.</p>
             <p>Not convinced? Take a look at the source code of this page!</p>
 
+            <h2>CSS Cascade Architecture</h2>
+
+            <p><b>wexa.css</b> is built on CSS Cascade Layers
+                (<a class="external-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@layer"><code>@layer</code></a>):
+            </p>
+            <pre>@layer reset, base, theme, accessibility;</pre>
+            <ul>
+                <li><code>reset</code> — universal margin, padding, box-sizing defaults.</li>
+                <li><code>base</code> — structural rules, scrollbar, focus outlines, disabled states, typography defaults.</li>
+                <li><code>theme</code> — light and dark color palettes, animation variables.</li>
+                <li><code>accessibility</code> — contrast mode (WCAG 1.4.12 spacing and ContrastFont), enforced with <code>!important</code> only in that context.</li>
+            </ul>
+            <p>Any CSS you write outside of a layer <strong>automatically wins</strong> over all wexa rules,
+                regardless of selector specificity. A plain <code>header { background: blue }</code> in your
+                own stylesheet overrides wexa without needing <code>!important</code> or complex selectors.</p>
+            <p>To create a custom theme, use <code>@layer theme { }</code> in a stylesheet loaded after
+                <code>wexa.css</code> — your values override the defaults within that layer.</p>
+
             <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
             <pre>
 &lt;link
@@ -159,34 +177,41 @@ is developed.</pre>
 
             <h3>Examples of use:</h3>
 
-            <p>The following example shows how to re-set variables in your HTML file. You have to
-            create a <code>&lt;style&gt;</code> element in the <code>&lt;head&gt;</code>. It
-            must be placed after the link to <code>wexa.css</code> to ensure proper execution.</p>
+            <p>Add a <code>&lt;style&gt;</code> element in the <code>&lt;head&gt;</code>, after
+                the link to <code>wexa.css</code>. Because wexa uses <code>@layer</code>, your
+                unlayered rules win automatically — no <code>!important</code>, no complex selectors needed.</p>
             <pre>&lt;style&gt;
     :root {
-        /* if you like very large borders! */
+        /* overrides apply to all modes */
         --border-width: 10px;
-        --focus-border-width: 10px;
-        /* to control header animation: */
         --header-slidein: slideInFromBottom;
     }
     .contrast {
+        /* overrides apply only in contrast mode */
         --border-width: 20px;
-        --focus-border-width: 20px;
         --header-slidein: animDisabled;
     }
 &lt;/style&gt;</pre>
 
-            <p> A color change can be applied to either the default version, the dark version,
-                or both, as shown below:</p>
+            <p>To override colors in light mode only, limit the selector so it does not match when
+                <code>.dark</code> is active:</p>
             <pre>&lt;style&gt;
-    :root {
+    :root:not(.dark) {
         --bg-color: rgb(250, 250, 240);
     }
-    .contrast {
-        --bg-color: rgb(40, 30, 52);
+    .dark {
+        --bg-color: rgb(20, 18, 30);
     }
 &lt;/style&gt;</pre>
+
+            <p>To create a full replacement theme, use <code>@layer theme</code> in a separate stylesheet:</p>
+            <pre>&lt;!-- load after wexa.css --&gt;
+&lt;link rel="stylesheet" href="theme_myapp.css" media="screen" /&gt;</pre>
+            <pre>/* theme_myapp.css */
+@layer theme {
+    :root { --bg-color: rgb(245, 240, 230); }
+    .dark { --bg-color: rgb(30, 25, 20); }
+}</pre>
 
             <h3>Animations</h3>
 
@@ -344,12 +369,6 @@ is developed.</pre>
                     <th scope="row">outline-size</th>
                     <td></td>
                     <td><code>3px</code></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">screen-width</th>
-                    <td><code>calc(1024px / var(--size-divisor))</code></td>
-                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -857,9 +876,14 @@ is developed.</pre>
                 </tbody>
             </table>
 
-            <h3>Print overrides</h3>
-            <p>In <code>@media print</code>, the following variables are overridden:</p>
-            <table role="grid">
+            <h3>Print stylesheet</h3>
+            <p>Print rules are in a dedicated <code>print.css</code>, loaded only when printing
+                (<code>media="print"</code>). Add it to your page alongside <code>wexa.css</code>:</p>
+            <pre>&lt;link rel="stylesheet" href="wexa_statics/css/wexa.css" media="screen" /&gt;
+&lt;link rel="stylesheet" href="wexa_statics/css/print.css" media="print" /&gt;</pre>
+            <p>Because <code>print.css</code> is unlayered, it overrides all wexa layer rules
+                automatically when printing. The following variables are reset for print:</p>
+            <table>
                 <thead>
                 <tr>
                     <th scope="col" style="width:40%">Variable name</th>
@@ -874,10 +898,6 @@ is developed.</pre>
                 <tr>
                     <th scope="row">header-slidein</th>
                     <td><code>none</code></td>
-                </tr>
-                <tr>
-                    <th scope="row">screen-width</th>
-                    <td><code>720px</code></td>
                 </tr>
                 <tr>
                     <th scope="row">transition</th>
