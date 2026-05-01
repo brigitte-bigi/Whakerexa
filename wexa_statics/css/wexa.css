@@ -30,6 +30,8 @@ This banner notice must not be removed.
 
 */
 
+@layer reset, base, theme, accessibility;
+
 /* =======================================================================
                               FONTS DEFINITIONS
 
@@ -171,6 +173,9 @@ This banner notice must not be removed.
                             VARIABLE DEFINITIONS
   ======================================================================== */
 
+
+@layer base {
+
 :root {
     --size-divisor: 1;
     --fontsize-divisor: 1;
@@ -238,13 +243,17 @@ This banner notice must not be removed.
     }
 }
 
+
+} /* end @layer base: responsive divisors */
 /* All global variables for any screen or condition */
 /* ------------------------------------------------ */
+
+
+@layer theme {
 
 @media not print {
     :root {
         /* Sizes */
-        --screen-width: calc(1024px / var(--size-divisor));
         /* Animations and transitions */
         --header-slidein: slideInFromBottom;
         --footer-slidein: animDisabled;
@@ -252,6 +261,11 @@ This banner notice must not be removed.
     }
 }
 
+} /* end @layer theme: animation variables */
+
+
+
+@layer base {
 
 :root {
     /* Sizes */
@@ -284,7 +298,12 @@ This banner notice must not be removed.
 
 }
 
+} /* end @layer base: global variables */
+
 /* Variables overridden by "contrast" */
+
+@layer base {
+
 :root:not(.contrast) {
 
     /* Font properties */
@@ -310,7 +329,12 @@ This banner notice must not be removed.
     --hr-width: 1px;
 }
 
+} /* end @layer base: normal mode spacing */
+
 /* Re-define some global variables for disabilities */
+
+@layer accessibility {
+
 .contrast {
     --header-slidein: animDisabled;
     --footer-slidein: animDisabled;
@@ -343,9 +367,14 @@ This banner notice must not be removed.
     --hr-width: 2px;
 }
 
+} /* end @layer accessibility: contrast mode */
+
 /* ------------------------------------------------ */
 /*      COLORS: Default color scheme is light       */
 /* ------------------------------------------------ */
+
+
+@layer theme {
 
 :root:not([data-theme=dark]), [data-theme=light], .light {
     /* Main colors */
@@ -482,10 +511,26 @@ or (prefers-color-scheme: dark)
     }
 }
 
+} /* end @layer theme: colors */
+
+
+@layer accessibility {
+
 /* Increase the bg/fg contrast of some colors in the default mode */
 .contrast:not(.dark) {
     --a-color: rgb(10, 80, 120);
 }
+
+    /* WCAG 1.4.12: spacing is enforced and cannot be overridden in contrast mode */
+    .contrast * {
+        letter-spacing: var(--letter-spacing) !important;
+        word-spacing: var(--word-spacing) !important;
+    }
+
+} /* end @layer accessibility: contrast color and spacing */
+
+
+@layer base {
 
 /* Font properties for a local context usage */
 /* ----------------------------------------- */
@@ -573,8 +618,8 @@ or (prefers-color-scheme: dark)
     font-family: var(--font-family-sans);
     font-weight: var(--font-weight-normal);
     line-height: var(--line-height);
-    letter-spacing: var(--letter-spacing) !important;
-    word-spacing: var(--word-spacing) !important;
+    letter-spacing: var(--letter-spacing);
+    word-spacing: var(--word-spacing);
 }
 
 *, *:before, *:after {
@@ -624,7 +669,6 @@ html {
 
 body {
     margin: 0 auto;
-    width: var(--screen-width);
     max-width: 100%;
     position: relative;
     cursor: default;
@@ -1416,7 +1460,7 @@ svg:not(:root) {
 
 aside {
     float: right;
-    width: calc(0.35*var(--screen-width));
+    width: 35%;
 }
 
 /* -------------------- FORMS -------------------- */
@@ -1735,3 +1779,5 @@ dialog[role=alertdialog] * {
     /*background-color: color-mix(in srgb, currentColor 50%, transparent);*/
     box-shadow: inset 0 0 calc(var(--font-size) / 3) currentColor;
 }
+
+} /* end @layer base: HTML elements and structure */
