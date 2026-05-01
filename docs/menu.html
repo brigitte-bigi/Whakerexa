@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
 
     <style>
-        :root:not([data-theme=dark]), [data-theme=light] {
+        :root:not(.dark) {
             --nav-fg-color: rgba(240, 230, 240);
             --nav-min-height: 4rem;
             --header-height: 26rem;
@@ -28,7 +28,7 @@
 <body>
 
     <header id="header-content">
-        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+        <a class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
         <nav class="nav-wexa top" aria-label="External Links">
@@ -67,9 +67,9 @@
         </ul>
 
         <section>
-            <button id="btn-contrast" class="accessibility print-off" role="menuitem"
+            <button id="btn-contrast" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()" aria-label="Switch contrast scheme"></button>
-            <button id="btn-theme" class="accessibility print-off" role="menuitem"
+            <button id="btn-theme" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()" aria-label="Switch color scheme"></button>
         </section>
     </nav>

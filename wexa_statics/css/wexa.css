@@ -669,7 +669,7 @@ html {
 
 body {
     margin: 0 auto;
-    max-width: 100%;
+    width: min(calc(1024px / var(--size-divisor)), 100%);
     position: relative;
     cursor: default;
     overflow: hidden;
@@ -1336,10 +1336,8 @@ table[role="grid"] {
 
 table[role="grid"] th,
 table[role="grid"] td {
-    width: 10%; /* Set a default width for each column */
-    max-width: 50%; /* Limit the width of any column */
-    overflow: hidden; /* Prevent content from overflowing */
-    word-wrap: break-word; /* Break words to avoid overflow */
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 table:not([role="presentation"]) {

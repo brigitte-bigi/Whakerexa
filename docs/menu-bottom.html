@@ -21,7 +21,7 @@
             --border-radius: 1rem;
         }
 
-        :root:not([data-theme=dark]), [data-theme=light] {
+        :root:not(.dark) {
             --nav-fg-color: rgba(240, 230, 240);
             --nav-min-height: 4rem;
             --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
@@ -110,7 +110,7 @@
 
     <!-- Header Section for the mobile menu -->
     <header>
-        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+        <a class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
 
@@ -118,9 +118,9 @@
         <h2>by Whakerexa</h2>
 
         <nav class="nav-wexa top mini-top" aria-label="Accessibility navigation">
-            <button id="btn-contrast" class="accessibility print-off" role="menuitem"
+            <button id="btn-contrast" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()" aria-label="Switch contrast scheme"></button>
-            <button id="btn-theme" class="accessibility print-off" role="menuitem"
+            <button id="btn-theme" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()" aria-label="Switch color scheme"></button>
             <a role="menuitem" class="print-off" href="https://github.com/brigitte-bigi/Whakerexa">
                 <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa home page" />

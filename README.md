@@ -20,7 +20,7 @@ It pairs naturally with `WhakerPy`, the lightweight Python library for generatin
 - ✨ Lightweight, semantic, dependency-free, and modular
 - 🌓 Built-in light / dark themes
 - 🔆 High-contrast accessibility mode
-- 🎨 Fully customizable through CSS variables
+- 🎨 Fully customizable through CSS variables — using `@layer` so your rules always win without `!important`
 - 🧩 Composable and extensible — adapt to your needs
 - ⚙️ Object-oriented ES6 components
 - ⚙️ Unified API (`import … from "wexa.js"` or `Wexa.*`)
@@ -64,7 +64,7 @@ It is used by the website of the "AutoCuedSpeech" project at <https://auto-cueds
 
 ## Author/Copyright
 
-Copyright (C) 2023-2025 - Brigitte Bigi, CNRS - <contact@sppas.org>
+Copyright (C) 2023-2026 - Brigitte Bigi, CNRS - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France.
 
 See the AUTHORS file for the full list of contributors.
@@ -173,4 +173,26 @@ Previous procedural APIs are not preserved.
 ## Version 2.1 - stable
 
 Increased accessibility and corrected bugs.
+
+
+## Version 2.2 - develop
+
+### CSS architecture
+
+- `wexa.css` now uses CSS Cascade Layers (`@layer reset, base, theme, accessibility`).
+  App-level rules written outside any `@layer` automatically override wexa defaults — no `!important` needed.
+- Light/dark/contrast themes are now selected with the `.dark` and `.contrast` classes on `:root`
+  (the old `[data-theme=dark]` attribute selectors are removed).
+- Print styles are extracted to a dedicated `print.css`, loaded with `media="print"`.
+  It is unlayered, so it correctly overrides any `@layer theme` dark-mode rules when printing.
+- `--screen-width` CSS variable removed; body width is now set with `min()` directly.
+- Fixed column widths in `table[role="grid"]`: removed the conflicting `width: 10%` default
+  so inline widths on `<th scope="col">` are fully respected with `table-layout: fixed`.
+
+### Accessibility
+
+- Skip links (`<a class="skip">`) no longer carry `role="button"` — they are native anchors.
+- Accessibility toggle buttons (`btn-contrast`, `btn-theme`) no longer carry `role="menuitem"`;
+  the implicit `role="button"` of `<button>` is required for `aria-pressed` to work correctly.
+- Applied consistently across all documentation pages.
 

@@ -33,7 +33,7 @@
             --appmenu-align: left top;
         }
 
-        :root:not([data-theme=dark]), [data-theme=light], .light {
+        :root:not(.dark) {
             --nav-bg-color: linear-gradient(180deg,rgba(2, 1, 20, 1) 0%, rgba(6, 6, 71, 1) 35%, rgba(10, 55, 128, 1) 100%);
             --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
         }
@@ -94,7 +94,7 @@
     <!-- Header Section for the mobile menu -->
     <header>
         <!-- Accessible and responsive menu management -->
-        <a role="button" class="skip" href="#main-content" aria-label="skip to main content">
+        <a class="skip" href="#main-content" aria-label="skip to main content">
             Skip to main content
         </a>
 
@@ -104,9 +104,9 @@
         <h2>Menu for web and mobile applications</h2>
 
         <nav id="header-nav-content" aria-label="Accessibility navigation">
-            <button id="btn-contrast" class="accessibility print-off" role="menuitem"
+            <button id="btn-contrast" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()" aria-label="Switch contrast scheme"></button>
-            <button id="btn-theme" class="accessibility print-off" role="menuitem"
+            <button id="btn-theme" class="accessibility print-off menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()" aria-label="Switch color scheme"></button>
             <a role="menuitem" class="print-off" href="https://github.com/brigitte-bigi/Whakerexa">
                 <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa home page" />
