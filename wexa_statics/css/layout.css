@@ -155,14 +155,11 @@ main > .panel-item:nth-child(even) * {
 /* ----------------------------------------------------------------------- */
 
 .flex-panel {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     justify-content: space-evenly;
     row-gap: 0.5rem;
     column-gap: 0.5rem;
     flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
 }
 
 .flex-panel > * {
@@ -446,7 +443,7 @@ li.enumerate-cards-item {
         var(--bg-color-alt) 0%,
         var(--bg-color) 50%,
         var(--bg-color-alt) 100%
-    ) !important;
+    );
     color: var(--fg-color-alt);
 }
 
@@ -456,7 +453,7 @@ main > .panel-item:nth-child(2n) li.enumerate-cards-item {
         var(--bg-color) 0%,
         var(--bg-color-alt) 50%,
         var(--bg-color) 100%
-    ) !important;
+    );
     color: var(--fg-color);
 }
 
@@ -491,20 +488,3 @@ li.enumerate-cards-item::before {
 }
 
 
-/* ----------------------------------------------------------------------- */
-
-/* Any action button in the summary */
-
-summary button.accordion-action, summary a[role=button].accordion-action {
-    flex: 1;
-    max-width: 2.5rem;
-    border: none;
-    position: relative;
-    margin: 0;
-    display: block;
-    height: 100%;
-}
-
-summary button.accordion-action img, summary a[role=button].accordion-action img{
-    max-height: 100%;
-}
