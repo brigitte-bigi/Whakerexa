@@ -32,9 +32,9 @@
         </a>
         <nav style="position: absolute; top: 0;">
             <ul>
-                <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
-                <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
-                <li><a class="external-link" role="menuitem" href="https://github.com/brigitte-bigi/Whakerexa">Whakerexa</a></li>
+                <li><a class="external-link menuitem" href="https://sppas.org/">SPPAS</a></li>
+                <li><a class="external-link menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
+                <li><a class="external-link menuitem" href="https://github.com/brigitte-bigi/Whakerexa">Whakerexa</a></li>
             </ul>
             <button id="btn-contrast" class="accessibility menuitem"
                     aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
@@ -94,68 +94,58 @@
             <p>The class <code>card</code> can be added to any HTML element which can be used
                 as a container. Preferably, you should use either <code>&lt;section&gt;</code> or
                 <code>&lt;article&gt;</code> element, instead of the nonsensical <code>&lt;div&gt;</code>.
-                Any of then will be displayed the same way, but screen readers interpret
-                a <code>section</code> or an <code>article</code>in a more appropriate manner,
+                Any of them will be displayed the same way, but screen readers interpret
+                a <code>section</code> or an <code>article</code> in a more appropriate manner,
                 unlike a <code>div</code>!</p>
 
-            <table role="presentation">
-                <thead>
-                <tr>
-                    <td>Example</td>
-                    <td>Result</td>
-                </tr>
-                <tbody>
-                <tr>
-                    <td>
-                        <pre>&lt;article class="card"&gt;
-    &lt;main&gt;
+            <div class="flex-panel">
+                <div class="flex-item">
+                    <pre>&lt;article class="card"&gt;
+    &lt;div class="card-body"&gt;
         &lt;h2&gt;card title&lt;/h2&gt;
         &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
         &lt;a href="#somewhere"&gt;Convinced!&lt;/a&gt;
-    &lt;/main&gt;
-&lt;/article&gt;
-            </pre>
-                    </td>
-                    <td>
-                        <article class="card" id="somewhere1">
-                            <main>
-                                <h2>card title</h2>
-                                <p>multi-line card content... the text wraps when needed!</p>
-                                <a href="#">Convinced!</a>
-                            </main>
-                        </article>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>Classically, the card can be divided into: a header, a main and a footer:</p>
-                        <pre>&lt;article class="card"&gt;
-    &lt;header&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</pre>
+                </div>
+                <div class="flex-item">
+                    <article class="card" id="somewhere1">
+                        <div class="card-body">
+                            <h2>card title</h2>
+                            <p>multi-line card content... the text wraps when needed!</p>
+                            <a href="#">Convinced!</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+            <p>A card can be divided into three zones:</p>
+            <div class="flex-panel">
+                <div class="flex-item">
+                    <pre>&lt;article class="card"&gt;
+    &lt;div class="card-header"&gt;
         &lt;h2&gt;card title&lt;/h2&gt;
-    &lt;/header&gt;
-    &lt;main&gt;
+    &lt;/div&gt;
+    &lt;div class="card-body"&gt;
         &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
-    &lt;/main&gt;
-    &lt;footer&gt;
-        &lt;a role="button" href="#somewhere"&gt;Footer link!&lt;/a&gt;
-    &lt;/footer&gt;
-&lt;/article&gt;
-            </pre>
-                    </td>
-                    <td>
-                        <article class="card" id="somewhere2">
-                            <header><h2>card title</h2></header>
-                            <main>
-                                <p>multi-line card content into 'main'... the text wraps when needed!</p>
-                            </main>
-                            <footer>
-                                <a role="button" href="#">Footer link!</a>
-                            </footer>
-                        </article>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    &lt;/div&gt;
+    &lt;div class="card-footer"&gt;
+        &lt;a href="#somewhere"&gt;Footer link!&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</pre>
+                </div>
+                <div class="flex-item">
+                    <article class="card" id="somewhere2">
+                        <div class="card-header"><h2>card title</h2></div>
+                        <div class="card-body">
+                            <p>multi-line card content into 'card-body'... the text wraps when needed!</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#">Footer link!</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
 
             <h2>The variables</h2>
             <p><code>layout.css</code> allows to override the following variables:</p>
@@ -192,7 +182,7 @@
                 <tr>
                     <td><code>--columns-sep-color</code></td>
                     <td>Color used for column separators (if enabled in custom layouts).</td>
-                    <td><code>rgba(128, 128, 128, 128)</code></td>
+                    <td><code>rgba(128, 128, 128, 0.5)</code></td>
                 </tr>
                 </tbody>
             </table>
@@ -220,79 +210,79 @@
             <section class="cards-panel">
 
                 <article class="card">
-                    <header>
+                    <div class="card-header">
                         <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
-                    </header>
-                    <main>
+                    </div>
+                    <div class="card-body">
                         <h2>SPPAS card instance</h2>
                         <p>An amazing software tool.</p>
-                    </main>
-                    <footer>
+                    </div>
+                    <div class="card-footer">
                         <a href="https://sppas.org/">SPPAS web site</a>
-                    </footer>
+                    </div>
                 </article>
 
                 <article class="card" id="somewhere3">
-                    <header>
+                    <div class="card-header">
                         <img src="images/cards.png" alt="">
-                    </header>
-                    <main>
-                        <h2> A card </h2>
+                    </div>
+                    <div class="card-body">
+                        <h2>A card</h2>
                         <p>Le read more ci-dessous est un lien avec role button.</p>
                         <a role="button" id="desc-a-card" href="#somewhere3">Read more →</a>
-                    </main>
-                    <footer>
+                    </div>
+                    <div class="card-footer">
                         <p>This is a text inside the footer of the card.</p>
-                    </footer>
+                    </div>
                 </article>
 
                 <article class="card">
-                    <header>
+                    <div class="card-header">
                         <h2>Header</h2>
-                    </header>
-                    <main>
+                    </div>
+                    <div class="card-body">
                         <h2>Another card instance</h2>
                         <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
                         <button id="desc-third-card-instance">Read more →</button>
-                    </main>
-                    <footer>
+                    </div>
+                    <div class="card-footer">
                         <p>This is a text inside the footer of the card.</p>
-                    </footer>
+                    </div>
                 </article>
 
             </section>
 
             <p>Not implemented yet: horizontal card -- any help is welcome!</p>
             <article class="card card-horiz">
-                <header>
+                <div class="card-header">
                     <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
-                </header>
-                <main>
+                </div>
+                <div class="card-body">
                     <h2>Horizontal card</h2>
                     <p>with dark and high contrast</p>
-                </main>
-                <footer>
+                </div>
+                <div class="card-footer">
                     <a href="https://sppas.org/">Some footer</a>
-                </footer>
+                </div>
             </article>
 
             <h3>Create cards in a full-cards-panel</h3>
 
             <section class="full-cards-panel">
                 <article class="card full-card">
-                    <header>
+                    <div class="card-header">
                         <img src="https://sppas.org/etc/images/background-header.png" alt="">
-                    </header>
-                    <main>
+                    </div>
+                    <div class="card-body">
                         <p>SPPAS offers open source cross-platform, customizable automatic annotation
                             and analysis solutions for audio and video media.</p>
                         <p>SPPAS was awarded by the French Ministry of Higher Education, Research and
                             Innovation at the 2022 Open Source Research Software Competition.</p>
-                    </main>
-                    <footer>
+                    </div>
+                    <div class="card-footer">
                         <a role="button" href="https://sppas.org/">More about SPPAS</a>
                         <a role="button" href="https://sppas.sf.net/">Get it!</a>
-                    </footer>
+                    </div>
                 </article>
             </section>
 
