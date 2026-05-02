@@ -747,7 +747,7 @@ body > header * {
     background-color: transparent;
 }
 
-body > nav * {
+nav * {
     color: var(--nav-fg-color);
     background-color: transparent;
 }
@@ -807,10 +807,6 @@ nav ul, nav dl {
     text-align: center;
 }
 
-nav li, nav dt, nav dd, nav a {
-    padding: calc(var(--typography-spacing-horizontal) * 0.35) calc(var(--typography-spacing-vertical) * 0.35);
-    margin: 0;
-}
 
 .menuitem,
 [role=menuitem] {
