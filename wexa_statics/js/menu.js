@@ -292,17 +292,6 @@ export class MenuManager {
         // Dictionary of registered submenus.
         this.#submenus = new Map();
 
-        // Close all registered submenus when the mouse re-enters the side menu.
-        const sideMenu = this.#navElement.matches('.side') ? this.#navElement : null;
-        if (sideMenu) {
-            sideMenu.addEventListener('mouseenter', () => {
-                // Iterate over the dictionary to close only registered submenus.
-                for (const [submenu /* SubMenuManager */, /* toggle */] of this.#submenus) {
-                    submenu.closeSubmenu();
-                }
-            });
-        }
-
         document.addEventListener('click', (e) => this.#handleBodyClick(e), true);
     }
 

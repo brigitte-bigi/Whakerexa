@@ -222,8 +222,9 @@ body:has(nav.nav-wexa.side.collapsible.expanded[aria-pinned="true"]) {
     padding-left: var(--nav-expanded-width);
 }
 
-/* When the side menu is expanded either with hover, focus, or .expanded */
-/* Do not expand on hover/focus while a submenu inside nav is open */
+/* Expand when hovered, focused, or pinned (.expanded).
+   When a submenu (aside.appmenu) is open the nav collapses back — the aside
+   takes over visually and closes via the body click handler. */
 nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)),
 nav.nav-wexa.side.collapsible:has(:is([role="menuitem"], .menuitem):focus-visible):not(:has(aside.appmenu.open)),
 nav.nav-wexa.side.collapsible.expanded {
@@ -360,7 +361,6 @@ nav.nav-wexa.side.collapsible :is([role="menuitem"], .menuitem) {
     transition: min-width 0.3s ease, width 0.3s ease, max-width 0.3s ease;
 }
 
-/* Do not expand items on hover/focus while a submenu inside nav is open */
 nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem),
 nav.nav-wexa.side.collapsible:has(:is([role="menuitem"], .menuitem):focus-visible):not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem),
 nav.nav-wexa.side.collapsible.expanded :is([role="menuitem"], .menuitem) {

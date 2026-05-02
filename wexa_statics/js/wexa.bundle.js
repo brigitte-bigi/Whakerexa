@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-04-30 11:49:12
+// Bundle automatically generated on 2026-05-02 10:52:13
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1813,16 +1813,6 @@ class MenuManager {
         }
         // Dictionary of registered submenus.
         this.#submenus = new Map();
-        // Close all registered submenus when the mouse re-enters the side menu.
-        const sideMenu = this.#navElement.matches('.side') ? this.#navElement : null;
-        if (sideMenu) {
-            sideMenu.addEventListener('mouseenter', () => {
-                // Iterate over the dictionary to close only registered submenus.
-                for (const [submenu /* SubMenuManager */, /* toggle */] of this.#submenus) {
-                    submenu.closeSubmenu();
-                }
-            });
-        }
         document.addEventListener('click', (e) => this.#handleBodyClick(e), true);
     }
     // ----------------------------------------------------------------------
