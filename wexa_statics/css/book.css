@@ -1,5 +1,5 @@
 /*
-:filename: statics/css/wexa.css
+:filename: wexa_statics/css/book.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: a CSS framework to make reports from web content
@@ -8,7 +8,7 @@
 
 This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
 
-Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+Copyright (C) 2023-2026 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ This banner notice must not be removed.
 
 html {
     /* nav-width + its left- right- margins */
-    margin-left: var(--toc-width); /* + 2 * var(--typography-spacing-horizontal));*/
+    margin-left: var(--toc-width);
 }
 
 body {
@@ -71,11 +71,6 @@ body {
 
     /* a chapter title is a box for 2 items: number + title */
     display: inline-flex;
-    /* horizontal:
-    flex-direction: row;
-    justify-content: left;
-    align-items: center; */
-    /* vertical */
     flex-direction: column;
     justify-content: center;
     align-items: start;
@@ -101,6 +96,7 @@ body {
 /* A new numbered section in the chapter */
 .ssection {
     counter-increment: ssection;
+    counter-reset: subssection;
 }
 
 .ssection h2 {
@@ -136,7 +132,7 @@ nav.side-nav {
     top: var(--typography-spacing-vertical);
     left: 0;
     padding-bottom: 3rem;
-    margin-top: calc(var(--typography-spacing-vertical) - (2*var(--typography-spacing-vertical)));
+    margin-top: calc(-1 * var(--typography-spacing-vertical));
     font-size: 90%;
     overflow: unset;
     overflow-x: hidden;
@@ -226,22 +222,18 @@ nav.side-nav li.h6 {
 nav.side-nav li.h2::before {
     content: "■";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
-    padding-bottom: calc(0.4*var(--typography-spacing-vertical));
 }
 nav.side-nav li.h3::before {
     content: "◇";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
-    padding-bottom: calc(0.4*var(--typography-spacing-vertical));
 }
 nav.side-nav li.h4::before {
     content: "-";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
-    padding-bottom: calc(0.4*var(--typography-spacing-vertical));
 }
 nav.side-nav li.h5::before {
     content: "□";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
-    padding-bottom: calc(0.4*var(--typography-spacing-vertical));
 }
 
 nav.side-nav li.h1 a {
@@ -265,72 +257,20 @@ nav.side-nav li.h3 a {
 nav.side-nav li.h4 a {
     text-decoration: none;
     font-weight: var(--font-weight-semithin);
-    text-wrap: none;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 nav.side-nav li.h5 a {
     text-decoration: none;
     font-weight: var(--font-weight-thin);
-    text-wrap: none;
+    white-space: nowrap;
     text-overflow: ellipsis;
     font-size: calc(0.75*var(--font-size));
 }
 nav.side-nav li.h6 a {
     text-decoration: none;
     font-weight: var(--font-weight-thin);
-    text-wrap: none;
+    white-space: nowrap;
     text-overflow: ellipsis;
     font-size: calc(0.7*var(--font-size));
-}
-
-/* ----------------------------------------------------------------------- */
-/* ------------------ For printing the chapter's book -------------------- */
-/* ----------------------------------------------------------------------- */
-
-@media print {
-    html {
-        margin-left: 0;
-    }
-
-    .dark {
-        /* TODO: do we should force switching to light colors? */
-    }
-
-    nav.side-nav {
-        /* Migrate to a top nav for printing */
-        z-index: 9;
-        width: 100%;
-        position: relative;
-        top: 0;
-        padding-top: 1rem;
-        padding-bottom: 0.3rem;
-        margin: 0;
-        font-size: 90%;
-        overflow: unset;
-        background-color: white;
-        color: var(--a-color);
-        box-shadow: none;
-        border-top: var(--border-width) solid var(--border-color);
-        border-bottom: var(--border-width) solid var(--border-color);
-        text-align: left;
-        page-break-after: always;
-    }
-
-    nav.side-nav *:not([role=button]) {
-        color: var(--a-color);
-    }
-
-    #toc-content {
-        margin-left: 1rem;
-    }
-
-    body > header {
-        display: none;
-    }
-    body > nav {
-        display: none;
-    }
-    body > footer {
-        display: none;
-    }
 }

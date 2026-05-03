@@ -135,3 +135,43 @@ section, article, article p {
 .blank-page {
     page-break-after: always;
 }
+
+/* -----------------------------------------------------------------------
+   Book layout overrides (when book.css is loaded)
+   ----------------------------------------------------------------------- */
+
+html {
+    margin-left: 0;
+}
+
+body > header,
+body > footer {
+    display: none;
+}
+
+nav.side-nav {
+    z-index: 9;
+    width: 100%;
+    position: relative;
+    top: 0;
+    padding-top: 1rem;
+    padding-bottom: 0.3rem;
+    margin: 0;
+    font-size: 90%;
+    overflow: unset;
+    background-color: white;
+    color: var(--a-color);
+    box-shadow: none;
+    border-top: var(--border-width) solid var(--border-color);
+    border-bottom: var(--border-width) solid var(--border-color);
+    text-align: left;
+    page-break-after: always;
+}
+
+nav.side-nav *:not([role=button]) {
+    color: var(--a-color);
+}
+
+#toc-content {
+    margin-left: 1rem;
+}
