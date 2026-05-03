@@ -2,7 +2,7 @@
 :filename: wexa_statics/css/toggleselect.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
-:summary: style for a table with buttons to sort rows
+:summary: style for accordion toggleselect components
 
 -------------------------------------------------------------------------
 
@@ -43,11 +43,7 @@ This banner notice must not be removed.
     text-overflow: ellipsis;
 }
 
-.check-item:before  {
-    content: "";
-}
-
-.action-button {
+.toggleselect-action {
     padding: 0.5rem;
     height: 3rem;
     border: var(--border-width) solid var(--buttons-bg-color);

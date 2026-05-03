@@ -1,5 +1,5 @@
 /*
-:filename: statics/css/slides.css
+:filename: wexa_statics/css/slides.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Style to be used with the slides module.
@@ -35,7 +35,7 @@ This banner notice must not be removed.
    ======================================================================== */
 
 :root:not(.contrast),
-:root .contrast {
+:root.contrast {
     --font-size: 32px;
     --line-height: 1.4;
 }
@@ -192,13 +192,13 @@ body > footer {
     margin-left: 2rem;
 }
 
-li, li p { font-size: 100%; }
+.slide li, .slide li p { font-size: 100%; }
 
-li li, li li p { font-size: 90%; }
+.slide li li, .slide li li p { font-size: 90%; }
 
-li li li, li li li p { font-size: 85%; }
+.slide li li li, .slide li li li p { font-size: 85%; }
 
-q { quotes: "“" "”" "‘" "’"; }
+.slide q { quotes: “\201C” “\201D” “\2018” “\2019”; }
 
 /* Ensure that links containing media do not expand to the full line width.
 Because <a> is inline and inherits text-align:center from its parent,
@@ -235,7 +235,7 @@ matches the media element exactly. */
 .slide figcaption {
     position:       relative;
     font-size:      60%;
-    padding-bottom: 10px;
+    padding-bottom: 0.6rem;
     color: var(--custom-color1);
     background-color: transparent;
 }
@@ -303,10 +303,7 @@ body.presentation-view {
 
 /* Transition effect when changing slide */
 .presentation-view .slide {
-    -moz-transition:    left 250ms linear 0s;
-    -webkit-transition: left 250ms linear 0s;
-    -ms-transition:     left 250ms linear 0s;
-    transition:         left 250ms linear 0s;
+    transition: left 250ms linear 0s;
 }
 
 
@@ -334,8 +331,8 @@ body.overview-view {
     height: calc(var(--screen-width) * 9 / 16)  !important;
     margin: 0;
     padding: 0;
-    background-color: red;
 }
+
 
 
 /* =======================================================================
