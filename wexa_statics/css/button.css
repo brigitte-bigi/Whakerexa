@@ -1,5 +1,5 @@
 /*
-:filename: statics/css/button.css
+:filename: wexa_statics/css/button.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: a CSS framework to create custom buttons
@@ -109,7 +109,6 @@ label.switch {
     min-width: calc(var(--switch-height) - calc(var(--font-size) * 0.4));
     max-width: calc(var(--switch-height) - calc(var(--font-size) * 0.4));
     width: fit-content;
-    width: -moz-fit-content;
     height: calc(var(--switch-height) - calc(var(--font-size) * 0.4));
     line-height: normal; /* Important to prevent line-height issues */
     overflow: hidden;

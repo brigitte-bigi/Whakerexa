@@ -39,7 +39,7 @@
     <h2>by Whakerexa</h2>
 </header>
 
-<nav id="nav-content">
+<nav id="nav-content" class="nav-wexa" aria-label="Main navigation">
     <ul>
         <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
         <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
@@ -62,6 +62,7 @@
     <p><b>Summary:</b></p>
     <ul>
         <li><a href="#gradient">Gradient buttons</a>: <code>.action-button</code> and <code>.apply-button</code></li>
+        <li><a href="#cta">Call-to-action button</a>: <code>.cta-button</code></li>
         <li><a href="#text-reveal">Text-reveal button</a>: <code>.text-reveal-button</code></li>
         <li><a href="#switch">Toggle switch</a>: <code>.switch</code> + <code>.switch-slider</code></li>
     </ul>
@@ -148,6 +149,74 @@
 
     <!--      --------------------------------------------- -->
 
+    <section id="cta">
+    <h1>Call-to-action button</h1>
+
+    <p>The <code>.cta-button</code> class styles a primary call-to-action button: high visual
+        weight, small-caps uppercase label, and a drop shadow. It is built on the standard
+        Whakerexa button foundation (defined in <code>@layer base</code>) and relies on the
+        theme variables below — no <code>!important</code> needed to override defaults.</p>
+
+    <p>Unlike <code>.action-button</code>, it contains text only — no image. Use it for the
+        single most important action on a page or panel.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Variable used</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>--buttons-bg-color</code></td>
+            <td>Background color (resting state).</td>
+        </tr>
+        <tr>
+            <td><code>--buttons-bg-color-hover</code></td>
+            <td>Background color on hover / focus.</td>
+        </tr>
+        <tr>
+            <td><code>--buttons-fg-color</code></td>
+            <td>Label color.</td>
+        </tr>
+        <tr>
+            <td><code>--shadow-color</code></td>
+            <td>Drop-shadow color.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Examples</h2>
+
+    <section class="flex-panel">
+        <button class="cta-button">Get started</button>
+        <button class="cta-button">Download</button>
+        <button class="cta-button" disabled>Unavailable</button>
+    </section>
+
+    <h2>Combined with <code>.action-button</code></h2>
+
+    <p>Both classes can be applied together. <code>.cta-button</code> wins on background,
+        shadow and typography; <code>.action-button</code> contributes image sizing and
+        the <code>--action-height</code> constraint. The gradient is replaced by the solid
+        CTA background.</p>
+
+    <section class="flex-panel">
+        <button class="cta-button action-button">
+            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+            <span>Get started</span>
+        </button>
+        <button class="cta-button action-button">
+            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+            <span>Download</span>
+        </button>
+    </section>
+
+    </section>
+
+    <!--      --------------------------------------------- -->
+
     <section id="text-reveal">
     <h1>Text-reveal</h1>
 
@@ -189,6 +258,8 @@
     </table>
 
     <h2>Examples</h2>
+
+    <p>Base usage — icon only, text revealed on hover:</p>
 
     <section class="flex-panel">
         <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();">
@@ -234,6 +305,14 @@
             <span>Change color</span>
         </button>
     </section>
+
+    </section>
+
+    <p><b>Note:</b> <code>.text-reveal-button</code> is designed to be used standalone.
+        Its layout relies on a fixed initial width, <code>padding: 0</code>, and
+        <code>overflow: hidden</code>. Combining it with <code>.cta-button</code> or
+        <code>.action-button</code> breaks these constraints (padding conflict, image
+        overflow) and produces unusable results.</p>
 
     </section>
 
@@ -307,20 +386,20 @@
 
     <h3>Minimalistic switch, without text</h3>
 
-    <label class="switch" for="s1" id="l1">
-        <input type="checkbox" id="s1" aria-labelledby="l1">
+    <label class="switch">
+        <input type="checkbox" aria-label="Toggle (square)">
         <span class="switch-slider switch-no-text"></span>
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle (round)">
         <span class="switch-slider switch-no-text round"></span>
     </label>
 
     <h3>With text inside</h3>
 
     <label class="switch">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle ON/OFF">
         <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -328,7 +407,7 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle OU/ET">
         <span class="switch-slider">
               <span class="switch-off-text">OU</span>
               <span class="switch-on-text">ET</span>
@@ -336,7 +415,7 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle XXX">
         <span class="switch-slider">
               <span class="switch-on-text">XXX</span>
               <span class="switch-off-text"></span>
@@ -344,7 +423,7 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle +/-">
         <span class="switch-slider">
               <span class="switch-on-text">+</span>
               <span class="switch-off-text">-</span>
@@ -352,7 +431,7 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle (long text overflow demo)">
         <span class="switch-slider">
               <span class="switch-on-text">Too long ON text</span>
               <span class="switch-off-text">OFF too long text-</span>
@@ -362,7 +441,7 @@
     <h3>Rounded, with text inside</h3>
 
     <label class="switch">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle ON/OFF (round)">
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -370,7 +449,7 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle OU/ET (round)">
         <span class="switch-slider round">
               <span class="switch-off-text">OU</span>
               <span class="switch-on-text">ET</span>
@@ -378,14 +457,14 @@
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle X (round, no-text)">
         <span class="switch-slider switch-no-text round">
               <span class="switch-on-text">X</span>
         </span>
     </label>
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" aria-label="Toggle # (round, no-text)">
         <span class="switch-slider switch-no-text round">
               <span class="switch-off-text">#</span>
         </span>
@@ -394,7 +473,7 @@
     <h3>Use variables</h3>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (small)">
         <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -402,7 +481,7 @@
     </label>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (large)">
         <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -410,7 +489,7 @@
     </label>
 
     <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (custom colors)">
         <span class="switch-slider">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -420,7 +499,7 @@
     <p></p>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (small, round)">
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -428,7 +507,7 @@
     </label>
 
     <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (large, round)">
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -436,7 +515,7 @@
     </label>
 
     <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (custom colors, round)">
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
@@ -446,7 +525,7 @@
     <p></p>
 
     <label class="switch" style="--switch-slider-unselected-opacity: 10%; --switch-width: calc(var(--font-size) * 6); --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked>
+        <input type="checkbox" checked aria-label="Toggle (unselected opacity demo)">
         <span class="switch-slider round">
               <span class="switch-off-text">OFF</span>
               <span class="switch-on-text">ON</span>
