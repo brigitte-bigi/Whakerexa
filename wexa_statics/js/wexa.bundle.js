@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-02 10:52:13
+// Bundle automatically generated on 2026-05-03 14:29:33
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2216,6 +2216,7 @@ class Book {
         });
     }
     fill_table(only_numerate_headings = true) {
+        if (!(this.#toc_element instanceof HTMLElement)) return;
         const headings = this.#get_headings(only_numerate_headings);
         headings.forEach((heading, index) => {
             /* Add the anchor right before the heading */
@@ -2241,8 +2242,8 @@ class Book {
         titles.forEach(current => {
             if (only_numerate_headings) {
                 // check if the heading begin by a number
-                let before = window.getComputedStyle(current,'::before');
-                if (before['content'].includes("counter(")) {
+                const c = window.getComputedStyle(current, '::before')['content'];
+                if (c && c !== 'none' && c !== '""' && c !== "''") {
                     headings.push(current);
                 }
             } else {

@@ -1,5 +1,5 @@
 /**
- :filename: statics.js.book.js
+ :filename: wexa_statics/js/book.js
  :author: Brigitte Bigi
  :contributor: Florian Lopitaux
  :contact: contact@sppas.org
@@ -121,6 +121,7 @@ export class Book {
      * @param only_numerate_headings (bool) if we search only numerate headings or not, true by default.
      */
     fill_table(only_numerate_headings = true) {
+        if (!(this.#toc_element instanceof HTMLElement)) return;
         const headings = this.#get_headings(only_numerate_headings);
 
         headings.forEach((heading, index) => {
@@ -160,9 +161,8 @@ export class Book {
         titles.forEach(current => {
             if (only_numerate_headings) {
                 // check if the heading begin by a number
-                let before = window.getComputedStyle(current,'::before');
-
-                if (before['content'].includes("counter(")) {
+                const c = window.getComputedStyle(current, '::before')['content'];
+                if (c && c !== 'none' && c !== '""' && c !== "''") {
                     headings.push(current);
                 }
             } else {

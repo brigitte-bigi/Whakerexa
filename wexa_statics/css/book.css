@@ -134,7 +134,6 @@ nav.book-toc {
     padding-bottom: 3rem;
     margin-top: calc(-1 * var(--typography-spacing-vertical));
     font-size: 90%;
-    overflow: unset;
     overflow-x: hidden;
     display: block;
 }
