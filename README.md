@@ -196,3 +196,56 @@ Increased accessibility and corrected bugs.
   the implicit `role="button"` of `<button>` is required for `aria-pressed` to work correctly.
 - Applied consistently across all documentation pages.
 
+### Layout
+
+- Mobile overhaul: `flex-panel` items now expand to full width in column mode on narrow screens
+  (`≤ 820 px`). The percentage-width helpers (`.width_10` … `.width_95`) also reset to `100%`
+  on mobile so they never overflow their container.
+- Card inner zones renamed to CSS classes to avoid invalid nesting of semantic HTML elements:
+  `.card-header`, `.card-body`, `.card-footer` (was `<header>`, `<main>`, `<footer>` inside
+  `<article class="card">`). Use plain `<div>` elements with those classes.
+- `.scrolled-panel` uses `overflow: auto` instead of `overflow: scroll`
+  (scrollbars appear only when content actually overflows).
+- `cards-panel` grid uses `minmax(min(var(--card-max-width), 100%), 1fr)` so cards never
+  overflow their container on narrow screens.
+
+### Buttons
+
+- Added `.cta-button`: a call-to-action button class with small-caps, uppercase label and
+  drop shadow — defined in `button.css`, built on the `@layer base` foundation without
+  needing `!important`.
+
+### Dark mode
+
+- `code.css`: complete dark-mode palette for all Pygments syntax-highlighting token classes.
+  String types now use a warm-orange foreground with `background-color: transparent`
+  (fixes invisible white-on-white text that appeared in dark mode).
+
+### book.css
+
+- Fixed `counter-reset: subssection` missing from `.ssection` — sub-section numbers now
+  reset correctly at the start of each section instead of incrementing across the whole document.
+- `@media print` block removed from `book.css`; print-specific overrides migrated to
+  `print.css`, keeping print styles in a single, unlayered file.
+
+### Minor fixes
+
+- `sortatable.css`: copyright year corrected (2024 → 2026).
+- `toggleselect.css`: removed dead `.check-item:before` rule;
+  renamed `.action-button` → `.toggleselect-action` to avoid naming collisions with
+  application-level button classes.
+- `slides.css`: fixed `:root.contrast` selector (was the invalid descendant form
+  `:root .contrast`); removed `background-color: red` debug artifact from `.overview-view
+  .slide`; dropped obsolete `-moz` / `-webkit` / `-ms` vendor prefixes on `transition`;
+  scoped `li` and `q` font/quote rules to `.slide` to prevent leaking into the surrounding
+  page; replaced `padding-bottom: 10px` with `0.6rem`.
+
+### Breaking changes (2.1 → 2.2)
+
+| What changed | Old value | New value |
+|---|---|---|
+| CSS theme selector | `[data-theme=dark]` | `.dark` class on `:root` |
+| Card inner zones | `<header>`, `<main>`, `<footer>` | `<div class="card-header/body/footer">` |
+| toggleselect action button class | `.action-button` | `.toggleselect-action` |
+| Print styles | `@media print` blocks in each file | `print.css` (loaded with `media="print"`) |
+
