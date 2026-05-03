@@ -289,7 +289,7 @@ This banner notice must not be removed.
 
     /* dialogs */
     --dialog-border-width: 1px;
-    --dialog-border-radius: 4px;
+    --dialog-border-radius: 0.4rem;
     --dialog-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
 
     /* Accessibility icons (base64 SVG) */
@@ -365,6 +365,8 @@ This banner notice must not be removed.
     --table-border-width: 2px;
     --outline-size: 3px;
     --hr-width: 2px;
+    --dialog-border-width: 2px;
+    --dialog-border-radius: 0.6rem;
 }
 
 } /* end @layer accessibility: contrast mode */
