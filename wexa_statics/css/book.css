@@ -124,7 +124,7 @@ body {
 
 /* The nav element is used to create the book ToC. */
 
-nav.side-nav {
+nav.book-toc {
     z-index: 9;
     width: var(--toc-width);
     height: 100%;
@@ -140,31 +140,31 @@ nav.side-nav {
 }
 
 /* Reset any previous nav margin/padding */
-nav.side-nav * {
+nav.book-toc * {
     margin: auto;
     padding: 0;
     font-size: calc(0.8*var(--font-size));
 }
-nav.side-nav *:not([role=button]) {
+nav.book-toc *:not([role=button]) {
     color: var(--nav-fg-color);
 }
 
-nav.side-nav > ul, nav.side-nav > hr, nav.side-nav > h1, nav.side-nav > h2 {
+nav.book-toc > ul, nav.book-toc > hr, nav.book-toc > h1, nav.book-toc > h2 {
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
 
-nav.side-nav h1 {
+nav.book-toc h1 {
     font-size: calc(1.5*var(--font-size));
     font-weight: var(--font-weight-black);
 }
 
-nav.side-nav h2 {
+nav.book-toc h2 {
     font-size: calc(1.5*var(--font-size));
     font-weight: var(--font-weight-bold);
 }
 
-nav.side-nav a[role=button], nav.side-nav button {
+nav.book-toc a[role=button], nav.book-toc button {
     width: calc(0.75*var(--toc-width));
     height: calc(3*var(--font-size));
     border-radius: calc(3*(var(--border-width)));
@@ -178,96 +178,96 @@ nav.side-nav a[role=button], nav.side-nav button {
 /* The element tags in the HTML document became automatically a class name
    into the toc thanks to a script. */
 
-nav.side-nav ul {
+nav.book-toc ul {
     display: initial;
 }
 
-nav.side-nav a:not([role=button],[role=menuitem]) {
+nav.book-toc a:not([role=button],[role=menuitem]) {
     display: initial;
 }
 
-nav.side-nav li.h1,
-nav.side-nav li.h2,
-nav.side-nav li.h3,
-nav.side-nav li.h4,
-nav.side-nav li.h5,
-nav.side-nav li.h6 {
+nav.book-toc li.h1,
+nav.book-toc li.h2,
+nav.book-toc li.h3,
+nav.book-toc li.h4,
+nav.book-toc li.h5,
+nav.book-toc li.h6 {
     display: block;
     margin-bottom: 0.5rem;
     text-align: left;
 }
 
-nav.side-nav li.h1 {
+nav.book-toc li.h1 {
     margin-top: 1.5rem;
     margin-bottom: 1rem;
     padding-left: 0;
 }
-nav.side-nav li.h2 {
+nav.book-toc li.h2 {
     margin-top: 1rem;
     padding-left: 0.5rem;
 }
-nav.side-nav li.h3 {
+nav.book-toc li.h3 {
     padding-left: 1.5rem;
 }
-nav.side-nav li.h4 {
+nav.book-toc li.h4 {
     padding-left: 2rem;
 }
-nav.side-nav li.h5 {
+nav.book-toc li.h5 {
     padding-left: 3rem;
 }
-nav.side-nav li.h6 {
+nav.book-toc li.h6 {
     padding-left: 4rem;
 }
 
-nav.side-nav li.h2::before {
+nav.book-toc li.h2::before {
     content: "■";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
 }
-nav.side-nav li.h3::before {
+nav.book-toc li.h3::before {
     content: "◇";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
 }
-nav.side-nav li.h4::before {
+nav.book-toc li.h4::before {
     content: "-";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
 }
-nav.side-nav li.h5::before {
+nav.book-toc li.h5::before {
     content: "□";
     padding-right: calc(0.4*var(--typography-spacing-horizontal));
 }
 
-nav.side-nav li.h1 a {
+nav.book-toc li.h1 a {
     text-decoration: none;
     font-variant-caps: small-caps;
     font-weight: var(--font-weight-bold);
     font-size: calc(1.2*var(--font-size));
 }
-nav.side-nav li.h2 a {
+nav.book-toc li.h2 a {
     text-decoration: none;
     font-weight: var(--font-weight-semibold);
     text-overflow: ellipsis;
     font-size: var(--font-size);
 }
-nav.side-nav li.h3 a {
+nav.book-toc li.h3 a {
     text-decoration: none;
     font-weight: var(--font-weight-normal);
     text-overflow: ellipsis;
     font-size: calc(0.9*var(--font-size));
 }
-nav.side-nav li.h4 a {
+nav.book-toc li.h4 a {
     text-decoration: none;
     font-weight: var(--font-weight-semithin);
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-nav.side-nav li.h5 a {
+nav.book-toc li.h5 a {
     text-decoration: none;
     font-weight: var(--font-weight-thin);
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: calc(0.75*var(--font-size));
 }
-nav.side-nav li.h6 a {
+nav.book-toc li.h6 a {
     text-decoration: none;
     font-weight: var(--font-weight-thin);
     white-space: nowrap;

@@ -247,5 +247,6 @@ Increased accessibility and corrected bugs.
 | CSS theme selector | `[data-theme=dark]` | `.dark` class on `:root` |
 | Card inner zones | `<header>`, `<main>`, `<footer>` | `<div class="card-header/body/footer">` |
 | toggleselect action button class | `.action-button` | `.toggleselect-action` |
+| book ToC nav class | `.side-nav` | `.book-toc` |
 | Print styles | `@media print` blocks in each file | `print.css` (loaded with `media="print"`) |
 

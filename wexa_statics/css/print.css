@@ -149,7 +149,7 @@ body > footer {
     display: none;
 }
 
-nav.side-nav {
+nav.book-toc {
     z-index: 9;
     width: 100%;
     position: relative;
@@ -168,7 +168,7 @@ nav.side-nav {
     page-break-after: always;
 }
 
-nav.side-nav *:not([role=button]) {
+nav.book-toc *:not([role=button]) {
     color: var(--a-color);
 }
 
