@@ -968,6 +968,7 @@ code {
 pre {
     font-family: var(--font-family-pre);
     font-size: calc(0.9 * var(--font-size));
+    line-height: calc(1.25 * var(--line-height));
     padding-top: calc(0.35*var(--typography-spacing-vertical));
     padding-bottom: calc(0.35*var(--typography-spacing-vertical));
     padding-left: var(--typography-spacing-horizontal);
