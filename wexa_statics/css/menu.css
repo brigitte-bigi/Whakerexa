@@ -67,25 +67,25 @@ This banner notice must not be removed.
                             OVERRIDES STYLE
   ======================================================================== */
 
-nav {
+nav.nav-wexa {
     min-height: var(--nav-min-height);
     min-width: var(--nav-min-width);
 }
 
 /* Reset margin and padding of all elements */
-nav * {
+nav.nav-wexa * {
     margin: 0;
     padding: 0;
 }
 
 /* Required for a submenu positioning */
-nav ul > li {
+nav.nav-wexa ul > li {
     position: relative;
 }
 
 /* DEPRECATED: checkbox-based toggle, use #menu-button instead. */
 /* Hide checkboxes */
-nav input[type=checkbox] {
+nav.nav-wexa input[type=checkbox] {
     display: none;
 }
 
@@ -118,11 +118,6 @@ nav#header-nav-content {
     - left-side (.side), vertically.
 
 /* --------------------------------------------------------------------- */
-
-nav {
-    min-height: var(--nav-min-height);
-    min-width: var(--nav-min-width);
-}
 
 .nav-wexa {
     color: var(--nav-fg-color);
@@ -506,7 +501,7 @@ body > nav > * *:focus-within .submenu {
 }
 
 /* Toggle to expand/collapse the 'nav' content. Invisible. */
-body > nav label {
+body > nav.nav-wexa label {
     display: none;
 }
 

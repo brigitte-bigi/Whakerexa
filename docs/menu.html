@@ -43,7 +43,7 @@
         <h2>by Whakerexa</h2>
     </header>
 
-    <nav id="nav-content">
+    <nav id="nav-content" class="nav-wexa" aria-label="Main navigation">
         <!-- this default menu is sticky, horizontal, not responsive -->
 
         <a class="nav-current external-link" role="menuitem" href="https://github.com/brigitte-bigi/Whakerexa">Home</a>
@@ -94,6 +94,13 @@
                 require a minimum of additional HTML classes, keeping source code clear and
                 readable.</p>
             <p>Not convinced? Take a look at the source code of this page!</p>
+
+            <p><b>Compatibility note.</b> Since version 2.2, all base reset rules in
+                <code>menu.css</code> (margin, padding, min-height, submenu positioning) are
+                scoped to <code>nav.nav-wexa</code> elements only. A bare <code>&lt;nav&gt;</code>
+                not carrying the <code>nav-wexa</code> class — such as the <code>nav.side-nav</code>
+                table of contents from <code>book.css</code> — is therefore fully unaffected.
+                Both CSS modules can be loaded on the same page without any collision.</p>
 
             <p>This page shows how a page looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
             <pre>

@@ -148,6 +148,32 @@
                     </tbody>
                 </table>
                 </section>
+
+            <section class="ssection"><h2>Table of Contents navigation</h2>
+
+                <p><b>book.css</b> provides a fixed side navigation panel styled with the class
+                    <code>side-nav</code>. Its width is controlled by the <code>--toc-width</code>
+                    variable (default <code>0</code>; set it to something like <code>16rem</code>
+                    to reveal the panel). The body left margin adjusts automatically via
+                    <code>margin-left: var(--toc-width)</code> on <code>html</code>.</p>
+
+                <p>The minimal HTML structure for a side ToC panel is:</p>
+                <pre>&lt;nav class="side-nav" aria-label="Table of contents"&gt;
+    &lt;h1&gt;Document title&lt;/h1&gt;
+    &lt;ul id="toc"&gt;&lt;/ul&gt;
+&lt;/nav&gt;</pre>
+
+                <p>The list can be filled manually, or automatically from the document headings
+                    using the <code>Wexa.Book</code> JavaScript class — see
+                    <a href="autotoc.html">autotoc.html</a> for a live demonstration.</p>
+
+                <p><b>Coexistence with menu.css.</b> Since version 2.2, all base <code>nav</code>
+                    resets in <code>menu.css</code> are scoped to <code>nav.nav-wexa</code>.
+                    Loading both <code>menu.css</code> and <code>book.css</code> on the same page
+                    (as this page does) is therefore safe: the ToC <code>nav.side-nav</code>
+                    element is unaffected by the menu reset rules.</p>
+            </section>
+
             </section>
 
         <!-- ------------------------------------------------------------- -->
