@@ -175,19 +175,19 @@
         <article class="card">
             <h3>Wexa</h3>
             <p>Base styles + variables + themes (light/dark/contrast).</p>
-            <a href="wexa.html">Open wexa.css doc</a>
+            <a id="link-wexa" data-href="wexa.html" data-target="_self">Open wexa.css doc</a>
         </article>
 
         <article class="card">
             <h3>Layout</h3>
             <p>Layout helpers (cards, panels, spacing).</p>
-            <a href="layout.html">Open layout doc</a>
+            <a id="link-layout" data-href="layout.html" data-target="_self">Open layout doc</a>
         </article>
 
         <article class="card">
             <h3>Code</h3>
             <p>Pygments-friendly code colors and readable blocks.</p>
-            <a href="code.html">Open code doc</a>
+            <a id="link-code" data-href="code.html" data-target="_self">Open code doc</a>
         </article>
     </section>
 
@@ -197,35 +197,35 @@
         <article class="card">
             <h3>Buttons</h3>
             <p>Buttons, action buttons, switches.</p>
-            <a href="button.html">Open buttons doc</a>
+            <a id="link-button" data-href="button.html" data-target="_self">Open buttons doc</a>
         </article>
 
         <article class="card">
             <h3>Dialogs</h3>
             <p>Modal dialogs + accessibility behaviors.</p>
-            <a href="dialog.html">Open dialog doc</a>
+            <a id="link-dialog" data-href="dialog.html" data-target="_self">Open dialog doc</a>
         </article>
 
         <article class="card">
             <h3>Menus</h3>
             <p>Navigation bars + submenus (top / bottom / side).</p>
             <div class="flex-panel">
-                <a href="menu.html">Top</a> <br>
-                <a href="menu-bottom.html">Bottom</a><br>
-                <a href="menu-side.html">Side</a>
+                <a id="link-menu" data-href="menu.html" data-target="_self">Top</a> <br>
+                <a id="link-menu-bottom" data-href="menu-bottom.html" data-target="_self">Bottom</a><br>
+                <a id="link-menu-side" data-href="menu-side.html" data-target="_self">Side</a>
             </div>
         </article>
 
         <article class="card">
             <h3>Links</h3>
             <p>Consistent behavior for links/buttons: _blank, _self, or iframe.</p>
-            <a href="links.html">Open links doc</a>
+            <a id="link-links" data-href="links.html" data-target="_self">Open links doc</a>
         </article>
 
         <article class="card">
             <h3>Progress Bar</h3>
             <p>Managed mode (callback) + autonomous mode (RequestManager).</p>
-            <a href="progressbar.html">Open progressbar doc</a>
+            <a id="link-progressbar" data-href="progressbar.html" data-target="_self">Open progressbar doc</a>
         </article>
     </section>
 
@@ -235,13 +235,13 @@
         <article class="card">
             <h3>Book</h3>
             <p>Book-like layout built on wexa.css.</p>
-            <a href="book.html">Open book doc</a>
+            <a id="link-book" data-href="book.html" data-target="_self">Open book doc</a>
         </article>
 
         <article class="card">
             <h3>Auto ToC</h3>
             <p>Generate a table of contents from headings.</p>
-            <a href="autotoc.html">Open autotoc doc</a>
+            <a id="link-autotoc" data-href="autotoc.html" data-target="_self">Open autotoc doc</a>
         </article>
     </section>
 
@@ -252,7 +252,7 @@
         <article class="card">
             <h3>Sortable Table</h3>
             <p>Sortable HTML tables (click headers).</p>
-            <a href="sortatable.html">Open sortatable doc</a>
+            <a id="link-sortatable" data-href="sortatable.html" data-target="_self">Open sortatable doc</a>
         </article>
     </section>
 
@@ -286,7 +286,7 @@
     <article class="card">
         <h3>Bundle demo</h3>
         <p>Single-file demo for bundle usage (offline).</p>
-        <a href="wexa.bundle.html">Open bundle demo</a>
+        <a id="link-bundle" data-href="wexa.bundle.html" data-target="_self">Open bundle demo</a>
     </article>
 
 
@@ -299,8 +299,8 @@
         <article class="card">
             <h3>Slides</h3>
             <p>Presentation/overview controls (extra package).</p>
-                <a href="slides.html">Slides (modules)</a> <br>
-                <a href="slides_bundle.html">Slides (bundle)</a>
+                <a id="link-slides" data-href="slides.html" data-target="_self">Slides (modules)</a> <br>
+                <a id="link-slides-bundle" data-href="slides_bundle.html" data-target="_self">Slides (bundle)</a>
         </article>
     </div>
 
@@ -321,6 +321,17 @@
 </footer>
 
 <script>
+    window.addEventListener('load', () => {
+        Wexa.links.handleLinksWithParameters([
+            'link-wexa', 'link-layout', 'link-code',
+            'link-button', 'link-dialog',
+            'link-menu', 'link-menu-bottom', 'link-menu-side',
+            'link-links', 'link-progressbar',
+            'link-book', 'link-autotoc',
+            'link-sortatable', 'link-bundle',
+            'link-slides', 'link-slides-bundle'
+        ]);
+    });
 </script>
 
 </body>

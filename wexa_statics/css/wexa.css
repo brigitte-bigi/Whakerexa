@@ -584,6 +584,7 @@ or (prefers-color-scheme: dark)
 .skip,
 .focus-visible-only {
     opacity: 0;
+    pointer-events: none;
     position: fixed;
     top: var(--border-width);
     left: var(--border-width);
@@ -603,11 +604,13 @@ or (prefers-color-scheme: dark)
 .skip:focus,
 .focus-visible-only:focus {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .skip:hover,
 .focus-visible-only:hover {
     opacity: 0;
+    pointer-events: none;
     cursor: default;
 }
 
@@ -1767,6 +1770,7 @@ dialog[role=alertdialog] * {
 [role='menuitem'].accessibility,
 .dark [role='menuitem'].accessibility,
 .dark .menuitem.accessibility {
+    color: var(--nav-fg-color);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

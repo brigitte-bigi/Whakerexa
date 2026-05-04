@@ -481,7 +481,7 @@ export class AccessibilityManager extends BaseManager {
         if (url === null || url === '') {
             return '';
         }
-        const customUrl = new URL(url, window.location.origin);
+        const customUrl = new URL(url, window.location.href);
 
         if (this.#activated_color !== '') {
             customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activated_color);
