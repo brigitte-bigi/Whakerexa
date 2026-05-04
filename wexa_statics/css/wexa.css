@@ -271,6 +271,7 @@ This banner notice must not be removed.
     /* Sizes */
     --header-height: 60vh;
     --footer-height: 20vh;
+    --skip-height: calc(var(--font-size) * 2);
 
     /* Font definitions */
     --font-family-sans: SansFont, Commissioner, 'Verdana', sans-serif;
@@ -577,6 +578,38 @@ or (prefers-color-scheme: dark)
 /* =======================================================================
                        ACCESSIBILITY SPECIFIC STYLING
   ======================================================================== */
+
+/* Skip-to-content link: visible only on keyboard focus, hidden on mouse hover.
+   Fixed full-width at top of page, above all other content. */
+.skip,
+.focus-visible-only {
+    opacity: 0;
+    position: fixed;
+    top: var(--border-width);
+    left: var(--border-width);
+    width: calc(100% - 2 * var(--border-width));
+    height: var(--skip-height);
+    line-height: var(--skip-height);
+    text-align: center;
+    background-color: var(--buttons-bg-color);
+    color: var(--buttons-fg-color);
+    font-weight: var(--font-weight-semibold);
+    padding: 0;
+    margin: 0;
+    z-index: 200;
+    transition: opacity 0.3s ease;
+}
+
+.skip:focus,
+.focus-visible-only:focus {
+    opacity: 1;
+}
+
+.skip:hover,
+.focus-visible-only:hover {
+    opacity: 0;
+    cursor: default;
+}
 
 :is(a, video, input, area, select, button, input, textarea, summary) {
     --outline-offset: 0;

@@ -745,30 +745,7 @@ nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-pressed="true"] {
     border-color: var(--nav-fg-color);
 }
 
-/* --------------------- Skip button -------------------------------------
-   Important for screen readers: it allows to skip to main content,
-   ignoring the header and nav. It must have the highest priority:
-   it must be over any other element.
-   ----------------------------------------------------------------------- */
-
-.skip,
-.focus-visible-only {
-    opacity: 0;
-    background-color: var(--buttons-bg-color);
-    position: fixed;
-    top: var(--typography-spacing-vertical);
-    left: calc(var(--menu-button-size) + 2 * var(--typography-spacing-horizontal));
-    padding: 0.5rem;
-    margin: 0;
-    transition: opacity 0.3s ease;
-    font-weight: var(--font-weight-semibold);
-}
-
-.skip:focus,
-.focus-visible-only:focus {
-    opacity: 1;
-    z-index: 200;
-}
+/* Skip button styles are defined in wexa.css (used on all pages, not just with menus). */
 
 /* ------------------ Pin button -----------------------------------------
   Optionally used by a side menu to pin it in expanded mode.
