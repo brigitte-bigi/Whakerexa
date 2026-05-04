@@ -38,16 +38,19 @@ This banner notice must not be removed.
 
 :root {
     --card-max-width: 15rem;
-    --card-border-width: 2px;
+    --card-border-width: 0;
     --card-border-radius: 8px;
-    --card-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem var(--shadow-color);
+    --card-box-shadow: -0.1rem 0.1rem 0.4rem 0.1rem var(--shadow-color);
+    --card-bg-color: var(--bg-color-alt);
+    --card-fg-color: var(--fg-color);
+    --card-padding: 0.6rem;
     --columns-sep-color: rgba(128, 128, 128, 0.5);
 }
 
 .contrast {
     --card-max-width: 20rem;
-    --card-border-width: 4px;
-    --card-border-radius: 12px;
+    --card-border-width: 2px;
+    --card-border-radius: 0.8rem;
 }
 
 .hidden {
@@ -302,10 +305,12 @@ main > .panel-item:nth-child(even) * {
 
 .card {
     position: relative;
-    padding: 0;
+    padding: var(--card-padding);
     margin: 0.4rem;
     border: var(--card-border-width) solid var(--border-color-alt);
     border-radius: var(--card-border-radius);
+    background: var(--card-bg-color);
+    color: var(--card-fg-color);
     /* Display elements inside a card: */
     display: flex;
     flex-direction: column;
@@ -317,6 +322,29 @@ main > .panel-item:nth-child(even) * {
     flex-direction: row;
 }
 
+/* When header/footer present: remove card padding on that side so they bleed to the border */
+.card:has(> .card-header) {
+    padding-top: 0;
+}
+.card:has(> .card-footer) {
+    padding-bottom: 0;
+}
+
+/* Collapse top margin of first direct child and first child of card-body */
+.card > *:first-child,
+.card .card-body > *:first-child {
+    margin-top: 0;
+}
+.card > *:last-child,
+.card .card-body > *:last-child {
+    margin-bottom: 0;
+}
+
+/* wexa.css sets * { background-color: var(--bg-color) } on every element — reset for all card descendants.
+   .card-header keeps its background via higher-specificity rule (.card .card-header, 0,2,0 > 0,1,0). */
+.card * {
+    background-color: transparent;
+}
 
 
 /* Change size and direction for mobile screens */
@@ -333,7 +361,7 @@ main > .panel-item:nth-child(even) * {
 
 @media only screen and (min-width: 768px) {
     .card {
-        max-width: calc(20rem * var(--size-divisor));
+        max-width: var(--card-max-width);
     }
     .full-card {
         max-width: 100%;
@@ -345,10 +373,10 @@ main > .panel-item:nth-child(even) * {
 
 .card .card-header {
     text-align: center;
-    margin: auto;
+    margin: 0 calc(-1 * var(--card-padding));
     min-height: calc(3rem * var(--size-divisor));
     max-height: calc(8rem * var(--size-divisor));
-    width: 100%;
+    width: calc(100% + 2 * var(--card-padding));
     padding: 0.4rem;
     border-top-right-radius: var(--card-border-radius);
     border-top-left-radius: var(--card-border-radius);
@@ -374,12 +402,11 @@ main > .panel-item:nth-child(even) * {
 }
 
 .card .card-body {
-    background: var(--card-bg-color);
+    background: transparent;
     padding: 0.4rem;
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    border-radius: var(--card-border-radius);
 }
 
 .card > .card-body > * {
@@ -389,10 +416,10 @@ main > .panel-item:nth-child(even) * {
 
 .card .card-footer {
     text-align: center;
-    margin: auto;
+    margin: 0 calc(-1 * var(--card-padding));
     min-height: calc(2rem * var(--size-divisor));
     max-height: calc(6rem * var(--size-divisor));
-    width: 100%;
+    width: calc(100% + 2 * var(--card-padding));
     border-bottom-right-radius: var(--card-border-radius);
     border-bottom-left-radius: var(--card-border-radius);
     /* Organize content: a box with centered elements */
@@ -407,9 +434,8 @@ main > .panel-item:nth-child(even) * {
     margin: 0.4rem;
 }
 
-.card .card-footer *:not(button, [role=button]) {
-    color: var(--footer-fg-color);
-    background-color: transparent;
+.card .card-footer *:not(button, [role=button], a, [role=link]) {
+    color: inherit;
 }
 
 .card > * > a[role=button], .card > * > button {

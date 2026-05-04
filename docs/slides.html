@@ -482,6 +482,16 @@
     <!-- Do not modify....                                                -->
     <!-- ---------------------------------------------------------------- -->
 
+    <!-- Accessibility controls, toggled with 'a' key -->
+    <div id="accessibility-controls" class="controls-hidden">
+        <button id="btn-contrast" class="accessibility"
+                aria-label="contrast" aria-pressed="false"
+                onclick="Wexa.accessibility.switchContrastScheme()"></button>
+        <button id="btn-theme" class="accessibility"
+                aria-label="color" aria-pressed="false"
+                onclick="Wexa.accessibility.switchColorScheme()"></button>
+    </div>
+
     <!-- Add the license icon at the top-right of the page. -->
     <div id="logo-container" class="top right">
         <img src="./images/GFDL_logo.png" alt="GFDL-1.3" class="img-logo"/>
@@ -530,6 +540,7 @@
                     overviewContainer: document.getElementById('overview-container'),
                     progressBarContainer: document.getElementById('progress-container'),
                     logo: document.getElementById('logo-container'),
+                    accessibility: document.getElementById('accessibility-controls'),
                     mode: 'presentation'
                 });
                 app.init();
@@ -547,8 +558,11 @@
 
         else {
 
-            const { SortaTable } = await import('../wexa_statics/js/wexa.js');
+            const { SortaTable, AccessibilityManager } = await import('../wexa_statics/js/wexa.js');
             const Slides = (await import('../wexa_statics/js/extras/slides/slides.js')).default;
+
+            window.Wexa = window.Wexa || {};
+            window.Wexa.accessibility = new AccessibilityManager();
 
             const app = new Slides({
                 slides: document.querySelectorAll('section.slide'),
@@ -558,6 +572,7 @@
                 overviewContainer: document.getElementById('overview-container'),
                 progressBarContainer: document.getElementById('progress-container'),
                 logo: document.getElementById('logo-container'),
+                accessibility: document.getElementById('accessibility-controls'),
             });
             app.init();
             window.app = app;

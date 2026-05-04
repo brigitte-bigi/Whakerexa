@@ -60,6 +60,7 @@ import ButtonsController   from './buttons_controller.js';
  * @param {HTMLElement|null} [config.controlsView]
  * @param {HTMLElement|null} [config.overviewContainer]
  * @param {HTMLElement|null} [config.progressBarContainer]
+ * @param {HTMLElement|null} [config.accessibility]
  * @param {HTMLElement|null} [config.logo]
  * @param {boolean} [config.autoPlayEnabled=false]
  * @param {string} [config.mode='presentation']
@@ -93,9 +94,10 @@ export default class SlidesAssembler {
         this._fullscreen = new SlidesFullscreenController();
 
         this._visibilityManager = new SlidesVisibilityManager({
-            controls: config.controls          instanceof HTMLElement ? config.controls          : null,
-            progress: config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
-            logo:     config.logo              instanceof HTMLElement ? config.logo              : null,
+            accessibility: config.accessibility       instanceof HTMLElement ? config.accessibility       : null,
+            controls:      config.controls            instanceof HTMLElement ? config.controls            : null,
+            progress:      config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
+            logo:          config.logo                instanceof HTMLElement ? config.logo                : null,
         });
 
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────

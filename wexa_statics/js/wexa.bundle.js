@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-04 13:10:11
+// Bundle automatically generated on 2026-05-04 17:55:14
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -983,6 +983,7 @@ window.Wexa.OverviewView = OverviewView;
 class KeyboardController {
     static SLIDE_KEYS = new Set([
         'Escape',
+        'a', 'A',
         'o', 'O',
         's', 'S',
         'f', 'F',
@@ -1020,6 +1021,9 @@ class KeyboardController {
                 return;
             case 'f': case 'F':
                 this._emit('slides:fullscreen', {});
+                return;
+            case 'a': case 'A':
+                this._emit('slides:visibility', { name: 'accessibility', action: 'toggle' });
                 return;
             case 'n': case 'N':
                 this._emit('slides:visibility', { name: 'controls', action: 'toggle' });
@@ -1237,9 +1241,10 @@ class SlidesAssembler {
         this._focus      = new SlidesFocusController();
         this._fullscreen = new SlidesFullscreenController();
         this._visibilityManager = new SlidesVisibilityManager({
-            controls: config.controls          instanceof HTMLElement ? config.controls          : null,
-            progress: config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
-            logo:     config.logo              instanceof HTMLElement ? config.logo              : null,
+            accessibility: config.accessibility       instanceof HTMLElement ? config.accessibility       : null,
+            controls:      config.controls            instanceof HTMLElement ? config.controls            : null,
+            progress:      config.progressBarContainer instanceof HTMLElement ? config.progressBarContainer : null,
+            logo:          config.logo                instanceof HTMLElement ? config.logo                : null,
         });
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
         this._keyboard = new KeyboardController();

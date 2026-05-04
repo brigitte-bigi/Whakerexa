@@ -450,6 +450,15 @@ body.overview-view {
 
 /* ========== CONTROLS FOR SLIDES ========== */
 
+#accessibility-controls {
+    position: fixed;
+    top: 0.5rem;
+    left: var(--typography-spacing-horizontal);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 2000;
+}
+
 #slides-controls {
     position: fixed;
     bottom: 1rem;
@@ -464,6 +473,7 @@ body.overview-view {
     gap: 0.5rem;
 }
 
+#accessibility-controls.controls-hidden,
 #slides-controls.controls-hidden,
 #slides-controls-view.controls-hidden {
     display: none;

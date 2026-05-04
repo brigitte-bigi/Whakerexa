@@ -46,8 +46,6 @@ This banner notice must not be removed.
 
   ======================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Sans+Mono:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900');
-
 @font-face {
     font-family: SansFont;
     src: url('../fonts/Commissioner.woff2') format('woff2');
@@ -274,9 +272,9 @@ This banner notice must not be removed.
     --skip-height: calc(var(--font-size) * 2);
 
     /* Font definitions */
-    --font-family-sans: SansFont, Commissioner, 'Verdana', sans-serif;
+    --font-family-sans: SansFont, 'Verdana', sans-serif;
     --font-family-serif: SerifFont, 'Noto Serif', 'Times New Roman', serif;
-    --font-family-mono: MonoFont, JetBrains, 'Courier New', monospace;
+    --font-family-mono: MonoFont, 'Courier New', monospace;
     --font-family-pre: PreFont, 'Noto Sans', monospace, 'Courier New';
 
     /* Pictures */
@@ -1064,12 +1062,13 @@ blockquote * {
 
 a, [role=link] {
     color: var(--a-color);
+    text-decoration: underline;
     -webkit-transition-duration: 0.2s;
     -moz-transition-duration: 0.2s;
     -o-transition-duration: 0.2s;
     transition-duration: 0.2s;
-    line-height: calc(0.85*var(--line-height));
-    opacity: 90%;
+    line-height: var(--line-height);
+    opacity: 100%;
 }
 
 :where(a:not([role=button])), [role=link] {
@@ -1077,7 +1076,7 @@ a, [role=link] {
 }
 
 a:hover {
-    opacity: 100%;
+    opacity: 90%;
 }
 
 /* Image links: the clickable box must match the image (no extra line box). */
