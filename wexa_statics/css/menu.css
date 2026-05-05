@@ -235,6 +235,7 @@ nav.nav-wexa.side.collapsible.expanded {
     Base style for all nav menu items
    ----------------------------------------------------------------------- */
 
+
 :is([role="menuitem"], .menuitem) {
     min-height: var(--nav-item-min-height);
     height:     var(--nav-item-height);
@@ -244,6 +245,8 @@ nav.nav-wexa.side.collapsible.expanded {
     min-width: var(--nav-item-min-width-h);
     width:     var(--nav-item-width-h);
     max-width: var(--nav-item-max-width-h);
+
+    text-decoration: none;
 }
 
 /* -------- the current nav item -------- */

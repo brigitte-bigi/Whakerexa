@@ -64,7 +64,7 @@ if (input === null) {
 
 ### Formating
 
-- Use 2 spaces for indentation.
+- Use 4 spaces for indentation.
 - Use single quotes (') unless double quotes are required.
 - End statements with semicolons (;).
 - Avoid hardcoding; use constants or configuration variables.
@@ -101,5 +101,27 @@ async function fetchData(url) {
 
 ```
 
+### JavaScript Style Adaptations Explained
 
+The author of Whakerexa has a visual impairment, and these rules improve code 
+readability and accessibility. For the author, the following characters are 
+visually impossible to distinguish: `{([`.
+
+Therefore, avoid empty or visually ambiguous bracket-only expressions when a 
+readable alternative exists.
+
+Avoid:
+
+```javascript
+let value = ();   
+```
+
+Prefer explicit, named expressions:
+
+```javascript
+    let value = list();
+```
+
+The goal is not compact code.  
+The goal is readable code.
 
