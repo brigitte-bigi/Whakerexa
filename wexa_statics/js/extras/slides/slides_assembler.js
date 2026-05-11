@@ -43,6 +43,7 @@ import SlidesVisibilityManager  from './visibility_manager.js';
 import KeyboardController  from './keyboard_controller.js';
 import TouchController     from './touch_controller.js';
 import ButtonsController   from './buttons_controller.js';
+import HelpDialog          from './help_dialog.js';
 
 /**
  * SlidesAssembler instantiates every component and wires them together.
@@ -101,6 +102,7 @@ export default class SlidesAssembler {
         });
 
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
+        this._helpDialog = new HelpDialog();
         this._keyboard = new KeyboardController();
         this._touch    = new TouchController();
 
@@ -153,6 +155,10 @@ export default class SlidesAssembler {
 
         document.addEventListener('slides:fullscreen', () => {
             this._fullscreen.toggle();
+        });
+
+        document.addEventListener('slides:help', () => {
+            this._helpDialog.toggle();
         });
 
         // ── 8. HASH CHANGE ───────────────────────────────────────────────────

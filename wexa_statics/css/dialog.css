@@ -96,8 +96,16 @@ dialog[role=alertdialog] {
     display: flex;
     flex-direction: column;
     padding: 0;
+    min-width: min(28rem, 80vw);
+    max-height: 80vh;
     overflow: hidden;
     border-left-width: var(--dialog-border-width); /* normalize: wexa.css sets 4x on left */
+}
+
+/* Override wexa.css @layer base hidden-alert rule (display:none is inside a layer,
+   display:flex above is unlayered and would win without this). */
+dialog[role=alertdialog].hidden-alert {
+    display: none;
 }
 
 /* Children transparent: dialog bg-color (white/dark) shows through.
@@ -106,10 +114,11 @@ dialog[role=alertdialog] * {
     background: transparent;
 }
 
-/* Content padding for direct children */
+/* Content padding and scroll for direct children */
 dialog[role=alertdialog] > p,
 dialog[role=alertdialog] > div {
     padding: var(--typography-spacing-horizontal);
+    overflow-y: auto;
 }
 
 /* Icon zone: centered, colored background, icon in bg-color for contrast */

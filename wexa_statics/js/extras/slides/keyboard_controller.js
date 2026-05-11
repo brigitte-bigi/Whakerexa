@@ -48,22 +48,26 @@
  *   slides:viewmode  → { mode: 'presentation'|'overview' } | { action: 'toggle' }
  *   slides:visibility → { name: 'accessibility'|'controls'|'progress'|'logo', action: 'toggle' }
  *   slides:fullscreen → {}
+ *   slides:help      → { action: 'toggle' }
  */
 export default class KeyboardController {
 
-    static SLIDE_KEYS = new Set([
-        'Escape',
-        'a', 'A',
-        'o', 'O',
-        's', 'S',
-        'f', 'F',
-        'n', 'N',
-        'b', 'B',
-        'l', 'L',
-        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-        'PageUp', 'PageDown',
-        'Home', 'End',
-    ]);
+    static SHORTCUTS = [
+        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide' },
+        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide' },
+        { keys: ['Home'],                                 label: 'First slide' },
+        { keys: ['End'],                                  label: 'Last slide' },
+        { keys: ['h', 'H', '?'],                          label: 'Help' },
+        { keys: ['f', 'F'],                               label: 'Fullscreen' },
+        { keys: ['o', 'O'],                               label: 'Overview mode' },
+        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
+        { keys: ['a', 'A'],                               label: 'Accessibility controls' },
+        { keys: ['n', 'N'],                               label: 'Navigation controls' },
+        { keys: ['b', 'B'],                               label: 'Progress bar' },
+        { keys: ['l', 'L'],                               label: 'Logo' },
+    ];
+
+    static SLIDE_KEYS = new Set(KeyboardController.SHORTCUTS.flatMap(s => s.keys));
 
     constructor() {
         this._boundHandler = this._onKeyDown.bind(this);
@@ -91,6 +95,10 @@ export default class KeyboardController {
         if (this._isInteractiveTarget(event.target))   return;
 
         switch (key) {
+
+            case 'h': case 'H': case '?':
+                this._emit('slides:help', { action: 'toggle' });
+                return;
 
             case 'Escape':
             case 's': case 'S':
