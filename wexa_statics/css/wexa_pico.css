@@ -1,0 +1,287 @@
+/*
+ :filename: wexa_statics/css/wexa_pico.css
+ :author: Brigitte Bigi
+ :contact: contact@sppas.org
+ :summary: Pico-inspired theme for Whakerexa.
+
+ -------------------------------------------------------------------------
+
+ This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
+
+ Copyright (C) 2023-2026 Brigitte Bigi, CNRS
+ Laboratoire Parole et Langage, Aix-en-Provence, France
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+ This banner notice must not be removed.
+
+ -------------------------------------------------------------------------
+
+ Load AFTER wexa.css:
+   <link rel="stylesheet" href="wexa.css">
+   <link rel="stylesheet" href="wexa_pico.css">
+
+ This file contains ONLY @layer theme overrides.
+ @layer base (structure, accessibility) is inherited unchanged from wexa.css.
+
+ Inspired by Pico CSS v2 — https://picocss.com (MIT License).
+ This is an independent implementation; no Pico code is reused.
+*/
+
+
+@layer theme {
+
+    /* ======================================================================
+       Layout helper — Pico's centred container
+       ====================================================================== */
+
+    .container {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* ======================================================================
+       Grid helper (replaces Pico's .grid)
+       ====================================================================== */
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        gap: 1rem;
+        align-items: start;
+    }
+
+    /* ======================================================================
+       Light mode — CSS variable overrides
+       ====================================================================== */
+
+    :root:not(.dark) {
+
+        /* Typography */
+        --font-family-sans: system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu,
+                            Cantarell, Helvetica, Arial, sans-serif;
+        --font-family-serif: var(--font-family-sans);
+        --font-size: 1rem;
+        --line-height: 1.5;
+        --typography-spacing-vertical: 1rem;
+        --typography-spacing-horizontal: 1rem;
+        --border-radius: 0.25rem;
+
+        /* Surface */
+        --bg-color:     #ffffff;
+        --bg-color-alt: #f3f6fb;
+        --fg-color:     #373c44;
+        --fg-color-alt: #4e545e;
+
+        /* Borders */
+        --border-color:     rgba(0, 0, 0, 0.2);
+        --border-color-alt: rgba(0, 0, 0, 0.12);
+
+        /* Primary accent (Pico azure/teal blue) */
+        --a-color:         hsl(205, 100%, 35%);
+        --li-color:        hsl(205, 100%, 35%);
+        --buttons-bg-color: hsl(205, 100%, 35%);
+        --buttons-fg-color: #ffffff;
+
+        /* Chrome */
+        --header-bg-color: hsl(205, 100%, 30%);
+        --nav-bg-color:    hsl(205, 100%, 25%);
+        --footer-bg-color: #f3f6fb;
+        --header-fg-color: #ffffff;
+        --nav-fg-color:    #ffffff;
+        --footer-fg-color: #373c44;
+
+        /* Headings */
+        --h1-color: #11191f;
+        --h2-color: #1a2530;
+        --h3-color: #2a3540;
+        --h4-color: #2a3540;
+        --h5-color: #3a4550;
+        --h6-color: #4a5560;
+
+        /* Blockquote */
+        --blockquote-border-color:  hsl(205, 100%, 35%);
+        --blockquote-footer-color:  #767676;
+
+        /* Tables */
+        --table-border-color:           rgba(0, 0, 0, 0.1);
+        --table-row-stripped-bg-color:  #f8f9fa;
+        --table-head-bg-color:          #f3f6fb;
+        --table-head-fg-color:          #373c44;
+        --table-caption-bg-color:       #f3f6fb;
+        --table-caption-fg-color:       #4e545e;
+
+        /* Forms / inputs */
+        --inputs-bg-color: #ffffff;
+
+        /* Progress */
+        --progress-bg-color: #e0e4ea;
+        --progress-fg-color: hsl(205, 100%, 35%);
+
+        /* Misc */
+        --shadow-color: rgba(0, 0, 0, 0.08);
+    }
+
+    /* ======================================================================
+       Dark mode — CSS variable overrides
+       ====================================================================== */
+
+    @media not print {
+        :root.dark {
+
+            --font-family-sans: system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu,
+                                Cantarell, Helvetica, Arial, sans-serif;
+            --font-family-serif: var(--font-family-sans);
+            --font-size: 1rem;
+            --line-height: 1.5;
+            --typography-spacing-vertical: 1rem;
+            --typography-spacing-horizontal: 1rem;
+            --border-radius: 0.25rem;
+
+            --bg-color:     #11191f;
+            --bg-color-alt: #1a2530;
+            --fg-color:     #e0e8f0;
+            --fg-color-alt: #c0c8d0;
+
+            --border-color:     rgba(255, 255, 255, 0.2);
+            --border-color-alt: rgba(255, 255, 255, 0.12);
+
+            --a-color:          hsl(205, 80%, 60%);
+            --li-color:         hsl(205, 80%, 60%);
+            --buttons-bg-color: hsl(205, 80%, 50%);
+            --buttons-fg-color: #ffffff;
+
+            --header-bg-color: hsl(205, 80%, 18%);
+            --nav-bg-color:    rgba(0, 0, 0, 0.3);
+            --footer-bg-color: #1a2530;
+            --header-fg-color: #e0e8f0;
+            --nav-fg-color:    #e0e8f0;
+            --footer-fg-color: #c0c8d0;
+
+            --h1-color: #e0e8f0;
+            --h2-color: #d0d8e8;
+            --h3-color: #c0c8d8;
+            --h4-color: #c0c8d8;
+            --h5-color: #b0b8c8;
+            --h6-color: #a0a8b8;
+
+            --blockquote-border-color: hsl(205, 80%, 60%);
+            --blockquote-footer-color: #a0a8b0;
+
+            --table-border-color:          rgba(255, 255, 255, 0.1);
+            --table-row-stripped-bg-color: #1e2a36;
+            --table-head-bg-color:         #162028;
+            --table-head-fg-color:         #e0e8f0;
+            --table-caption-bg-color:      #162028;
+            --table-caption-fg-color:      #c0c8d0;
+
+            --inputs-bg-color:  #1a2530;
+            --progress-bg-color: #2a3540;
+            --progress-fg-color: hsl(205, 80%, 60%);
+
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    /* ======================================================================
+       Decoration overrides — Pico visual style
+       ====================================================================== */
+
+    /* Blockquote: left border only, subtle background (no gradient) */
+    blockquote {
+        border-top: none;
+        border-bottom: none;
+        border-right: none;
+        border-inline-end: none;
+        border-left: 0.25rem solid var(--blockquote-border-color);
+        border-inline-start: none;
+        border-radius: 0;
+        background-image: none;
+        background-color: var(--bg-color-alt);
+    }
+
+    /* Buttons: Pico-style padding */
+    button,
+    *[role=button],
+    *[role="menuitem"],
+    .menuitem,
+    summary {
+        padding: 0.5rem 1rem;
+        margin: 0;
+    }
+
+    /* Progress: thin Pico bar */
+    progress {
+        width: 100%;
+        height: 0.5rem;
+        border-radius: var(--border-radius);
+    }
+
+    /* Figcaption */
+    figcaption {
+        font-size: 0.875rem;
+        text-align: center;
+    }
+
+    /* Caption */
+    caption {
+        padding-left: 0;
+        text-align: left;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    caption span {
+        font-style: normal;
+    }
+
+    /* Table caption label */
+    table caption {
+        text-align: left;
+        margin: 0;
+    }
+
+    /* Forms */
+    form * {
+        border-radius: var(--border-radius);
+    }
+
+    fieldset {
+        border-radius: var(--border-radius);
+        padding: 1rem;
+    }
+
+    /* Pico: inputs fill their container width */
+    button[type=submit],
+    input:not([type=checkbox],[type=radio]),
+    select,
+    textarea {
+        width: 100%;
+    }
+
+    option {
+        font-size: 1rem;
+    }
+
+    /* Aside */
+    aside {
+        float: right;
+        width: 30%;
+    }
+
+}

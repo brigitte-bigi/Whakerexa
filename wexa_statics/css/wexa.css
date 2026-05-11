@@ -385,7 +385,7 @@ This banner notice must not be removed.
 
 @layer theme {
 
-    :root:not([data-theme=dark]), [data-theme=light], .light {
+    :root:not(.dark), .light {
         /* Main colors */
         --bg-color: rgb(250, 250, 252);
         --bg-color-alt: rgb(240, 240, 240);
@@ -1049,18 +1049,6 @@ This banner notice must not be removed.
         margin-bottom: calc(1.5*var(--typography-spacing-vertical));
         margin-left: calc(2*var(--typography-spacing-horizontal));
         margin-right: calc(2*var(--typography-spacing-horizontal));
-
-        /***** TODO: THE REST IS A THEME! */
-        border-top: var(--border-width) solid var(--blockquote-border-color);
-        border-bottom: var(--border-width) solid var(--blockquote-border-color);
-        border-left: calc(var(--border-width) * 16) solid var(--blockquote-border-color);
-        border-right: calc(var(--border-width) / 2) solid var(--blockquote-footer-color);
-        border-inline-start: 0.25rem solid var(--blockquote-border-color);
-        border-inline-end: none;
-        border-radius: var(--border-radius);
-        /*background-color: var(--bg-color-alt);*/
-        /* Consider using a variable for the BG/FG colors */
-        background-image: linear-gradient(to right, var(--bg-color-alt), var(--bg-color));
     }
 
     blockquote > cite {
@@ -1154,10 +1142,6 @@ This banner notice must not be removed.
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-
-        /***** TODO: THE REST IS A THEME! */
-        padding: 0.2rem;
-        margin: 0;
     }
 
     button,
@@ -1356,29 +1340,15 @@ This banner notice must not be removed.
     table caption {
         background-color: var(--table-caption-bg-color);
         color: var(--table-caption-fg-color);
-
-        /***** TODO: THE REST IS A THEME! */
-        text-align: center;
-        margin: auto;
     }
 
     caption {
         font-weight: var(--font-weight-semibold);
-        
-        /***** TODO: THE REST IS A THEME! */
-        padding-left: calc(2 * var(--table-border-width)); /* TODO: consider using typography-spacing... */
-        text-align: left;
-        padding-top: 0.3rem;
-        padding-bottom: 0.3rem;
-        font-size: 80%;
     }
 
     caption span {
         color: inherit;
         background-color: transparent;
-
-        /***** TODO: THE REST IS A THEME! */
-        font-style: italic;
     }
 
     [role=presentation], 
@@ -1419,10 +1389,6 @@ This banner notice must not be removed.
     figcaption {
         color: var(--table-caption-fg-color);
         background-color: var(--table-caption-bg-color);
-
-        /***** TODO: THE REST IS A THEME! */
-        font-size: 0.9rem;
-        text-align: center;
     }
 
     video {
@@ -1449,12 +1415,6 @@ This banner notice must not be removed.
         color: var(--progress-fg-color);
         position: relative;
         display: block;
-
-        /***** TODO: THE REST IS A THEME! */
-        width: 100%;
-        height: 2rem;
-        border-radius: var(--border-radius);
-        /*border: var(--border-width) solid transparent;*/
     }
 
     /* =======================================================================
@@ -1503,49 +1463,21 @@ This banner notice must not be removed.
     }
 
     /* Buttons inside a summary element are at right. */
-    /***** TODO: THIS A THEME! */
-    summary button,
-    summary a[role=button] {
-        float: right;
-        margin: 0;
-        padding: 0;
-        padding-left: 0.2rem;
-        padding-right: 0.2rem;
-        margin-left: 0.2rem;
-        margin-right: 0.2rem;
-        vertical-align: center;
-        max-height: 90%;
-        width: auto;
-    }
-
-    /***** TODO: THIS A THEME! */
-    aside {
-        float: right;
-        width: 35%;
-    }
-
     /* -------------------- FORMS -------------------- */
-    /* TODO in the following of this file: separate what is 
-     - in 'base' layer : none of the users should have to change it;
-     - in 'theme' layer : users could want something else!
-     */
 
     form {
         margin-bottom: var(--typography-spacing-vertical);
     }
 
-    form * {
-        border-radius: var(--border-radius);
-    }
+    /* form * border-radius → @layer theme */
 
     /* Form: fieldset */
 
     fieldset {
         width: 100%;
         border: var(--border-width) solid var(--border-color);
-        border-radius: var(--border-radius);
-        padding: 0.5rem 1.5rem;  /* TODO: consider using --typography-spacing... */
         margin: 0;
+        /* border-radius, padding → @layer theme */
     }
 
     fieldset legend {
@@ -1583,9 +1515,7 @@ This banner notice must not be removed.
 
     /* Form: any type of inputs: input, select, textarea... */
 
-    button[type=submit], input:not([type=checkbox],[type=radio]), select, textarea {
-        width: 80%
-    }
+    /* input/select/textarea width: 80% → @layer theme */
 
     input, select, textarea {
         margin-bottom: var(--typography-spacing-vertical);
@@ -1657,8 +1587,8 @@ This banner notice must not be removed.
     /* Form: option/optgroup */
 
     option {
-        font-size: 1.1rem;
         font-family: var(--font-family-serif);
+        /* font-size: 1.1rem → @layer theme */
     }
 
     optgroup {
@@ -1846,5 +1776,128 @@ This banner notice must not be removed.
         box-shadow: inset 0 0 calc(var(--font-size) / 3) currentColor;
     }
 
-} 
+}
 /* end @layer base: HTML elements and structure */
+
+
+/* =========================================================================
+
+   @layer theme — DÉCORATION VISUELLE PAR DÉFAUT (thème Whakerexa)
+
+   Ce bloc contient UNIQUEMENT des propriétés décoratives / esthétiques :
+   couleurs, espacements, typographie relative, bordures, arrière-plans.
+
+   AUCUNE règle structurelle ou comportementale n'y figure.
+
+   Pour créer un thème alternatif (ex. wexa_pico.css, wexa_material.css),
+   il suffit de charger un fichier CSS après wexa.css et d'y redéfinir
+   les mêmes sélecteurs à l'intérieur d'un @layer theme.
+   Les règles de @layer base restent intactes.
+
+   ========================================================================= */
+
+@layer theme {
+
+    /* ── Blockquote ────────────────────────────────────────────────────── */
+
+    blockquote {
+        border-top: var(--border-width) solid var(--blockquote-border-color);
+        border-bottom: var(--border-width) solid var(--blockquote-border-color);
+        border-left: calc(var(--border-width) * 16) solid var(--blockquote-border-color);
+        border-right: calc(var(--border-width) / 2) solid var(--blockquote-footer-color);
+        border-inline-start: 0.25rem solid var(--blockquote-border-color);
+        border-inline-end: none;
+        border-radius: var(--border-radius);
+        background-image: linear-gradient(to right, var(--bg-color-alt), var(--bg-color));
+    }
+
+    /* ── Buttons / interactive elements ───────────────────────────────── */
+
+    button,
+    *[role=button],
+    *[role="menuitem"],
+    .menuitem,
+    summary {
+        padding: 0.2rem;
+        margin: 0;
+    }
+
+    /* Buttons inside a summary are floated right */
+    summary button,
+    summary a[role=button] {
+        float: right;
+        margin: 0;
+        padding: 0;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+        margin-left: 0.2rem;
+        margin-right: 0.2rem;
+        vertical-align: center;
+        max-height: 90%;
+        width: auto;
+    }
+
+    /* ── Aside ─────────────────────────────────────────────────────────── */
+
+    aside {
+        float: right;
+        width: 35%;
+    }
+
+    /* ── Tables ────────────────────────────────────────────────────────── */
+
+    table caption {
+        text-align: center;
+        margin: auto;
+    }
+
+    caption {
+        padding-left: var(--typography-spacing-horizontal);
+        text-align: left;
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+        font-size: 80%;
+    }
+
+    caption span {
+        font-style: italic;
+    }
+
+    /* ── Figures ───────────────────────────────────────────────────────── */
+
+    figcaption {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    /* ── Progress ──────────────────────────────────────────────────────── */
+
+    progress {
+        width: 100%;
+        height: 2rem;
+        border-radius: var(--border-radius);
+    }
+
+    /* ── Forms ─────────────────────────────────────────────────────────── */
+
+    form * {
+        border-radius: var(--border-radius);
+    }
+
+    fieldset {
+        border-radius: var(--border-radius);
+        padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
+    }
+
+    button[type=submit],
+    input:not([type=checkbox],[type=radio]),
+    select,
+    textarea {
+        width: 80%;
+    }
+
+    option {
+        font-size: 1.1rem;
+    }
+
+}

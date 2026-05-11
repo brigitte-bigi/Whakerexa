@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pico-inspired theme • Whakerexa</title>
+    <meta name="description" content="Whakerexa rendered with the Pico-inspired theme.">
+
+    <link rel="stylesheet" href="../wexa_statics/css/wexa.css">
+    <link rel="stylesheet" href="../wexa_statics/css/wexa_pico.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="container">
+        <h1>Pico-inspired theme</h1>
+        <p>Whakerexa rendered with <code>wexa_pico.css</code> — a Pico-inspired <code>@layer theme</code>.</p>
+        <nav>
+            <ul>
+                <li><button type="button" onclick="document.documentElement.classList.toggle('dark')">Toggle dark mode</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <!-- Typography -->
+        <section id="typography">
+            <h2>Typography</h2>
+            <p>
+                Aliquam lobortis vitae nibh nec rhoncus. Morbi mattis neque eget efficitur feugiat.
+                Vivamus porta nunc a erat mattis, mattis feugiat turpis pretium. Quisque sed tristique felis.
+            </p>
+
+            <blockquote>
+                "Maecenas vehicula metus tellus, vitae congue turpis hendrerit non.
+                Nam at dui sit amet ipsum cursus ornare."
+                <cite>— Phasellus eget lacinia</cite>
+            </blockquote>
+
+            <h3>Lists</h3>
+            <ul>
+                <li>Aliquam lobortis lacus eu libero ornare facilisis.</li>
+                <li>Nam et magna at libero scelerisque egestas.</li>
+                <li>Suspendisse id nisl ut leo finibus vehicula quis eu ex.</li>
+                <li>Proin ultricies turpis et volutpat vehicula.</li>
+            </ul>
+
+            <h3>Inline text elements</h3>
+            <div class="grid">
+                <p><a href="#" onclick="event.preventDefault()">Primary link</a></p>
+                <p><strong>Bold</strong></p>
+                <p><em>Italic</em></p>
+                <p><u>Underline</u></p>
+                <p><del>Deleted</del></p>
+                <p><ins>Inserted</ins></p>
+                <p><small>Small</small></p>
+                <p><kbd>Kbd</kbd></p>
+                <p><mark>Highlighted</mark></p>
+            </div>
+
+            <h3>Headings</h3>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <h5>Heading 5</h5>
+            <h6>Heading 6</h6>
+
+            <figure>
+                <img src="images/demo_video.png" alt="Demo image">
+                <figcaption>A figure caption — <a href="#">unsplash.com</a></figcaption>
+            </figure>
+        </section>
+
+        <!-- Buttons -->
+        <section id="buttons">
+            <h2>Buttons</h2>
+            <p class="grid">
+                <button type="button">Primary</button>
+                <button type="button">Secondary</button>
+                <button type="button">Contrast</button>
+            </p>
+        </section>
+
+        <!-- Form elements -->
+        <section id="form">
+            <form>
+                <h2>Form elements</h2>
+
+                <label for="search">Search</label>
+                <input type="search" id="search" name="search" placeholder="Search">
+
+                <label for="text">Text</label>
+                <input type="text" id="text" name="text" placeholder="Text">
+                <small>Curabitur consequat lacus at lacus porta finibus.</small>
+
+                <label for="select">Select</label>
+                <select id="select" name="select">
+                    <option value="" selected>Select…</option>
+                    <option>Option A</option>
+                    <option>Option B</option>
+                </select>
+
+                <label for="file">File browser
+                    <input type="file" id="file" name="file">
+                </label>
+
+                <label for="range">Range slider
+                    <input type="range" min="0" max="100" value="50" id="range" name="range">
+                </label>
+
+                <div class="grid">
+                    <fieldset>
+                        <legend><strong>Checkboxes</strong></legend>
+                        <label for="checkbox-1">
+                            <input type="checkbox" id="checkbox-1" name="checkbox-1" checked>
+                            Checkbox
+                        </label>
+                        <label for="checkbox-2">
+                            <input type="checkbox" id="checkbox-2" name="checkbox-2">
+                            Checkbox
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend><strong>Radio buttons</strong></legend>
+                        <label for="radio-1">
+                            <input type="radio" id="radio-1" name="radio" value="radio-1" checked>
+                            Radio button
+                        </label>
+                        <label for="radio-2">
+                            <input type="radio" id="radio-2" name="radio" value="radio-2">
+                            Radio button
+                        </label>
+                    </fieldset>
+                </div>
+
+                <input type="reset" value="Reset" onclick="event.preventDefault()">
+                <input type="submit" value="Submit" onclick="event.preventDefault()">
+            </form>
+        </section>
+
+        <!-- Tables -->
+        <section id="tables">
+            <h2>Tables</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><th scope="row">1</th><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+                    <tr><th scope="row">2</th><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+                    <tr><th scope="row">3</th><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Accordions -->
+        <section id="accordions">
+            <h2>Accordions</h2>
+            <details>
+                <summary>Accordion 1</summary>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque urna diam,
+                    tincidunt nec porta sed, auctor id velit.
+                </p>
+            </details>
+            <details open>
+                <summary>Accordion 2</summary>
+                <ul>
+                    <li>Vestibulum id elit quis massa interdum sodales.</li>
+                    <li>Nunc quis eros vel odio pretium tincidunt nec quis neque.</li>
+                    <li>Quisque sed eros non eros ornare elementum.</li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Progress -->
+        <section id="progress">
+            <h2>Progress bar</h2>
+            <progress value="25" max="100"></progress>
+            <progress value="75" max="100"></progress>
+        </section>
+
+        <!-- Dialog -->
+        <section id="modal">
+            <h2>Dialog (alertdialog)</h2>
+            <button type="button" onclick="document.getElementById('demo-dialog').showModal()">
+                Open dialog
+            </button>
+            <dialog id="demo-dialog" role="alertdialog" class="info hidden-alert">
+                <div>
+                    <h3>Confirm your action</h3>
+                    <p>Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus pellentesque.</p>
+                </div>
+            </dialog>
+        </section>
+
+    </main>
+
+    <footer class="container">
+        <small>
+            Whakerexa with <code>wexa_pico.css</code> —
+            inspired by <a href="https://picocss.com">Pico CSS</a>
+        </small>
+    </footer>
+
+</body>
+</html>

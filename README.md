@@ -183,11 +183,24 @@ Increased accessibility and corrected bugs.
   App-level rules written outside any `@layer` automatically override wexa defaults — no `!important` needed.
 - Light/dark/contrast themes are now selected with the `.dark` and `.contrast` classes on `:root`
   (the old `[data-theme=dark]` attribute selectors are removed).
+- All decoration rules in `wexa.css` (blockquote borders, button padding, fieldset, figcaption, etc.)
+  are now exclusively in `@layer theme`. The `@layer base` is restricted to structure and accessibility.
+  Alternative themes can therefore override any visual default cleanly, without `!important`.
 - Print styles are extracted to a dedicated `print.css`, loaded with `media="print"`.
   It is unlayered, so it correctly overrides any `@layer theme` dark-mode rules when printing.
 - `--screen-width` CSS variable removed; body width is now set with `min()` directly.
 - Fixed column widths in `table[role="grid"]`: removed the conflicting `width: 10%` default
   so inline widths on `<th scope="col">` are fully respected with `table-layout: fixed`.
+
+### Themes
+
+Alternative themes are standalone CSS files that contain only an `@layer theme` block and are loaded
+**after** `wexa.css`. They override the default visual style without touching structure or accessibility.
+
+- New `wexa_pico.css`: a Pico-inspired theme (azure/teal palette, system-ui fonts, `0.25rem`
+  border-radius, left-border-only blockquote, thin progress bar). Load it after `wexa.css`; toggle
+  dark mode by adding the `.dark` class to `:root`.
+- `docs/pico.html`: live demo page for `wexa_pico.css`.
 
 ### Accessibility
 
@@ -228,8 +241,20 @@ Increased accessibility and corrected bugs.
 - `@media print` block removed from `book.css`; print-specific overrides migrated to
   `print.css`, keeping print styles in a single, unlayered file.
 
+### Slides
+
+- New `help_dialog.js`: pressing `h`, `H`, or `?` opens a modal keyboard-shortcut reference.
+  Uses `DialogManager` with `role="alertdialog" class="tips"` so it renders with the standard
+  Whakerexa tips dialog styling (💡 header, ❌ close button, scrollable body).
+- `keyboard_controller.js`: `SHORTCUTS` static array is now the single source of truth for all
+  key bindings and their labels; `SLIDE_KEYS` is derived from it. Added `h/H/?` → `slides:help`.
+- `slides_assembler.js`: listens for `slides:help` and delegates to `HelpDialog.toggle()`.
+
 ### Minor fixes
 
+- `dialog.css`: `hidden-alert` class now correctly hides dialogs at load time (unlayered rule,
+  overrides `display: flex` from `@layer base`); `dialog[role=alertdialog]` gains `max-height: 80vh`,
+  `min-width: min(28rem, 80vw)`, and `overflow-y: auto` on its inner `> div`.
 - `sortatable.css`: copyright year corrected (2024 → 2026).
 - `toggleselect.css`: removed dead `.check-item:before` rule;
   renamed `.action-button` → `.toggleselect-action` to avoid naming collisions with
