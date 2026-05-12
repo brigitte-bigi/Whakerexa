@@ -168,7 +168,7 @@ input:checked + .switch-slider:before {
 
 input:checked + .switch-slider.switch-no-text:before {
   background-color: var(--switch-slider-on-color);  /* Change color for "on" state */
-  transform: translateY(-50%) translateX(calc(var(--switch-width) - calc(var(--font-size) * 2.8 + (2 * calc(var(--font-size) / 4)))));
+  transform: translateY(-50%) translateX(calc(var(--switch-width) - var(--switch-height) - calc(0.4 * var(--font-size))));
 }
 
 input:checked + .switch-slider .switch-off-text {

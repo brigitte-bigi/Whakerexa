@@ -7,6 +7,7 @@
     <meta name="description" content="Whakerexa rendered with the Pico-inspired theme.">
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css">
+    <link rel="stylesheet" href="../wexa_statics/css/button.css">
     <link rel="stylesheet" href="../wexa_statics/css/wexa_pico.css">
 </head>
 
@@ -14,11 +15,14 @@
 
     <!-- Header -->
     <header class="container">
-        <h1>Pico-inspired theme</h1>
-        <p>Whakerexa rendered with <code>wexa_pico.css</code> — a Pico-inspired <code>@layer theme</code>.</p>
+        <hgroup>
+            <h1>Pico-inspired theme</h1>
+            <p>Whakerexa rendered with <code>wexa_pico.css</code> — a Pico-inspired <code>@layer theme</code>.</p>
+        </hgroup>
         <nav>
             <ul>
                 <li><button type="button" onclick="document.documentElement.classList.toggle('dark')">Toggle dark mode</button></li>
+                <li><button type="button" onclick="document.documentElement.classList.toggle('contrast')">Toggle contrast</button></li>
             </ul>
         </nav>
     </header>
@@ -36,7 +40,7 @@
             <blockquote>
                 "Maecenas vehicula metus tellus, vitae congue turpis hendrerit non.
                 Nam at dui sit amet ipsum cursus ornare."
-                <cite>— Phasellus eget lacinia</cite>
+                <footer><cite>— Phasellus eget lacinia</cite></footer>
             </blockquote>
 
             <h3>Lists</h3>
@@ -49,28 +53,70 @@
 
             <h3>Inline text elements</h3>
             <div class="grid">
-                <p><a href="#" onclick="event.preventDefault()">Primary link</a></p>
+                <p><a href="#typography">Primary link</a></p>
                 <p><strong>Bold</strong></p>
                 <p><em>Italic</em></p>
                 <p><u>Underline</u></p>
                 <p><del>Deleted</del></p>
                 <p><ins>Inserted</ins></p>
+                <p><s>Strikethrough</s></p>
                 <p><small>Small</small></p>
+                <p>Text <sub>Sub</sub></p>
+                <p>Text <sup>Sup</sup></p>
                 <p><kbd>Kbd</kbd></p>
                 <p><mark>Highlighted</mark></p>
+                <p><abbr title="Abbreviation">Abbr.</abbr></p>
             </div>
 
             <h3>Headings</h3>
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+
             <h3>Heading 3</h3>
+            <p>
+            Integer bibendum malesuada libero vel eleifend. Fusce iaculis turpis ipsum, at efficitur
+            sem scelerisque vel. Aliquam auctor diam ut purus cursus fringilla. Class aptent taciti
+            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+            </p>
             <h4>Heading 4</h4>
+            <p>
+            Cras fermentum velit vitae auctor aliquet. Nunc non congue urna, at blandit nibh. Donec ac
+            fermentum felis. Vivamus tincidunt arcu ut lacus hendrerit, eget mattis dui finibus.
+            </p>
             <h5>Heading 5</h5>
+            <p>
+            Donec nec egestas nulla. Sed varius placerat felis eu suscipit. Mauris maximus ante in
+            consequat luctus. Morbi euismod sagittis efficitur. Aenean non eros orci. Vivamus ut diam
+            sem.
+            </p>
             <h6>Heading 6</h6>
+            <p>
+            Ut sed quam non mauris placerat consequat vitae id risus. Vestibulum tincidunt nulla ut
+            tortor posuere, vitae malesuada tortor molestie. Sed nec interdum dolor. Vestibulum id
+            auctor nisi, a efficitur sem. Aliquam sollicitudin efficitur turpis, sollicitudin
+            hendrerit ligula semper id. Nunc risus felis, egestas eu tristique eget, convallis in
+            velit.
+            </p>
 
             <figure>
-                <img src="images/demo_video.png" alt="Demo image">
+                <img src="images/demo_video.png" alt="Demo">
                 <figcaption>A figure caption — <a href="#">unsplash.com</a></figcaption>
             </figure>
         </section>
+
+        <!-- Article -->
+        <article id="article">
+            <h2>Article</h2>
+            <p>
+                Nullam dui arcu, malesuada et sodales eu, efficitur vitae dolor. Sed ultricies dolor non
+                ante vulputate hendrerit. Vivamus sit amet suscipit sapien. Nulla iaculis eros a elit
+                pharetra egestas. Nunc placerat facilisis cursus. Sed vestibulum metus eget dolor pharetra
+                rutrum.
+            </p>
+            <footer>
+                <small>Duis nec elit placerat, suscipit nibh quis, finibus neque.</small>
+            </footer>
+        </article>
 
         <!-- Buttons -->
         <section id="buttons">
@@ -80,6 +126,10 @@
                 <button type="button">Secondary</button>
                 <button type="button">Contrast</button>
             </p>
+            <p class="grid">
+                <button type="button" disabled>Disabled</button>
+                <button type="button" aria-busy="true">Loading…</button>
+            </p>
         </section>
 
         <!-- Form elements -->
@@ -87,13 +137,22 @@
             <form>
                 <h2>Form elements</h2>
 
+                <!-- Group -->
+                <fieldset role="group">
+                    <input type="email" name="email" placeholder="Enter your email" autocomplete="email">
+                    <input type="submit" value="Subscribe">
+                </fieldset>
+
+                <!-- Search -->
                 <label for="search">Search</label>
                 <input type="search" id="search" name="search" placeholder="Search">
 
+                <!-- Text -->
                 <label for="text">Text</label>
                 <input type="text" id="text" name="text" placeholder="Text">
                 <small>Curabitur consequat lacus at lacus porta finibus.</small>
 
+                <!-- Select -->
                 <label for="select">Select</label>
                 <select id="select" name="select">
                     <option value="" selected>Select…</option>
@@ -101,15 +160,47 @@
                     <option>Option B</option>
                 </select>
 
+                <!-- File browser -->
                 <label for="file">File browser
                     <input type="file" id="file" name="file">
                 </label>
 
+                <!-- Range slider -->
                 <label for="range">Range slider
                     <input type="range" min="0" max="100" value="50" id="range" name="range">
                 </label>
 
+                <!-- States -->
                 <div class="grid">
+                    <label for="valid">
+                        Valid
+                        <input type="text" id="valid" name="valid" placeholder="Valid" aria-invalid="false">
+                    </label>
+                    <label for="invalid">
+                        Invalid
+                        <input type="text" id="invalid" name="invalid" placeholder="Invalid" aria-invalid="true">
+                    </label>
+                    <label for="disabled">
+                        Disabled
+                        <input type="text" id="disabled" name="disabled" placeholder="Disabled" disabled>
+                    </label>
+                </div>
+
+                <!-- Date / Time / Color -->
+                <div class="grid">
+                    <label for="date">Date
+                        <input type="date" id="date" name="date">
+                    </label>
+                    <label for="time">Time
+                        <input type="time" id="time" name="time">
+                    </label>
+                    <label for="color">Color
+                        <input type="color" id="color" name="color" value="#0099cc">
+                    </label>
+                </div>
+
+                <div class="grid">
+                    <!-- Checkboxes -->
                     <fieldset>
                         <legend><strong>Checkboxes</strong></legend>
                         <label for="checkbox-1">
@@ -122,6 +213,7 @@
                         </label>
                     </fieldset>
 
+                    <!-- Radio buttons -->
                     <fieldset>
                         <legend><strong>Radio buttons</strong></legend>
                         <label for="radio-1">
@@ -133,10 +225,23 @@
                             Radio button
                         </label>
                     </fieldset>
+
+                    <!-- Switches -->
+                    <fieldset>
+                        <legend><strong>Switches</strong></legend>
+                        <label class="switch" aria-label="Switch ON">
+                            <input type="checkbox" checked>
+                            <span class="switch-slider switch-no-text round"></span>
+                        </label>
+                        <label class="switch" aria-label="Switch OFF">
+                            <input type="checkbox">
+                            <span class="switch-slider switch-no-text round"></span>
+                        </label>
+                    </fieldset>
                 </div>
 
-                <input type="reset" value="Reset" onclick="event.preventDefault()">
-                <input type="submit" value="Submit" onclick="event.preventDefault()">
+                <button type="reset">Reset</button>
+                <button type="submit">Submit</button>
             </form>
         </section>
 
@@ -168,7 +273,8 @@
                 <summary>Accordion 1</summary>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque urna diam,
-                    tincidunt nec porta sed, auctor id velit.
+                    tincidunt nec porta sed, auctor id velit. Etiam venenatis nisl ut orci consequat, vitae
+                    tempus quam commodo. Nulla non mauris ipsum.
                 </p>
             </details>
             <details open>
@@ -186,6 +292,7 @@
             <h2>Progress bar</h2>
             <progress value="25" max="100"></progress>
             <progress value="75" max="100"></progress>
+            <progress></progress>
         </section>
 
         <!-- Dialog -->
@@ -197,7 +304,7 @@
             <dialog id="demo-dialog" role="alertdialog" class="info hidden-alert">
                 <div>
                     <h3>Confirm your action</h3>
-                    <p>Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus pellentesque.</p>
+                    <p>Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus pellentesque. Nullam finibus risus non semper euismod.</p>
                 </div>
             </dialog>
         </section>
