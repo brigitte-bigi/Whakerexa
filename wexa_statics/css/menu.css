@@ -517,6 +517,10 @@ body > nav.nav-wexa label {
 /* ------------  Menu or Sub-Menu for mobile applications  --------------- */
 /* ----------------------------------------------------------------------- */
 
+/* IMPORTANT: aside.appmenu must be a direct child of nav, never wrapped in a
+   section. background:inherit inherits from the DOM parent; if the aside is
+   inside nav > section, it inherits the section's background (transparent)
+   instead of the nav's background (gradient or color). */
 aside.appmenu {
     position: fixed;
     z-index: 50; /* keep overlay priority */
@@ -675,6 +679,11 @@ aside.appmenu.open[data-submenu-position="top"] {
 /* ----------------- #nav-content ------------------- */
 
 /* useful to group items - in sections. */
+/* wexa.css * rule sets background-color on every element; reset here so the nav gradient shows through. */
+nav#nav-content > section {
+    background-color: transparent;
+}
+
 /* SIDE */
 nav#nav-content.side > section {
     display: flex;

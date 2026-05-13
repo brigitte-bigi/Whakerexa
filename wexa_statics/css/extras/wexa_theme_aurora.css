@@ -1,5 +1,5 @@
 /*
- :filename: wexa_statics/css/wexa_aurora.css
+ :filename: wexa_statics/css/extras/wexa_theme_aurora.css
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: Aurora theme for Whakerexa — blue, mauve, violet gradients.
@@ -30,7 +30,7 @@
 
  Load AFTER wexa.css:
    <link rel="stylesheet" href="wexa.css">
-   <link rel="stylesheet" href="wexa_aurora.css">
+   <link rel="stylesheet" href="extras/wexa_theme_aurora.css">
 
  This file contains ONLY @layer theme overrides.
  @layer base (structure, accessibility) is inherited unchanged from wexa.css.

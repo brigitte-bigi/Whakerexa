@@ -144,7 +144,7 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 - Core entry point: `wexa.js`, which instantiates:
     1. OnLoadManager — Delayed, ordered component initialization.
     2. WexaLogger — Unified logging.
-    3. AccessibilityManager — Themes and contrast.
+    3. AccessibilityManager — Color mode (light/dark) and contrast mode.
     4. MenuManager — Navigation menus and submenus.
     5. DialogManager — Opening/closing dialogs and popup videos.
 
@@ -197,10 +197,9 @@ Increased accessibility and corrected bugs.
 Alternative themes are standalone CSS files that contain only an `@layer theme` block and are loaded
 **after** `wexa.css`. They override the default visual style without touching structure or accessibility.
 
-- New `wexa_pico.css`: a Pico-inspired theme (azure/teal palette, system-ui fonts, `0.25rem`
-  border-radius, left-border-only blockquote, thin progress bar). Load it after `wexa.css`; toggle
-  dark mode by adding the `.dark` class to `:root`.
-- `docs/pico.html`: live demo page for `wexa_pico.css`.
+- New `extras/wexa_theme_aurora.css`: an Aurora theme (blue, mauve, violet palette). Load it after
+  `wexa.css`; toggle dark mode by adding the `.dark` class to `:root`.
+- `docs/theme_aurora.html`: live demo page for `wexa_theme_aurora.css`.
 
 ### Accessibility
 
@@ -227,6 +226,17 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
 - Added `.cta-button`: a call-to-action button class with small-caps, uppercase label and
   drop shadow — defined in `button.css`, built on the `@layer base` foundation without
   needing `!important`.
+
+### JavaScript
+
+- `AccessibilityManager` simplified: the class now manages exactly two binary modes —
+  color mode (light/dark) and contrast mode (normal/high-contrast). Dead code removed:
+  `addColorScheme()`, `removeColorScheme()`, `addContrastScheme()`, `removeContrastScheme()`,
+  `activateColorScheme()`, `activateContrastScheme()`, and all deprecated snake_case wrappers.
+  The `#colors` and `#contrasts` registries are replaced by the static constants
+  `AccessibilityManager.COLOR_MODE` (`"dark"`) and `AccessibilityManager.CONTRAST_MODE` (`"contrast"`).
+  Getters renamed: `activatedColorMode`, `activatedContrastMode`.
+- CSS themes (`wexa_theme_*.css`) are loaded statically and are not managed by JS.
 
 ### Dark mode
 

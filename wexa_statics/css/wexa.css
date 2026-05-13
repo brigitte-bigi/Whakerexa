@@ -1839,7 +1839,7 @@ This banner notice must not be removed.
 
    AUCUNE règle structurelle ou comportementale n'y figure.
 
-   Pour créer un thème alternatif (ex. wexa_aurora.css, wexa_material.css),
+   Pour créer un thème alternatif (ex. extras/wexa_theme_aurora.css),
    il suffit de charger un fichier CSS après wexa.css et d'y redéfinir
    les mêmes sélecteurs à l'intérieur d'un @layer theme.
    Les règles de @layer base restent intactes.

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-04 17:55:14
+// Bundle automatically generated on 2026-05-13 17:48:54
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -981,19 +981,21 @@ window.Wexa.OverviewView = OverviewView;
 // ---------------- extras/slides/keyboard_controller.js ---------------
 'use strict';
 class KeyboardController {
-    static SLIDE_KEYS = new Set([
-        'Escape',
-        'a', 'A',
-        'o', 'O',
-        's', 'S',
-        'f', 'F',
-        'n', 'N',
-        'b', 'B',
-        'l', 'L',
-        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-        'PageUp', 'PageDown',
-        'Home', 'End',
-    ]);
+    static SHORTCUTS = [
+        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide' },
+        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide' },
+        { keys: ['Home'],                                 label: 'First slide' },
+        { keys: ['End'],                                  label: 'Last slide' },
+        { keys: ['h', 'H', '?'],                          label: 'Help' },
+        { keys: ['f', 'F'],                               label: 'Fullscreen' },
+        { keys: ['o', 'O'],                               label: 'Overview mode' },
+        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
+        { keys: ['a', 'A'],                               label: 'Accessibility controls' },
+        { keys: ['n', 'N'],                               label: 'Navigation controls' },
+        { keys: ['b', 'B'],                               label: 'Progress bar' },
+        { keys: ['l', 'L'],                               label: 'Logo' },
+    ];
+    static SLIDE_KEYS = new Set(KeyboardController.SHORTCUTS.flatMap(s => s.keys));
     constructor() {
         this._boundHandler = this._onKeyDown.bind(this);
     }
@@ -1012,6 +1014,9 @@ class KeyboardController {
         if (key === 'Enter' || key === ' ')            return;
         if (this._isInteractiveTarget(event.target))   return;
         switch (key) {
+            case 'h': case 'H': case '?':
+                this._emit('slides:help', { action: 'toggle' });
+                return;
             case 'Escape':
             case 's': case 'S':
                 this._emit('slides:viewmode', { mode: 'presentation' });
@@ -1247,6 +1252,7 @@ class SlidesAssembler {
             logo:          config.logo                instanceof HTMLElement ? config.logo                : null,
         });
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
+        this._helpDialog = new HelpDialog();
         this._keyboard = new KeyboardController();
         this._touch    = new TouchController();
         const c = config.controls;
@@ -1290,6 +1296,9 @@ class SlidesAssembler {
         });
         document.addEventListener('slides:fullscreen', () => {
             this._fullscreen.toggle();
+        });
+        document.addEventListener('slides:help', () => {
+            this._helpDialog.toggle();
         });
         // ── 8. HASH CHANGE ───────────────────────────────────────────────────
         window.addEventListener('hashchange', () => {
@@ -1407,169 +1416,61 @@ class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
     // FIELDS
     // -----------------------------------------------------------------------
-    #colors;
-    #activated_color;
-    #contrasts;
-    #activated_contrast;
+    #activatedColor;
+    #activatedContrast;
     // -----------------------------------------------------------------------
     // CONSTRUCTOR
     // -----------------------------------------------------------------------
     constructor() {
         super();
-        this.#colors = ["dark"];
-        this.#activated_color = "";
-        this.#contrasts = ["contrast"];
-        this.#activated_contrast = "";
-        // add onload events
+        this.#activatedColor = "";
+        this.#activatedContrast = "";
         OnLoadManager.addLoadFunction(this.#loadBodyClasses.bind(this));
         OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
         OnLoadManager.addLoadFunction(this.#setSubmitCustom.bind(this));
     }
     // -----------------------------------------------------------------------
+    // STATIC CONSTANTS
+    // -----------------------------------------------------------------------
+    static get COLOR_MODE()              { return "dark"; }
+    static get CONTRAST_MODE()           { return "contrast"; }
+    static get COLOR_PARAMETER_NAME()    { return "wexa_color"; }
+    static get CONTRAST_PARAMETER_NAME() { return "wexa_contrast"; }
+    // -----------------------------------------------------------------------
     // GETTERS
     // -----------------------------------------------------------------------
-    get colorSchemes() {
-        return this.#colors;
+    get activatedColorMode() {
+        return this.#activatedColor;
     }
     // -----------------------------------------------------------------------
-    get activatedColorScheme() {
-        return this.#activated_color;
-    }
-    // -----------------------------------------------------------------------
-    get contrastSchemes() {
-        return this.#contrasts;
-    }
-    // -----------------------------------------------------------------------
-    get activatedContrastScheme() {
-        return this.#activated_contrast;
-    }
-    // -----------------------------------------------------------------------
-    // SETTERS
-    // -----------------------------------------------------------------------
-    addColorScheme(colorScheme) {
-        if (typeof colorScheme === 'string') {
-            this.#colors.push(colorScheme);
-        } else {
-            console.log("The 'colorScheme' parameter must be a string, not a: " + typeof colorScheme);
-        }
-    }
-    // -----------------------------------------------------------------------
-    removeColorScheme(colorScheme) {
-        if (typeof colorScheme !== 'string') {
-            console.log("The 'colorScheme' parameter must be a string, not a: " + typeof colorScheme);
-        }
-        const colorIndex = this.#colors.indexOf(colorScheme);
-        if (colorIndex === -1) {
-            console.log("The color scheme '" + colorScheme + "' does not exist!");
-        } else {
-            this.#colors.splice(colorIndex, 1);
-        }
-    }
-    // -----------------------------------------------------------------------
-    addContrastScheme(contrastScheme) {
-        if (typeof contrastScheme === 'string') {
-            this.#contrasts.push(contrastScheme);
-        } else {
-            console.log("The 'contrastScheme' parameter must be a string, not a: " + typeof contrastScheme);
-        }
-    }
-    // -----------------------------------------------------------------------
-    removeContrastScheme(contrastScheme) {
-        if (typeof contrastScheme !== 'string') {
-            console.log("The 'contrastScheme' parameter must be a string, not a: " + typeof contrastScheme);
-        }
-        const contrastIndex = this.#contrasts.indexOf(contrastScheme);
-        if (contrastIndex === -1) {
-            console.log("The contrast scheme '" + contrastScheme + "' does not exist!");
-        } else {
-            this.#contrasts.splice(contrastIndex, 1);
-        }
-    }
-    // -----------------------------------------------------------------------
-    // PUBLIC STATIC METHODS
-    // -----------------------------------------------------------------------
-    static get COLOR_PARAMETER_NAME() {
-        return "wexa_color";
-    }
-    static get CONTRAST_PARAMETER_NAME() {
-        return "wexa_contrast";
+    get activatedContrastMode() {
+        return this.#activatedContrast;
     }
     // -----------------------------------------------------------------------
     // PUBLIC METHODS
     // -----------------------------------------------------------------------
-    async switch_color_scheme() {
-        await this.switchColorScheme();
-    }
     async switchColorScheme() {
-        if (this.#colors.length > 1) {
-            console.log("Impossible to switch color scheme because multiple color schemes has set !" +
-                "You have to use the activate_color_scheme() method!");
-        }
-        if (this.#activated_color === "") {
-            this.#activated_color = this.#colors[0];
-            document.body.classList.add(this.#colors[0]);
+        if (this.#activatedColor === "") {
+            this.#activatedColor = AccessibilityManager.COLOR_MODE;
+            document.body.classList.add(AccessibilityManager.COLOR_MODE);
         } else {
-            this.#activated_color = "";
-            document.body.classList.remove(this.#colors[0]);
+            this.#activatedColor = "";
+            document.body.classList.remove(AccessibilityManager.COLOR_MODE);
         }
-        // Update state of the theme button
         this.#updateButtonState('btn-theme');
-        await this.postEvents({"accessibility_color": this.#activated_color});
+        await this.postEvents({"accessibility_color": this.#activatedColor});
     }
     // -----------------------------------------------------------------------
-    async activate_color_scheme(color_scheme) {
-        await this.activateColorScheme(color_scheme);
-    }
-    async activateColorScheme(colorScheme) {
-        if (colorScheme === "" || this.#colors.includes(colorScheme)) {
-            if (this.#activated_color !== "") {
-                document.body.classList.remove(this.#activated_color);
-            }
-            if (colorScheme !== "") {
-                document.body.classList.add(colorScheme);
-            }
-            this.#activated_color = colorScheme;
-            await this.postEvents({"accessibility_color": this.#activated_color});
-        } else {
-            console.log("Unknown given color scheme: " + colorScheme);
-        }
-    }
-    // -----------------------------------------------------------------------
-    async switch_contrast_scheme() {
-        await this.switchContrastScheme();
-    }
     async switchContrastScheme() {
-        if (this.#contrasts.length > 1) {
-            console.log('Impossible to switch contrast scheme because multiple contrast schemes are set! ' +
-                'Use activateContrastScheme() instead.');
-        }
-        if (this.#activated_contrast === '') {
-            this.#activated_contrast = this.#contrasts[0];
-            document.body.classList.add(this.#contrasts[0]);
+        if (this.#activatedContrast === "") {
+            this.#activatedContrast = AccessibilityManager.CONTRAST_MODE;
+            document.body.classList.add(AccessibilityManager.CONTRAST_MODE);
         } else {
-            this.#activated_contrast = '';
-            document.body.classList.remove(this.#contrasts[0]);
+            this.#activatedContrast = "";
+            document.body.classList.remove(AccessibilityManager.CONTRAST_MODE);
         }
         this.#updateButtonState('btn-contrast');
-        await this.postEvents({accessibility_contrast: this.#activated_contrast});
-    }
-    // -----------------------------------------------------------------------
-    async activate_contrast_scheme(contrast_scheme) {
-        await this.activateContrastScheme(contrast_scheme);
-    }
-    async activateContrastScheme(contrastScheme) {
-        if (contrastScheme === '' || this.#contrasts.includes(contrastScheme)) {
-            if (this.#activated_contrast !== '') {
-                document.body.classList.remove(this.#activated_contrast);
-            }
-            if (contrastScheme !== '') {
-                document.body.classList.add(contrastScheme);
-            }
-            this.#activated_contrast = contrastScheme;
-            const response = await this.postEvents({accessibility_contrast: this.#activated_contrast});
-        } else {
-            console.log('Unknown given contrast scheme: ' + contrastScheme);
-        }
+        await this.postEvents({"accessibility_contrast": this.#activatedContrast});
     }
     // -----------------------------------------------------------------------
     goToLink(element, openInNewTab = false) {
@@ -1578,17 +1479,12 @@ class AccessibilityManager extends BaseManager {
             return;
         }
         const url = new URL(element.href, window.location.href);
-        // Determine whether accessibility parameters must be propagated.
-        // They are added when:
-        //   - running from localhost (development server), or
-        //   - navigating within the same host.
         let targetUrl;
         if (window.location.protocol !== 'file:' && (window.location.hostname === 'localhost' || url.host === window.location.host)) {
             targetUrl = this.setUrlWithParameters(url.href);
         } else {
             targetUrl = url.href;
         }
-        // Open either in a new tab or in the current page.
         if (openInNewTab === true) {
             window.open(targetUrl, '_blank', 'noopener');
             return;
@@ -1601,13 +1497,13 @@ class AccessibilityManager extends BaseManager {
             return '';
         }
         const customUrl = new URL(url, window.location.href);
-        if (this.#activated_color !== '') {
-            customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activated_color);
+        if (this.#activatedColor !== '') {
+            customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activatedColor);
         } else {
             customUrl.searchParams.delete(AccessibilityManager.COLOR_PARAMETER_NAME);
         }
-        if (this.#activated_contrast !== '') {
-            customUrl.searchParams.set(AccessibilityManager.CONTRAST_PARAMETER_NAME, this.#activated_contrast);
+        if (this.#activatedContrast !== '') {
+            customUrl.searchParams.set(AccessibilityManager.CONTRAST_PARAMETER_NAME, this.#activatedContrast);
         } else {
             customUrl.searchParams.delete(AccessibilityManager.CONTRAST_PARAMETER_NAME);
         }
@@ -1619,38 +1515,35 @@ class AccessibilityManager extends BaseManager {
     async #loadBodyClasses() {
         const params = new URLSearchParams(window.location.search);
         const events = {};
-        // manage color scheme
         if (params.has(AccessibilityManager.COLOR_PARAMETER_NAME)) {
-            const color_parameter = params.get(AccessibilityManager.COLOR_PARAMETER_NAME).toLowerCase();
-            if (this.#colors.includes(color_parameter)) {
-                this.#activated_color = color_parameter;
-                document.body.classList.add(color_parameter);
-                events.accessibility_color = this.#activated_color
+            const colorParam = params.get(AccessibilityManager.COLOR_PARAMETER_NAME).toLowerCase();
+            if (colorParam === AccessibilityManager.COLOR_MODE) {
+                this.#activatedColor = colorParam;
+                document.body.classList.add(colorParam);
+                events.accessibility_color = this.#activatedColor;
             } else {
-                console.log(AccessibilityManager.COLOR_PARAMETER_NAME + " get parameter unknown : " + color_parameter);
+                console.log(AccessibilityManager.COLOR_PARAMETER_NAME + " unknown value: " + colorParam);
             }
         }
-        // manage contrast scheme
         if (params.has(AccessibilityManager.CONTRAST_PARAMETER_NAME)) {
-            const contrast_param = params.get(AccessibilityManager.CONTRAST_PARAMETER_NAME).toLowerCase();
-            if (this.#contrasts.includes(contrast_param)) {
-                this.#activated_contrast = contrast_param;
-                document.body.classList.add(contrast_param);
-                events.accessibility_contrast = this.#activated_contrast
+            const contrastParam = params.get(AccessibilityManager.CONTRAST_PARAMETER_NAME).toLowerCase();
+            if (contrastParam === AccessibilityManager.CONTRAST_MODE) {
+                this.#activatedContrast = contrastParam;
+                document.body.classList.add(contrastParam);
+                events.accessibility_contrast = this.#activatedContrast;
             } else {
-                console.log(AccessibilityManager.CONTRAST_PARAMETER_NAME + " get parameter unknown : " + contrast_param);
+                console.log(AccessibilityManager.CONTRAST_PARAMETER_NAME + " unknown value: " + contrastParam);
             }
         }
-        // Inform the server in case of change
         if (Object.keys(events).length > 0) {
             await this.postEvents(events);
         }
     }
     // -----------------------------------------------------------------------
     #setAllLinksCustom() {
-        let link_elements = Array.from(document.querySelectorAll("a"));
-        link_elements = link_elements.filter(el => el.href !== null && el.href !== '');
-        link_elements.forEach(element => {
+        let linkElements = Array.from(document.querySelectorAll("a"));
+        linkElements = linkElements.filter(el => el.href !== null && el.href !== '');
+        linkElements.forEach(element => {
             element.addEventListener("click", event => {
                 event.preventDefault();
                 this.goToLink(element, element.target === '_blank');
@@ -1673,8 +1566,8 @@ class AccessibilityManager extends BaseManager {
         const btn = document.getElementById(buttonId);
         if (btn === null) { console.error(`Button not found: ${buttonId}.`); return; }
         let pressed = false;
-        if (buttonId === 'btn-contrast') { pressed = this.#activated_contrast !== ''; }
-        else if (buttonId === 'btn-theme') { pressed = this.#activated_color !== ''; }
+        if (buttonId === 'btn-contrast') { pressed = this.#activatedContrast !== ''; }
+        else if (buttonId === 'btn-theme') { pressed = this.#activatedColor !== ''; }
         else { console.error(`Unknown button id: ${buttonId}.`); return; }
         btn.setAttribute('aria-pressed', String(pressed));
     }
