@@ -244,6 +244,8 @@ main > .panel-item:nth-child(even) * {
 .grid-panel {
     margin: auto;
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: var(--typography-spacing-horizontal);
     justify-content: space-evenly;
     align-items: center;
 }

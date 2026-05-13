@@ -3,21 +3,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pico-inspired theme • Whakerexa</title>
-    <meta name="description" content="Whakerexa rendered with the Pico-inspired theme.">
+    <title>Aurora theme • Whakerexa</title>
+    <meta name="description" content="Whakerexa rendered with the Aurora theme — blue, mauve, violet.">
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css">
     <link rel="stylesheet" href="../wexa_statics/css/button.css">
-    <link rel="stylesheet" href="../wexa_statics/css/wexa_pico.css">
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css">
+    <link rel="stylesheet" href="../wexa_statics/css/wexa_aurora.css">
 </head>
 
 <body>
 
     <!-- Header -->
-    <header class="container">
+    <header>
         <hgroup>
-            <h1>Pico-inspired theme</h1>
-            <p>Whakerexa rendered with <code>wexa_pico.css</code> — a Pico-inspired <code>@layer theme</code>.</p>
+            <h1>Aurora theme</h1>
+            <p>Whakerexa rendered with <code>wexa_aurora.css</code> — blue, mauve, violet <code>@layer theme</code>.</p>
         </hgroup>
         <nav>
             <ul>
@@ -27,7 +28,7 @@
         </nav>
     </header>
 
-    <main class="container">
+    <main>
 
         <!-- Typography -->
         <section id="typography">
@@ -52,7 +53,7 @@
             </ul>
 
             <h3>Inline text elements</h3>
-            <div class="grid">
+            <div class="grid-panel">
                 <p><a href="#typography">Primary link</a></p>
                 <p><strong>Bold</strong></p>
                 <p><em>Italic</em></p>
@@ -121,12 +122,12 @@
         <!-- Buttons -->
         <section id="buttons">
             <h2>Buttons</h2>
-            <p class="grid">
+            <p class="grid-panel">
                 <button type="button">Primary</button>
                 <button type="button">Secondary</button>
                 <button type="button">Contrast</button>
             </p>
-            <p class="grid">
+            <p class="grid-panel">
                 <button type="button" disabled>Disabled</button>
                 <button type="button" aria-busy="true">Loading…</button>
             </p>
@@ -138,8 +139,8 @@
                 <h2>Form elements</h2>
 
                 <!-- Group -->
-                <fieldset role="group">
-                    <input type="email" name="email" placeholder="Enter your email" autocomplete="email">
+                <fieldset role="group" aria-label="Newsletter subscription">
+                    <input type="email" name="email" placeholder="Enter your email" autocomplete="email" aria-label="Email address">
                     <input type="submit" value="Subscribe">
                 </fieldset>
 
@@ -171,7 +172,7 @@
                 </label>
 
                 <!-- States -->
-                <div class="grid">
+                <div class="grid-panel">
                     <label for="valid">
                         Valid
                         <input type="text" id="valid" name="valid" placeholder="Valid" aria-invalid="false">
@@ -187,7 +188,7 @@
                 </div>
 
                 <!-- Date / Time / Color -->
-                <div class="grid">
+                <div class="grid-panel">
                     <label for="date">Date
                         <input type="date" id="date" name="date">
                     </label>
@@ -199,7 +200,7 @@
                     </label>
                 </div>
 
-                <div class="grid">
+                <div class="grid-panel">
                     <!-- Checkboxes -->
                     <fieldset>
                         <legend><strong>Checkboxes</strong></legend>
@@ -290,9 +291,9 @@
         <!-- Progress -->
         <section id="progress">
             <h2>Progress bar</h2>
-            <progress value="25" max="100"></progress>
-            <progress value="75" max="100"></progress>
-            <progress></progress>
+            <progress value="25" max="100" aria-label="25%"></progress>
+            <progress value="75" max="100" aria-label="75%"></progress>
+            <progress aria-label="Loading…"></progress>
         </section>
 
         <!-- Dialog -->
@@ -311,10 +312,9 @@
 
     </main>
 
-    <footer class="container">
+    <footer>
         <small>
-            Whakerexa with <code>wexa_pico.css</code> —
-            inspired by <a href="https://picocss.com">Pico CSS</a>
+            Whakerexa with <code>wexa_aurora.css</code>
         </small>
     </footer>
 
