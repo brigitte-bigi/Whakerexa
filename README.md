@@ -326,5 +326,5 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
 | Print styles | `@media print` blocks in each file | `print.css` (loaded with `media="print"`) |
 | Accessibility color button id | `btn-theme` | `btn-color` |
 | Accessibility button icons | `background-image` data-URI | inline SVG injected by `AccessibilityManager` |
-| Doc/slides CSS theme file | `wexa_theme_docs.css` | `wexa_theme.css` |
+
 
