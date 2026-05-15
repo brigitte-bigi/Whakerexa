@@ -80,6 +80,7 @@ export class AccessibilityManager extends BaseManager {
         OnLoadManager.addLoadFunction(this.#loadBodyClasses.bind(this));
         OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
         OnLoadManager.addLoadFunction(this.#setSubmitCustom.bind(this));
+        OnLoadManager.addLoadFunction(this.#injectButtonIcons.bind(this));
     }
 
     // -----------------------------------------------------------------------
@@ -135,7 +136,7 @@ export class AccessibilityManager extends BaseManager {
             document.body.classList.remove(AccessibilityManager.COLOR_MODE);
         }
 
-        this.#updateButtonState('btn-theme');
+        this.#updateButtonState('btn-color');
         await this.postEvents({"accessibility_color": this.#activatedColor});
     }
 
@@ -310,9 +311,42 @@ export class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
 
     /**
+     * Inject inline SVG icons into btn-contrast and btn-color if they are empty.
+     * Inline SVG is required so that stroke/fill currentColor inherits from CSS color.
+     * @private
+     */
+    #injectButtonIcons() {
+        const svgContrast = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'
+            + '<path d="M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z"/>'
+            + '<line x1="13" y1="20" x2="16" y2="12"/>'
+            + '<line x1="19" y1="20" x2="16" y2="12"/>'
+            + '<line x1="14" y1="18" x2="18" y2="18"/>'
+            + '<line x1="5.5" y1="5.5" x2="5.5" y2="8.5"/>'
+            + '<line x1="4" y1="7" x2="7" y2="7"/>'
+            + '<line x1="25" y1="25" x2="28" y2="25"/>'
+            + '</svg>';
+        const svgColor = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">'
+            + '<circle cx="16" cy="16" r="13"/>'
+            + '<clipPath id="cut"><polygon points="0,32 32,0 32,32"/></clipPath>'
+            + '<circle cx="16" cy="16" r="13" fill="currentColor" clip-path="url(#cut)" stroke="none"/>'
+            + '</svg>';
+
+        const contrast = document.getElementById('btn-contrast');
+        if (contrast && contrast.children.length === 0) {
+            contrast.innerHTML = svgContrast;
+        }
+        const color = document.getElementById('btn-color');
+        if (color && color.children.length === 0) {
+            color.innerHTML = svgColor;
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
      * Update the aria-pressed state of a mode toggle button.
      * @private
-     * @param {string} buttonId - 'btn-contrast' or 'btn-theme'.
+     * @param {string} buttonId - 'btn-contrast' or 'btn-color'.
      */
     #updateButtonState(buttonId) {
         const btn = document.getElementById(buttonId);
@@ -320,7 +354,7 @@ export class AccessibilityManager extends BaseManager {
 
         let pressed = false;
         if (buttonId === 'btn-contrast') { pressed = this.#activatedContrast !== ''; }
-        else if (buttonId === 'btn-theme') { pressed = this.#activatedColor !== ''; }
+        else if (buttonId === 'btn-color') { pressed = this.#activatedColor !== ''; }
         else { console.error(`Unknown button id: ${buttonId}.`); return; }
 
         btn.setAttribute('aria-pressed', String(pressed));

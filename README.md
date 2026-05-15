@@ -275,6 +275,46 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
   scoped `li` and `q` font/quote rules to `.slide` to prevent leaking into the surrounding
   page; replaced `padding-bottom: 10px` with `0.6rem`.
 
+### ThemeManager
+
+- New `extras/theme_manager.js`: CSS theme switcher exposed as `window.Wexa.ThemeManager`.
+  - `register(name, path)` — registers a named theme (CSS file path relative to the page).
+  - `setDefault(name)` — declares the fallback theme; applied immediately on load if no URL
+    parameter overrides it, so the default is visible even when the bundle is loaded dynamically
+    (`file://` protocol).
+  - `activate(name)` — applies a theme by injecting a `<link id="wexa-theme">` into `<head>`;
+    persists the choice via the `wexa_theme` URL parameter.
+  - `next()` — cycles through registered themes in registration order; wraps back to the default
+    theme (not to the no-theme state) when a default is set.
+  - Theme propagation through links and form submissions mirrors `AccessibilityManager`.
+
+### Themes
+
+- `extras/wexa_theme.css` (renamed from `wexa_theme_docs.css`): primary Whakerexa documentation
+  theme — navy/teal palette, animated links, flat type scale.
+- `extras/wexa_theme_aurora.css`, `extras/wexa_theme_highcontrast.css`: each now defines
+  `--custom-color1` / `--custom-color2` within `@layer theme` to match their palette.
+- `extras/wexa_theme_highcontrast.css`: adds unlayered overrides for `.slide h1` and `.slide > h2`
+  to replace gradients with flat colors — guaranteed to win over any `@layer theme` declaration.
+
+### Slides — CSS theming architecture
+
+- `extras/slides.css` is now split into two zones:
+  - **Unlayered** (structural invariants): fixed 32 px font size, 16:9 layout, transitions,
+    incremental opacity, controls positioning. These rules are inviolable by themes.
+  - **`@layer theme`** (visual defaults): `--custom-color1` / `--custom-color2`, heading font
+    families, gradients, border-image, figcaption color, quote marks. Theme files injected after
+    `slides.css` override these defaults by CSS source-order within the same layer.
+
+### Accessibility
+
+- `AccessibilityManager`: `btn-theme` renamed to `btn-color` throughout (CSS, JS, HTML).
+- `AccessibilityManager.#injectButtonIcons()`: SVG icons for `btn-contrast` and `btn-color` are
+  now injected as inline SVG at DOM load. This replaces the former `background-image` data-URI
+  approach, which could not inherit `currentColor` from CSS (icons appeared black in dark mode).
+- `wexa.css`: removed `--icon-contrast` and `--icon-color` CSS variables; added
+  `.menuitem.accessibility svg { color: inherit; }` so injected SVGs inherit the nav foreground.
+
 ### Breaking changes (2.1 → 2.2)
 
 | What changed | Old value | New value |
@@ -284,4 +324,7 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
 | toggleselect action button class | `.action-button` | `.toggleselect-action` |
 | book ToC nav class | `.side-nav` | `.book-toc` |
 | Print styles | `@media print` blocks in each file | `print.css` (loaded with `media="print"`) |
+| Accessibility color button id | `btn-theme` | `btn-color` |
+| Accessibility button icons | `background-image` data-URI | inline SVG injected by `AccessibilityManager` |
+| Doc/slides CSS theme file | `wexa_theme_docs.css` | `wexa_theme.css` |
 

@@ -61,8 +61,9 @@ export class ThemeManager extends BaseManager {
     // FIELDS
     // -----------------------------------------------------------------------
 
-    #themes;       // Map<name, path>
-    #activeTheme;  // "" or a registered name
+    #themes;        // Map<name, path>
+    #activeTheme;   // "" or a registered name
+    #defaultTheme;  // "" or a registered name applied when no URL param is present
 
     static get THEME_PARAMETER_NAME() { return "wexa_theme"; }
     static get LINK_ID()              { return "wexa-theme"; }
@@ -84,6 +85,7 @@ export class ThemeManager extends BaseManager {
         super();
         this.#themes = new Map();
         this.#activeTheme = "";
+        this.#defaultTheme = "";
 
         OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
         OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
@@ -136,6 +138,28 @@ export class ThemeManager extends BaseManager {
     // -----------------------------------------------------------------------
 
     /**
+     * Declare the theme to apply when no URL parameter is present.
+     *
+     * Must be called after register(). Ignored if name is unknown.
+     *
+     * @param {string} name - A registered theme name.
+     * @returns {void}
+     */
+    setDefault(name) {
+        if (!this.#themes.has(name)) {
+            console.error(`ThemeManager.setDefault: unknown theme "${name}".`);
+            return;
+        }
+        this.#defaultTheme = name;
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has(ThemeManager.THEME_PARAMETER_NAME) && this.#activeTheme === "") {
+            this.activate(name);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
      * Activate a theme by name, or restore the default with "".
      *
      * Injects or updates a <link id="wexa-theme"> element in <head>.
@@ -180,7 +204,7 @@ export class ThemeManager extends BaseManager {
         const idx = names.indexOf(this.#activeTheme);
         const nextIdx = idx + 1;
 
-        await this.activate(nextIdx >= names.length ? "" : names[nextIdx]);
+        await this.activate(nextIdx >= names.length ? this.#defaultTheme : names[nextIdx]);
     }
 
     // -----------------------------------------------------------------------
@@ -257,6 +281,8 @@ export class ThemeManager extends BaseManager {
             } else {
                 console.log(ThemeManager.THEME_PARAMETER_NAME + " unknown value: " + name);
             }
+        } else if (this.#defaultTheme !== "" && this.#activeTheme === "") {
+            await this.activate(this.#defaultTheme);
         }
     }
 

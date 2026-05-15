@@ -295,15 +295,6 @@ This banner notice must not be removed.
         --outline-focus-style: outset;
         --outline-hover-style: inset;
 
-        /* dialogs */
-        --dialog-border-width: 1px;
-        --dialog-border-radius: 0.4rem;
-        --dialog-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
-
-        /* Accessibility icons (base64 SVG) */
-        --icon-contrast: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBhcmlhLWxhYmVsPSJDb250cmFzdCBzd2l0Y2hlciBpY29uIj4KICA8cGF0aCBkPSJNMiAxNnM0LTggMTQtOCAxNCA4IDE0IDgtNCA4LTE0IDhTMiAxNiAyIDE2eiIvPgogIDwhLS0gdGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9ImN1cnJlbnRDb2xvciIgZm9udC1mYW1pbHk9IkNvbW1pc3Npb25lciwgc2Fucy1zZXJpZiI+QTwvdGV4dCAtLT4KICA8IS0tIExldHRlciBBIGRyYXduIHdpdGggdGhyZWUgbGluZXMgLS0+CiAgPGxpbmUgeDE9IjEzIiB5MT0iMjAiIHgyPSIxNiIgeTI9IjEyIi8+CiAgPGxpbmUgeDE9IjE5IiB5MT0iMjAiIHgyPSIxNiIgeTI9IjEyIi8+CiAgPGxpbmUgeDE9IjE0IiB5MT0iMTgiIHgyPSIxOCIgeTI9IjE4Ii8+CiAgCiAgPCEtLSBQbHVzIHNpZ24gKHRvcC1sZWZ0KSAtLT4KICA8bGluZSB4MT0iNS41IiB5MT0iNS41IiB4Mj0iNS41IiB5Mj0iOC41Ii8+CiAgPGxpbmUgeDE9IjQiIHkxPSI3IiB4Mj0iNyIgeTI9IjciLz4KCiAgPCEtLSBNaW51cyBzaWduIChib3R0b20tcmlnaHQpIC0tPgogIDxsaW5lIHgxPSIyNSIgeTE9IjI1IiB4Mj0iMjgiIHkyPSIyNSIvPgo8L3N2Zz4=");
-        --icon-theme: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiI+CiAgPCEtLSBPdXRlciBjaXJjbGUgLS0+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTMiLz4KICA8IS0tIERpYWdvbmFsIGhhbGYgZmlsbCAtLT4KICA8Y2xpcFBhdGggaWQ9ImN1dCI+CiAgICA8cG9seWdvbiBwb2ludHM9IjAsMzIgMzIsMCAzMiwzMiIvPgogIDwvY2xpcFBhdGg+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTMiIGZpbGw9ImN1cnJlbnRDb2xvciIgY2xpcC1wYXRoPSJ1cmwoI2N1dCkiIHN0cm9rZT0ibm9uZSIvPgo8L3N2Zz4=");
-
         /* [new] border width adapts to contrast mode */
         --blockquote-border-width: calc(0.25 * var(--font-size));
     }
@@ -331,10 +322,6 @@ This banner notice must not be removed.
         --letter-spacing: 0.04rem;
         --word-spacing: 0.06rem;
 
-        /* Thin borders */
-        --border-width: 1px;
-        --border-radius: 3px;
-        --table-border-width: 1px;
         --outline-size: 2px;
         --hr-width: 1px;
 
@@ -374,14 +361,8 @@ This banner notice must not be removed.
         --letter-spacing: 0.12rem;
         --word-spacing: 0.16rem;
 
-        /* Larger borders */
-        --border-width: 2px;
-        --border-radius: 4px;
-        --table-border-width: 2px;
         --outline-size: 3px;
         --hr-width: 2px;
-        --dialog-border-width: 2px;
-        --dialog-border-radius: 0.6rem;
 
     }
 
@@ -461,6 +442,16 @@ This banner notice must not be removed.
         --tips-bg-color: rgba(250, 245, 225, 0.75);
         --question-color: rgb(120, 60, 180);
         --question-bg-color: rgba(240, 230, 250);
+
+        /* Borders */
+        --border-width:       1px;
+        --border-radius:      3px;
+        --table-border-width: 1px;
+
+        /* Dialogs */
+        --dialog-border-width:  1px;
+        --dialog-border-radius: 0.4rem;
+        --dialog-box-shadow:    -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
     }
 
     /*
@@ -533,8 +524,17 @@ This banner notice must not be removed.
         }
     }
 
-} 
-/* end @layer theme: colors */
+    /* Contrast mode */
+    .contrast {
+        --border-width:         2px;
+        --border-radius:        3px;
+        --table-border-width:   2px;
+        --dialog-border-width:  2px;
+        --dialog-border-radius: 0.4rem;
+    }
+
+}
+/* end @layer theme: variables */
 
 
 @layer accessibility {
@@ -770,10 +770,6 @@ This banner notice must not be removed.
         animation: 1s ease-out 0s 1 var(--header-slidein);
         color: var(--header-fg-color);
         background: var(--header-bg-color);
-    }
-
-    body > header > nav {
-        background-color: var(--nav-bg-color);
     }
 
     body > main {
@@ -1797,24 +1793,26 @@ This banner notice must not be removed.
     .dark [role='menuitem'].accessibility,
     .dark .menuitem.accessibility {
         color: var(--nav-fg-color);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
         cursor: pointer;
         transition: transform var(--transition);
         opacity: 1;
     }
 
-    #btn-contrast.accessibility {
-        opacity: 1;
-        background-image: var(--icon-contrast);
-        border-color: var(--border-color);
+    .menuitem.accessibility svg,
+    [role='menuitem'].accessibility svg {
+        color: inherit;
+        width: 100%;
+        height: 100%;
     }
 
-    #btn-theme.accessibility {
-        opacity: 1;
-        background-image: var(--icon-theme);
+    #btn-contrast.accessibility {
         border-color: var(--border-color);
+        opacity: 1;
+    }
+
+    #btn-color.accessibility {
+        border-color: var(--border-color);
+        opacity: 1;
     }
 
     /* Toggle visual effect */

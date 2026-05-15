@@ -30,7 +30,7 @@ This banner notice must not be removed.
 -------------------------------------------------------------------------
 
 */
-:root:not([data-theme=dark]), [data-theme=light], .light {
+:root:not(.dark) {
     --dialog-img-preview-bg-color: rgb(128, 128, 128);
 }
 

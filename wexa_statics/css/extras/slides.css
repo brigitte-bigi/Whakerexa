@@ -1,5 +1,5 @@
 /*
-:filename: wexa_statics/css/slides.css
+:filename: wexa_statics/css/extras/slides.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Style to be used with the slides module.
@@ -28,13 +28,25 @@ This banner notice must not be removed.
 
 -------------------------------------------------------------------------
 
+Architecture:
+  - Unlayered rules: structural invariants that must always win (layout, sizing,
+    transitions, opacity). These cannot be overridden by themes.
+  - @layer theme block at the bottom: visual defaults (colors, gradients, font
+    decoration). Theme files injected later in <head> override these within the
+    same layer by source order.
+
 */
 
 /* =======================================================================
-                           WEXA VARIABLE OVERRIDES
-   ======================================================================== */
+                   STRUCTURAL INVARIANTS (unlayered)
+   ======================================================================= */
 
-:root:not(.contrast),
+/* Fixed font size for 16:9 layout — beats @layer base/accessibility. */
+:root:not(.contrast) {
+    --font-size: 32px;
+    --line-height: 1.4;
+}
+
 :root.contrast {
     --font-size: 32px;
     --line-height: 1.4;
@@ -50,35 +62,23 @@ This banner notice must not be removed.
     --line-height: 1.4;
 }
 
-
-/* =======================================================================
-                          NEW VARIABLE DEFINITIONS
-   ======================================================================== */
-
+/* Structural slide variables */
 :root {
     --footer-text: "";
     --footer-margin-left: calc((var(--screen-width) / 2) - 1rem);
-    --custom-color1: rgb(41, 35, 92);
-    --custom-color2: rgb(29, 113, 184);
 }
 
-
-/* =======================================================================
-                             RULES FOR ALL VIEWS
-   ======================================================================== */
-
+/* Page header/footer are hidden in slide mode */
 body > header,
 body > footer {
     display: none;
 }
 
-/* Add page number at footer */
+/* Page counter: position/counter logic. Color and font are in @layer theme. */
 .slide:before {
     z-index: 1;
     counter-increment: slides;
-    font-family: var(--font-family-pre), cursive;
     font-size: 40%;
-    color: var(--custom-color1);
     content: var(--footer-text) counter(slides);
     position: absolute;
     left: 0;
@@ -88,85 +88,54 @@ body > footer {
     line-height: 1rem;
 }
 
-/* No footer on the first slide, it's the presentation title */
 .slide[aria-selected="true"]:first-of-type:before {
     content: "";
 }
 
-/* Main title of a section: only the title at the center of the slide */
-
+/* Heading padding: consistent across all slide levels */
 .slide h1,
 .slide > h2,
 .slide > h3,
 .slide > h4,
 .slide > h5,
 .slide > h6 {
-    font-family: var(--font-family-sans), sans-serif;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-right: 0;
     padding-left: 0.5rem;
 }
 
+/* h1: structural layout (decoration in @layer theme) */
 .slide h1 {
-    font-weight: bold;
-    font-style: normal;
-    font-variant: normal;
-    font-size: 125%;
-    text-align: left;
-    letter-spacing: 2px;
     margin-top: calc((var(--height) * 0.35));
-    border-bottom: 0.35rem solid transparent;
-    border-image: linear-gradient(0.25turn, var(--custom-color2), rgb(210, 210, 210), var(--custom-color1));
-    border-image-slice: 1;
     width: 100%;
 }
 
 .slide h1.title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
-    text-align: center;
-    border-bottom: none;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    color: var(--custom-color1);
-    background: var(--custom-color2);
 }
 
 .slide h1.sub-title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
-    text-align: center;
-    border-bottom: none;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    color: var(--custom-color2);
-    background: var(--custom-color2);
 }
 
-
-/* Title at the top of each slide */
+/* h2/h3: size invariants (decoration in @layer theme) */
 .slide > h2 {
     margin-top: 0;
-    background: linear-gradient(0deg, var(--bg-color-alt) 0%, var(--custom-color2) 100%);;
-    font-weight: var(--font-weight-bold);
-    font-style: normal;
-    font-variant: normal;
     font-size: calc(var(--font-size) * 1.2);
-    text-align: left;
-    letter-spacing: 1px;
 }
 
-/* Sub-Title at the top of the slide */
 .slide > h3 {
-    font-weight: var(--font-weight-semibold);
-    font-style: normal;
-    font-variant: normal;
     font-size: calc(var(--font-size) * 1.1);
-    text-align: left;
-    letter-spacing: 1px;
 }
 
+/* Content margins */
 .slide table,
 .slide details {
     margin: auto;
@@ -192,20 +161,22 @@ body > footer {
     margin-left: 2rem;
 }
 
-.slide li, .slide li p { font-size: 100%; }
+.slide li,
+.slide li p {
+    font-size: 100%;
+}
 
-.slide li li, .slide li li p { font-size: 90%; }
+.slide li li,
+.slide li li p {
+    font-size: 90%;
+}
 
-.slide li li li, .slide li li li p { font-size: 85%; }
+.slide li li li,
+.slide li li li p {
+    font-size: 85%;
+}
 
-.slide q { quotes: “\201C” “\201D” “\2018” “\2019”; }
-
-/* Ensure that links containing media do not expand to the full line width.
-Because <a> is inline and inherits text-align:center from its parent,
-it normally stretches across the entire line box, causing the hover and
-focus outlines to trigger outside the actual image area. Switching <a>
-to inline-block makes it shrink to its content size, so the outline
-matches the media element exactly. */
+/* inline-block prevents the hover/focus outline from spanning the full line width */
 .slide a {
     display: inline-block;
 }
@@ -216,8 +187,7 @@ matches the media element exactly. */
     display: block;
 }
 
-/* Figures are displayed full-page, with the caption on bottom of the image. */
-/* Full-page figure only when it is a direct child of .slide */
+/* Full-page figure only when direct child of .slide */
 .slide > figure {
     display: block;
     text-align: center;
@@ -225,18 +195,18 @@ matches the media element exactly. */
     max-height: 90%;
 }
 
-/* For nested figures: use normal document flow */
+/* Nested figures: normal document flow */
 .slide figure {
-    text-align: initial;   /* reset alignment */
+    text-align: initial;
     max-width: initial;
     max-height: initial;
 }
 
+/* figcaption: layout only. Color is in @layer theme. */
 .slide figcaption {
-    position:       relative;
-    font-size:      60%;
+    position: relative;
+    font-size: 60%;
     padding-bottom: 0.6rem;
-    color: var(--custom-color1);
     background-color: transparent;
 }
 
@@ -244,26 +214,22 @@ matches the media element exactly. */
 .slide > video,
 .slide > audio {
     background-color: transparent;
-    border-width:     0;
-    border-style:     none;
-    margin:           0 auto;
-    max-width:        90%;
-    max-height:       90%;
-    position:         relative;
+    border-width: 0;
+    border-style: none;
+    margin: 0 auto;
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
 }
 
 .slide [role="note"] {
     display: none;
 }
 
+
 /* =======================================================================
-                          THE PRESENTATION VIEW
-
-    The presentation-view class is automatically added by the JS class 
-    SlidesView, to the <body> element whenever the presentation mode is
-    requested. It's the default mode. 
-
-   ======================================================================== */
+                         THE PRESENTATION VIEW
+   ======================================================================= */
 
 body.presentation-view {
     --screen-width: calc(1024px / var(--size-divisor));
@@ -271,23 +237,19 @@ body.presentation-view {
 
     box-sizing: border-box;
     height: var(--height);
-    margin-top: calc(var(--height)/-2);
+    margin-top: calc(var(--height) / -2);
     position: absolute;
     top: 50%;
 
-    /* To look like a "screen" and clearly see the un-used part when the ratio is not 16:9 */
     border-radius: var(--border-radius);
     box-shadow: 0 0 var(--border-width) var(--border-width) var(--border-color);
     counter-reset: slides;
 
-    /* to center horizontally */
     left: 50%;
     right: auto;
-    margin-left: calc(var(--screen-width)/-2);
+    margin-left: calc(var(--screen-width) / -2);
     margin-right: auto;
 }
-
-/* ========================= Presentation Slides ======================= */
 
 .presentation-view .slide {
     position: absolute;
@@ -309,12 +271,7 @@ body.presentation-view {
 
 /* =======================================================================
                           THE OVERVIEW VIEW
-
-    The overview-view class is automatically added by the JS class
-    SlidesView, to the <body> element whenever the presentation mode is
-    requested.
-
-   ======================================================================== */
+   ======================================================================= */
 
 body.overview-view {
     --font-size: 16px;
@@ -323,31 +280,22 @@ body.overview-view {
     gap: 1rem;
 }
 
-
 .overview-view .slide {
     border-radius: var(--border-radius);
     border: var(--border-width) solid var(--border-color);
-    width: calc(var(--screen-width) * 0.45)  !important;
-    height: calc(var(--screen-width) * 9 / 16)  !important;
+    width: calc(var(--screen-width) * 0.45) !important;
+    height: calc(var(--screen-width) * 9 / 16) !important;
     margin: 0;
     padding: 0;
 }
 
 
-
 /* =======================================================================
+                             CONTAINERS
+   ======================================================================= */
 
-                            CONTAINERS
-                     Optionally added on each slide
-
-   ======================================================================== */
-
-
-/* ============================== Progress Bar ============================ */
-
-/* Container of the slide progress bar */
 #progress-container {
-    position: absolute;          /* or 'fixed' if it must remain visible */
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -355,14 +303,12 @@ body.overview-view {
     background-color: var(--progress-bg-color);
 }
 
-/* Inner bar (current progress value) */
 #progress-bar {
     height: 100%;
-    width: 0;      /* updated by JS (percentage) */
+    width: 0;
     background-color: var(--progress-fg-color);
 }
 
-/* WebKit */
 #progress-bar::-webkit-progress-bar {
     background: var(--progress-bg-color);
     border-radius: var(--border-radius);
@@ -373,82 +319,94 @@ body.overview-view {
     border-radius: var(--border-radius);
 }
 
-/* Firefox */
 #progress-bar::-moz-progress-bar {
     background: var(--progress-fg-color);
     border-radius: var(--border-radius);
 }
-
-/* =============================== Logo Image ============================= */
 
 #logo-container {
     position: fixed;
     pointer-events: none;
     z-index: 100;
 }
+
 #logo-container .img-logo {
     width: calc(var(--font-size) * 2);
     height: auto;
 }
 
-#logo-container.top    { top: 0; bottom: auto}
-#logo-container.bottom { bottom: 0; top: auto}
-#logo-container.left   { left: var(--typography-spacing-horizontal); right: auto}
-#logo-container.right  { right: var(--typography-spacing-horizontal); left: auto}
+#logo-container.top    { top: 0; bottom: auto; }
+#logo-container.bottom { bottom: 0; top: auto; }
+#logo-container.left   { left: var(--typography-spacing-horizontal); right: auto; }
+#logo-container.right  { right: var(--typography-spacing-horizontal); left: auto; }
 
 
 /* =======================================================================
-                       HTML ELEMENTS STYLING
-  ======================================================================== */
+                          SLIDE TRANSITIONS
+   ======================================================================= */
 
 /* Before */
 .slide {
     left: -150%;
 }
 
-/* Now */
-.slide[aria-selected] { left: 0; }
+/* Current */
+.slide[aria-selected] {
+    left: 0;
+}
 
 /* After */
-.slide[aria-selected] ~ .slide { left: +150%; }
+.slide[aria-selected] ~ .slide {
+    left: +150%;
+}
 
 
-/* Incremental elements */
-/* -------------------- */
+/* =======================================================================
+                        INCREMENTAL ELEMENTS
+   ======================================================================= */
 
+/* @layer base sets background-color: var(--bg-color) on ALL elements (*).
+   Transparent backgrounds prevent a solid block behind dimmed items. */
 .incremental {
     opacity: 0.15;
+    background-color: transparent;
 }
 
 .incremental[active] {
     opacity: 1;
+    background-color: transparent;
 }
 
 .incremental > * {
     opacity: 1;
+    background-color: transparent;
 }
 
-/* The current item */
 .incremental > *[aria-selected] {
     color: var(--fg-color);
     opacity: 1;
+    background-color: transparent;
 }
 
-/* The items to-be-selected */
 .incremental > *[aria-selected] ~ * {
     opacity: 0.2;
+    background-color: transparent;
 }
 
-/* An invisible incremental */
 .incremental-invisible {
     opacity: 0.05;
+    background-color: transparent;
 }
+
 .incremental-invisible > *[aria-selected] ~ * {
     opacity: 0.05;
+    background-color: transparent;
 }
 
 
-/* ========== CONTROLS FOR SLIDES ========== */
+/* =======================================================================
+                             CONTROLS
+   ======================================================================= */
 
 #accessibility-controls {
     position: fixed;
@@ -480,3 +438,95 @@ body.overview-view {
 }
 
 
+/* =======================================================================
+          VISUAL DEFAULTS — @layer theme, overrideable by theme files
+
+   Theme files injected by ThemeManager are appended to <head> after this
+   stylesheet. Within @layer theme, later source order wins, so any theme
+   file that defines the same selectors will automatically override these
+   defaults without specificity tricks.
+   ======================================================================= */
+
+@layer theme {
+
+    /* Slide accent colors: themes override these to match their palette */
+    :root {
+        --custom-color1: rgb(41, 35, 92);
+        --custom-color2: rgb(29, 113, 184);
+    }
+
+    /* Page counter */
+    .slide:before {
+        color: var(--custom-color1);
+        font-family: var(--font-family-pre), cursive;
+    }
+
+    /* Heading font family */
+    .slide h1,
+    .slide > h2,
+    .slide > h3,
+    .slide > h4,
+    .slide > h5,
+    .slide > h6 {
+        font-family: var(--font-family-sans), sans-serif;
+    }
+
+    /* h1: decoration */
+    .slide h1 {
+        font-weight: bold;
+        font-style: normal;
+        font-variant: normal;
+        font-size: 125%;
+        text-align: left;
+        letter-spacing: 2px;
+        border-bottom: 0.35rem solid transparent;
+        border-image: linear-gradient(0.25turn, var(--custom-color2), rgb(210, 210, 210), var(--custom-color1));
+        border-image-slice: 1;
+    }
+
+    /* Title slide heading */
+    .slide h1.title {
+        text-align: center;
+        border-bottom: none;
+        color: var(--custom-color1);
+        background: var(--custom-color2);
+    }
+
+    /* Sub-title slide heading */
+    .slide h1.sub-title {
+        text-align: center;
+        border-bottom: none;
+        color: var(--custom-color2);
+        background: var(--custom-color2);
+    }
+
+    /* Section heading: gradient background */
+    .slide > h2 {
+        background: linear-gradient(0deg, var(--bg-color-alt) 0%, var(--custom-color2) 100%);
+        font-weight: var(--font-weight-bold);
+        font-style: normal;
+        font-variant: normal;
+        text-align: left;
+        letter-spacing: 1px;
+    }
+
+    /* Sub-section heading */
+    .slide > h3 {
+        font-weight: var(--font-weight-semibold);
+        font-style: normal;
+        font-variant: normal;
+        text-align: left;
+        letter-spacing: 1px;
+    }
+
+    /* Inline quotes */
+    .slide q {
+        quotes: "\201C" "\201D" "\2018" "\2019";
+    }
+
+    /* Figure caption */
+    .slide figcaption {
+        color: var(--custom-color1);
+    }
+
+}

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-13 17:48:54
+// Bundle automatically generated on 2026-05-15 14:17:21
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1428,6 +1428,7 @@ class AccessibilityManager extends BaseManager {
         OnLoadManager.addLoadFunction(this.#loadBodyClasses.bind(this));
         OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
         OnLoadManager.addLoadFunction(this.#setSubmitCustom.bind(this));
+        OnLoadManager.addLoadFunction(this.#injectButtonIcons.bind(this));
     }
     // -----------------------------------------------------------------------
     // STATIC CONSTANTS
@@ -1457,7 +1458,7 @@ class AccessibilityManager extends BaseManager {
             this.#activatedColor = "";
             document.body.classList.remove(AccessibilityManager.COLOR_MODE);
         }
-        this.#updateButtonState('btn-theme');
+        this.#updateButtonState('btn-color');
         await this.postEvents({"accessibility_color": this.#activatedColor});
     }
     // -----------------------------------------------------------------------
@@ -1562,12 +1563,37 @@ class AccessibilityManager extends BaseManager {
         });
     }
     // -----------------------------------------------------------------------
+    #injectButtonIcons() {
+        const svgContrast = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'
+            + '<path d="M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z"/>'
+            + '<line x1="13" y1="20" x2="16" y2="12"/>'
+            + '<line x1="19" y1="20" x2="16" y2="12"/>'
+            + '<line x1="14" y1="18" x2="18" y2="18"/>'
+            + '<line x1="5.5" y1="5.5" x2="5.5" y2="8.5"/>'
+            + '<line x1="4" y1="7" x2="7" y2="7"/>'
+            + '<line x1="25" y1="25" x2="28" y2="25"/>'
+            + '</svg>';
+        const svgColor = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">'
+            + '<circle cx="16" cy="16" r="13"/>'
+            + '<clipPath id="cut"><polygon points="0,32 32,0 32,32"/></clipPath>'
+            + '<circle cx="16" cy="16" r="13" fill="currentColor" clip-path="url(#cut)" stroke="none"/>'
+            + '</svg>';
+        const contrast = document.getElementById('btn-contrast');
+        if (contrast && contrast.children.length === 0) {
+            contrast.innerHTML = svgContrast;
+        }
+        const color = document.getElementById('btn-color');
+        if (color && color.children.length === 0) {
+            color.innerHTML = svgColor;
+        }
+    }
+    // -----------------------------------------------------------------------
     #updateButtonState(buttonId) {
         const btn = document.getElementById(buttonId);
         if (btn === null) { console.error(`Button not found: ${buttonId}.`); return; }
         let pressed = false;
         if (buttonId === 'btn-contrast') { pressed = this.#activatedContrast !== ''; }
-        else if (buttonId === 'btn-theme') { pressed = this.#activatedColor !== ''; }
+        else if (buttonId === 'btn-color') { pressed = this.#activatedColor !== ''; }
         else { console.error(`Unknown button id: ${buttonId}.`); return; }
         btn.setAttribute('aria-pressed', String(pressed));
     }
@@ -2562,6 +2588,158 @@ class LinkController {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.LinkController = LinkController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/theme_manager.js ---------------
+class ThemeManager extends BaseManager {
+    // -----------------------------------------------------------------------
+    // FIELDS
+    // -----------------------------------------------------------------------
+    #themes;        // Map<name, path>
+    #activeTheme;   // "" or a registered name
+    #defaultTheme;  // "" or a registered name applied when no URL param is present
+    static get THEME_PARAMETER_NAME() { return "wexa_theme"; }
+    static get LINK_ID()              { return "wexa-theme"; }
+    // -----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // -----------------------------------------------------------------------
+    constructor() {
+        super();
+        this.#themes = new Map();
+        this.#activeTheme = "";
+        this.#defaultTheme = "";
+        OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
+        OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
+    }
+    // -----------------------------------------------------------------------
+    // GETTERS
+    // -----------------------------------------------------------------------
+    get themeNames() {
+        return [...this.#themes.keys()];
+    }
+    // -----------------------------------------------------------------------
+    get activeTheme() {
+        return this.#activeTheme;
+    }
+    // -----------------------------------------------------------------------
+    // PUBLIC METHODS
+    // -----------------------------------------------------------------------
+    register(name, path) {
+        if (typeof name !== 'string' || typeof path !== 'string') {
+            console.error("ThemeManager.register: name and path must be strings.");
+            return;
+        }
+        this.#themes.set(name, path);
+    }
+    // -----------------------------------------------------------------------
+    setDefault(name) {
+        if (!this.#themes.has(name)) {
+            console.error(`ThemeManager.setDefault: unknown theme "${name}".`);
+            return;
+        }
+        this.#defaultTheme = name;
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has(ThemeManager.THEME_PARAMETER_NAME) && this.#activeTheme === "") {
+            this.activate(name);
+        }
+    }
+    // -----------------------------------------------------------------------
+    async activate(name) {
+        if (name !== "" && !this.#themes.has(name)) {
+            console.error(`ThemeManager.activate: unknown theme "${name}".`);
+            return;
+        }
+        this.#activeTheme = name;
+        this.#applyLink(name === "" ? "" : this.#themes.get(name));
+        await this.postEvents({"theme": name});
+    }
+    // -----------------------------------------------------------------------
+    async next() {
+        const names = this.themeNames;
+        if (names.length === 0) {
+            return;
+        }
+        if (this.#activeTheme === "") {
+            await this.activate(names[0]);
+            return;
+        }
+        const idx = names.indexOf(this.#activeTheme);
+        const nextIdx = idx + 1;
+        await this.activate(nextIdx >= names.length ? this.#defaultTheme : names[nextIdx]);
+    }
+    // -----------------------------------------------------------------------
+    setUrlWithParameters(url) {
+        if (url === null || url === '') {
+            return '';
+        }
+        const customUrl = new URL(url, window.location.href);
+        if (this.#activeTheme !== '') {
+            customUrl.searchParams.set(ThemeManager.THEME_PARAMETER_NAME, this.#activeTheme);
+        } else {
+            customUrl.searchParams.delete(ThemeManager.THEME_PARAMETER_NAME);
+        }
+        return customUrl.href;
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE METHODS
+    // -----------------------------------------------------------------------
+    #applyLink(path) {
+        let link = document.getElementById(ThemeManager.LINK_ID);
+        if (path === "") {
+            if (link !== null) {
+                link.remove();
+            }
+            return;
+        }
+        if (link === null) {
+            link = document.createElement('link');
+            link.id = ThemeManager.LINK_ID;
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+        }
+        link.href = path;
+    }
+    // -----------------------------------------------------------------------
+    async #loadFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has(ThemeManager.THEME_PARAMETER_NAME)) {
+            const name = params.get(ThemeManager.THEME_PARAMETER_NAME);
+            if (this.#themes.has(name)) {
+                await this.activate(name);
+            } else {
+                console.log(ThemeManager.THEME_PARAMETER_NAME + " unknown value: " + name);
+            }
+        } else if (this.#defaultTheme !== "" && this.#activeTheme === "") {
+            await this.activate(this.#defaultTheme);
+        }
+    }
+    // -----------------------------------------------------------------------
+    #setAllLinksCustom() {
+        let linkElements = Array.from(document.querySelectorAll("a"));
+        linkElements = linkElements.filter(el => el.href !== null && el.href !== '');
+        linkElements.forEach(element => {
+            element.addEventListener("click", event => {
+                const url = new URL(element.href, window.location.href);
+                const isSameHost = url.host === window.location.host;
+                const isLocalhost = window.location.hostname === 'localhost';
+                const isFile = window.location.protocol === 'file:';
+                if (!isFile && (isLocalhost || isSameHost)) {
+                    event.preventDefault();
+                    const target = this.setUrlWithParameters(url.href);
+                    if (element.target === '_blank') {
+                        window.open(target, '_blank', 'noopener');
+                    } else {
+                        document.location.href = target;
+                    }
+                }
+            });
+        });
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ThemeManager = ThemeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 

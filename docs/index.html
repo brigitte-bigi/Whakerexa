@@ -9,30 +9,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
+    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
 
     <style>
         /* wexa uses @layer — these unlayered rules win automatically, no !important needed */
-        :root:not(.dark) {
-            --nav-bg-color: rgba(255, 255, 255, 0.8);
-            --nav-fg-color: rgb(10, 15, 25);
-            --nav-min-height: 3rem;
-            --nav-item-min-height: 2.5rem;
-            --nav-item-height: 2.5rem;
-            --nav-item-max-height: 2.5rem;
-            --header-height: 26rem;
+        :root {
+            --header-height:   22rem;
+            --header-slidein:  none;
+            --nav-min-height:  0;
+            --nav-min-width:   max(calc(4rem / var(--size-divisor)), 3rem);
+            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
+            --nav-item-width-v-expanded:  calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
+            --appmenu-position: left;
+            --appmenu-align:    left top;
         }
-
-        nav {
-            justify-content: center;
+        :root:not(.dark) {
+            --nav-bg-color:        rgba(255, 255, 255, 0.9);
+            --nav-fg-color:        rgb(10, 15, 25);
+            --nav-item-min-height: 2.5rem;
+            --nav-item-height:     2.5rem;
+            --nav-item-max-height: 2.5rem;
         }
         header {
             border-radius: 1rem;
         }
-
-
     </style>
 
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -42,6 +44,14 @@
             const s = document.createElement('script');
             if (usingFile) {
                 s.src = '../wexa_statics/js/wexa.bundle.js';
+                s.addEventListener('load', function () {
+                    if (window.Wexa && window.Wexa.ThemeManager) {
+                        const t = new window.Wexa.ThemeManager();
+                        t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+                        t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                        window.themes = t;
+                    }
+                });
             } else {
                 s.type = 'module';
                 s.src = '../wexa_statics/js/wexa.js';
@@ -49,13 +59,42 @@
             document.head.appendChild(s);
         })();
     </script>
-
-    <!-- ThemeManager extra — ES6 modules only (not in bundle) -->
     <script type="module">
         import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
         const themes = new ThemeManager();
-        themes.register('aurora', '../wexa_statics/css/extras/wexa_theme_aurora.css');
+        themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+        themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
         window.themes = themes;
+    </script>
+
+    <script>
+        (function () {
+            function initMenu() {
+                if (!window.Wexa || !window.Wexa.MenuManager) return false;
+                const m = new window.Wexa.MenuManager();
+                window.mainmenu = m;
+                m.initSideMenu();
+                m.initMobileToggle();
+                m.registerSubmenu('appmenu-started',      'submenu-toggle-started');
+                m.registerSubmenu('appmenu-custom',       'submenu-toggle-custom');
+                m.registerSubmenu('appmenu-layout',       'submenu-toggle-layout');
+                m.registerSubmenu('appmenu-content',      'submenu-toggle-content');
+                m.registerSubmenu('appmenu-forms',        'submenu-toggle-forms');
+                m.registerSubmenu('appmenu-navigation',   'submenu-toggle-navigation');
+                m.registerSubmenu('appmenu-components',   'submenu-toggle-components');
+                return true;
+            }
+            function start() {
+                const t = setInterval(function () {
+                    if (initMenu()) clearInterval(t);
+                }, 20);
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', start, { once: true });
+            } else {
+                start();
+            }
+        })();
     </script>
 
 </head>
@@ -66,11 +105,12 @@
     <a class="skip" href="#main-content" aria-label="skip to main content">
         Skip to main content
     </a>
-    <nav class="nav-wexa top">
-        <ul>
-            <li><a class="external-link" role="menuitem"
-                   href="https://github.com/brigitte-bigi/Whakerexa">Whakerexa</a></li>
-        </ul>
+    <button id="menu-button" aria-controls="nav-content" aria-expanded="false"
+            aria-label="Toggle navigation menu"></button>
+    <input type="checkbox" id="mobile" role="button"
+           aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+
+    <nav id="header-nav-content" aria-label="Accessibility navigation">
         <button id="btn-css-theme" class="menuitem" type="button"
                 aria-label="Switch CSS theme" title="Switch CSS theme"
                 onclick="window.themes && window.themes.next()">
@@ -87,17 +127,231 @@
             </svg>
         </button>
         <button id="btn-contrast" class="menuitem accessibility"
-                aria-label="contrast" aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
-        <button id="btn-theme" class="menuitem accessibility"
-                aria-label="color" aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
+                aria-label="contrast" aria-pressed="false"
+                onclick="Wexa.accessibility.switchContrastScheme()"></button>
+        <button id="btn-color" class="menuitem accessibility"
+                aria-label="color" aria-pressed="false"
+                onclick="Wexa.accessibility.switchColorScheme()"></button>
     </nav>
+
     <h1>Whakerexa</h1>
     <h2>Build accessible, elegant web pages with one lightweight toolkit</h2>
     <p class="center" style="margin-top:1rem;">
         <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa logo" style="height:5rem;">
     </p>
-
 </header>
+
+<nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
+
+    <button aria-label="Pin menu" role="menuitem"
+            id="pin-menu" type="button"
+            aria-controls="nav-content"
+            aria-pressed="true"
+            title="Pin menu"
+            class="menu-pin">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+             viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-label="Pushpin">
+            <path d="M9 3h6l-1 8H10L9 3z"/>
+            <path d="M7 13h10"/>
+            <path d="M12 13v9"/>
+        </svg>
+    </button>
+
+    <!-- Home -->
+    <a role="menuitem" href="index.html" class="nav-current">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 14L16 4l11 10"/>
+            <path d="M8 12v14h6v-7h4v7h6V12"/>
+        </svg>
+        <span>Home</span>
+    </a>
+
+    <!-- Getting started -->
+    <button role="menuitem" id="submenu-toggle-started"
+            aria-haspopup="true" aria-controls="appmenu-started">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 3C16 3 8 10 8 18a8 8 0 0 0 16 0C24 10 16 3 16 3z"/>
+            <line x1="16" y1="26" x2="16" y2="29"/>
+            <line x1="12" y1="29" x2="20" y2="29"/>
+        </svg>
+        <span>Getting started</span>
+    </button>
+
+    <!-- Customization -->
+    <button role="menuitem" id="submenu-toggle-custom"
+            aria-haspopup="true" aria-controls="appmenu-custom">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="5"/>
+            <path d="M16 3v4M16 25v4M3 16h4M25 16h4"/>
+            <path d="M7.2 7.2l2.8 2.8M22 22l2.8 2.8M7.2 24.8l2.8-2.8M22 10l2.8-2.8"/>
+        </svg>
+        <span>Customization</span>
+    </button>
+
+    <!-- Layout -->
+    <button role="menuitem" id="submenu-toggle-layout"
+            aria-haspopup="true" aria-controls="appmenu-layout">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="26" height="26" rx="2"/>
+            <line x1="3"  y1="12" x2="29" y2="12"/>
+            <line x1="14" y1="12" x2="14" y2="29"/>
+        </svg>
+        <span>Layout</span>
+    </button>
+
+    <!-- Content -->
+    <button role="menuitem" id="submenu-toggle-content"
+            aria-haspopup="true" aria-controls="appmenu-content">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="22" height="28" rx="2"/>
+            <line x1="10" y1="10" x2="22" y2="10"/>
+            <line x1="10" y1="16" x2="22" y2="16"/>
+            <line x1="10" y1="22" x2="18" y2="22"/>
+        </svg>
+        <span>Content</span>
+    </button>
+
+    <!-- Forms -->
+    <button role="menuitem" id="submenu-toggle-forms"
+            aria-haspopup="true" aria-controls="appmenu-forms">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7"  width="26" height="7" rx="2"/>
+            <rect x="3" y="18" width="26" height="7" rx="2"/>
+        </svg>
+        <span>Forms</span>
+    </button>
+
+    <!-- Navigation -->
+    <button role="menuitem" id="submenu-toggle-navigation"
+            aria-haspopup="true" aria-controls="appmenu-navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="13"/>
+            <line x1="16" y1="2"  x2="16" y2="4"/>
+            <line x1="16" y1="28" x2="16" y2="30"/>
+            <line x1="2"  y1="16" x2="4"  y2="16"/>
+            <line x1="28" y1="16" x2="30" y2="16"/>
+            <polygon points="18 8 22 18 14 24 10 14"/>
+            <circle cx="16" cy="16" r="1"/>
+        </svg>
+        <span>Navigation</span>
+    </button>
+
+    <!-- Components -->
+    <button role="menuitem" id="submenu-toggle-components"
+            aria-haspopup="true" aria-controls="appmenu-components">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3"  y="3"  width="11" height="11" rx="2"/>
+            <rect x="18" y="3"  width="11" height="11" rx="2"/>
+            <rect x="3"  y="18" width="11" height="11" rx="2"/>
+            <rect x="18" y="18" width="11" height="11" rx="2"/>
+        </svg>
+        <span>Components</span>
+    </button>
+
+    <!-- Slides (direct link) -->
+    <a role="menuitem" id="nav-slides" data-href="slides.html" data-target="_self">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="28" height="18" rx="2"/>
+            <line x1="16" y1="22" x2="16" y2="28"/>
+            <line x1="10" y1="28" x2="22" y2="28"/>
+        </svg>
+        <span>Slides</span>
+    </a>
+
+    <!-- Bundle (direct link) -->
+    <a role="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 10L16 3L29 10V22L16 29L3 22z"/>
+            <line x1="3"  y1="10" x2="16" y2="17"/>
+            <line x1="29" y1="10" x2="16" y2="17"/>
+            <line x1="16" y1="17" x2="16" y2="29"/>
+            <line x1="9.5" y1="6.5" x2="22.5" y2="13.5"/>
+        </svg>
+        <span>Bundle</span>
+    </a>
+
+    <!-- Submenus -->
+    <aside id="appmenu-started" class="appmenu" aria-label="Getting started submenu">
+        <nav>
+            <a role="menuitem" id="nav-wexa"          data-href="wexa.html"           data-target="_self">Wexa CSS</a>
+            <a role="menuitem" id="nav-quickstart"    data-href="quick-start.html"    data-target="_self">Quick start</a>
+            <a role="menuitem" id="nav-architecture"  data-href="architecture.html"   data-target="_self">Architecture</a>
+            <a role="menuitem" id="nav-themes"        data-href="themes.html"         data-target="_self">Themes</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-custom" class="appmenu" aria-label="Customization submenu">
+        <nav>
+            <a role="menuitem" id="nav-cssvariables"  data-href="css-variables.html"  data-target="_self">CSS Variables</a>
+            <a role="menuitem" id="nav-colors"        data-href="colors.html"         data-target="_self">Colors</a>
+            <a role="menuitem" id="nav-accessibility" data-href="accessibility.html"  data-target="_self">Accessibility</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-layout" class="appmenu" aria-label="Layout submenu">
+        <nav>
+            <a role="menuitem" id="nav-containers"    data-href="layout.html"         data-target="_self">Containers</a>
+            <a role="menuitem" id="nav-grid"          data-href="grid.html"           data-target="_self">Grid</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-content" class="appmenu" aria-label="Content submenu">
+        <nav>
+            <a role="menuitem" id="nav-typography"    data-href="typography.html"     data-target="_self">Typography</a>
+            <a role="menuitem" id="nav-code"          data-href="code.html"           data-target="_self">Code</a>
+            <a role="menuitem" id="nav-tables"        data-href="tables.html"         data-target="_self">Tables</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-forms" class="appmenu" aria-label="Forms submenu">
+        <nav>
+            <a role="menuitem" id="nav-inputs"        data-href="inputs.html"         data-target="_self">Inputs</a>
+            <a role="menuitem" id="nav-button"        data-href="button.html"         data-target="_self">Button</a>
+            <a role="menuitem" id="nav-switch"        data-href="switch.html"         data-target="_self">Switch</a>
+            <a role="menuitem" id="nav-progressbar"   data-href="progressbar.html"    data-target="_self">Progress bar</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-navigation" class="appmenu" aria-label="Navigation submenu">
+        <nav>
+            <a role="menuitem" id="nav-menu"          data-href="menu.html"           data-target="_self">Overview</a>
+            <a role="menuitem" id="nav-menu-side"     data-href="menu-side.html"      data-target="_self">Side menu</a>
+            <a role="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-components" class="appmenu" aria-label="Components submenu">
+        <nav>
+            <a role="menuitem" id="nav-dialog"        data-href="dialog.html"         data-target="_self">Dialogs</a>
+            <a role="menuitem" id="nav-links"         data-href="links.html"          data-target="_self">Links</a>
+            <a role="menuitem" id="nav-autotoc"       data-href="autotoc.html"        data-target="_self">Auto ToC</a>
+            <a role="menuitem" id="nav-book"          data-href="book.html"           data-target="_self">Book</a>
+            <a role="menuitem" id="nav-sortatable"    data-href="sortatable.html"     data-target="_self">Sortable table</a>
+        </nav>
+    </aside>
+
+</nav>
 
 <main id="main-content" class="panel">
 
@@ -111,7 +365,7 @@
     </blockquote>
     <p></p>
 
-    <h1> Overview </h1>
+    <h1>Overview</h1>
     <p>
         Whakerexa offers CSS frameworks and JavaScript for any HTML content.
         It is intended to be as simple as possible to make <b>accessible web content</b>,
@@ -123,13 +377,8 @@
         <code>@layer</code> (CSS Cascade Layers), so your own stylesheet rules win automatically
         over wexa defaults without needing <code>!important</code> or high-specificity selectors.
     </p>
-    <p>
-        It can be combined with the use of `WhakerPy`, an open source library to create dynamic HTML content;
-        it's a light web application framework.
-    </p>
 
     <h2>Get it</h2>
-
     <p>Download Whakerexa:
         <a class="external-link" href="https://github.com/brigitte-bigi/Whakerexa">https://github.com/brigitte-bigi/Whakerexa</a>
     </p>
@@ -138,19 +387,16 @@
 
     <h1>Start</h1>
 
-    <p>Beginner path: open one page below, view the result, then read the HTML of that page.</p>
-
-    <h3>Online documentation</h3>
-    <p>Open the hosted docs in your browser: <a class="external-link" href="https://github.com/brigitte-bigi/Whakerexa">Open online docs</a></p>
+    <p>Beginner path: open one page from the menu, view the result, then read the HTML of that page.</p>
 
     <h3>Run locally (recommended)</h3>
     <p>Browsers block ES6 modules on <code>file://</code>. Run a tiny local server:</p>
-        <pre>python -m http.server 8000</pre>
-        <p>Then open: <code>http://localhost:8000/docs/</code></p>
+    <pre>python -m http.server 8000</pre>
+    <p>Then open: <code>http://localhost:8000/docs/</code></p>
 
     <h3>Open directly (file://)</h3>
-    <p>If you NEED TO open the docs from disk, use pages that rely on <code>wexa.bundle.js</code>.
-    This index auto-loads the bundle when opened in <code>file://</code>.
+    <p>If you need to open the docs from disk, use pages that rely on <code>wexa.bundle.js</code>.
+        This index auto-loads the bundle when opened in <code>file://</code>.
     </p>
 
     <details>
@@ -160,152 +406,11 @@
             The bundle (<code>wexa.bundle.js</code>) exists only for offline/static environments where modules are blocked.
         </p>
     </details>
-    <p></p>
-
-    <!-- ------------------------ -->
-
-    <h1>Documentation</h1>
-
-    <h2>CSS foundations</h2>
-
-    <section class="cards-panel">
-        <article class="card">
-            <h3>Wexa</h3>
-            <p>Base styles + variables + themes (light/dark/contrast).</p>
-            <a id="link-wexa" data-href="wexa.html" data-target="_self">Open wexa.css doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Layout</h3>
-            <p>Layout helpers (cards, panels, spacing).</p>
-            <a id="link-layout" data-href="layout.html" data-target="_self">Open layout doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Code</h3>
-            <p>Pygments-friendly code colors and readable blocks.</p>
-            <a id="link-code" data-href="code.html" data-target="_self">Open code doc</a>
-        </article>
-    </section>
-
-    <h2>UI components</h2>
-
-    <section class="cards-panel">
-        <article class="card">
-            <h3>Buttons</h3>
-            <p>Buttons, action buttons, switches.</p>
-            <a id="link-button" data-href="button.html" data-target="_self">Open buttons doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Dialogs</h3>
-            <p>Modal dialogs + accessibility behaviors.</p>
-            <a id="link-dialog" data-href="dialog.html" data-target="_self">Open dialog doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Menus</h3>
-            <p>Navigation bars + submenus (top / bottom / side).</p>
-            <div class="flex-panel">
-                <a id="link-menu" data-href="menu.html" data-target="_self">Top</a> <br>
-                <a id="link-menu-bottom" data-href="menu-bottom.html" data-target="_self">Bottom</a><br>
-                <a id="link-menu-side" data-href="menu-side.html" data-target="_self">Side</a>
-            </div>
-        </article>
-
-        <article class="card">
-            <h3>Links</h3>
-            <p>Consistent behavior for links/buttons: _blank, _self, or iframe.</p>
-            <a id="link-links" data-href="links.html" data-target="_self">Open links doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Progress Bar</h3>
-            <p>Managed mode (callback) + autonomous mode (RequestManager).</p>
-            <a id="link-progressbar" data-href="progressbar.html" data-target="_self">Open progressbar doc</a>
-        </article>
-    </section>
-
-    <h2>Content / document helpers</h2>
-
-    <section class="cards-panel">
-        <article class="card">
-            <h3>Book</h3>
-            <p>Book-like layout built on wexa.css.</p>
-            <a id="link-book" data-href="book.html" data-target="_self">Open book doc</a>
-        </article>
-
-        <article class="card">
-            <h3>Auto ToC</h3>
-            <p>Generate a table of contents from headings.</p>
-            <a id="link-autotoc" data-href="autotoc.html" data-target="_self">Open autotoc doc</a>
-        </article>
-    </section>
-
-
-    <h2>Utilities</h2>
-
-    <section class="cards-panel">
-        <article class="card">
-            <h3>Sortable Table</h3>
-            <p>Sortable HTML tables (click headers).</p>
-            <a id="link-sortatable" data-href="sortatable.html" data-target="_self">Open sortatable doc</a>
-        </article>
-    </section>
-
-    <h2>Internal JS utilities</h2>
-
-    <p>
-        Implementation helpers (example: <code>dom-loader.js</code>) are not beginner pages.
-        Document them only if users need the API.
-    </p>
-
-    <h2>About ES6 modules and the bundle</h2>
-
-    <p>
-        Whakerexa is implemented as native <strong>ES6 modules</strong>. In a normal application,
-        each feature (menus, dialogs, progress bars, accessibility helpers) is imported dynamically
-        with <code>import</code> statements and loaded by the browser from separate files.
-    </p>
-    <p>
-        This modular architecture is ideal for maintainable web applications, but it requires a
-        module-capable HTTP server and cannot be used directly with <code>file://</code> URLs.
-        To simplify quick tests, offline usage, and teaching examples, Whakerexa also provides
-        a <strong>bundle</strong>: a single JavaScript file named <code>wexa.bundle.js</code>.
-    </p>
-    <p>
-        The bundle packs the main Whakerexa modules into one file and exposes them on a global
-        namespace. You can then write standard scripts without any ES6 <code>import</code>,
-        while still using the same components (for example <code>MenuManager</code>,
-        <code>AccessibilityManager</code>, <code>DialogManager</code>, and <code>ProgressBar</code>).
-    </p>
-
-    <article class="card">
-        <h3>Bundle demo</h3>
-        <p>Single-file demo for bundle usage (offline).</p>
-        <a id="link-bundle" data-href="wexa.bundle.html" data-target="_self">Open bundle demo</a>
-    </article>
-
-
-    <!-- ------------------------ -->
-
-
-    <h1>Extras</h1>
-
-    <div class="cards-panel">
-        <article class="card">
-            <h3>Slides</h3>
-            <p>Presentation/overview controls (extra package).</p>
-                <a id="link-slides" data-href="slides.html" data-target="_self">Slides (modules)</a>
-                <a id="link-slides-bundle" data-href="slides_bundle.html" data-target="_self">Slides (bundle)</a>
-        </article>
-    </div>
 
 </main>
 
 
 <footer id="footer-content">
-
     <section>
         <p class="center">This site respects your privacy.</p>
         <p class="center">We do not collect any information and do not use cookies.</p>
@@ -314,19 +419,19 @@
             CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France
         </p>
     </section>
-
 </footer>
 
 <script>
     window.addEventListener('load', () => {
         Wexa.links.handleLinksWithParameters([
-            'link-wexa', 'link-layout', 'link-code',
-            'link-button', 'link-dialog',
-            'link-menu', 'link-menu-bottom', 'link-menu-side',
-            'link-links', 'link-progressbar',
-            'link-book', 'link-autotoc',
-            'link-sortatable', 'link-bundle',
-            'link-slides', 'link-slides-bundle'
+            'nav-wexa', 'nav-quickstart', 'nav-architecture', 'nav-themes',
+            'nav-cssvariables', 'nav-colors', 'nav-accessibility',
+            'nav-containers', 'nav-grid',
+            'nav-typography', 'nav-code', 'nav-tables',
+            'nav-inputs', 'nav-button', 'nav-switch', 'nav-progressbar',
+            'nav-menu', 'nav-menu-side', 'nav-menu-bottom',
+            'nav-dialog', 'nav-links', 'nav-autotoc', 'nav-book', 'nav-sortatable',
+            'nav-slides', 'nav-bundle'
         ]);
     });
 </script>

@@ -70,7 +70,8 @@ JS_FILES = [
     'book.js',
     'sortatable.js',
     'toggleselect.js',
-    'links.js'
+    'links.js',
+    os.path.join('extras', 'theme_manager.js')
 ]
 
 # Main module

@@ -9,6 +9,7 @@
 
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css"/>
 
     <style>
@@ -220,11 +221,24 @@
         if (usingFile) {
             const script = document.createElement('script');
             script.src = statics + 'wexa.bundle.js';
+            script.addEventListener('load', function () {
+                if (window.Wexa && window.Wexa.ThemeManager) {
+                    const t = new window.Wexa.ThemeManager();
+                        t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+                    t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                    window.themes = t;
+                }
+            });
             script.onload = () => boot(window.Wexa?.ProgressBar);
             document.head.appendChild(script);
         } else {
             await import(statics + 'wexa.js');
             const { ProgressBar } = await import(statics + 'progressbar.js');
+            const { ThemeManager } = await import('../wexa_statics/js/extras/theme_manager.js');
+            const themes = new ThemeManager();
+        themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+            themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+            window.themes = themes;
             boot(ProgressBar);
         }
     </script>
@@ -234,28 +248,38 @@
 <body>
 
     <header id="header-content">
-        <!-- Accessible and responsive menu management -->
-        <a class="skip" href="#main-content" aria-label="skip to main content">
-            Skip to main content
-        </a>
-
+        <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
         <button id="menu-button" aria-controls="nav-content" aria-expanded="false" aria-label="Menu"></button>
         <input type="checkbox" id="mobile" role="button" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
-
-        <nav class="nav-wexa top">
-            <ul>
-                <li><a class="external-link" role="menuitem" href="https://sppas.org/">SPPAS</a></li>
-                <li><a class="external-link" role="menuitem" href="https://whakerpy.sf.net">WhakerPy</a></li>
-                <li><a class="external-link" role="menuitem" href="https://github.com/brigitte-bigi/Whakerexa">Whakerexa</a></li>
-            </ul>
-            <button id="btn-contrast" class="accessibility print-off menuitem"
+        <h1>Progress Bar</h1>
+    
+</header>
+<nav class="nav-wexa top" aria-label="Page navigation">
+            <a class="menuitem" href="index.html" aria-label="Retour" title="Retour">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <polyline points="20 24 12 16 20 8" />
+                </svg>
+            </a>
+            <button id="btn-css-theme" class="menuitem" type="button"
+                    aria-label="Switch CSS theme" title="Switch CSS theme"
+                    onclick="window.themes && window.themes.next()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="16" cy="16" r="13"/>
+                    <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
+                    <line x1="16" y1="3"  x2="16" y2="8"/>
+                    <line x1="16" y1="24" x2="16" y2="29"/>
+                    <line x1="3"  y1="16" x2="8"  y2="16"/>
+                    <line x1="24" y1="16" x2="29" y2="16"/>
+                </svg>
+            </button>
+            <button id="btn-contrast" class="menuitem accessibility print-off"
                     aria-pressed="false" onclick="Wexa.accessibility.switchContrastScheme()"></button>
-            <button id="btn-theme" class="accessibility print-off menuitem"
+            <button id="btn-color" class="menuitem accessibility print-off"
                     aria-pressed="false" onclick="Wexa.accessibility.switchColorScheme()"></button>
         </nav>
-        <h1>Progress Bar</h1>
-        <h2>by Whakerexa</h2>
-    </header>
+
 
     <nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
 

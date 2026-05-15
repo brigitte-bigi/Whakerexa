@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quick start — Whakerexa</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="framework, html, css, javascript, quick start" />
+
+    <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+
+    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+    <script>
+        (function () {
+            const usingFile = (window.location.protocol === 'file:');
+            const s = document.createElement('script');
+            if (usingFile) {
+                s.src = '../wexa_statics/js/wexa.bundle.js';
+                s.addEventListener('load', function () {
+                    if (window.Wexa && window.Wexa.ThemeManager) {
+                        const t = new window.Wexa.ThemeManager();
+                        t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+                        t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                        window.themes = t;
+                    }
+                });
+            } else {
+                s.type = 'module';
+                s.src = '../wexa_statics/js/wexa.js';
+            }
+            document.head.appendChild(s);
+        })();
+    </script>
+    <script type="module">
+        import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
+        const themes = new ThemeManager();
+        themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
+        themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+        window.themes = themes;
+    </script>
+
+</head>
+
+<body>
+
+<header id="header-content">
+    <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
+    <h1>Quick start</h1>
+
+</header>
+<nav class="nav-wexa top" aria-label="Page navigation">
+        <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" aria-hidden="true">
+                <polyline points="20 24 12 16 20 8" />
+            </svg>
+        </a>
+        <button id="btn-css-theme" class="menuitem" type="button"
+                aria-label="Switch CSS theme" title="Switch CSS theme"
+                onclick="window.themes && window.themes.next()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="16" cy="16" r="13"/>
+                <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
+                <line x1="16" y1="3"  x2="16" y2="8"/>
+                <line x1="16" y1="24" x2="16" y2="29"/>
+                <line x1="3"  y1="16" x2="8"  y2="16"/>
+                <line x1="24" y1="16" x2="29" y2="16"/>
+            </svg>
+        </button>
+        <button id="btn-contrast" class="menuitem accessibility"
+                aria-label="contrast" aria-pressed="false"
+                onclick="Wexa.accessibility.switchContrastScheme()"></button>
+        <button id="btn-color" class="menuitem accessibility"
+                aria-label="color" aria-pressed="false"
+                onclick="Wexa.accessibility.switchColorScheme()"></button>
+    </nav>
+
+
+<main id="main-content">
+
+    <h1>Minimal setup</h1>
+
+    <p>Three lines in <code>&lt;head&gt;</code> are enough to get Whakerexa styles:</p>
+
+    <pre>&lt;link rel="stylesheet" href="wexa_statics/css/wexa.css"&gt;
+&lt;link rel="stylesheet" href="wexa_statics/css/layout.css"&gt;
+&lt;link rel="stylesheet" href="wexa_statics/css/menu.css"&gt;</pre>
+
+    <p>
+        <code>wexa.css</code> is the foundation: typography, colors, light/dark mode, accessibility layers.<br>
+        <code>layout.css</code> adds panels and card grids — include it only if you use them.<br>
+        <code>menu.css</code> handles navigation bars — include it only if you use a nav.
+    </p>
+
+    <h1>Minimal HTML page</h1>
+
+    <p>A standard HTML5 page — Whakerexa styles it without any extra classes:</p>
+
+    <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;link rel="stylesheet" href="wexa_statics/css/wexa.css"&gt;
+    &lt;script src="wexa_statics/js/wexa.bundle.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+    &lt;h1&gt;My page&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+    &lt;p&gt;Your content here.&lt;/p&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+    &lt;p&gt;My footer.&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+    <p>
+        Semantic HTML only — no Whakerexa-specific classes required.
+        Typography, colors, and light/dark mode work immediately.
+    </p>
+
+    <h2>Add accessibility controls</h2>
+
+    <p>
+        To expose light/dark and contrast switching to users, add a <code>nav</code>
+        after the header with the two accessibility buttons:
+    </p>
+
+    <pre>&lt;header&gt;
+    &lt;h1&gt;My page&lt;/h1&gt;
+&lt;/header&gt;
+&lt;nav class="nav-wexa top" aria-label="Accessibility"&gt;
+    &lt;button id="btn-contrast" class="menuitem accessibility"
+            aria-label="contrast" aria-pressed="false"
+            onclick="Wexa.accessibility.switchContrastScheme()"&gt;&lt;/button&gt;
+    &lt;button id="btn-color" class="menuitem accessibility"
+            aria-label="color" aria-pressed="false"
+            onclick="Wexa.accessibility.switchColorScheme()"&gt;&lt;/button&gt;
+&lt;/nav&gt;</pre>
+
+    <h1>With a local server (recommended)</h1>
+
+    <p>ES6 modules are blocked on <code>file://</code>. Serve the files over HTTP:</p>
+
+    <pre>python -m http.server 8000</pre>
+
+    <p>Then open <code>http://localhost:8000/</code> and replace the bundle with the module loader:</p>
+
+    <pre>&lt;script type="module" src="wexa_statics/js/wexa.js"&gt;&lt;/script&gt;</pre>
+
+    <h1>Next steps</h1>
+
+    <ul>
+        <li><a href="architecture.html">Architecture</a> — understand the <code>@layer</code> cascade</li>
+        <li><a href="themes.html">Themes</a> — switch to Aurora or HighContrast</li>
+        <li><a href="css-variables.html">CSS Variables</a> — customize colors, spacing, borders</li>
+    </ul>
+
+</main>
+
+</body>
+</html>
