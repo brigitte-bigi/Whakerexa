@@ -74,7 +74,135 @@
             onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 <main id="main-content">
-    <p><em>Work in progress.</em></p>
+
+    <h2>Buttons</h2>
+
+    <h3>Normal view</h3>
+    <button>a button</button>
+    <button disabled>a disabled button</button>
+    <button class="focused">focused button</button>
+    <p></p>
+
+    <h3>Contrast view</h3>
+    <div class="contrast">
+        <button>a button</button>
+        <button disabled>a disabled button</button>
+        <button class="focused">focused button</button>
+    </div>
+    <p></p>
+
+    <h2>Forms</h2>
+
+    <form method="get" action="#">
+        <fieldset>
+            <legend>Here is a form with <code>&lt;fieldset&gt;</code>:</legend>
+
+            <label for="email">An "input" of type "text":</label>
+            <input name="email" type="text" id="email" size="25" placeholder="must be unique"/>
+
+            <label for="sex">A "select" element with several "option" elements:</label>
+            <select name="sex" id="sex">
+                <option value="none">don't want to say</option>
+                <option value="female">female</option>
+                <option value="male">male</option>
+            </select>
+
+            <label for="age">Radio "input" elements:</label>
+            <span id="age">
+                <label><input type="radio" id="under" name="age" value="under"/> I'm under 18</label>
+                <label><input type="radio" id="over" name="age" value="over"/> I'm over 18</label>
+            </span>
+
+            <label for="food">Below is a "select" element with "optgroup" used to group the "option" elements. It does not work on Safari:</label>
+            <select multiple="multiple" name="food" id="food">
+                <optgroup label="Italian">
+                    <option value="1">Pizza</option>
+                    <option value="2">Spaghetti</option>
+                </optgroup>
+                <optgroup label="Asian">
+                    <option value="4">Sushi</option>
+                </optgroup>
+                <option value="3">Hamburger</option>
+                <option value="5">Borsht</option>
+            </select>
+
+            <label for="address">A "textarea" element:</label>
+            <textarea name="address" id="address" placeholder="PO box is not allowed"></textarea>
+
+            <label><input type="checkbox" name="consent" id="consent" value="test"/>I agree with all possible terms and conditions</label>
+            <button type="submit">Subscribe</button>
+            <button type="reset">Reset</button>
+            <button disabled>Can't click</button>
+        </fieldset>
+    </form>
+
+    <p>This is a form without <code>&lt;fieldset&gt;</code>:</p>
+    <form>
+        <label for="price">Add funds:</label>
+        <input id="price" type="text" size="10" placeholder="e.g. $10"/>
+        <button type="submit">Pay</button>
+        <input type="text" id="id1-search" name="search" placeholder="Search 1..."/>
+        <input type="text" id="id2-search" name="search" placeholder="Search 2..."/>
+    </form>
+
+    <h2>Accordion</h2>
+
+    <details>
+        <summary>Who is Sarah Connor?</summary>
+        <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
+            Sarah was portrayed by Linda Hamilton in The Terminator, Terminator 2: Judgment Day, T2-3D: Battle Across Time,
+            and Terminator: Dark Fate</p>
+    </details>
+    <details>
+        <summary>I have keys but no doors. I have space but no room. You can enter but can't leave. What am I?</summary>
+        <p>A keyboard</p>
+    </details>
+
+    <p>A more complex one... add buttons in the summary:</p>
+
+    <details>
+        <summary>
+            A summary text.
+            <button>button</button>
+        </summary>
+        <header>
+            ...an header in details...
+        </header>
+        <main>
+            <p>Some text in the main part of the details element.</p>
+            <p>Some text in the main part of the details element.</p>
+            <p>Some text in the main part of the details element.</p>
+        </main>
+        <footer>
+            ...a footer in details...
+        </footer>
+    </details>
+
+    <p>A more complex one... add buttons in the summary in contrast view:</p>
+    <div class="contrast">
+        <details>
+            <summary>
+                A summary text.
+                <button>button</button>
+            </summary>
+            <header>
+                ...an header in details...
+            </header>
+            <main>
+                <p>Some text in the main part of the details element.</p>
+                <p>Some text in the main part of the details element.</p>
+                <p>Some text in the main part of the details element.</p>
+            </main>
+            <footer>
+                ...a footer in details...
+            </footer>
+        </details>
+    </div>
+
+    <h2>Progress bar</h2>
+
+    <label for="file">File progress:</label>
+    <progress id="file" max="100" value="70">70%</progress>
 
 </main>
 

@@ -74,7 +74,223 @@
             onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 <main id="main-content">
-    <p><em>Work in progress.</em></p>
+
+    <section>
+        <h1>Example of Heading 1</h1>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h2>Example of Heading 2</h2>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h3>Example of Heading 3</h3>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h4>Example of Heading 4</h4>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h5>Example of Heading 5</h5>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h6>Example of Heading 6</h6>
+        <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+        <h1>Example of Heading 1</h1>
+        <h2>Example of Heading 2</h2>
+        <h3>Example of Heading 3</h3>
+    </section>
+
+    <h2>Available fonts for a text</h2>
+
+    <h3>No specific class applied except the font choice</h3>
+    <h4>Sans</h4>
+    <p class="font-sans">
+        This is a short text embedded into a <code>p</code> tag with no specific class.
+        This is then the default font style, padding and margin, etc.
+        <b>This is then the bold default font style.</b>
+        <i>This is then the italic default font style.</i>
+        Anyone is free to copy, modify, publish, use, compile, sell, or
+        distribute this file, either in source code form or as a compiled
+        binary, for any purpose, commercial or non-commercial, and by any
+        means.
+    </p>
+    <h4>Serif</h4>
+    <p class="font-serif">
+        This is a short text embedded into a <code>p</code> tag with no serif class.
+        This is the serif font style, with default padding and margin, etc.
+        <b>This is the bold font style.</b>
+        <i>This is the italic font style.</i>
+        Anyone is free to copy, modify, publish, use, compile, sell, or
+        distribute this file, either in source code form or as a compiled
+        binary, for any purpose, commercial or non-commercial, and by any
+        means.
+    </p>
+    <h4>Mono</h4>
+    <p class="font-mono">
+        This is a short text embedded into a <code>p</code> tag with no serif class.
+        This is the mono font style, with default padding and margin, etc.
+        <b>This is the bold font style.</b>
+        <i>This is the italic font style.</i>
+        Anyone is free to copy, modify, publish, use, compile, sell, or
+        distribute this file, either in source code form or as a compiled
+        binary, for any purpose, commercial or non-commercial, and by any
+        means.
+    </p>
+    <h4>Pre</h4>
+    <p class="font-pre">
+        This is a short text embedded into a <code>p</code> tag with no serif class.
+        This is the pre font style, with default padding and margin, etc.
+        <b>This is the bold font style.</b>
+        <i>This is the italic font style.</i>
+        Anyone is free to copy, modify, publish, use, compile, sell, or
+        distribute this file, either in source code form or as a compiled
+        binary, for any purpose, commercial or non-commercial, and by any
+        means.
+    </p>
+
+    <h3>With contrast specific class applied and dark mode</h3>
+    <div class="dark">
+        <h4>Sans</h4>
+        <p class="font-sans contrast">
+            This is a short text embedded into a <code>p</code> tag with no specific class.
+            This is then the default font style, padding and margin, etc.
+            <b>This is then the bold default font style.</b>
+            <i>This is then the italic default font style.</i>
+            Anyone is free to copy, modify, publish, use, compile, sell, or
+            distribute this file, either in source code form or as a compiled
+            binary, for any purpose, commercial or non-commercial, and by any
+            means.
+        </p>
+        <h4>Serif</h4>
+        <p class="font-serif contrast">
+            This is a short text embedded into a <code>p</code> tag with no serif class.
+            This is the serif font style, with default padding and margin, etc.
+            <b>This is the bold font style.</b>
+            <i>This is the italic font style.</i>
+            Anyone is free to copy, modify, publish, use, compile, sell, or
+            distribute this file, either in source code form or as a compiled
+            binary, for any purpose, commercial or non-commercial, and by any
+            means.
+        </p>
+        <h4>Mono</h4>
+        <p class="font-mono contrast">
+            This is a short text embedded into a <code>p</code> tag with no serif class.
+            This is the mono font style, with default padding and margin, etc.
+            <b>This is the bold font style.</b>
+            <i>This is the italic font style.</i>
+            Anyone is free to copy, modify, publish, use, compile, sell, or
+            distribute this file, either in source code form or as a compiled
+            binary, for any purpose, commercial or non-commercial, and by any
+            means.
+        </p>
+        <h4>Pre</h4>
+        <p class="font-pre contrast">
+            This is a short text embedded into a <code>p</code> tag with no serif class.
+            This is the pre font style, with default padding and margin, etc.
+            <b>This is the bold font style.</b>
+            <i>This is the italic font style.</i>
+            Anyone is free to copy, modify, publish, use, compile, sell, or
+            distribute this file, either in source code form or as a compiled
+            binary, for any purpose, commercial or non-commercial, and by any
+            means.
+        </p>
+    </div>
+
+    <h3>With weight-specific classes applied</h3>
+
+    <h4>Sans Font Normal view</h4>
+    <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
+    <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
+    <p class="font-sans font-weight-bold">This is Sans Font with weight-bold.</p>
+    <p class="font-sans font-weight-black">This is Sans Font with weight-black.</p>
+
+    <h4>Sans Font Contrast view</h4>
+    <p class="contrast font-sans font-weight-thin">This is Sans Font with contrast weight-thin.</p>
+    <p class="contrast font-sans font-weight-normal">This is Sans Font with contrast weight-normal.</p>
+    <p class="contrast font-sans font-weight-bold">This is Sans Font with contrast weight-bold.</p>
+    <p class="contrast font-sans font-weight-black">This is Sans Font with contrast weight-black.</p>
+
+    <h4>Serif Font Normal view</h4>
+    <p class="font-serif font-weight-thin">This is Serif Font with weight-thin.</p>
+    <p class="font-serif font-weight-normal">This is Serif Font with weight-normal.</p>
+    <p class="font-serif font-weight-bold">This is Serif Font with weight-bold.</p>
+    <p class="font-serif font-weight-black">This is Serif Font with weight-black.</p>
+
+    <h4>Serif Font Contrast view</h4>
+    <p class="font-serif contrast font-weight-thin">This is Serif Font with contrast weight-thin.</p>
+    <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
+    <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
+    <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
+
+    <h2>HTML tags for embed text</h2>
+
+    <p>
+        So, this is a text with a
+        <a href="#" onclick="event.preventDefault()">Primary link</a>
+        inside...
+    </p>
+    <p>
+        <strong>Bold</strong>
+        <em>Italic</em>
+        <u>Underline</u>
+        <del>Deleted</del>
+        <ins>Inserted</ins>
+        <s>Strikethrough</s>
+        <small>Small</small>
+        Text <sub>Sub</sub>
+        Text <sup>Sup</sup>
+        <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
+        <kbd>Kbd+x</kbd>
+        <mark>Highlighted</mark>
+    </p>
+
+    <h3>Blockquote</h3>
+
+    <blockquote>
+        La règle d'or de la conduite est la tolérance mutuelle, car nous ne
+        penserons jamais tous de la même façon, nous ne verrons qu'une partie
+        de la vérité et sous des angles différents.
+        <cite>&mdash; Ghandi</cite>
+    </blockquote>
+
+    <h3>Lists</h3>
+    <p>Simply use the standard <code>ul</code>, <code>ol</code> or <code>dt</code> HTML elements.</p>
+    <h4>An ul list</h4>
+    <ul>
+        <li>This is the 1st item.</li>
+        <li>then the second one.</li>
+        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+            States and close to 5 million globally.
+        </li>
+        <li>And the last <code>li</code> tag.</li>
+    </ul>
+    <h4>An ol list</h4>
+    <ol>
+        <li>This is the 1st item.</li>
+        <li>then the second one.</li>
+        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+            States and close to 5 million globally.
+        </li>
+        <li>And the last <code>li</code> tag.</li>
+    </ol>
+    <h4>A dt list</h4>
+    <dl>
+        <dt>This is the 1st item</dt>
+            <dd>Some item in a first line.</dd>
+            <dd>And a second item.</dd>
+        <dt>Then the second one</dt>
+            <dd>A item related to the second.</dd>
+        <dt>And the last <code>dt</code> tag.</dt>
+            <dd>with the last <code>dd</code> tag.</dd>
+    </dl>
+
+    <h2>Aside</h2>
+
+    <aside>
+        Emphasized content with the <code>aside</code> element.
+    </aside>
+    <p>This is the main content related to the side one.</p>
 
 </main>
 

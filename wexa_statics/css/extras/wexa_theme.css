@@ -66,25 +66,27 @@
 
 :root:not(.dark) {
 
-    --bg-color:     rgb(248, 249, 251);
-    --bg-color-alt: rgb(234, 238, 246);
+    --bg-color: transparent; /*    rgb(248, 249, 251);*/
+    --body-bg-color: radial-gradient(at left center, rgba(229, 238, 252, 1.0), rgba(212, 220, 255, 1.0));
+
+    --bg-color-alt: rgb(230, 226, 248);
     --fg-color:     rgb(18, 22, 38);
     --fg-color-alt: rgb(45, 55, 80);
 
     --border-color:     rgba(70, 105, 165, 0.18);
     --border-color-alt: rgba(70, 105, 165, 0.10);
 
-    /* [override] Primary accent — deep teal-blue */
+    /* [override] Primary accent — deep blue-indigo */
     --a-color:          rgb(8, 92, 148);
-    --li-color:         rgb(0, 118, 118);
+    --li-color:         rgb(60, 80, 165);
     --buttons-bg-color: rgb(12, 88, 142);
     --buttons-fg-color: rgb(255, 255, 255);
 
-    --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 88, 118) 100%);
-    --nav-bg-color:    rgb(8, 22, 68);
-    --footer-bg-color: rgb(234, 238, 246);
+    --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
+    --nav-bg-color: radial-gradient(at right center, rgba(229, 238, 252, 1.0), rgba(200, 195, 255, 1.0));
+    --footer-bg-color: rgb(200, 195, 255);
     --header-fg-color: rgb(210, 222, 248);
-    --nav-fg-color:    rgb(200, 215, 245);
+    --nav-fg-color:    rgb(43, 27, 108);
     --footer-fg-color: rgb(45, 55, 80);
 
     --h1-color: rgb(8, 18, 52);
@@ -98,15 +100,17 @@
     --blockquote-footer-color: rgb(80, 115, 158);
 
     --table-border-color:           rgba(70, 105, 165, 0.15);
-    --table-row-stripped-bg-color:  rgb(244, 246, 252);
-    --table-head-bg-color:          rgb(228, 234, 248);
+    --table-row-stripped-bg-color:  rgb(242, 238, 252);
+    --table-head-bg-color:          rgb(220, 216, 248);
     --table-head-fg-color:          rgb(18, 22, 38);
-    --table-caption-bg-color:       rgb(228, 234, 248);
+    --table-caption-bg-color:       rgb(220, 216, 248);
     --table-caption-fg-color:       rgb(45, 55, 80);
+
+    --table-cell-bg-color: rgb(255, 255, 255);
 
     --inputs-bg-color: rgb(255, 255, 255);
 
-    --progress-bg-color: rgb(210, 222, 242);
+    --progress-bg-color: rgb(208, 200, 242);
     --progress-fg-color: rgb(12, 88, 142);
 
     --shadow-color: rgba(12, 55, 130, 0.12);
@@ -120,7 +124,9 @@
 
 .dark {
 
-    --bg-color:     rgb(10, 14, 26);
+    --body-bg-color: radial-gradient(at left center, rgba(10, 15, 26, 1.0), rgba(16, 13, 64, 1.0));
+
+    --bg-color: transparent; 
     --bg-color-alt: rgb(18, 24, 42);
     --fg-color:     rgb(215, 225, 245);
     --fg-color-alt: rgb(168, 185, 218);
@@ -134,7 +140,7 @@
     --buttons-fg-color: rgb(255, 255, 255);
 
     --header-bg-color: linear-gradient(155deg, rgb(4, 8, 28) 0%, rgb(10, 22, 68) 55%, rgb(18, 48, 90) 100%);
-    --nav-bg-color:    rgba(0, 0, 0, 0.42);
+    --nav-bg-color: rgba(0, 0, 0, 0.42);
     --footer-bg-color: rgb(12, 18, 35);
     --header-fg-color: rgb(210, 222, 248);
     --nav-fg-color:    rgb(190, 208, 242);
@@ -158,7 +164,13 @@
     --table-caption-bg-color:       rgb(14, 20, 38);
     --table-caption-fg-color:       rgb(168, 185, 218);
 
+    --table-cell-bg-color: rgb(18, 24, 42);
+
     --inputs-bg-color: rgb(18, 24, 42);
+
+    --switch-bg-color:           rgb(25, 38, 65);
+    --switch-slider-off-color:   rgb(85, 112, 168);
+    --switch-slider-on-color:    rgb(72, 162, 218);
 
     --progress-bg-color: rgb(22, 38, 72);
     --progress-fg-color: rgb(62, 162, 215);
@@ -281,22 +293,6 @@
        Blockquote — left border, no background
        ====================================================================== */
 
-    blockquote {
-        border: none;
-        border-left: var(--blockquote-border-width) solid var(--blockquote-border-color);
-        border-radius: 0;
-        background-image: none;
-        background-color: transparent;
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    blockquote,
-    blockquote > p,
-    blockquote > a {
-        font-weight: var(--font-weight-normal);
-    }
-
     /* ======================================================================
        Article — card with subtle gradient and shadow
        ====================================================================== */
@@ -317,6 +313,14 @@
         margin-top: var(--typography-spacing-vertical);
         padding-top: var(--typography-spacing-vertical);
         border-top: var(--border-width) solid var(--border-color-alt);
+    }
+
+    /* ======================================================================
+       Code — semi-transparent background to blend with body gradient
+       ====================================================================== */
+
+    code {
+        background: rgba(200, 195, 255, 0.35);
     }
 
     /* ======================================================================
@@ -429,4 +433,35 @@
         align-items: start;
     }
 
+}
+
+
+/* =========================================================================
+   Side nav decoration — unlayered (beat @layer theme from menu.css layer-less rules)
+   ========================================================================= */
+
+/* ── Active item: tinted pill ─────────────────────────────────────────── */
+
+:root:not(.dark) nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-current] {
+    background-color: rgba(8, 92, 148, 0.12);
+    border-radius: var(--border-radius);
+}
+
+.dark nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-current] {
+    background-color: rgba(72, 162, 218, 0.18);
+    border-radius: var(--border-radius);
+}
+
+/* ── Hover: light tint ────────────────────────────────────────────────── */
+
+:root:not(.dark) nav.nav-wexa.side :is([role="menuitem"], .menuitem):hover,
+:root:not(.dark) nav.nav-wexa.side :is([role="menuitem"], .menuitem):focus-visible {
+    background-color: rgba(8, 92, 148, 0.07);
+    border-radius: var(--border-radius);
+}
+
+.dark nav.nav-wexa.side :is([role="menuitem"], .menuitem):hover,
+.dark nav.nav-wexa.side :is([role="menuitem"], .menuitem):focus-visible {
+    background-color: rgba(72, 162, 218, 0.10);
+    border-radius: var(--border-radius);
 }

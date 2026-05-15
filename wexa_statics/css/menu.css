@@ -262,9 +262,10 @@ nav.nav-wexa.side.collapsible.expanded {
 
 /* -------- the current nav item -------- */
 nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
-    opacity: 0.9;
+    opacity: 1;
     box-shadow: none;
     filter: none;
+    border-radius: var(--border-radius);
 }
 
 /* -------- images in items -------- */

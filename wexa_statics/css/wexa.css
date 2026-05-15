@@ -295,7 +295,7 @@ This banner notice must not be removed.
         --outline-focus-style: outset;
         --outline-hover-style: inset;
 
-        /* [new] border width adapts to contrast mode */
+        /* border width adapts to contrast mode */
         --blockquote-border-width: calc(0.25 * var(--font-size));
     }
 } 
@@ -413,6 +413,7 @@ This banner notice must not be removed.
 
         /* Table colors */
         --table-border-color: rgba(120, 130, 150, 0.4);
+        --table-cell-bg-color: var(--bg-color);
         --table-row-stripped-bg-color: rgb(245, 248, 252);
         --table-head-bg-color: rgb(230, 235, 245);
         --table-head-fg-color: rgb(30, 30, 40);
@@ -493,6 +494,7 @@ This banner notice must not be removed.
 
             /* Table colors */
             --table-border-color: rgba(160, 170, 190, 0.3);
+            --table-cell-bg-color: var(--bg-color);
             --table-row-stripped-bg-color: rgb(36, 38, 50);
             --table-head-bg-color: rgb(24, 26, 36);
             --table-head-fg-color: rgb(220, 225, 240);
@@ -733,7 +735,7 @@ This banner notice must not be removed.
         cursor: default;
         overflow: hidden;
 
-        background-color: var(--bg-color);
+        background: var(--body-bg-color, var(--bg-color));
         background-clip: content-box;
         transition: all var(--border-color) 0.3s;
         transition-duration: 0.4s;
@@ -834,29 +836,13 @@ This banner notice must not be removed.
         row-gap: calc(1rem / var(--size-divisor));
         column-gap: calc(1rem / var(--size-divisor));
 
-        /***** THE REST IS A THEME! */
-        position: -webkit-sticky;  /* Safari */
-        position: sticky;          /* is positioned based on the user's scroll position */
-        top: 0;
-        overflow: unset;
-        text-align: center;
-        justify-content: space-evenly; 
-        align-items: center;
     }
 
-    nav *, 
+    nav *,
     [role=doc-toc] * {
         color: var(--nav-fg-color);
         background-color: transparent;
         display: flex;
-
-        /***** THE REST IS A THEME! */
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        flex-direction: row;
-        row-gap: 0.3rem;
-        column-gap: 0.3rem;
     }
 
     nav ul, 
@@ -974,9 +960,6 @@ This banner notice must not be removed.
         background: var(--mark-bg-color);
         color: var(--mark-fg-color);
         
-        /***** THE REST IS A THEME! */
-        padding: 0.1rem;
-        border-radius: 0.2rem;
     }
 
     small {
@@ -1010,19 +993,10 @@ This banner notice must not be removed.
         font-weight: bolder;
         border: var(--border-width) solid var(--border-color);
         
-        /***** THE REST IS A THEME! */
-        border-radius: 0.4rem;
-        border-bottom: calc(var(--border-width) * 2) solid var(--border-color);
     }
 
     code {
-        background: var(--table-row-stripped-bg-color);
         display: inline-block;
-
-        /***** THE REST IS A THEME! */
-        border-radius: 0.2rem;
-        line-height: 1.125rem;
-        padding: 0.225rem 0.4rem 0.16rem
     }
 
     pre {
@@ -1053,7 +1027,10 @@ This banner notice must not be removed.
 
     blockquote {
         display: block;
-        padding: var(--typography-spacing-vertical);
+        padding-bottom: var(--typography-spacing-vertical);
+        padding-top: var(--typography-spacing-vertical);
+        padding-left: var(--typography-spacing-horizontal);
+        padding-right: var(--typography-spacing-horizontal);
         margin-top: calc(0.5*var(--typography-spacing-horizontal));
         margin-bottom: calc(1.5*var(--typography-spacing-vertical));
         margin-left: calc(2*var(--typography-spacing-horizontal));
@@ -1324,8 +1301,9 @@ This banner notice must not be removed.
         caption-side: bottom;
     }
 
-    td, 
+    td,
     th {
+        background-color: var(--table-cell-bg-color);
         padding: calc(var(--typography-spacing-horizontal) / 2) var(--typography-spacing-horizontal);
         color: var(--fg-color);
         font-weight: var(--font-weight-normal);
@@ -1854,16 +1832,44 @@ This banner notice must not be removed.
         background-color: transparent;
     }
 
+    /* ── Nav ─────────────────────────────────────────────────────────────── */
+
+    nav,
+    [role=doc-toc] {
+        position: sticky;
+        top: 0;
+        overflow: unset;
+        text-align: center;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    /* ── Mark ────────────────────────────────────────────────────────────── */
+
+    mark {
+        padding: 0.1rem;
+        border-radius: 0.2rem;
+    }
+
+    /* ── Kbd ─────────────────────────────────────────────────────────────── */
+
+    kbd {
+        border-radius: 0.4rem;
+        border-bottom: calc(var(--border-width) * 2) solid var(--border-color);
+    }
+
+    /* ── Code ────────────────────────────────────────────────────────────── */
+
+    code {
+        background: var(--table-row-stripped-bg-color);
+        border-radius: 0.2rem;
+        line-height: 1.125rem;
+        padding: 0.225rem 0.4rem 0.16rem;
+    }
+
     /* ── Blockquote ────────────────────────────────────────────────────── */
 
     blockquote {
-        border-top: var(--border-width) solid var(--blockquote-border-color);
-        border-bottom: var(--border-width) solid var(--blockquote-border-color);
-        border-left: calc(var(--border-width) * 16) solid var(--blockquote-border-color);
-        border-right: var(--border-width) solid var(--blockquote-border-color);
-        border-inline-start: 0.25rem solid var(--blockquote-border-color);
-        border-inline-end: none;
-        border-radius: var(--border-radius);
         background-image: linear-gradient(to right, var(--bg-color-alt), var(--bg-color));
     }
 
@@ -2125,4 +2131,10 @@ This banner notice must not be removed.
         font-size: 1.1rem;
     }
 
+}
+
+/* Unlayered: beats all @layer rules — table cell children are transparent, the cell itself provides the background */
+td *,
+th * {
+    background-color: transparent;
 }
