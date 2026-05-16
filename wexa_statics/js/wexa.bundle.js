@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-15 14:17:21
+// Bundle automatically generated on 2026-05-16 20:46:19
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1459,6 +1459,7 @@ class AccessibilityManager extends BaseManager {
             document.body.classList.remove(AccessibilityManager.COLOR_MODE);
         }
         this.#updateButtonState('btn-color');
+        this.#updateUrl();
         await this.postEvents({"accessibility_color": this.#activatedColor});
     }
     // -----------------------------------------------------------------------
@@ -1471,6 +1472,7 @@ class AccessibilityManager extends BaseManager {
             document.body.classList.remove(AccessibilityManager.CONTRAST_MODE);
         }
         this.#updateButtonState('btn-contrast');
+        this.#updateUrl();
         await this.postEvents({"accessibility_contrast": this.#activatedContrast});
     }
     // -----------------------------------------------------------------------
@@ -1498,6 +1500,12 @@ class AccessibilityManager extends BaseManager {
             return '';
         }
         const customUrl = new URL(url, window.location.href);
+        // Forward all parameters from the current URL so that params owned by
+        // other managers (e.g. wexa_theme) survive cross-page navigation.
+        const currentParams = new URLSearchParams(window.location.search);
+        for (const [key, value] of currentParams) {
+            customUrl.searchParams.set(key, value);
+        }
         if (this.#activatedColor !== '') {
             customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activatedColor);
         } else {
@@ -1586,6 +1594,10 @@ class AccessibilityManager extends BaseManager {
         if (color && color.children.length === 0) {
             color.innerHTML = svgColor;
         }
+    }
+    // -----------------------------------------------------------------------
+    #updateUrl() {
+        history.replaceState(null, '', this.setUrlWithParameters(window.location.href));
     }
     // -----------------------------------------------------------------------
     #updateButtonState(buttonId) {
@@ -2610,7 +2622,6 @@ class ThemeManager extends BaseManager {
         this.#activeTheme = "";
         this.#defaultTheme = "";
         OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
-        OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
     }
     // -----------------------------------------------------------------------
     // GETTERS
@@ -2652,6 +2663,7 @@ class ThemeManager extends BaseManager {
         }
         this.#activeTheme = name;
         this.#applyLink(name === "" ? "" : this.#themes.get(name));
+        history.replaceState(null, '', this.setUrlWithParameters(window.location.href));
         await this.postEvents({"theme": name});
     }
     // -----------------------------------------------------------------------
@@ -2713,28 +2725,6 @@ class ThemeManager extends BaseManager {
         } else if (this.#defaultTheme !== "" && this.#activeTheme === "") {
             await this.activate(this.#defaultTheme);
         }
-    }
-    // -----------------------------------------------------------------------
-    #setAllLinksCustom() {
-        let linkElements = Array.from(document.querySelectorAll("a"));
-        linkElements = linkElements.filter(el => el.href !== null && el.href !== '');
-        linkElements.forEach(element => {
-            element.addEventListener("click", event => {
-                const url = new URL(element.href, window.location.href);
-                const isSameHost = url.host === window.location.host;
-                const isLocalhost = window.location.hostname === 'localhost';
-                const isFile = window.location.protocol === 'file:';
-                if (!isFile && (isLocalhost || isSameHost)) {
-                    event.preventDefault();
-                    const target = this.setUrlWithParameters(url.href);
-                    if (element.target === '_blank') {
-                        window.open(target, '_blank', 'noopener');
-                    } else {
-                        document.location.href = target;
-                    }
-                }
-            });
-        });
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----

@@ -137,6 +137,7 @@ export class AccessibilityManager extends BaseManager {
         }
 
         this.#updateButtonState('btn-color');
+        this.#updateUrl();
         await this.postEvents({"accessibility_color": this.#activatedColor});
     }
 
@@ -161,6 +162,7 @@ export class AccessibilityManager extends BaseManager {
         }
 
         this.#updateButtonState('btn-contrast');
+        this.#updateUrl();
         await this.postEvents({"accessibility_contrast": this.#activatedContrast});
     }
 
@@ -204,7 +206,10 @@ export class AccessibilityManager extends BaseManager {
     /**
      * Append accessibility parameters (color and contrast) to a given URL.
      *
-     * Inactive parameters (empty string) are removed from the query string.
+     * All parameters present in the current page URL are forwarded first, so
+     * that parameters owned by other managers (e.g. wexa_theme from ThemeManager)
+     * are preserved during navigation. Accessibility parameters are then set or
+     * removed on top of those forwarded values.
      *
      * @param {string} url - The URL to modify.
      * @returns {string} The updated URL with accessibility parameters.
@@ -214,6 +219,13 @@ export class AccessibilityManager extends BaseManager {
             return '';
         }
         const customUrl = new URL(url, window.location.href);
+
+        // Forward all parameters from the current URL so that params owned by
+        // other managers (e.g. wexa_theme) survive cross-page navigation.
+        const currentParams = new URLSearchParams(window.location.search);
+        for (const [key, value] of currentParams) {
+            customUrl.searchParams.set(key, value);
+        }
 
         if (this.#activatedColor !== '') {
             customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activatedColor);
@@ -339,6 +351,17 @@ export class AccessibilityManager extends BaseManager {
         if (color && color.children.length === 0) {
             color.innerHTML = svgColor;
         }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Reflect the current accessibility state in the browser URL without reloading.
+     * Ensures that a page reload restores both color and contrast modes.
+     * @private
+     */
+    #updateUrl() {
+        history.replaceState(null, '', this.setUrlWithParameters(window.location.href));
     }
 
     // -----------------------------------------------------------------------

@@ -38,29 +38,80 @@ Architecture:
 */
 
 /* =======================================================================
-                   STRUCTURAL INVARIANTS (unlayered)
+                   Responsive slides
    ======================================================================= */
 
-/* Fixed font size for 16:9 layout — beats @layer base/accessibility. */
-:root:not(.contrast) {
-    --font-size: 32px;
-    --line-height: 1.4;
+:root {
+    --slides-size-divisor: 1;
+    --slides-fontsize-divisor: 1;
 }
 
-:root.contrast {
-    --font-size: 32px;
-    --line-height: 1.4;
+@media screen and (max-width: 540px) {
+    :root {
+        --slides-size-divisor: 2.75;
+        --slides-fontsize-divisor: 3.5 /* 1.5;*/
+    }
 }
 
-:root:not(.contrast) .slide-overview {
-    --font-size: 16px;
-    --line-height: 1.2;
+@media screen and (min-width: 540px) {
+    :root {
+        --slides-size-divisor: 2.5;
+        --slides-fontsize-divisor: 3; /*1.25;*/
+    }
 }
 
-:root.contrast .slide-overview {
-    --font-size: 18px;
-    --line-height: 1.4;
+@media screen and (min-width: 620px) {
+    :root {
+        --slides-size-divisor: 1.75;
+        --slides-fontsize-divisor: 2.25; /*1.18;*/
+    }
 }
+
+@media screen and (min-width: 768px) {
+    :root {
+        --slides-size-divisor: 1.5;
+        --slides-fontsize-divisor: 1.75; /*1.1;*/
+    }
+}
+
+@media screen and (min-width: 896px) {
+    :root {
+        --slides-size-divisor: 1.25;
+        --slides-fontsize-divisor: 1.5;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    :root {
+        --slides-size-divisor: 1;
+        --slides-fontsize-divisor: 1.05;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    :root {
+        --slides-size-divisor: 0.9;
+        --slides-fontsize-divisor: 1;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    :root {
+        --slides-size-divisor: 0.8;
+        --slides-fontsize-divisor: 0.9;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    :root {
+        --slides-size-divisor: 0.75;
+        --slides-fontsize-divisor: 0.85;
+    }
+}
+
+/* =======================================================================
+                   STRUCTURAL INVARIANTS (unlayered)
+   ======================================================================= */
 
 /* Structural slide variables */
 :root {
@@ -93,7 +144,7 @@ body > footer {
 }
 
 /* Heading padding: consistent across all slide levels */
-.slide h1,
+.slide > h1,
 .slide > h2,
 .slide > h3,
 .slide > h4,
@@ -103,22 +154,23 @@ body > footer {
     padding-bottom: 0.5rem;
     padding-right: 0;
     padding-left: 0.5rem;
+    margin-left: 0;
 }
 
 /* h1: structural layout (decoration in @layer theme) */
-.slide h1 {
+.slide > h1 {
     margin-top: calc((var(--height) * 0.35));
     width: 100%;
 }
 
-.slide h1.title {
+.slide > h1.title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
 
-.slide h1.sub-title {
+.slide > h1.sub-title {
     line-height: calc(var(--font-size) * 1.5);
     margin: auto;
     padding-top: 1rem;
@@ -136,9 +188,11 @@ body > footer {
 }
 
 /* Content margins */
-.slide table,
-.slide details {
-    margin: auto;
+.slide > * {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    margin-left: 2rem;
 }
 
 .slide table *,
@@ -147,18 +201,11 @@ body > footer {
     font-size: calc(var(--font-size) * 0.8);
 }
 
-.slide ul,
-.slide ol,
-.slide p,
-.slide blockquote,
-.slide article,
-.slide details,
+/* Tables and details: centered regardless of depth */
 .slide table,
-.slide .cards-panel {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-right: 0.5rem;
-    margin-left: 2rem;
+.slide details {
+    margin: auto;
+    max-width: 95%;
 }
 
 .slide li,
@@ -191,6 +238,7 @@ body > footer {
 .slide > figure {
     display: block;
     text-align: center;
+    margin: 0 auto;
     max-width: 90%;
     max-height: 90%;
 }
@@ -232,8 +280,10 @@ body > footer {
    ======================================================================= */
 
 body.presentation-view {
-    --screen-width: calc(1024px / var(--size-divisor));
+    --screen-width: calc(1024px / var(--slides-size-divisor));
     --height: calc(var(--screen-width) * 9 / 16);
+    --font-size: calc(32px / (var(--slides-fontsize-divisor)));
+    --line-height: calc(var(var(--font-size) / 20)); 
 
     box-sizing: border-box;
     height: var(--height);
@@ -274,7 +324,12 @@ body.presentation-view {
    ======================================================================= */
 
 body.overview-view {
-    --font-size: 16px;
+    /*--screen-width: calc(1024px / var(--slides-size-divisor));
+    --screen-width: calc(512px / var(--slides-size-divisor));
+    --height: calc(var(--screen-width) * 9 / 16);*/
+    --font-size: calc(16px / (var(--slides-fontsize-divisor)));
+    --line-height: calc(var(var(--font-size) / 20)); 
+
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -283,8 +338,8 @@ body.overview-view {
 .overview-view .slide {
     border-radius: var(--border-radius);
     border: var(--border-width) solid var(--border-color);
-    width: calc(var(--screen-width) * 0.45) !important;
-    height: calc(var(--screen-width) * 9 / 16) !important;
+    /*width: calc(var(--screen-width) * 0.45) !important;
+    height: calc(var(--screen-width) * 9 / 16) !important;*/
     margin: 0;
     padding: 0;
 }
@@ -462,7 +517,7 @@ body.overview-view {
     }
 
     /* Heading font family */
-    .slide h1,
+    .slide > h1,
     .slide > h2,
     .slide > h3,
     .slide > h4,
@@ -472,7 +527,7 @@ body.overview-view {
     }
 
     /* h1: decoration */
-    .slide h1 {
+    .slide > h1 {
         font-weight: bold;
         font-style: normal;
         font-variant: normal;
@@ -485,7 +540,7 @@ body.overview-view {
     }
 
     /* Title slide heading */
-    .slide h1.title {
+    .slide > h1.title {
         text-align: center;
         border-bottom: none;
         color: var(--custom-color1);
@@ -493,7 +548,7 @@ body.overview-view {
     }
 
     /* Sub-title slide heading */
-    .slide h1.sub-title {
+    .slide > h1.sub-title {
         text-align: center;
         border-bottom: none;
         color: var(--custom-color2);

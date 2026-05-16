@@ -88,7 +88,6 @@ export class ThemeManager extends BaseManager {
         this.#defaultTheme = "";
 
         OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
-        OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
     }
 
     // -----------------------------------------------------------------------
@@ -177,6 +176,7 @@ export class ThemeManager extends BaseManager {
 
         this.#activeTheme = name;
         this.#applyLink(name === "" ? "" : this.#themes.get(name));
+        history.replaceState(null, '', this.setUrlWithParameters(window.location.href));
         await this.postEvents({"theme": name});
     }
 
@@ -286,34 +286,5 @@ export class ThemeManager extends BaseManager {
         }
     }
 
-    // -----------------------------------------------------------------------
-
-    /**
-     * Propagate the wexa_theme parameter through all internal links.
-     * @private
-     */
-    #setAllLinksCustom() {
-        let linkElements = Array.from(document.querySelectorAll("a"));
-        linkElements = linkElements.filter(el => el.href !== null && el.href !== '');
-
-        linkElements.forEach(element => {
-            element.addEventListener("click", event => {
-                const url = new URL(element.href, window.location.href);
-                const isSameHost = url.host === window.location.host;
-                const isLocalhost = window.location.hostname === 'localhost';
-                const isFile = window.location.protocol === 'file:';
-
-                if (!isFile && (isLocalhost || isSameHost)) {
-                    event.preventDefault();
-                    const target = this.setUrlWithParameters(url.href);
-                    if (element.target === '_blank') {
-                        window.open(target, '_blank', 'noopener');
-                    } else {
-                        document.location.href = target;
-                    }
-                }
-            });
-        });
-    }
-
 }
+
