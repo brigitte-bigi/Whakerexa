@@ -30,9 +30,6 @@
             --nav-item-height:     2.5rem;
             --nav-item-max-height: 2.5rem;
         }
-        header {
-            border-radius: 1rem;
-        }
     </style>
 
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -148,12 +145,12 @@
 
 <nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
 
-    <button aria-label="Pin menu" role="menuitem"
+    <button aria-label="Pin menu"
             id="pin-menu" type="button"
             aria-controls="nav-content"
             aria-pressed="true"
             title="Pin menu"
-            class="menu-pin">
+            class="menuitem menu-pin">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
              viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
              aria-label="Pushpin">
@@ -164,7 +161,7 @@
     </button>
 
     <!-- Home -->
-    <a role="menuitem" href="index.html" class="nav-current">
+    <a class="menuitem nav-current" href="index.html">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
@@ -175,7 +172,7 @@
     </a>
 
     <!-- Getting started -->
-    <button role="menuitem" id="submenu-toggle-started"
+    <button class="menuitem" id="submenu-toggle-started"
             aria-haspopup="true" aria-controls="appmenu-started">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -188,7 +185,7 @@
     </button>
 
     <!-- Customization -->
-    <button role="menuitem" id="submenu-toggle-custom"
+    <button class="menuitem" id="submenu-toggle-custom"
             aria-haspopup="true" aria-controls="appmenu-custom">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -201,7 +198,7 @@
     </button>
 
     <!-- Layout -->
-    <button role="menuitem" id="submenu-toggle-layout"
+    <button class="menuitem" id="submenu-toggle-layout"
             aria-haspopup="true" aria-controls="appmenu-layout">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -214,7 +211,7 @@
     </button>
 
     <!-- Content -->
-    <button role="menuitem" id="submenu-toggle-content"
+    <button class="menuitem" id="submenu-toggle-content"
             aria-haspopup="true" aria-controls="appmenu-content">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -228,7 +225,7 @@
     </button>
 
     <!-- Forms -->
-    <button role="menuitem" id="submenu-toggle-forms"
+    <button class="menuitem" id="submenu-toggle-forms"
             aria-haspopup="true" aria-controls="appmenu-forms">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -240,7 +237,7 @@
     </button>
 
     <!-- Navigation -->
-    <button role="menuitem" id="submenu-toggle-navigation"
+    <button class="menuitem" id="submenu-toggle-navigation"
             aria-haspopup="true" aria-controls="appmenu-navigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -257,7 +254,7 @@
     </button>
 
     <!-- Components -->
-    <button role="menuitem" id="submenu-toggle-components"
+    <button class="menuitem" id="submenu-toggle-components"
             aria-haspopup="true" aria-controls="appmenu-components">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -271,7 +268,7 @@
     </button>
 
     <!-- Slides (direct link) -->
-    <a role="menuitem" id="nav-slides" data-href="slides.html" data-target="_self">
+    <a class="menuitem" id="nav-slides" data-href="slides.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
@@ -283,7 +280,7 @@
     </a>
 
     <!-- Bundle (direct link) -->
-    <a role="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
+    <a class="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
@@ -299,60 +296,60 @@
     <!-- Submenus -->
     <aside id="appmenu-started" class="appmenu" aria-label="Getting started submenu">
         <nav>
-            <a role="menuitem" id="nav-wexa"          data-href="wexa.html"           data-target="_self">Wexa CSS</a>
-            <a role="menuitem" id="nav-quickstart"    data-href="quick-start.html"    data-target="_self">Quick start</a>
-            <a role="menuitem" id="nav-architecture"  data-href="architecture.html"   data-target="_self">Architecture</a>
-            <a role="menuitem" id="nav-themes"        data-href="themes.html"         data-target="_self">Themes</a>
+            <a class="menuitem" id="nav-wexa"          data-href="wexa.html"           data-target="_self">Wexa CSS</a>
+            <a class="menuitem" id="nav-quickstart"    data-href="quick-start.html"    data-target="_self">Quick start</a>
+            <a class="menuitem" id="nav-architecture"  data-href="architecture.html"   data-target="_self">Architecture</a>
+            <a class="menuitem" id="nav-themes"        data-href="themes.html"         data-target="_self">Themes</a>
         </nav>
     </aside>
 
     <aside id="appmenu-custom" class="appmenu" aria-label="Customization submenu">
         <nav>
-            <a role="menuitem" id="nav-cssvariables"  data-href="css-variables.html"  data-target="_self">CSS Variables</a>
-            <a role="menuitem" id="nav-colors"        data-href="colors.html"         data-target="_self">Colors</a>
-            <a role="menuitem" id="nav-accessibility" data-href="accessibility.html"  data-target="_self">Accessibility</a>
+            <a class="menuitem" id="nav-cssvariables"  data-href="css-variables.html"  data-target="_self">CSS Variables</a>
+            <a class="menuitem" id="nav-colors"        data-href="colors.html"         data-target="_self">Colors</a>
+            <a class="menuitem" id="nav-accessibility" data-href="accessibility.html"  data-target="_self">Accessibility</a>
         </nav>
     </aside>
 
     <aside id="appmenu-layout" class="appmenu" aria-label="Layout submenu">
         <nav>
-            <a role="menuitem" id="nav-containers"    data-href="layout.html"         data-target="_self">Containers</a>
-            <a role="menuitem" id="nav-grid"          data-href="grid.html"           data-target="_self">Grid</a>
+            <a class="menuitem" id="nav-containers"    data-href="layout.html"         data-target="_self">Containers</a>
+            <a class="menuitem" id="nav-grid"          data-href="grid.html"           data-target="_self">Grid</a>
         </nav>
     </aside>
 
     <aside id="appmenu-content" class="appmenu" aria-label="Content submenu">
         <nav>
-            <a role="menuitem" id="nav-typography"    data-href="typography.html"     data-target="_self">Typography</a>
-            <a role="menuitem" id="nav-code"          data-href="code.html"           data-target="_self">Code</a>
-            <a role="menuitem" id="nav-tables"        data-href="tables.html"         data-target="_self">Tables</a>
+            <a class="menuitem" id="nav-typography"    data-href="typography.html"     data-target="_self">Typography</a>
+            <a class="menuitem" id="nav-code"          data-href="code.html"           data-target="_self">Code</a>
+            <a class="menuitem" id="nav-tables"        data-href="tables.html"         data-target="_self">Tables</a>
         </nav>
     </aside>
 
     <aside id="appmenu-forms" class="appmenu" aria-label="Forms submenu">
         <nav>
-            <a role="menuitem" id="nav-inputs"        data-href="inputs.html"         data-target="_self">Inputs</a>
-            <a role="menuitem" id="nav-button"        data-href="button.html"         data-target="_self">Button</a>
-            <a role="menuitem" id="nav-switch"        data-href="switch.html"         data-target="_self">Switch</a>
-            <a role="menuitem" id="nav-progressbar"   data-href="progressbar.html"    data-target="_self">Progress bar</a>
+            <a class="menuitem" id="nav-inputs"        data-href="inputs.html"         data-target="_self">Inputs</a>
+            <a class="menuitem" id="nav-button"        data-href="button.html"         data-target="_self">Button</a>
+            <a class="menuitem" id="nav-switch"        data-href="switch.html"         data-target="_self">Switch</a>
+            <a class="menuitem" id="nav-progressbar"   data-href="progressbar.html"    data-target="_self">Progress bar</a>
         </nav>
     </aside>
 
     <aside id="appmenu-navigation" class="appmenu" aria-label="Navigation submenu">
         <nav>
-            <a role="menuitem" id="nav-menu"          data-href="menu.html"           data-target="_self">Overview</a>
-            <a role="menuitem" id="nav-menu-side"     data-href="menu-side.html"      data-target="_self">Side menu</a>
-            <a role="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
+            <a class="menuitem" id="nav-menu"          data-href="menu.html"           data-target="_self">Overview</a>
+            <a class="menuitem" id="nav-menu-side"     data-href="menu-side.html"      data-target="_self">Side menu</a>
+            <a class="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
         </nav>
     </aside>
 
     <aside id="appmenu-components" class="appmenu" aria-label="Components submenu">
         <nav>
-            <a role="menuitem" id="nav-dialog"        data-href="dialog.html"         data-target="_self">Dialogs</a>
-            <a role="menuitem" id="nav-links"         data-href="links.html"          data-target="_self">Links</a>
-            <a role="menuitem" id="nav-autotoc"       data-href="autotoc.html"        data-target="_self">Auto ToC</a>
-            <a role="menuitem" id="nav-book"          data-href="book.html"           data-target="_self">Book</a>
-            <a role="menuitem" id="nav-sortatable"    data-href="sortatable.html"     data-target="_self">Sortable table</a>
+            <a class="menuitem" id="nav-dialog"        data-href="dialog.html"         data-target="_self">Dialogs</a>
+            <a class="menuitem" id="nav-links"         data-href="links.html"          data-target="_self">Links</a>
+            <a class="menuitem" id="nav-autotoc"       data-href="autotoc.html"        data-target="_self">Auto ToC</a>
+            <a class="menuitem" id="nav-book"          data-href="book.html"           data-target="_self">Book</a>
+            <a class="menuitem" id="nav-sortatable"    data-href="sortatable.html"     data-target="_self">Sortable table</a>
         </nav>
     </aside>
 

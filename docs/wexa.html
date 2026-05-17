@@ -7,10 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="../wexa_statics/css/swapp.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -18,27 +16,12 @@
             const s = document.createElement('script');
             if (usingFile) {
                 s.src = '../wexa_statics/js/wexa.bundle.js';
-                s.addEventListener('load', function () {
-                    if (window.Wexa && window.Wexa.ThemeManager) {
-                        const t = new window.Wexa.ThemeManager();
-                        t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-                        t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
-                        window.themes = t;
-                    }
-                });
             } else {
                 s.type = 'module';
                 s.src = '../wexa_statics/js/wexa.js';
             }
             document.head.appendChild(s);
         })();
-    </script>
-    <script type="module">
-        import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
-        const themes = new ThemeManager();
-        themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-        themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
-        window.themes = themes;
     </script>
 </head>
 <body>
@@ -54,20 +37,6 @@
             <polyline points="20 24 12 16 20 8" />
         </svg>
     </a>
-    <button id="btn-css-theme" class="menuitem" type="button"
-            aria-label="Switch CSS theme" title="Switch CSS theme"
-            onclick="window.themes && window.themes.next()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="16" cy="16" r="13"/>
-            <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
-            <line x1="16" y1="3"  x2="16" y2="8"/>
-            <line x1="16" y1="24" x2="16" y2="29"/>
-            <line x1="3"  y1="16" x2="8"  y2="16"/>
-            <line x1="24" y1="16" x2="29" y2="16"/>
-        </svg>
-    </button>
     <button id="btn-contrast" class="menuitem accessibility"
             aria-label="contrast" aria-pressed="false"
             onclick="Wexa.accessibility.switchContrastScheme()"></button>
@@ -88,13 +57,15 @@
         Base CSS framework: typography, colors, light/dark/contrast modes, CSS Cascade Layers.
         Semantic HTML only — minimal classes required.
     </p>
+    <p>
+        <strong>This page is intentionally unthemed.</strong>
+        It shows <code>wexa.css</code> in its raw state — no extra theme applied.
+        The look-and-feel you see here is the Whakerexa baseline: functional, accessible, ready to style.
+        <!-- TODO: add link to theming/customization page once written --></p>
     <ul>
         <li><a href="architecture.html">Architecture</a> — <code>@layer</code> stack, custom classes, print stylesheet</li>
         <li><a href="css-variables.html">CSS Variables</a> — full variable reference by layer</li>
     </ul>
-
-        <section id="demo">
-            <h1>Demo: what's possible with wexa.css?</h1>
 
             <section>
                 <h1>Example of Heading 1</h1>
@@ -678,8 +649,6 @@
                 <img src="images/demo_video.png" alt="Demo screenshot">
                 <figcaption>A figure with caption — <a href="#">example link</a></figcaption>
             </figure>
-
-        </section>
 
 
 </main>
