@@ -121,14 +121,14 @@ dialog[role=alertdialog] > div {
     overflow-y: auto;
 }
 
-/* Icon zone: centered, colored background, icon in bg-color for contrast */
+/* Icon zone: centered, colored background, icon contrasts against it */
 dialog[role=alertdialog]::before {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: var(--typography-spacing-vertical);
     font-size: calc(1.5 * var(--font-size));
-    color: var(--bg-color);
+    color: var(--dialog-icon-color, rgb(255, 255, 255));
 }
 
 /* Type colors: border + icon zone background + icon content */
@@ -192,7 +192,7 @@ dialog[role=alertdialog] form {
 dialog[role=alertdialog] form button {
     border-radius: var(--dialog-border-radius);
     padding: calc(var(--typography-spacing-vertical) / 2) var(--typography-spacing-horizontal);
-    color: var(--bg-color);
+    color: var(--dialog-icon-color, rgb(255, 255, 255));
     border: none;
 }
 

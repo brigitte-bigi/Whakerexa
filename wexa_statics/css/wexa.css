@@ -378,57 +378,62 @@ This banner notice must not be removed.
 @layer theme {
 
     :root:not(.dark), .light {
-        /* Main colors */
-        --bg-color: rgb(250, 250, 252);
-        --bg-color-alt: rgb(240, 240, 240);
-        --fg-color: rgb(0, 5, 10);
-        --fg-color-alt: rgb(28, 28, 28);
-        --border-color: rgb(60, 60, 90);
-        --border-color-alt: rgba(28, 28, 28, 0.5);
+
+        /* Accessibility/Focus */
         --outline-color: rgba(0, 191, 255, 0.8);
+
+        /* Main colors */
+        --bg-color: rgb(250, 248, 252);
+        --bg-color-alt: rgb(229, 236, 248);
+        --fg-color: rgb(18, 22, 38);
+        --fg-color-alt: rgb(45, 55, 80);
+        --border-color: rgba(70, 105, 165, 0.18);
+        --border-color-alt: rgba(70, 105, 165, 0.10);
         --hr-color: rgba(128, 128, 128, 0.5);
 
         /* Background colors */
-        --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
-        --nav-bg-color: rgba(14, 18, 48, 0.7);
-        --footer-bg-color: rgb(24, 28, 38);
-        --buttons-bg-color: rgb(225, 225, 220);
-        --progress-bg-color: rgb(49, 47, 85);
+        --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
+        --nav-bg-color: radial-gradient(at right center, rgb(229, 238, 252), rgb(200, 195, 255));
+        --footer-bg-color: rgb(200, 195, 255);
+        --buttons-bg-color:       rgb(12, 88, 142);
+        --buttons-bg-color-hover: rgb(18, 108, 170);
+        --progress-bg-color: rgb(208, 200, 242);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
-        --inputs-bg-color: rgba(225, 225, 220, 0.5);
+        --inputs-bg-color: rgb(255, 255, 255);
+        --code-bg-color: rgba(200, 195, 255, 0.35);
 
         /* Foreground colors */
-        --header-fg-color: rgb(241, 241, 245);
-        --nav-fg-color: rgb(231, 231, 235);
-        --footer-fg-color: rgb(241, 241, 245);
-        --progress-fg-color: rgb(20, 25, 30);
-        --buttons-fg-color: rgb(20, 25, 30);
+        --header-fg-color: rgb(210, 222, 248);
+        --nav-fg-color: rgb(43, 27, 108);
+        --footer-fg-color: rgb(45, 55, 80);
+        --progress-fg-color: rgb(12, 88, 142);
+        --buttons-fg-color: rgb(255, 255, 255);
         --mark-fg-color: rgb(20, 25, 30);
-        --h1-color: rgb(20, 25, 30);
-        --h2-color: rgb(30, 35, 45);
-        --h3-color: rgb(40, 45, 60);
-        --h4-color: rgb(40, 45, 60);
-        --h5-color: rgb(50, 55, 75);
-        --h6-color: rgb(60, 65, 90);
+        --h1-color: rgb(28, 18, 42);
+        --h2-color: rgb(35, 32, 68);
+        --h3-color: rgb(42, 55, 95);
+        --h4-color: rgb(42, 55, 95);
+        --h5-color: rgb(55, 75, 118);
+        --h6-color: rgb(60, 80, 125);
 
         /* Table colors */
-        --table-border-color: rgba(120, 130, 150, 0.4);
-        --table-cell-bg-color: var(--bg-color);
-        --table-row-stripped-bg-color: rgb(245, 248, 252);
-        --table-head-bg-color: rgb(230, 235, 245);
-        --table-head-fg-color: rgb(30, 30, 40);
-        --table-caption-bg-color: rgb(230, 235, 245);
-        --table-caption-fg-color: rgb(30, 30, 40);
+        --table-border-color: rgba(70, 105, 165, 0.15);
+        --table-cell-bg-color: rgb(255, 255, 255);
+        --table-row-stripped-bg-color: rgb(242, 238, 252);
+        --table-head-bg-color: rgb(220, 216, 248);
+        --table-head-fg-color: rgb(18, 22, 38);
+        --table-caption-bg-color: rgb(220, 216, 248);
+        --table-caption-fg-color: rgb(45, 55, 80);
 
         /* Other colors */
-        --a-color: rgb(0, 100, 150);
+        --a-color: rgb(8, 92, 148);
+        --li-color: rgb(60, 80, 165);
         --ins-color: rgba(20, 200, 20, 0.8);
         --del-color: rgba(240, 40, 40, 0.8);
         --s-color: rgb(100, 100, 100);
-        --blockquote-border-color: rgb(80, 25, 40);
-        --blockquote-footer-color: rgb(90, 35, 50);
-        --li-color: rgb(140, 40, 40);
-        --shadow-color: rgba(110, 120, 140, 0.8);
+        --blockquote-border-color: rgb(12, 88, 142);
+        --blockquote-footer-color: rgb(80, 115, 158);
+        --shadow-color: rgba(12, 55, 130, 0.12);
 
         /* Alerts */
         --info-color: rgb(60, 100, 160);
@@ -453,6 +458,7 @@ This banner notice must not be removed.
         --dialog-border-width:  1px;
         --dialog-border-radius: 0.4rem;
         --dialog-box-shadow:    -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
+        --dialog-icon-color:    rgb(255, 255, 255);
     }
 
     /*
@@ -462,51 +468,62 @@ This banner notice must not be removed.
     @media not print {
         .dark {
             /* Main colors */
-            --bg-color: rgb(24, 28, 38);
-            --bg-color-alt: rgb(38, 42, 54);
-            --fg-color: rgb(255, 255, 255);
-            --fg-color-alt: rgb(255, 255, 255);
-            --border-color: rgb(228, 228, 228);
-            --border-color-alt: rgba(228, 228, 228, 0.5);
+            --bg-color: rgb(14, 18, 28);
+            --bg-color-alt: rgb(18, 24, 42);
+            --fg-color: rgb(215, 225, 245);
+            --fg-color-alt: rgb(168, 185, 218);
+            --border-color: rgba(100, 145, 215, 0.20);
+            --border-color-alt: rgba(100, 145, 215, 0.12);
             --outline-color: rgba(0, 191, 255, 0.8);
             --hr-color: rgba(128, 128, 128, 0.5);
 
             /* Background colors */
-            --header-bg-color: radial-gradient(circle, rgb(167, 187, 207), rgba(167, 187, 207, 0.7));
-            --nav-bg-color: rgba(167, 187, 207, 0.7);
-            --footer-bg-color: rgb(167, 187, 207);
-            --buttons-bg-color: rgb(80, 80, 70);
-            --progress-bg-color: rgb(67, 77, 97);
-            --inputs-bg-color: rgba(80, 80, 70, 0.5);
+            --header-bg-color: linear-gradient(155deg, rgb(4, 8, 28) 0%, rgb(10, 22, 68) 55%, rgb(18, 48, 90) 100%);
+            --nav-bg-color: rgba(0, 0, 0, 0.42);
+            --footer-bg-color: rgb(12, 18, 35);
+            --buttons-bg-color:       rgb(30, 112, 178);
+            --buttons-bg-color-hover: rgb(42, 135, 205);
+            --progress-bg-color: rgb(22, 38, 72);
+            --inputs-bg-color: rgb(18, 24, 42);
 
             /* Foreground colors */
-            --header-fg-color: rgb(41, 41, 45);
-            --nav-fg-color: rgb(31, 31, 35);
-            --footer-fg-color: rgb(41, 41, 45);
-            --buttons-fg-color: rgb(225, 225, 215);
-            --progress-fg-color: rgb(226, 226, 248);
-            --h1-color: rgb(190, 204, 255);
-            --h2-color: rgb(190, 204, 223);
-            --h3-color: rgb(174, 190, 208);
-            --h4-color: rgb(174, 190, 208);
-            --h5-color: rgb(170, 180, 208);
-            --h6-color: rgb(180, 190, 218);
+            --header-fg-color: rgb(210, 222, 248);
+            --nav-fg-color: rgb(190, 208, 242);
+            --footer-fg-color: rgb(168, 185, 218);
+            --buttons-fg-color: rgb(255, 255, 255);
+            --progress-fg-color: rgb(62, 162, 215);
+            --h1-color: rgb(215, 225, 245);
+            --h2-color: rgb(195, 210, 238);
+            --h3-color: rgb(175, 195, 228);
+            --h4-color: rgb(175, 195, 228);
+            --h5-color: rgb(155, 178, 215);
+            --h6-color: rgb(135, 162, 202);
 
             /* Table colors */
-            --table-border-color: rgba(160, 170, 190, 0.3);
-            --table-cell-bg-color: var(--bg-color);
-            --table-row-stripped-bg-color: rgb(36, 38, 50);
-            --table-head-bg-color: rgb(24, 26, 36);
-            --table-head-fg-color: rgb(220, 225, 240);
-            --table-caption-bg-color: rgb(24, 26, 36);
-            --table-caption-fg-color: rgb(220, 225, 240);
+            --table-border-color: rgba(100, 145, 215, 0.15);
+            --table-cell-bg-color: rgb(18, 24, 42);
+            --table-row-stripped-bg-color: rgb(18, 26, 48);
+            --table-head-bg-color: rgb(14, 20, 38);
+            --table-head-fg-color: rgb(215, 225, 245);
+            --table-caption-bg-color: rgb(14, 20, 38);
+            --table-caption-fg-color: rgb(168, 185, 218);
 
             /* Other colors */
-            --a-color: rgb(25, 195, 255);
+            --a-color: rgb(72, 162, 218);
             --s-color: rgb(180, 180, 180);
-            --blockquote-border-color: rgb(200, 180, 200);
-            --blockquote-footer-color: rgb(200, 180, 200);
-            --li-color: rgb(200, 80, 80);
+            --li-color: rgb(62, 182, 180);
+            --blockquote-border-color: rgb(62, 148, 202);
+            --blockquote-footer-color: rgb(125, 162, 205);
+            --blockquote-border-width: calc(0.25 * var(--font-size));
+            --shadow-color: rgba(30, 90, 200, 0.25);
+
+            /* Switch */
+            --switch-bg-color:           rgb(25, 38, 65);
+            --switch-slider-off-color:   rgb(85, 112, 168);
+            --switch-slider-on-color:    rgb(72, 162, 218);
+
+            /* Dialogs */
+            --dialog-icon-color: rgb(14, 18, 28);
 
             /* Alerts */
             --info-color: rgb(130, 160, 255);
@@ -871,6 +888,8 @@ This banner notice must not be removed.
     }
 
     h1 {
+        font-size: calc(1.9 * var(--font-size));
+        line-height: var(--line-height);
         color: var(--h1-color);
         font-weight: var(--font-weight-bold);
         letter-spacing: calc(4*var(--letter-spacing));
@@ -892,6 +911,8 @@ This banner notice must not be removed.
     }
 
     h2 {
+        font-size: calc(1.6 * var(--font-size));
+        line-height: var(--line-height);
         color: var(--h2-color);
         font-weight: var(--font-weight-bold);
         letter-spacing: calc(3*var(--letter-spacing));
@@ -912,28 +933,33 @@ This banner notice must not be removed.
     }
 
     h3 {
-        font-size: calc(1.5 * var(--font-size));
-        line-height: calc(1.5 * var(--typography-spacing-vertical));
+        font-size: calc(1.35 * var(--font-size));
+        line-height: var(--line-height);
         font-weight: var(--font-weight-semibold);
         color: var(--h3-color);
         letter-spacing: calc(2*var(--letter-spacing));
     }
 
     h4 {
-        font-size: calc(1.3 * var(--font-size));
+        font-size: calc(1.15 * var(--font-size));
+        line-height: var(--line-height);
         letter-spacing: calc(1.4*var(--letter-spacing));
         color: var(--h4-color);
         font-weight: var(--font-weight-semibold);
     }
 
     h5 {
-        font-size: calc(1.1 * var(--font-size));
+        font-size: calc(1.05 * var(--font-size));
+        line-height: var(--line-height);
         letter-spacing: calc(1.2*var(--letter-spacing));
         color: var(--h5-color);
+        font-weight: var(--font-weight-semibold);
     }
 
     h6 {
-        font-style: italic;
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+        font-weight: var(--font-weight-normal);
         color: var(--h6-color);
     }
 
@@ -1045,14 +1071,8 @@ This banner notice must not be removed.
         color: var(--blockquote-footer-color);
     }
 
-    blockquote, 
-    blockquote > p, 
-    blockquote > a { /* TODO: is this list ok ? hum... it seems a better selector should be applied */
+    blockquote {
         font-weight: var(--font-weight-semibold);
-    }
-
-    blockquote * {
-        background-color: transparent;
     }
 
     a, 
@@ -1072,10 +1092,13 @@ This banner notice must not be removed.
         text-underline-offset: 0.25em;
     }
 
-    a:hover {
-        /* TODO: Consider a more accesible solution than opacity */
-        opacity: 90%; 
-    }
+    /*
+    a:not(:has(img)):hover,
+    [role=link]:not(:has(img)):hover {
+        color: var(--bg-color);
+        background-size: 100% 100%;
+        transition: background-size .35s ease, color 0s;
+    }*/
 
     /* Image links: the clickable box must match the image (no extra line box). */
     a:has(> img) {
@@ -1090,16 +1113,15 @@ This banner notice must not be removed.
     a.external-link::after {
         position: relative;
         content: "";
-        background-image: var(--external-link-icon);
-        background-size: 100% 100%;
-        /* TODO: apply the FG color of 'a' to the external link */
+        background-color: var(--a-color);
+        mask-image: var(--external-link-icon);
+        mask-size: 100% 100%;
         display: inline-block;
         width: calc(0.85 * var(--font-size));
         height: calc(0.85 * var(--font-size));
-        padding-top: calc(0.1 * var(--font-size));;
+        padding-top: calc(0.1 * var(--font-size));
         margin-left: 0.2rem;
         margin-right: 0.2rem;
-        text-decoration: underline;
     }
 
     /* ----------------- Button, Label and Input tags ----------------------- */
@@ -1174,14 +1196,8 @@ This banner notice must not be removed.
     button:enabled:is(:hover,:active,:focus),
     button:enabled:is([aria-current]:not([aria-current=false])),
     summary:is(:hover,:active,:focus) {
-        /* TODO: Consider a more accesible solution than opacity */
-        opacity: 75%;
-    }
-
-    button:enabled img:hover {
-        /* TODO: Consider a more accesible solution than opacity */
-        /*transform: scale(1.2);*/
-        opacity: 75%;
+        background: var(--buttons-bg-color-hover);
+        color: var(--buttons-fg-color);
     }
 
     /* Propagate button colors to its children */
@@ -1408,15 +1424,19 @@ This banner notice must not be removed.
     /* ----------------- progress ----------- */
 
     progress {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: calc(0.75 * var(--font-size));
         border: var(--border-color) solid var(--border-width);
         border-radius: var(--border-radius);
         background-color: var(--progress-bg-color);
-        overflow: hidden;
         color: var(--progress-fg-color);
         background: var(--progress-bg-color);
-        color: var(--progress-fg-color);
         position: relative;
         display: block;
+        overflow: hidden;
     }
 
     progress::-webkit-progress-bar {
@@ -1459,8 +1479,9 @@ This banner notice must not be removed.
     }
 
     summary {
+        border: var(--border-width) solid var(--border-color-alt);
         font-weight: var(--font-weight-semibold);
-        border: none;
+        border-radius: var(--border-radius);
         margin: 0;
         vertical-align: middle;
         /*height: 2.4rem;*/
@@ -1861,7 +1882,7 @@ This banner notice must not be removed.
     /* ── Code ────────────────────────────────────────────────────────────── */
 
     code {
-        background: var(--table-row-stripped-bg-color);
+        background: var(--code-bg-color);
         border-radius: 0.2rem;
         line-height: 1.125rem;
         padding: 0.225rem 0.4rem 0.16rem;
@@ -1877,8 +1898,6 @@ This banner notice must not be removed.
 
     button,
     *[role=button],
-    *[role="menuitem"],
-    .menuitem,
     summary {
         padding-left: calc(0.5 * var(--typography-spacing-horizontal));
         padding-right: calc(0.5 * var(--typography-spacing-horizontal));
@@ -2133,8 +2152,9 @@ This banner notice must not be removed.
 
 }
 
-/* Unlayered: beats all @layer rules — table cell children are transparent, the cell itself provides the background */
+/* Unlayered: beats all @layer rules — these containers provide the background, their children must be transparent */
 td *,
-th * {
+th *,
+blockquote * {
     background-color: transparent;
 }

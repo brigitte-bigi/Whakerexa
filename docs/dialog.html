@@ -18,12 +18,7 @@
     <style>
         :root {
             --nav-min-height: 4rem;
-            --header-height: 26rem;
-            --nav-bg-color: transparent;
-        }
-        :root:not(.dark) {
-            --nav-fg-color: rgba(240, 230, 240);
-            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
+            --header-height: 20rem;
         }
         .dialog-demo {
             display: flex;
@@ -202,6 +197,11 @@
             <td><code>--dialog-box-shadow</code></td>
             <td>Box shadow for dialogs</td>
             <td colspan="2"><code>-0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5)</code></td>
+        </tr>
+        <tr>
+            <td><code>--dialog-icon-color</code></td>
+            <td>Icon and button text color on colored backgrounds — light: <code>rgb(255, 255, 255)</code>, dark: <code>rgb(14, 18, 28)</code></td>
+            <td colspan="2"><code>rgb(255, 255, 255)</code></td>
         </tr>
         </tbody>
     </table>
