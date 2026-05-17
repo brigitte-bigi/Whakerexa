@@ -143,7 +143,7 @@ export default class SlidesAssembler {
 
         document.addEventListener('slides:viewmode', (e) => {
             const { mode, action } = e.detail;
-            if (action === 'toggle') { this._modeLogic.toggle(); }
+            if (action === 'toggle') { this._modeLogic.toggle(mode); }
             else { this._modeLogic.set(mode); }
         });
 

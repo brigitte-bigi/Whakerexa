@@ -320,6 +320,41 @@ body.presentation-view {
 
 
 /* =======================================================================
+                          THE HANDOUT VIEW
+   ======================================================================= */
+
+body.handout-view {
+    --screen-width: calc(1024px / var(--slides-size-divisor));
+    --height: calc(var(--screen-width) * 9 / 16);
+    --font-size: calc(32px / (var(--slides-fontsize-divisor)));
+
+    width: var(--screen-width);
+    margin-left: auto;
+    margin-right: auto;
+    counter-reset: slides;
+}
+
+body.handout-view .slide,
+body.handout-view .slide[aria-selected] ~ .slide {
+    position: relative;
+    left: 0;
+    width: var(--screen-width);
+    height: var(--height);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: max(var(--border-width), 2px) solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+@media print {
+    body.handout-view .slide {
+        break-after: page;
+        margin-bottom: 0;
+    }
+}
+
+
+/* =======================================================================
                           THE OVERVIEW VIEW
    ======================================================================= */
 
@@ -435,38 +470,38 @@ body.presentation-view {
 
 /* @layer base sets background-color: var(--bg-color) on ALL elements (*).
    Transparent backgrounds prevent a solid block behind dimmed items. */
-.incremental {
+body.presentation-view .incremental {
     opacity: 0.15;
     background-color: transparent;
 }
 
-.incremental[active] {
+body.presentation-view .incremental[active] {
     opacity: 1;
     background-color: transparent;
 }
 
-.incremental > * {
+body.presentation-view .incremental > * {
     opacity: 1;
     background-color: transparent;
 }
 
-.incremental > *[aria-selected] {
+body.presentation-view .incremental > *[aria-selected] {
     color: var(--fg-color);
     opacity: 1;
     background-color: transparent;
 }
 
-.incremental > *[aria-selected] ~ * {
+body.presentation-view .incremental > *[aria-selected] ~ * {
     opacity: 0.2;
     background-color: transparent;
 }
 
-.incremental-invisible {
+body.presentation-view .incremental-invisible {
     opacity: 0.05;
     background-color: transparent;
 }
 
-.incremental-invisible > *[aria-selected] ~ * {
+body.presentation-view .incremental-invisible > *[aria-selected] ~ * {
     opacity: 0.05;
     background-color: transparent;
 }
@@ -528,6 +563,16 @@ body.presentation-view {
     :root {
         --custom-color1: rgb(41, 35, 92);
         --custom-color2: rgb(29, 113, 184);
+        --slide-bg-color: rgb(250, 248, 252);
+    }
+
+    .dark {
+        --slide-bg-color: rgb(14, 18, 28);
+    }
+
+    /* Slide background */
+    .slide {
+        background-color: var(--slide-bg-color, var(--bg-color));
     }
 
     /* Page counter */

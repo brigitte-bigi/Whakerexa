@@ -45,7 +45,7 @@
  *
  * CustomEvents dispatched on document:
  *   slides:navigate  → { action: 'next'|'prev'|'goStart'|'goEnd'|'toggleContent' }
- *   slides:viewmode  → { mode: 'presentation'|'overview' } | { action: 'toggle' }
+ *   slides:viewmode  → { mode: 'presentation' } | { action: 'toggle', mode: string }
  *   slides:visibility → { name: 'accessibility'|'controls'|'progress'|'logo', action: 'toggle' }
  *   slides:fullscreen → {}
  *   slides:help      → { action: 'toggle' }
@@ -107,11 +107,11 @@ export default class KeyboardController {
                 return;
 
             case 'o': case 'O':
-                this._emit('slides:viewmode', { action: 'toggle' });
+                this._emit('slides:viewmode', { action: 'toggle', mode: 'overview' });
                 return;
 
             case 'd': case 'D':
-                this._emit('slides:viewmode', { mode: 'handout' });
+                this._emit('slides:viewmode', { action: 'toggle', mode: 'handout' });
                 return;
 
             case 'f': case 'F':

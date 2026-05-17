@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 12:30:43
+// Bundle automatically generated on 2026-05-17 14:21:56
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -557,10 +557,10 @@ class ViewModeLogic {
             this._onModeChange(this._data);
         }
     }
-    toggle() {
-        const next = this._data.mode === ViewModeLogic.MODES.OVERVIEW
+    toggle(mode = ViewModeLogic.MODES.OVERVIEW) {
+        const next = this._data.mode === mode
             ? ViewModeLogic.MODES.PRESENTATION
-            : ViewModeLogic.MODES.OVERVIEW;
+            : mode;
         this._data.mode = next;
         if (this._onModeChange !== null) {
             this._onModeChange(this._data);
@@ -1035,10 +1035,10 @@ class KeyboardController {
                 this._emit('slides:viewmode', { mode: 'presentation' });
                 return;
             case 'o': case 'O':
-                this._emit('slides:viewmode', { action: 'toggle' });
+                this._emit('slides:viewmode', { action: 'toggle', mode: 'overview' });
                 return;
             case 'd': case 'D':
-                this._emit('slides:viewmode', { mode: 'handout' });
+                this._emit('slides:viewmode', { action: 'toggle', mode: 'handout' });
                 return;
             case 'f': case 'F':
                 this._emit('slides:fullscreen', {});
@@ -1308,7 +1308,7 @@ class SlidesAssembler {
         });
         document.addEventListener('slides:viewmode', (e) => {
             const { mode, action } = e.detail;
-            if (action === 'toggle') { this._modeLogic.toggle(); }
+            if (action === 'toggle') { this._modeLogic.toggle(mode); }
             else { this._modeLogic.set(mode); }
         });
         document.addEventListener('slides:visibility', (e) => {
