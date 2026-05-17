@@ -175,7 +175,7 @@ Previous procedural APIs are not preserved.
 Increased accessibility and corrected bugs.
 
 
-## Version 2.2 - develop
+## Version 3.0
 
 ### CSS architecture
 
@@ -315,7 +315,26 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
 - `wexa.css`: removed `--icon-contrast` and `--icon-color` CSS variables; added
   `.menuitem.accessibility svg { color: inherit; }` so injected SVGs inherit the nav foreground.
 
-### Breaking changes (2.1 → 2.2)
+### Slides — View modes
+
+- New **handout mode** (`d` key or button): all slides displayed as a scrollable column, ready for printing.
+  Each slide preserves its 16:9 aspect ratio with a visible border. Print layout uses `break-after: page`.
+- New **overview mode** rewritten: one radio button per slide (accessible radio group), showing slide number
+  and first heading. The radio for the current slide is checked. Selecting a slide navigates to it and
+  switches back to presentation mode.
+- View-mode toggle generalized: any mode key (`o`, `d`) toggles back to presentation when already in that
+  mode. `ViewModeLogic.toggle(mode)` is the single implementation — no per-mode duplication.
+- Incremental items (`.incremental`, `.incremental-invisible`) are only animated in presentation mode.
+  They are fully visible in handout and overview.
+- New `--slide-bg-color` CSS variable: distinct background for slide content (falls back to `--bg-color`).
+- Accessibility controls container changed from `<div>` to `<nav class="nav-wexa">` with `menuitem` buttons.
+
+### CSS
+
+- `wexa.css`: added `label > [type=radio]` and `label > [type=checkbox]` hiding rule — covers the
+  UI-button pattern (input inside label) missing from the existing form rules.
+
+### Breaking changes (2.1 → 3.0)
 
 | What changed | Old value | New value |
 |---|---|---|
@@ -326,5 +345,41 @@ Alternative themes are standalone CSS files that contain only an `@layer theme` 
 | Print styles | `@media print` blocks in each file | `print.css` (loaded with `media="print"`) |
 | Accessibility color button id | `btn-theme` | `btn-color` |
 | Accessibility button icons | `background-image` data-URI | inline SVG injected by `AccessibilityManager` |
+
+
+## Version 3.1
+
+### Slides — Memo mode
+
+- New **memo mode** (`m` key): displays all slides as a scrollable column, each paired with its
+  speaker notes in a side-by-side grid (65 % slide / 35 % notes).
+- HTML contract: notes are written as `<aside for="slide-id" aria-label="Speaker notes">` siblings
+  of `<section class="slide" id="slide-id">` — no longer embedded inside the slide element.
+- New `note_view.js`: wraps each slide and its associated aside into a `.note-container` grid on
+  mode entry; restores the original DOM on exit. Toggling `m` switches back to presentation mode.
+- Slide content is scaled with `transform: scale(0.65)` so all internal proportions are preserved.
+- `aside[for]` elements are hidden by default (`display: none`) and shown only in memo mode.
+
+### CSS fixes
+
+- `slides.css`: `color: var(--bg-color)` replaced by `color: var(--custom-color1)` wherever
+  `--custom-color2` is used as background — `--custom-color1` and `--custom-color2` are designed
+  as a contrasting pair. The former pattern broke in themes where `--bg-color` is `transparent`.
+- `slides.css`: radio inputs inside view-mode controls are now visually hidden (`position: absolute`)
+  so the label text is correctly centered in the button.
+- `wexa_theme_highcontrast.css`: same `--custom-color1`/`--custom-color2` fix applied to `.slide > h2`.
+
+### book.css
+
+- `--numbers-color` split into `--numbers-bg-color` (background of chapter number badge) and
+  `--numbers-fg-color` (text color inside the badge). Inline section/subsection counters now use
+  `--numbers-bg-color` as text color, consistent with the previous behavior.
+
+### Breaking changes (3.0 → 3.1)
+
+| What changed | Old value | New value |
+|---|---|---|
+| Slide notes HTML | `<aside role="note">` inside `<section class="slide">` | `<aside for="slide-id">` sibling of `<section id="slide-id">` |
+| book.css number variable | `--numbers-color` | `--numbers-bg-color` / `--numbers-fg-color` |
 
 

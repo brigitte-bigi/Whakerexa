@@ -355,6 +355,63 @@ body.handout-view .slide[aria-selected] ~ .slide {
 
 
 /* =======================================================================
+                           THE NOTE VIEW (MEMO)
+   ======================================================================= */
+
+body.note-view {
+    --screen-width: calc(1024px / var(--slides-size-divisor));
+    --height: calc(var(--screen-width) * 0.65 * 9 / 16);
+    --font-size: calc(32px / var(--slides-fontsize-divisor));
+
+    width: var(--screen-width);
+    margin-left: auto;
+    margin-right: auto;
+    counter-reset: slides;
+}
+
+body.note-view .note-container {
+    display: grid;
+    grid-template-columns: calc(var(--screen-width) * 0.65) 1fr;
+    height: var(--height);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+body.note-view .slide,
+body.note-view .slide[aria-selected] ~ .slide {
+    position: relative;
+    left: 0;
+    width: var(--screen-width);
+    height: calc(var(--screen-width) * 9 / 16);
+    transform: scale(0.65);
+    transform-origin: top left;
+    border: max(var(--border-width), 2px) solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+aside[for] {
+    display: none;
+}
+
+body.note-view aside[for] {
+    display: block;
+    float: none;
+    width: auto;
+    padding: 1rem;
+    padding-left: 1.5rem;
+    overflow-y: auto;
+    font-size: 0.85rem;
+}
+
+@media print {
+    body.note-view .note-container {
+        break-after: page;
+        margin-bottom: 0;
+    }
+}
+
+
+/* =======================================================================
                           THE OVERVIEW VIEW
    ======================================================================= */
 
@@ -386,6 +443,7 @@ body.handout-view .slide[aria-selected] ~ .slide {
     font-size: 75%;
     opacity: 0.6;
     background-color: transparent;
+    color: inherit;
 }
 
 .overview-title {
@@ -393,6 +451,7 @@ body.handout-view .slide[aria-selected] ~ .slide {
     text-align: center;
     word-break: break-word;
     background-color: transparent;
+    color: inherit;
 }
 
 
@@ -529,10 +588,19 @@ body.presentation-view {
 }
 
 
+/* Radio inputs are state-only — visually hidden, kept accessible */
+#slides-controls-view input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* Active view-mode label — unlayered to beat menu.css .menuitem rules */
 #slides-controls-view label:has(input[type="radio"]:checked) {
     background: var(--custom-color2);
-    color: var(--bg-color);
+    color: var(--custom-color1);
 }
 
 #accessibility-controls.controls-hidden,
@@ -660,8 +728,14 @@ body.presentation-view {
     .overview-btn:hover,
     .overview-btn:focus-visible {
         background: var(--custom-color2);
-        color: var(--bg-color);
+        color: var(--custom-color1);
         border-color: var(--custom-color2);
+    }
+
+    /* Notes column */
+    body.note-view aside[for] {
+        border-left: max(var(--border-width), 2px) solid var(--border-color);
+        color: var(--fg-color);
     }
 
 }

@@ -36,6 +36,7 @@ import SlidesData          from './slides_data.js';
 import NavigationLogic     from './navigation_logic.js';
 import ViewModeLogic       from './viewmode_logic.js';
 import PresentationView    from './presentation_view.js';
+import NoteView            from './note_view.js';
 import OverviewView        from './overview_view.js';
 import SlidesFocusController    from './focus.js';
 import SlidesFullscreenController from './fullscreen.js';
@@ -90,6 +91,8 @@ export default class SlidesAssembler {
             ? new OverviewView(config.slides, config.overviewContainer)
             : null;
 
+        this._noteView = new NoteView(config.slides);
+
         // ── 4. UTILITIES ─────────────────────────────────────────────────────
         this._focus      = new SlidesFocusController();
         this._fullscreen = new SlidesFullscreenController();
@@ -116,6 +119,7 @@ export default class SlidesAssembler {
             goToButton:         c?.querySelector('#btn-goto')         || null,
             overviewButton:     v?.querySelector('#btn-overview')     || null,
             handoutButton:      v?.querySelector('#btn-handout')      || null,
+            noteButton:         v?.querySelector('#btn-note')         || null,
             presentationButton: v?.querySelector('#btn-presentation') || null,
             fullscreenButton:   c?.querySelector('#btn-fullscreen')   || null,
         });
@@ -131,6 +135,7 @@ export default class SlidesAssembler {
         };
 
         this._modeLogic.onModeChange = (data) => {
+            this._noteView.onModeChange(data);
             this._presentationView.onModeChange(data);
             if (this._overviewView !== null) {
                 this._overviewView.onModeChange(data);

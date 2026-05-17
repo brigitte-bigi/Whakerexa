@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 16:02:49
+// Bundle automatically generated on 2026-05-17 21:01:50
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -535,6 +535,7 @@ class ViewModeLogic {
         PRESENTATION: 'presentation',
         OVERVIEW:     'overview',
         HANDOUT:      'handout',
+        NOTE:         'note',
     };
     static DEFAULT = 'presentation';
     constructor(data) {
@@ -842,7 +843,7 @@ class PresentationView {
         }
         this._currentMode = data.mode;
         document.body.classList.add(`${data.mode}-view`);
-        if (data.mode === 'presentation' || data.mode === 'handout') {
+        if (data.mode === 'presentation' || data.mode === 'handout' || data.mode === 'note') {
             this._showSlides();
         } else {
             this._hideSlides();
@@ -907,7 +908,7 @@ class PresentationView {
     }
     _showSlides() {
         for (const slide of this._slides) {
-            slide.style.display = 'block';
+            slide.style.display = '';
         }
     }
     _hideSlides() {
@@ -1026,6 +1027,7 @@ class KeyboardController {
         { keys: ['f', 'F'],                               label: 'Fullscreen' },
         { keys: ['o', 'O'],                               label: 'Overview mode' },
         { keys: ['d', 'D'],                               label: 'Handout mode' },
+        { keys: ['m', 'M'],                               label: 'Memo mode' },
         { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
         { keys: ['a', 'A'],                               label: 'Accessibility controls' },
         { keys: ['n', 'N'],                               label: 'Navigation controls' },
@@ -1063,6 +1065,9 @@ class KeyboardController {
                 return;
             case 'd': case 'D':
                 this._emit('slides:viewmode', { action: 'toggle', mode: 'handout' });
+                return;
+            case 'm': case 'M':
+                this._emit('slides:viewmode', { action: 'toggle', mode: 'note' });
                 return;
             case 'f': case 'F':
                 this._emit('slides:fullscreen', {});
@@ -1196,6 +1201,7 @@ class ButtonsController {
         lastButton         = null,
         overviewButton     = null,
         handoutButton      = null,
+        noteButton         = null,
         presentationButton = null,
         fullscreenButton   = null,
         goToButton         = null,
@@ -1207,6 +1213,7 @@ class ButtonsController {
             last:         this._el(lastButton),
             overview:     this._el(overviewButton),
             handout:      this._el(handoutButton),
+            note:         this._el(noteButton),
             presentation: this._el(presentationButton),
             fullscreen:   this._el(fullscreenButton),
             goto:         this._el(goToButton),
@@ -1222,6 +1229,9 @@ class ButtonsController {
         }
         if (this._b.handout instanceof HTMLElement) {
             this._b.handout.checked = (data.mode === 'handout');
+        }
+        if (this._b.note instanceof HTMLElement) {
+            this._b.note.checked = (data.mode === 'note');
         }
         if (this._b.presentation instanceof HTMLElement) {
             this._b.presentation.checked = (data.mode === 'presentation');
@@ -1246,6 +1256,7 @@ class ButtonsController {
         b.last?.addEventListener('click',     () => nav('goEnd'));
         b.overview?.addEventListener('change', () => mode('overview'));
         b.handout?.addEventListener('change',  () => mode('handout'));
+        b.note?.addEventListener('change',     () => mode('note'));
         b.presentation?.addEventListener('change', () => mode('presentation'));
         b.fullscreen?.addEventListener('click', () =>
             document.dispatchEvent(new CustomEvent('slides:fullscreen', { detail: {} }))
@@ -1288,6 +1299,7 @@ class SlidesAssembler {
         this._overviewView = config.overviewContainer instanceof HTMLElement
             ? new OverviewView(config.slides, config.overviewContainer)
             : null;
+        this._noteView = new NoteView(config.slides);
         // ── 4. UTILITIES ─────────────────────────────────────────────────────
         this._focus      = new SlidesFocusController();
         this._fullscreen = new SlidesFullscreenController();
@@ -1311,6 +1323,7 @@ class SlidesAssembler {
             goToButton:         c?.querySelector('#btn-goto')         || null,
             overviewButton:     v?.querySelector('#btn-overview')     || null,
             handoutButton:      v?.querySelector('#btn-handout')      || null,
+            noteButton:         v?.querySelector('#btn-note')         || null,
             presentationButton: v?.querySelector('#btn-presentation') || null,
             fullscreenButton:   c?.querySelector('#btn-fullscreen')   || null,
         });
@@ -1323,6 +1336,7 @@ class SlidesAssembler {
             }
         };
         this._modeLogic.onModeChange = (data) => {
+            this._noteView.onModeChange(data);
             this._presentationView.onModeChange(data);
             if (this._overviewView !== null) {
                 this._overviewView.onModeChange(data);

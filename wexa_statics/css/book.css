@@ -32,10 +32,12 @@ This banner notice must not be removed.
 
 :root {
     --toc-width: 0;
-    --numbers-color: rgb(140, 40, 40);
+    --numbers-bg-color: rgb(140, 40, 40);
+    --numbers-fg-color: rgb(250, 248, 252);
 }
 .dark {
-    --numbers-color: rgb(240, 180, 180);
+    --numbers-bg-color: rgb(240, 180, 180);
+    --numbers-fg-color: rgb(14, 18, 28);
 }
 
 html {
@@ -78,8 +80,8 @@ body {
 }
 
 .chapter > h1::before {
-    background-color: var(--numbers-color);
-    color: var(--bg-color);
+    background-color: var(--numbers-bg-color);
+    color: var(--numbers-fg-color);
     content: counter(chapter) ".";
     padding-top: 1rem;
     padding-bottom: 2rem;
@@ -105,7 +107,7 @@ body {
 
 .ssection h2::before {
     content: counter(chapter) "." counter(ssection) " ";
-    color: var(--numbers-color);
+    color: var(--numbers-bg-color);
 }
 
 /* A new numbered sub-section in the section */
@@ -115,7 +117,7 @@ body {
 
 .subssection h3::before {
     content: counter(chapter) "." counter(ssection) "." counter(subssection) " ";
-    color: var(--numbers-color);
+    color: var(--numbers-bg-color);
 }
 
 /* ----------------------------------------------------------------------- */

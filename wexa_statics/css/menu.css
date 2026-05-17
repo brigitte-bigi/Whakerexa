@@ -72,12 +72,6 @@ nav.nav-wexa {
     min-width: var(--nav-min-width);
 }
 
-/* Reset margin and padding of all elements */
-nav.nav-wexa * {
-    margin: 0;
-    padding: 0;
-}
-
 /* Required for a submenu positioning */
 nav.nav-wexa ul > li {
     position: relative;
@@ -114,8 +108,8 @@ nav#header-nav-content :is([role="menuitem"], .menuitem) {
 }
 
 nav#header-nav-content :is([role="menuitem"], .menuitem) > svg {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
 }
 
 /* ----------------------------------------------------------------------
@@ -246,7 +240,6 @@ nav.nav-wexa.side.collapsible.expanded {
     Base style for all nav menu items
    ----------------------------------------------------------------------- */
 
-
 :is([role="menuitem"], .menuitem) {
     min-height: var(--nav-item-min-height);
     height:     var(--nav-item-height);
@@ -256,6 +249,11 @@ nav.nav-wexa.side.collapsible.expanded {
     min-width: var(--nav-item-min-width-h);
     width:     var(--nav-item-width-h);
     max-width: var(--nav-item-max-width-h);
+
+    padding-left: calc(0.2 * var(--typography-spacing-horizontal));
+    padding-right: calc(0.2 * var(--typography-spacing-horizontal));
+    padding-top: calc(0.2 * var(--typography-spacing-vertical));
+    padding-bottom: calc(0.2 * var(--typography-spacing-vertical));
 
     text-decoration: none;
 }
@@ -275,7 +273,6 @@ nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
     width: calc(1.8rem / var(--size-divisor));
     height: calc(1.8rem / var(--size-divisor));
     cursor: pointer;
-    padding: 0;
     margin: 0;
 }
 

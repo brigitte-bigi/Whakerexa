@@ -44,6 +44,7 @@ export default class ViewModeLogic {
         PRESENTATION: 'presentation',
         OVERVIEW:     'overview',
         HANDOUT:      'handout',
+        NOTE:         'note',
     };
 
     static DEFAULT = 'presentation';

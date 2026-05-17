@@ -85,7 +85,7 @@ export default class PresentationView {
         this._currentMode = data.mode;
         document.body.classList.add(`${data.mode}-view`);
 
-        if (data.mode === 'presentation' || data.mode === 'handout') {
+        if (data.mode === 'presentation' || data.mode === 'handout' || data.mode === 'note') {
             this._showSlides();
         } else {
             this._hideSlides();
@@ -182,7 +182,7 @@ export default class PresentationView {
     /** @private */
     _showSlides() {
         for (const slide of this._slides) {
-            slide.style.display = 'block';
+            slide.style.display = '';
         }
     }
 
