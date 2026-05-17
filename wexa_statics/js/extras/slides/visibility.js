@@ -56,6 +56,13 @@ export default class SlidesVisibilityController {
      * Show the element.
      * @returns {void}
      */
+    isVisible() {
+        if (!(this._element instanceof HTMLElement)) {
+            return false;
+        }
+        return window.getComputedStyle(this._element).display !== 'none';
+    }
+
     show() {
         if (this._element instanceof HTMLElement) {
             this._element.classList.remove('controls-hidden');

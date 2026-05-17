@@ -35,30 +35,20 @@
 /**
  * Builds and displays the overview panel.
  *
- * Each slide is represented as an <article> with:
- *   <header>  slide number
- *   <main>    cloned slide content
- *   <footer>  GoTo button
+ * Each slide is represented as a <button> showing its number and title.
+ * Clicking navigates to the slide and switches to presentation mode.
  *
- * GoTo buttons dispatch CustomEvents — no callback needed, no reference
- * to any controller or logic module.
+ * Buttons dispatch CustomEvents — no reference to any controller or logic.
  */
 export default class OverviewView {
 
     /**
-     * @param {HTMLElement[]} slides - Source slides (will be cloned).
-     * @param {HTMLElement} panelElement - The container for the overview.
+     * @param {HTMLElement[]} slides
+     * @param {HTMLElement|null} panelElement
      */
     constructor(slides, panelElement) {
-        this._slides = Array.isArray(slides)
-            ? slides.map(s => s.cloneNode(true))
-            : [];
-
-        this._panel = panelElement instanceof HTMLElement ? panelElement : null;
-
-        if (this._panel !== null) {
-            this._panel.style.display = 'none';
-        }
+        this._slides = Array.isArray(slides) ? slides : [];
+        this._panel  = panelElement instanceof HTMLElement ? panelElement : null;
     }
 
     // -----------------------------------------------------------------------
@@ -66,7 +56,7 @@ export default class OverviewView {
     // -----------------------------------------------------------------------
 
     /**
-     * Populate the overview panel with cloned slide articles.
+     * Populate the overview panel with one button per slide.
      */
     build() {
         if (this._panel === null) {
@@ -78,28 +68,22 @@ export default class OverviewView {
         this._slides.forEach((slide, i) => {
             const index = i + 1;
 
-            const article = document.createElement('article');
-            article.className = 'overview-item';
-
-            // Header: slide number
-            const header = document.createElement('header');
-            header.textContent = String(index);
-            article.appendChild(header);
-
-            // Main: cloned slide content (inner HTML only)
-            const main = document.createElement('main');
-            main.appendChild(
-                document.createRange().createContextualFragment(slide.innerHTML)
-            );
-            article.appendChild(main);
-
-            // Footer: GoTo button
-            const footer = document.createElement('footer');
             const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.textContent = 'GoTo';
+            btn.type      = 'button';
+            btn.className = 'overview-btn';
+
+            const numEl = document.createElement('span');
+            numEl.className   = 'overview-num';
+            numEl.textContent = String(index);
+
+            const titleEl = document.createElement('span');
+            titleEl.className   = 'overview-title';
+            titleEl.textContent = this._slideTitle(slide);
+
+            btn.appendChild(numEl);
+            btn.appendChild(titleEl);
+
             btn.addEventListener('click', () => {
-                // Navigate to this slide and switch back to presentation
                 document.dispatchEvent(new CustomEvent('slides:navigate', {
                     detail: { action: 'goTo', index, step: 0 }
                 }));
@@ -107,10 +91,8 @@ export default class OverviewView {
                     detail: { mode: 'presentation' }
                 }));
             });
-            footer.appendChild(btn);
-            article.appendChild(footer);
 
-            this._panel.appendChild(article);
+            this._panel.appendChild(btn);
         });
     }
 
@@ -125,6 +107,21 @@ export default class OverviewView {
         if (this._panel === null) {
             return;
         }
-        this._panel.style.display = data.mode === 'overview' ? 'block' : 'none';
+        this._panel.style.display = data.mode === 'overview' ? '' : 'none';
+    }
+
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+
+    /**
+     * Extract the first heading text from a slide, or return empty string.
+     * @private
+     * @param {HTMLElement} slide
+     * @returns {string}
+     */
+    _slideTitle(slide) {
+        const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
+        return heading ? heading.textContent.trim() : '';
     }
 }

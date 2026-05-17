@@ -58,6 +58,18 @@ export default class SlidesVisibilityManager {
 
     /**
      * @param {string} name
+     * @returns {boolean}
+     */
+    isVisible(name) {
+        const controller = this._controllers[name];
+        if (controller instanceof SlidesVisibilityController) {
+            return controller.isVisible();
+        }
+        return false;
+    }
+
+    /**
+     * @param {string} name
      * @returns {void}
      */
     show(name) {

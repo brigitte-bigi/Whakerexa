@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 11:15:09
+// Bundle automatically generated on 2026-05-17 12:23:31
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -578,6 +578,12 @@ class SlidesVisibilityController {
     constructor(element) {
         this._element = element instanceof HTMLElement ? element : null;
     }
+    isVisible() {
+        if (!(this._element instanceof HTMLElement)) {
+            return false;
+        }
+        return window.getComputedStyle(this._element).display !== 'none';
+    }
     show() {
         if (this._element instanceof HTMLElement) {
             this._element.classList.remove('controls-hidden');
@@ -618,6 +624,13 @@ class SlidesVisibilityManager {
             const element = elementsMap[name];
             this._controllers[name] = new SlidesVisibilityController(element);
         }
+    }
+    isVisible(name) {
+        const controller = this._controllers[name];
+        if (controller instanceof SlidesVisibilityController) {
+            return controller.isVisible();
+        }
+        return false;
     }
     show(name) {
         const controller = this._controllers[name];
@@ -915,13 +928,8 @@ window.Wexa.PresentationView = PresentationView;
 'use strict';
 class OverviewView {
     constructor(slides, panelElement) {
-        this._slides = Array.isArray(slides)
-            ? slides.map(s => s.cloneNode(true))
-            : [];
-        this._panel = panelElement instanceof HTMLElement ? panelElement : null;
-        if (this._panel !== null) {
-            this._panel.style.display = 'none';
-        }
+        this._slides = Array.isArray(slides) ? slides : [];
+        this._panel  = panelElement instanceof HTMLElement ? panelElement : null;
     }
     // -----------------------------------------------------------------------
     // Called once during init
@@ -933,25 +941,18 @@ class OverviewView {
         this._panel.innerHTML = '';
         this._slides.forEach((slide, i) => {
             const index = i + 1;
-            const article = document.createElement('article');
-            article.className = 'overview-item';
-            // Header: slide number
-            const header = document.createElement('header');
-            header.textContent = String(index);
-            article.appendChild(header);
-            // Main: cloned slide content (inner HTML only)
-            const main = document.createElement('main');
-            main.appendChild(
-                document.createRange().createContextualFragment(slide.innerHTML)
-            );
-            article.appendChild(main);
-            // Footer: GoTo button
-            const footer = document.createElement('footer');
             const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.textContent = 'GoTo';
+            btn.type      = 'button';
+            btn.className = 'overview-btn';
+            const numEl = document.createElement('span');
+            numEl.className   = 'overview-num';
+            numEl.textContent = String(index);
+            const titleEl = document.createElement('span');
+            titleEl.className   = 'overview-title';
+            titleEl.textContent = this._slideTitle(slide);
+            btn.appendChild(numEl);
+            btn.appendChild(titleEl);
             btn.addEventListener('click', () => {
-                // Navigate to this slide and switch back to presentation
                 document.dispatchEvent(new CustomEvent('slides:navigate', {
                     detail: { action: 'goTo', index, step: 0 }
                 }));
@@ -959,9 +960,7 @@ class OverviewView {
                     detail: { mode: 'presentation' }
                 }));
             });
-            footer.appendChild(btn);
-            article.appendChild(footer);
-            this._panel.appendChild(article);
+            this._panel.appendChild(btn);
         });
     }
     // -----------------------------------------------------------------------
@@ -971,7 +970,14 @@ class OverviewView {
         if (this._panel === null) {
             return;
         }
-        this._panel.style.display = data.mode === 'overview' ? 'block' : 'none';
+        this._panel.style.display = data.mode === 'overview' ? '' : 'none';
+    }
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _slideTitle(slide) {
+        const heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
+        return heading ? heading.textContent.trim() : '';
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
