@@ -88,10 +88,8 @@ export default class PresentationView {
             this._hideSlides();
         }
 
-        // The view-mode buttons panel visibility mirrors the active mode
-        if (this._controlsView instanceof HTMLElement) {
-            this._controlsView.classList.toggle('controls-hidden', data.mode !== 'presentation');
-        }
+        // The view-mode radio group: keep visible (shows current mode and allows switching back)
+
     }
 
     // -----------------------------------------------------------------------

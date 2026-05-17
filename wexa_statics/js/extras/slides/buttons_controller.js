@@ -90,10 +90,10 @@ export default class ButtonsController {
      */
     onModeChange(data) {
         if (this._b.overview instanceof HTMLElement) {
-            this._b.overview.toggleAttribute('disabled', data.mode === 'overview');
+            this._b.overview.checked = (data.mode === 'overview');
         }
         if (this._b.presentation instanceof HTMLElement) {
-            this._b.presentation.toggleAttribute('disabled', data.mode === 'presentation');
+            this._b.presentation.checked = (data.mode === 'presentation');
         }
     }
 
@@ -118,8 +118,8 @@ export default class ButtonsController {
         b.next?.addEventListener('click',     () => nav('next'));
         b.back?.addEventListener('click',     () => nav('goStart'));
         b.last?.addEventListener('click',     () => nav('goEnd'));
-        b.overview?.addEventListener('click', () => mode('overview'));
-        b.presentation?.addEventListener('click', () => mode('presentation'));
+        b.overview?.addEventListener('change', () => mode('overview'));
+        b.presentation?.addEventListener('change', () => mode('presentation'));
 
         b.fullscreen?.addEventListener('click', () =>
             document.dispatchEvent(new CustomEvent('slides:fullscreen', { detail: {} }))

@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/sortatable.css" type="text/css" />
+	<link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/extras/slides.css">
 
     <style>
@@ -187,7 +188,8 @@
     <section class="slide">
         <h2>Focus</h2>
 
-        <section>
+        <form>
+
             <label for="f-input">Basic input:</label>
             <input id="f-input" type="text" placeholder="Type here">
 
@@ -204,7 +206,7 @@
                 <option>Option B</option>
                 <option>Option C</option>
             </select>
-        </section>
+        </form>
     </section>
 
     <!-- ---------------------------------------------------------------- -->
@@ -510,19 +512,24 @@
     </div>
 
     <!-- Add controls of the slides, visible with 'n' key. -->
-    <!-- IMPORTANT: NO CSS IS ASSOCIATED TO THIS CONTAINER -->
-    <div id="slides-controls" class="controls-hidden">
-        <button id="btn-prev">Prev</button>
-        <button id="btn-next">Next</button>
-        <button id="btn-back">First</button>
-        <button id="btn-last">Last</button>
-        <button id="btn-goto">Go to</button>
-        <button id="btn-fullscreen">Fullscreen</button>
-        <div id="slides-controls-view">
-            <button id="btn-overview">Overview</button>
-            <button id="btn-presentation">Slides View</button>
+    <nav id="nav-content" class="nav-wexa bottom controls-hidden" aria-label="Slide navigation">
+        <button class="menuitem" id="btn-prev">Prev</button>
+        <button class="menuitem" id="btn-next">Next</button>
+        <button class="menuitem" id="btn-back">First</button>
+        <button class="menuitem" id="btn-last">Last</button>
+        <button class="menuitem" id="btn-goto">Go to</button>
+        <button class="menuitem" id="btn-fullscreen">Fullscreen</button>
+        <div id="slides-controls-view" role="radiogroup" aria-label="View mode">
+            <label class="menuitem" for="btn-overview">
+                <input type="radio" name="view-mode" id="btn-overview" value="overview">
+                Overview
+            </label>
+            <label class="menuitem" for="btn-presentation">
+                <input type="radio" name="view-mode" id="btn-presentation" value="presentation" checked>
+                Slides View
+            </label>
         </div>
-    </div>
+    </nav>
 
     <script type="module">
         const usingFile = (window.location.protocol === 'file:');
@@ -547,7 +554,7 @@
                 const app = new window.Wexa.Slides({
                     slides: slides,
                     progressBar: document.getElementById('progress-bar'),
-                    controls: document.getElementById('slides-controls'),
+                    controls: document.getElementById('nav-content'),
                     controlsView: document.getElementById('slides-controls-view'),
                     overviewContainer: document.getElementById('overview-container'),
                     progressBarContainer: document.getElementById('progress-container'),
@@ -587,7 +594,7 @@
             const app = new Slides({
                 slides: document.querySelectorAll('section.slide'),
                 progressBar: document.getElementById('progress-bar'),
-                controls: document.getElementById('slides-controls'),
+                controls: document.getElementById('nav-content'),
                 controlsView: document.getElementById('slides-controls-view'),
                 overviewContainer: document.getElementById('overview-container'),
                 progressBarContainer: document.getElementById('progress-container'),

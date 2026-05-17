@@ -324,9 +324,6 @@ body.presentation-view {
    ======================================================================= */
 
 body.overview-view {
-    /*--screen-width: calc(1024px / var(--slides-size-divisor));
-    --screen-width: calc(512px / var(--slides-size-divisor));
-    --height: calc(var(--screen-width) * 9 / 16);*/
     --font-size: calc(16px / (var(--slides-fontsize-divisor)));
     --line-height: calc(var(var(--font-size) / 20)); 
 
@@ -472,22 +469,29 @@ body.overview-view {
     z-index: 2000;
 }
 
-#slides-controls {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 2000;
+/* nav.nav-wexa.bottom adds padding-bottom to body — irrelevant in presentation mode */
+body.presentation-view {
+    padding-bottom: 0;
 }
 
-#slides-controls-view {
-    display: flex;
-    gap: 0.5rem;
+/* View-mode radio inputs: visually hidden, semantically present */
+#slides-controls-view input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    margin: 0;
+}
+
+/* Active view-mode label — unlayered to beat menu.css .menuitem rules */
+#slides-controls-view label:has(input[type="radio"]:checked) {
+    background: var(--custom-color2);
+    color: var(--bg-color);
 }
 
 #accessibility-controls.controls-hidden,
-#slides-controls.controls-hidden,
+#nav-content.controls-hidden,
 #slides-controls-view.controls-hidden {
     display: none;
 }

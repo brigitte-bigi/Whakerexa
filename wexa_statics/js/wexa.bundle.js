@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-16 20:46:19
+// Bundle automatically generated on 2026-05-17 11:15:09
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -580,7 +580,8 @@ class SlidesVisibilityController {
     }
     show() {
         if (this._element instanceof HTMLElement) {
-            this._element.style.display = 'block';
+            this._element.classList.remove('controls-hidden');
+            this._element.style.display = '';
         }
     }
     hide() {
@@ -594,7 +595,11 @@ class SlidesVisibilityController {
         }
         // Use getComputedStyle to handle elements visible via CSS rules (not inline style).
         const computed = window.getComputedStyle(this._element).display;
-        this._element.style.display = computed === 'none' ? 'block' : 'none';
+        if (computed === 'none') {
+            this.show();
+        } else {
+            this.hide();
+        }
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -825,10 +830,7 @@ class PresentationView {
         } else {
             this._hideSlides();
         }
-        // The view-mode buttons panel visibility mirrors the active mode
-        if (this._controlsView instanceof HTMLElement) {
-            this._controlsView.classList.toggle('controls-hidden', data.mode !== 'presentation');
-        }
+        // The view-mode radio group: keep visible (shows current mode and allows switching back)
     }
     // -----------------------------------------------------------------------
     // Visibility of the controls panel (toggled via keyboard / buttons)
@@ -1176,10 +1178,10 @@ class ButtonsController {
     // -----------------------------------------------------------------------
     onModeChange(data) {
         if (this._b.overview instanceof HTMLElement) {
-            this._b.overview.toggleAttribute('disabled', data.mode === 'overview');
+            this._b.overview.checked = (data.mode === 'overview');
         }
         if (this._b.presentation instanceof HTMLElement) {
-            this._b.presentation.toggleAttribute('disabled', data.mode === 'presentation');
+            this._b.presentation.checked = (data.mode === 'presentation');
         }
     }
     // -----------------------------------------------------------------------
@@ -1199,8 +1201,8 @@ class ButtonsController {
         b.next?.addEventListener('click',     () => nav('next'));
         b.back?.addEventListener('click',     () => nav('goStart'));
         b.last?.addEventListener('click',     () => nav('goEnd'));
-        b.overview?.addEventListener('click', () => mode('overview'));
-        b.presentation?.addEventListener('click', () => mode('presentation'));
+        b.overview?.addEventListener('change', () => mode('overview'));
+        b.presentation?.addEventListener('change', () => mode('presentation'));
         b.fullscreen?.addEventListener('click', () =>
             document.dispatchEvent(new CustomEvent('slides:fullscreen', { detail: {} }))
         );

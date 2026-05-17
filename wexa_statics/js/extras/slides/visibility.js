@@ -58,7 +58,8 @@ export default class SlidesVisibilityController {
      */
     show() {
         if (this._element instanceof HTMLElement) {
-            this._element.style.display = 'block';
+            this._element.classList.remove('controls-hidden');
+            this._element.style.display = '';
         }
     }
 
@@ -83,6 +84,10 @@ export default class SlidesVisibilityController {
 
         // Use getComputedStyle to handle elements visible via CSS rules (not inline style).
         const computed = window.getComputedStyle(this._element).display;
-        this._element.style.display = computed === 'none' ? 'block' : 'none';
+        if (computed === 'none') {
+            this.show();
+        } else {
+            this.hide();
+        }
     }
 }
