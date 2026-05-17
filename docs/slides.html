@@ -477,8 +477,8 @@
     <!-- ---------------------------------------------------------------- -->
 
     <!-- Accessibility controls, toggled with 'a' key -->
-    <div id="accessibility-controls" class="controls-hidden">
-        <button id="btn-css-theme" type="button"
+    <nav id="accessibility-controls" class="nav-wexa controls-hidden" aria-label="Accessibility controls">
+        <button id="btn-css-theme" class="menuitem" type="button"
                 aria-label="Switch theme" title="Switch theme"
                 onclick="window.themes && window.themes.next()">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
@@ -492,10 +492,10 @@
                 <line x1="24" y1="16" x2="29" y2="16"/>
             </svg>
         </button>
-        <button id="btn-color" class="accessibility"
+        <button id="btn-color" class="menuitem accessibility"
                 aria-label="color" aria-pressed="false"
                 onclick="Wexa.accessibility.switchColorScheme()"></button>
-    </div>
+    </nav>
 
     <!-- Add the license icon at the top-right of the page. -->
     <div id="logo-container" class="top right">
