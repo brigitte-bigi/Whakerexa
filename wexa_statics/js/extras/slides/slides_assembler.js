@@ -115,6 +115,7 @@ export default class SlidesAssembler {
             lastButton:         c?.querySelector('#btn-last')         || null,
             goToButton:         c?.querySelector('#btn-goto')         || null,
             overviewButton:     v?.querySelector('#btn-overview')     || null,
+            handoutButton:      v?.querySelector('#btn-handout')      || null,
             presentationButton: v?.querySelector('#btn-presentation') || null,
             fullscreenButton:   c?.querySelector('#btn-fullscreen')   || null,
         });

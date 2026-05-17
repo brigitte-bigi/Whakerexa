@@ -52,6 +52,7 @@ export default class PresentationView {
         this._progressBar  = progressBar instanceof HTMLElement ? progressBar : null;
         this._controls     = controlsElement instanceof HTMLElement ? controlsElement : null;
         this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
+        this._currentMode  = null;
     }
 
     // -----------------------------------------------------------------------
@@ -78,11 +79,13 @@ export default class PresentationView {
      */
     onModeChange(data) {
         // Sync body class
-        const allModes = ['presentation', 'overview'];
-        allModes.forEach(m => document.body.classList.remove(`${m}-view`));
+        if (this._currentMode !== null) {
+            document.body.classList.remove(`${this._currentMode}-view`);
+        }
+        this._currentMode = data.mode;
         document.body.classList.add(`${data.mode}-view`);
 
-        if (data.mode === 'presentation') {
+        if (data.mode === 'presentation' || data.mode === 'handout') {
             this._showSlides();
         } else {
             this._hideSlides();

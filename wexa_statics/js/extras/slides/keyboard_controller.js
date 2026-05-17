@@ -60,6 +60,7 @@ export default class KeyboardController {
         { keys: ['h', 'H', '?'],                          label: 'Help' },
         { keys: ['f', 'F'],                               label: 'Fullscreen' },
         { keys: ['o', 'O'],                               label: 'Overview mode' },
+        { keys: ['d', 'D'],                               label: 'Handout mode' },
         { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
         { keys: ['a', 'A'],                               label: 'Accessibility controls' },
         { keys: ['n', 'N'],                               label: 'Navigation controls' },
@@ -107,6 +108,10 @@ export default class KeyboardController {
 
             case 'o': case 'O':
                 this._emit('slides:viewmode', { action: 'toggle' });
+                return;
+
+            case 'd': case 'D':
+                this._emit('slides:viewmode', { mode: 'handout' });
                 return;
 
             case 'f': case 'F':

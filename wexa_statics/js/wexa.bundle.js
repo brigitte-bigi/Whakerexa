@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 12:23:31
+// Bundle automatically generated on 2026-05-17 12:30:43
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -534,6 +534,7 @@ class ViewModeLogic {
     static MODES = {
         PRESENTATION: 'presentation',
         OVERVIEW:     'overview',
+        HANDOUT:      'handout',
     };
     static DEFAULT = 'presentation';
     constructor(data) {
@@ -821,6 +822,7 @@ class PresentationView {
         this._progressBar  = progressBar instanceof HTMLElement ? progressBar : null;
         this._controls     = controlsElement instanceof HTMLElement ? controlsElement : null;
         this._controlsView = controlsViewElement instanceof HTMLElement ? controlsViewElement : null;
+        this._currentMode  = null;
     }
     // -----------------------------------------------------------------------
     // Called by SlidesAssembler via navLogic.onNavigate
@@ -835,10 +837,12 @@ class PresentationView {
     // -----------------------------------------------------------------------
     onModeChange(data) {
         // Sync body class
-        const allModes = ['presentation', 'overview'];
-        allModes.forEach(m => document.body.classList.remove(`${m}-view`));
+        if (this._currentMode !== null) {
+            document.body.classList.remove(`${this._currentMode}-view`);
+        }
+        this._currentMode = data.mode;
         document.body.classList.add(`${data.mode}-view`);
-        if (data.mode === 'presentation') {
+        if (data.mode === 'presentation' || data.mode === 'handout') {
             this._showSlides();
         } else {
             this._hideSlides();
@@ -997,6 +1001,7 @@ class KeyboardController {
         { keys: ['h', 'H', '?'],                          label: 'Help' },
         { keys: ['f', 'F'],                               label: 'Fullscreen' },
         { keys: ['o', 'O'],                               label: 'Overview mode' },
+        { keys: ['d', 'D'],                               label: 'Handout mode' },
         { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
         { keys: ['a', 'A'],                               label: 'Accessibility controls' },
         { keys: ['n', 'N'],                               label: 'Navigation controls' },
@@ -1031,6 +1036,9 @@ class KeyboardController {
                 return;
             case 'o': case 'O':
                 this._emit('slides:viewmode', { action: 'toggle' });
+                return;
+            case 'd': case 'D':
+                this._emit('slides:viewmode', { mode: 'handout' });
                 return;
             case 'f': case 'F':
                 this._emit('slides:fullscreen', {});
@@ -1163,6 +1171,7 @@ class ButtonsController {
         backButton         = null,
         lastButton         = null,
         overviewButton     = null,
+        handoutButton      = null,
         presentationButton = null,
         fullscreenButton   = null,
         goToButton         = null,
@@ -1173,6 +1182,7 @@ class ButtonsController {
             back:         this._el(backButton),
             last:         this._el(lastButton),
             overview:     this._el(overviewButton),
+            handout:      this._el(handoutButton),
             presentation: this._el(presentationButton),
             fullscreen:   this._el(fullscreenButton),
             goto:         this._el(goToButton),
@@ -1185,6 +1195,9 @@ class ButtonsController {
     onModeChange(data) {
         if (this._b.overview instanceof HTMLElement) {
             this._b.overview.checked = (data.mode === 'overview');
+        }
+        if (this._b.handout instanceof HTMLElement) {
+            this._b.handout.checked = (data.mode === 'handout');
         }
         if (this._b.presentation instanceof HTMLElement) {
             this._b.presentation.checked = (data.mode === 'presentation');
@@ -1208,6 +1221,7 @@ class ButtonsController {
         b.back?.addEventListener('click',     () => nav('goStart'));
         b.last?.addEventListener('click',     () => nav('goEnd'));
         b.overview?.addEventListener('change', () => mode('overview'));
+        b.handout?.addEventListener('change',  () => mode('handout'));
         b.presentation?.addEventListener('change', () => mode('presentation'));
         b.fullscreen?.addEventListener('click', () =>
             document.dispatchEvent(new CustomEvent('slides:fullscreen', { detail: {} }))
@@ -1272,6 +1286,7 @@ class SlidesAssembler {
             lastButton:         c?.querySelector('#btn-last')         || null,
             goToButton:         c?.querySelector('#btn-goto')         || null,
             overviewButton:     v?.querySelector('#btn-overview')     || null,
+            handoutButton:      v?.querySelector('#btn-handout')      || null,
             presentationButton: v?.querySelector('#btn-presentation') || null,
             fullscreenButton:   c?.querySelector('#btn-fullscreen')   || null,
         });

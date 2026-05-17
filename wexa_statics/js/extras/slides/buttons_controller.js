@@ -62,6 +62,7 @@ export default class ButtonsController {
         backButton         = null,
         lastButton         = null,
         overviewButton     = null,
+        handoutButton      = null,
         presentationButton = null,
         fullscreenButton   = null,
         goToButton         = null,
@@ -72,6 +73,7 @@ export default class ButtonsController {
             back:         this._el(backButton),
             last:         this._el(lastButton),
             overview:     this._el(overviewButton),
+            handout:      this._el(handoutButton),
             presentation: this._el(presentationButton),
             fullscreen:   this._el(fullscreenButton),
             goto:         this._el(goToButton),
@@ -91,6 +93,9 @@ export default class ButtonsController {
     onModeChange(data) {
         if (this._b.overview instanceof HTMLElement) {
             this._b.overview.checked = (data.mode === 'overview');
+        }
+        if (this._b.handout instanceof HTMLElement) {
+            this._b.handout.checked = (data.mode === 'handout');
         }
         if (this._b.presentation instanceof HTMLElement) {
             this._b.presentation.checked = (data.mode === 'presentation');
@@ -119,6 +124,7 @@ export default class ButtonsController {
         b.back?.addEventListener('click',     () => nav('goStart'));
         b.last?.addEventListener('click',     () => nav('goEnd'));
         b.overview?.addEventListener('change', () => mode('overview'));
+        b.handout?.addEventListener('change',  () => mode('handout'));
         b.presentation?.addEventListener('change', () => mode('presentation'));
 
         b.fullscreen?.addEventListener('click', () =>
