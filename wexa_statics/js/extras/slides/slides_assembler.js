@@ -125,6 +125,9 @@ export default class SlidesAssembler {
         this._navLogic.onNavigate = (data) => {
             this._presentationView.render(data);
             this._focus.updateFocus(data.slides, data.currentIndex);
+            if (this._overviewView !== null) {
+                this._overviewView.render(data);
+            }
         };
 
         this._modeLogic.onModeChange = (data) => {

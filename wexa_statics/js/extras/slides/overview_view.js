@@ -35,10 +35,11 @@
 /**
  * Builds and displays the overview panel.
  *
- * Each slide is represented as a <button> showing its number and title.
- * Clicking navigates to the slide and switches to presentation mode.
+ * Each slide is represented as a <label> wrapping a radio input.
+ * The radio for the current slide is checked.
+ * Selecting a radio navigates to the slide and switches to presentation mode.
  *
- * Buttons dispatch CustomEvents — no reference to any controller or logic.
+ * Dispatches CustomEvents — no reference to any controller or logic.
  */
 export default class OverviewView {
 
@@ -56,7 +57,7 @@ export default class OverviewView {
     // -----------------------------------------------------------------------
 
     /**
-     * Populate the overview panel with one button per slide.
+     * Populate the overview panel with one radio+label per slide.
      */
     build() {
         if (this._panel === null) {
@@ -64,13 +65,27 @@ export default class OverviewView {
         }
 
         this._panel.innerHTML = '';
+        this._panel.setAttribute('role', 'radiogroup');
+        this._panel.setAttribute('aria-label', 'Slides overview');
 
         this._slides.forEach((slide, i) => {
             const index = i + 1;
+            const id    = `overview-slide-${index}`;
 
-            const btn = document.createElement('button');
-            btn.type      = 'button';
-            btn.className = 'overview-btn';
+            const radio = document.createElement('input');
+            radio.type  = 'radio';
+            radio.name  = 'overview-slide';
+            radio.id    = id;
+            radio.value = String(index);
+
+            radio.addEventListener('change', () => {
+                document.dispatchEvent(new CustomEvent('slides:navigate', {
+                    detail: { action: 'goTo', index, step: 0 }
+                }));
+                document.dispatchEvent(new CustomEvent('slides:viewmode', {
+                    detail: { mode: 'presentation' }
+                }));
+            });
 
             const numEl = document.createElement('span');
             numEl.className   = 'overview-num';
@@ -80,19 +95,32 @@ export default class OverviewView {
             titleEl.className   = 'overview-title';
             titleEl.textContent = this._slideTitle(slide);
 
-            btn.appendChild(numEl);
-            btn.appendChild(titleEl);
+            const label = document.createElement('label');
+            label.className  = 'overview-btn';
+            label.htmlFor    = id;
+            label.appendChild(radio);
+            label.appendChild(numEl);
+            label.appendChild(titleEl);
 
-            btn.addEventListener('click', () => {
-                document.dispatchEvent(new CustomEvent('slides:navigate', {
-                    detail: { action: 'goTo', index, step: 0 }
-                }));
-                document.dispatchEvent(new CustomEvent('slides:viewmode', {
-                    detail: { mode: 'presentation' }
-                }));
-            });
+            this._panel.appendChild(label);
+        });
+    }
 
-            this._panel.appendChild(btn);
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via navLogic.onNavigate
+    // -----------------------------------------------------------------------
+
+    /**
+     * Sync the checked radio with the current slide index.
+     * @param {import('./slides_data.js').default} data
+     */
+    render(data) {
+        if (this._panel === null) {
+            return;
+        }
+        const radios = this._panel.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio, i) => {
+            radio.checked = (i + 1) === data.currentIndex;
         });
     }
 
@@ -108,6 +136,9 @@ export default class OverviewView {
             return;
         }
         this._panel.style.display = data.mode === 'overview' ? '' : 'none';
+        if (data.mode === 'overview') {
+            this.render(data);
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -115,7 +146,6 @@ export default class OverviewView {
     // -----------------------------------------------------------------------
 
     /**
-     * Extract the first heading text from a slide, or return empty string.
      * @private
      * @param {HTMLElement} slide
      * @returns {string}

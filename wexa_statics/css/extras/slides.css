@@ -385,12 +385,14 @@ body.handout-view .slide[aria-selected] ~ .slide {
 .overview-num {
     font-size: 75%;
     opacity: 0.6;
+    background-color: transparent;
 }
 
 .overview-title {
     font-size: 90%;
     text-align: center;
     word-break: break-word;
+    background-color: transparent;
 }
 
 
@@ -526,15 +528,6 @@ body.presentation-view {
     padding-bottom: 0;
 }
 
-/* View-mode radio inputs: visually hidden, semantically present */
-#slides-controls-view input[type="radio"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
-    margin: 0;
-}
 
 /* Active view-mode label — unlayered to beat menu.css .menuitem rules */
 #slides-controls-view label:has(input[type="radio"]:checked) {
@@ -658,11 +651,12 @@ body.presentation-view {
 
     /* Overview buttons */
     .overview-btn {
-        background: var(--custom-color1);
-        color: var(--bg-color);
-        border-color: var(--custom-color1);
+        background: var(--bg-color-alt);
+        color: var(--fg-color);
+        border-color: var(--border-color);
     }
 
+    .overview-btn:has(input[type="radio"]:checked),
     .overview-btn:hover,
     .overview-btn:focus-visible {
         background: var(--custom-color2);

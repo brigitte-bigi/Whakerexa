@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 14:43:55
+// Bundle automatically generated on 2026-05-17 16:02:49
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -943,20 +943,17 @@ class OverviewView {
             return;
         }
         this._panel.innerHTML = '';
+        this._panel.setAttribute('role', 'radiogroup');
+        this._panel.setAttribute('aria-label', 'Slides overview');
         this._slides.forEach((slide, i) => {
             const index = i + 1;
-            const btn = document.createElement('button');
-            btn.type      = 'button';
-            btn.className = 'overview-btn';
-            const numEl = document.createElement('span');
-            numEl.className   = 'overview-num';
-            numEl.textContent = String(index);
-            const titleEl = document.createElement('span');
-            titleEl.className   = 'overview-title';
-            titleEl.textContent = this._slideTitle(slide);
-            btn.appendChild(numEl);
-            btn.appendChild(titleEl);
-            btn.addEventListener('click', () => {
+            const id    = `overview-slide-${index}`;
+            const radio = document.createElement('input');
+            radio.type  = 'radio';
+            radio.name  = 'overview-slide';
+            radio.id    = id;
+            radio.value = String(index);
+            radio.addEventListener('change', () => {
                 document.dispatchEvent(new CustomEvent('slides:navigate', {
                     detail: { action: 'goTo', index, step: 0 }
                 }));
@@ -964,7 +961,31 @@ class OverviewView {
                     detail: { mode: 'presentation' }
                 }));
             });
-            this._panel.appendChild(btn);
+            const numEl = document.createElement('span');
+            numEl.className   = 'overview-num';
+            numEl.textContent = String(index);
+            const titleEl = document.createElement('span');
+            titleEl.className   = 'overview-title';
+            titleEl.textContent = this._slideTitle(slide);
+            const label = document.createElement('label');
+            label.className  = 'overview-btn';
+            label.htmlFor    = id;
+            label.appendChild(radio);
+            label.appendChild(numEl);
+            label.appendChild(titleEl);
+            this._panel.appendChild(label);
+        });
+    }
+    // -----------------------------------------------------------------------
+    // Called by SlidesAssembler via navLogic.onNavigate
+    // -----------------------------------------------------------------------
+    render(data) {
+        if (this._panel === null) {
+            return;
+        }
+        const radios = this._panel.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio, i) => {
+            radio.checked = (i + 1) === data.currentIndex;
         });
     }
     // -----------------------------------------------------------------------
@@ -975,6 +996,9 @@ class OverviewView {
             return;
         }
         this._panel.style.display = data.mode === 'overview' ? '' : 'none';
+        if (data.mode === 'overview') {
+            this.render(data);
+        }
     }
     // -----------------------------------------------------------------------
     // Private
@@ -1294,6 +1318,9 @@ class SlidesAssembler {
         this._navLogic.onNavigate = (data) => {
             this._presentationView.render(data);
             this._focus.updateFocus(data.slides, data.currentIndex);
+            if (this._overviewView !== null) {
+                this._overviewView.render(data);
+            }
         };
         this._modeLogic.onModeChange = (data) => {
             this._presentationView.onModeChange(data);
