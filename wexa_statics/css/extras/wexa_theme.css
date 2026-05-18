@@ -39,7 +39,8 @@
 
 :root:not(.dark) {
 
-    --bg-color: transparent;
+    --bg-color: rgba(251, 251, 251, 0.2);
+    --bg-color-alt: rgba(236, 239, 245, 0.2);
     --body-bg-color: radial-gradient(at left center, rgba(229, 238, 252, 1.0), rgba(212, 220, 255, 1.0));
 
 }
@@ -53,7 +54,6 @@ body.dark {
 
     --bg-color: transparent;
     --body-bg-color: radial-gradient(at left center, rgba(10, 15, 26, 1.0), rgba(16, 13, 64, 1.0));
-
 }
 
 
@@ -91,20 +91,9 @@ body.dark {
     }
 
     /* ======================================================================
-        HTML structure
-       ====================================================================== */
-
-    body > main > * {
-        margin-left: var(--typography-spacing-horizontal);
-        margin-right: var(--typography-spacing-horizontal);
-        margin-top: var(--typography-spacing-vertical);
-        margin-bottom: var(--typography-spacing-vertical);
-    }
-
-    /* ======================================================================
        Links — animated fill from bottom (signature feature)
        Scoped to main content only; menu items are excluded.
-       ====================================================================== 
+       ====================================================================== */
 
     main a:not(.menuitem):not(:has(img)) {
         background-image: linear-gradient(var(--a-color), var(--a-color));
@@ -122,7 +111,6 @@ body.dark {
         background-size: 100% 100%;
         transition: background-size 0.32s ease, color 0s;
     }
-        */
 
     /* ======================================================================
        Blockquote — left border, no background

@@ -191,6 +191,7 @@ main > .panel-item:nth-child(even) * {
     .flex-border-left {
         border-left-style: solid;
         border-color: var(--columns-sep-color);
+        padding-left: var(--typography-spacing-horizontal);
     }
 
 }
@@ -235,6 +236,7 @@ main > .panel-item:nth-child(even) * {
         border-top-style: solid;
         border-color: var(--columns-sep-color);
     }
+
 }
 
 /* ----------------------------------------------------------------------- */

@@ -318,3 +318,12 @@ input[type="checkbox"]:focus + .switch-slider {
 .cta-button:enabled:hover {
     background: var(--buttons-bg-color-hover);
 }
+
+a.cta-button {
+    display: inline-block;
+    text-decoration: none;
+}
+
+a.cta-button:hover {
+    background: var(--buttons-bg-color-hover);
+}

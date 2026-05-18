@@ -383,8 +383,9 @@ This banner notice must not be removed.
         --outline-color: rgba(0, 191, 255, 0.8);
 
         /* Main colors */
-        --bg-color: rgb(250, 248, 252);
-        --bg-color-alt: rgb(229, 236, 248);
+        --body-bg-color: rgb(255, 255, 255);
+        --bg-color: rgb(242, 244, 251);
+        --bg-color-alt: rgb(236, 239, 245);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
         --border-color: rgba(70, 105, 165, 0.18);
@@ -393,20 +394,20 @@ This banner notice must not be removed.
 
         /* Background colors */
         --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
-        --nav-bg-color: radial-gradient(at right center, rgb(229, 238, 252), rgb(200, 195, 255));
-        --footer-bg-color: rgb(200, 195, 255);
-        --buttons-bg-color:       rgb(12, 88, 142);
-        --buttons-bg-color-hover: rgb(18, 108, 170);
-        --progress-bg-color: rgb(208, 200, 242);
+        --nav-bg-color: rgb(228, 232, 240);
+        --footer-bg-color: rgb(224, 228, 237);
+        --buttons-bg-color:       rgb(29, 74, 106);
+        --buttons-bg-color-hover: rgb(64, 98, 121);
+        --progress-bg-color: rgb(183, 184, 209);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
         --inputs-bg-color: rgb(255, 255, 255);
         --code-bg-color: rgba(200, 195, 255, 0.35);
 
         /* Foreground colors */
         --header-fg-color: rgb(210, 222, 248);
-        --nav-fg-color: rgb(43, 27, 108);
-        --footer-fg-color: rgb(45, 55, 80);
-        --progress-fg-color: rgb(12, 88, 142);
+        --nav-fg-color: rgb(21, 24, 69);
+        --footer-fg-color: rgb(20, 25, 39);
+        --progress-fg-color: rgb(32, 59, 109);
         --buttons-fg-color: rgb(255, 255, 255);
         --mark-fg-color: rgb(20, 25, 30);
         --h1-color: rgb(28, 18, 42);
@@ -427,13 +428,13 @@ This banner notice must not be removed.
 
         /* Other colors */
         --a-color: rgb(8, 92, 148);
-        --li-color: rgb(60, 80, 165);
+        --li-color: rgb(95, 110, 145);
         --ins-color: rgba(20, 200, 20, 0.8);
         --del-color: rgba(240, 40, 40, 0.8);
         --s-color: rgb(100, 100, 100);
-        --blockquote-border-color: rgb(12, 88, 142);
+        --blockquote-border-color: rgb(22, 50, 70);
         --blockquote-footer-color: rgb(80, 115, 158);
-        --shadow-color: rgba(12, 55, 130, 0.12);
+        --shadow-color: rgba(128, 128, 128, 0.20);
 
         /* Alerts */
         --info-color: rgb(60, 100, 160);
@@ -479,16 +480,16 @@ This banner notice must not be removed.
 
             /* Background colors */
             --header-bg-color: linear-gradient(155deg, rgb(4, 8, 28) 0%, rgb(10, 22, 68) 55%, rgb(18, 48, 90) 100%);
-            --nav-bg-color: rgba(0, 0, 0, 0.42);
+            --nav-bg-color: rgba(4, 8, 28, 0.85);
             --footer-bg-color: rgb(12, 18, 35);
             --buttons-bg-color:       rgb(30, 112, 178);
             --buttons-bg-color-hover: rgb(42, 135, 205);
-            --progress-bg-color: rgb(22, 38, 72);
+            --progress-bg-color: rgb(7, 9, 13);
             --inputs-bg-color: rgb(18, 24, 42);
 
             /* Foreground colors */
             --header-fg-color: rgb(210, 222, 248);
-            --nav-fg-color: rgb(190, 208, 242);
+            --nav-fg-color: rgb(230, 235, 244);
             --footer-fg-color: rgb(168, 185, 218);
             --buttons-fg-color: rgb(255, 255, 255);
             --progress-fg-color: rgb(62, 162, 215);
@@ -793,12 +794,6 @@ This banner notice must not be removed.
 
     body > main {
         z-index: 1;
-        margin-top: var(--typography-spacing-vertical);
-        margin-bottom: var(--typography-spacing-vertical);
-        padding-left: var(--typography-spacing-horizontal);
-        padding-right: calc(6*var(--typography-spacing-horizontal)); /* the scrollbar...*/
-        padding-top: var(--typography-spacing-vertical);
-        padding-bottom: var(--typography-spacing-vertical);
     }
 
     body > footer {

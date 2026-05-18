@@ -289,7 +289,7 @@ nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
     font-style: normal;
     font-variant: normal;
     font-weight: var(--font-weight-semibold);
-    font-size: 0.9rem;  /* smaller size because in bold */
+    font-size: calc(0.9 * var(--font-size));
     overflow: hidden;
     position: relative;
 }
@@ -302,7 +302,8 @@ nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
 nav.nav-wexa :is([role="menuitem"], .menuitem),
 aside.appmenu nav :is([role="menuitem"], .menuitem) {
     font-variant: small-caps;
-    font-size: 0.8rem;
+    font-weight: var(--font-weight-semibold);
+    font-size: calc(0.8 * var(--font-size));
     width: auto;
     display: flex;
     flex-direction: column;
@@ -340,7 +341,8 @@ nav.nav-wexa.side :is([role="menuitem"], .menuitem):focus-visible {
 
 nav.nav-wexa :is([role="menuitem"], .menuitem) span {
     font-variant: small-caps;
-    font-size: 0.8rem;
+    font-size: calc(0.8 * var(--font-size));
+    font-weight: var(--font-weight-semibold);
 }
 
 nav.nav-wexa :is([role="menuitem"], .menuitem) * {
@@ -709,7 +711,9 @@ nav#nav-content.side > section {
     display: flex;
     flex-direction: column;
     align-self: stretch;
+    align-items: center;
     width: 100%;
+    gap: calc(0.3 * var(--typography-spacing-vertical));
 }
 /* TOP + BOTTOM */
 nav#nav-content.top > section,
@@ -724,7 +728,6 @@ nav#nav-content.side > section + section,
 nav#nav-content.side > section + :is([role="menuitem"], .menuitem),
 nav#nav-content.side > :is([role="menuitem"], .menuitem) + section {
     margin-top: var(--typography-spacing-vertical);
-    margin-bottom: var(--typography-spacing-vertical);
 }
 
 nav#nav-content.top > section + section,

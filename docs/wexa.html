@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -27,11 +28,15 @@
 <body>
 
 <header id="header-content">
+
     <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
     <h1>Wexa CSS framework</h1>
     <img width="100rem" src="../wexa_statics/logos/whakerexa.png" alt=""/>
+
 </header>
+
 <nav class="nav-wexa top" aria-label="Page navigation">
+
     <a class="menuitem" href="index.html" aria-label="Back" title="Back">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <polyline points="20 24 12 16 20 8" />
@@ -43,15 +48,21 @@
     <button id="btn-color" class="menuitem accessibility"
             aria-label="color" aria-pressed="false"
             onclick="Wexa.accessibility.switchColorScheme()"></button>
+
 </nav>
+
 <main id="main-content">
 
-    <blockquote>
-        "The Web is fundamentally designed to work for all people, whatever their hardware,
-        software, language, location, or ability."
-        <cite><a class="external-link" href="https://www.w3.org/mission/accessibility/">-- W3C</a></cite>
-    </blockquote>
+    <section class="panel-item">
+        <blockquote>
+            "The Web is fundamentally designed to work for all people, whatever their hardware,
+            software, language, location, or ability."
+            <cite><a class="external-link" href="https://www.w3.org/mission/accessibility/">-- W3C</a></cite>
+        </blockquote>
+    </section>
 
+
+    <section class="panel-item">
     <h1>wexa.css</h1>
     <p>
         Base CSS framework: typography, colors, light/dark/contrast modes, CSS Cascade Layers.
@@ -66,8 +77,11 @@
         <li><a href="architecture.html">Architecture</a> — <code>@layer</code> stack, custom classes, print stylesheet</li>
         <li><a href="css-variables.html">CSS Variables</a> — full variable reference by layer</li>
     </ul>
+    </section>
 
-            <section>
+
+    <section class="panel-item">
+
                 <h1>Example of Heading 1</h1>
                 <p>This is paragraph text. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
 
@@ -90,7 +104,8 @@
                 <h2>Example of Heading 2</h2>
                 <h3>Example of Heading 3</h3>
 
-            </section>
+    </section>
+
 
         <h2>Available fonts for a text</h2>
 
