@@ -96,8 +96,8 @@
     --header-fg-color:       rgb(255, 255, 255);
     --nav-bg-color:          rgb(0, 0, 0);
     --nav-fg-color:          rgb(255, 255, 255);
-    --footer-bg-color:       rgb(240, 240, 240);
-    --footer-fg-color:       rgb(0, 0, 0);
+    --footer-bg-color:       rgb(200, 200, 200);
+    --footer-fg-color:       rgb(20, 20, 20);
 
     --card-bg-color:         rgb(240, 240, 240);
     --card-fg-color:         rgb(0, 0, 0);
@@ -256,4 +256,21 @@
 .slide > h2 {
     background: var(--custom-color2);
     color: var(--custom-color1);
+}
+
+
+/* =========================================================================
+   Layout
+   ========================================================================= */
+
+li.enumerate-cards-item {
+    box-shadow: none;
+    border: var(--border-color) solid var(--border-width);
+    border-radius: none;
+}
+
+
+.cta-button {
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: none;
 }

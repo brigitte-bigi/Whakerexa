@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
+    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" />
@@ -32,10 +32,9 @@
             --nav-item-height:     2.5rem;
             --nav-item-max-height: 2.5rem;
         }
-        .card-body > svg {
+        .card-header > svg {
             height: 2rem;
             width:  2rem;
-            margin-bottom: 0.4rem;
         }
         .panel-item {
             padding: 2rem;
@@ -58,8 +57,10 @@
                 s.addEventListener('load', function () {
                     if (window.Wexa && window.Wexa.ThemeManager) {
                         const t = new window.Wexa.ThemeManager();
+                        t.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
                         t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
                         t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                        t.setDefault('wexa_theme');
                         window.themes = t;
                     }
                 });
@@ -73,8 +74,10 @@
     <script type="module">
         import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
         const themes = new ThemeManager();
+        themes.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
         themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
         themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+        themes.setDefault('wexa_theme');
         window.themes = themes;
     </script>
 
@@ -86,12 +89,7 @@
                 window.mainmenu = m;
                 m.initSideMenu();
                 m.initMobileToggle();
-                m.registerSubmenu('appmenu-started',      'submenu-toggle-started');
-                m.registerSubmenu('appmenu-custom',       'submenu-toggle-custom');
-                m.registerSubmenu('appmenu-layout',       'submenu-toggle-layout');
-                m.registerSubmenu('appmenu-content',      'submenu-toggle-content');
-                m.registerSubmenu('appmenu-forms',        'submenu-toggle-forms');
-                m.registerSubmenu('appmenu-navigation',   'submenu-toggle-navigation');
+                m.registerSubmenu('appmenu-framework',    'submenu-toggle-framework');
                 m.registerSubmenu('appmenu-components',   'submenu-toggle-components');
                 return true;
             }
@@ -180,94 +178,25 @@
     </section>
 
 
-    <!-- Getting started -->
+    <!-- Framework -->
     <section>
-        <button class="menuitem" id="submenu-toggle-started"
-                aria-haspopup="true" aria-controls="appmenu-started">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 3C16 3 8 10 8 18a8 8 0 0 0 16 0C24 10 16 3 16 3z"/>
-                <line x1="16" y1="26" x2="16" y2="29"/>
-                <line x1="12" y1="29" x2="20" y2="29"/>
-            </svg>
-            <span>Getting started</span>
-        </button>
-    </section>
-
-    <section>
-    <!-- Customization -->
-    <button class="menuitem" id="submenu-toggle-custom"
-            aria-haspopup="true" aria-controls="appmenu-custom">
+    <button class="menuitem" id="submenu-toggle-framework"
+            aria-haspopup="true" aria-controls="appmenu-framework">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="16" cy="16" r="5"/>
-            <path d="M16 3v4M16 25v4M3 16h4M25 16h4"/>
-            <path d="M7.2 7.2l2.8 2.8M22 22l2.8 2.8M7.2 24.8l2.8-2.8M22 10l2.8-2.8"/>
+            <rect x="5" y="3" width="18" height="26" rx="2"/>
+            <line x1="11" y1="3"  x2="11" y2="29"/>
+            <line x1="15" y1="10" x2="20" y2="10"/>
+            <line x1="15" y1="16" x2="20" y2="16"/>
+            <line x1="15" y1="22" x2="20" y2="22"/>
         </svg>
-        <span>Customization</span>
+        <span>Framework</span>
     </button>
     </section>
-
-    <section>
-    <!-- Layout -->
-    <button class="menuitem" id="submenu-toggle-layout"
-            aria-haspopup="true" aria-controls="appmenu-layout">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="26" height="26" rx="2"/>
-            <line x1="3"  y1="12" x2="29" y2="12"/>
-            <line x1="14" y1="12" x2="14" y2="29"/>
-        </svg>
-        <span>Layout</span>
-    </button>
-
-    <!-- Content -->
-    <button class="menuitem" id="submenu-toggle-content"
-            aria-haspopup="true" aria-controls="appmenu-content">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-            <rect x="5" y="2" width="22" height="28" rx="2"/>
-            <line x1="10" y1="10" x2="22" y2="10"/>
-            <line x1="10" y1="16" x2="22" y2="16"/>
-            <line x1="10" y1="22" x2="18" y2="22"/>
-        </svg>
-        <span>Content</span>
-    </button>
-
-    <!-- Forms -->
-    <button class="menuitem" id="submenu-toggle-forms"
-            aria-haspopup="true" aria-controls="appmenu-forms">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="7"  width="26" height="7" rx="2"/>
-            <rect x="3" y="18" width="26" height="7" rx="2"/>
-        </svg>
-        <span>Forms</span>
-    </button>
-
-    <!-- Navigation -->
-    <button class="menuitem" id="submenu-toggle-navigation"
-            aria-haspopup="true" aria-controls="appmenu-navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-             fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="16" cy="16" r="13"/>
-            <line x1="16" y1="2"  x2="16" y2="4"/>
-            <line x1="16" y1="28" x2="16" y2="30"/>
-            <line x1="2"  y1="16" x2="4"  y2="16"/>
-            <line x1="28" y1="16" x2="30" y2="16"/>
-            <polygon points="18 8 22 18 14 24 10 14"/>
-            <circle cx="16" cy="16" r="1"/>
-        </svg>
-        <span>Navigation</span>
-    </button>
 
     <!-- Components -->
+    <section>
     <button class="menuitem" id="submenu-toggle-components"
             aria-haspopup="true" aria-controls="appmenu-components">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
@@ -282,8 +211,8 @@
     </button>
     </section>
 
+    <!-- Slides + Bundle -->
     <section>
-    <!-- Slides (direct link) -->
     <a class="menuitem" id="nav-slides" data-href="slides.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -295,7 +224,6 @@
         <span>Slides</span>
     </a>
 
-    <!-- Bundle (direct link) -->
     <a class="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -311,62 +239,58 @@
     </section>
 
     <!-- Submenus -->
-    <aside id="appmenu-started" class="appmenu" aria-label="Getting started submenu">
+    <aside id="appmenu-framework" class="appmenu" aria-label="Framework submenu">
         <nav>
+            <section>
+            <p class="nav-section-label">Getting started:</p>
             <a class="menuitem" id="nav-wexa"          data-href="wexa.html"           data-target="_self">Wexa CSS</a>
             <a class="menuitem" id="nav-quickstart"    data-href="quick-start.html"    data-target="_self">Quick start</a>
             <a class="menuitem" id="nav-architecture"  data-href="architecture.html"   data-target="_self">Architecture</a>
             <a class="menuitem" id="nav-themes"        data-href="themes.html"         data-target="_self">Themes</a>
-        </nav>
-    </aside>
-
-    <aside id="appmenu-custom" class="appmenu" aria-label="Customization submenu">
-        <nav>
+            </section>
+            <section>
+            <p class="nav-section-label">Customization:</p>
             <a class="menuitem" id="nav-cssvariables"  data-href="css-variables.html"  data-target="_self">CSS Variables</a>
             <a class="menuitem" id="nav-colors"        data-href="colors.html"         data-target="_self">Colors</a>
             <a class="menuitem" id="nav-accessibility" data-href="accessibility.html"  data-target="_self">Accessibility</a>
-        </nav>
-    </aside>
-
-    <aside id="appmenu-layout" class="appmenu" aria-label="Layout submenu">
-        <nav>
-            <a class="menuitem" id="nav-containers"    data-href="layout.html"         data-target="_self">Containers</a>
-            <a class="menuitem" id="nav-grid"          data-href="grid.html"           data-target="_self">Grid</a>
-        </nav>
-    </aside>
-
-    <aside id="appmenu-content" class="appmenu" aria-label="Content submenu">
-        <nav>
-            <a class="menuitem" id="nav-typography"    data-href="typography.html"     data-target="_self">Typography</a>
-            <a class="menuitem" id="nav-code"          data-href="code.html"           data-target="_self">Code</a>
-            <a class="menuitem" id="nav-tables"        data-href="tables.html"         data-target="_self">Tables</a>
-        </nav>
-    </aside>
-
-    <aside id="appmenu-forms" class="appmenu" aria-label="Forms submenu">
-        <nav>
-            <a class="menuitem" id="nav-inputs"        data-href="inputs.html"         data-target="_self">Inputs</a>
-            <a class="menuitem" id="nav-button"        data-href="button.html"         data-target="_self">Button</a>
-            <a class="menuitem" id="nav-switch"        data-href="switch.html"         data-target="_self">Switch</a>
-            <a class="menuitem" id="nav-progressbar"   data-href="progressbar.html"    data-target="_self">Progress bar</a>
-        </nav>
-    </aside>
-
-    <aside id="appmenu-navigation" class="appmenu" aria-label="Navigation submenu">
-        <nav>
-            <a class="menuitem" id="nav-menu"          data-href="menu.html"           data-target="_self">Overview</a>
-            <a class="menuitem" id="nav-menu-side"     data-href="menu-side.html"      data-target="_self">Side menu</a>
-            <a class="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
+            </section>
         </nav>
     </aside>
 
     <aside id="appmenu-components" class="appmenu" aria-label="Components submenu">
         <nav>
+            <section>
+            <p class="nav-section-label">Layout:</p>
+            <a class="menuitem" id="nav-containers"    data-href="layout.html"         data-target="_self">Containers</a>
+            <a class="menuitem" id="nav-grid"          data-href="grid.html"           data-target="_self">Grid</a>
+            </section>
+            <section>
+            <p class="nav-section-label">Content:</p>
+            <a class="menuitem" id="nav-typography"    data-href="typography.html"     data-target="_self">Typography</a>
+            <a class="menuitem" id="nav-code"          data-href="code.html"           data-target="_self">Code</a>
+            <a class="menuitem" id="nav-tables"        data-href="tables.html"         data-target="_self">Tables</a>
+            </section>
+            <section>
+            <p class="nav-section-label">Forms:</p>
+            <a class="menuitem" id="nav-inputs"        data-href="inputs.html"         data-target="_self">Inputs</a>
+            <a class="menuitem" id="nav-button"        data-href="button.html"         data-target="_self">Button</a>
+            <a class="menuitem" id="nav-switch"        data-href="switch.html"         data-target="_self">Switch</a>
+            <a class="menuitem" id="nav-progressbar"   data-href="progressbar.html"    data-target="_self">Progress bar</a>
+            </section>
+            <section>
+            <p class="nav-section-label">Navigation:</p>
+            <a class="menuitem" id="nav-menu"          data-href="menu.html"           data-target="_self">Menus</a>
+            <a class="menuitem" id="nav-menu-side"     data-href="menu-side.html"      data-target="_self">Side menu</a>
+            <a class="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
+            </section>
+            <section>
+            <p class="nav-section-label">Extra:</p>
             <a class="menuitem" id="nav-dialog"        data-href="dialog.html"         data-target="_self">Dialogs</a>
             <a class="menuitem" id="nav-links"         data-href="links.html"          data-target="_self">Links</a>
             <a class="menuitem" id="nav-autotoc"       data-href="autotoc.html"        data-target="_self">Auto ToC</a>
             <a class="menuitem" id="nav-book"          data-href="book.html"           data-target="_self">Book</a>
             <a class="menuitem" id="nav-sortatable"    data-href="sortatable.html"     data-target="_self">Sortable table</a>
+            </section>
         </nav>
     </aside>
 
@@ -385,7 +309,7 @@
         <div class="cards-panel">
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -394,6 +318,8 @@
                         <line x1="10" y1="16" x2="22" y2="16"/>
                         <line x1="10" y1="22" x2="18" y2="22"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>Semantic HTML first</h3>
                     <p>Wexa styles tags directly. No <code>.btn</code>, no <code>.container</code>, no utility class soup — your markup stays readable.</p>
                 </div>
@@ -403,7 +329,7 @@
             </article>
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -417,6 +343,8 @@
                         <circle cx="16" cy="10" r="2" fill="currentColor" stroke="none"/>
                         <circle cx="24" cy="18" r="2" fill="currentColor" stroke="none"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>CSS Variables</h3>
                     <p>Every color, size and spacing is a variable. Redefine a handful and the whole design follows — themes included.</p>
                 </div>
@@ -426,7 +354,7 @@
             </article>
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -434,6 +362,8 @@
                         <rect x="3" y="13" width="26" height="5" rx="1"/>
                         <rect x="3" y="20" width="26" height="5" rx="1"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>@layer architecture</h3>
                     <p>Your CSS wins over wexa defaults automatically. No <code>!important</code>, no specificity fights — just write your rules.</p>
                 </div>
@@ -443,7 +373,7 @@
             </article>
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -453,6 +383,8 @@
                         <path d="M10 25l2-6"/>
                         <path d="M22 25l-2-6"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>Accessibility built in</h3>
                     <p>Light, dark and contrast modes. Skip links, ARIA roles, keyboard navigation — from the ground up, not as an afterthought.</p>
                 </div>
@@ -462,7 +394,7 @@
             </article>
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -471,6 +403,8 @@
                         <rect x="3"  y="18" width="11" height="11" rx="2"/>
                         <rect x="18" y="18" width="11" height="11" rx="2"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>Modular ES6 JS</h3>
                     <p>Import only what you need. Or use the single-file bundle for offline and <code>file://</code> environments. No build step.</p>
                 </div>
@@ -480,7 +414,7 @@
             </article>
 
             <article class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                          fill="none" stroke="currentColor" stroke-width="2"
                          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -488,6 +422,8 @@
                         <line x1="16" y1="22" x2="16" y2="28"/>
                         <line x1="10" y1="28" x2="22" y2="28"/>
                     </svg>
+                </div>
+                <div class="card-body">
                     <h3>Slides</h3>
                     <p>A full accessible presentation framework. Keyboard control, handout and memo modes, themes — runs in any browser.</p>
                 </div>

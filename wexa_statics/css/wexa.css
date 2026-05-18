@@ -396,7 +396,7 @@ This banner notice must not be removed.
         --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
         --nav-bg-color: rgb(228, 232, 240);
         --footer-bg-color: rgb(224, 228, 237);
-        --buttons-bg-color:       rgb(29, 74, 106);
+        --buttons-bg-color: rgb(29, 74, 106);
         --buttons-bg-color-hover: rgb(64, 98, 121);
         --progress-bg-color: rgb(183, 184, 209);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
@@ -416,6 +416,7 @@ This banner notice must not be removed.
         --h4-color: rgb(42, 55, 95);
         --h5-color: rgb(55, 75, 118);
         --h6-color: rgb(60, 80, 125);
+        --dialog-icon-color: rgb(255, 255, 255);
 
         /* Table colors */
         --table-border-color: rgba(70, 105, 165, 0.15);
@@ -459,7 +460,6 @@ This banner notice must not be removed.
         --dialog-border-width:  1px;
         --dialog-border-radius: 0.4rem;
         --dialog-box-shadow:    -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
-        --dialog-icon-color:    rgb(255, 255, 255);
     }
 
     /*

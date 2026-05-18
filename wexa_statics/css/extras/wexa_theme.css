@@ -101,8 +101,8 @@ body.dark {
         background-repeat: no-repeat;
         background-position: bottom;
         transition: background-size 0.32s ease, color 0s linear 0.32s;
-        border-radius: 2px;
-        text-decoration: none;
+        border-radius: calc(var(--border-radius) / 2);
+        /*text-decoration: none;*/
     }
 
     main a:not(.menuitem):not(:has(img)):hover,

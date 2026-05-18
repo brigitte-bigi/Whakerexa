@@ -559,10 +559,12 @@ aside.appmenu nav {
     padding-bottom: var(--typography-spacing-vertical);
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
 }
 
 /* Alignment horizontal */
@@ -598,6 +600,22 @@ aside.appmenu nav :is([role="menuitem"], .menuitem) {
 aside.appmenu :is([role="menuitem"], .menuitem):hover,
 aside.appmenu :is([role="menuitem"], .menuitem):focus-visible {
     background-color: rgba(128, 128, 128, 0.5);
+}
+
+/* Section labels inside submenus */
+aside.appmenu nav .nav-section-label {
+    font-size: calc(0.8 * var(--font-size));
+    font-weight: var(--font-weight-semibold);
+    color: var(--nav-fg-color);
+    background-color: transparent;
+    width: 100%;
+    margin: 0;
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: calc(0.15 * var(--typography-spacing-vertical));
+    padding-left: calc(0.3 * var(--typography-spacing-horizontal));
+    pointer-events: none;
+    cursor: default;
+    text-align: left;
 }
 
 /* -------- Sub-menu positioning, initially hidden off-screen,
@@ -698,16 +716,18 @@ aside.appmenu.open[data-submenu-position="top"] {
     top: 0;
 }
 
-/* ----------------- #nav-content ------------------- */
+/* =======================================================================
+                    SECTIONS IN NAV
+   ======================================================================= */
 
-/* useful to group items - in sections. */
-/* wexa.css * rule sets background-color on every element; reset here so the nav gradient shows through. */
-nav#nav-content > section {
+/* wexa.css * rule sets background-color on every element; reset here so the nav background shows through. */
+nav.nav-wexa > section {
     background-color: transparent;
 }
 
-/* SIDE */
-nav#nav-content.side > section {
+/* SIDE nav and appmenu: sections stack vertically */
+nav.nav-wexa.side > section,
+aside.appmenu nav > section {
     display: flex;
     flex-direction: column;
     align-self: stretch;
@@ -715,31 +735,35 @@ nav#nav-content.side > section {
     width: 100%;
     gap: calc(0.3 * var(--typography-spacing-vertical));
 }
-/* TOP + BOTTOM */
-nav#nav-content.top > section,
-nav#nav-content.bottom > section {
+
+/* TOP and BOTTOM nav: sections stack horizontally */
+nav.nav-wexa.top > section,
+nav.nav-wexa.bottom > section {
     display: flex;
     flex-direction: row;
     align-self: auto;
     width: auto;
 }
 
-nav#nav-content.side > section + section,
-nav#nav-content.side > section + :is([role="menuitem"], .menuitem),
-nav#nav-content.side > :is([role="menuitem"], .menuitem) + section {
+/* Spacing between sections — SIDE */
+nav.nav-wexa.side > section + section,
+nav.nav-wexa.side > section + :is([role="menuitem"], .menuitem),
+nav.nav-wexa.side > :is([role="menuitem"], .menuitem) + section {
     margin-top: var(--typography-spacing-vertical);
 }
 
-nav#nav-content.top > section + section,
-nav#nav-content.top > section + :is([role="menuitem"], .menuitem),
-nav#nav-content.top > :is([role="menuitem"], .menuitem) + section {
+/* Spacing between sections — TOP */
+nav.nav-wexa.top > section + section,
+nav.nav-wexa.top > section + :is([role="menuitem"], .menuitem),
+nav.nav-wexa.top > :is([role="menuitem"], .menuitem) + section {
     margin-left: var(--typography-spacing-horizontal);
     margin-right: var(--typography-spacing-horizontal);
 }
 
-nav#nav-content.bottom > section + section,
-nav#nav-content.bottom > section + :is([role="menuitem"], .menuitem),
-nav#nav-content.bottom > :is([role="menuitem"], .menuitem) + section {
+/* Spacing between sections — BOTTOM */
+nav.nav-wexa.bottom > section + section,
+nav.nav-wexa.bottom > section + :is([role="menuitem"], .menuitem),
+nav.nav-wexa.bottom > :is([role="menuitem"], .menuitem) + section {
     margin-left: var(--typography-spacing-horizontal);
     margin-right: var(--typography-spacing-horizontal);
 }
@@ -747,7 +771,10 @@ nav#nav-content.bottom > :is([role="menuitem"], .menuitem) + section {
 
 @media (min-width: 920px) {
 
-    nav#nav-content :is([role="menuitem"], .menuitem) {
+    nav.nav-wexa.side :is([role="menuitem"], .menuitem),
+    nav.nav-wexa.top :is([role="menuitem"], .menuitem),
+    nav.nav-wexa.bottom :is([role="menuitem"], .menuitem),
+    aside.appmenu nav :is([role="menuitem"], .menuitem) {
         flex-direction: row;
         align-items: center;
         gap: 0.5rem;
@@ -758,7 +785,10 @@ nav#nav-content.bottom > :is([role="menuitem"], .menuitem) + section {
 
 @media (max-width: 920px) {
 
-    nav#nav-content :is([role="menuitem"], .menuitem) {
+    nav.nav-wexa.side :is([role="menuitem"], .menuitem),
+    nav.nav-wexa.top :is([role="menuitem"], .menuitem),
+    nav.nav-wexa.bottom :is([role="menuitem"], .menuitem),
+    aside.appmenu nav :is([role="menuitem"], .menuitem) {
         flex-direction: row;
         align-items: center;
         gap: 0.5rem;

@@ -94,6 +94,18 @@ export class LinkController {
         this._bindLinks(selectors, true);
     }
 
+    /**
+     * Make every element with a `data-href` attribute (but no `href` and no
+     * explicit `tabindex`) focusable via the Tab key, exactly as a real link.
+     *
+     * Call once at page load via OnLoadManager.addLoadFunction().
+     */
+    static initFocusable() {
+        document.querySelectorAll('[data-href]:not([href]):not([tabindex])').forEach(el => {
+            el.setAttribute('tabindex', '0');
+        });
+    }
+
     // ----------------------------------------------------------------------
     // Private
     // ----------------------------------------------------------------------

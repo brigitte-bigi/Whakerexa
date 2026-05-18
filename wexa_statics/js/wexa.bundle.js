@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-17 21:01:50
+// Bundle automatically generated on 2026-05-18 18:07:08
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2603,6 +2603,11 @@ class LinkController {
     handleLinksWithParameters(selectors) {
         this._bindLinks(selectors, true);
     }
+    static initFocusable() {
+        document.querySelectorAll('[data-href]:not([href]):not([tabindex])').forEach(el => {
+            el.setAttribute('tabindex', '0');
+        });
+    }
     // ----------------------------------------------------------------------
     // Private
     // ----------------------------------------------------------------------
@@ -2853,6 +2858,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     BaseManager,
     RequestManager
 });
+// Make every [data-href] element without a real href focusable via Tab.
+OnLoadManager.addLoadFunction(() => LinkController.initFocusable());
 // Register the global onload handler so that all deferred load functions
 // declared across Whakerexa modules are executed once the document is ready.
 window.onload = () => {

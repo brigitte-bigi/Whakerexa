@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
+    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
@@ -20,8 +20,10 @@
                 s.addEventListener('load', function () {
                     if (window.Wexa && window.Wexa.ThemeManager) {
                         const t = new window.Wexa.ThemeManager();
+                        t.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
                         t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
                         t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                        t.setDefault('wexa_theme');
                         window.themes = t;
                     }
                 });
@@ -35,8 +37,10 @@
     <script type="module">
         import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
         const themes = new ThemeManager();
+        themes.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
         themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
         themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+        themes.setDefault('wexa_theme');
         window.themes = themes;
     </script>
 </head>
@@ -74,7 +78,135 @@
             onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 <main id="main-content">
-    <p><em>Work in progress.</em></p>
+
+    <section class="panel-item">
+        <h2>What is a theme?</h2>
+        <p>
+            A theme is a standalone CSS file that contains <strong>only an <code>@layer theme</code> block</strong>.
+            It redefines CSS variables and decoration rules — colors, gradients, borders, typography accents — without
+            touching structure or accessibility layers.
+        </p>
+        <p>
+            Themes are <strong>mutually exclusive</strong>: each theme replaces the previous one entirely.
+            They never stack. This is enforced by <code>ThemeManager</code>, which manages a single
+            <code>&lt;link id="wexa-theme"&gt;</code> element whose <code>href</code> is swapped on every
+            theme switch.
+        </p>
+    </section>
+
+    <section class="panel-item">
+        <h2>Integration</h2>
+        <p>Two requirements make theme switching work correctly:</p>
+        <ol>
+            <li>
+                The default theme's <code>&lt;link&gt;</code> element <strong>must carry <code>id="wexa-theme"</code></strong>.
+                Without it, <code>ThemeManager</code> creates a second link element and themes accumulate instead of replacing each other.
+            </li>
+            <li>
+                The default theme <strong>must be registered</strong> with <code>ThemeManager</code> and declared via <code>setDefault()</code>.
+            </li>
+        </ol>
+        <pre><code>&lt;!-- In &lt;head&gt; --&gt;
+&lt;link id="wexa-theme" rel="stylesheet" href="wexa_statics/css/extras/wexa_theme.css" /&gt;</code></pre>
+        <pre><code>const themes = new ThemeManager();
+themes.register('wexa_theme',   'wexa_statics/css/extras/wexa_theme.css');
+themes.register('aurora',       'wexa_statics/css/extras/wexa_theme_aurora.css');
+themes.register('highcontrast', 'wexa_statics/css/extras/wexa_theme_highcontrast.css');
+themes.setDefault('wexa_theme');
+window.themes = themes;</code></pre>
+        <p>
+            The active theme name is persisted in the URL parameter <code>wexa_theme</code> and propagated
+            to all internal links via <code>setUrlWithParameters()</code>.
+        </p>
+    </section>
+
+    <section class="panel-item">
+        <h2>Available themes</h2>
+        <div class="cards-panel">
+
+            <article class="card full-card">
+                <div class="card-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="16" cy="16" r="13"/>
+                        <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+                <div class="card-body">
+                    <h3>wexa_theme</h3>
+                    <p>Default theme. Navy and teal palette, animated gradient underline on links, subtle background gradients.</p>
+                </div>
+                <div class="card-footer">
+                    <code>wexa_statics/css/extras/wexa_theme.css</code>
+                </div>
+            </article>
+
+            <article class="card full-card">
+                <div class="card-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="16" cy="16" r="13"/>
+                        <line x1="8" y1="16" x2="24" y2="16"/>
+                        <line x1="16" y1="8" x2="16" y2="24"/>
+                    </svg>
+                </div>
+                <div class="card-body">
+                    <h3>aurora</h3>
+                    <p>Cool blues and greens. Inspired by northern lights. Soft glow on interactive elements.</p>
+                </div>
+                <div class="card-footer">
+                    <code>wexa_statics/css/extras/wexa_theme_aurora.css</code>
+                </div>
+            </article>
+
+            <article class="card full-card">
+                <div class="card-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="16" cy="16" r="13"/>
+                        <line x1="16" y1="9" x2="16" y2="16"/>
+                        <circle cx="16" cy="21" r="1" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+                <div class="card-body">
+                    <h3>highcontrast</h3>
+                    <p>
+                        OS-style high contrast. White/black with dark-blue or yellow links (WCAG AAA).
+                        No gradients, no border-radius, flat colors throughout.
+                        Designed for maximum legibility.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <code>wexa_statics/css/extras/wexa_theme_highcontrast.css</code>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="panel-item">
+        <h2>Creating a custom theme</h2>
+        <p>A theme file contains a single <code>@layer theme</code> block. Redefine only the variables you need — all others fall back to <code>wexa.css</code> defaults.</p>
+        <pre><code>/* my_theme.css */
+@layer theme {
+
+    :root:not(.dark) {
+        --bg-color:       rgb(255, 250, 240);
+        --a-color:        rgb(180, 60, 0);
+        --custom-color1:  rgb(80, 20, 0);
+        --custom-color2:  rgb(180, 60, 0);
+    }
+
+    .dark {
+        --bg-color:       rgb(20, 15, 10);
+        --a-color:        rgb(255, 160, 80);
+        --custom-color1:  rgb(255, 220, 180);
+        --custom-color2:  rgb(255, 160, 80);
+    }
+
+}</code></pre>
+        <p>Register it the same way as built-in themes. The <code>.contrast</code> class is managed by <code>AccessibilityManager</code> — a theme must not override colors in contrast mode.</p>
+    </section>
 
 </main>
 

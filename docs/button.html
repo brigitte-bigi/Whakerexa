@@ -11,7 +11,7 @@
 
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
+    <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
@@ -570,6 +570,7 @@
             s.addEventListener('load', function () {
                 if (window.Wexa && window.Wexa.ThemeManager) {
                     const t = new window.Wexa.ThemeManager();
+                        t.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
                         t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
                     t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
                     window.themes = t;
@@ -585,6 +586,7 @@
 <script type="module">
     import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
     const themes = new ThemeManager();
+        themes.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
         themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
     themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
     window.themes = themes;
