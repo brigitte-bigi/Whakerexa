@@ -39,8 +39,8 @@
 
 :root:not(.dark) {
 
-    --bg-color: rgba(251, 251, 251, 0.2);
-    --bg-color-alt: rgba(236, 239, 245, 0.2);
+    --bg-color:     transparent;
+    --bg-color-alt: transparent;
     --body-bg-color: radial-gradient(at left center, rgba(229, 238, 252, 1.0), rgba(212, 220, 255, 1.0));
 
 }
@@ -110,6 +110,19 @@ body.dark {
         color: var(--bg-color);
         background-size: 100% 100%;
         transition: background-size 0.32s ease, color 0s;
+    }
+
+    /* ======================================================================
+       Panel-item alternating backgrounds — explicit semi-transparent values
+       so nested elements (transparent via --bg-color) don't accumulate.
+       ====================================================================== */
+
+    main > .panel-item:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    main > .panel-item:nth-child(even) {
+        background-color: rgba(220, 228, 245, 0.25);
     }
 
     /* ======================================================================

@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
-	<link rel="stylesheet" href="../wexa_statics/css/sortatable.css" type="text/css" />
+	<link rel="stylesheet" href="../wexa_statics/css/extras/sortatable.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/extras/slides.css">
 
@@ -555,9 +555,9 @@
 
                 if (window.Wexa && window.Wexa.ThemeManager) {
                     const t = new window.Wexa.ThemeManager();
-                    t.register('wexa',         '../wexa_statics/css/extras/wexa_theme.css');
-                    t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-                    t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                    t.register('wexa',         '../wexa_statics/css/themes/wexa_theme.css');
+                    t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
                     t.setDefault('wexa');
                     window.themes = t;
                 }
@@ -598,9 +598,9 @@
             window.Wexa.accessibility = new AccessibilityManager();
 
             const themes = new ThemeManager();
-            themes.register('wexa',         '../wexa_statics/css/extras/wexa_theme.css');
-            themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-            themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+            themes.register('wexa',         '../wexa_statics/css/themes/wexa_theme.css');
+            themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+            themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
             themes.setDefault('wexa');
             window.themes = themes;
 

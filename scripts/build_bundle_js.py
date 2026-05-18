@@ -67,11 +67,11 @@ JS_FILES = [
     'menu.js',
     'dialog.js',
     'progressbar.js',
-    'book.js',
-    'sortatable.js',
     'toggleselect.js',
     'links.js',
-    os.path.join('extras', 'theme_manager.js')
+    os.path.join('extras', 'theme_manager.js'),
+    os.path.join('extras', 'book.js'),
+    os.path.join('extras', 'sortatable.js')
 ]
 
 # Main module

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
-    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/extras/wexa_theme.css" type="text/css" />
+    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" />
@@ -57,9 +57,9 @@
                 s.addEventListener('load', function () {
                     if (window.Wexa && window.Wexa.ThemeManager) {
                         const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
-                        t.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-                        t.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+                        t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
                         t.setDefault('wexa_theme');
                         window.themes = t;
                     }
@@ -74,9 +74,9 @@
     <script type="module">
         import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
         const themes = new ThemeManager();
-        themes.register('wexa_theme',   '../wexa_statics/css/extras/wexa_theme.css');
-        themes.register('aurora',       '../wexa_statics/css/extras/wexa_theme_aurora.css');
-        themes.register('highcontrast', '../wexa_statics/css/extras/wexa_theme_highcontrast.css');
+        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+        themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
         themes.setDefault('wexa_theme');
         window.themes = themes;
     </script>
@@ -91,6 +91,7 @@
                 m.initMobileToggle();
                 m.registerSubmenu('appmenu-framework',    'submenu-toggle-framework');
                 m.registerSubmenu('appmenu-components',   'submenu-toggle-components');
+                m.registerSubmenu('appmenu-extras',       'submenu-toggle-extras');
                 return true;
             }
             function start() {
@@ -211,19 +212,20 @@
     </button>
     </section>
 
-    <!-- Slides + Bundle -->
+    <!-- Extras -->
     <section>
-    <a class="menuitem" id="nav-slides" data-href="slides.html" data-target="_self">
+    <button class="menuitem" id="submenu-toggle-extras"
+            aria-haspopup="true" aria-controls="appmenu-extras">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="28" height="18" rx="2"/>
-            <line x1="16" y1="22" x2="16" y2="28"/>
-            <line x1="10" y1="28" x2="22" y2="28"/>
+            <polygon points="16,3 19,13 29,13 21,19 24,29 16,23 8,29 11,19 3,13 13,13"/>
         </svg>
-        <span>Slides</span>
-    </a>
+        <span>Extras</span>
+    </button>
+    </section>
 
+    <section>
     <a class="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
@@ -284,9 +286,17 @@
             <a class="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"    data-target="_self">Bottom menu</a>
             </section>
             <section>
-            <p class="nav-section-label">Extra:</p>
+            <p class="nav-section-label">Utilities:</p>
             <a class="menuitem" id="nav-dialog"        data-href="dialog.html"         data-target="_self">Dialogs</a>
             <a class="menuitem" id="nav-links"         data-href="links.html"          data-target="_self">Links</a>
+            </section>
+        </nav>
+    </aside>
+
+    <aside id="appmenu-extras" class="appmenu" aria-label="Extras submenu">
+        <nav>
+            <section>
+            <a class="menuitem" id="nav-slides"        data-href="slides.html"         data-target="_self">Slides</a>
             <a class="menuitem" id="nav-autotoc"       data-href="autotoc.html"        data-target="_self">Auto ToC</a>
             <a class="menuitem" id="nav-book"          data-href="book.html"           data-target="_self">Book</a>
             <a class="menuitem" id="nav-sortatable"    data-href="sortatable.html"     data-target="_self">Sortable table</a>

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-18 18:07:08
+// Bundle automatically generated on 2026-05-18 22:15:12
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2178,272 +2178,6 @@ window.Wexa.ProgressBar = ProgressBar;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- book.js ---------------
-'use strict';
-class Book {
-    // FIELDS
-    #toc_element;
-    #headings_container;
-    #html_tags;
-    // CONSTRUCTOR
-    constructor(id_headings, id_toc = "toc") {
-        this.#toc_element = document.getElementById(id_toc);
-        this.#headings_container = document.getElementById(id_headings);
-        this.#html_tags = "h1, h2, h3, h4";
-    }
-    // GETTERS
-    get dom_toc() {
-        return this.#toc_element;
-    }
-    get headings() {
-        return this.#headings_container;
-    }
-    get html_tags() {
-        return this.#html_tags;
-    }
-    // PUBLIC METHODS
-    set_headings(id_headings) {
-        this.#headings_container =  document.getElementById(id_headings);
-    }
-    add_html_tags(...tags) {
-        tags.forEach(current => {
-            this.#html_tags += ", " + current
-        });
-    }
-    delete_html_tags(...tags) {
-        tags.forEach(current => {
-            this.#html_tags = this.#html_tags.replace(", " + current, "");
-        });
-    }
-    fill_table(only_numerate_headings = true) {
-        if (!(this.#toc_element instanceof HTMLElement)) return;
-        const headings = this.#get_headings(only_numerate_headings);
-        headings.forEach((heading, index) => {
-            /* Add the anchor right before the heading */
-            let anchor = document.createElement('a');
-            anchor.setAttribute("id", 'toc' + index);
-            anchor.setAttribute("name", 'toc' + index);
-            /* Add an entry into the table of content */
-            let link = document.createElement('a');
-            link.setAttribute('href', '#toc' + index);
-            link.textContent = heading.textContent;
-            let item = document.createElement('li');
-            item.setAttribute('class', heading.tagName.toLowerCase());
-            item.appendChild(link);
-            this.#toc_element.appendChild(item);
-            heading.parentNode.insertBefore(anchor, heading);
-        });
-    }
-    // PRIVATE METHODS
-    #get_headings(only_numerate_headings) {
-        if (!(this.#headings_container instanceof HTMLElement)) return [];
-        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
-        let headings = [];
-        titles.forEach(current => {
-            if (only_numerate_headings) {
-                // check if the heading begin by a number
-                const c = window.getComputedStyle(current, '::before')['content'];
-                if (c && c !== 'none' && c !== '""' && c !== "''") {
-                    headings.push(current);
-                }
-            } else {
-                headings.push(current);
-            }
-        });
-        return headings;
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.Book = Book;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- sortatable.js ---------------
-class SortaTable {
-    // FIELDS
-    _tableElt
-    _className
-    // CONSTRUCTOR
-    constructor(tableId) {
-        // Name of the CSS class used by the button in the <th> element
-        this._className = ".sortatable";
-        console.debug("Sortatable is instantiated for table element: ", tableId);
-        // The <table> element which is manipulated in this class
-        this._tableElt = document.getElementById(tableId);
-        if (!this._tableElt) {
-            // Table element is not found, log a warning and prevent further execution
-            console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
-            return;
-        }
-        // Store original rows order
-        const tbody = this._tableElt.querySelector('tbody');
-        const rows = Array.from(tbody.getElementsByTagName('tr'));
-        rows.forEach((row, index) => {
-            row.setAttribute('data-original-index', index);
-        });
-    }
-    // ----------------------------------------------------------------------
-    // PUBLIC
-    // ----------------------------------------------------------------------
-    getTableId() {
-        return this._tableElt.getAttribute("id");
-    }
-    // ----------------------------------------------------------------------
-    attachSortListeners() {
-        if (!this._tableElt) {
-            return;
-        }
-        console.debug("Attach sort listeners for table " + this._tableElt);
-        // Add event listeners to all headers with class 'sortatable'
-        const sortButtons = this._tableElt.querySelectorAll(this._className);
-        console.debug("Found " + sortButtons.length + " sort buttons in headers");
-        sortButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                console.debug(" ... button: ", `[${button}]`);
-                // Retrieve the data-sort attribute from the clicked header
-                const sortAttribute = button.getAttribute('data-sort');
-                const isAsc = button.classList.contains('sort-asc');
-                const isDesc = button.classList.contains('sort-desc');
-                // Remove sort classes from all headers to reset the state
-                this._tableElt.querySelectorAll(this._className).forEach(h => {
-                    h.classList.remove('sort-asc', 'sort-desc');
-                });
-                // Call the sortTable function to sort the table rows and update button
-                // Toggle between 3 states: no sort -> ascending -> descending
-                if (isAsc) {
-                    button.classList.remove('sort-asc');
-                    button.classList.add('sort-desc');
-                    this.#sortTable(sortAttribute, false);
-                } else if (isDesc) {
-                    button.classList.remove('sort-desc');
-                    // No sort applied, reset table
-                    this.#noSortTable();
-                } else {
-                    button.classList.add('sort-asc');
-                    this.#sortTable(sortAttribute, true);
-                }
-                event.stopPropagation();
-            });
-        });
-    }
-    // ----------------------------------------------------------------------
-    sort(column, isAsc = true) {
-        // Sort the table based on the specified column
-        this.#sortTable(column, isAsc);
-        // Optionally, update the class on the header to reflect the current sort direction
-        const headerButton = this._tableElt.querySelector(`button[data-sort="${column}"]`);
-        if (headerButton) {
-            this._tableElt.querySelectorAll(this._className).forEach(h => {
-                h.classList.remove('sort-asc', 'sort-desc');
-            });
-            headerButton.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
-        }
-    }
-    // ----------------------------------------------------------------------
-    toggleColumnVisibility(checkBoxes) {
-        // Iterate over each checkbox in checkBoxes
-        checkBoxes.forEach(checkbox => {
-            // Check if the checkbox has a data-toggle attribute
-            const columnName = checkbox.getAttribute('data-toggle');
-            if (!columnName) {
-                console.warn("Checkbox does not have a data-toggle attribute. Skipping...");
-                return; // Skip this checkbox if it doesn't have a data-toggle attribute
-            }
-            // Initialize column index
-            let columnIndex = -1;
-            // Iterate through the header cells to find the index
-            const headerCells = this._tableElt.querySelectorAll('thead th');
-            for (let index = 0; index < headerCells.length; index++) {
-                const cell = headerCells[index];
-                // Check if the cell has the data-sort attribute matching columnName
-                if (cell.getAttribute('data-sort') === columnName) {
-                    columnIndex = index; // Store the column index
-                    break; // Exit the loop early since we've found the column
-                }
-                // Find the button with class "sortatable"
-                const button = cell.querySelector(this._className);
-                // Check if the button exists and matches the column name
-                if (button && button.getAttribute('data-sort') === columnName) {
-                    columnIndex = index; // Store the column index
-                    break; // Exit the loop early since we've found the column
-                }
-            }
-            // If columnIndex is found, toggle its visibility
-            if (columnIndex !== -1) {
-                // Get the checkbox state (checked or not)
-                const checkboxState = checkbox.checked;
-                // Use the columnVisibility method to update the visibility
-                this.columnVisibility(columnIndex, checkboxState);
-                // Optionally recalculate table width after updating visibility
-                this._tableElt.style.width = '100%';
-            } else {
-                console.warn(`Column with name "${columnName}" not found.`);
-            }
-        });
-    }
-    // ----------------------------------------------------------------------
-    columnVisibility(columnIndex, show) {
-        // Get all table rows
-        const rows = this._tableElt.rows;
-        // Iterate over each row (including header)
-        for (let i = 0; i < rows.length; i++) {
-            const cell = rows[i].cells[columnIndex];
-            if (cell) {
-                // Toggle the 'hidden' class based on the show flag
-                if (show) {
-                    cell.classList.remove('hidden');
-                } else {
-                    cell.classList.add('hidden');
-                }
-            }
-        }
-    }
-    // ----------------------------------------------------------------------
-    // PRIVATE
-    // ----------------------------------------------------------------------
-    #noSortTable() {
-        const tbody = this._tableElt.querySelector('tbody');
-        const rows = Array.from(tbody.getElementsByTagName('tr'));
-        // Re-organize lines by their original order
-        rows.sort((a, b) => a.getAttribute('data-original-index') - b.getAttribute('data-original-index'));
-        rows.forEach(row => tbody.appendChild(row));
-    }
-    // ----------------------------------------------------------------------
-    #sortTable(sortAttribute, isAsc) {
-        // Get the index of the column to sort by
-        const columnIndex = this._tableElt.querySelector(`button[data-sort="${sortAttribute}"]`).closest('th').cellIndex;
-        // Get the tbody element from the table
-        const tableBody = this._tableElt.querySelector('tbody');
-        // Convert the HTMLCollection of rows into an array for sorting
-        const rows = Array.from(tableBody.getElementsByTagName('tr'));
-        // Check if the attribute to sort by is 'date'
-        const isDate = sortAttribute === 'date';
-        // Sort the rows array using a custom comparator
-        rows.sort((a, b) => {
-            // Fetch the text content of the cells in the current column
-            let aValue = a.cells[columnIndex].textContent.trim();
-            let bValue = b.cells[columnIndex].textContent.trim();
-            // If the attribute is 'date', convert string to Date object
-            if (isDate) {
-                aValue = new Date(aValue);
-                bValue = new Date(bValue);
-            }
-            // Determine the sort order based on the cell values and isAsc flag
-            if (aValue < bValue) return isAsc ? -1 : 1;
-            if (aValue > bValue) return isAsc ? 1 : -1;
-            return 0;
-        });
-        // Re-append sorted rows back to the table body
-        rows.forEach(row => tableBody.appendChild(row));
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.SortaTable = SortaTable;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
 // ---------------- toggleselect.js ---------------
 // --------------------------------------------------------------------------
 class ToggleSelector {
@@ -2802,6 +2536,272 @@ window.Wexa.ThemeManager = ThemeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- extras/book.js ---------------
+'use strict';
+class Book {
+    // FIELDS
+    #toc_element;
+    #headings_container;
+    #html_tags;
+    // CONSTRUCTOR
+    constructor(id_headings, id_toc = "toc") {
+        this.#toc_element = document.getElementById(id_toc);
+        this.#headings_container = document.getElementById(id_headings);
+        this.#html_tags = "h1, h2, h3, h4";
+    }
+    // GETTERS
+    get dom_toc() {
+        return this.#toc_element;
+    }
+    get headings() {
+        return this.#headings_container;
+    }
+    get html_tags() {
+        return this.#html_tags;
+    }
+    // PUBLIC METHODS
+    set_headings(id_headings) {
+        this.#headings_container =  document.getElementById(id_headings);
+    }
+    add_html_tags(...tags) {
+        tags.forEach(current => {
+            this.#html_tags += ", " + current
+        });
+    }
+    delete_html_tags(...tags) {
+        tags.forEach(current => {
+            this.#html_tags = this.#html_tags.replace(", " + current, "");
+        });
+    }
+    fill_table(only_numerate_headings = true) {
+        if (!(this.#toc_element instanceof HTMLElement)) return;
+        const headings = this.#get_headings(only_numerate_headings);
+        headings.forEach((heading, index) => {
+            /* Add the anchor right before the heading */
+            let anchor = document.createElement('a');
+            anchor.setAttribute("id", 'toc' + index);
+            anchor.setAttribute("name", 'toc' + index);
+            /* Add an entry into the table of content */
+            let link = document.createElement('a');
+            link.setAttribute('href', '#toc' + index);
+            link.textContent = heading.textContent;
+            let item = document.createElement('li');
+            item.setAttribute('class', heading.tagName.toLowerCase());
+            item.appendChild(link);
+            this.#toc_element.appendChild(item);
+            heading.parentNode.insertBefore(anchor, heading);
+        });
+    }
+    // PRIVATE METHODS
+    #get_headings(only_numerate_headings) {
+        if (!(this.#headings_container instanceof HTMLElement)) return [];
+        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
+        let headings = [];
+        titles.forEach(current => {
+            if (only_numerate_headings) {
+                // check if the heading begin by a number
+                const c = window.getComputedStyle(current, '::before')['content'];
+                if (c && c !== 'none' && c !== '""' && c !== "''") {
+                    headings.push(current);
+                }
+            } else {
+                headings.push(current);
+            }
+        });
+        return headings;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Book = Book;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/sortatable.js ---------------
+class SortaTable {
+    // FIELDS
+    _tableElt
+    _className
+    // CONSTRUCTOR
+    constructor(tableId) {
+        // Name of the CSS class used by the button in the <th> element
+        this._className = ".sortatable";
+        console.debug("Sortatable is instantiated for table element: ", tableId);
+        // The <table> element which is manipulated in this class
+        this._tableElt = document.getElementById(tableId);
+        if (!this._tableElt) {
+            // Table element is not found, log a warning and prevent further execution
+            console.warn(`No table element found with id: ${tableId}. SortaTable instantiation is skipped.`);
+            return;
+        }
+        // Store original rows order
+        const tbody = this._tableElt.querySelector('tbody');
+        const rows = Array.from(tbody.getElementsByTagName('tr'));
+        rows.forEach((row, index) => {
+            row.setAttribute('data-original-index', index);
+        });
+    }
+    // ----------------------------------------------------------------------
+    // PUBLIC
+    // ----------------------------------------------------------------------
+    getTableId() {
+        return this._tableElt.getAttribute("id");
+    }
+    // ----------------------------------------------------------------------
+    attachSortListeners() {
+        if (!this._tableElt) {
+            return;
+        }
+        console.debug("Attach sort listeners for table " + this._tableElt);
+        // Add event listeners to all headers with class 'sortatable'
+        const sortButtons = this._tableElt.querySelectorAll(this._className);
+        console.debug("Found " + sortButtons.length + " sort buttons in headers");
+        sortButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                console.debug(" ... button: ", `[${button}]`);
+                // Retrieve the data-sort attribute from the clicked header
+                const sortAttribute = button.getAttribute('data-sort');
+                const isAsc = button.classList.contains('sort-asc');
+                const isDesc = button.classList.contains('sort-desc');
+                // Remove sort classes from all headers to reset the state
+                this._tableElt.querySelectorAll(this._className).forEach(h => {
+                    h.classList.remove('sort-asc', 'sort-desc');
+                });
+                // Call the sortTable function to sort the table rows and update button
+                // Toggle between 3 states: no sort -> ascending -> descending
+                if (isAsc) {
+                    button.classList.remove('sort-asc');
+                    button.classList.add('sort-desc');
+                    this.#sortTable(sortAttribute, false);
+                } else if (isDesc) {
+                    button.classList.remove('sort-desc');
+                    // No sort applied, reset table
+                    this.#noSortTable();
+                } else {
+                    button.classList.add('sort-asc');
+                    this.#sortTable(sortAttribute, true);
+                }
+                event.stopPropagation();
+            });
+        });
+    }
+    // ----------------------------------------------------------------------
+    sort(column, isAsc = true) {
+        // Sort the table based on the specified column
+        this.#sortTable(column, isAsc);
+        // Optionally, update the class on the header to reflect the current sort direction
+        const headerButton = this._tableElt.querySelector(`button[data-sort="${column}"]`);
+        if (headerButton) {
+            this._tableElt.querySelectorAll(this._className).forEach(h => {
+                h.classList.remove('sort-asc', 'sort-desc');
+            });
+            headerButton.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
+        }
+    }
+    // ----------------------------------------------------------------------
+    toggleColumnVisibility(checkBoxes) {
+        // Iterate over each checkbox in checkBoxes
+        checkBoxes.forEach(checkbox => {
+            // Check if the checkbox has a data-toggle attribute
+            const columnName = checkbox.getAttribute('data-toggle');
+            if (!columnName) {
+                console.warn("Checkbox does not have a data-toggle attribute. Skipping...");
+                return; // Skip this checkbox if it doesn't have a data-toggle attribute
+            }
+            // Initialize column index
+            let columnIndex = -1;
+            // Iterate through the header cells to find the index
+            const headerCells = this._tableElt.querySelectorAll('thead th');
+            for (let index = 0; index < headerCells.length; index++) {
+                const cell = headerCells[index];
+                // Check if the cell has the data-sort attribute matching columnName
+                if (cell.getAttribute('data-sort') === columnName) {
+                    columnIndex = index; // Store the column index
+                    break; // Exit the loop early since we've found the column
+                }
+                // Find the button with class "sortatable"
+                const button = cell.querySelector(this._className);
+                // Check if the button exists and matches the column name
+                if (button && button.getAttribute('data-sort') === columnName) {
+                    columnIndex = index; // Store the column index
+                    break; // Exit the loop early since we've found the column
+                }
+            }
+            // If columnIndex is found, toggle its visibility
+            if (columnIndex !== -1) {
+                // Get the checkbox state (checked or not)
+                const checkboxState = checkbox.checked;
+                // Use the columnVisibility method to update the visibility
+                this.columnVisibility(columnIndex, checkboxState);
+                // Optionally recalculate table width after updating visibility
+                this._tableElt.style.width = '100%';
+            } else {
+                console.warn(`Column with name "${columnName}" not found.`);
+            }
+        });
+    }
+    // ----------------------------------------------------------------------
+    columnVisibility(columnIndex, show) {
+        // Get all table rows
+        const rows = this._tableElt.rows;
+        // Iterate over each row (including header)
+        for (let i = 0; i < rows.length; i++) {
+            const cell = rows[i].cells[columnIndex];
+            if (cell) {
+                // Toggle the 'hidden' class based on the show flag
+                if (show) {
+                    cell.classList.remove('hidden');
+                } else {
+                    cell.classList.add('hidden');
+                }
+            }
+        }
+    }
+    // ----------------------------------------------------------------------
+    // PRIVATE
+    // ----------------------------------------------------------------------
+    #noSortTable() {
+        const tbody = this._tableElt.querySelector('tbody');
+        const rows = Array.from(tbody.getElementsByTagName('tr'));
+        // Re-organize lines by their original order
+        rows.sort((a, b) => a.getAttribute('data-original-index') - b.getAttribute('data-original-index'));
+        rows.forEach(row => tbody.appendChild(row));
+    }
+    // ----------------------------------------------------------------------
+    #sortTable(sortAttribute, isAsc) {
+        // Get the index of the column to sort by
+        const columnIndex = this._tableElt.querySelector(`button[data-sort="${sortAttribute}"]`).closest('th').cellIndex;
+        // Get the tbody element from the table
+        const tableBody = this._tableElt.querySelector('tbody');
+        // Convert the HTMLCollection of rows into an array for sorting
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
+        // Check if the attribute to sort by is 'date'
+        const isDate = sortAttribute === 'date';
+        // Sort the rows array using a custom comparator
+        rows.sort((a, b) => {
+            // Fetch the text content of the cells in the current column
+            let aValue = a.cells[columnIndex].textContent.trim();
+            let bValue = b.cells[columnIndex].textContent.trim();
+            // If the attribute is 'date', convert string to Date object
+            if (isDate) {
+                aValue = new Date(aValue);
+                bValue = new Date(bValue);
+            }
+            // Determine the sort order based on the cell values and isAsc flag
+            if (aValue < bValue) return isAsc ? -1 : 1;
+            if (aValue > bValue) return isAsc ? 1 : -1;
+            return 0;
+        });
+        // Re-append sorted rows back to the table body
+        rows.forEach(row => tableBody.appendChild(row));
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SortaTable = SortaTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- wexa.js ---------------
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
@@ -2811,10 +2811,8 @@ console.debug('Imports OK:', {
     MenuManager,
     DialogManager,
     LinkController,
-    SortaTable,
     ToggleSelector,
     ProgressBar,
-    Book,
     BaseManager,
     RequestManager
 });
@@ -2853,8 +2851,6 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     MenuManager,
     ProgressBar,
     ToggleSelector,
-    SortaTable,
-    Book,
     BaseManager,
     RequestManager
 });

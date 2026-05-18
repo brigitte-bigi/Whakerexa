@@ -39,7 +39,8 @@
  * Imported classes:
  * - Core managers (OnLoadManager, WexaLogger, AccessibilityManager, MenuManager,
  *   DialogManager, LinkController)
- * - UI components (ProgressBar, SortaTable, ToggleSelector, Book)
+ * - UI components (ProgressBar, ToggleSelector)
+ * - Extras (Book, SortaTable, ThemeManager) are imported directly by pages that need them.
  *
  * The global namespace is defined at the end of the file.
  */
@@ -52,9 +53,7 @@ import { DialogManager } from './dialog.js';
 import { LinkController } from './links.js';
 
 import { ProgressBar } from './progressbar.js';
-import { SortaTable } from './sortatable.js';
 import { ToggleSelector } from './toggleselect.js';
-import { Book } from './book.js';
 
 import { BaseManager } from './transport/base_manager.js';
 import { RequestManager } from './transport/request.js';
@@ -67,10 +66,8 @@ console.debug('Imports OK:', {
     MenuManager,
     DialogManager,
     LinkController,
-    SortaTable,
     ToggleSelector,
     ProgressBar,
-    Book,
     BaseManager,
     RequestManager
 });
@@ -84,9 +81,7 @@ export {
     DialogManager,
     LinkController,
     ProgressBar,
-    SortaTable,
     ToggleSelector,
-    Book,
     BaseManager,
     RequestManager
 };
@@ -131,8 +126,6 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     MenuManager,
     ProgressBar,
     ToggleSelector,
-    SortaTable,
-    Book,
     BaseManager,
     RequestManager
 });
