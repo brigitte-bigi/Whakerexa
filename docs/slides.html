@@ -70,6 +70,37 @@
 
     <!-- ---------------------------------------------------------------- -->
 
+    <section class="slide" id="slide-integration">
+        <h2>Integration</h2>
+
+        <h3>Ready-made — one tag</h3>
+        <pre><code>&lt;script src="wexa_statics/js/extras/slides/slides.init.js"
+        data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css"
+                                    &lt;!-- name:file.css pairs — omit to skip ThemeManager --&gt;
+        data-default="wexa"         &lt;!-- theme active on load --&gt;
+        data-themes-path="wexa_statics/css/themes/"  &lt;!-- path relative to the page --&gt;
+        data-logo="images/logo.png" &lt;!-- logo image path — omit to disable logo --&gt;
+        data-progress="true"        &lt;!-- "false" to hide the progress bar --&gt;
+&gt;&lt;/script&gt;
+&lt;!-- Nav, overview, accessibility controls are always auto-injected. --&gt;</code></pre>
+
+        <h3>Full custom — explicit control</h3>
+        <pre><code>const app = new Slides({
+    slides:               document.querySelectorAll('section.slide'),
+    controls:             document.getElementById('nav-content'),       // nav bar
+    controlsView:         document.getElementById('slides-controls-view'), // view toggle
+    overviewContainer:    document.getElementById('overview-container'), // overview panel
+    progressBarContainer: document.getElementById('progress-container'), // bar wrapper
+    progressBar:          document.getElementById('progress-bar'),       // bar fill
+    logo:                 document.getElementById('logo-container'),     // logo overlay
+    accessibility:        document.getElementById('accessibility-controls'),
+    mode: 'presentation'  // 'presentation' | 'handout' | 'memo'
+});
+app.init();</code></pre>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
     <section class="slide" id="slide-accessibility">
         <h2>Accessibility</h2>
 
@@ -480,146 +511,27 @@
         </table>
     </section>
 
+    <!-- ================================================================ -->
+    <!-- Slides initializer — one tag does everything:                    -->
+    <!--   loads JS modules, registers themes, injects controls, starts.  -->
+    <!-- ================================================================ -->
 
-    <!-- ---------------------------------------------------------------- -->
-    <!-- Do not modify....                                                -->
-    <!-- ---------------------------------------------------------------- -->
+    <script src="../wexa_statics/js/extras/slides/slides.init.js"
+            data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css,highcontrast:wexa_theme_highcontrast.css"
+            data-default="wexa"
+            data-themes-path="../wexa_statics/css/themes/"
+            data-logo="./images/GFDL_logo.png">
+    </script>
 
-    <!-- Accessibility controls, toggled with 'a' key -->
-    <nav id="accessibility-controls" class="nav-wexa controls-hidden" aria-label="Accessibility controls">
-        <button id="btn-css-theme" class="menuitem" type="button"
-                aria-label="Switch theme" title="Switch theme"
-                onclick="window.themes && window.themes.next()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="16" cy="16" r="13"/>
-                <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
-                <line x1="16" y1="3"  x2="16" y2="8"/>
-                <line x1="16" y1="24" x2="16" y2="29"/>
-                <line x1="3"  y1="16" x2="8"  y2="16"/>
-                <line x1="24" y1="16" x2="29" y2="16"/>
-            </svg>
-        </button>
-        <button id="btn-color" class="menuitem accessibility"
-                aria-label="color" aria-pressed="false"
-                onclick="Wexa.accessibility.switchColorScheme()"></button>
-    </nav>
-
-    <!-- Add the license icon at the top-right of the page. -->
-    <div id="logo-container" class="top right">
-        <img src="./images/GFDL_logo.png" alt="GFDL-1.3" class="img-logo"/>
-    </div>
-
-    <!-- Add the progress bar at the bottom of the slides. -->
-    <div id="progress-container">
-        <div id="progress-bar"></div>
-    </div>
-
-    <!-- Add an overview of the slides, visible with 'o' key. -->
-    <div id="overview-container">
-    </div>
-
-    <!-- Add controls of the slides, visible with 'n' key. -->
-    <nav id="nav-content" class="nav-wexa bottom controls-hidden" aria-label="Slide navigation">
-        <button class="menuitem" id="btn-prev">Prev</button>
-        <button class="menuitem" id="btn-next">Next</button>
-        <button class="menuitem" id="btn-back">First</button>
-        <button class="menuitem" id="btn-last">Last</button>
-        <button class="menuitem" id="btn-goto">Go to</button>
-        <button class="menuitem" id="btn-fullscreen">Fullscreen</button>
-        <div id="slides-controls-view" role="radiogroup" aria-label="View mode">
-            <label class="menuitem" for="btn-overview">
-                <input type="radio" name="view-mode" id="btn-overview" value="overview">
-                Overview
-            </label>
-            <label class="menuitem" for="btn-handout">
-                <input type="radio" name="view-mode" id="btn-handout" value="handout">
-                Handout
-            </label>
-            <label class="menuitem" for="btn-presentation">
-                <input type="radio" name="view-mode" id="btn-presentation" value="presentation" checked>
-                Slides View
-            </label>
-        </div>
-    </nav>
-
-    <script type="module">
-        const usingFile = (window.location.protocol === 'file:');
-
-        if (usingFile === true) {
-
-            const script = document.createElement('script');
-            script.src = '../wexa_statics/js/wexa.bundle.js';
-            script.onload = () => {
-
-                if (window.Wexa && window.Wexa.ThemeManager) {
-                    const t = new window.Wexa.ThemeManager();
-                    t.register('wexa',         '../wexa_statics/css/themes/wexa_theme.css');
-                    t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                    t.setDefault('wexa');
-                    window.themes = t;
-                }
-
-                const slides = Array.from(document.querySelectorAll('section.slide'));
-
-                const app = new window.Wexa.Slides({
-                    slides: slides,
-                    progressBar: document.getElementById('progress-bar'),
-                    controls: document.getElementById('nav-content'),
-                    controlsView: document.getElementById('slides-controls-view'),
-                    overviewContainer: document.getElementById('overview-container'),
-                    progressBarContainer: document.getElementById('progress-container'),
-                    logo: document.getElementById('logo-container'),
-                    accessibility: document.getElementById('accessibility-controls'),
-                    mode: 'presentation'
-                });
-                app.init();
-                window.app = app;
-
-                window.Wexa.dialog = new window.Wexa.DialogManager();
-                window.Wexa.links  = new window.Wexa.LinkController();
-
-                const sorter = new window.Wexa.SortaTable('terminator-dates-table');
-                sorter.attachSortListeners();
-            };
-
-            document.head.appendChild(script);
-        }
-
-        else {
-
-            const { SortaTable, AccessibilityManager } = await import('../wexa_statics/js/wexa.js');
-            const Slides = (await import('../wexa_statics/js/extras/slides/slides.js')).default;
-            const { ThemeManager } = await import('../wexa_statics/js/extras/theme_manager.js');
-
-            window.Wexa = window.Wexa || {};
-            window.Wexa.accessibility = new AccessibilityManager();
-
-            const themes = new ThemeManager();
-            themes.register('wexa',         '../wexa_statics/css/themes/wexa_theme.css');
-            themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-            themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-            themes.setDefault('wexa');
-            window.themes = themes;
-
-            const app = new Slides({
-                slides: document.querySelectorAll('section.slide'),
-                progressBar: document.getElementById('progress-bar'),
-                controls: document.getElementById('nav-content'),
-                controlsView: document.getElementById('slides-controls-view'),
-                overviewContainer: document.getElementById('overview-container'),
-                progressBarContainer: document.getElementById('progress-container'),
-                logo: document.getElementById('logo-container'),
-                accessibility: document.getElementById('accessibility-controls'),
-            });
-            app.init();
-            window.app = app;
-
-            const sorter = new SortaTable('terminator-dates-table');
-            sorter.attachSortListeners();
-        }
+    <script>
+        window.addEventListener('wexa:slides:ready', async function () {
+            let SortaTable = window.Wexa && window.Wexa.SortaTable;
+            if (!SortaTable) {
+                const m = await import('../wexa_statics/js/extras/sortatable.js');
+                SortaTable = m.SortaTable;
+            }
+            new SortaTable('terminator-dates-table').attachSortListeners();
+        });
     </script>
 
 
