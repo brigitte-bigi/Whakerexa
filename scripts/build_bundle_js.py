@@ -59,6 +59,8 @@ JS_FILES = [
     os.path.join('extras', 'slides', 'keyboard_controller.js'),
     os.path.join('extras', 'slides', 'touch_controller.js'),
     os.path.join('extras', 'slides', 'buttons_controller.js'),
+    os.path.join('extras', 'slides', 'note_view.js'),
+    os.path.join('extras', 'slides', 'help_dialog.js'),
     os.path.join('extras', 'slides', 'slides_assembler.js'),
     os.path.join('extras', 'slides', 'slides.js'),
 
@@ -71,7 +73,8 @@ JS_FILES = [
     'links.js',
     os.path.join('extras', 'theme_manager.js'),
     os.path.join('extras', 'book.js'),
-    os.path.join('extras', 'sortatable.js')
+    os.path.join('extras', 'sortatable.js'),
+    os.path.join('extras', 'slides', 'slides.init.js'),
 ]
 
 # Main module
@@ -252,6 +255,26 @@ def remove_imports(text):
 # ---------------------------------------------------------------------------
 
 
+def replace_import_meta_url(text):
+    """Replace import.meta.url with null for classic-script bundle compatibility."""
+    return text.replace("import.meta.url", "null")
+
+# ---------------------------------------------------------------------------
+
+
+def remove_toplevel_await(text):
+    """Remove 'await' from top-level await statements (no indentation)."""
+    out = []
+    for line in text.splitlines(keepends=True):
+        if line == line.lstrip() and line.startswith("await "):
+            out.append(line.replace("await ", "", 1))
+        else:
+            out.append(line)
+    return "".join(out)
+
+# ---------------------------------------------------------------------------
+
+
 def extract_class_names(js_code):
     """Extract all top-level class names in the given JS code.
 
@@ -317,6 +340,9 @@ if __name__ == '__main__':
             content = remove_export_blocks(content)
             content = remove_exports(content)
             content = remove_imports(content)
+            if filename.endswith('slides.init.js'):
+                content = replace_import_meta_url(content)
+                content = remove_toplevel_await(content)
         buffer.append(content)
 
         # --- Extract class names in this module

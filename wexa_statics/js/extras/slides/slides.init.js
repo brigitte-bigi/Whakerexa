@@ -93,6 +93,8 @@
 
 'use strict';
 
+const _MODULE_URL = import.meta.url;
+
 /**
  * One-tag initializer for Whakerexa Slides.
  *
@@ -150,7 +152,7 @@ export default class SlidesInitializer {
      * @constructor
      */
     constructor() {
-        this.#base = new URL('.', import.meta.url).href;
+        this.#base = (_MODULE_URL !== null) ? new URL('.', _MODULE_URL).href : null;
 
         const scriptEl = this.#findScriptElement();
 
@@ -176,7 +178,9 @@ export default class SlidesInitializer {
      * @returns {Promise<void>}
      */
     async init() {
-        if (window.location.protocol === 'file:') {
+        if (this.#base === null) {
+            this.#initFromLoadedBundle();
+        } else if (window.location.protocol === 'file:') {
             await this.#initFromBundle();
         } else {
             await this.#initFromModules();
@@ -188,19 +192,23 @@ export default class SlidesInitializer {
     // -----------------------------------------------------------------------
 
     /**
-     * Find the <script type="module"> element whose src resolves to this file.
+     * Find the script element that loaded this file.
      *
-     * Iterates over all module scripts in the page and compares each resolved
-     * src href to import.meta.url.
+     * In bundle (classic script) context (_MODULE_URL is null), returns
+     * document.currentScript immediately. In ES module context, iterates
+     * module scripts and compares each resolved src href to the module URL.
      *
      * @private
      * @returns {HTMLScriptElement|null} The script element, or null if not found.
      */
     #findScriptElement() {
+        if (_MODULE_URL === null) {
+            return document.currentScript;
+        }
         const scripts = Array.from(document.querySelectorAll('script[type="module"][src]'));
         for (const script of scripts) {
             try {
-                if (new URL(script.src).href === import.meta.url) {
+                if (new URL(script.src).href === _MODULE_URL) {
                     return script;
                 }
             } catch {
@@ -243,6 +251,28 @@ export default class SlidesInitializer {
 
             document.head.appendChild(script);
         });
+    }
+
+    /**
+     * Initialize using classes already available in window.Wexa (bundle context).
+     *
+     * Called when this file is included in wexa.bundle.js and executed as a
+     * classic script. All classes are already present; no module loading needed.
+     *
+     * @private
+     * @returns {void}
+     */
+    #initFromLoadedBundle() {
+        if (document.querySelectorAll('section.slide').length === 0) {
+            return;
+        }
+        window.Wexa = window.Wexa || {};
+        this.#injectBoilerplate();
+        window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
+        this.#registerThemes(window.Wexa.ThemeManager || null);
+        const app = this.#buildConfig(window.Wexa.Slides);
+        app.init();
+        this.#ready(app);
     }
 
     /**

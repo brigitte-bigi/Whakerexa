@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-19 18:44:32
+// Bundle automatically generated on 2026-05-19 20:03:31
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1276,6 +1276,128 @@ class ButtonsController {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.ButtonsController = ButtonsController;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/note_view.js ---------------
+'use strict';
+class NoteView {
+    constructor(slides) {
+        this._slides     = Array.isArray(slides) ? slides : [];
+        this._containers = [];
+    }
+    onModeChange(data) {
+        if (data.mode === 'note') {
+            this._build();
+        } else {
+            this._teardown();
+        }
+    }
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _build() {
+        if (this._containers.length > 0) {
+            return;
+        }
+        for (const slide of this._slides) {
+            const aside = slide.id
+                ? document.querySelector(`aside[for="${slide.id}"]`)
+                : null;
+            const container = document.createElement('div');
+            container.className = 'note-container';
+            slide.parentNode.insertBefore(container, slide);
+            container.appendChild(slide);
+            if (aside instanceof HTMLElement) {
+                container.appendChild(aside);
+            }
+            this._containers.push(container);
+        }
+    }
+    _teardown() {
+        if (this._containers.length === 0) {
+            return;
+        }
+        for (const container of this._containers) {
+            const parent = container.parentNode;
+            if (!(parent instanceof HTMLElement)) {
+                continue;
+            }
+            while (container.firstChild) {
+                parent.insertBefore(container.firstChild, container);
+            }
+            parent.removeChild(container);
+        }
+        this._containers = [];
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.NoteView = NoteView;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/help_dialog.js ---------------
+'use strict';
+const DIALOG_ID = 'slides-help-dialog';
+class HelpDialog {
+    constructor() {
+        this._manager = new DialogManager();
+        this._inject();
+    }
+    toggle() {
+        const dialog = document.getElementById(DIALOG_ID);
+        if (dialog && dialog.open) {
+            this._manager.close(DIALOG_ID);
+        } else {
+            this._manager.open(DIALOG_ID, true);
+        }
+    }
+    // -----------------------------------------------------------------------
+    // Private
+    // -----------------------------------------------------------------------
+    _inject() {
+        if (document.getElementById(DIALOG_ID)) return;
+        document.body.appendChild(this._build());
+    }
+    _build() {
+        const dialog = document.createElement('dialog');
+        dialog.id = DIALOG_ID;
+        dialog.setAttribute('role', 'alertdialog');
+        dialog.setAttribute('aria-label', 'Keyboard shortcuts');
+        dialog.classList.add('tips', 'hidden-alert');
+        const div = document.createElement('div');
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Keyboard shortcuts';
+        div.appendChild(h2);
+        const table = document.createElement('table');
+        table.setAttribute('role', 'presentation');
+        for (const { keys, label } of KeyboardController.SHORTCUTS) {
+            const tr = document.createElement('tr');
+            const tdKeys = document.createElement('td');
+            tdKeys.textContent = keys.map(k => this._keyLabel(k)).join(' / ');
+            const tdLabel = document.createElement('td');
+            tdLabel.textContent = label;
+            tr.appendChild(tdKeys);
+            tr.appendChild(tdLabel);
+            table.appendChild(tr);
+        }
+        div.appendChild(table);
+        dialog.appendChild(div);
+        return dialog;
+    }
+    _keyLabel(key) {
+        const map = {
+            ArrowRight: '→', ArrowLeft: '←', ArrowUp: '↑', ArrowDown: '↓',
+            PageUp: 'PgUp', PageDown: 'PgDn',
+            Home: 'Home', End: 'End', Escape: 'Esc',
+        };
+        return map[key] ?? key;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.HelpDialog = HelpDialog;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -2799,6 +2921,273 @@ class SortaTable {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.SortaTable = SortaTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slides.init.js ---------------
+'use strict';
+const _MODULE_URL = null;
+class SlidesInitializer {
+    // -----------------------------------------------------------------------
+    // PRIVATE FIELDS
+    // -----------------------------------------------------------------------
+    #base;
+    #themesAttr;
+    #defaultName;
+    #themesPath;
+    #mode;
+    #logoSrc;
+    #progressOn;
+    // -----------------------------------------------------------------------
+    // CONSTRUCTOR
+    // -----------------------------------------------------------------------
+    constructor() {
+        this.#base = (_MODULE_URL !== null) ? new URL('.', _MODULE_URL).href : null;
+        const scriptEl = this.#findScriptElement();
+        this.#themesAttr  = (scriptEl?.dataset.themes     || '').trim();
+        this.#defaultName = (scriptEl?.dataset.default    || '').trim();
+        this.#themesPath  = (scriptEl?.dataset.themesPath || '').trim();
+        this.#mode        = (scriptEl?.dataset.mode       || 'presentation').trim();
+        this.#logoSrc     = (scriptEl?.dataset.logo       || '').trim();
+        this.#progressOn  = (scriptEl?.dataset.progress   !== 'false');
+    }
+    // -----------------------------------------------------------------------
+    // PUBLIC METHODS
+    // -----------------------------------------------------------------------
+    async init() {
+        if (this.#base === null) {
+            this.#initFromLoadedBundle();
+        } else if (window.location.protocol === 'file:') {
+            await this.#initFromBundle();
+        } else {
+            await this.#initFromModules();
+        }
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE METHODS — initialization paths
+    // -----------------------------------------------------------------------
+    #findScriptElement() {
+        if (_MODULE_URL === null) {
+            return document.currentScript;
+        }
+        const scripts = Array.from(document.querySelectorAll('script[type="module"][src]'));
+        for (const script of scripts) {
+            try {
+                if (new URL(script.src).href === _MODULE_URL) {
+                    return script;
+                }
+            } catch {
+                // Malformed src attribute — skip this element.
+            }
+        }
+        return null;
+    }
+    #initFromBundle() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = new URL('../../wexa.bundle.js', this.#base).href;
+            script.onerror = () => {
+                reject(new Error('SlidesInitializer: failed to load wexa.bundle.js.'));
+            };
+            script.onload = () => {
+                window.Wexa = window.Wexa || {};
+                this.#injectBoilerplate();
+                window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
+                this.#registerThemes(window.Wexa.ThemeManager || null);
+                const app = this.#buildConfig(window.Wexa.Slides);
+                app.init();
+                this.#ready(app);
+                resolve();
+            };
+            document.head.appendChild(script);
+        });
+    }
+    #initFromLoadedBundle() {
+        if (document.querySelectorAll('section.slide').length === 0) {
+            return;
+        }
+        window.Wexa = window.Wexa || {};
+        this.#injectBoilerplate();
+        window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
+        this.#registerThemes(window.Wexa.ThemeManager || null);
+        const app = this.#buildConfig(window.Wexa.Slides);
+        app.init();
+        this.#ready(app);
+    }
+    async #initFromModules() {
+        const [slidesModule, wexaModule] = await Promise.all([
+            import(new URL('slides.js', this.#base).href),
+            import(new URL('../../wexa.js', this.#base).href),
+        ]);
+        window.Wexa = window.Wexa || {};
+        this.#injectBoilerplate();
+        window.Wexa.accessibility = new wexaModule.AccessibilityManager();
+        if (this.#themesAttr !== '') {
+            const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
+            this.#registerThemes(ThemeManager);
+        }
+        const app = this.#buildConfig(slidesModule.default);
+        app.init();
+        this.#ready(app);
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE METHODS — DOM building
+    // -----------------------------------------------------------------------
+    #injectBoilerplate() {
+        if (this.#progressOn === true && document.getElementById('progress-container') === null) {
+            const container = document.createElement('div');
+            container.id = 'progress-container';
+            const bar = document.createElement('div');
+            bar.id = 'progress-bar';
+            container.appendChild(bar);
+            document.body.appendChild(container);
+        }
+        if (document.getElementById('overview-container') === null) {
+            const overview = document.createElement('div');
+            overview.id = 'overview-container';
+            document.body.appendChild(overview);
+        }
+        if (document.getElementById('accessibility-controls') === null) {
+            document.body.appendChild(this.#buildAccessibilityNav());
+        }
+        if (document.getElementById('nav-content') === null) {
+            document.body.appendChild(this.#buildNavContent());
+        }
+        if (this.#logoSrc !== '' && document.getElementById('logo-container') === null) {
+            const logo = document.createElement('div');
+            logo.id = 'logo-container';
+            logo.className = 'top right';
+            const img = document.createElement('img');
+            img.src = this.#logoSrc;
+            img.alt = '';
+            img.className = 'img-logo';
+            logo.appendChild(img);
+            document.body.appendChild(logo);
+        }
+    }
+    #buildAccessibilityNav() {
+        const nav = document.createElement('nav');
+        nav.id = 'accessibility-controls';
+        nav.className = 'nav-wexa controls-hidden';
+        nav.setAttribute('aria-label', 'Accessibility controls');
+        if (this.#themesAttr !== '') {
+            nav.appendChild(this.#buildThemeButton());
+        }
+        const btnColor = document.createElement('button');
+        btnColor.id = 'btn-color';
+        btnColor.className = 'menuitem accessibility';
+        btnColor.setAttribute('aria-label', 'color');
+        btnColor.setAttribute('aria-pressed', 'false');
+        btnColor.addEventListener('click', () => {
+            if (window.Wexa !== null
+                    && window.Wexa !== undefined
+                    && window.Wexa.accessibility !== null
+                    && window.Wexa.accessibility !== undefined) {
+                window.Wexa.accessibility.switchColorScheme();
+            }
+        });
+        nav.appendChild(btnColor);
+        return nav;
+    }
+    #buildThemeButton() {
+        const btn = document.createElement('button');
+        btn.id = 'btn-css-theme';
+        btn.className = 'menuitem';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Switch theme');
+        btn.title = 'Switch theme';
+        btn.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"'
+            + ' fill="none" stroke="currentColor" stroke-width="2"'
+            + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+            + '<circle cx="16" cy="16" r="13"/>'
+            + '<circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>'
+            + '<line x1="16" y1="3"  x2="16" y2="8"/>'
+            + '<line x1="16" y1="24" x2="16" y2="29"/>'
+            + '<line x1="3"  y1="16" x2="8"  y2="16"/>'
+            + '<line x1="24" y1="16" x2="29" y2="16"/>'
+            + '</svg>';
+        btn.addEventListener('click', () => {
+            if (window.themes !== null && window.themes !== undefined) {
+                window.themes.next();
+            }
+        });
+        return btn;
+    }
+    #buildNavContent() {
+        const nav = document.createElement('nav');
+        nav.id = 'nav-content';
+        nav.className = 'nav-wexa bottom controls-hidden';
+        nav.setAttribute('aria-label', 'Slide navigation');
+        nav.innerHTML =
+            '<button class="menuitem" id="btn-prev">Prev</button>'
+            + '<button class="menuitem" id="btn-next">Next</button>'
+            + '<button class="menuitem" id="btn-back">First</button>'
+            + '<button class="menuitem" id="btn-last">Last</button>'
+            + '<button class="menuitem" id="btn-goto">Go to</button>'
+            + '<button class="menuitem" id="btn-fullscreen">Fullscreen</button>'
+            + '<div id="slides-controls-view" role="radiogroup" aria-label="View mode">'
+            +     '<label class="menuitem" for="btn-overview">'
+            +         '<input type="radio" name="view-mode" id="btn-overview" value="overview">'
+            +         ' Overview'
+            +     '</label>'
+            +     '<label class="menuitem" for="btn-handout">'
+            +         '<input type="radio" name="view-mode" id="btn-handout" value="handout">'
+            +         ' Handout'
+            +     '</label>'
+            +     '<label class="menuitem" for="btn-presentation">'
+            +         '<input type="radio" name="view-mode" id="btn-presentation" value="presentation" checked>'
+            +         ' Slides View'
+            +     '</label>'
+            + '</div>';
+        return nav;
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE METHODS — application bootstrap
+    // -----------------------------------------------------------------------
+    #registerThemes(ThemeManager) {
+        if (this.#themesAttr === '' || ThemeManager === null) {
+            return;
+        }
+        const manager = new ThemeManager();
+        for (const entry of this.#themesAttr.split(',')) {
+            const parts = entry.trim().split(':');
+            const name  = parts[0].trim();
+            const file  = parts[1].trim();
+            const href  = /^([./]|https?:)/.test(file) ? file : this.#themesPath + file;
+            manager.register(name, href);
+        }
+        if (this.#defaultName !== '') {
+            manager.setDefault(this.#defaultName);
+        }
+        window.themes = manager;
+    }
+    #buildConfig(SlidesClass) {
+        return new SlidesClass({
+            slides:               document.querySelectorAll('section.slide'),
+            controls:             document.getElementById('nav-content'),
+            controlsView:         document.getElementById('slides-controls-view'),
+            overviewContainer:    document.getElementById('overview-container'),
+            progressBarContainer: this.#progressOn === true ? document.getElementById('progress-container') : null,
+            progressBar:          this.#progressOn === true ? document.getElementById('progress-bar')        : null,
+            logo:                 document.getElementById('logo-container'),
+            accessibility:        document.getElementById('accessibility-controls'),
+            mode:                 this.#mode,
+        });
+    }
+    #ready(app) {
+        window.app = app;
+        window.dispatchEvent(new CustomEvent('wexa:slides:ready', { detail: { app } }));
+    }
+}
+// ---------------------------------------------------------------------------
+// Entry point
+// ---------------------------------------------------------------------------
+const initializer = new SlidesInitializer();
+initializer.init();
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesInitializer = SlidesInitializer;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 

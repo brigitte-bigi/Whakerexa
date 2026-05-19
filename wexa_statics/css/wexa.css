@@ -1222,7 +1222,7 @@ This banner notice must not be removed.
     dl {
         margin-bottom: var(--typography-spacing-vertical);
         background-color: unset;
-        padding-left: calc(0.5*var(--typography-spacing-horizontal));
+        padding-left: calc(0.6*var(--typography-spacing-horizontal));
     }
 
     ul > li > ul {

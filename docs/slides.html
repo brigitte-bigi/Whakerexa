@@ -68,7 +68,7 @@
             no bundler required.
         </p>
         <ul>
-            <li>One <code>&lt;script type="module"&gt;</code> tag — all controls are auto-injected</li>
+            <li>One <code>&lt;script&gt;</code> block — protocol-aware, works on <code>http://</code> and <code>file://</code></li>
             <li>Keyboard, touch, and overview-panel navigation</li>
             <li>Three view modes: presentation, handout, speaker notes</li>
             <li>Theming, dark mode, high-contrast accessibility built in</li>
@@ -104,15 +104,24 @@
     <!-- ---------------------------------------------------------------- -->
 
     <section class="slide" id="slide-integration-1">
-        <h2>Integration — one tag</h2>
+        <h2>Integration — one block</h2>
         <p>Drop one <code>&lt;script&gt;</code> before <code>&lt;/body&gt;</code>.
-           All controls are injected automatically.</p>
-        <pre><code>&lt;script type="module" src="wexa_statics/js/extras/slides/slides.init.js"
-        data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css"
-        data-default="wexa"
-        data-themes-path="wexa_statics/css/themes/"
-        data-logo="images/logo.png"
-        data-progress="true"&gt;
+           Works on <code>http://</code> and <code>file://</code> — same code, same result.</p>
+        <pre><code>&lt;script&gt;
+    (function () {
+        const s = document.createElement('script');
+        s.dataset.themes = 'wexa:wexa_theme.css,aurora:wexa_theme_aurora.css';
+        s.dataset.default = 'wexa';
+        s.dataset.themesPath = 'wexa_statics/css/themes/';
+        s.dataset.logo = 'images/logo.png';
+        if (window.location.protocol === 'file:') {
+            s.src = 'wexa_statics/js/wexa.bundle.js';
+        } else {
+            s.type = 'module';
+            s.src = 'wexa_statics/js/extras/slides/slides.init.js';
+        }
+        document.head.appendChild(s);
+    })();
 &lt;/script&gt;</code></pre>
         <ul>
             <li><code>data-themes</code> — omit to skip ThemeManager entirely</li>
@@ -170,6 +179,8 @@ app.init();</code></pre>
     <section class="slide" id="slide-themes-1">
         <h2>Themes — case 1: no theme</h2>
         <p>Plain <code>wexa.css</code> only. No ThemeManager, no switcher button.</p>
+        <p>Examples below show the <code>http://</code> form. For <code>file://</code>, use
+           the detection block from the Integration slide and set <code>data-*</code> on <code>s</code>.</p>
         <pre><code>&lt;script type="module" src="slides.init.js"&gt;&lt;/script&gt;</code></pre>
     </section>
 
@@ -292,6 +303,10 @@ app.init();</code></pre>
         <h3>A simple list</h3>
         <ul>
             <li>Item 1</li>
+            <ul>
+                <li> Item 1.1</li>
+                <li> Item 1.2</li>
+            </ul>
             <li>Item 2</li>
             <li>Item 3
                 <ol>
@@ -650,15 +665,25 @@ app.init();</code></pre>
     </section>
 
     <!-- ================================================================ -->
-    <!-- Slides initializer — one tag does everything:                    -->
-    <!--   loads JS modules, registers themes, injects controls, starts.  -->
+    <!-- Slides initializer — file:// uses bundle, http(s):// uses module -->
     <!-- ================================================================ -->
 
-    <script type="module" src="../wexa_statics/js/extras/slides/slides.init.js"
-            data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css,highcontrast:wexa_theme_highcontrast.css"
-            data-default="wexa"
-            data-themes-path="../wexa_statics/css/themes/"
-            data-logo="./images/GFDL_logo.png">
+    <script>
+        (function () {
+            const usingFile = (window.location.protocol === 'file:');
+            const s = document.createElement('script');
+            s.dataset.themes = 'wexa:wexa_theme.css,aurora:wexa_theme_aurora.css,highcontrast:wexa_theme_highcontrast.css';
+            s.dataset.default = 'wexa';
+            s.dataset.themesPath = '../wexa_statics/css/themes/';
+            s.dataset.logo = './images/GFDL_logo.png';
+            if (usingFile) {
+                s.src = '../wexa_statics/js/wexa.bundle.js';
+            } else {
+                s.type = 'module';
+                s.src = '../wexa_statics/js/extras/slides/slides.init.js';
+            }
+            document.head.appendChild(s);
+        })();
     </script>
 
     <script>

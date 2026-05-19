@@ -309,6 +309,13 @@ key bindings and their labels.
   families, gradients, border-image, figcaption color, quote marks. Theme files loaded after
   `slides.css` override these within the same layer.
 
+**Integration**
+
+- `slides.init.js` is now included in `wexa.bundle.js`. Pages load it via a
+  protocol-detection block: `wexa.bundle.js` on `file://`, `slides.init.js` as
+  an ES module on `http(s)://`. Both paths read `data-*` from the same script element
+  and inject the same boilerplate. `note_view.js` and `help_dialog.js` added to the bundle.
+
 **Other**
 
 - New `--slide-bg-color` CSS variable: distinct background for slide content.
