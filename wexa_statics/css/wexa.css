@@ -1217,74 +1217,78 @@ This banner notice must not be removed.
 
     /* --------------------------------- List(s) ----------------------------- */
 
-    ol, 
-    ul, 
+    ol,
+    ul,
     dl {
         margin-bottom: var(--typography-spacing-vertical);
         background-color: unset;
-        padding-left: calc(0.6*var(--typography-spacing-horizontal));
+        padding-inline-start: 0;
     }
 
-    ul > li > ul {
-        margin-bottom: 0;
-    }
-
-    ul > li > ul > li > ul {
-        margin-bottom: 0;
-    }
-
-    /* Margin to right only from the 2nd level */
-    ul > li {
-        list-style-type: none;
-        list-style-position: outside;
-        /*list-style-image: none;*/
+    ul > li,
+    ol > li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        list-style: none;
         line-height: calc(1.2 * var(--line-height));
     }
 
-    ul > li > ul > * {
-        list-style-type: none;
-        list-style-position: inside;
-        list-style-image: none;
+    /* Nested lists: full-width flex row + indentation */
+    ul > li > ul,
+    ul > li > ol,
+    ul > li > ul > li > ul,
+    ol > li > ul {
+        flex-basis: 100%;
+        margin-bottom: 0;
+        padding-inline-start: var(--typography-spacing-horizontal);
     }
 
-    ul:not(nav *) > li:before {
+    /* Level 1 — filled square */
+    ul:not(nav *) > li::before {
         content: "■";
-        padding-right: var(--typography-spacing-horizontal);
+        font-size: calc(0.6 * var(--font-size));
+        min-width: calc(2 * var(--typography-spacing-horizontal));
+        flex-shrink: 0;
         color: var(--li-color);
     }
 
-    ul:not(nav *) > li > ul > li:before {
+    /* Level 2 — open diamond */
+    ul:not(nav *) > li > ul > li::before {
         content: "◇";
-        padding-right: var(--typography-spacing-horizontal);
-        padding-left: var(--typography-spacing-horizontal);
+        font-size: calc(0.75 * var(--font-size));
+        min-width: calc(2 * var(--typography-spacing-horizontal));
+        flex-shrink: 0;
         color: var(--li-color);
     }
 
-    ul:not(nav *)  > li > ul> li> ul > li:before {
+    /* Level 3 — open square */
+    ul:not(nav *) > li > ul > li > ul > li::before {
         content: "□";
-        padding-right: var(--typography-spacing-horizontal);
-        padding-left: calc(2 * var(--typography-spacing-horizontal));
+        font-size: calc(0.75 * var(--font-size));
+        min-width: calc(2 * var(--typography-spacing-horizontal));
+        flex-shrink: 0;
         color: var(--li-color);
     }
 
-    /* Add a dot after the item number */
     ol {
         counter-reset: item;
     }
 
     ol > li {
         counter-increment: item;
-        list-style-type: none; /* si nécessaire */
     }
 
-    ol > li:before {
+    ol > li::before {
         content: counter(item) ". ";
+        min-width: calc(2 * var(--typography-spacing-horizontal));
+        flex-shrink: 0;
         color: var(--li-color);
         font-weight: var(--font-weight-semibold);
     }
 
     dl {
-        display: inline-block
+        display: inline-block;
     }
 
     dt {
@@ -1292,16 +1296,16 @@ This banner notice must not be removed.
     }
 
     dd {
-        padding-left: calc(0.5*var(--typography-spacing-horizontal));
+        padding-inline-start: calc(0.5 * var(--typography-spacing-horizontal));
     }
 
-    dd:before {
+    dd::before {
         content: "➙ ";
         color: var(--li-color);
     }
 
-    dd+dt {
-        padding-top: calc(0.35*var(--typography-spacing-vertical));
+    dd + dt {
+        padding-top: calc(0.35 * var(--typography-spacing-vertical));
     }
 
     /* -------------------------------- Table(s) ----------------------------- */
