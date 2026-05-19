@@ -1017,6 +1017,9 @@ This banner notice must not be removed.
     }
 
     code {
+        background: var(--code-bg-color);
+        border-radius: var(--border-radius);
+        line-height: var(--line-height);
         display: inline-block;
     }
 
@@ -1032,7 +1035,7 @@ This banner notice must not be removed.
         overflow: auto;
         border-left: calc(2*var(--border-width)) solid var(--shadow-color);
     }
-
+    
     ins {
         color: var(--ins-color);
         text-decoration: none;
@@ -1885,10 +1888,10 @@ This banner notice must not be removed.
     /* ── Code ────────────────────────────────────────────────────────────── */
 
     code {
-        background: var(--code-bg-color);
-        border-radius: 0.2rem;
-        line-height: 1.125rem;
-        padding: 0.225rem 0.4rem 0.16rem;
+        padding-left: var(--typography-spacing-horizontal);
+        padding-right: calc(0.5 * var(--typography-spacing-horizontal));
+        padding-top: calc(0.5 * var(--typography-spacing-vertical));
+        padding-bottom: calc(0.5 * var(--typography-spacing-vertical));
     }
 
     /* ── Blockquote ────────────────────────────────────────────────────── */

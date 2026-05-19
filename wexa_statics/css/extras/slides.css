@@ -197,8 +197,13 @@ body > footer {
 
 .slide table *,
 .sortatable,
-.slide details {
+.slide details,
+.slide code {
     font-size: calc(var(--font-size) * 0.8);
+}
+
+.slide pre * {
+    font-size: calc(var(--font-size) * 0.6);
 }
 
 /* Tables and details: centered regardless of depth */
@@ -625,16 +630,11 @@ body.presentation-view {
     :root {
         --custom-color1: rgb(41, 35, 92);
         --custom-color2: rgb(29, 113, 184);
-        --slide-bg-color: rgb(250, 248, 252);
-    }
-
-    .dark {
-        --slide-bg-color: rgb(14, 18, 28);
     }
 
     /* Slide background */
     .slide {
-        background-color: var(--slide-bg-color, var(--bg-color));
+        background-color: var(--bg-color);
     }
 
     /* Page counter */

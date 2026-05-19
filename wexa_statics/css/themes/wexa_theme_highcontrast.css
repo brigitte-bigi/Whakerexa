@@ -92,10 +92,10 @@
     --buttons-bg-color:      rgb(0, 0, 0);
     --buttons-fg-color:      rgb(255, 255, 255);
 
-    --header-bg-color:      rgb(20, 20, 20);
+    --header-bg-color:       rgb(20, 20, 20);
     --header-fg-color:       rgb(255, 255, 255);
-    --nav-bg-color:          rgb(0, 0, 0);
-    --nav-fg-color:          rgb(255, 255, 255);
+    --nav-bg-color:          rgb(255, 255, 255);
+    --nav-fg-color:          rgb(0, 0, 0);
     --footer-bg-color:       rgb(200, 200, 200);
     --footer-fg-color:       rgb(20, 20, 20);
 
@@ -255,7 +255,7 @@
 
 .slide > h2 {
     background: var(--custom-color2);
-    color: var(--custom-color1);
+    color: var(--table-head-fg-color);
 }
 
 

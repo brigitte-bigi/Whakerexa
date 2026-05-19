@@ -57,46 +57,204 @@
     </section>
 
 	<!-- ================================================================ -->
-	<!-- Basics -->
+	<!-- Introduction -->
 	<!-- ================================================================ -->
 
-    <section class="slide" id="slide-intro">
-        <h1>Introduction to Slides</h1>
+    <section class="slide">
+        <h2>Whakerexa Slides</h2>
+        <p>
+            A lightweight, dependency-free ES6 package that turns a plain HTML page
+            into a full-featured slide presentation — no build step, no framework,
+            no bundler required.
+        </p>
+        <ul>
+            <li>One <code>&lt;script type="module"&gt;</code> tag — all controls are auto-injected</li>
+            <li>Keyboard, touch, and overview-panel navigation</li>
+            <li>Three view modes: presentation, handout, speaker notes</li>
+            <li>Theming, dark mode, high-contrast accessibility built in</li>
+            <li>Incremental reveals, logo overlay, fullscreen — all optional</li>
+        </ul>
     </section>
-    <aside for="slide-intro" aria-label="Speaker notes">
-        This slide opens the technical section. Remind the audience that
-        no dependencies are required — only a browser and a text editor.
-    </aside>
 
     <!-- ---------------------------------------------------------------- -->
 
+    <section class="slide">
+        <h2>How it works</h2>
+        <p>
+            Write your slides as <code>&lt;section class="slide"&gt;</code> elements.
+            Whakerexa Slides scans the page, wires up every control, and handles
+            navigation, progress tracking, and view switching for you.
+        </p>
+        <p>
+            The package exposes a single public object — <code>window.app</code> —
+            and fires a <code>wexa:slides:ready</code> event when initialisation is complete,
+            so you can hook in your own code without timing gymnastics.
+        </p>
+        <blockquote>You write the content. The package handles everything else.</blockquote>
+    </section>
+
+	<!-- ================================================================ -->
+	<!-- Basics -->
+	<!-- ================================================================ -->
+
     <section class="slide" id="slide-integration">
-        <h2>Integration</h2>
+        <h1>Integration</h1>
+    </section>
 
-        <h3>Ready-made — one tag</h3>
-        <pre><code>&lt;script src="wexa_statics/js/extras/slides/slides.init.js"
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-integration-1">
+        <h2>Integration — one tag</h2>
+        <p>Drop one <code>&lt;script&gt;</code> before <code>&lt;/body&gt;</code>.
+           All controls are injected automatically.</p>
+        <pre><code>&lt;script type="module" src="wexa_statics/js/extras/slides/slides.init.js"
         data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css"
-                                    &lt;!-- name:file.css pairs — omit to skip ThemeManager --&gt;
-        data-default="wexa"         &lt;!-- theme active on load --&gt;
-        data-themes-path="wexa_statics/css/themes/"  &lt;!-- path relative to the page --&gt;
-        data-logo="images/logo.png" &lt;!-- logo image path — omit to disable logo --&gt;
-        data-progress="true"        &lt;!-- "false" to hide the progress bar --&gt;
-&gt;&lt;/script&gt;
-&lt;!-- Nav, overview, accessibility controls are always auto-injected. --&gt;</code></pre>
+        data-default="wexa"
+        data-themes-path="wexa_statics/css/themes/"
+        data-logo="images/logo.png"
+        data-progress="true"&gt;
+&lt;/script&gt;</code></pre>
+        <ul>
+            <li><code>data-themes</code> — omit to skip ThemeManager entirely</li>
+            <li><code>data-logo</code> — omit to disable the logo overlay</li>
+            <li><code>data-progress="false"</code> — hides the progress bar</li>
+        </ul>
+    </section>
 
-        <h3>Full custom — explicit control</h3>
-        <pre><code>const app = new Slides({
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-integration-2">
+        <h2>Full control — overridable elements</h2>
+        <p>
+            Write any of these elements in the page with the exact <code>id</code>;
+            the initializer will use yours instead of creating a default one.
+        </p>
+        <ul>
+            <li><code>nav-content</code> — navigation bar (Prev / Next / … / Fullscreen + view-mode radios)</li>
+            <li><code>progress-container</code> + <code>progress-bar</code> — progress bar</li>
+            <li><code>overview-container</code> — overview panel</li>
+            <li><code>accessibility-controls</code> — theme-switcher + color-scheme button</li>
+            <li><code>logo-container</code> — logo overlay (only when <code>data-logo</code> is set)</li>
+        </ul>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-integration-3">
+        <h2>Full control — JS</h2>
+        <p>Import <code>Slides</code> and pass the elements you wrote.</p>
+        <pre><code>import Slides from 'wexa_statics/js/extras/slides/slides.js';
+
+const app = new Slides({
     slides:               document.querySelectorAll('section.slide'),
-    controls:             document.getElementById('nav-content'),       // nav bar
-    controlsView:         document.getElementById('slides-controls-view'), // view toggle
-    overviewContainer:    document.getElementById('overview-container'), // overview panel
-    progressBarContainer: document.getElementById('progress-container'), // bar wrapper
-    progressBar:          document.getElementById('progress-bar'),       // bar fill
-    logo:                 document.getElementById('logo-container'),     // logo overlay
+    controls:             document.getElementById('nav-content'),
+    controlsView:         document.getElementById('slides-controls-view'),
+    overviewContainer:    document.getElementById('overview-container'),
+    progressBarContainer: document.getElementById('progress-container'),
+    progressBar:          document.getElementById('progress-bar'),
+    logo:                 document.getElementById('logo-container'),
     accessibility:        document.getElementById('accessibility-controls'),
     mode: 'presentation'  // 'presentation' | 'handout' | 'memo'
 });
 app.init();</code></pre>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section class="slide" id="slide-themes">
+        <h1>Themes</h1>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-themes-1">
+        <h2>Themes — case 1: no theme</h2>
+        <p>Plain <code>wexa.css</code> only. No ThemeManager, no switcher button.</p>
+        <pre><code>&lt;script type="module" src="slides.init.js"&gt;&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-themes-2">
+        <h2>Themes — case 2: built-in, switch on the fly</h2>
+        <p>All themes share the same folder → use <code>data-themes-path</code> as prefix.</p>
+        <pre><code>&lt;script type="module" src="slides.init.js"
+        data-themes="wexa:wexa_theme.css,
+                     aurora:wexa_theme_aurora.css,
+                     highcontrast:wexa_theme_highcontrast.css"
+        data-default="wexa"
+        data-themes-path="wexa_statics/css/themes/"&gt;
+&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-themes-3">
+        <h2>Themes — case 3: own overrides, no switching</h2>
+        <p>Write overrides in <code>@layer theme</code> directly in the page.
+           Always active, no ThemeManager needed.</p>
+        <pre><code>&lt;style&gt;
+    @layer theme {
+        :root { --a-color: rgb(200, 0, 0); }
+        .dark { --a-color: rgb(255, 120, 80); }
+    }
+&lt;/style&gt;
+&lt;script type="module" src="slides.init.js"&gt;&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-themes-4">
+        <h2>Themes — case 4: own theme, no switching</h2>
+        <p>Load the theme as a static CSS link. No <code>data-themes</code>, no switcher.</p>
+        <pre><code>&lt;link rel="stylesheet" href="my_theme.css"&gt;
+&lt;script type="module" src="slides.init.js"&gt;&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide" id="slide-themes-5">
+        <h2>Themes — case 5: own theme + built-in, switch on the fly</h2>
+        <p>Themes are in different folders → omit <code>data-themes-path</code>,
+           write each path in full.</p>
+        <pre><code>&lt;script type="module" src="slides.init.js"
+        data-themes="mine:./my_theme.css,
+                     wexa:wexa_statics/css/themes/wexa_theme.css,
+                     aurora:wexa_statics/css/themes/wexa_theme_aurora.css"
+        data-default="mine"&gt;
+&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section class="slide" id="slide-incremental">
+        <h1>Incremental</h1>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Incremental lists</h2>
+        <ul class="incremental">
+            <li>Item incremental 1</li>
+            <li>Item incremental 2</li>
+            <li>Item 3
+                <ul>
+                    <li> Item 3.1</li>
+                    <li> Item 3.2</li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="incremental incremental-invisible">
+            <li>Item incremental invisible 1</li>
+            <li>Item incremental invisible 2</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================ -->
+
+    <section class="slide" id="slide-whakerexa-with-slides">
+        <h1>Whakerexa with slides</h1>
     </section>
 
     <!-- ---------------------------------------------------------------- -->
@@ -117,7 +275,7 @@ app.init();</code></pre>
             movement, sight, and cognitive ability.
             <cite>
                 World Wide Web Consortium (W3C), Web Accessibility Initiative (WAI) —
-                “Introduction to Web Accessibility”.
+                "Introduction to Web Accessibility".
             </cite>
         </blockquote>
     </section>
@@ -141,26 +299,6 @@ app.init();</code></pre>
                     <li> Item 3.2
                 </ol>
             </li>
-        </ul>
-    </section>
-
-    <!-- ---------------------------------------------------------------- -->
-
-    <section class="slide">
-        <h3>Incremental lists</h3>
-        <ul class="incremental">
-            <li>Item incremental 1</li>
-            <li>Item incremental 2</li>
-            <li>Item 3
-                <ul>
-                    <li> Item 3.1</li>
-                    <li> Item 3.2</li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="incremental incremental-invisible">
-            <li>Item incremental invisible 1</li>
-            <li>Item incremental invisible 2</li>
         </ul>
     </section>
 
@@ -516,7 +654,7 @@ app.init();</code></pre>
     <!--   loads JS modules, registers themes, injects controls, starts.  -->
     <!-- ================================================================ -->
 
-    <script src="../wexa_statics/js/extras/slides/slides.init.js"
+    <script type="module" src="../wexa_statics/js/extras/slides/slides.init.js"
             data-themes="wexa:wexa_theme.css,aurora:wexa_theme_aurora.css,highcontrast:wexa_theme_highcontrast.css"
             data-default="wexa"
             data-themes-path="../wexa_statics/css/themes/"
@@ -533,8 +671,6 @@ app.init();</code></pre>
             new SortaTable('terminator-dates-table').attachSortListeners();
         });
     </script>
-
-
 
 </body>
 </html>

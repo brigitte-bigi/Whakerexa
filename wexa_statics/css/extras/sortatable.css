@@ -40,7 +40,7 @@ This banner notice must not be removed.
     height: 100%;
     min-height: 1.5rem;
     font-weight: var(--font-weight-bold);
-    color: var(--a-color);
+    color: inherit;
     border: none;
 }
 
@@ -52,24 +52,24 @@ This banner notice must not be removed.
     margin-left: 1rem;
     vertical-align: middle;
     border-style: solid;
-    border-color: var(--a-color);
+    border-color: currentColor;
 }
 
 /* No sorted: a square */
 .sortatable:not(.sort-asc):not(.sort-desc)::after {
     width: 0.8rem;
     height: 0;
-    border-top: 0.1rem solid var(--a-color);
+    border-top: 0.1rem solid currentColor;
 }
 
 /* Sorted: an arrow */
 .sort-asc::after {
     border-width: 0 0.4rem 0.4rem 0.4rem;
-    border-color: transparent transparent var(--a-color) transparent;
+    border-color: transparent transparent currentColor transparent;
 }
 
 .sort-desc::after {
     border-width: 0.4rem 0.4rem 0 0.4rem;
-    border-color: var(--a-color) transparent transparent transparent;
+    border-color: currentColor transparent transparent transparent;
 }
 
