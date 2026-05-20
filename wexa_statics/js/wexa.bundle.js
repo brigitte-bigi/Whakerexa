@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-20 10:51:29
+// Bundle automatically generated on 2026-05-20 11:54:26
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2562,7 +2562,12 @@ class ThemeManager extends BaseManager {
         }
         this.#defaultTheme = name;
         const params = new URLSearchParams(window.location.search);
-        if (!params.has(ThemeManager.THEME_PARAMETER_NAME) && this.#activeTheme === "") {
+        if (params.has(ThemeManager.THEME_PARAMETER_NAME)) {
+            const urlTheme = params.get(ThemeManager.THEME_PARAMETER_NAME);
+            if (this.#themes.has(urlTheme)) {
+                this.activate(urlTheme);
+            }
+        } else if (this.#activeTheme === "") {
             this.activate(name);
         }
     }
@@ -3001,13 +3006,12 @@ class SlidesInitializer {
         this.#ready(app);
     }
     async #initFromModules() {
-        const [slidesModule, wexaModule] = await Promise.all([
+        const [slidesModule] = await Promise.all([
             import(new URL('slides.js', this.#base).href),
             import(new URL('../../wexa.js', this.#base).href),
         ]);
         window.Wexa = window.Wexa || {};
         await this.#injectBoilerplate();
-        window.Wexa.accessibility = new wexaModule.AccessibilityManager();
         if (this.#themesAttr !== '') {
             const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
             this.#registerThemes(ThemeManager);

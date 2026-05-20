@@ -70,6 +70,7 @@
 :root:not(.dark) {
 
     /* ── @layer theme color overrides ──────────────────────────────── */
+    --body-bg-color: rgb(248, 242, 255);
     --bg-color:     rgb(252, 250, 255);
     --bg-color-alt: rgb(240, 236, 255);
     --fg-color:     rgb(28, 18, 60);
@@ -123,6 +124,7 @@
 
 .dark {
 
+        --body-bg-color: rgb(17, 11, 40);
         --bg-color:     rgb(12, 8, 28);
         --bg-color-alt: rgb(22, 14, 50);
         --fg-color:     rgb(218, 212, 248);

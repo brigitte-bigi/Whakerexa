@@ -639,7 +639,7 @@ body.presentation-view {
 
     /* Page counter */
     .slide:before {
-        color: var(--custom-color1);
+        color: var(--fg-color-alt);
         font-family: var(--font-family-pre), cursive;
     }
 

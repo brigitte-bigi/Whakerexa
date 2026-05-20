@@ -214,8 +214,9 @@ or accessibility.
 New `extras/theme_manager.js`, exposed as `window.Wexa.ThemeManager`:
 
 - `register(name, path)` — registers a named theme (CSS file path relative to the page).
-- `setDefault(name)` — fallback theme; applied immediately on load so the default is visible
-  even when the bundle is loaded dynamically (`file://` protocol).
+- `setDefault(name)` — sets the fallback theme and applies the correct theme immediately:
+  the URL parameter theme if present, otherwise the default. Reliable with dynamically
+  injected module scripts where `window.onload` may fire before the module is ready.
 - `activate(name)` — applies a theme by injecting a `<link id="wexa-theme">` into `<head>`;
   persists the choice via the `wexa_theme` URL parameter.
 - `next()` — cycles through registered themes, wrapping back to the default theme.
@@ -330,6 +331,18 @@ key bindings and their labels.
 
 - New `--slide-bg-color` CSS variable: distinct background for slide content.
 - Accessibility controls container changed from `<div>` to `<nav class="nav-wexa">`.
+
+### Bug fixes
+
+- `ThemeManager.setDefault()`: theme from URL parameter now applied immediately at
+  construction time, fixing Shift+Reload not restoring the active theme on slides pages
+  loaded via a dynamically injected `<script type="module">`.
+- `slides.init.js` (`#initFromModules`): removed duplicate `AccessibilityManager`
+  instantiation. `wexa.js` already creates the singleton; creating a second instance
+  caused the dark/contrast state to desync after a hard reload.
+- `slides.css`: page counter color changed from `--custom-color1` to `--fg-color-alt`.
+- `wexa_theme_aurora.css`, `wexa_theme_highcontrast.css`: added `--body-bg-color` in
+  light and dark variants.
 
 ### Minor fixes
 

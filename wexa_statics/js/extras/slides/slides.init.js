@@ -289,14 +289,13 @@ export default class SlidesInitializer {
      * @returns {Promise<void>}
      */
     async #initFromModules() {
-        const [slidesModule, wexaModule] = await Promise.all([
+        const [slidesModule] = await Promise.all([
             import(new URL('slides.js', this.#base).href),
             import(new URL('../../wexa.js', this.#base).href),
         ]);
 
         window.Wexa = window.Wexa || {};
         await this.#injectBoilerplate();
-        window.Wexa.accessibility = new wexaModule.AccessibilityManager();
 
         if (this.#themesAttr !== '') {
             const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);

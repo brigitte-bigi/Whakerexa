@@ -150,8 +150,14 @@ export class ThemeManager extends BaseManager {
             return;
         }
         this.#defaultTheme = name;
+
         const params = new URLSearchParams(window.location.search);
-        if (!params.has(ThemeManager.THEME_PARAMETER_NAME) && this.#activeTheme === "") {
+        if (params.has(ThemeManager.THEME_PARAMETER_NAME)) {
+            const urlTheme = params.get(ThemeManager.THEME_PARAMETER_NAME);
+            if (this.#themes.has(urlTheme)) {
+                this.activate(urlTheme);
+            }
+        } else if (this.#activeTheme === "") {
             this.activate(name);
         }
     }
