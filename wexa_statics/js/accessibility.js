@@ -131,10 +131,10 @@ export class AccessibilityManager extends BaseManager {
     async switchColorScheme() {
         if (this.#activatedColor === "") {
             this.#activatedColor = AccessibilityManager.COLOR_MODE;
-            document.body.classList.add(AccessibilityManager.COLOR_MODE);
+            document.documentElement.classList.add(AccessibilityManager.COLOR_MODE);
         } else {
             this.#activatedColor = "";
-            document.body.classList.remove(AccessibilityManager.COLOR_MODE);
+            document.documentElement.classList.remove(AccessibilityManager.COLOR_MODE);
         }
 
         this.#updateButtonState('btn-color');
@@ -156,10 +156,10 @@ export class AccessibilityManager extends BaseManager {
     async switchContrastScheme() {
         if (this.#activatedContrast === "") {
             this.#activatedContrast = AccessibilityManager.CONTRAST_MODE;
-            document.body.classList.add(AccessibilityManager.CONTRAST_MODE);
+            document.documentElement.classList.add(AccessibilityManager.CONTRAST_MODE);
         } else {
             this.#activatedContrast = "";
-            document.body.classList.remove(AccessibilityManager.CONTRAST_MODE);
+            document.documentElement.classList.remove(AccessibilityManager.CONTRAST_MODE);
         }
 
         this.#updateButtonState('btn-contrast');
@@ -261,7 +261,7 @@ export class AccessibilityManager extends BaseManager {
             const colorParam = params.get(AccessibilityManager.COLOR_PARAMETER_NAME).toLowerCase();
             if (colorParam === AccessibilityManager.COLOR_MODE) {
                 this.#activatedColor = colorParam;
-                document.body.classList.add(colorParam);
+                document.documentElement.classList.add(colorParam);
                 events.accessibility_color = this.#activatedColor;
             } else {
                 console.log(AccessibilityManager.COLOR_PARAMETER_NAME + " unknown value: " + colorParam);
@@ -272,7 +272,7 @@ export class AccessibilityManager extends BaseManager {
             const contrastParam = params.get(AccessibilityManager.CONTRAST_PARAMETER_NAME).toLowerCase();
             if (contrastParam === AccessibilityManager.CONTRAST_MODE) {
                 this.#activatedContrast = contrastParam;
-                document.body.classList.add(contrastParam);
+                document.documentElement.classList.add(contrastParam);
                 events.accessibility_contrast = this.#activatedContrast;
             } else {
                 console.log(AccessibilityManager.CONTRAST_PARAMETER_NAME + " unknown value: " + contrastParam);

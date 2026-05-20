@@ -359,6 +359,30 @@ key bindings and their labels.
   `.toggleselect-action` to avoid naming collisions.
 - `wexa_theme_highcontrast.css`: `--custom-color1`/`--custom-color2` fix applied to `.slide > h2`.
 
+## Version 3.1
+
+### Bug fixes
+
+- `AccessibilityManager`: `.dark` and `.contrast` classes are now applied to
+  `document.documentElement` (`:root`) instead of `document.body`, matching the documented
+  behavior. Previously, CSS variables defined in `.dark {}` were set on `body` and invisible
+  from `html`/`:root`, causing dark mode to fail in all themes (background, borders, shadows).
+- `wexa_theme.css`, `wexa_theme_aurora.css`, `wexa_theme_highcontrast.css`: `body.dark`
+  selectors migrated to `:root.dark`.
+- `wexa.css`: structural variables (`--border-width`, `--border-radius`, `--table-border-width`,
+  `--dialog-border-width`, `--dialog-border-radius`, `--dialog-box-shadow`) moved from
+  `:root:not(.dark)` to a plain `:root` block so they remain defined in dark mode.
+
+### Slides
+
+- `slides.init.js` (`SlidesInitializer`): new `#ensureMenuCss()` method auto-injects
+  `menu.css` into `<head>` when absent, removing the need to add it manually in module mode.
+- `slides.css`: all hardcoded `rem` values replaced with `calc(var(--font-size) * X)`.
+  Shared variables (`--screen-width`, `--height`, `--font-size`, `--line-height`,
+  `counter-reset`) refactored into a single selector covering all three view modes.
+- `slides.css`: `.slide` now carries `border` and `border-radius` in all view modes
+  (presentation, handout, memo).
+
 ### Breaking changes
 
 | What changed | Old value | New value |

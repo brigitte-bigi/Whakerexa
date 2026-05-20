@@ -388,7 +388,7 @@ This banner notice must not be removed.
         --bg-color-alt: rgb(236, 239, 245);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
-        --border-color: rgba(70, 105, 165, 0.18);
+        --border-color: rgb(117, 130, 155);
         --border-color-alt: rgba(70, 105, 165, 0.10);
         --hr-color: rgba(128, 128, 128, 0.5);
 
@@ -451,12 +451,14 @@ This banner notice must not be removed.
         --question-color: rgb(120, 60, 180);
         --question-bg-color: rgba(240, 230, 250);
 
-        /* Borders */
+    }
+
+    /* Structural variables — mode-independent, always defined */
+    :root {
         --border-width:       1px;
         --border-radius:      3px;
         --table-border-width: 1px;
 
-        /* Dialogs */
         --dialog-border-width:  1px;
         --dialog-border-radius: 0.4rem;
         --dialog-box-shadow:    -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
@@ -473,7 +475,7 @@ This banner notice must not be removed.
             --bg-color-alt: rgb(18, 24, 42);
             --fg-color: rgb(215, 225, 245);
             --fg-color-alt: rgb(168, 185, 218);
-            --border-color: rgba(100, 145, 215, 0.20);
+            --border-color: rgb(200, 227, 245);
             --border-color-alt: rgba(100, 145, 215, 0.12);
             --outline-color: rgba(0, 191, 255, 0.8);
             --hr-color: rgba(128, 128, 128, 0.5);
@@ -1227,47 +1229,39 @@ This banner notice must not be removed.
 
     ul > li,
     ol > li {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
+        display: block;
         list-style: none;
         line-height: calc(1.2 * var(--line-height));
-    }
-
-    /* Nested lists: full-width flex row + indentation */
-    ul > li > ul,
-    ul > li > ol,
-    ul > li > ul > li > ul,
-    ol > li > ul {
-        flex-basis: 100%;
-        margin-bottom: 0;
-        padding-inline-start: var(--typography-spacing-horizontal);
+        padding-inline-start: calc(2 * var(--typography-spacing-horizontal));
     }
 
     /* Level 1 — filled square */
     ul:not(nav *) > li::before {
         content: "■";
+        display: inline-block;
+        width: calc(2 * var(--typography-spacing-horizontal));
+        margin-inline-start: calc(-2 * var(--typography-spacing-horizontal));
         font-size: calc(0.6 * var(--font-size));
-        min-width: calc(2 * var(--typography-spacing-horizontal));
-        flex-shrink: 0;
         color: var(--li-color);
     }
 
     /* Level 2 — open diamond */
     ul:not(nav *) > li > ul > li::before {
         content: "◇";
+        display: inline-block;
+        width: calc(2 * var(--typography-spacing-horizontal));
+        margin-inline-start: calc(-2 * var(--typography-spacing-horizontal));
         font-size: calc(0.75 * var(--font-size));
-        min-width: calc(2 * var(--typography-spacing-horizontal));
-        flex-shrink: 0;
         color: var(--li-color);
     }
 
     /* Level 3 — open square */
     ul:not(nav *) > li > ul > li > ul > li::before {
         content: "□";
+        display: inline-block;
+        width: calc(2 * var(--typography-spacing-horizontal));
+        margin-inline-start: calc(-2 * var(--typography-spacing-horizontal));
         font-size: calc(0.75 * var(--font-size));
-        min-width: calc(2 * var(--typography-spacing-horizontal));
-        flex-shrink: 0;
         color: var(--li-color);
     }
 
@@ -1281,8 +1275,9 @@ This banner notice must not be removed.
 
     ol > li::before {
         content: counter(item) ". ";
-        min-width: calc(2 * var(--typography-spacing-horizontal));
-        flex-shrink: 0;
+        display: inline-block;
+        width: calc(2 * var(--typography-spacing-horizontal));
+        margin-inline-start: calc(-2 * var(--typography-spacing-horizontal));
         color: var(--li-color);
         font-weight: var(--font-weight-semibold);
     }

@@ -312,6 +312,35 @@ export default class SlidesInitializer {
     // -----------------------------------------------------------------------
 
     /**
+     * Inject menu.css into <head> if it is absent.
+     *
+     * Called before any nav elements are built so that menu styles are
+     * always available. In bundle mode (this.#base === null) a warning is
+     * emitted instead, because relative URL resolution is not possible.
+     *
+     * @private
+     * @returns {void}
+     */
+    #ensureMenuCss() {
+        const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+            .some(link => link.href.endsWith('menu.css'));
+
+        if (alreadyLoaded === true) {
+            return;
+        }
+
+        if (this.#base === null) {
+            console.warn('SlidesInitializer: menu.css not found in <head>. Add it manually in bundle mode.');
+            return;
+        }
+
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = new URL('../../../css/menu.css', this.#base).href;
+        document.head.appendChild(link);
+    }
+
+    /**
      * Inject standard boilerplate elements that are absent from the page.
      *
      * Each element is created only if no element with its id already exists,
@@ -322,6 +351,8 @@ export default class SlidesInitializer {
      * @returns {Promise<void>}
      */
     async #injectBoilerplate() {
+        this.#ensureMenuCss();
+
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
             container.id = 'progress-container';

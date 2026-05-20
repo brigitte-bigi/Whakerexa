@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-20 11:54:26
+// Bundle automatically generated on 2026-05-20 17:20:21
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1639,10 +1639,10 @@ class AccessibilityManager extends BaseManager {
     async switchColorScheme() {
         if (this.#activatedColor === "") {
             this.#activatedColor = AccessibilityManager.COLOR_MODE;
-            document.body.classList.add(AccessibilityManager.COLOR_MODE);
+            document.documentElement.classList.add(AccessibilityManager.COLOR_MODE);
         } else {
             this.#activatedColor = "";
-            document.body.classList.remove(AccessibilityManager.COLOR_MODE);
+            document.documentElement.classList.remove(AccessibilityManager.COLOR_MODE);
         }
         this.#updateButtonState('btn-color');
         this.#updateUrl();
@@ -1652,10 +1652,10 @@ class AccessibilityManager extends BaseManager {
     async switchContrastScheme() {
         if (this.#activatedContrast === "") {
             this.#activatedContrast = AccessibilityManager.CONTRAST_MODE;
-            document.body.classList.add(AccessibilityManager.CONTRAST_MODE);
+            document.documentElement.classList.add(AccessibilityManager.CONTRAST_MODE);
         } else {
             this.#activatedContrast = "";
-            document.body.classList.remove(AccessibilityManager.CONTRAST_MODE);
+            document.documentElement.classList.remove(AccessibilityManager.CONTRAST_MODE);
         }
         this.#updateButtonState('btn-contrast');
         this.#updateUrl();
@@ -1714,7 +1714,7 @@ class AccessibilityManager extends BaseManager {
             const colorParam = params.get(AccessibilityManager.COLOR_PARAMETER_NAME).toLowerCase();
             if (colorParam === AccessibilityManager.COLOR_MODE) {
                 this.#activatedColor = colorParam;
-                document.body.classList.add(colorParam);
+                document.documentElement.classList.add(colorParam);
                 events.accessibility_color = this.#activatedColor;
             } else {
                 console.log(AccessibilityManager.COLOR_PARAMETER_NAME + " unknown value: " + colorParam);
@@ -1724,7 +1724,7 @@ class AccessibilityManager extends BaseManager {
             const contrastParam = params.get(AccessibilityManager.CONTRAST_PARAMETER_NAME).toLowerCase();
             if (contrastParam === AccessibilityManager.CONTRAST_MODE) {
                 this.#activatedContrast = contrastParam;
-                document.body.classList.add(contrastParam);
+                document.documentElement.classList.add(contrastParam);
                 events.accessibility_contrast = this.#activatedContrast;
             } else {
                 console.log(AccessibilityManager.CONTRAST_PARAMETER_NAME + " unknown value: " + contrastParam);
@@ -3023,7 +3023,23 @@ class SlidesInitializer {
     // -----------------------------------------------------------------------
     // PRIVATE METHODS — DOM building
     // -----------------------------------------------------------------------
+    #ensureMenuCss() {
+        const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+            .some(link => link.href.endsWith('menu.css'));
+        if (alreadyLoaded === true) {
+            return;
+        }
+        if (this.#base === null) {
+            console.warn('SlidesInitializer: menu.css not found in <head>. Add it manually in bundle mode.');
+            return;
+        }
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = new URL('../../../css/menu.css', this.#base).href;
+        document.head.appendChild(link);
+    }
     async #injectBoilerplate() {
+        this.#ensureMenuCss();
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
             container.id = 'progress-container';

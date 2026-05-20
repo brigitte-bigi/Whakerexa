@@ -412,19 +412,19 @@ This banner notice must not be removed.
     }
 
     li.enumerate-cards-item + li {
-        margin-top: 1rem;
+        margin-top: calc(var(--font-size) * 0.8);
     }
 
     li.enumerate-cards-item {
         font-weight: var(--font-weight-black);
-        font-size: calc(var(--font-size) * 1.25);
+        font-size: calc(var(--font-size) * 1.1);
         margin: auto;
         max-width: 80%;
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 1.5rem;
-        border-radius: 1rem;
+        gap: var(--font-size);
+        padding: calc(var(--font-size) * 1.1);
+        border-radius: var(--border-radius);
         width: calc(100% - 2 * var(--typography-spacing-horizontal));
     }
 
@@ -439,13 +439,14 @@ This banner notice must not be removed.
         content: counter(list-item);
         font-size: calc(var(--font-size) * 2);
         font-weight: var(--font-weight-black);
-        width: 1.5em;
-        height: 1.5em;
+        width: calc(var(--font-size) * 3);;
+        height: calc(var(--font-size) * 3);
         flex: 0 0 auto;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: calc(var(--font-size) * 0.5);
     }
 
 } /* end @layer base */

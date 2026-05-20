@@ -50,7 +50,7 @@
    Dark mode — CSS variable overrides (unlayered)
    ========================================================================= */
 
-body.dark {
+:root.dark {
 
     --bg-color: transparent;
     --body-bg-color: radial-gradient(at left center, rgba(10, 15, 26, 1.0), rgba(16, 13, 64, 1.0));
@@ -68,13 +68,13 @@ body.dark {
        ====================================================================== */
 
     :root {
-        --custom-color1: rgb(8, 18, 52);
-        --custom-color2: rgb(8, 92, 148);
+        --custom-color1: rgb(17, 25, 53);
+        --custom-color2: rgb(130, 189, 215);
     }
 
     .dark {
-        --custom-color1: rgb(160, 185, 230);
-        --custom-color2: rgb(100, 170, 230);
+        --custom-color2: rgb(15, 20, 40);
+        --custom-color1: rgb(132, 203, 234);
     }
 
     /* ======================================================================
