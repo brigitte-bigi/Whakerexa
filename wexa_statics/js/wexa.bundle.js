@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-19 20:03:31
+// Bundle automatically generated on 2026-05-20 10:51:29
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1757,28 +1757,14 @@ class AccessibilityManager extends BaseManager {
         });
     }
     // -----------------------------------------------------------------------
-    #injectButtonIcons() {
-        const svgContrast = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'
-            + '<path d="M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z"/>'
-            + '<line x1="13" y1="20" x2="16" y2="12"/>'
-            + '<line x1="19" y1="20" x2="16" y2="12"/>'
-            + '<line x1="14" y1="18" x2="18" y2="18"/>'
-            + '<line x1="5.5" y1="5.5" x2="5.5" y2="8.5"/>'
-            + '<line x1="4" y1="7" x2="7" y2="7"/>'
-            + '<line x1="25" y1="25" x2="28" y2="25"/>'
-            + '</svg>';
-        const svgColor = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">'
-            + '<circle cx="16" cy="16" r="13"/>'
-            + '<clipPath id="cut"><polygon points="0,32 32,0 32,32"/></clipPath>'
-            + '<circle cx="16" cy="16" r="13" fill="currentColor" clip-path="url(#cut)" stroke="none"/>'
-            + '</svg>';
+    async #injectButtonIcons() {
         const contrast = document.getElementById('btn-contrast');
         if (contrast && contrast.children.length === 0) {
-            contrast.innerHTML = svgContrast;
+            contrast.innerHTML = await SVGIconsManager.get('contrast');
         }
         const color = document.getElementById('btn-color');
         if (color && color.children.length === 0) {
-            color.innerHTML = svgColor;
+            color.innerHTML = await SVGIconsManager.get('color');
         }
     }
     // -----------------------------------------------------------------------
@@ -2989,9 +2975,9 @@ class SlidesInitializer {
             script.onerror = () => {
                 reject(new Error('SlidesInitializer: failed to load wexa.bundle.js.'));
             };
-            script.onload = () => {
+            script.onload = async () => {
                 window.Wexa = window.Wexa || {};
-                this.#injectBoilerplate();
+                await this.#injectBoilerplate();
                 window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
                 this.#registerThemes(window.Wexa.ThemeManager || null);
                 const app = this.#buildConfig(window.Wexa.Slides);
@@ -3002,12 +2988,12 @@ class SlidesInitializer {
             document.head.appendChild(script);
         });
     }
-    #initFromLoadedBundle() {
+    async #initFromLoadedBundle() {
         if (document.querySelectorAll('section.slide').length === 0) {
             return;
         }
         window.Wexa = window.Wexa || {};
-        this.#injectBoilerplate();
+        await this.#injectBoilerplate();
         window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
         this.#registerThemes(window.Wexa.ThemeManager || null);
         const app = this.#buildConfig(window.Wexa.Slides);
@@ -3020,7 +3006,7 @@ class SlidesInitializer {
             import(new URL('../../wexa.js', this.#base).href),
         ]);
         window.Wexa = window.Wexa || {};
-        this.#injectBoilerplate();
+        await this.#injectBoilerplate();
         window.Wexa.accessibility = new wexaModule.AccessibilityManager();
         if (this.#themesAttr !== '') {
             const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
@@ -3033,7 +3019,7 @@ class SlidesInitializer {
     // -----------------------------------------------------------------------
     // PRIVATE METHODS — DOM building
     // -----------------------------------------------------------------------
-    #injectBoilerplate() {
+    async #injectBoilerplate() {
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
             container.id = 'progress-container';
@@ -3048,7 +3034,7 @@ class SlidesInitializer {
             document.body.appendChild(overview);
         }
         if (document.getElementById('accessibility-controls') === null) {
-            document.body.appendChild(this.#buildAccessibilityNav());
+            document.body.appendChild(await this.#buildAccessibilityNav());
         }
         if (document.getElementById('nav-content') === null) {
             document.body.appendChild(this.#buildNavContent());
@@ -3065,53 +3051,55 @@ class SlidesInitializer {
             document.body.appendChild(logo);
         }
     }
-    #buildAccessibilityNav() {
+    async #buildAccessibilityNav() {
         const nav = document.createElement('nav');
         nav.id = 'accessibility-controls';
         nav.className = 'nav-wexa controls-hidden';
         nav.setAttribute('aria-label', 'Accessibility controls');
+        nav.appendChild(await this.#buildIconButton(
+            'btn-color',
+            'menuitem accessibility',
+            'color',
+            'color',
+            () => {
+                if (window.Wexa !== null
+                        && window.Wexa !== undefined
+                        && window.Wexa.accessibility !== null
+                        && window.Wexa.accessibility !== undefined) {
+                    window.Wexa.accessibility.switchColorScheme();
+                }
+            },
+            { ariaPressed: 'false' }
+        ));
         if (this.#themesAttr !== '') {
-            nav.appendChild(this.#buildThemeButton());
+            nav.appendChild(await this.#buildIconButton(
+                'btn-css-theme',
+                'menuitem',
+                'theme',
+                'Switch theme',
+                () => {
+                    if (window.themes !== null && window.themes !== undefined) {
+                        window.themes.next();
+                    }
+                },
+                { title: 'Switch theme' }
+            ));
         }
-        const btnColor = document.createElement('button');
-        btnColor.id = 'btn-color';
-        btnColor.className = 'menuitem accessibility';
-        btnColor.setAttribute('aria-label', 'color');
-        btnColor.setAttribute('aria-pressed', 'false');
-        btnColor.addEventListener('click', () => {
-            if (window.Wexa !== null
-                    && window.Wexa !== undefined
-                    && window.Wexa.accessibility !== null
-                    && window.Wexa.accessibility !== undefined) {
-                window.Wexa.accessibility.switchColorScheme();
-            }
-        });
-        nav.appendChild(btnColor);
         return nav;
     }
-    #buildThemeButton() {
+    async #buildIconButton(id, className, iconName, ariaLabel, onClick, extras = {}) {
         const btn = document.createElement('button');
-        btn.id = 'btn-css-theme';
-        btn.className = 'menuitem';
-        btn.type = 'button';
-        btn.setAttribute('aria-label', 'Switch theme');
-        btn.title = 'Switch theme';
-        btn.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"'
-            + ' fill="none" stroke="currentColor" stroke-width="2"'
-            + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-            + '<circle cx="16" cy="16" r="13"/>'
-            + '<circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>'
-            + '<line x1="16" y1="3"  x2="16" y2="8"/>'
-            + '<line x1="16" y1="24" x2="16" y2="29"/>'
-            + '<line x1="3"  y1="16" x2="8"  y2="16"/>'
-            + '<line x1="24" y1="16" x2="29" y2="16"/>'
-            + '</svg>';
-        btn.addEventListener('click', () => {
-            if (window.themes !== null && window.themes !== undefined) {
-                window.themes.next();
-            }
-        });
+        btn.id = id;
+        btn.className = className;
+        btn.setAttribute('aria-label', ariaLabel);
+        if (extras.ariaPressed !== undefined) {
+            btn.setAttribute('aria-pressed', extras.ariaPressed);
+        }
+        if (extras.title !== undefined) {
+            btn.title = extras.title;
+        }
+        btn.innerHTML = await window.Wexa.icons.get(iconName);
+        btn.addEventListener('click', onClick);
         return btn;
     }
     #buildNavContent() {
@@ -3192,6 +3180,7 @@ window.Wexa.SlidesInitializer = SlidesInitializer;
 
 
 // ---------------- wexa.js ---------------
+SVGIconsManager.init(import.meta.url);
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
     OnLoadManager,
@@ -3203,7 +3192,8 @@ console.debug('Imports OK:', {
     ToggleSelector,
     ProgressBar,
     BaseManager,
-    RequestManager
+    RequestManager,
+    SVGIconsManager
 });
 // ----- Exports (framework public API) -----
 // ---------------------------------------------------------------------------
@@ -3226,6 +3216,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     // Note: OnLoadManager is not instantiated because it is a scheduler /
     // dispatcher whose methods are static or utility-like.
     onload: OnLoadManager,
+    // SVGIconsManager is a static class — no instance needed.
+    icons: SVGIconsManager,
     accessibility: new AccessibilityManager(),
     dialog: new DialogManager(),
     links: new LinkController(),
@@ -3241,7 +3233,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ProgressBar,
     ToggleSelector,
     BaseManager,
-    RequestManager
+    RequestManager,
+    SVGIconsManager
 });
 // Make every [data-href] element without a real href focusable via Tab.
 OnLoadManager.addLoadFunction(() => LinkController.initFocusable());

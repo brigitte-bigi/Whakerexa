@@ -238,9 +238,9 @@ export default class SlidesInitializer {
                 reject(new Error('SlidesInitializer: failed to load wexa.bundle.js.'));
             };
 
-            script.onload = () => {
+            script.onload = async () => {
                 window.Wexa = window.Wexa || {};
-                this.#injectBoilerplate();
+                await this.#injectBoilerplate();
                 window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
                 this.#registerThemes(window.Wexa.ThemeManager || null);
                 const app = this.#buildConfig(window.Wexa.Slides);
@@ -259,15 +259,16 @@ export default class SlidesInitializer {
      * Called when this file is included in wexa.bundle.js and executed as a
      * classic script. All classes are already present; no module loading needed.
      *
+     * @async
      * @private
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    #initFromLoadedBundle() {
+    async #initFromLoadedBundle() {
         if (document.querySelectorAll('section.slide').length === 0) {
             return;
         }
         window.Wexa = window.Wexa || {};
-        this.#injectBoilerplate();
+        await this.#injectBoilerplate();
         window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
         this.#registerThemes(window.Wexa.ThemeManager || null);
         const app = this.#buildConfig(window.Wexa.Slides);
@@ -294,7 +295,7 @@ export default class SlidesInitializer {
         ]);
 
         window.Wexa = window.Wexa || {};
-        this.#injectBoilerplate();
+        await this.#injectBoilerplate();
         window.Wexa.accessibility = new wexaModule.AccessibilityManager();
 
         if (this.#themesAttr !== '') {
@@ -317,10 +318,11 @@ export default class SlidesInitializer {
      * Each element is created only if no element with its id already exists,
      * so that users can override any element by writing their own in the HTML.
      *
+     * @async
      * @private
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    #injectBoilerplate() {
+    async #injectBoilerplate() {
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
             container.id = 'progress-container';
@@ -337,7 +339,7 @@ export default class SlidesInitializer {
         }
 
         if (document.getElementById('accessibility-controls') === null) {
-            document.body.appendChild(this.#buildAccessibilityNav());
+            document.body.appendChild(await this.#buildAccessibilityNav());
         }
 
         if (document.getElementById('nav-content') === null) {
@@ -363,68 +365,76 @@ export default class SlidesInitializer {
      * Includes the theme-switcher button only when data-themes is set,
      * because ThemeManager is not loaded otherwise.
      *
+     * @async
      * @private
-     * @returns {HTMLElement}
+     * @returns {Promise<HTMLElement>}
      */
-    #buildAccessibilityNav() {
+    async #buildAccessibilityNav() {
         const nav = document.createElement('nav');
         nav.id = 'accessibility-controls';
         nav.className = 'nav-wexa controls-hidden';
         nav.setAttribute('aria-label', 'Accessibility controls');
 
-        if (this.#themesAttr !== '') {
-            nav.appendChild(this.#buildThemeButton());
-        }
+        nav.appendChild(await this.#buildIconButton(
+            'btn-color',
+            'menuitem accessibility',
+            'color',
+            'color',
+            () => {
+                if (window.Wexa !== null
+                        && window.Wexa !== undefined
+                        && window.Wexa.accessibility !== null
+                        && window.Wexa.accessibility !== undefined) {
+                    window.Wexa.accessibility.switchColorScheme();
+                }
+            },
+            { ariaPressed: 'false' }
+        ));
 
-        const btnColor = document.createElement('button');
-        btnColor.id = 'btn-color';
-        btnColor.className = 'menuitem accessibility';
-        btnColor.setAttribute('aria-label', 'color');
-        btnColor.setAttribute('aria-pressed', 'false');
-        btnColor.addEventListener('click', () => {
-            if (window.Wexa !== null
-                    && window.Wexa !== undefined
-                    && window.Wexa.accessibility !== null
-                    && window.Wexa.accessibility !== undefined) {
-                window.Wexa.accessibility.switchColorScheme();
-            }
-        });
-        nav.appendChild(btnColor);
+        if (this.#themesAttr !== '') {
+            nav.appendChild(await this.#buildIconButton(
+                'btn-css-theme',
+                'menuitem',
+                'theme',
+                'Switch theme',
+                () => {
+                    if (window.themes !== null && window.themes !== undefined) {
+                        window.themes.next();
+                    }
+                },
+                { title: 'Switch theme' }
+            ));
+        }
 
         return nav;
     }
 
     /**
-     * Build the theme-switcher button with its inline SVG icon.
+     * Build a nav icon button with an inline SVG.
      *
-     * Inline SVG is required so that stroke/fill inherit currentColor from CSS.
-     *
+     * @async
      * @private
-     * @returns {HTMLElement}
+     * @param {string}   id        - Button element id.
+     * @param {string}   className - CSS class string.
+     * @param {string}   iconName  - Icon name passed to SVGIconsManager.get().
+     * @param {string}   ariaLabel - Accessible label.
+     * @param {Function} onClick   - Click event handler.
+     * @param {Object}   [extras]  - Optional attributes: ariaPressed, title.
+     * @returns {Promise<HTMLButtonElement>}
      */
-    #buildThemeButton() {
+    async #buildIconButton(id, className, iconName, ariaLabel, onClick, extras = {}) {
         const btn = document.createElement('button');
-        btn.id = 'btn-css-theme';
-        btn.className = 'menuitem';
-        btn.type = 'button';
-        btn.setAttribute('aria-label', 'Switch theme');
-        btn.title = 'Switch theme';
-        btn.innerHTML =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"'
-            + ' fill="none" stroke="currentColor" stroke-width="2"'
-            + ' stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-            + '<circle cx="16" cy="16" r="13"/>'
-            + '<circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>'
-            + '<line x1="16" y1="3"  x2="16" y2="8"/>'
-            + '<line x1="16" y1="24" x2="16" y2="29"/>'
-            + '<line x1="3"  y1="16" x2="8"  y2="16"/>'
-            + '<line x1="24" y1="16" x2="29" y2="16"/>'
-            + '</svg>';
-        btn.addEventListener('click', () => {
-            if (window.themes !== null && window.themes !== undefined) {
-                window.themes.next();
-            }
-        });
+        btn.id = id;
+        btn.className = className;
+        btn.setAttribute('aria-label', ariaLabel);
+        if (extras.ariaPressed !== undefined) {
+            btn.setAttribute('aria-pressed', extras.ariaPressed);
+        }
+        if (extras.title !== undefined) {
+            btn.title = extras.title;
+        }
+        btn.innerHTML = await window.Wexa.icons.get(iconName);
+        btn.addEventListener('click', onClick);
         return btn;
     }
 

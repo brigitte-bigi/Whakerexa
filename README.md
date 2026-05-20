@@ -227,8 +227,9 @@ New `extras/theme_manager.js`, exposed as `window.Wexa.ThemeManager`:
 - Accessibility toggle buttons (`btn-contrast`, `btn-color`) no longer carry `role="menuitem"`;
   the implicit `role="button"` of `<button>` is required for `aria-pressed` to work correctly.
 - `btn-theme` renamed to `btn-color` throughout (CSS, JS, HTML).
-- SVG icons for `btn-contrast` and `btn-color` are now injected as inline SVG at DOM load,
-  replacing the former `background-image` data-URI approach so icons inherit `currentColor`.
+- SVG icons (`btn-contrast`, `btn-color`, slides nav buttons) are loaded from
+  `icons/mono-svg/*.svg` by `SVGIconsManager` and injected as inline SVG so they
+  inherit `currentColor`. Replaces the former `background-image` data-URI approach.
 - `wexa.css`: removed `--icon-contrast` and `--icon-color`; added
   `.menuitem.accessibility svg { color: inherit; }`.
 
@@ -242,6 +243,15 @@ and contrast mode (normal/high-contrast).
 - `#colors` and `#contrasts` registries replaced by static constants
   `AccessibilityManager.COLOR_MODE` (`"dark"`) and `AccessibilityManager.CONTRAST_MODE` (`"contrast"`).
 - Getters renamed: `activatedColorMode`, `activatedContrastMode`.
+
+### SVGIconsManager
+
+New `svgicons.js`, exposed as `window.Wexa.icons`:
+
+- Static class. `SVGIconsManager.init(import.meta.url)` is called once in `wexa.js`.
+- `get(name)` — async; fetches `icons/mono-svg/{name}.svg` and caches the result.
+- `register(name, svgContent)` — pre-registers icon markup for bundle mode (no fetch).
+- Used by `AccessibilityManager` and `slides.init.js` to inject icon SVGs inline.
 
 ### Layout
 
@@ -348,5 +358,5 @@ key bindings and their labels.
 | book number variable | `--numbers-color` | `--numbers-bg-color` / `--numbers-fg-color` |
 | Print styles | `@media print` blocks per file | `print.css` with `media="print"` |
 | Accessibility color button id | `btn-theme` | `btn-color` |
-| Accessibility button icons | `background-image` data-URI | inline SVG injected by `AccessibilityManager` |
+| Accessibility button icons | `background-image` data-URI | inline SVG loaded by `SVGIconsManager` from `icons/mono-svg/*.svg` |
 

@@ -1,5 +1,6 @@
 import { BaseManager } from './transport/base_manager.js';
 import { OnLoadManager } from './dom-loader.js';
+import { SVGIconsManager } from './svgicons.js';
 
 /**
 :filename: statics.js.accessibility.js
@@ -325,31 +326,19 @@ export class AccessibilityManager extends BaseManager {
     /**
      * Inject inline SVG icons into btn-contrast and btn-color if they are empty.
      * Inline SVG is required so that stroke/fill currentColor inherits from CSS color.
+     *
+     * @async
      * @private
+     * @returns {Promise<void>}
      */
-    #injectButtonIcons() {
-        const svgContrast = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'
-            + '<path d="M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z"/>'
-            + '<line x1="13" y1="20" x2="16" y2="12"/>'
-            + '<line x1="19" y1="20" x2="16" y2="12"/>'
-            + '<line x1="14" y1="18" x2="18" y2="18"/>'
-            + '<line x1="5.5" y1="5.5" x2="5.5" y2="8.5"/>'
-            + '<line x1="4" y1="7" x2="7" y2="7"/>'
-            + '<line x1="25" y1="25" x2="28" y2="25"/>'
-            + '</svg>';
-        const svgColor = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">'
-            + '<circle cx="16" cy="16" r="13"/>'
-            + '<clipPath id="cut"><polygon points="0,32 32,0 32,32"/></clipPath>'
-            + '<circle cx="16" cy="16" r="13" fill="currentColor" clip-path="url(#cut)" stroke="none"/>'
-            + '</svg>';
-
+    async #injectButtonIcons() {
         const contrast = document.getElementById('btn-contrast');
         if (contrast && contrast.children.length === 0) {
-            contrast.innerHTML = svgContrast;
+            contrast.innerHTML = await SVGIconsManager.get('contrast');
         }
         const color = document.getElementById('btn-color');
         if (color && color.children.length === 0) {
-            color.innerHTML = svgColor;
+            color.innerHTML = await SVGIconsManager.get('color');
         }
     }
 

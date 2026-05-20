@@ -54,9 +54,12 @@ import { LinkController } from './links.js';
 
 import { ProgressBar } from './progressbar.js';
 import { ToggleSelector } from './toggleselect.js';
+import { SVGIconsManager } from './svgicons.js';
 
 import { BaseManager } from './transport/base_manager.js';
 import { RequestManager } from './transport/request.js';
+
+SVGIconsManager.init(import.meta.url);
 
 // --- Debug -------------------------------------------------------
 console.debug('Imports OK:', {
@@ -69,7 +72,8 @@ console.debug('Imports OK:', {
     ToggleSelector,
     ProgressBar,
     BaseManager,
-    RequestManager
+    RequestManager,
+    SVGIconsManager
 });
 
 // ----- Exports (framework public API) -----
@@ -83,7 +87,8 @@ export {
     ProgressBar,
     ToggleSelector,
     BaseManager,
-    RequestManager
+    RequestManager,
+    SVGIconsManager
 };
 
 // ---------------------------------------------------------------------------
@@ -110,6 +115,9 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     // dispatcher whose methods are static or utility-like.
     onload: OnLoadManager,
 
+    // SVGIconsManager is a static class — no instance needed.
+    icons: SVGIconsManager,
+
     accessibility: new AccessibilityManager(),
     dialog: new DialogManager(),
     links: new LinkController(),
@@ -127,7 +135,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ProgressBar,
     ToggleSelector,
     BaseManager,
-    RequestManager
+    RequestManager,
+    SVGIconsManager
 });
 
 // Make every [data-href] element without a real href focusable via Tab.
