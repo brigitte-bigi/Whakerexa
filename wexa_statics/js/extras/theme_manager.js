@@ -1,5 +1,6 @@
 import { BaseManager } from '../transport/base_manager.js';
 import { OnLoadManager } from '../dom-loader.js';
+import { SVGIconsManager } from '../svgicons.js';
 
 /**
 :filename: statics.js.extras.theme_manager.js
@@ -88,6 +89,7 @@ export class ThemeManager extends BaseManager {
         this.#defaultTheme = "";
 
         OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
+        OnLoadManager.addLoadFunction(this.#injectButtonIcon.bind(this));
     }
 
     // -----------------------------------------------------------------------
@@ -240,6 +242,21 @@ export class ThemeManager extends BaseManager {
 
     // -----------------------------------------------------------------------
     // PRIVATE METHODS
+    // -----------------------------------------------------------------------
+
+    /**
+     * Inject the theme SVG icon into btn-css-theme if present.
+     * @private
+     * @async
+     * @returns {Promise<void>}
+     */
+    async #injectButtonIcon() {
+        const btn = document.getElementById('btn-css-theme');
+        if (btn) {
+            btn.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('theme'));
+        }
+    }
+
     // -----------------------------------------------------------------------
 
     /**

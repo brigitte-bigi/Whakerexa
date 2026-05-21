@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 
-    <title>Buttons & Switches</title>
+    <title>Button • Whakerexa</title>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,16 +13,22 @@
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
 
     <style>
         :root {
-            --nav-min-height: 4rem;
-            --header-height: 16rem;
-        }
-        :root:not(.dark) {
-            --header-bg-color: linear-gradient(90deg, rgb(97,33,140) 0%, rgb(11,4,97) 50%, rgb(28,133,136) 100%);
+            --header-height: 2rem;
+            --header-bg-color: transparent; 
+            --header-fg-color: var(--fg-color-alt);
+            --header-slidein:  none;
+            --nav-min-height:  0;
+            --nav-min-width:   max(calc(4rem / var(--size-divisor)), 3rem);
+            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
+            --nav-item-width-v-expanded:  calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
+
         }
     </style>
 
@@ -33,518 +39,263 @@
 
 <header id="header-content">
     <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
-    <h1>Buttons &amp; Switches</h1>
-
+    <button id="menu-button" aria-controls="nav-content" aria-expanded="false"
+            aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6"  x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </button>
+    <input type="checkbox" id="mobile" role="button"
+           aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+    <p>Whakerexa > Components > Forms</p>
 </header>
-<nav class="nav-wexa top" aria-label="Page navigation">
-        <a class="menuitem" href="index.html" aria-label="Retour" title="Retour">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                <polyline points="20 24 12 16 20 8" />
+
+<nav id="nav-content" class="nav-wexa side collapsible" aria-label="Page navigation">
+
+    <section>
+        <button aria-label="Pin menu"
+                id="pin-menu" type="button"
+                aria-controls="nav-content"
+                aria-pressed="true"
+                title="Pin menu"
+                class="menuitem menu-pin">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-label="Pushpin">
+                <path d="M9 3h6l-1 8H10L9 3z"/>
+                <path d="M7 13h10"/>
+                <path d="M12 13v9"/>
             </svg>
+        </button>
+    </section>
+
+    <section>
+        <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <polyline points="20 24 12 16 20 8"/>
+            </svg>
+            <span>Back</span>
         </a>
         <button id="btn-css-theme" class="menuitem" type="button"
                 aria-label="Switch CSS theme" title="Switch CSS theme"
                 onclick="window.themes && window.themes.next()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="16" cy="16" r="13"/>
-                <circle cx="16" cy="16" r="5" fill="currentColor" stroke="none"/>
-                <line x1="16" y1="3"  x2="16" y2="8"/>
-                <line x1="16" y1="24" x2="16" y2="29"/>
-                <line x1="3"  y1="16" x2="8"  y2="16"/>
-                <line x1="24" y1="16" x2="29" y2="16"/>
-            </svg>
+            <span>Theme</span>
         </button>
         <button id="btn-contrast" class="menuitem accessibility"
                 aria-label="contrast" aria-pressed="false"
-                onclick="Wexa.accessibility.switchContrastScheme()"></button>
+                onclick="Wexa.accessibility.switchContrastScheme()">
+            <span>Contrast</span>
+        </button>
         <button id="btn-color" class="menuitem accessibility"
                 aria-label="color" aria-pressed="false"
-                onclick="Wexa.accessibility.switchColorScheme()"></button>
-    </nav>
+                onclick="Wexa.accessibility.switchColorScheme()">
+            <span>Color</span>
+        </button>
+    </section>
+
+</nav>
 
 <main id="main-content">
 
-    <section id="preface">
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
+    <h1>Button</h1>
     <p>
-        This page documents <code>button.css</code>: ready-to-use CSS patterns.
-        Copy the HTML examples and customize the look with CSS variables.
-        No JavaScript is required for the button styles described below.
+        Load <code>button.css</code> to access four ready-to-use button patterns.
+        Each can be customized through CSS variables. No JavaScript required.
     </p>
+        <h2>Default button - no class applied</h2>
+<article class="card-doc" aria-label="Default button — example">
+    <div class="card-view">
+        <button>a button</button>
+        <button disabled>a disabled button</button>
+    </div>
+    <pre class="dark"><code>&lt;button&gt;a button&lt;/button&gt;
+&lt;button disabled&gt;a disabled button&lt;/button&gt;</code></pre>
+</article>
 
-    <p><b>Summary:</b></p>
-    <ul>
-        <li><a href="#gradient">Gradient buttons</a>: <code>.action-button</code> and <code>.apply-button</code></li>
-        <li><a href="#cta">Call-to-action button</a>: <code>.cta-button</code></li>
-        <li><a href="#text-reveal">Text-reveal button</a>: <code>.text-reveal-button</code></li>
-        <li><a href="#switch">Toggle switch</a>: <code>.switch</code> + <code>.switch-slider</code></li>
-    </ul>
+        <h3>Variables</h3>
+        <p>Colors are controlled by the theme variables:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--buttons-bg-color</code></td>
+                    <td>Background (resting state)</td>
+                </tr>
+                <tr>
+                    <td><code>--buttons-bg-color-hover</code></td>
+                    <td>Background on hover / focus</td>
+                </tr>
+                <tr>
+                    <td><code>--buttons-fg-color</code></td>
+                    <td>Label color</td>
+                </tr>
+            </tbody>
+        </table>
+
     </section>
 
+    <!-- ============================================================ -->
+    <section class="panel-item">
 
-    <section id="gradient">
-
-    <h1>Gradient buttons</h1>
-
-    <h2>.action-button</h2>
-
-    <p>The <code>.action-button</code> class is used to style action buttons that combine two visual
-        elements: an image (&lt;img&gt;) and a text (&lt;span&gt;). These buttons feature a horizontal
-        gradient background that enhances contrast for better readability. A shadow effect around the
-        button improves its prominence and creates a more interactive appearance. On hover, the gradient
-        reverses direction, providing immediate visual feedback to the user. Images within the buttons
-        are styled with drop-shadow filters, creating a luminous, layered effect in dark mode, while the
-        text is padded to ensure consistent alignment and spacing.</p>
-
-    <h2>.apply-button</h2>
-
-    <p>The <code>.apply-button</code> class is tailored for simpler buttons containing text only. Despite
-        its minimalistic design, it shares the same horizontal gradient background as the .action-button
-        class, ensuring visual consistency across the interface. Its slightly reduced height reflects
-        its purpose as a less visually intensive button, fitting seamlessly into contexts requiring
-        subtle interactions. A small left margin (margin-left) separates it naturally from adjacent
-        elements, such as grouped controls. On hover, the gradient background also reverses, maintaining
-        the interactive design language.</p>
-
-    <h2>CSS variables</h2>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Variable</th>
-            <th>Description</th>
-            <th>Default Value</th>
-            <th>Customization Example</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><code>--action-height</code></td>
-            <td>Controls the height of <code>.action-button</code> (image + text).</td>
-            <td><code>calc(var(--font-size) * 2.8)</code></td>
-            <td><code>--action-height: calc(var(--font-size) * 3);</code></td>
-        </tr>
-        <tr>
-            <td><code>--apply-height</code></td>
-            <td>Controls the height of <code>.apply-button</code> (text-only).</td>
-            <td><code>calc(var(--font-size) * 2.1)</code></td>
-            <td><code>--apply-height: calc(var(--font-size) * 2);</code></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <p><b>Note:</b> in the examples below, the <code>onclick</code> handlers only trigger Wexa
-        accessibility helpers (contrast/theme). They are not required for the button styles.</p>
-
-    <h2>Examples</h2>
-
-    <section class="flex-panel">
-        <button class="flex-item action-button" onclick="Wexa.accessibility.switchContrastScheme();">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Change contrast</span>
-        </button>
-        <button class="flex-item action-button" onclick="Wexa.accessibility.switchColorScheme();">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Change color</span>
-        </button>
-        <p class="note">
-            These contrast/theme buttons require Whakerexa JavaScript for enabling contrast/theme switching.
+        <h2>Call-to-action</h2>
+        <p>
+            Use <code>.cta-button</code> for the single primary action on a page or panel.
+            It renders with a solid background, small-caps uppercase label and a drop shadow.
+            Works on both <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> elements.
         </p>
-    </section>
 
-    <section class="flex-panel">
-        <button class="flex-item apply-button">Apply</button>
-        <button class="flex-item apply-button">Cancel</button>
-        <button class="flex-item apply-button">Something</button>
-    </section>
+        <div class="card-doc">
+            <button class="cta-button">Get started</button>
+            <button class="cta-button">Download</button>
+            <button class="cta-button" disabled>Unavailable</button>
+        </div>
 
-    </section>
-
-    <!--      --------------------------------------------- -->
-
-    <section id="cta">
-    <h1>Call-to-action button</h1>
-
-    <p>The <code>.cta-button</code> class styles a primary call-to-action button: high visual
-        weight, small-caps uppercase label, and a drop shadow. It is built on the standard
-        Whakerexa button foundation (defined in <code>@layer base</code>) and relies on the
-        theme variables below — no <code>!important</code> needed to override defaults.</p>
-
-    <p>Unlike <code>.action-button</code>, it contains text only — no image. Use it for the
-        single most important action on a page or panel.</p>
-
-    <table>
-        <thead>
-        <tr>
-            <th>Variable used</th>
-            <th>Role</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><code>--buttons-bg-color</code></td>
-            <td>Background color (resting state).</td>
-        </tr>
-        <tr>
-            <td><code>--buttons-bg-color-hover</code></td>
-            <td>Background color on hover / focus.</td>
-        </tr>
-        <tr>
-            <td><code>--buttons-fg-color</code></td>
-            <td>Label color.</td>
-        </tr>
-        <tr>
-            <td><code>--shadow-color</code></td>
-            <td>Drop-shadow color.</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <h2>Examples</h2>
-
-    <section class="flex-panel">
-        <button class="cta-button">Get started</button>
-        <button class="cta-button">Download</button>
-        <button class="cta-button" disabled>Unavailable</button>
-    </section>
-
-    <h2>Combined with <code>.action-button</code></h2>
-
-    <p>Both classes can be applied together. <code>.cta-button</code> wins on background,
-        shadow and typography; <code>.action-button</code> contributes image sizing and
-        the <code>--action-height</code> constraint. The gradient is replaced by the solid
-        CTA background.</p>
-
-    <section class="flex-panel">
-        <button class="cta-button action-button">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Get started</span>
-        </button>
-        <button class="cta-button action-button">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Download</span>
-        </button>
-    </section>
+        <pre class="dark"><code>&lt;button class="cta-button"&gt;Get started&lt;/button&gt;
+&lt;a class="cta-button" href="..."&gt;Download&lt;/a&gt;
+&lt;button class="cta-button" disabled&gt;Unavailable&lt;/button&gt;</code></pre>
 
     </section>
 
-    <!--      --------------------------------------------- -->
+    <!-- ============================================================ -->
+    <section class="panel-item">
 
-    <section id="text-reveal">
-    <h1>Text-reveal</h1>
+        <h2>Text-reveal</h2>
+        <p>
+            <code>.text-reveal-button</code> shows only an icon at rest.
+            The text label appears beside it on hover or focus, and the button grows to fit.
+            Use it where space is limited but context is useful on interaction.
+        </p>
 
-    <p>The Text-Reveal Button is a custom-styled button that combines an image
-        and a hidden text label. By default, only the image is visible, providing
-        a compact visual interface. When the button is hovered, the text is revealed
-        next to the image, creating a user-friendly design. This component is ideal
-        for scenarios where space is limited, and additional context is needed only
-        during user interaction.
-    </p>
-    <p><b>CSS behavior:</b>
-        the button grows to <code>width: auto</code> on <code>:hover</code> and <code>:focus</code>.
-        The text label (<code>&lt;span&gt;</code>) is displayed on <code>:hover</code>.
-    </p>
+        <div class="card-doc">
+            <button class="text-reveal-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                    <path d="M16 5v16"/>
+                    <polyline points="10 15 16 21 22 15"/>
+                    <line x1="6" y1="27" x2="26" y2="27"/>
+                </svg>
+                <span>Download</span>
+            </button>
+            <button class="text-reveal-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
+                    <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
+                    <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
+                </svg>
+                <span>Open book</span>
+            </button>
+            <button class="text-reveal-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                    <circle cx="16" cy="11" r="5"/>
+                    <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
+                </svg>
+                <span>Profile</span>
+            </button>
+        </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Variable</th>
-            <th>Description</th>
-            <th>Default Value</th>
-            <th>Customization Example</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><code>--text-reveal-height</code></td>
-            <td>Controls the fixed height of the button, ensuring consistent vertical sizing across all instances.</td>
-            <td><code>calc(var(--font-size) * 1.6)</code></td>
-            <td> <code> --text-reveal-height: 2rem; </code> </td>
-        </tr>
-        <tr>
-            <td><code>--text-reveal-width</code></td>
-            <td>Defines the initial width of the button before the text is revealed.</td>
-            <td><code>calc(var(--font-size) * 1.6)</code></td>
-            <td> <code> --text-reveal-width: 3rem; </code> </td>
-        </tr>
-        </tbody>
-    </table>
+        <pre class="dark"><code>&lt;button class="text-reveal-button"&gt;
+    &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
+         fill="none" stroke="currentColor" stroke-width="2"
+         width="100%" height="100%" aria-hidden="true"&gt;
+        &lt;!-- icon paths --&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Label&lt;/span&gt;
+&lt;/button&gt;</code></pre>
 
-    <h2>Examples</h2>
+        <p>
+            Size is controlled by <code>--text-reveal-height</code> and <code>--text-reveal-width</code>
+            (both default to <code>calc(var(--font-size) * 1.6)</code>).
+            Do not combine with <code>.cta-button</code> or <code>.action-button</code> —
+            their padding conflicts with the fixed-width layout.
+        </p>
 
-    <p>Base usage — icon only, text revealed on hover:</p>
+        <div class="card-doc">
+            <button class="text-reveal-button"
+                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                    <path d="M16 5v16"/>
+                    <polyline points="10 15 16 21 22 15"/>
+                    <line x1="6" y1="27" x2="26" y2="27"/>
+                </svg>
+                <span>Download</span>
+            </button>
+            <button class="text-reveal-button"
+                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
+                    <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
+                    <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
+                </svg>
+                <span>Open book</span>
+            </button>
+            <button class="text-reveal-button"
+                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                    <circle cx="16" cy="11" r="5"/>
+                    <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
+                </svg>
+                <span>Profile</span>
+            </button>
+        </div>
 
-    <section class="flex-panel">
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Change contrast</span>
-        </button>
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Change color</span>
-        </button>
-
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Change contrast</span>
-        </button>
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Change color</span>
-        </button>
-
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Change contrast</span>
-        </button>
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 6);">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Change color</span>
-        </button>
-    </section>
-    <section class="flex-panel">
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchContrastScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 6);">
-            <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-            <span>Change contrast</span>
-        </button>
-        <button class="flex-item text-reveal-button" onclick="Wexa.accessibility.switchColorScheme();"
-                style="--text-reveal-height: calc(var(--font-size) * 6); --text-reveal-width: calc(var(--font-size) * 3);">
-            <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-            <span>Change color</span>
-        </button>
-    </section>
+        <pre class="dark"><code>&lt;button class="text-reveal-button"
+        style="--text-reveal-height: calc(var(--font-size) * 3);
+               --text-reveal-width:  calc(var(--font-size) * 3);"&gt;
+    &lt;svg ... width="100%" height="100%" aria-hidden="true"&gt;
+        &lt;!-- icon paths --&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Label&lt;/span&gt;
+&lt;/button&gt;</code></pre>
 
     </section>
 
-    <p><b>Note:</b> <code>.text-reveal-button</code> is designed to be used standalone.
-        Its layout relies on a fixed initial width, <code>padding: 0</code>, and
-        <code>overflow: hidden</code>. Combining it with <code>.cta-button</code> or
-        <code>.action-button</code> breaks these constraints (padding conflict, image
-        overflow) and produces unusable results.</p>
+    <!-- ============================================================ -->
+    <section class="panel-item">
 
-    </section>
+        <h2>Gradient buttons</h2>
+        <p>
+            <code>.action-button</code> combines an icon and a text label on a horizontal gradient background.
+            <code>.apply-button</code> is its text-only counterpart, slightly shorter.
+            Both share the same gradient that reverses on hover.
+        </p>
 
-    <!--      --------------------------------------------- -->
+        <div class="card-doc">
+            <button class="action-button" onclick="Wexa.accessibility.switchContrastScheme();">
+                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+                <span>Change contrast</span>
+            </button>
+            <button class="action-button" onclick="Wexa.accessibility.switchColorScheme();">
+                <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+                <span>Change color</span>
+            </button>
+        </div>
 
-    <section id="switch">
-    <h1>Toggle switch</h1>
+        <pre class="dark"><code>&lt;button class="action-button"&gt;
+    &lt;img src="icon.png" alt=""&gt;
+    &lt;span&gt;Label&lt;/span&gt;
+&lt;/button&gt;</code></pre>
 
-    <p>The Toggle Switch is a custom-styled checkbox that mimics the behavior of an on/off switch.
-        It is built using a standard HTML checkbox input and styled with CSS to create a slider
-        effect. The switch includes optional text labels to indicate the state (OFF/ON) and can be
-        customized via CSS variables for size, colors, and behavior. It supports focus styles for
-        accessibility and provides a smooth transition for state changes.</p>
+        <div class="card-doc">
+            <button class="apply-button">Apply</button>
+            <button class="apply-button">Cancel</button>
+        </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Variable</th>
-            <th>Description</th>
-            <th>Default Value</th>
-            <th>Customization Example</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><code>--switch-width</code></td>
-            <td>Total width of the switch</td>
-            <td><code>calc(var(--font-size) * 5)</code></td>
-            <td><code>--switch-width: 6rem;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-height</code></td>
-            <td>Total height of the switch</td>
-            <td><code>calc(var(--font-size) * 2.8)</code></td>
-            <td><code>--switch-height: 3rem;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-bg-color</code></td>
-            <td>Background color when switch is ON</td>
-            <td><code>var(--inputs-bg-color)</code></td>
-            <td><code>--switch-bg-color: green;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-fg-color</code></td>
-            <td>Background color when switch is OFF</td>
-            <td><code>var(--bg-color-alt)</code></td>
-            <td><code>--switch-fg-color: red;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-slider-off-color</code></td>
-            <td>Slider knob color when OFF</td>
-            <td><code>var(--fg-color-alt)</code></td>
-            <td><code>--switch-slider-off-color: gray;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-slider-on-color</code></td>
-            <td>Slider knob color when ON</td>
-            <td><code>var(--fg-color)</code></td>
-            <td><code>--switch-slider-on-color: white;</code></td>
-        </tr>
-        <tr>
-            <td><code>--switch-slider-unselected-opacity</code></td>
-            <td>Opacity for unselected text label</td>
-            <td><code>0</code></td>
-            <td><code>--switch-slider-unselected-opacity: 10%;</code></td>
-        </tr>
-        </tbody>
-    </table>
+        <pre class="dark"><code>&lt;button class="apply-button"&gt;Apply&lt;/button&gt;
+&lt;button class="apply-button"&gt;Cancel&lt;/button&gt;</code></pre>
 
-    <h2>Examples</h2>
+        <p>
+            Height: <code>--action-height</code> (default <code>calc(var(--font-size) * 2.8)</code>)
+            and <code>--apply-height</code> (default <code>calc(var(--font-size) * 2.1)</code>).
+        </p>
 
-    <h3>Minimalistic switch, without text</h3>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle (square)">
-        <span class="switch-slider switch-no-text"></span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle (round)">
-        <span class="switch-slider switch-no-text round"></span>
-    </label>
-
-    <h3>With text inside</h3>
-
-    <label class="switch">
-        <input type="checkbox" checked aria-label="Toggle ON/OFF">
-        <span class="switch-slider">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle OU/ET">
-        <span class="switch-slider">
-              <span class="switch-off-text">OU</span>
-              <span class="switch-on-text">ET</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle XXX">
-        <span class="switch-slider">
-              <span class="switch-on-text">XXX</span>
-              <span class="switch-off-text"></span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle +/-">
-        <span class="switch-slider">
-              <span class="switch-on-text">+</span>
-              <span class="switch-off-text">-</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle (long text overflow demo)">
-        <span class="switch-slider">
-              <span class="switch-on-text">Too long ON text</span>
-              <span class="switch-off-text">OFF too long text-</span>
-        </span>
-    </label>
-
-    <h3>Rounded, with text inside</h3>
-
-    <label class="switch">
-        <input type="checkbox" checked aria-label="Toggle ON/OFF (round)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle OU/ET (round)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OU</span>
-              <span class="switch-on-text">ET</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle X (round, no-text)">
-        <span class="switch-slider switch-no-text round">
-              <span class="switch-on-text">X</span>
-        </span>
-    </label>
-
-    <label class="switch">
-        <input type="checkbox" aria-label="Toggle # (round, no-text)">
-        <span class="switch-slider switch-no-text round">
-              <span class="switch-off-text">#</span>
-        </span>
-    </label>
-
-    <h3>Use variables</h3>
-
-    <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-        <input type="checkbox" checked aria-label="Toggle (small)">
-        <span class="switch-slider">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-        <input type="checkbox" checked aria-label="Toggle (large)">
-        <span class="switch-slider">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked aria-label="Toggle (custom colors)">
-        <span class="switch-slider">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <p></p>
-
-    <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-        <input type="checkbox" checked aria-label="Toggle (small, round)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-        <input type="checkbox" checked aria-label="Toggle (large, round)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <label class="switch" style="--switch-bg-color: white; --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked aria-label="Toggle (custom colors, round)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
-
-    <p></p>
-
-    <label class="switch" style="--switch-slider-unselected-opacity: 10%; --switch-width: calc(var(--font-size) * 6); --switch-fg-color: yellow; --switch-slider-off-color: red; --switch-slider-on-color: green;">
-        <input type="checkbox" checked aria-label="Toggle (unselected opacity demo)">
-        <span class="switch-slider round">
-              <span class="switch-off-text">OFF</span>
-              <span class="switch-on-text">ON</span>
-        </span>
-    </label>
     </section>
 
 </main>
@@ -559,6 +310,33 @@
         This document is under the terms of the GNU Free Documentation License, v1.3.</a>
     </p>
 </footer>
+
+<script>
+    (function () {
+        function initMenu() {
+            if (!window.Wexa || !window.Wexa.MenuManager) {
+                return false;
+            }
+            const m = new window.Wexa.MenuManager();
+            window.mainmenu = m;
+            m.initSideMenu();
+            m.initMobileToggle();
+            return true;
+        }
+        function start() {
+            const t = setInterval(function () {
+                if (initMenu()) {
+                    clearInterval(t);
+                }
+            }, 20);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', start, { once: true });
+        } else {
+            start();
+        }
+    })();
+</script>
 
 <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
 <script>

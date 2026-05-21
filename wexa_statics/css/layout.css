@@ -488,22 +488,9 @@ This banner notice must not be removed.
     /* Alternating panel-item colors                                        */
     /* ------------------------------------------------------------------ */
 
-    main > .panel-item:nth-child(odd) {
-        background-color: var(--bg-color);
-        color: var(--fg-color);
-    }
-
-    main > .panel-item:nth-child(odd) * {
-        background-color: transparent;
-    }
-
     main > .panel-item:nth-child(even) {
-        background-color: var(--bg-color-alt);
-        color: var(--fg-color-alt);
-    }
-
-    main > .panel-item:nth-child(even) * {
-        background-color: transparent;
+        --bg-color: var(--bg-color-alt);
+        --fg-color: var(--fg-color-alt);
     }
 
     /* ------------------------------------------------------------------ */

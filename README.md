@@ -177,223 +177,30 @@ Increased accessibility and corrected bugs.
 
 ## Version 3.0
 
-This release introduces architectural changes in CSS and JavaScript. Previous CSS selectors and JS APIs are not preserved.
+Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS selectors and JS APIs are not preserved.
 
-### CSS architecture
+- CSS now uses `@layer reset, base, theme, accessibility`. Rules written outside any layer override framework defaults automatically — no `!important` needed.
+- Light/dark/contrast modes are controlled by `.dark` and `.contrast` classes on `:root` (the old `[data-theme=dark]` attribute is removed).
+- Print styles moved to a separate `print.css` loaded with `media="print"`.
+- Alternative themes are standalone CSS files containing only an `@layer theme` block. Three themes are provided: `wexa_theme` (navy/teal), `aurora` (blue/mauve/violet) and `highcontrast`.
+- New `ThemeManager` class: registers named themes, cycles through them, and persists the choice via URL parameter.
+- New `SVGIconsManager` class: loads SVG icons from `icons/mono-svg/` and injects them inline so they inherit `currentColor`.
+- `AccessibilityManager` manages exactly two modes — color (light/dark) and contrast (normal/high). Methods renamed to `switchColorScheme()` and `switchContrastScheme()`.
+- Card inner zones renamed: use `<div class="card-header">`, `.card-body`, `.card-footer` inside `<article class="card">`.
+- New `.cta-button` class in `button.css`.
+- `code.css`: complete dark-mode color palette.
+- Slides: new handout (`d`), overview (`o`) and memo (`m`) view modes. Speaker notes are now `<aside for="slide-id">` siblings, not nested inside the slide. A help dialog (`h` / `?`) lists all keyboard shortcuts. The slides loader auto-detects `file://` vs `http(s)://` and loads the bundle or ES module accordingly.
 
-- `wexa.css` uses CSS Cascade Layers (`@layer reset, base, theme, accessibility`).
-  App-level rules written outside any `@layer` override wexa defaults without `!important`.
-- Light/dark/contrast themes selected with `.dark` and `.contrast` classes on `:root`
-  (old `[data-theme=dark]` attribute selectors removed).
-- All decoration rules (blockquote borders, button padding, fieldset, figcaption, etc.)
-  are in `@layer theme`. `@layer base` is restricted to structure and accessibility.
-  Alternative themes override any visual default cleanly, without `!important`.
-- Print styles extracted to `print.css` (loaded with `media="print"`).
-  Unlayered, so it correctly overrides any `@layer theme` dark-mode rules when printing.
-- `--screen-width` CSS variable removed; body width set with `min()` directly.
-- Fixed column widths in `table[role="grid"]`: removed the conflicting `width: 10%` default
-  so inline widths on `<th scope="col">` are fully respected with `table-layout: fixed`.
+**Breaking changes:**
 
-### Themes
-
-Alternative themes are standalone CSS files containing only an `@layer theme` block,
-loaded after `wexa.css`. They override the default visual style without touching structure
-or accessibility.
-
-- `extras/wexa_theme.css` (renamed from `wexa_theme_docs.css`): primary Whakerexa
-  documentation theme — navy/teal palette, animated links, flat type scale.
-- `extras/wexa_theme_aurora.css`: Aurora theme (blue, mauve, violet palette).
-- `extras/wexa_theme_highcontrast.css`: high-contrast theme; adds unlayered overrides for
-  `.slide h1` and `.slide > h2` to replace gradients with flat colors.
-- Each theme defines `--custom-color1` / `--custom-color2` within `@layer theme`.
-- CSS themes are loaded statically and are not managed by JavaScript.
-- `docs/theme_aurora.html`: live demo page.
-
-### ThemeManager
-
-New `extras/theme_manager.js`, exposed as `window.Wexa.ThemeManager`:
-
-- `register(name, path)` — registers a named theme (CSS file path relative to the page).
-- `setDefault(name)` — sets the fallback theme and applies the correct theme immediately:
-  the URL parameter theme if present, otherwise the default. Reliable with dynamically
-  injected module scripts where `window.onload` may fire before the module is ready.
-- `activate(name)` — applies a theme by injecting a `<link id="wexa-theme">` into `<head>`;
-  persists the choice via the `wexa_theme` URL parameter.
-- `next()` — cycles through registered themes, wrapping back to the default theme.
-- Theme propagation through links and form submissions mirrors `AccessibilityManager`.
-
-### Accessibility
-
-- Skip links (`<a class="skip">`) no longer carry `role="button"`.
-- Accessibility toggle buttons (`btn-contrast`, `btn-color`) no longer carry `role="menuitem"`;
-  the implicit `role="button"` of `<button>` is required for `aria-pressed` to work correctly.
-- `btn-theme` renamed to `btn-color` throughout (CSS, JS, HTML).
-- SVG icons (`btn-contrast`, `btn-color`, slides nav buttons) are loaded from
-  `icons/mono-svg/*.svg` by `SVGIconsManager` and injected as inline SVG so they
-  inherit `currentColor`. Replaces the former `background-image` data-URI approach.
-- `wexa.css`: removed `--icon-contrast` and `--icon-color`; added
-  `.menuitem.accessibility svg { color: inherit; }`.
-
-### JavaScript
-
-`AccessibilityManager` simplified: manages exactly two binary modes — color mode (light/dark)
-and contrast mode (normal/high-contrast).
-
-- Removed: `addColorScheme()`, `removeColorScheme()`, `addContrastScheme()`, `removeContrastScheme()`,
-  `activateColorScheme()`, `activateContrastScheme()`, all deprecated snake_case wrappers.
-- `#colors` and `#contrasts` registries replaced by static constants
-  `AccessibilityManager.COLOR_MODE` (`"dark"`) and `AccessibilityManager.CONTRAST_MODE` (`"contrast"`).
-- Getters renamed: `activatedColorMode`, `activatedContrastMode`.
-
-### SVGIconsManager
-
-New `svgicons.js`, exposed as `window.Wexa.icons`:
-
-- Static class. `SVGIconsManager.init(import.meta.url)` is called once in `wexa.js`.
-- `get(name)` — async; fetches `icons/mono-svg/{name}.svg` and caches the result.
-- `register(name, svgContent)` — pre-registers icon markup for bundle mode (no fetch).
-- Used by `AccessibilityManager` and `slides.init.js` to inject icon SVGs inline.
-
-### Layout
-
-- `flex-panel` items expand to full width on narrow screens (≤ 820 px).
-  `.width_10` … `.width_95` helpers also reset to `100%` on mobile.
-- Card inner zones renamed to avoid invalid HTML nesting:
-  `.card-header`, `.card-body`, `.card-footer` (was `<header>`, `<main>`, `<footer>`
-  inside `<article class="card">`). Use plain `<div>` elements.
-- `.scrolled-panel` uses `overflow: auto` (scrollbars appear only when content overflows).
-- `cards-panel` grid uses `minmax(min(var(--card-max-width), 100%), 1fr)`.
-
-### Buttons
-
-- New `.cta-button`: call-to-action button with small-caps, uppercase label and drop shadow.
-  Defined in `button.css` on `@layer base` — no `!important` needed.
-
-### book.css
-
-- Fixed `counter-reset: subssection` missing from `.ssection` — sub-section numbers now
-  reset correctly at the start of each section.
-- `@media print` block removed; print overrides moved to `print.css`.
-- `--numbers-color` split into `--numbers-bg-color` (badge background) and
-  `--numbers-fg-color` (text color inside the badge).
-
-### Dark mode
-
-- `code.css`: complete dark-mode palette for all Pygments token classes.
-  String types use a warm-orange foreground with `background-color: transparent`
-  (fixes invisible white-on-white text in dark mode).
-
-### Slides
-
-**View modes**
-
-- **Handout mode** (`d` key): all slides as a scrollable column, each preserving its 16:9
-  aspect ratio. Print layout uses `break-after: page`.
-- **Overview mode** (`o` key): accessible radio group, one button per slide (number + first
-  heading). Selecting a slide navigates to it and switches back to presentation mode.
-- **Memo mode** (`m` key): all slides as a scrollable column, each paired with its speaker
-  notes in a side-by-side grid (65 % slide / 35 % notes).
-  Slide content scaled with `transform: scale(0.65)`.
-- Pressing the active mode key again toggles back to presentation mode.
-  `ViewModeLogic.toggle(mode)` is the single implementation.
-- Incremental items (`.incremental`, `.incremental-invisible`) are fully visible in all
-  non-presentation modes.
-
-**Speaker notes HTML contract**
-
-Notes are `<aside for="slide-id" aria-label="Speaker notes">` siblings of
-`<section class="slide" id="slide-id">` — not embedded inside the slide.
-`aside[for]` is hidden by default and shown only in memo mode (`note_view.js`).
-
-**Help dialog**
-
-Pressing `h`, `H`, or `?` opens a modal keyboard-shortcut reference.
-`keyboard_controller.js`: `SHORTCUTS` static array is the single source of truth for all
-key bindings and their labels.
-
-**CSS theming architecture**
-
-`extras/slides.css` is split into two zones:
-- **Unlayered** (structural invariants): 32 px font size, 16:9 layout, transitions, controls
-  positioning. These rules are inviolable by themes.
-- **`@layer theme`** (visual defaults): `--custom-color1` / `--custom-color2`, heading font
-  families, gradients, border-image, figcaption color, quote marks. Theme files loaded after
-  `slides.css` override these within the same layer.
-
-**Integration**
-
-- `slides.init.js` is now included in `wexa.bundle.js`. Pages load it via a
-  protocol-detection block: `wexa.bundle.js` on `file://`, `slides.init.js` as
-  an ES module on `http(s)://`. Both paths read `data-*` from the same script element
-  and inject the same boilerplate. `note_view.js` and `help_dialog.js` added to the bundle.
-
-**Other**
-
-- New `--slide-bg-color` CSS variable: distinct background for slide content.
-- Accessibility controls container changed from `<div>` to `<nav class="nav-wexa">`.
-
-### Bug fixes
-
-- `ThemeManager.setDefault()`: theme from URL parameter now applied immediately at
-  construction time, fixing Shift+Reload not restoring the active theme on slides pages
-  loaded via a dynamically injected `<script type="module">`.
-- `slides.init.js` (`#initFromModules`): removed duplicate `AccessibilityManager`
-  instantiation. `wexa.js` already creates the singleton; creating a second instance
-  caused the dark/contrast state to desync after a hard reload.
-- `slides.css`: page counter color changed from `--custom-color1` to `--fg-color-alt`.
-- `wexa_theme_aurora.css`, `wexa_theme_highcontrast.css`: added `--body-bg-color` in
-  light and dark variants.
-
-### Minor fixes
-
-- `dialog.css`: `hidden-alert` correctly hides dialogs at load time; `dialog[role=alertdialog]`
-  gains `max-height: 80vh`, `min-width: min(28rem, 80vw)`, `overflow-y: auto`.
-- `slides.css`: fixed `:root.contrast` selector; removed debug artifact; dropped obsolete vendor
-  prefixes; scoped `li` and `q` rules to `.slide`; `color: var(--bg-color)` replaced by
-  `color: var(--custom-color1)` wherever `--custom-color2` is used as background.
-- `slides.css`: radio inputs inside view-mode controls visually hidden (`position: absolute`)
-  so label text is correctly centered.
-- `wexa.css`: added `label > [type=radio]` and `label > [type=checkbox]` hiding rule.
-- `sortatable.css`: copyright year corrected.
-- `toggleselect.css`: removed dead `.check-item:before` rule; `.action-button` renamed to
-  `.toggleselect-action` to avoid naming collisions.
-- `wexa_theme_highcontrast.css`: `--custom-color1`/`--custom-color2` fix applied to `.slide > h2`.
-
-## Version 3.1
-
-### Bug fixes
-
-- `AccessibilityManager`: `.dark` and `.contrast` classes are now applied to
-  `document.documentElement` (`:root`) instead of `document.body`, matching the documented
-  behavior. Previously, CSS variables defined in `.dark {}` were set on `body` and invisible
-  from `html`/`:root`, causing dark mode to fail in all themes (background, borders, shadows).
-- `wexa_theme.css`, `wexa_theme_aurora.css`, `wexa_theme_highcontrast.css`: `body.dark`
-  selectors migrated to `:root.dark`.
-- `wexa.css`: structural variables (`--border-width`, `--border-radius`, `--table-border-width`,
-  `--dialog-border-width`, `--dialog-border-radius`, `--dialog-box-shadow`) moved from
-  `:root:not(.dark)` to a plain `:root` block so they remain defined in dark mode.
-
-### Slides
-
-- `slides.init.js` (`SlidesInitializer`): new `#ensureMenuCss()` method auto-injects
-  `menu.css` into `<head>` when absent, removing the need to add it manually in module mode.
-- `slides.css`: all hardcoded `rem` values replaced with `calc(var(--font-size) * X)`.
-  Shared variables (`--screen-width`, `--height`, `--font-size`, `--line-height`,
-  `counter-reset`) refactored into a single selector covering all three view modes.
-- `slides.css`: `.slide` now carries `border` and `border-radius` in all view modes
-  (presentation, handout, memo).
-
-### Breaking changes
-
-| What changed | Old value | New value |
+| What changed | Old | New |
 |---|---|---|
-| CSS theme selector | `[data-theme=dark]` | `.dark` class on `:root` |
-| Card inner zones | `<header>`, `<main>`, `<footer>` inside `<article class="card">` | `<div class="card-header/body/footer">` |
-| Slide notes HTML | `<aside role="note">` inside `<section class="slide">` | `<aside for="slide-id">` sibling |
-| toggleselect action button | `.action-button` | `.toggleselect-action` |
-| book ToC nav class | `.side-nav` | `.book-toc` |
-| book number variable | `--numbers-color` | `--numbers-bg-color` / `--numbers-fg-color` |
-| Print styles | `@media print` blocks per file | `print.css` with `media="print"` |
-| Accessibility color button id | `btn-theme` | `btn-color` |
-| Accessibility button icons | `background-image` data-URI | inline SVG loaded by `SVGIconsManager` from `icons/mono-svg/*.svg` |
+| Theme selector | `[data-theme=dark]` | `.dark` on `:root` |
+| Card inner zones | `<header>`, `<main>`, `<footer>` | `.card-header`, `.card-body`, `.card-footer` |
+| Slide notes | `<aside role="note">` inside slide | `<aside for="slide-id">` sibling |
+| Toggleselect button | `.action-button` | `.toggleselect-action` |
+| Book ToC nav | `.side-nav` | `.book-toc` |
+| Book number variable | `--numbers-color` | `--numbers-bg-color` / `--numbers-fg-color` |
+| Print styles | `@media print` per file | `print.css` |
+| Accessibility button | `btn-theme` | `btn-color` |
 

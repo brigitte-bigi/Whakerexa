@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-05-20 17:20:21
+// Bundle automatically generated on 2026-05-21 21:40:50
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1759,12 +1759,12 @@ class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
     async #injectButtonIcons() {
         const contrast = document.getElementById('btn-contrast');
-        if (contrast && contrast.children.length === 0) {
-            contrast.innerHTML = await SVGIconsManager.get('contrast');
+        if (contrast) {
+            contrast.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('contrast'));
         }
         const color = document.getElementById('btn-color');
-        if (color && color.children.length === 0) {
-            color.innerHTML = await SVGIconsManager.get('color');
+        if (color) {
+            color.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('color'));
         }
     }
     // -----------------------------------------------------------------------
@@ -2533,6 +2533,7 @@ class ThemeManager extends BaseManager {
         this.#activeTheme = "";
         this.#defaultTheme = "";
         OnLoadManager.addLoadFunction(this.#loadFromUrl.bind(this));
+        OnLoadManager.addLoadFunction(this.#injectButtonIcon.bind(this));
     }
     // -----------------------------------------------------------------------
     // GETTERS
@@ -2611,6 +2612,13 @@ class ThemeManager extends BaseManager {
     }
     // -----------------------------------------------------------------------
     // PRIVATE METHODS
+    // -----------------------------------------------------------------------
+    async #injectButtonIcon() {
+        const btn = document.getElementById('btn-css-theme');
+        if (btn) {
+            btn.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('theme'));
+        }
+    }
     // -----------------------------------------------------------------------
     #applyLink(path) {
         let link = document.getElementById(ThemeManager.LINK_ID);

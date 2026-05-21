@@ -333,12 +333,12 @@ export class AccessibilityManager extends BaseManager {
      */
     async #injectButtonIcons() {
         const contrast = document.getElementById('btn-contrast');
-        if (contrast && contrast.children.length === 0) {
-            contrast.innerHTML = await SVGIconsManager.get('contrast');
+        if (contrast) {
+            contrast.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('contrast'));
         }
         const color = document.getElementById('btn-color');
-        if (color && color.children.length === 0) {
-            color.innerHTML = await SVGIconsManager.get('color');
+        if (color) {
+            color.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('color'));
         }
     }
 

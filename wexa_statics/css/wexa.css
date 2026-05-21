@@ -1025,6 +1025,10 @@ This banner notice must not be removed.
         display: inline-block;
     }
 
+    pre code {
+        background: transparent;
+    }
+
     pre {
         font-family: var(--font-family-pre);
         font-size: calc(0.9 * var(--font-size));
@@ -1033,9 +1037,10 @@ This banner notice must not be removed.
         padding-bottom: calc(0.35*var(--typography-spacing-vertical));
         padding-left: var(--typography-spacing-horizontal);
         margin-left: var(--typography-spacing-horizontal);
+        margin-top: var(--typography-spacing-horizontal);
         margin-bottom: var(--typography-spacing-horizontal);
         overflow: auto;
-        border-left: calc(2*var(--border-width)) solid var(--shadow-color);
+        border-left: calc(2*var(--border-width)) solid var(--border-color-alt);
     }
     
     ins {
