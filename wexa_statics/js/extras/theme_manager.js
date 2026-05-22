@@ -251,10 +251,7 @@ export class ThemeManager extends BaseManager {
      * @returns {Promise<void>}
      */
     async #injectButtonIcon() {
-        const btn = document.getElementById('btn-css-theme');
-        if (btn) {
-            btn.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('theme'));
-        }
+        await SVGIconsManager.inject(document.getElementById('btn-css-theme'), 'theme');
     }
 
     // -----------------------------------------------------------------------

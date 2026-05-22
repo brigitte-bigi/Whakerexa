@@ -300,6 +300,7 @@ body.note-view {
     --screen-width: calc(1024px / var(--slides-size-divisor));
     --height: calc(var(--screen-width) * 9 / 16);
     --font-size: calc(30px / var(--slides-fontsize-divisor));
+    --slides-nav-font-size: calc(var(--font-size) * 0.5);
     counter-reset: slides;
 }
 
@@ -607,9 +608,11 @@ body.presentation-view {
     padding-bottom: 0;
 }
 
+#nav-content .menuitem,
+#nav-content [role=menuitem],
 #slides-controls-view .menuitem,
-#slides-controls-view [role=menuitem]  {
-    font-size: calc(var(--font-size) * 0.5);
+#slides-controls-view [role=menuitem] {
+    font-size: var(--slides-nav-font-size, var(--font-size));
     font-weight: normal;
 }
 

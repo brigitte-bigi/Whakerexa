@@ -184,12 +184,12 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Print styles moved to a separate `print.css` loaded with `media="print"`.
 - Alternative themes are standalone CSS files containing only an `@layer theme` block. Three themes are provided: `wexa_theme` (navy/teal), `aurora` (blue/mauve/violet) and `highcontrast`.
 - New `ThemeManager` class: registers named themes, cycles through them, and persists the choice via URL parameter.
-- New `SVGIconsManager` class: loads SVG icons from `icons/mono-svg/` and injects them inline so they inherit `currentColor`.
+- New `SVGIconsManager` class: loads SVG icons from `icons/mono-svg/` and injects them inline so they inherit `currentColor`. `inject(element, name)` guards against double-injection. In bundle mode, icons are pre-registered at build time — no `fetch()` required on `file://`.
 - `AccessibilityManager` manages exactly two modes — color (light/dark) and contrast (normal/high). Methods renamed to `switchColorScheme()` and `switchContrastScheme()`.
 - Card inner zones renamed: use `<div class="card-header">`, `.card-body`, `.card-footer` inside `<article class="card">`.
 - New `.cta-button` class in `button.css`.
 - `code.css`: complete dark-mode color palette.
-- Slides: new handout (`d`), overview (`o`) and memo (`m`) view modes. Speaker notes are now `<aside for="slide-id">` siblings, not nested inside the slide. A help dialog (`h` / `?`) lists all keyboard shortcuts. The slides loader auto-detects `file://` vs `http(s)://` and loads the bundle or ES module accordingly.
+- Slides: new handout (`d`), overview (`o`) and memo (`m`) view modes. Speaker notes are now `<aside for="slide-id">` siblings, not nested inside the slide. A help dialog (`h` / `?`) lists all keyboard shortcuts. The slides loader auto-detects `file://` vs `http(s)://` and loads the bundle or ES module accordingly. Nav control font-size is controlled by `--slides-nav-font-size`, defined per view mode.
 
 **Breaking changes:**
 
@@ -203,4 +203,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 | Book number variable | `--numbers-color` | `--numbers-bg-color` / `--numbers-fg-color` |
 | Print styles | `@media print` per file | `print.css` |
 | Accessibility button | `btn-theme` | `btn-color` |
+
 

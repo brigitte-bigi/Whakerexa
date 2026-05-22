@@ -87,7 +87,8 @@ export class SVGIconsManager {
      * @returns {void}
      */
     static init(metaUrl) {
-        SVGIconsManager.#base = new URL('../icons/mono-svg/', metaUrl).href;
+        const base = metaUrl !== null ? metaUrl : (document.currentScript && document.currentScript.src);
+        SVGIconsManager.#base = new URL('../icons/mono-svg/', base).href;
         WexaLogger.debug('SVGIconsManager: base URL set to ' + SVGIconsManager.#base);
     }
 
@@ -105,6 +106,23 @@ export class SVGIconsManager {
      */
     static register(name, svgContent) {
         SVGIconsManager.#cache.set(name, svgContent);
+    }
+
+    /**
+     * Inject an icon into an element only if it does not already contain an SVG.
+     *
+     * @param {HTMLElement} element - Target element.
+     * @param {string}      name    - Icon name passed to get().
+     * @returns {Promise<void>}
+     */
+    static async inject(element, name) {
+        if (element === null || element === undefined) {
+            return;
+        }
+        if (element.querySelector('svg') !== null) {
+            return;
+        }
+        element.insertAdjacentHTML('afterbegin', await SVGIconsManager.get(name));
     }
 
     // -----------------------------------------------------------------------

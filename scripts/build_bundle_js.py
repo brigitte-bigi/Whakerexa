@@ -36,6 +36,7 @@ This banner notice must not be removed.
 -------------------------------------------------------------------------
 """
 
+import json
 import os
 import re
 from datetime import datetime
@@ -65,6 +66,7 @@ JS_FILES = [
     os.path.join('extras', 'slides', 'slides.js'),
 
     'dom-loader.js',
+    'svgicons.js',
     'accessibility.js',
     'menu.js',
     'dialog.js',
@@ -83,6 +85,9 @@ MODULE_NAME = "Wexa"
 
 # Output
 JS_BUNDLE = os.path.join(JS_FOLDER, "wexa.bundle.js")
+
+# SVG icons folder (relative to JS_FOLDER's parent)
+ICONS_FOLDER = os.path.join(os.path.dirname(JS_FOLDER), "icons", "mono-svg")
 
 # ---------------------------------------------------------------------------
 
@@ -314,60 +319,87 @@ def generate_wexa_exports(class_names, module_name):
 # ---------------------------------------------------------------------------
 
 
+def generate_svg_preregistration(icons_folder):
+    """Inline all SVG files as SVGIconsManager.register() calls for bundle mode."""
+    out = ['\n// ---------------- SVG icons (pre-registered for file:// mode) ---------------\n']
+    for svg_file in sorted(os.listdir(icons_folder)):
+        if not svg_file.endswith('.svg'):
+            continue
+        name = svg_file[:-4]
+        svg_path = os.path.join(icons_folder, svg_file)
+        with open(svg_path, 'r', encoding='utf-8') as fp:
+            svg_content = fp.read().replace('\\', '\\\\').replace('`', '\\`')
+        out.append(f"SVGIconsManager.register({repr(name)}, {json.dumps(svg_content)});\n")
+    return ''.join(out)
+
+
+def process_js_file(filepath, filename):
+    """Read, transform and return bundle content for one JS file."""
+    with open(filepath, "r", encoding="utf-8") as fp:
+        content = fp.read()
+    content = remove_jsdoc(content)
+    content = remove_empty_lines(content)
+    content = remove_export_blocks(content)
+    content = remove_exports(content)
+    content = remove_imports(content)
+    content = replace_import_meta_url(content)
+    if filename.endswith('slides.init.js'):
+        content = remove_toplevel_await(content)
+    return content
+
+
 if __name__ == '__main__':
 
     # Lines of the bundle, stored in a list
     buffer = list()
 
-    # Load and store each defined JS module
-    # -------------------------------------
-    for filename in JS_FILES:
+    # slides.init.js must run after wexa.js so window.Wexa is fully set up
+    # when its entry point executes. Process it separately at the end.
+    SLIDES_INIT = os.path.join('extras', 'slides', 'slides.init.js')
 
-        # Full JS file path
+    # Load and store each JS module except slides.init.js
+    # ----------------------------------------------------
+    for filename in JS_FILES:
+        if filename == SLIDES_INIT:
+            continue
+
         filepath = os.path.join(JS_FOLDER, filename)
         if os.path.exists(filepath) is False:
             raise FileNotFoundError(f'Missing JS module: {filepath}')
 
-        # Header separator for readability.
         buffer.append(f'\n// ---------------- {filename} ---------------\n')
-
-        # JS file content
-        with open(filepath, "r", encoding="utf-8") as fp:
-            content = fp.read()
-            content = remove_jsdoc(content)
-            # content = remove_block_comments(content)
-            content = remove_empty_lines(content)
-            content = remove_export_blocks(content)
-            content = remove_exports(content)
-            content = remove_imports(content)
-            if filename.endswith('slides.init.js'):
-                content = replace_import_meta_url(content)
-                content = remove_toplevel_await(content)
+        content = process_js_file(filepath, filename)
         buffer.append(content)
 
-        # --- Extract class names in this module
         class_names = extract_class_names(content)
-
-        # --- Generate export lines for these classes
         if class_names:
-            export_block = generate_wexa_exports(class_names, MODULE_NAME)
-            buffer.append(export_block)
+            buffer.append(generate_wexa_exports(class_names, MODULE_NAME))
 
-    # The JS main module
-    # ------------------
+    # SVG icons pre-registration — must run after SVGIconsManager is defined
+    # ----------------------------------------------------------------------
+    if os.path.isdir(ICONS_FOLDER):
+        buffer.append(generate_svg_preregistration(ICONS_FOLDER))
 
-    # File check
+    # The JS main module (wexa.js) — sets up window.Wexa
+    # ---------------------------------------------------
     main_module_path = os.path.join(JS_FOLDER, JS_MODULE)
     if os.path.exists(main_module_path) is True:
         buffer.append(f"\n// ---------------- {JS_MODULE} ---------------\n")
-        with open(main_module_path, "r", encoding="utf-8") as fp:
-            content = fp.read()
-            content = remove_jsdoc(content)
-            content = remove_empty_lines(content)
-            content = remove_export_blocks(content)
-            content = remove_exports(content)
-            content = remove_imports(content)
-            buffer.append(content)
+        content = process_js_file(main_module_path, JS_MODULE)
+        buffer.append(content)
+
+    # slides.init.js entry point — runs after window.Wexa is ready
+    # -------------------------------------------------------------
+    if SLIDES_INIT in JS_FILES:
+        filepath = os.path.join(JS_FOLDER, SLIDES_INIT)
+        if os.path.exists(filepath) is False:
+            raise FileNotFoundError(f'Missing JS module: {filepath}')
+        buffer.append(f'\n// ---------------- {SLIDES_INIT} ---------------\n')
+        content = process_js_file(filepath, SLIDES_INIT)
+        buffer.append(content)
+        class_names = extract_class_names(content)
+        if class_names:
+            buffer.append(generate_wexa_exports(class_names, MODULE_NAME))
 
     # Output bundle
     # -------------

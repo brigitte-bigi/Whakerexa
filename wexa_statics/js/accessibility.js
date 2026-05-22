@@ -332,14 +332,8 @@ export class AccessibilityManager extends BaseManager {
      * @returns {Promise<void>}
      */
     async #injectButtonIcons() {
-        const contrast = document.getElementById('btn-contrast');
-        if (contrast) {
-            contrast.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('contrast'));
-        }
-        const color = document.getElementById('btn-color');
-        if (color) {
-            color.insertAdjacentHTML('afterbegin', await SVGIconsManager.get('color'));
-        }
+        await SVGIconsManager.inject(document.getElementById('btn-contrast'), 'contrast');
+        await SVGIconsManager.inject(document.getElementById('btn-color'), 'color');
     }
 
     // -----------------------------------------------------------------------
