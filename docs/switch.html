@@ -1,89 +1,128 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <title>Switch — Whakerexa</title>
+
+    <title>Switch • Whakerexa</title>
+
     <meta charset="utf-8" />
-    <meta name="color-scheme" content="light dark" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="web, css, html5, framework, accessibility, disability"/>
+
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
     <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
-    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-    <script>
-        (function () {
-            const usingFile = (window.location.protocol === 'file:');
-            const s = document.createElement('script');
-            if (usingFile) {
-                s.src = '../wexa_statics/js/wexa.bundle.js';
-                s.addEventListener('load', function () {
-                    if (window.Wexa && window.Wexa.ThemeManager) {
-                        const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                        t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                        t.setDefault('wexa_theme');
-                        window.themes = t;
-                    }
-                });
-            } else {
-                s.type = 'module';
-                s.src = '../wexa_statics/js/wexa.js';
-            }
-            document.head.appendChild(s);
-        })();
-    </script>
-    <script type="module">
-        import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
-        const themes = new ThemeManager();
-        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-        themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-        themes.setDefault('wexa_theme');
-        window.themes = themes;
-    </script>
+    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
+
+    <style>
+        :root {
+            --header-height: 2rem;
+            --header-bg-color: transparent;
+            --header-fg-color: var(--fg-color-alt);
+            --header-slidein:  none;
+            --nav-min-height:  0;
+            --nav-min-width:   max(calc(4rem / var(--size-divisor)), 3rem);
+            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
+            --nav-item-width-v-expanded:  calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
+        }
+    </style>
+
 </head>
+
 <body>
+
 
 <header id="header-content">
     <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
-    <h1>Switch</h1>
-</header>
-<nav class="nav-wexa top" aria-label="Page navigation">
-    <a class="menuitem" href="index.html" aria-label="Back" title="Back">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <polyline points="20 24 12 16 20 8" />
+    <button id="menu-button" aria-controls="nav-content" aria-expanded="false"
+            aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6"  x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
-    </a>
-    <button id="btn-css-theme" class="menuitem" type="button"
-            aria-label="Switch CSS theme" title="Switch CSS theme"
-            onclick="window.themes && window.themes.next()">
     </button>
-    <button id="btn-contrast" class="menuitem accessibility"
-            aria-label="contrast" aria-pressed="false"
-            onclick="Wexa.accessibility.switchContrastScheme()"></button>
-    <button id="btn-color" class="menuitem accessibility"
-            aria-label="color" aria-pressed="false"
-            onclick="Wexa.accessibility.switchColorScheme()"></button>
+    <input type="checkbox" id="mobile" role="button"
+           aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+    <p>Whakerexa > Components > Forms</p>
+</header>
+
+<nav id="nav-content" class="nav-wexa side collapsible" aria-label="Page navigation">
+
+    <section>
+        <button aria-label="Pin menu"
+                id="pin-menu" type="button"
+                aria-controls="nav-content"
+                aria-pressed="true"
+                title="Pin menu"
+                class="menuitem menu-pin">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-label="Pushpin">
+                <path d="M9 3h6l-1 8H10L9 3z"/>
+                <path d="M7 13h10"/>
+                <path d="M12 13v9"/>
+            </svg>
+        </button>
+    </section>
+
+    <section>
+        <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <polyline points="20 24 12 16 20 8"/>
+            </svg>
+            <span>Back</span>
+        </a>
+        <button id="btn-css-theme" class="menuitem" type="button"
+                aria-label="Switch CSS theme" title="Switch CSS theme"
+                onclick="window.themes && window.themes.next()">
+            <span>Theme</span>
+        </button>
+        <button id="btn-contrast" class="menuitem accessibility"
+                aria-label="contrast" aria-pressed="false"
+                onclick="Wexa.accessibility.switchContrastScheme()">
+            <span>Contrast</span>
+        </button>
+        <button id="btn-color" class="menuitem accessibility"
+                aria-label="color" aria-pressed="false"
+                onclick="Wexa.accessibility.switchColorScheme()">
+            <span>Color</span>
+        </button>
+    </section>
+
 </nav>
+
 <main id="main-content">
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
 
     <h1>Switch</h1>
     <p>
-        A toggle switch is a styled checkbox that mimics an on/off control.
-        Load <code>button.css</code> and wrap a checkbox input inside a <code>.switch</code> label.
+        Load <code>button.css</code> to use toggle switches.
+        A switch is a styled checkbox: wrap an <code>&lt;input type="checkbox"&gt;</code>
+        inside a <code>&lt;label class="switch"&gt;</code> and add a
+        <code>&lt;span class="switch-slider"&gt;</code> for the visual track and knob.
+        No JavaScript required.
     </p>
-
-    <!-- ============================================================ -->
-    <section id="basic">
 
         <h2>Without text</h2>
         <p>
-            Add <code>.switch-no-text</code> to the slider span for an icon-only knob.
-            Add <code>.round</code> for a pill shape.
+            The minimal form uses only the slider span with <code>.switch-no-text</code>.
+            Add <code>.round</code> to the slider span for a pill-shaped track.
+        </p>
+        <p>
+            <strong>Accessibility.</strong>
+            The slider is a purely decorative CSS element — it carries no text.
+            The underlying <code>&lt;input&gt;</code> must therefore have an explicit
+            <code>aria-label</code> so screen readers can announce the control's purpose.
+            The checkbox is keyboard-reachable (Tab) and toggled with Space,
+            without any JavaScript.
         </p>
 
         <article class="card-doc" aria-label="Switch without text — example">
@@ -109,15 +148,68 @@
 &lt;/label&gt;</code></pre>
         </article>
 
+        <h3>Variables</h3>
+        <p>Size and colors are controlled by the following variables:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Role</th>
+                    <th>Default</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--switch-width</code></td>
+                    <td>Total width of the track</td>
+                    <td><code>calc(var(--font-size) * 5)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-height</code></td>
+                    <td>Total height of the track</td>
+                    <td><code>calc(var(--font-size) * 2.8)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-bg-color</code></td>
+                    <td>Track background when ON</td>
+                    <td><code>var(--inputs-bg-color)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-fg-color</code></td>
+                    <td>Track background when OFF</td>
+                    <td><code>var(--bg-color-alt)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-slider-off-color</code></td>
+                    <td>Knob color when OFF</td>
+                    <td><code>var(--fg-color-alt)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-slider-on-color</code></td>
+                    <td>Knob color when ON</td>
+                    <td><code>var(--fg-color)</code></td>
+                </tr>
+                <tr>
+                    <td><code>--switch-slider-unselected-opacity</code></td>
+                    <td>Visibility of the inactive text label</td>
+                    <td><code>0</code></td>
+                </tr>
+            </tbody>
+        </table>
+
     </section>
 
     <!-- ============================================================ -->
-    <section id="with-text">
+    <section class="panel-item">
 
         <h2>With text labels</h2>
         <p>
             Place a <code>.switch-off-text</code> and a <code>.switch-on-text</code> span
             inside the slider to label each state.
+            The visible text does not replace the accessible name:
+            keep <code>aria-label</code> on the <code>&lt;input&gt;</code> to describe
+            what the switch controls, not just its current state.
         </p>
 
         <article class="card-doc" aria-label="Switch with text labels — example">
@@ -156,12 +248,13 @@
     </section>
 
     <!-- ============================================================ -->
-    <section id="sizing">
+    <section class="panel-item">
 
         <h2>Custom size</h2>
         <p>
             Override <code>--switch-width</code> and <code>--switch-height</code> inline
             to resize a specific switch without affecting others.
+            The knob and text labels scale automatically with the track.
         </p>
 
         <article class="card-doc" aria-label="Switch custom size — example">
@@ -189,67 +282,78 @@
 
     </section>
 
-    <!-- ============================================================ -->
-    <section id="variables">
-
-        <h2>CSS variables</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Variable</th>
-                    <th>Role</th>
-                    <th>Default</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>--switch-width</code></td>
-                    <td>Total width</td>
-                    <td><code>calc(var(--font-size) * 5)</code></td>
-                </tr>
-                <tr>
-                    <td><code>--switch-height</code></td>
-                    <td>Total height</td>
-                    <td><code>calc(var(--font-size) * 2.8)</code></td>
-                </tr>
-                <tr>
-                    <td><code>--switch-bg-color</code></td>
-                    <td>Track background when ON</td>
-                    <td><code>var(--inputs-bg-color)</code></td>
-                </tr>
-                <tr>
-                    <td><code>--switch-fg-color</code></td>
-                    <td>Track background when OFF</td>
-                    <td><code>var(--bg-color-alt)</code></td>
-                </tr>
-                <tr>
-                    <td><code>--switch-slider-off-color</code></td>
-                    <td>Knob color when OFF</td>
-                    <td><code>var(--fg-color-alt)</code></td>
-                </tr>
-                <tr>
-                    <td><code>--switch-slider-on-color</code></td>
-                    <td>Knob color when ON</td>
-                    <td><code>var(--fg-color)</code></td>
-                </tr>
-            </tbody>
-        </table>
-
-    </section>
 
 </main>
 
-    <footer>
-        <p class="center">This site respects your privacy.</p>
-        <p class="center">We do not collect any information and do not use cookies.</p>
-        <hr>
-        <p>Copyright @ 2023-2026 Brigitte Bigi, CNRS<br>
-            Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-        <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
-            This document is under the terms of the GNU Free Documentation License, v1.3.</a>
-        </p>
-    </footer>
+<footer>
+    <p class="center">This site respects your privacy.</p>
+    <p class="center">We do not collect any information and do not use cookies.</p>
+    <hr>
+    <p>Copyright @ 2023-2026 Brigitte Bigi, CNRS<br>
+        Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
+        This document is under the terms of the GNU Free Documentation License, v1.3.</a>
+    </p>
+</footer>
+
+<script>
+    (function () {
+        function initMenu() {
+            if (!window.Wexa || !window.Wexa.MenuManager) {
+                return false;
+            }
+            const m = new window.Wexa.MenuManager();
+            window.mainmenu = m;
+            m.initSideMenu();
+            m.initMobileToggle();
+            return true;
+        }
+        function start() {
+            const t = setInterval(function () {
+                if (initMenu()) {
+                    clearInterval(t);
+                }
+            }, 20);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', start, { once: true });
+        } else {
+            start();
+        }
+    })();
+</script>
+
+<!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+<script>
+    (function () {
+        const usingFile = (window.location.protocol === 'file:');
+        const s = document.createElement('script');
+        if (usingFile) {
+            s.src = '../wexa_statics/js/wexa.bundle.js';
+            s.addEventListener('load', function () {
+                if (window.Wexa && window.Wexa.ThemeManager) {
+                    const t = new window.Wexa.ThemeManager();
+                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                    window.themes = t;
+                }
+            });
+        } else {
+            s.type = 'module';
+            s.src = '../wexa_statics/js/wexa.js';
+        }
+        document.head.appendChild(s);
+    })();
+</script>
+<script type="module">
+    import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
+    const themes = new ThemeManager();
+        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+    themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+    window.themes = themes;
+</script>
 
 </body>
 </html>

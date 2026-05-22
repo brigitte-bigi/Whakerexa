@@ -116,6 +116,11 @@
 
     --shadow-color: rgba(95, 50, 200, 0.14);
 
+    --switch-bg-color:          var(--progress-bg-color);
+    --switch-fg-color:          var(--progress-fg-color);
+    --switch-slider-off-color:  var(--buttons-bg-color);
+    --switch-slider-on-color:   var(--buttons-fg-color);
+
 }
 
 
@@ -178,6 +183,11 @@
         --progress-fg-color: rgb(145, 108, 255);
 
     --shadow-color: rgba(120, 80, 255, 0.28);
+
+    --switch-bg-color:          var(--bg-color-alt);
+    --switch-fg-color:          var(--bg-color);
+    --switch-slider-off-color:  var(--fg-color-alt);
+    --switch-slider-on-color:   var(--buttons-bg-color);
 }
 
 
@@ -372,12 +382,6 @@
     label.switch {
         --switch-width:  calc(2.625 * var(--font-size));
         --switch-height: calc(1.375 * var(--font-size));
-    }
-
-    .switch-slider {
-        --switch-bg-color:         var(--border-color);
-        --switch-slider-off-color: var(--buttons-fg-color);
-        --switch-slider-on-color:  var(--buttons-bg-color);
     }
 
     /* ── Article: card with Aurora gradient ──────────────────────────────── */
