@@ -12,6 +12,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css">
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all">
 
     <style>
         :root {
@@ -72,16 +73,10 @@
             <p>Not convinced? Take a look at the source code of this page!</p>
 
             <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
-            <pre>
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/wexa.css"
-    media="all" /&gt;
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/layout.css"
-    media="all" /&gt;
-            </pre>
+            <pre class="dark"><code>&lt;link rel="stylesheet"
+    href=".../wexa_statics/css/wexa.css" media="all" /&gt;
+&lt;link rel="stylesheet"
+    href=".../wexa_statics/css/layout.css" media="all" /&gt;</code></pre>
 
 
             <h2>The containers</h2>
@@ -104,17 +99,8 @@
                 a <code>section</code> or an <code>article</code> in a more appropriate manner,
                 unlike a <code>div</code>!</p>
 
-            <div class="flex-panel">
-                <div class="flex-item">
-                    <pre>&lt;article class="card"&gt;
-    &lt;div class="card-body"&gt;
-        &lt;h2&gt;card title&lt;/h2&gt;
-        &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
-        &lt;a href="#somewhere"&gt;Convinced!&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/article&gt;</pre>
-                </div>
-                <div class="flex-item">
+            <article class="card-doc" aria-label="Simple card — example">
+                <div class="card-view">
                     <article class="card" id="somewhere1">
                         <div class="card-body">
                             <h2>card title</h2>
@@ -123,24 +109,18 @@
                         </div>
                     </article>
                 </div>
-            </div>
+                <pre class="dark"><code>&lt;article class="card"&gt;
+    &lt;div class="card-body"&gt;
+        &lt;h2&gt;card title&lt;/h2&gt;
+        &lt;p&gt;Content...&lt;/p&gt;
+        &lt;a href="#somewhere"&gt;Convinced!&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+            </article>
 
             <p>A card can be divided into three zones:</p>
-            <div class="flex-panel">
-                <div class="flex-item">
-                    <pre>&lt;article class="card"&gt;
-    &lt;div class="card-header"&gt;
-        &lt;h2&gt;card title&lt;/h2&gt;
-    &lt;/div&gt;
-    &lt;div class="card-body"&gt;
-        &lt;p&gt;multi-line card content... the text wraps when needed!&lt;/p&gt;
-    &lt;/div&gt;
-    &lt;div class="card-footer"&gt;
-        &lt;a href="#somewhere"&gt;Footer link!&lt;/a&gt;
-    &lt;/div&gt;
-&lt;/article&gt;</pre>
-                </div>
-                <div class="flex-item">
+            <article class="card-doc" aria-label="Card with header, body and footer — example">
+                <div class="card-view">
                     <article class="card" id="somewhere2">
                         <div class="card-header"><h2>card title</h2></div>
                         <div class="card-body">
@@ -151,7 +131,14 @@
                         </div>
                     </article>
                 </div>
-            </div>
+                <pre class="dark"><code>&lt;article class="card"&gt;
+    &lt;div class="card-header"&gt;&lt;h2&gt;card title&lt;/h2&gt;&lt;/div&gt;
+    &lt;div class="card-body"&gt;&lt;p&gt;Content...&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="card-footer"&gt;
+        &lt;a href="#somewhere"&gt;Footer link!&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+            </article>
 
             <h2>The variables</h2>
             <p><code>layout.css</code> allows to override the following variables:</p>
@@ -209,7 +196,7 @@
             </table>
 
             <p>Example: override variables in the <code>&lt;head&gt;</code> (after the CSS links):</p>
-            <pre>&lt;style&gt;
+            <pre class="dark"><code>&lt;style&gt;
     :root {
         --card-bg-color: rgb(230, 240, 255);
         --card-fg-color: rgb(10, 30, 80);
@@ -219,7 +206,7 @@
         --card-border-radius: 0.8rem;
         --card-box-shadow: none;
     }
-&lt;/style&gt;</pre>
+&lt;/style&gt;</code></pre>
 
         </section>
 
@@ -231,84 +218,110 @@
             <p><em>Note:</em> images used in this page are decorative; keeping <code>alt=""</code> is intended.</p>
 
             <h3>Create cards in a section with article elements</h3>
-            <section class="cards-panel">
-
-                <article class="card">
-                    <div class="card-header">
-                        <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
-                    </div>
-                    <div class="card-body">
-                        <h2>SPPAS card instance</h2>
-                        <p>An amazing software tool.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="https://sppas.org/">SPPAS web site</a>
-                    </div>
-                </article>
-
-                <article class="card" id="somewhere3">
-                    <div class="card-header">
-                        <img src="images/cards.png" alt="">
-                    </div>
-                    <div class="card-body">
-                        <h2>A card</h2>
-                        <p>Le read more ci-dessous est un lien avec role button.</p>
-                        <a id="desc-a-card" href="#somewhere3">Read more →</a>
-                    </div>
-                    <div class="card-footer">
-                        <p>This is a text inside the footer of the card.</p>
-                    </div>
-                </article>
-
-                <article class="card">
-                    <div class="card-header">
-                        <h2>Header</h2>
-                    </div>
-                    <div class="card-body">
-                        <h2>Another card instance</h2>
-                        <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
-                        <button id="desc-third-card-instance">Read more →</button>
-                    </div>
-                    <div class="card-footer">
-                        <p>This is a text inside the footer of the card.</p>
-                    </div>
-                </article>
-
-            </section>
+            <article class="card-doc" aria-label="cards-panel — example">
+                <div class="card-view">
+                    <section class="cards-panel">
+                        <article class="card">
+                            <div class="card-header">
+                                <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
+                            </div>
+                            <div class="card-body">
+                                <h2>SPPAS card instance</h2>
+                                <p>An amazing software tool.</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://sppas.org/">SPPAS web site</a>
+                            </div>
+                        </article>
+                        <article class="card" id="somewhere3">
+                            <div class="card-header">
+                                <img src="images/cards.png" alt="">
+                            </div>
+                            <div class="card-body">
+                                <h2>A card</h2>
+                                <p>Le read more ci-dessous est un lien avec role button.</p>
+                                <a id="desc-a-card" href="#somewhere3">Read more →</a>
+                            </div>
+                            <div class="card-footer">
+                                <p>This is a text inside the footer of the card.</p>
+                            </div>
+                        </article>
+                        <article class="card">
+                            <div class="card-header">
+                                <h2>Header</h2>
+                            </div>
+                            <div class="card-body">
+                                <h2>Another card instance</h2>
+                                <p>Cupidatat tempor sint mollit in tempor ut fugiat excepteur laborum labore.</p>
+                                <button id="desc-third-card-instance">Read more →</button>
+                            </div>
+                            <div class="card-footer">
+                                <p>This is a text inside the footer of the card.</p>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+                <pre class="dark"><code>&lt;section class="cards-panel"&gt;
+    &lt;article class="card"&gt;
+        &lt;div class="card-header"&gt;...&lt;/div&gt;
+        &lt;div class="card-body"&gt;...&lt;/div&gt;
+        &lt;div class="card-footer"&gt;...&lt;/div&gt;
+    &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+            </article>
 
             <p>Not implemented yet: horizontal card -- any help is welcome!</p>
-            <article class="card card-horiz">
-                <div class="card-header">
-                    <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
+            <article class="card-doc" aria-label="Horizontal card — example">
+                <div class="card-view">
+                    <article class="card card-horiz">
+                        <div class="card-header">
+                            <img src="https://sppas.org/whakerkit/icons/flav64.png" alt="">
+                        </div>
+                        <div class="card-body">
+                            <h2>Horizontal card</h2>
+                            <p>with dark and high contrast</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="https://sppas.org/">Some footer</a>
+                        </div>
+                    </article>
                 </div>
-                <div class="card-body">
-                    <h2>Horizontal card</h2>
-                    <p>with dark and high contrast</p>
-                </div>
-                <div class="card-footer">
-                    <a href="https://sppas.org/">Some footer</a>
-                </div>
+                <pre class="dark"><code>&lt;article class="card card-horiz"&gt;
+    &lt;div class="card-header"&gt;...&lt;/div&gt;
+    &lt;div class="card-body"&gt;...&lt;/div&gt;
+    &lt;div class="card-footer"&gt;...&lt;/div&gt;
+&lt;/article&gt;</code></pre>
             </article>
 
             <h3>Create cards in a full-cards-panel</h3>
-
-            <section class="full-cards-panel">
-                <article class="card full-card">
-                    <div class="card-header">
-                        <img src="https://sppas.org/etc/images/background-header.png" alt="">
-                    </div>
-                    <div class="card-body">
-                        <p>SPPAS offers open source cross-platform, customizable automatic annotation
-                            and analysis solutions for audio and video media.</p>
-                        <p>SPPAS was awarded by the French Ministry of Higher Education, Research and
-                            Innovation at the 2022 Open Source Research Software Competition.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="https://sppas.org/">More about SPPAS</a>
-                        <a href="https://sppas.sf.net/">Get it!</a>
-                    </div>
-                </article>
-            </section>
+            <article class="card-doc" aria-label="full-cards-panel — example">
+                <div class="card-view">
+                    <section class="full-cards-panel" style="width: 100%;">
+                        <article class="card full-card">
+                            <div class="card-header">
+                                <img src="https://sppas.org/etc/images/background-header.png" alt="">
+                            </div>
+                            <div class="card-body">
+                                <p>SPPAS offers open source cross-platform, customizable automatic annotation
+                                    and analysis solutions for audio and video media.</p>
+                                <p>SPPAS was awarded by the French Ministry of Higher Education, Research and
+                                    Innovation at the 2022 Open Source Research Software Competition.</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="https://sppas.org/">More about SPPAS</a>
+                                <a href="https://sppas.sf.net/">Get it!</a>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+                <pre class="dark"><code>&lt;section class="full-cards-panel"&gt;
+    &lt;article class="card full-card"&gt;
+        &lt;div class="card-header"&gt;...&lt;/div&gt;
+        &lt;div class="card-body"&gt;...&lt;/div&gt;
+        &lt;div class="card-footer"&gt;...&lt;/div&gt;
+    &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+            </article>
 
         </section>
     </main>

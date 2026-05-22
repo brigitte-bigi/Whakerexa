@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
   <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+  <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
   <script>
       (function () {
@@ -95,11 +96,21 @@
       is updated on the client side every second without any server communication.
     </p>
 
-    <button id="start-progress">Start demo</button>
-
-    <p id="progress-header">Ready to start…</p>
-    <progress id="demo-progress" max="100" value="0"></progress>
-    <p id="progress-text">Click the button to launch the demo.</p>
+    <article class="card-doc" aria-label="ProgressBar bundle — managed mode demo">
+      <div class="card-view" style="flex-direction: column;">
+        <button id="start-progress">Start demo</button>
+        <p id="progress-header">Ready to start…</p>
+        <progress id="demo-progress" max="100" value="0"></progress>
+        <p id="progress-text">Click the button to launch the demo.</p>
+      </div>
+      <pre class="dark"><code>const bar = new Wexa.ProgressBar({
+    updateCallback: async () => ({ percent: next, text: `${next}%`, header: ‘Running…’ }),
+    completeCallback: () => { el.textContent = ‘Done!’; },
+    domIds: { percent: ‘demo-progress’, text: ‘progress-text’, header: ‘progress-header’ },
+    intervalMs: 1000
+});
+bar.start();</code></pre>
+    </article>
   </section>
 
   <section>
@@ -108,11 +119,18 @@
       The dialog below is opened and closed using <code>DialogManager</code> provided by the bundle.
     </p>
 
-    <dialog id="demo-dialog" role="alertdialog" class="info">
-      <p>This dialog is controlled by Whakerexa’s DialogManager.</p>
-    </dialog>
-
-    <button id="open-dialog">Open dialog</button>
+    <article class="card-doc" aria-label="DialogManager bundle — example">
+      <div class="card-view">
+        <dialog id="demo-dialog" role="alertdialog" class="info">
+          <p>This dialog is controlled by Whakerexa’s DialogManager.</p>
+        </dialog>
+        <button id="open-dialog">Open dialog</button>
+      </div>
+      <pre class="dark"><code>&lt;dialog id="demo-dialog" role="alertdialog" class="info"&gt;
+    &lt;p&gt;Message text.&lt;/p&gt;
+&lt;/dialog&gt;
+&lt;button onclick="Wexa.dialog.open(‘demo-dialog’)"&gt;Open dialog&lt;/button&gt;</code></pre>
+    </article>
   </section>
 </main>
 

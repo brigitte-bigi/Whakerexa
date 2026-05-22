@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="all"/>
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css"/>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all"/>
 
     <style>
         :root {
@@ -390,7 +391,7 @@
     </ol>
 
     <h3>Example usage</h3>
-    <pre><code>// Example: managed mode
+    <pre class="dark"><code>// Example: managed mode
 const bar = new ProgressBar({
   updateCallback: async () => ({ percent: 50, text: 'Halfway', header: 'Demo' }),
   completeCallback: () => console.log('Done!')
@@ -408,20 +409,50 @@ bar.start();
 
     <section>
         <h4>Managed mode</h4>
-        <button type="button" onclick="startManagedDemo()">Start Managed Demo</button>
-        <p id="progress_header">Managed header</p>
-        <progress id="percent_progress" max="100" value="0"></progress>
-        <p id="progress_text">Managed text...</p>
-        <p id="managed-msg" class="center"></p>
+        <article class="card-doc" aria-label="ProgressBar — managed mode demo">
+            <div class="card-view" style="flex-direction: column;">
+                <button type="button" onclick="startManagedDemo()">Start Managed Demo</button>
+                <p id="progress_header">Managed header</p>
+                <progress id="percent_progress" max="100" value="0"></progress>
+                <p id="progress_text">Managed text...</p>
+                <p id="managed-msg" class="center"></p>
+            </div>
+            <pre class="dark"><code>const bar = new ProgressBar({
+    updateCallback: async () => {
+        const p = parseInt(el.value, 10) + 10;
+        return { percent: p, text: `Processing... ${p}%`, header: 'In progress' };
+    },
+    domIds: { percent: 'percent_progress', text: 'progress_text', header: 'progress_header' },
+    completeCallback: () => { el.textContent = 'Done!'; },
+    intervalMs: 1000
+});
+bar.start();</code></pre>
+        </article>
     </section>
 
     <section>
         <h4>Autonomous mode</h4>
-        <button type="button" onclick="startAutonomousDemo()">Start Autonomous Demo</button>
-        <p id="progress_header-autonomous">Autonomous header</p>
-        <progress id="percent-autonomous" max="100" value="0"></progress>
-        <p id="progress_text-autonomous">Autonomous text...</p>
-        <p id="auto-msg" class="center"></p>
+        <article class="card-doc" aria-label="ProgressBar — autonomous mode demo">
+            <div class="card-view" style="flex-direction: column;">
+                <button type="button" onclick="startAutonomousDemo()">Start Autonomous Demo</button>
+                <p id="progress_header-autonomous">Autonomous header</p>
+                <progress id="percent-autonomous" max="100" value="0"></progress>
+                <p id="progress_text-autonomous">Autonomous text...</p>
+                <p id="auto-msg" class="center"></p>
+            </div>
+            <pre class="dark"><code>const bar = new ProgressBar({
+    requestManager: new RequestManager(),
+    targetUrl: '/api/progress',
+    domIds: {
+        percent: 'percent-autonomous',
+        text: 'progress_text-autonomous',
+        header: 'progress_header-autonomous'
+    },
+    completeCallback: () => { msg.textContent = 'Done!'; },
+    intervalMs: 1000
+});
+bar.start();</code></pre>
+        </article>
     </section>
 
     <h3>Notes</h3>

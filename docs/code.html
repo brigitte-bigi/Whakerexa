@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/code.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
     <style>
         :root {
@@ -72,22 +73,16 @@
         <blockquote><b>code.css</b> is a custom colors definition for Python code.</blockquote>
 
         <p>This page shows how a website looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
-        <pre>
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/wexa.css"
-    media="all" /&gt;
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/code.css"
-    media="all" /&gt;
-            </pre>
+        <pre class="dark"><code>&lt;link rel="stylesheet" href=".../wexa_statics/css/wexa.css" media="all" /&gt;
+&lt;link rel="stylesheet" href=".../wexa_statics/css/code.css" media="all" /&gt;</code></pre>
 
         <h2>Examples</h2>
 
         <p>The following examples were automatically generated with <a href="https://github.com/brigitte-bigi/ClammingPy" class="external-link">
             ClammingPy</a> 1.7.</p>
 
+        <article class="card-doc" aria-label="Pygments syntax highlighting — example">
+        <div class="card-view" style="overflow: auto; width: 100%;">
         <pre class="highlight"><code><span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the documentation of the package as a standalone Markdown content.&quot;&quot;&quot;</span>
   <span class="n">md</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -97,6 +92,11 @@
   <span class="n">md</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">~ Created using [Clamming](https://github.com/brigitte-bigi/ClammingPy) version </span><span class="si">{:s}</span><span class="s1"> ~</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">clamming</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
   <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">md</span><span class="p">)</span>
 </code></pre>
+        </div>
+        <pre class="dark"><code>&lt;pre class="highlight"&gt;&lt;code&gt;
+    &lt;!-- Pygments HTML output --&gt;
+&lt;/code&gt;&lt;/pre&gt;</code></pre>
+        </article>
 
         <details>
             <summary>Show/Hide source code into a details/summary element</summary>

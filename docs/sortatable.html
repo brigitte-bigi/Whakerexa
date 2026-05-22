@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/extras/sortatable.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../wexa_statics/css/toggleselect.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
     <style>
         :root:not(.dark) {
@@ -81,7 +82,7 @@
             users can directly sort a specified column programmatically without clicking the header.</p>
 
         <p><strong>Usage example:</strong></p>
-        <pre>
+        <pre class="dark">
 &lt;script&gt;
     // Create a new SortaTable instance and attach event listeners after the page loads
     const sortatable = new SortaTable("a-table-name");
@@ -95,7 +96,7 @@
 </pre>
 
         <p>You can also extend the class to customize its behavior:</p>
-        <pre>
+        <pre class="dark">
 class AdvancedSortaTable extends SortaTable {
     constructor(tableId) {
         super(tableId);
@@ -110,7 +111,7 @@ class AdvancedSortaTable extends SortaTable {
         <p>The table must have an <code>id</code> attribute, which is passed as a parameter to the
             <code>SortaTable</code> class.</p>
 
-        <pre>
+        <pre class="dark">
 &lt;table id="a-table-name"&gt;&lt;/table&gt;
     </pre>
 
@@ -121,7 +122,7 @@ class AdvancedSortaTable extends SortaTable {
             <code>data-sort</code> attribute to specify a unique identifier for the column to be sorted.
             No other buttons on the table should use the same <code>data-sort</code> identifier.</p>
 
-        <pre>
+        <pre class="dark">
 &lt;thead&gt;
     &lt;tr&gt;
         &lt;th&gt;
@@ -165,59 +166,36 @@ class AdvancedSortaTable extends SortaTable {
             The second column is sorted in ascending order by last name, while each column
             remains sortable.</p>
 
-        <table id="music-legends-table" role="grid">
-            <thead>
-            <tr>
-                <th>
-                    <button class="sortatable" data-sort="firstname">
-                        First Name
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="lastname">
-                        Last Name
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="date">
-                        Date of Birth
-                    </button>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Elvis</td>
-                <td>Presley</td>
-                <td>1935-01-08</td>
-            </tr>
-            <tr>
-                <td>Aretha</td>
-                <td>Franklin</td>
-                <td>1942-03-25</td>
-            </tr>
-            <tr>
-                <td>Freddie</td>
-                <td>Mercury</td>
-                <td>1946-09-05</td>
-            </tr>
-            <tr>
-                <td>Michael</td>
-                <td>Jackson</td>
-                <td>1958-08-29</td>
-            </tr>
-            <tr>
-                <td>Bob</td>
-                <td>Dylan</td>
-                <td>1941-05-24</td>
-            </tr>
-            <tr>
-                <td>Jimi</td>
-                <td>Hendrix</td>
-                <td>1942-11-27</td>
-            </tr>
-            </tbody>
-        </table>
+        <article class="card-doc" aria-label="SortaTable — example 1">
+            <div class="card-view">
+                <table id="music-legends-table" role="grid">
+                    <thead>
+                    <tr>
+                        <th>
+                            <button class="sortatable" data-sort="firstname">First Name</button>
+                        </th>
+                        <th>
+                            <button class="sortatable" data-sort="lastname">Last Name</button>
+                        </th>
+                        <th>
+                            <button class="sortatable" data-sort="date">Date of Birth</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Elvis</td><td>Presley</td><td>1935-01-08</td></tr>
+                    <tr><td>Aretha</td><td>Franklin</td><td>1942-03-25</td></tr>
+                    <tr><td>Freddie</td><td>Mercury</td><td>1946-09-05</td></tr>
+                    <tr><td>Michael</td><td>Jackson</td><td>1958-08-29</td></tr>
+                    <tr><td>Bob</td><td>Dylan</td><td>1941-05-24</td></tr>
+                    <tr><td>Jimi</td><td>Hendrix</td><td>1942-11-27</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre class="dark"><code>const sortatable = new SortaTable("music-legends-table");
+sortatable.attachSortListeners();
+sortatable.sort("lastname", true); // ascending</code></pre>
+        </article>
 
         <h2>Example 2</h2>
         <p>
@@ -229,66 +207,30 @@ class AdvancedSortaTable extends SortaTable {
             demonstrating that not all columns need to support sorting.
         </p>
 
-        <table id="terminator-dates-table">
-            <thead>
-            <tr>
-                <th>
-                    <button class="sortatable" data-sort="name">
-                        Name
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="event">
-                        Event
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="date">
-                        Date
-                    </button>
-                </th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Sarah</td>
-                <td>Connor</td>
-                <td>1984-05-12</td>
-                <td>Terminator's target</td>
-            </tr>
-            <tr>
-                <td>John</td>
-                <td>Connor</td>
-                <td>2029-07-11</td>
-                <td>Leader of the human resistance</td>
-            </tr>
-            <tr>
-                <td>Kyle</td>
-                <td>Reese</td>
-                <td>1984-05-12</td>
-                <td>Sent back to protect Sarah Connor</td>
-            </tr>
-            <tr>
-                <td>Skynet</td>
-                <td>Activation</td>
-                <td>1997-08-29</td>
-                <td>Skynet becomes self-aware</td>
-            </tr>
-            <tr>
-                <td>Judgment Day</td>
-                <td>Event</td>
-                <td>1997-08-29</td>
-                <td>Skynet launches a nuclear attack</td>
-            </tr>
-            <tr>
-                <td>T-800</td>
-                <td>Arrival</td>
-                <td>1984-05-12</td>
-                <td>Sent to kill Sarah Connor</td>
-            </tr>
-            </tbody>
-        </table>
+        <article class="card-doc" aria-label="SortaTable — example 2">
+            <div class="card-view">
+                <table id="terminator-dates-table">
+                    <thead>
+                    <tr>
+                        <th><button class="sortatable" data-sort="name">Name</button></th>
+                        <th><button class="sortatable" data-sort="event">Event</button></th>
+                        <th><button class="sortatable" data-sort="date">Date</button></th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Sarah</td><td>Connor</td><td>1984-05-12</td><td>Terminator's target</td></tr>
+                    <tr><td>John</td><td>Connor</td><td>2029-07-11</td><td>Leader of the human resistance</td></tr>
+                    <tr><td>Kyle</td><td>Reese</td><td>1984-05-12</td><td>Sent back to protect Sarah Connor</td></tr>
+                    <tr><td>Skynet</td><td>Activation</td><td>1997-08-29</td><td>Skynet becomes self-aware</td></tr>
+                    <tr><td>Judgment Day</td><td>Event</td><td>1997-08-29</td><td>Skynet launches a nuclear attack</td></tr>
+                    <tr><td>T-800</td><td>Arrival</td><td>1984-05-12</td><td>Sent to kill Sarah Connor</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre class="dark"><code>const sortatable = new SortaTable("terminator-dates-table");
+sortatable.attachSortListeners(); // no initial sort</code></pre>
+        </article>
 
         <h2>Example 3</h2>
 
@@ -303,105 +245,64 @@ class AdvancedSortaTable extends SortaTable {
             table view based on user preference.
         </p>
 
-        <div class="flex-panel" style="justify-content: start; margin-bottom: 1rem;">
-            <details class="flex-item width_30" id="toggable-details">
-                <summary class="summary-choice">
-                    <span>Columns visibility:</span>
-                    <button class="accordion-action" data-toggle
-                            onclick="toggleSelector.toggleSelection(event);"
-                            onkeydown="toggleSelector.toggleSelection(event);" aria-label="Toggle columns visibility">
-                        <img src="" alt="" />
+        <article class="card-doc" aria-label="SortaTable — example 3 with column visibility">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <div class="flex-panel" style="justify-content: start; margin-bottom: 1rem;">
+                    <details class="flex-item width_30" id="toggable-details">
+                        <summary class="summary-choice">
+                            <span>Columns visibility:</span>
+                            <button class="accordion-action" data-toggle
+                                    onclick="toggleSelector.toggleSelection(event);"
+                                    onkeydown="toggleSelector.toggleSelection(event);" aria-label="Toggle columns visibility">
+                                <img src="" alt="" />
+                            </button>
+                        </summary>
+                        <main>
+                            <ul>
+                                <li class="check-item">
+                                    <input id="event_input" type="checkbox" aria-labelledby="event_label" checked="checked" data-toggle="event"/>
+                                    <label for="event_input" id="event_label">Show/Hide event</label>
+                                </li>
+                                <li class="check-item">
+                                    <input id="date_input" type="checkbox" aria-labelledby="date_label" data-toggle="date"/>
+                                    <label for="date_input" id="date_label">Show/Hide date</label>
+                                </li>
+                                <li class="check-item">
+                                    <input id="descr_input" type="checkbox" aria-labelledby="descr_label" checked="checked" data-toggle="description"/>
+                                    <label for="descr_input" id="descr_label">Show/Hide description</label>
+                                </li>
+                            </ul>
+                        </main>
+                    </details>
+                    <button class="flex-item"
+                            onclick="sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());">
+                        Apply
                     </button>
-                </summary>
-                <main>
-                    <ul>
-                        <li class="check-item">
-                            <input id="event_input" type="checkbox" aria-labelledby="event_label" checked="checked" data-toggle="event"/>
-                            <label for="event_input" id="event_label">
-                                Show/Hide event
-                            </label>
-                        </li>
-                        <li class="check-item">
-                            <input id="date_input" type="checkbox" aria-labelledby="date_label" data-toggle="date"/>
-                            <label for="date_input" id="date_label">
-                                Show/Hide date
-                            </label>
-                        </li>
-                        <li class="check-item">
-                            <input id="descr_input" type="checkbox" aria-labelledby="descr_label" checked="checked" data-toggle="description"/>
-                            <label for="descr_input" id="descr_label">
-                                Show/Hide description
-                            </label>
-                        </li>
-                    </ul>
-                </main>
-            </details>
-            <button class="flex-item"
-                    onclick="sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());">
-                Apply
-            </button>
-        </div>
-
-        <table id="toggable-table">
-            <thead>
-            <tr>
-                <th>
-                    <button class="sortatable" data-sort="name">
-                        Name
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="event">
-                        Event
-                    </button>
-                </th>
-                <th>
-                    <button class="sortatable" data-sort="date">
-                        Date
-                    </button>
-                </th>
-                <th data-sort="description">Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Sarah</td>
-                <td>Connor</td>
-                <td>1984-05-12</td>
-                <td>The primary target of the Terminator, a relentless cyborg sent from the future to eliminate her and prevent the birth of humanity's future resistance leader.</td>
-            </tr>
-            <tr>
-                <td>John</td>
-                <td>Connor</td>
-                <td>2029-07-11</td>
-                <td>Leader of the human resistance</td>
-            </tr>
-            <tr>
-                <td>Kyle</td>
-                <td>Reese</td>
-                <td>1984-05-12</td>
-                <td>Sent back to protect Sarah Connor</td>
-            </tr>
-            <tr>
-                <td>Skynet</td>
-                <td>Activation</td>
-                <td>1997-08-29</td>
-                <td>Skynet becomes self-aware</td>
-            </tr>
-            <tr>
-                <td>Judgment Day</td>
-                <td>Event</td>
-                <td>1997-08-29</td>
-                <td>Skynet launches a nuclear attack</td>
-            </tr>
-            <tr>
-                <td>T-800</td>
-                <td>Arrival</td>
-                <td>1984-05-12</td>
-                <td>Sent to kill Sarah Connor</td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+                <table id="toggable-table">
+                    <thead>
+                    <tr>
+                        <th><button class="sortatable" data-sort="name">Name</button></th>
+                        <th><button class="sortatable" data-sort="event">Event</button></th>
+                        <th><button class="sortatable" data-sort="date">Date</button></th>
+                        <th data-sort="description">Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Sarah</td><td>Connor</td><td>1984-05-12</td><td>The primary target of the Terminator, a relentless cyborg sent from the future to eliminate her and prevent the birth of humanity's future resistance leader.</td></tr>
+                    <tr><td>John</td><td>Connor</td><td>2029-07-11</td><td>Leader of the human resistance</td></tr>
+                    <tr><td>Kyle</td><td>Reese</td><td>1984-05-12</td><td>Sent back to protect Sarah Connor</td></tr>
+                    <tr><td>Skynet</td><td>Activation</td><td>1997-08-29</td><td>Skynet becomes self-aware</td></tr>
+                    <tr><td>Judgment Day</td><td>Event</td><td>1997-08-29</td><td>Skynet launches a nuclear attack</td></tr>
+                    <tr><td>T-800</td><td>Arrival</td><td>1984-05-12</td><td>Sent to kill Sarah Connor</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pre class="dark"><code>const sortatable3 = new SortaTable("toggable-table");
+sortatable3.attachSortListeners();
+const toggleSelector = new ToggleSelector("../wexa_statics/icons/", "toggable-details");
+sortatable3.toggleColumnVisibility(toggleSelector.getCheckboxes());</code></pre>
+        </article>
     </section>
 </main>
 

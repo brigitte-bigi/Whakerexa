@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -85,18 +86,18 @@
             Add <code>.round</code> for a pill shape.
         </p>
 
-        <div class="flex-panel">
-            <label class="switch">
-                <input type="checkbox" aria-label="Toggle (square)">
-                <span class="switch-slider switch-no-text"></span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" aria-label="Toggle (round)">
-                <span class="switch-slider switch-no-text round"></span>
-            </label>
-        </div>
-
-        <pre><code>&lt;label class="switch"&gt;
+        <article class="card-doc" aria-label="Switch without text — example">
+            <div class="card-view">
+                <label class="switch">
+                    <input type="checkbox" aria-label="Toggle (square)">
+                    <span class="switch-slider switch-no-text"></span>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" aria-label="Toggle (round)">
+                    <span class="switch-slider switch-no-text round"></span>
+                </label>
+            </div>
+            <pre class="dark"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" aria-label="Toggle"&gt;
     &lt;span class="switch-slider switch-no-text"&gt;&lt;/span&gt;
 &lt;/label&gt;
@@ -106,6 +107,7 @@
     &lt;input type="checkbox" aria-label="Toggle"&gt;
     &lt;span class="switch-slider switch-no-text round"&gt;&lt;/span&gt;
 &lt;/label&gt;</code></pre>
+        </article>
 
     </section>
 
@@ -118,37 +120,38 @@
             inside the slider to label each state.
         </p>
 
-        <div class="flex-panel">
-            <label class="switch">
-                <input type="checkbox" checked aria-label="Toggle ON/OFF">
-                <span class="switch-slider">
-                    <span class="switch-off-text">OFF</span>
-                    <span class="switch-on-text">ON</span>
-                </span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" aria-label="Toggle OU/ET">
-                <span class="switch-slider round">
-                    <span class="switch-off-text">OU</span>
-                    <span class="switch-on-text">ET</span>
-                </span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" checked aria-label="Toggle +/-">
-                <span class="switch-slider round">
-                    <span class="switch-off-text">-</span>
-                    <span class="switch-on-text">+</span>
-                </span>
-            </label>
-        </div>
-
-        <pre><code>&lt;label class="switch"&gt;
+        <article class="card-doc" aria-label="Switch with text labels — example">
+            <div class="card-view">
+                <label class="switch">
+                    <input type="checkbox" checked aria-label="Toggle ON/OFF">
+                    <span class="switch-slider">
+                        <span class="switch-off-text">OFF</span>
+                        <span class="switch-on-text">ON</span>
+                    </span>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" aria-label="Toggle OU/ET">
+                    <span class="switch-slider round">
+                        <span class="switch-off-text">OU</span>
+                        <span class="switch-on-text">ET</span>
+                    </span>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" checked aria-label="Toggle +/-">
+                    <span class="switch-slider round">
+                        <span class="switch-off-text">-</span>
+                        <span class="switch-on-text">+</span>
+                    </span>
+                </label>
+            </div>
+            <pre class="dark"><code>&lt;label class="switch"&gt;
     &lt;input type="checkbox" aria-label="Toggle ON/OFF"&gt;
     &lt;span class="switch-slider"&gt;
         &lt;span class="switch-off-text"&gt;OFF&lt;/span&gt;
         &lt;span class="switch-on-text"&gt;ON&lt;/span&gt;
     &lt;/span&gt;
 &lt;/label&gt;</code></pre>
+        </article>
 
     </section>
 
@@ -161,27 +164,28 @@
             to resize a specific switch without affecting others.
         </p>
 
-        <div class="flex-panel">
-            <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
-                <input type="checkbox" checked aria-label="Small toggle">
-                <span class="switch-slider switch-no-text round"></span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" checked aria-label="Default toggle">
-                <span class="switch-slider switch-no-text round"></span>
-            </label>
-            <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
-                <input type="checkbox" checked aria-label="Large toggle">
-                <span class="switch-slider switch-no-text round"></span>
-            </label>
-        </div>
-
-        <pre><code>&lt;label class="switch"
+        <article class="card-doc" aria-label="Switch custom size — example">
+            <div class="card-view">
+                <label class="switch" style="--switch-width: calc(var(--font-size) * 3); --switch-height: calc(var(--font-size) * 1.6)">
+                    <input type="checkbox" checked aria-label="Small toggle">
+                    <span class="switch-slider switch-no-text round"></span>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" checked aria-label="Default toggle">
+                    <span class="switch-slider switch-no-text round"></span>
+                </label>
+                <label class="switch" style="--switch-width: calc(var(--font-size) * 12); --switch-height: calc(var(--font-size) * 4)">
+                    <input type="checkbox" checked aria-label="Large toggle">
+                    <span class="switch-slider switch-no-text round"></span>
+                </label>
+            </div>
+            <pre class="dark"><code>&lt;label class="switch"
        style="--switch-width: calc(var(--font-size) * 3);
               --switch-height: calc(var(--font-size) * 1.6)"&gt;
     &lt;input type="checkbox" aria-label="Small toggle"&gt;
     &lt;span class="switch-slider switch-no-text round"&gt;&lt;/span&gt;
 &lt;/label&gt;</code></pre>
+        </article>
 
     </section>
 

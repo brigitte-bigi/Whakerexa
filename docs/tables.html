@@ -10,6 +10,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -70,159 +71,192 @@
 <main id="main-content">
 
     <h2>Normal view</h2>
-    <table role="grid">
-        <caption>
-            <span>Table 1:</span> A caption of the table in this normal view.
-        </caption>
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-        </tbody>
-    </table>
+    <article class="card-doc" aria-label="Table — normal view">
+        <div class="card-view">
+            <table role="grid">
+                <caption>
+                    <span>Table 1:</span> A caption of the table in this normal view.
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pre class="dark"><code>&lt;table role="grid"&gt;
+    &lt;caption&gt;&lt;span&gt;Table 1:&lt;/span&gt; Caption text.&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;#&lt;/th&gt;
+            &lt;th scope="col"&gt;Heading&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th scope="row"&gt;1&lt;/th&gt;
+            &lt;td&gt;Cell&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+    </article>
 
     <h2>Contrast view</h2>
-    <table role="grid" class="contrast">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-                <th scope="col">Heading</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-                <td>Cell</td>
-            </tr>
-        </tbody>
-        <caption>
-            <span>Table 2:</span> A caption of the table: with contrast view.
-        </caption>
-    </table>
+    <article class="card-doc" aria-label="Table — contrast view">
+        <div class="card-view">
+            <table role="grid" class="contrast">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                </tbody>
+                <caption>
+                    <span>Table 2:</span> A caption of the table: with contrast view.
+                </caption>
+            </table>
+        </div>
+        <pre class="dark"><code>&lt;table role="grid" class="contrast"&gt;
+    ...
+&lt;/table&gt;</code></pre>
+    </article>
 
-    <div class="dark">
-        <h2>Dark theme</h2>
-        <table role="grid">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                </tr>
-            </tbody>
-            <caption>
-                <span>Table 3:</span> A caption of the table in dark theme.
-            </caption>
-        </table>
-    </div>
+    <h2>Dark theme</h2>
+    <article class="card-doc" aria-label="Table — dark theme">
+        <div class="card-view dark">
+            <table role="grid">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                        <th scope="col">Heading</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                        <td>Cell</td>
+                    </tr>
+                </tbody>
+                <caption>
+                    <span>Table 3:</span> A caption of the table in dark theme.
+                </caption>
+            </table>
+        </div>
+        <pre class="dark"><code>&lt;div class="dark"&gt;
+    &lt;table role="grid"&gt;
+        ...
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+    </article>
 
 </main>
 

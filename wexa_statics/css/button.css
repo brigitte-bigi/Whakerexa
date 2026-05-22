@@ -269,7 +269,6 @@ input[type="checkbox"]:focus + .switch-slider {
 .text-reveal-button > span {
     font-size: 0.8rem;
     display: none;
-    opacity: 0;
     padding: 0.2rem;
     margin: 0;
 }
@@ -279,22 +278,19 @@ input[type="checkbox"]:focus + .switch-slider {
     width: auto;
 }
 
-/* Reveal text when hovered */
+/* Reveal text on hover or keyboard focus */
 .text-reveal-button:hover > span,
-.text-reveal-button:focus:hover > span {
-    opacity: 1;
+.text-reveal-button:focus > span {
     display: inline;
 }
 
 /* When the button is clicked */
 .text-reveal-button[data-clicked="true"] > span {
-    opacity: 0;
     display: none;
 }
 
 /* Hide text after a click (when focus is lost) */
 .text-reveal-button:not(:focus):not(:hover) > span {
-    opacity: 0;
     display: none;
 }
 

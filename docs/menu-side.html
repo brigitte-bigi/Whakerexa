@@ -13,6 +13,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <style>
         :root {
             --header-height: 28vh;
@@ -270,6 +271,35 @@
             CSS provides the layout (<code>menu.css</code>).
             JavaScript is only used to open/close menus and manage submenus (<code>MenuManager</code>).
         </p>
+
+        <article class="card-doc" aria-label="Side menu — HTML structure">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                <p>The full running demo is the navigation of this page. See page source for the complete structure.</p>
+            </div>
+            <pre class="dark"><code>&lt;nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation"&gt;
+    &lt;button id="pin-menu" class="menuitem menu-pin" ...&gt;&lt;/button&gt;
+    &lt;a class="menuitem" href="#"&gt;Home&lt;/a&gt;
+    &lt;button class="menuitem" id="submenu-toggle-get"
+            aria-haspopup="true" aria-controls="appmenu-get"&gt;Get&lt;/button&gt;
+    &lt;aside id="appmenu-get" class="appmenu"&gt;
+        &lt;nav class="submenu-orange"&gt;
+            &lt;a class="menuitem" href="#"&gt;Item&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/aside&gt;
+&lt;/nav&gt;
+&lt;!-- Mobile toggle button (in &lt;header&gt;): --&gt;
+&lt;button id="menu-button" aria-controls="nav-content" aria-expanded="false"&gt;&lt;/button&gt;</code></pre>
+        </article>
+
+        <article class="card-doc" aria-label="Side menu — JS initialization">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                <p>MenuManager handles expand/collapse, pin, and submenu toggling.</p>
+            </div>
+            <pre class="dark"><code>const menu = new Wexa.MenuManager();
+menu.initSideMenu();
+menu.initMobileToggle();
+menu.registerSubmenu('appmenu-get', 'submenu-toggle-get');</code></pre>
+        </article>
     </main>
 
     <footer>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -96,195 +97,174 @@
     <h2>Available fonts for a text</h2>
 
     <h3>No specific class applied except the font choice</h3>
-    <h4>Sans</h4>
-    <p class="font-sans">
-        This is a short text embedded into a <code>p</code> tag with no specific class.
-        This is then the default font style, padding and margin, etc.
-        <b>This is then the bold default font style.</b>
-        <i>This is then the italic default font style.</i>
-        Anyone is free to copy, modify, publish, use, compile, sell, or
-        distribute this file, either in source code form or as a compiled
-        binary, for any purpose, commercial or non-commercial, and by any
-        means.
-    </p>
-    <h4>Serif</h4>
-    <p class="font-serif">
-        This is a short text embedded into a <code>p</code> tag with no serif class.
-        This is the serif font style, with default padding and margin, etc.
-        <b>This is the bold font style.</b>
-        <i>This is the italic font style.</i>
-        Anyone is free to copy, modify, publish, use, compile, sell, or
-        distribute this file, either in source code form or as a compiled
-        binary, for any purpose, commercial or non-commercial, and by any
-        means.
-    </p>
-    <h4>Mono</h4>
-    <p class="font-mono">
-        This is a short text embedded into a <code>p</code> tag with no serif class.
-        This is the mono font style, with default padding and margin, etc.
-        <b>This is the bold font style.</b>
-        <i>This is the italic font style.</i>
-        Anyone is free to copy, modify, publish, use, compile, sell, or
-        distribute this file, either in source code form or as a compiled
-        binary, for any purpose, commercial or non-commercial, and by any
-        means.
-    </p>
-    <h4>Pre</h4>
-    <p class="font-pre">
-        This is a short text embedded into a <code>p</code> tag with no serif class.
-        This is the pre font style, with default padding and margin, etc.
-        <b>This is the bold font style.</b>
-        <i>This is the italic font style.</i>
-        Anyone is free to copy, modify, publish, use, compile, sell, or
-        distribute this file, either in source code form or as a compiled
-        binary, for any purpose, commercial or non-commercial, and by any
-        means.
-    </p>
+    <article class="card-doc" aria-label="Font families — normal view">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <h4>Sans</h4>
+            <p class="font-sans">This is the sans font style. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Serif</h4>
+            <p class="font-serif">This is the serif font style. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Mono</h4>
+            <p class="font-mono">This is the mono font style. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Pre</h4>
+            <p class="font-pre">This is the pre font style. <b>Bold.</b> <i>Italic.</i></p>
+        </div>
+        <pre class="dark"><code>&lt;p class="font-sans"&gt;Sans text&lt;/p&gt;
+&lt;p class="font-serif"&gt;Serif text&lt;/p&gt;
+&lt;p class="font-mono"&gt;Mono text&lt;/p&gt;
+&lt;p class="font-pre"&gt;Pre text&lt;/p&gt;</code></pre>
+    </article>
 
     <h3>With contrast specific class applied and dark mode</h3>
-    <div class="dark">
-        <h4>Sans</h4>
-        <p class="font-sans contrast">
-            This is a short text embedded into a <code>p</code> tag with no specific class.
-            This is then the default font style, padding and margin, etc.
-            <b>This is then the bold default font style.</b>
-            <i>This is then the italic default font style.</i>
-            Anyone is free to copy, modify, publish, use, compile, sell, or
-            distribute this file, either in source code form or as a compiled
-            binary, for any purpose, commercial or non-commercial, and by any
-            means.
-        </p>
-        <h4>Serif</h4>
-        <p class="font-serif contrast">
-            This is a short text embedded into a <code>p</code> tag with no serif class.
-            This is the serif font style, with default padding and margin, etc.
-            <b>This is the bold font style.</b>
-            <i>This is the italic font style.</i>
-            Anyone is free to copy, modify, publish, use, compile, sell, or
-            distribute this file, either in source code form or as a compiled
-            binary, for any purpose, commercial or non-commercial, and by any
-            means.
-        </p>
-        <h4>Mono</h4>
-        <p class="font-mono contrast">
-            This is a short text embedded into a <code>p</code> tag with no serif class.
-            This is the mono font style, with default padding and margin, etc.
-            <b>This is the bold font style.</b>
-            <i>This is the italic font style.</i>
-            Anyone is free to copy, modify, publish, use, compile, sell, or
-            distribute this file, either in source code form or as a compiled
-            binary, for any purpose, commercial or non-commercial, and by any
-            means.
-        </p>
-        <h4>Pre</h4>
-        <p class="font-pre contrast">
-            This is a short text embedded into a <code>p</code> tag with no serif class.
-            This is the pre font style, with default padding and margin, etc.
-            <b>This is the bold font style.</b>
-            <i>This is the italic font style.</i>
-            Anyone is free to copy, modify, publish, use, compile, sell, or
-            distribute this file, either in source code form or as a compiled
-            binary, for any purpose, commercial or non-commercial, and by any
-            means.
-        </p>
-    </div>
+    <article class="card-doc" aria-label="Font families — contrast + dark view">
+        <div class="card-view dark" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <h4>Sans</h4>
+            <p class="font-sans contrast">This is the sans font with contrast. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Serif</h4>
+            <p class="font-serif contrast">This is the serif font with contrast. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Mono</h4>
+            <p class="font-mono contrast">This is the mono font with contrast. <b>Bold.</b> <i>Italic.</i></p>
+            <h4>Pre</h4>
+            <p class="font-pre contrast">This is the pre font with contrast. <b>Bold.</b> <i>Italic.</i></p>
+        </div>
+        <pre class="dark"><code>&lt;div class="dark"&gt;
+    &lt;p class="font-sans contrast"&gt;Sans contrast text&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </article>
 
     <h3>With weight-specific classes applied</h3>
 
-    <h4>Sans Font Normal view</h4>
-    <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
-    <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
-    <p class="font-sans font-weight-bold">This is Sans Font with weight-bold.</p>
-    <p class="font-sans font-weight-black">This is Sans Font with weight-black.</p>
-
-    <h4>Sans Font Contrast view</h4>
-    <p class="contrast font-sans font-weight-thin">This is Sans Font with contrast weight-thin.</p>
-    <p class="contrast font-sans font-weight-normal">This is Sans Font with contrast weight-normal.</p>
-    <p class="contrast font-sans font-weight-bold">This is Sans Font with contrast weight-bold.</p>
-    <p class="contrast font-sans font-weight-black">This is Sans Font with contrast weight-black.</p>
-
-    <h4>Serif Font Normal view</h4>
-    <p class="font-serif font-weight-thin">This is Serif Font with weight-thin.</p>
-    <p class="font-serif font-weight-normal">This is Serif Font with weight-normal.</p>
-    <p class="font-serif font-weight-bold">This is Serif Font with weight-bold.</p>
-    <p class="font-serif font-weight-black">This is Serif Font with weight-black.</p>
-
-    <h4>Serif Font Contrast view</h4>
-    <p class="font-serif contrast font-weight-thin">This is Serif Font with contrast weight-thin.</p>
-    <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
-    <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
-    <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
+    <article class="card-doc" aria-label="Font weights — sans normal and contrast views">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <h4>Sans Font Normal view</h4>
+            <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
+            <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
+            <p class="font-sans font-weight-bold">This is Sans Font with weight-bold.</p>
+            <p class="font-sans font-weight-black">This is Sans Font with weight-black.</p>
+            <h4>Sans Font Contrast view</h4>
+            <p class="contrast font-sans font-weight-thin">This is Sans Font with contrast weight-thin.</p>
+            <p class="contrast font-sans font-weight-normal">This is Sans Font with contrast weight-normal.</p>
+            <p class="contrast font-sans font-weight-bold">This is Sans Font with contrast weight-bold.</p>
+            <p class="contrast font-sans font-weight-black">This is Sans Font with contrast weight-black.</p>
+            <h4>Serif Font Normal view</h4>
+            <p class="font-serif font-weight-thin">This is Serif Font with weight-thin.</p>
+            <p class="font-serif font-weight-normal">This is Serif Font with weight-normal.</p>
+            <p class="font-serif font-weight-bold">This is Serif Font with weight-bold.</p>
+            <p class="font-serif font-weight-black">This is Serif Font with weight-black.</p>
+            <h4>Serif Font Contrast view</h4>
+            <p class="font-serif contrast font-weight-thin">This is Serif Font with contrast weight-thin.</p>
+            <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
+            <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
+            <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
+        </div>
+        <pre class="dark"><code>&lt;p class="font-sans font-weight-thin"&gt;weight-thin&lt;/p&gt;
+&lt;p class="font-sans font-weight-normal"&gt;weight-normal&lt;/p&gt;
+&lt;p class="font-sans font-weight-bold"&gt;weight-bold&lt;/p&gt;
+&lt;p class="font-sans font-weight-black"&gt;weight-black&lt;/p&gt;</code></pre>
+    </article>
 
     <h2>HTML tags for embed text</h2>
 
-    <p>
-        So, this is a text with a
-        <a href="#" onclick="event.preventDefault()">Primary link</a>
-        inside...
-    </p>
-    <p>
-        <strong>Bold</strong>
-        <em>Italic</em>
-        <u>Underline</u>
-        <del>Deleted</del>
-        <ins>Inserted</ins>
-        <s>Strikethrough</s>
-        <small>Small</small>
-        Text <sub>Sub</sub>
-        Text <sup>Sup</sup>
-        <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
-        <kbd>Kbd+x</kbd>
-        <mark>Highlighted</mark>
-    </p>
+    <article class="card-doc" aria-label="Inline text elements — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <p>
+                So, this is a text with a
+                <a href="#" onclick="event.preventDefault()">Primary link</a>
+                inside...
+            </p>
+            <p>
+                <strong>Bold</strong>
+                <em>Italic</em>
+                <u>Underline</u>
+                <del>Deleted</del>
+                <ins>Inserted</ins>
+                <s>Strikethrough</s>
+                <small>Small</small>
+                Text <sub>Sub</sub>
+                Text <sup>Sup</sup>
+                <abbr title="Abbreviation" data-tooltip="Abbreviation">Abbr.</abbr>
+                <kbd>Kbd+x</kbd>
+                <mark>Highlighted</mark>
+            </p>
+        </div>
+        <pre class="dark"><code>&lt;strong&gt;Bold&lt;/strong&gt; &lt;em&gt;Italic&lt;/em&gt; &lt;u&gt;Underline&lt;/u&gt;
+&lt;del&gt;Deleted&lt;/del&gt; &lt;ins&gt;Inserted&lt;/ins&gt; &lt;s&gt;Strikethrough&lt;/s&gt;
+&lt;small&gt;Small&lt;/small&gt; &lt;sub&gt;Sub&lt;/sub&gt; &lt;sup&gt;Sup&lt;/sup&gt;
+&lt;abbr title="..."&gt;Abbr.&lt;/abbr&gt; &lt;kbd&gt;Kbd+x&lt;/kbd&gt; &lt;mark&gt;Highlighted&lt;/mark&gt;</code></pre>
+    </article>
 
     <h3>Blockquote</h3>
 
-    <blockquote>
-        La règle d'or de la conduite est la tolérance mutuelle, car nous ne
-        penserons jamais tous de la même façon, nous ne verrons qu'une partie
-        de la vérité et sous des angles différents.
-        <cite>&mdash; Ghandi</cite>
-    </blockquote>
+    <article class="card-doc" aria-label="Blockquote — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <blockquote>
+                La règle d'or de la conduite est la tolérance mutuelle, car nous ne
+                penserons jamais tous de la même façon, nous ne verrons qu'une partie
+                de la vérité et sous des angles différents.
+                <cite>&mdash; Ghandi</cite>
+            </blockquote>
+        </div>
+        <pre class="dark"><code>&lt;blockquote&gt;
+    Quote text.
+    &lt;cite&gt;&amp;mdash; Author&lt;/cite&gt;
+&lt;/blockquote&gt;</code></pre>
+    </article>
 
     <h3>Lists</h3>
     <p>Simply use the standard <code>ul</code>, <code>ol</code> or <code>dt</code> HTML elements.</p>
-    <h4>An ul list</h4>
-    <ul>
-        <li>This is the 1st item.</li>
-        <li>then the second one.</li>
-        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
-            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
-            States and close to 5 million globally.
-        </li>
-        <li>And the last <code>li</code> tag.</li>
-    </ul>
-    <h4>An ol list</h4>
-    <ol>
-        <li>This is the 1st item.</li>
-        <li>then the second one.</li>
-        <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
-            organization, WWF works in 100 countries and is supported by 1.2 million members in the United
-            States and close to 5 million globally.
-        </li>
-        <li>And the last <code>li</code> tag.</li>
-    </ol>
-    <h4>A dt list</h4>
-    <dl>
-        <dt>This is the 1st item</dt>
-            <dd>Some item in a first line.</dd>
-            <dd>And a second item.</dd>
-        <dt>Then the second one</dt>
-            <dd>A item related to the second.</dd>
-        <dt>And the last <code>dt</code> tag.</dt>
-            <dd>with the last <code>dd</code> tag.</dd>
-    </dl>
+
+    <article class="card-doc" aria-label="Lists — ul, ol, dl examples">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <h4>An ul list</h4>
+            <ul>
+                <li>This is the 1st item.</li>
+                <li>then the second one.</li>
+                <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+                    organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+                    States and close to 5 million globally.
+                </li>
+                <li>And the last <code>li</code> tag.</li>
+            </ul>
+            <h4>An ol list</h4>
+            <ol>
+                <li>This is the 1st item.</li>
+                <li>then the second one.</li>
+                <li>For 50 years, WWF has been protecting the future of nature. The world's leading conservation
+                    organization, WWF works in 100 countries and is supported by 1.2 million members in the United
+                    States and close to 5 million globally.
+                </li>
+                <li>And the last <code>li</code> tag.</li>
+            </ol>
+            <h4>A dl list</h4>
+            <dl>
+                <dt>This is the 1st item</dt>
+                    <dd>Some item in a first line.</dd>
+                    <dd>And a second item.</dd>
+                <dt>Then the second one</dt>
+                    <dd>A item related to the second.</dd>
+                <dt>And the last <code>dt</code> tag.</dt>
+                    <dd>with the last <code>dd</code> tag.</dd>
+            </dl>
+        </div>
+        <pre class="dark"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;
+&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;
+&lt;dl&gt;
+    &lt;dt&gt;Term&lt;/dt&gt;
+    &lt;dd&gt;Description&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+    </article>
 
     <h2>Aside</h2>
 
-    <aside>
-        Emphasized content with the <code>aside</code> element.
-    </aside>
-    <p>This is the main content related to the side one.</p>
+    <article class="card-doc" aria-label="Aside element — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <aside>
+                Emphasized content with the <code>aside</code> element.
+            </aside>
+            <p>This is the main content related to the side one.</p>
+        </div>
+        <pre class="dark"><code>&lt;aside&gt;Emphasized content.&lt;/aside&gt;
+&lt;p&gt;Main content.&lt;/p&gt;</code></pre>
+    </article>
 
 </main>
 

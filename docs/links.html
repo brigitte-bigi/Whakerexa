@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css"/>
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css"/>
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
     <style>
         :root {
@@ -179,22 +180,30 @@
 
         <h2>Examples</h2>
 
-        <!-- Opens in new tab by default -->
-        <div class="row">
-            <a id="doc_link" role="button" href="https://sppas.org">Open SPPAS (tab)</a>
-        </div>
+        <article class="card-doc" aria-label="LinkController — open in new tab">
+            <div class="card-view">
+                <a id="doc_link" role="button" href="https://sppas.org">Open SPPAS (tab)</a>
+            </div>
+            <pre class="dark"><code>&lt;a id="doc_link" role="button" href="https://sppas.org"&gt;Open (new tab)&lt;/a&gt;
+&lt;!-- data-target defaults to _blank --&gt;
+Wexa.links.handleLinks(['doc_link']);</code></pre>
+        </article>
 
-        <!-- Forces same-page navigation -->
-        <div class="row">
-            <a id="self_link" role="button" href="./dummy.html" data-target="_self">Open here (_self)</a>
-        </div>
+        <article class="card-doc" aria-label="LinkController — open in same page">
+            <div class="card-view">
+                <a id="self_link" role="button" href="./dummy.html" data-target="_self">Open here (_self)</a>
+            </div>
+            <pre class="dark"><code>&lt;a id="self_link" role="button" href="./dummy.html" data-target="_self"&gt;Open here&lt;/a&gt;</code></pre>
+        </article>
 
-        <!-- Opens into an iframe using data-href -->
-        <div class="row">
-            <button id="video_btn" data-href="https://example.org" data-target="preview_iframe">Open in iframe</button>
-        </div>
-
-        <iframe id="preview_iframe" title="Preview area"></iframe>
+        <article class="card-doc" aria-label="LinkController — open in iframe">
+            <div class="card-view" style="flex-direction: column; width: 100%;">
+                <button id="video_btn" data-href="https://example.org" data-target="preview_iframe">Open in iframe</button>
+                <iframe id="preview_iframe" title="Preview area"></iframe>
+            </div>
+            <pre class="dark"><code>&lt;button id="video_btn" data-href="https://example.org" data-target="preview_iframe"&gt;Open in iframe&lt;/button&gt;
+&lt;iframe id="preview_iframe" title="Preview area"&gt;&lt;/iframe&gt;</code></pre>
+        </article>
     </main>
 
     <footer>

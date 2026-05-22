@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -110,6 +111,8 @@
         <h2>Available fonts for a text</h2>
 
         <h3>No specific class applied except the font choice</h3>
+        <article class="card-doc" aria-label="Font families — no specific class">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
         <h4>Sans</h4>
         <p class="font-sans">
             This is a short text embedded into a <code>p</code> tag with no specific class.
@@ -154,8 +157,16 @@
             binary, for any purpose, commercial or non-commercial, and by any
             means.
         </p>
+            </div>
+            <pre class="dark"><code>&lt;p class="font-sans"&gt;Sans&lt;/p&gt;
+&lt;p class="font-serif"&gt;Serif&lt;/p&gt;
+&lt;p class="font-mono"&gt;Mono&lt;/p&gt;
+&lt;p class="font-pre"&gt;Pre&lt;/p&gt;</code></pre>
+        </article>
 
         <h3>With contrast specific class applied and dark mode</h3>
+        <article class="card-doc" aria-label="Font families — contrast and dark">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
             <div class="dark">
                 <h4>Sans</h4>
                 <p class="font-sans contrast">
@@ -202,9 +213,16 @@
                     means.
                 </p>
             </div>
+            </div>
+            <pre class="dark"><code>&lt;div class="dark"&gt;
+    &lt;p class="font-sans contrast"&gt;Sans contrast&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </article>
 
         <h3>With weight-specific classes applied</h3>
 
+        <article class="card-doc" aria-label="Font weights">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
         <h4>Sans Font Normal view</h4>
         <p class="font-sans font-weight-thin">This is Sans Font with weight-thin.</p>
         <p class="font-sans font-weight-normal">This is Sans Font with weight-normal.</p>
@@ -228,11 +246,18 @@
         <p class="font-serif contrast font-weight-normal">This is Serif Font with contrast weight-normal.</p>
         <p class="font-serif contrast font-weight-bold">This is Serif Font with contrast weight-bold.</p>
         <p class="font-serif contrast font-weight-black">This is Serif Font with contrast weight-black.</p>
+            </div>
+            <pre class="dark"><code>&lt;p class="font-sans font-weight-thin"&gt;weight-thin&lt;/p&gt;
+&lt;p class="font-sans font-weight-bold"&gt;weight-bold&lt;/p&gt;
+&lt;p class="font-sans contrast font-weight-thin"&gt;contrast weight-thin&lt;/p&gt;</code></pre>
+        </article>
 
         <!-- ------------------------------------------------------------- -->
         <h2>Dialog</h2>
         <!-- ------------------------------------------------------------- -->
 
+            <article class="card-doc" aria-label="Dialog — inline open">
+                <div class="card-view" style="flex-direction: column; width: 100%;">
             <dialog open>
                 <p>Greetings, one and all!</p>
                 <p>I'm a dialog element with "open" attribute, I override some content when I'm opened...</p>
@@ -247,12 +272,24 @@
                     <button>ok!</button>
                 </form>
             </dialog>
+                </div>
+                <pre class="dark"><code>&lt;dialog open&gt;
+    &lt;p&gt;Message text.&lt;/p&gt;
+    &lt;form method="dialog"&gt;&lt;button&gt;Close&lt;/button&gt;&lt;/form&gt;
+&lt;/dialog&gt;
+&lt;dialog role="alertdialog" open&gt;
+    &lt;p&gt;Alert message.&lt;/p&gt;
+    &lt;form method="dialog"&gt;&lt;button&gt;ok&lt;/button&gt;&lt;/form&gt;
+&lt;/dialog&gt;</code></pre>
+            </article>
 
+            <article class="card-doc" aria-label="Dialog — modal with JS">
+                <div class="card-view" style="flex-direction: column; width: 100%;">
             <dialog id="modaldialog">
                 <p>This modal dialog has a custom backdrop!</p>
                 <p>I'm a dialog element with "autofocus" attribute, I override some content when I'm opened...</p>
                 <p>Javascript is required to open and to close me. Add this after the dialog: </p>
-                <pre>
+                <pre class="dark">
      &lt;script&gt;
         const dialog = document.querySelector("#dialog-autofocus");
         const showButton = document.querySelector("#dialog-autofocus + button");
@@ -272,6 +309,16 @@
                 <button autofocus>Close</button>
             </dialog>
             <button>Try to open this other one dialog</button>
+                </div>
+                <pre class="dark"><code>&lt;dialog id="modaldialog"&gt;
+    &lt;button autofocus&gt;Close&lt;/button&gt;
+&lt;/dialog&gt;
+&lt;button&gt;Try to open this other one dialog&lt;/button&gt;
+&lt;script&gt;
+    dialog.showModal(); // on button click
+    closeButton.addEventListener('click', () =&gt; dialog.close());
+&lt;/script&gt;</code></pre>
+            </article>
 
             <script>
                 // Remaining problem: when the dialog is opened, it will scroll the page at top!
@@ -298,6 +345,8 @@
         <h2>HTML tags for embed text</h2>
         <!-- ------------------------------------------------------------- -->
 
+        <article class="card-doc" aria-label="Inline text elements">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
         <p>
             So, this is a text with a
             <a href="#" onclick="event.preventDefault()">Primary link</a>
@@ -317,17 +366,32 @@
             <kbd>Kbd+x</kbd>
             <mark>Highlighted</mark>
         </p>
+            </div>
+            <pre class="dark"><code>&lt;strong&gt;Bold&lt;/strong&gt; &lt;em&gt;Italic&lt;/em&gt; &lt;u&gt;Underline&lt;/u&gt;
+&lt;del&gt;Deleted&lt;/del&gt; &lt;mark&gt;Highlighted&lt;/mark&gt; &lt;kbd&gt;Kbd+x&lt;/kbd&gt;
+&lt;abbr title="..."&gt;Abbr.&lt;/abbr&gt; &lt;sub&gt;Sub&lt;/sub&gt; &lt;sup&gt;Sup&lt;/sup&gt;</code></pre>
+        </article>
 
         <h4>Blockquote</h4>
 
+        <article class="card-doc" aria-label="Blockquote">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
             <blockquote>
               La règle d'or de la conduite est la tolérance mutuelle, car nous ne
                 penserons jamais tous de la même façon, nous ne verrons qu'une partie
                 de la vérité et sous des angles différents.
                 <cite>&mdash; Ghandi</cite>
             </blockquote>
+            </div>
+            <pre class="dark"><code>&lt;blockquote&gt;
+    Quote text.
+    &lt;cite&gt;&amp;mdash; Author&lt;/cite&gt;
+&lt;/blockquote&gt;</code></pre>
+        </article>
 
         <h4>Lists</h4>
+        <article class="card-doc" aria-label="Lists — ul, ol, dl and nested">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
             <p>Simply use the standard <code>ul</code>, <code>ol</code> or <code>dt</code> HTML elements.</p>
             <h5>An ul list</h5>
             <ul>
@@ -400,24 +464,38 @@
                 </li>
                 <li>Level 1 — item B</li>
             </ul>
+            </div>
+            <pre class="dark"><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;
+&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;
+&lt;dl&gt;&lt;dt&gt;Term&lt;/dt&gt;&lt;dd&gt;Definition&lt;/dd&gt;&lt;/dl&gt;</code></pre>
+        </article>
 
         <!-- ------------------------------------------------------------- -->
         <h2>Designed HTML elements:</h2>
         <!-- ------------------------------------------------------------- -->
 
         <h3>Buttons</h3>
-            <h4>Normal view</h4>
-                <button>a button</button>
-                <button disabled>a disabled button</button>
-                <p></p>
-            <h4>Contrast view</h4>
-                <div class="contrast">
+            <article class="card-doc" aria-label="Buttons — normal and contrast views">
+                <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                    <h4>Normal view</h4>
                     <button>a button</button>
                     <button disabled>a disabled button</button>
+                    <h4>Contrast view</h4>
+                    <div class="contrast">
+                        <button>a button</button>
+                        <button disabled>a disabled button</button>
+                    </div>
                 </div>
-                <p></p>
+                <pre class="dark"><code>&lt;button&gt;a button&lt;/button&gt;
+&lt;button disabled&gt;a disabled button&lt;/button&gt;
+&lt;div class="contrast"&gt;
+    &lt;button&gt;a button&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </article>
 
         <h3>Tables</h3>
+            <article class="card-doc" aria-label="Table — normal view">
+                <div class="card-view" style="flex-direction: column; width: 100%;">
             <h4>Normal view</h4>
               <table role="grid">
                 <caption>
@@ -468,7 +546,16 @@
                   </tr>
                 </tbody>
               </table>
+                </div>
+                <pre class="dark"><code>&lt;table role="grid"&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th scope="col"&gt;...&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+    &lt;caption&gt;&lt;span&gt;Table N:&lt;/span&gt; Caption text.&lt;/caption&gt;
+&lt;/table&gt;</code></pre>
+            </article>
 
+            <article class="card-doc" aria-label="Table — contrast view">
+                <div class="card-view" style="flex-direction: column; width: 100%;">
             <h4>Contrast view</h4>
               <table role="grid" class="contrast">
                 <thead>
@@ -519,7 +606,12 @@
                     <span>Table 2:</span> A caption of the table: with contrast view.
                   </caption>
               </table>
+                </div>
+                <pre class="dark"><code>&lt;table role="grid" class="contrast"&gt;&lt;/table&gt;</code></pre>
+            </article>
 
+            <article class="card-doc" aria-label="Table — dark theme">
+                <div class="card-view" style="flex-direction: column; width: 100%;">
             <div class="dark">
             <h4>Dark theme</h4>
 
@@ -573,10 +665,17 @@
                 </caption>
             </table>
             </div>
+                </div>
+                <pre class="dark"><code>&lt;div class="dark"&gt;
+    &lt;table role="grid"&gt;&lt;/table&gt;
+&lt;/div&gt;</code></pre>
+            </article>
 
 
         <h3>Forms</h3>
 
+        <article class="card-doc" aria-label="Forms">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
         <form method="get" action="#">
             <fieldset>
                 <legend>Here is a form with <code>&lt;fieldset&gt;</code>:</legend>
@@ -624,11 +723,23 @@
             <input type="text" id="id1-search" name="search" placeholder="Search 1..."/>
             <input type="text" id="id2-search" name="search" placeholder="Search 2..."/>
         </form>
+            </div>
+            <pre class="dark"><code>&lt;form method="get" action="#"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;...&lt;/legend&gt;
+        &lt;label for="x"&gt;Label:&lt;/label&gt;
+        &lt;input name="x" type="text" id="x"/&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+        </article>
 
             <h3>Others...</h3>
 
             <h4>Accordion</h4>
 
+            <article class="card-doc" aria-label="Accordion — details/summary">
+                <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
             <details>
                 <summary>Who is Sarah Connor?</summary>
                 <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
@@ -682,27 +793,57 @@
                 </footer>
             </details>
             </div>
+                </div>
+                <pre class="dark"><code>&lt;details&gt;
+    &lt;summary&gt;Summary text&lt;/summary&gt;
+    Content
+&lt;/details&gt;
+&lt;div class="contrast"&gt;
+    &lt;details&gt;&lt;summary&gt;Contrast summary&lt;/summary&gt;Content&lt;/details&gt;
+&lt;/div&gt;</code></pre>
+            </article>
 
             <h4>aside</h4>
 
-            <aside>
-                Emphasized content with the <code>aside</code> element.
-            </aside>
-            <p>This is the main content related to the side one.</p>
+            <article class="card-doc" aria-label="Aside element">
+                <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                    <aside>
+                        Emphasized content with the <code>aside</code> element.
+                    </aside>
+                    <p>This is the main content related to the side one.</p>
+                </div>
+                <pre class="dark"><code>&lt;aside&gt;Emphasized content.&lt;/aside&gt;
+&lt;p&gt;Main content.&lt;/p&gt;</code></pre>
+            </article>
 
             <h4>Progress bar</h4>
 
-            <label for="file">File progress:</label>
-            <progress id="file" max="100" value="70">70%</progress>
-            <progress value="25" max="100" aria-label="25%"></progress>
-            <progress aria-label="Loading…"></progress>
+            <article class="card-doc" aria-label="Progress bar">
+                <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                    <label for="file">File progress:</label>
+                    <progress id="file" max="100" value="70">70%</progress>
+                    <progress value="25" max="100" aria-label="25%"></progress>
+                    <progress aria-label="Loading…"></progress>
+                </div>
+                <pre class="dark"><code>&lt;progress id="file" max="100" value="70"&gt;70%&lt;/progress&gt;
+&lt;progress value="25" max="100" aria-label="25%"&gt;&lt;/progress&gt;
+&lt;progress aria-label="Loading…"&gt;&lt;/progress&gt;</code></pre>
+            </article>
 
             <h4>Figure</h4>
 
-            <figure>
-                <img src="images/demo_video.png" alt="Demo screenshot">
-                <figcaption>A figure with caption — <a href="#">example link</a></figcaption>
-            </figure>
+            <article class="card-doc" aria-label="Figure element">
+                <div class="card-view">
+                    <figure>
+                        <img src="images/demo_video.png" alt="Demo screenshot">
+                        <figcaption>A figure with caption — <a href="#">example link</a></figcaption>
+                    </figure>
+                </div>
+                <pre class="dark"><code>&lt;figure&gt;
+    &lt;img src="..." alt="..."&gt;
+    &lt;figcaption&gt;Caption text&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+            </article>
 
 
 </main>

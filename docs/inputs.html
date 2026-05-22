@@ -10,6 +10,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
     <script>
         (function () {
@@ -72,129 +73,177 @@
     <h2>Buttons</h2>
 
     <h3>Normal view</h3>
-    <button>a button</button>
-    <button disabled>a disabled button</button>
-    <p></p>
+    <article class="card-doc" aria-label="Button — normal view">
+        <div class="card-view">
+            <button>a button</button>
+            <button disabled>a disabled button</button>
+        </div>
+        <pre class="dark"><code>&lt;button&gt;a button&lt;/button&gt;
+&lt;button disabled&gt;a disabled button&lt;/button&gt;</code></pre>
+    </article>
 
     <h3>Contrast view</h3>
-    <div class="contrast">
-        <button>a button</button>
-        <button disabled>a disabled button</button>
-    </div>
-    <p></p>
+    <article class="card-doc" aria-label="Button — contrast view">
+        <div class="card-view contrast">
+            <button>a button</button>
+            <button disabled>a disabled button</button>
+        </div>
+        <pre class="dark"><code>&lt;div class="contrast"&gt;
+    &lt;button&gt;a button&lt;/button&gt;
+    &lt;button disabled&gt;a disabled button&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </article>
 
     <h2>Forms</h2>
 
-    <form method="get" action="#">
-        <fieldset>
-            <legend>Here is a form with <code>&lt;fieldset&gt;</code>:</legend>
+    <article class="card-doc" aria-label="Form with fieldset — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+            <form method="get" action="#">
+                <fieldset>
+                    <legend>Here is a form with <code>&lt;fieldset&gt;</code>:</legend>
+                    <label for="email">An "input" of type "text":</label>
+                    <input name="email" type="text" id="email" size="25" placeholder="must be unique"/>
+                    <label for="sex">A "select" element with several "option" elements:</label>
+                    <select name="sex" id="sex">
+                        <option value="none">don't want to say</option>
+                        <option value="female">female</option>
+                        <option value="male">male</option>
+                    </select>
+                    <label for="age">Radio "input" elements:</label>
+                    <span id="age">
+                        <label><input type="radio" id="under" name="age" value="under"/> I'm under 18</label>
+                        <label><input type="radio" id="over" name="age" value="over"/> I'm over 18</label>
+                    </span>
+                    <label for="food">A "select" with "optgroup" (does not work on Safari):</label>
+                    <select multiple="multiple" name="food" id="food">
+                        <optgroup label="Italian">
+                            <option value="1">Pizza</option>
+                            <option value="2">Spaghetti</option>
+                        </optgroup>
+                        <optgroup label="Asian">
+                            <option value="4">Sushi</option>
+                        </optgroup>
+                        <option value="3">Hamburger</option>
+                        <option value="5">Borsht</option>
+                    </select>
+                    <label for="address">A "textarea" element:</label>
+                    <textarea name="address" id="address" placeholder="PO box is not allowed"></textarea>
+                    <label><input type="checkbox" name="consent" id="consent" value="test"/>I agree with all possible terms and conditions</label>
+                    <button type="submit">Subscribe</button>
+                    <button type="reset">Reset</button>
+                    <button disabled>Can't click</button>
+                </fieldset>
+            </form>
+        </div>
+        <pre class="dark"><code>&lt;form method="get" action="#"&gt;
+    &lt;fieldset&gt;
+        &lt;legend&gt;Form legend&lt;/legend&gt;
+        &lt;label for="field"&gt;Label:&lt;/label&gt;
+        &lt;input name="field" type="text" id="field" /&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+    </article>
 
-            <label for="email">An "input" of type "text":</label>
-            <input name="email" type="text" id="email" size="25" placeholder="must be unique"/>
-
-            <label for="sex">A "select" element with several "option" elements:</label>
-            <select name="sex" id="sex">
-                <option value="none">don't want to say</option>
-                <option value="female">female</option>
-                <option value="male">male</option>
-            </select>
-
-            <label for="age">Radio "input" elements:</label>
-            <span id="age">
-                <label><input type="radio" id="under" name="age" value="under"/> I'm under 18</label>
-                <label><input type="radio" id="over" name="age" value="over"/> I'm over 18</label>
-            </span>
-
-            <label for="food">Below is a "select" element with "optgroup" used to group the "option" elements. It does not work on Safari:</label>
-            <select multiple="multiple" name="food" id="food">
-                <optgroup label="Italian">
-                    <option value="1">Pizza</option>
-                    <option value="2">Spaghetti</option>
-                </optgroup>
-                <optgroup label="Asian">
-                    <option value="4">Sushi</option>
-                </optgroup>
-                <option value="3">Hamburger</option>
-                <option value="5">Borsht</option>
-            </select>
-
-            <label for="address">A "textarea" element:</label>
-            <textarea name="address" id="address" placeholder="PO box is not allowed"></textarea>
-
-            <label><input type="checkbox" name="consent" id="consent" value="test"/>I agree with all possible terms and conditions</label>
-            <button type="submit">Subscribe</button>
-            <button type="reset">Reset</button>
-            <button disabled>Can't click</button>
-        </fieldset>
-    </form>
-
-    <p>This is a form without <code>&lt;fieldset&gt;</code>:</p>
-    <form>
-        <label for="price">Add funds:</label>
-        <input id="price" type="text" size="10" placeholder="e.g. $10"/>
-        <button type="submit">Pay</button>
-        <input type="text" id="id1-search" name="search" placeholder="Search 1..."/>
-        <input type="text" id="id2-search" name="search" placeholder="Search 2..."/>
-    </form>
+    <article class="card-doc" aria-label="Form without fieldset — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+            <form>
+                <label for="price">Add funds:</label>
+                <input id="price" type="text" size="10" placeholder="e.g. $10"/>
+                <button type="submit">Pay</button>
+                <input type="text" id="id1-search" name="search" placeholder="Search 1..."/>
+                <input type="text" id="id2-search" name="search" placeholder="Search 2..."/>
+            </form>
+        </div>
+        <pre class="dark"><code>&lt;form&gt;
+    &lt;label for="price"&gt;Add funds:&lt;/label&gt;
+    &lt;input id="price" type="text" placeholder="e.g. $10"/&gt;
+    &lt;button type="submit"&gt;Pay&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    </article>
 
     <h2>Accordion</h2>
 
-    <details>
-        <summary>Who is Sarah Connor?</summary>
-        <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
-            Sarah was portrayed by Linda Hamilton in The Terminator, Terminator 2: Judgment Day, T2-3D: Battle Across Time,
-            and Terminator: Dark Fate</p>
-    </details>
-    <details>
-        <summary>I have keys but no doors. I have space but no room. You can enter but can't leave. What am I?</summary>
-        <p>A keyboard</p>
-    </details>
+    <article class="card-doc" aria-label="Accordion — simple details/summary">
+        <div class="card-view" style="flex-direction: column; align-items: stretch; width: 100%;">
+            <details>
+                <summary>Who is Sarah Connor?</summary>
+                <p>Sarah Jeanette Connor is a fictional character and the main protagonist of the Terminator franchise.
+                    Sarah was portrayed by Linda Hamilton in The Terminator, Terminator 2: Judgment Day, T2-3D: Battle Across Time,
+                    and Terminator: Dark Fate</p>
+            </details>
+            <details>
+                <summary>I have keys but no doors. I have space but no room. You can enter but can't leave. What am I?</summary>
+                <p>A keyboard</p>
+            </details>
+        </div>
+        <pre class="dark"><code>&lt;details&gt;
+    &lt;summary&gt;Question&lt;/summary&gt;
+    &lt;p&gt;Answer&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+    </article>
 
-    <p>A more complex one... add buttons in the summary:</p>
+    <article class="card-doc" aria-label="Accordion — with buttons in summary">
+        <div class="card-view" style="flex-direction: column; align-items: stretch; width: 100%;">
+            <details>
+                <summary>
+                    A summary text.
+                    <button>button</button>
+                </summary>
+                <header>...an header in details...</header>
+                <main>
+                    <p>Some text in the main part of the details element.</p>
+                    <p>Some text in the main part of the details element.</p>
+                    <p>Some text in the main part of the details element.</p>
+                </main>
+                <footer>...a footer in details...</footer>
+            </details>
+        </div>
+        <pre class="dark"><code>&lt;details&gt;
+    &lt;summary&gt;
+        Summary text.
+        &lt;button&gt;action&lt;/button&gt;
+    &lt;/summary&gt;
+    &lt;header&gt;...&lt;/header&gt;
+    &lt;main&gt;&lt;p&gt;Content&lt;/p&gt;&lt;/main&gt;
+    &lt;footer&gt;...&lt;/footer&gt;
+&lt;/details&gt;</code></pre>
+    </article>
 
-    <details>
-        <summary>
-            A summary text.
-            <button>button</button>
-        </summary>
-        <header>
-            ...an header in details...
-        </header>
-        <main>
-            <p>Some text in the main part of the details element.</p>
-            <p>Some text in the main part of the details element.</p>
-            <p>Some text in the main part of the details element.</p>
-        </main>
-        <footer>
-            ...a footer in details...
-        </footer>
-    </details>
-
-    <p>A more complex one... add buttons in the summary in contrast view:</p>
-    <div class="contrast">
-        <details>
-            <summary>
-                A summary text.
-                <button>button</button>
-            </summary>
-            <header>
-                ...an header in details...
-            </header>
-            <main>
-                <p>Some text in the main part of the details element.</p>
-                <p>Some text in the main part of the details element.</p>
-                <p>Some text in the main part of the details element.</p>
-            </main>
-            <footer>
-                ...a footer in details...
-            </footer>
-        </details>
-    </div>
+    <article class="card-doc" aria-label="Accordion — contrast view">
+        <div class="card-view contrast" style="flex-direction: column; align-items: stretch; width: 100%;">
+            <details>
+                <summary>
+                    A summary text.
+                    <button>button</button>
+                </summary>
+                <header>...an header in details...</header>
+                <main>
+                    <p>Some text in the main part of the details element.</p>
+                    <p>Some text in the main part of the details element.</p>
+                    <p>Some text in the main part of the details element.</p>
+                </main>
+                <footer>...a footer in details...</footer>
+            </details>
+        </div>
+        <pre class="dark"><code>&lt;div class="contrast"&gt;
+    &lt;details&gt;
+        &lt;summary&gt;Summary &lt;button&gt;action&lt;/button&gt;&lt;/summary&gt;
+        ...
+    &lt;/details&gt;
+&lt;/div&gt;</code></pre>
+    </article>
 
     <h2>Progress bar</h2>
 
-    <label for="file">File progress:</label>
-    <progress id="file" max="100" value="70">70%</progress>
+    <article class="card-doc" aria-label="Progress bar — example">
+        <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <label for="file">File progress:</label>
+            <progress id="file" max="100" value="70">70%</progress>
+        </div>
+        <pre class="dark"><code>&lt;label for="file"&gt;File progress:&lt;/label&gt;
+&lt;progress id="file" max="100" value="70"&gt;70%&lt;/progress&gt;</code></pre>
+    </article>
 
 </main>
 

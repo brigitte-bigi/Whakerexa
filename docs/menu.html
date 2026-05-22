@@ -14,6 +14,7 @@
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
 
     <style>
         :root:not(.dark) {
@@ -106,15 +107,37 @@
                 Both CSS modules can be loaded on the same page without any collision.</p>
 
             <p>This page shows how a page looks like if this code is added to the <code>&lt;head&gt;</code>:</p>
-            <pre>
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/wexa.css"
-    media="all" /&gt;
-&lt;link
-    rel="stylesheet"
-    href="https://raw.githubusercontent.com/brigitte-bigi/Whakerexa/master/wexa_statics/css/menu.css"/&gt;
-            </pre>
+            <pre class="dark"><code>&lt;link rel="stylesheet" href=".../wexa_statics/css/wexa.css" media="all" /&gt;
+&lt;link rel="stylesheet" href=".../wexa_statics/css/menu.css" /&gt;</code></pre>
+
+            <h2>Navigation HTML structure</h2>
+            <article class="card-doc" aria-label="Horizontal menu — HTML structure">
+                <div class="card-view">
+                    <nav class="nav-wexa" aria-label="Example navigation">
+                        <a class="nav-current" class="menuitem" href="#">Home</a>
+                        <ul>
+                            <li><a class="expand" class="menuitem" href="#">Item 1</a>
+                                <ul class="submenu submenu-gray">
+                                    <li><a class="menuitem" href="#">SubItem 1.1</a></li>
+                                    <li><a class="menuitem" href="#">SubItem 1.2</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="menuitem" href="#">Item 2</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <pre class="dark"><code>&lt;nav class="nav-wexa" aria-label="Main navigation"&gt;
+    &lt;a class="nav-current" class="menuitem" href="#"&gt;Home&lt;/a&gt;
+    &lt;ul&gt;
+        &lt;li&gt;&lt;a class="expand" class="menuitem" href="#"&gt;Item 1&lt;/a&gt;
+            &lt;ul class="submenu submenu-gray"&gt;
+                &lt;li&gt;&lt;a class="menuitem" href="#"&gt;SubItem 1.1&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;&lt;a class="menuitem" href="#"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+            </article>
 
 
             <h2>Usage</h2>

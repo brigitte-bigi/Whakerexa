@@ -155,15 +155,16 @@
             Works on both <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> elements.
         </p>
 
-        <div class="card-doc">
-            <button class="cta-button">Get started</button>
-            <button class="cta-button">Download</button>
-            <button class="cta-button" disabled>Unavailable</button>
-        </div>
-
-        <pre class="dark"><code>&lt;button class="cta-button"&gt;Get started&lt;/button&gt;
+        <article class="card-doc" aria-label="Call-to-action button — example">
+            <div class="card-view">
+                <button class="cta-button">Get started</button>
+                <button class="cta-button">Download</button>
+                <button class="cta-button" disabled>Unavailable</button>
+            </div>
+            <pre class="dark"><code>&lt;button class="cta-button"&gt;Get started&lt;/button&gt;
 &lt;a class="cta-button" href="..."&gt;Download&lt;/a&gt;
 &lt;button class="cta-button" disabled&gt;Unavailable&lt;/button&gt;</code></pre>
+        </article>
 
     </section>
 
@@ -173,36 +174,46 @@
         <h2>Text-reveal</h2>
         <p>
             <code>.text-reveal-button</code> shows only an icon at rest.
-            The text label appears beside it on hover or focus, and the button grows to fit.
-            Use it where space is limited but context is useful on interaction.
+            On hover or keyboard focus, the text label appears beside it
+            and the button expands to fit.
+        </p>
+        <p>
+            <strong>Accessibility.</strong>
+            The native <code>&lt;button&gt;</code> element is keyboard-focusable (Tab)
+            and activatable with Enter or Space — no JavaScript required.
+            The SVG icon must carry <code>aria-hidden="true"</code> since it is decorative.
+            The <code>&lt;span&gt;</code> label then provides the button's accessible name,
+            read by screen readers.
+            The <code>:focus</code> state triggers the same visual expansion as hover,
+            giving keyboard users the same feedback as pointer users.
         </p>
 
-        <div class="card-doc">
-            <button class="text-reveal-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
-                    <path d="M16 5v16"/>
-                    <polyline points="10 15 16 21 22 15"/>
-                    <line x1="6" y1="27" x2="26" y2="27"/>
-                </svg>
-                <span>Download</span>
-            </button>
-            <button class="text-reveal-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
-                    <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
-                    <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
-                </svg>
-                <span>Open book</span>
-            </button>
-            <button class="text-reveal-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
-                    <circle cx="16" cy="11" r="5"/>
-                    <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
-                </svg>
-                <span>Profile</span>
-            </button>
-        </div>
-
-        <pre class="dark"><code>&lt;button class="text-reveal-button"&gt;
+        <article class="card-doc" aria-label="Text-reveal button — example">
+            <div class="card-view">
+                <button class="text-reveal-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                        <path d="M16 5v16"/>
+                        <polyline points="10 15 16 21 22 15"/>
+                        <line x1="6" y1="27" x2="26" y2="27"/>
+                    </svg>
+                    <span>Download</span>
+                </button>
+                <button class="text-reveal-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
+                        <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
+                        <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
+                    </svg>
+                    <span>Open book</span>
+                </button>
+                <button class="text-reveal-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                        <circle cx="16" cy="11" r="5"/>
+                        <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
+                    </svg>
+                    <span>Profile</span>
+                </button>
+            </div>
+            <pre class="dark"><code>&lt;button class="text-reveal-button"&gt;
     &lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
          fill="none" stroke="currentColor" stroke-width="2"
          width="100%" height="100%" aria-hidden="true"&gt;
@@ -210,6 +221,7 @@
     &lt;/svg&gt;
     &lt;span&gt;Label&lt;/span&gt;
 &lt;/button&gt;</code></pre>
+        </article>
 
         <p>
             Size is controlled by <code>--text-reveal-height</code> and <code>--text-reveal-width</code>
@@ -218,35 +230,35 @@
             their padding conflicts with the fixed-width layout.
         </p>
 
-        <div class="card-doc">
-            <button class="text-reveal-button"
-                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
-                    <path d="M16 5v16"/>
-                    <polyline points="10 15 16 21 22 15"/>
-                    <line x1="6" y1="27" x2="26" y2="27"/>
-                </svg>
-                <span>Download</span>
-            </button>
-            <button class="text-reveal-button"
-                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
-                    <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
-                    <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
-                </svg>
-                <span>Open book</span>
-            </button>
-            <button class="text-reveal-button"
-                    style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
-                    <circle cx="16" cy="11" r="5"/>
-                    <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
-                </svg>
-                <span>Profile</span>
-            </button>
-        </div>
-
-        <pre class="dark"><code>&lt;button class="text-reveal-button"
+        <article class="card-doc" aria-label="Text-reveal button — custom size example">
+            <div class="card-view">
+                <button class="text-reveal-button"
+                        style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                        <path d="M16 5v16"/>
+                        <polyline points="10 15 16 21 22 15"/>
+                        <line x1="6" y1="27" x2="26" y2="27"/>
+                    </svg>
+                    <span>Download</span>
+                </button>
+                <button class="text-reveal-button"
+                        style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%" aria-hidden="true">
+                        <path d="M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z"/>
+                        <path d="M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z"/>
+                    </svg>
+                    <span>Open book</span>
+                </button>
+                <button class="text-reveal-button"
+                        style="--text-reveal-height: calc(var(--font-size) * 3); --text-reveal-width: calc(var(--font-size) * 3);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="100%" height="100%" aria-hidden="true">
+                        <circle cx="16" cy="11" r="5"/>
+                        <path d="M5 27c0-5 5-8 11-8s11 3 11 8"/>
+                    </svg>
+                    <span>Profile</span>
+                </button>
+            </div>
+            <pre class="dark"><code>&lt;button class="text-reveal-button"
         style="--text-reveal-height: calc(var(--font-size) * 3);
                --text-reveal-width:  calc(var(--font-size) * 3);"&gt;
     &lt;svg ... width="100%" height="100%" aria-hidden="true"&gt;
@@ -254,6 +266,7 @@
     &lt;/svg&gt;
     &lt;span&gt;Label&lt;/span&gt;
 &lt;/button&gt;</code></pre>
+        </article>
 
     </section>
 
@@ -267,29 +280,31 @@
             Both share the same gradient that reverses on hover.
         </p>
 
-        <div class="card-doc">
-            <button class="action-button" onclick="Wexa.accessibility.switchContrastScheme();">
-                <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
-                <span>Change contrast</span>
-            </button>
-            <button class="action-button" onclick="Wexa.accessibility.switchColorScheme();">
-                <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
-                <span>Change color</span>
-            </button>
-        </div>
-
-        <pre class="dark"><code>&lt;button class="action-button"&gt;
+        <article class="card-doc" aria-label="Action button — example">
+            <div class="card-view">
+                <button class="action-button" onclick="Wexa.accessibility.switchContrastScheme();">
+                    <img src="../wexa_statics/icons/contrast_switcher.jpg" alt=""/>
+                    <span>Change contrast</span>
+                </button>
+                <button class="action-button" onclick="Wexa.accessibility.switchColorScheme();">
+                    <img src="../wexa_statics/icons/theme_switcher.png" alt=""/>
+                    <span>Change color</span>
+                </button>
+            </div>
+            <pre class="dark"><code>&lt;button class="action-button"&gt;
     &lt;img src="icon.png" alt=""&gt;
     &lt;span&gt;Label&lt;/span&gt;
 &lt;/button&gt;</code></pre>
+        </article>
 
-        <div class="card-doc">
-            <button class="apply-button">Apply</button>
-            <button class="apply-button">Cancel</button>
-        </div>
-
-        <pre class="dark"><code>&lt;button class="apply-button"&gt;Apply&lt;/button&gt;
+        <article class="card-doc" aria-label="Apply button — example">
+            <div class="card-view">
+                <button class="apply-button">Apply</button>
+                <button class="apply-button">Cancel</button>
+            </div>
+            <pre class="dark"><code>&lt;button class="apply-button"&gt;Apply&lt;/button&gt;
 &lt;button class="apply-button"&gt;Cancel&lt;/button&gt;</code></pre>
+        </article>
 
         <p>
             Height: <code>--action-height</code> (default <code>calc(var(--font-size) * 2.8)</code>)
