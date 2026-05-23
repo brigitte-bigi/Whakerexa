@@ -125,10 +125,6 @@
     --progress-fg-color:     rgb(0, 0, 0);
     --shadow-color:          rgba(0, 0, 0, 0.6);
 
-    --switch-bg-color:          var(--inputs-bg-color);
-    --switch-fg-color:          var(--buttons-fg-color);
-    --switch-slider-off-color:  var(--fg-color-alt);
-    --switch-slider-on-color:   var(--buttons-bg-color);
 }
 
 /* ======================================================================
@@ -187,10 +183,6 @@
         --progress-fg-color:     rgb(255, 255, 255);
         --shadow-color:          rgba(255, 255, 255, 0.3);
 
-        --switch-bg-color:          var(--inputs-bg-color);
-        --switch-fg-color:          var(--buttons-fg-color);
-        --switch-slider-off-color:  var(--fg-color-alt);
-        --switch-slider-on-color:   var(--buttons-bg-color);
 }
 
 

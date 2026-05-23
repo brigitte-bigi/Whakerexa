@@ -347,8 +347,8 @@ This banner notice must not be removed.
     :root {
         --switch-bg-color:          var(--inputs-bg-color);
         --switch-fg-color:          var(--buttons-fg-color);
-        --switch-slider-off-color:  var(--fg-color-alt);
-        --switch-slider-on-color:   var(--buttons-bg-color);
+        --switch-slider-off-color:  var(--error-color);
+        --switch-slider-on-color:   var(--success-color);
     }
 
 } /* end @layer theme */

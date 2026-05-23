@@ -116,11 +116,6 @@
 
     --shadow-color: rgba(95, 50, 200, 0.14);
 
-    --switch-bg-color:          var(--progress-bg-color);
-    --switch-fg-color:          var(--progress-fg-color);
-    --switch-slider-off-color:  var(--buttons-bg-color);
-    --switch-slider-on-color:   var(--buttons-fg-color);
-
 }
 
 
@@ -184,10 +179,6 @@
 
     --shadow-color: rgba(120, 80, 255, 0.28);
 
-    --switch-bg-color:          var(--bg-color-alt);
-    --switch-fg-color:          var(--bg-color);
-    --switch-slider-off-color:  var(--fg-color-alt);
-    --switch-slider-on-color:   var(--buttons-bg-color);
 }
 
 

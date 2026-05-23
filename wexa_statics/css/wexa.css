@@ -1523,14 +1523,15 @@ This banner notice must not be removed.
         display: block;
         margin-bottom: calc(var(--typography-spacing-vertical) * 0.5);
         font-weight: var(--font-weight-semibold);
-        color: var(--bg-color-alt);
-        background-color: var(--fg-color-alt);
+        color: var(--progress-fg-color);
+        background-color: var(--progress-bg-color);
         padding: 0.4rem;
         white-space: normal;
+        border: var(--border-width) solid var(--border-color);
     }
 
     fieldset legend * {
-        color: var(--bg-color-alt);
+        color: var(--progress-fg-color);
         background-color: transparent;
     }
 
