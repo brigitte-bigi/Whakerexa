@@ -19,14 +19,10 @@
 
     <style>
         :root {
-            --header-height: 2rem;
+            --header-height:   2rem;
             --header-bg-color: transparent;
             --header-fg-color: var(--fg-color-alt);
             --header-slidein:  none;
-            --nav-min-height:  0;
-            --nav-min-width:   max(calc(4rem / var(--size-divisor)), 3rem);
-            --nav-item-width-v-collapsed: calc(var(--nav-min-width) - var(--typography-spacing-horizontal));
-            --nav-item-width-v-expanded:  calc(var(--nav-expanded-width) - var(--typography-spacing-horizontal));
         }
     </style>
 
@@ -37,63 +33,25 @@
 
 <header id="header-content">
     <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
-    <button id="menu-button" aria-controls="nav-content" aria-expanded="false"
-            aria-label="Toggle navigation menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-            <line x1="3" y1="6"  x2="21" y2="6"/>
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-    </button>
-    <input type="checkbox" id="mobile" role="button"
-           aria-label="Menu" aria-haspopup="true" aria-expanded="false">
     <p>Whakerexa > Components > Links</p>
 </header>
 
-<nav id="nav-content" class="nav-wexa side collapsible" aria-label="Page navigation">
-
-    <section>
-        <button aria-label="Pin menu"
-                id="pin-menu" type="button"
-                aria-controls="nav-content"
-                aria-pressed="true"
-                title="Pin menu"
-                class="menuitem menu-pin">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                aria-label="Pushpin">
-                <path d="M9 3h6l-1 8H10L9 3z"/>
-                <path d="M7 13h10"/>
-                <path d="M12 13v9"/>
-            </svg>
-        </button>
-    </section>
-
-    <section>
-        <a class="menuitem" href="index.html" aria-label="Back" title="Back">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                <polyline points="20 24 12 16 20 8"/>
-            </svg>
-            <span>Back</span>
-        </a>
-        <button id="btn-css-theme" class="menuitem" type="button"
-                aria-label="Switch CSS theme" title="Switch CSS theme"
-                onclick="window.themes && window.themes.next()">
-            <span>Theme</span>
-        </button>
-        <button id="btn-contrast" class="menuitem accessibility"
-                aria-label="contrast" aria-pressed="false"
-                onclick="Wexa.accessibility.switchContrastScheme()">
-            <span>Contrast</span>
-        </button>
-        <button id="btn-color" class="menuitem accessibility"
-                aria-label="color" aria-pressed="false"
-                onclick="Wexa.accessibility.switchColorScheme()">
-            <span>Color</span>
-        </button>
-    </section>
-
+<nav class="nav-wexa top" aria-label="Page navigation">
+    <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="20 24 12 16 20 8"/>
+        </svg>
+    </a>
+    <button id="btn-css-theme" class="menuitem" type="button"
+            aria-label="Switch CSS theme" title="Switch CSS theme"
+            onclick="window.themes && window.themes.next()">
+    </button>
+    <button id="btn-contrast" class="menuitem accessibility"
+            aria-label="contrast" aria-pressed="false"
+            onclick="Wexa.accessibility.switchContrastScheme()"></button>
+    <button id="btn-color" class="menuitem accessibility"
+            aria-label="color" aria-pressed="false"
+            onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
 
 <main id="main-content">
@@ -279,33 +237,6 @@ lc.handleLinksWithParameters(['link-params']);</code></pre>
         This document is under the terms of the GNU Free Documentation License, v1.3.</a>
     </p>
 </footer>
-
-<script>
-    (function () {
-        function initMenu() {
-            if (!window.Wexa || !window.Wexa.MenuManager) {
-                return false;
-            }
-            const m = new window.Wexa.MenuManager();
-            window.mainmenu = m;
-            m.initSideMenu();
-            m.initMobileToggle();
-            return true;
-        }
-        function start() {
-            const t = setInterval(function () {
-                if (initMenu()) {
-                    clearInterval(t);
-                }
-            }, 20);
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', start, { once: true });
-        } else {
-            start();
-        }
-    })();
-</script>
 
 <script>
     function bootLinkDemos(LinkController) {
