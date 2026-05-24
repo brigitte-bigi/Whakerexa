@@ -8,11 +8,11 @@
     <meta name="keywords" content="framework, html, css, javascript" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
-    <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" />
-    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
-    <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" />
+    <link rel="stylesheet" href="wexa_statics/css/wexa.css" type="text/css" />
+    <link id="wexa-theme" rel="stylesheet" href="wexa_statics/css/themes/wexa_theme.css" type="text/css" />
+    <link rel="stylesheet" href="wexa_statics/css/layout.css" type="text/css" />
+    <link rel="stylesheet" href="wexa_statics/css/menu.css" type="text/css" />
+    <link rel="stylesheet" href="wexa_statics/css/button.css" type="text/css" />
 
     <style>
         /* wexa uses @layer — these unlayered rules win automatically, no !important needed */
@@ -53,30 +53,30 @@
             const usingFile = (window.location.protocol === 'file:');
             const s = document.createElement('script');
             if (usingFile) {
-                s.src = '../wexa_statics/js/wexa.bundle.js';
+                s.src = 'wexa_statics/js/wexa.bundle.js';
                 s.addEventListener('load', function () {
                     if (window.Wexa && window.Wexa.ThemeManager) {
                         const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                        t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                        t.register('wexa_theme',   'wexa_statics/css/themes/wexa_theme.css');
+                        t.register('aurora',       'wexa_statics/css/themes/wexa_theme_aurora.css');
+                        t.register('highcontrast', 'wexa_statics/css/themes/wexa_theme_highcontrast.css');
                         t.setDefault('wexa_theme');
                         window.themes = t;
                     }
                 });
             } else {
                 s.type = 'module';
-                s.src = '../wexa_statics/js/wexa.js';
+                s.src = 'wexa_statics/js/wexa.js';
             }
             document.head.appendChild(s);
         })();
     </script>
     <script type="module">
-        import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
+        import { ThemeManager } from 'wexa_statics/js/extras/theme_manager.js';
         const themes = new ThemeManager();
-        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-        themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+        themes.register('wexa_theme',   'wexa_statics/css/themes/wexa_theme.css');
+        themes.register('aurora',       'wexa_statics/css/themes/wexa_theme_aurora.css');
+        themes.register('highcontrast', 'wexa_statics/css/themes/wexa_theme_highcontrast.css');
         themes.setDefault('wexa_theme');
         window.themes = themes;
     </script>
@@ -143,8 +143,8 @@
     <h1>Whakerexa</h1>
     <h2>A minimal toolkit for clean, accessible HTML</h2>
     <p class="flex-panel">
-        <a class="cta-button" id="cta-quickstart" data-href="quick-start.html" data-target="_self">Quick start</a>
-        <a class="cta-button" id="cta-browsedocs" data-href="accessibility.html" data-target="_self">Accessibility</a>
+        <a class="cta-button" id="cta-quickstart" data-href="docs/quick-start.html" data-target="_self">Quick start</a>
+        <a class="cta-button" id="cta-browsedocs" data-href="docs/accessibility.html" data-target="_self">Accessibility</a>
     </p>
 </header>
 
@@ -215,7 +215,7 @@
     </section>
 
     <section>
-    <a class="menuitem" id="nav-bundle" data-href="wexa.bundle.html" data-target="_self">
+    <a class="menuitem" id="nav-bundle" data-href="docs/wexa.bundle.html" data-target="_self">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
              fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
@@ -234,16 +234,16 @@
         <nav>
             <section>
             <p class="nav-section-label">Getting started:</p>
-            <a class="menuitem" id="nav-wexa"          data-href="wexa.html"           data-target="_self">Wexa CSS</a>
-            <a class="menuitem" id="nav-quickstart"    data-href="quick-start.html"    data-target="_self">Quick start</a>
-            <a class="menuitem" id="nav-architecture"  data-href="architecture.html"   data-target="_self">Architecture</a>
-            <a class="menuitem" id="nav-accessibility" data-href="accessibility.html"  data-target="_self">Accessibility</a>
+            <a class="menuitem" id="nav-wexa"          data-href="docs/wexa.html"           data-target="_self">Wexa CSS</a>
+            <a class="menuitem" id="nav-quickstart"    data-href="docs/quick-start.html"    data-target="_self">Quick start</a>
+            <a class="menuitem" id="nav-architecture"  data-href="docs/architecture.html"   data-target="_self">Architecture</a>
+            <a class="menuitem" id="nav-accessibility" data-href="docs/accessibility.html"  data-target="_self">Accessibility</a>
             </section>
             <section>
             <p class="nav-section-label">Customization:</p>
-            <a class="menuitem" id="nav-cssvariables"  data-href="css-variables.html"  data-target="_self">CSS Variables</a>
-            <a class="menuitem" id="nav-colors"        data-href="colors.html"         data-target="_self">Colors</a>
-            <a class="menuitem" id="nav-themes"        data-href="themes.html"         data-target="_self">Themes</a>
+            <a class="menuitem" id="nav-cssvariables"  data-href="docs/css-variables.html"  data-target="_self">CSS Variables</a>
+            <a class="menuitem" id="nav-colors"        data-href="docs/colors.html"         data-target="_self">Colors</a>
+            <a class="menuitem" id="nav-themes"        data-href="docs/themes.html"         data-target="_self">Themes</a>
             </section>
         </nav>
     </aside>
@@ -252,32 +252,32 @@
         <nav>
             <section>
             <p class="nav-section-label">Navigation:</p>
-            <a class="menuitem" id="nav-menu"          data-href="menu.html"         data-target="_self">Menus</a>
-            <a class="menuitem" id="nav-menu-side"     data-href="menu-side.html"    data-target="_self">Side menu</a>
-            <a class="menuitem" id="nav-menu-bottom"   data-href="menu-bottom.html"  data-target="_self">Bottom/Top menus</a>
+            <a class="menuitem" id="nav-menu"          data-href="docs/menu.html"         data-target="_self">Menus</a>
+            <a class="menuitem" id="nav-menu-side"     data-href="docs/menu-side.html"    data-target="_self">Side menu</a>
+            <a class="menuitem" id="nav-menu-bottom"   data-href="docs/menu-bottom.html"  data-target="_self">Bottom/Top menus</a>
             </section>
             <section>
             <p class="nav-section-label">Layout:</p>
-            <a class="menuitem" id="nav-containers"    data-href="layout.html"       data-target="_self">Containers</a>
+            <a class="menuitem" id="nav-containers"    data-href="docs/layout.html"       data-target="_self">Containers</a>
             </section>
             <section>
             <p class="nav-section-label">Content:</p>
-            <a class="menuitem" id="nav-typography"    data-href="typography.html"   data-target="_self">Typography</a>
-            <a class="menuitem" id="nav-code"          data-href="code.html"         data-target="_self">Code</a>
-            <a class="menuitem" id="nav-tables"        data-href="tables.html"       data-target="_self">Tables</a>
+            <a class="menuitem" id="nav-typography"    data-href="docs/typography.html"   data-target="_self">Typography</a>
+            <a class="menuitem" id="nav-code"          data-href="docs/code.html"         data-target="_self">Code</a>
+            <a class="menuitem" id="nav-tables"        data-href="docs/tables.html"       data-target="_self">Tables</a>
             </section>
             <section>
             <p class="nav-section-label">Forms:</p>
-            <a class="menuitem" id="nav-inputs"        data-href="inputs.html"       data-target="_self">Inputs</a>
-            <a class="menuitem" id="nav-button"        data-href="button.html"       data-target="_self">Button</a>
-            <a class="menuitem" id="nav-switch"        data-href="switch.html"       data-target="_self">Switch</a>
-            <a class="menuitem" id="nav-progressbar"   data-href="progressbar.html"  data-target="_self">Progress bar</a>
+            <a class="menuitem" id="nav-inputs"        data-href="docs/inputs.html"       data-target="_self">Inputs</a>
+            <a class="menuitem" id="nav-button"        data-href="docs/button.html"       data-target="_self">Button</a>
+            <a class="menuitem" id="nav-switch"        data-href="docs/switch.html"       data-target="_self">Switch</a>
+            <a class="menuitem" id="nav-progressbar"   data-href="docs/progressbar.html"  data-target="_self">Progress bar</a>
             </section>
             <section>
             <p class="nav-section-label">Utilities:</p>
-            <a class="menuitem" id="nav-accordion"     data-href="accordion.html"    data-target="_self">Accordion</a>
-            <a class="menuitem" id="nav-dialog"        data-href="dialog.html"       data-target="_self">Dialogs</a>
-            <a class="menuitem" id="nav-links"         data-href="links.html"        data-target="_self">Links</a>
+            <a class="menuitem" id="nav-accordion"     data-href="docs/accordion.html"    data-target="_self">Accordion</a>
+            <a class="menuitem" id="nav-dialog"        data-href="docs/dialog.html"       data-target="_self">Dialogs</a>
+            <a class="menuitem" id="nav-links"         data-href="docs/links.html"        data-target="_self">Links</a>
             </section>
         </nav>
     </aside>
@@ -285,10 +285,10 @@
     <aside id="appmenu-extras" class="appmenu" aria-label="Extras submenu">
         <nav>
             <section>
-            <a class="menuitem" id="nav-sortatable"    data-href="sortatable.html"   data-target="_self">Sortable table</a>
-            <a class="menuitem" id="nav-book"          data-href="book.html"         data-target="_self">Book</a>
-            <a class="menuitem" id="nav-autotoc"       data-href="autotoc.html"      data-target="_self">Auto ToC</a>
-            <a class="menuitem" id="nav-slides"        data-href="slides.html"       data-target="_self">Slides</a>
+            <a class="menuitem" id="nav-sortatable"    data-href="docs/sortatable.html"   data-target="_self">Sortable table</a>
+            <a class="menuitem" id="nav-book"          data-href="docs/book.html"         data-target="_self">Book</a>
+            <a class="menuitem" id="nav-autotoc"       data-href="docs/autotoc.html"      data-target="_self">Auto ToC</a>
+            <a class="menuitem" id="nav-slides"        data-href="docs/slides.html"       data-target="_self">Slides</a>
             </section>
         </nav>
     </aside>
@@ -323,7 +323,7 @@
                     <p>Wexa styles tags directly. No <code>.btn</code>, no <code>.container</code>, no utility class soup — your markup stays readable.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-wexa" data-href="wexa.html" data-target="_self">See it →</a>
+                    <a id="card-nav-wexa" data-href="docs/wexa.html" data-target="_self">See it →</a>
                 </div>
             </article>
 
@@ -348,7 +348,7 @@
                     <p>Every color, size and spacing is a variable. Redefine a handful and the whole design follows — themes included.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-cssvariables" data-href="css-variables.html" data-target="_self">Explore →</a>
+                    <a id="card-nav-cssvariables" data-href="docs/css-variables.html" data-target="_self">Explore →</a>
                 </div>
             </article>
 
@@ -367,7 +367,7 @@
                     <p>Your CSS wins over wexa defaults automatically. No <code>!important</code>, no specificity fights — just write your rules.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-architecture" data-href="architecture.html" data-target="_self">Learn more →</a>
+                    <a id="card-nav-architecture" data-href="docs/architecture.html" data-target="_self">Learn more →</a>
                 </div>
             </article>
 
@@ -388,7 +388,7 @@
                     <p>Light, dark and contrast modes. Skip links, ARIA roles, keyboard navigation — from the ground up, not as an afterthought.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-accessibility" data-href="accessibility.html" data-target="_self">See modes →</a>
+                    <a id="card-nav-accessibility" data-href="docs/accessibility.html" data-target="_self">See modes →</a>
                 </div>
             </article>
 
@@ -408,7 +408,7 @@
                     <p>Import only what you need. Or use the single-file bundle for offline and <code>file://</code> environments. No build step.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-bundle" data-href="wexa.bundle.html" data-target="_self">Bundle docs →</a>
+                    <a id="card-nav-bundle" data-href="docs/wexa.bundle.html" data-target="_self">Bundle docs →</a>
                 </div>
             </article>
 
@@ -427,7 +427,7 @@
                     <p>A full accessible presentation framework. Keyboard control, handout and memo modes, themes — runs in any browser.</p>
                 </div>
                 <div class="card-footer">
-                    <a id="card-nav-slides" data-href="slides.html" data-target="_self">See slides →</a>
+                    <a id="card-nav-slides" data-href="docs/slides.html" data-target="_self">See slides →</a>
                 </div>
             </article>
 
@@ -494,7 +494,7 @@
         </ol>
 
         <p>
-            Need more? See the <a id="start-quickstart" data-href="quick-start.html" data-target="_self">Quick start</a>
+            Need more? See the <a id="start-quickstart" data-href="docs/quick-start.html" data-target="_self">Quick start</a>
             or browse individual component pages from the menu.
         </p>
 
@@ -502,7 +502,7 @@
             <summary>ES6 modules vs bundle — which to use?</summary>
             <p>
                 Modules (<code>wexa.js</code>) require an HTTP server — run <code>python -m http.server 8000</code>
-                then open <code>http://localhost:8000/docs/</code>.
+                then open <code>http://localhost:8000/</code>.
                 The bundle (<code>wexa.bundle.js</code>) works directly from disk on <code>file://</code>.
                 This index auto-loads the right one.
             </p>
@@ -517,7 +517,7 @@
     <section>
         <p class="center">
             <a href="index.html" aria-label="Whakerexa — home">
-                <img src="../wexa_statics/logos/whakerexa.png" alt="Whakerexa">
+                <img src="wexa_statics/logos/whakerexa.png" alt="Whakerexa">
             </a>
         </p>
         <p class="center">This site respects your privacy. No tracking, no cookies.</p>

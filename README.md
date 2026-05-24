@@ -92,12 +92,14 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 - Added HTML documentation of the CSS frameworks
 - Added a CSS/JS framework for playing a video in a popup dialog
 
+
 ## Version 0.2
 
 - Added code.css, a set of colors for highlighting source code.
 - Added menu.css, a solution for an accessible responsive sticky menubar
 - Added layout.css, a set of classes to easily organize HTML content
 - Added accordion.js which must be added when using "rise-panel"
+
 
 ## Version 0.3
 
@@ -107,10 +109,12 @@ It is also developed with the support of Laboratoire Parole et Langage <https://
 - The "rise-panel/accordion" is deprecated (HTML-3), use HTML-5 details/summary instead
 - Added modal dialogs to show an alert message: info, success, warning, error, tips, question
 
+
 ## Version 0.4
 
 This is mainly a bug-correction version: adjusted some width, removed transparency of 
 background dialogs, corrected a bug in accessibility.
+
 
 ## Version 0.5 
 
@@ -119,12 +123,14 @@ background dialogs, corrected a bug in accessibility.
 - Minor CSS changes
 - Migrated license, from GPL to AGPL.
 
+
 ## Version 0.6
 
 - Added `sortatable`: a CSS/JS utility designed for sorting table rows in ascending or descending order
 - Added `toggleselect`: CSS/JS utility for toggling checkbox states.
 - Added custom buttons: introduced CSS classes `text-reveal-button`, `action-button`, `apply-button` and `switch`.
 - Updated request.js: better support of upload, better error management in post.
+
 
 ## Version 0.7
 
@@ -133,9 +139,11 @@ background dialogs, corrected a bug in accessibility.
 - Debug of action-button
 - Minor changes in wexa.css
 
+
 ## Version 0.8
 
 - This is mainly some debug.
+
 
 ## Version 1.0
 
@@ -155,6 +163,7 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
+
 ## Version 2.0 
 
 Version 2.0 is a complete modernization.
@@ -170,12 +179,12 @@ Previous procedural APIs are not preserved.
 - Added an "extra" JS package for slides. Currently proposed as a PoC.
 
 
-## Version 2.1 - stable
+## Version 2.1
 
 Increased accessibility and corrected bugs.
 
 
-## Version 3.0
+## Version 3.0 - stable
 
 Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS selectors and JS APIs are not preserved.
 
@@ -191,7 +200,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - `code.css`: complete dark-mode color palette.
 - Slides: new handout (`d`), overview (`o`) and memo (`m`) view modes. Speaker notes are now `<aside for="slide-id">` siblings, not nested inside the slide. A help dialog (`h` / `?`) lists all keyboard shortcuts. The slides loader auto-detects `file://` vs `http(s)://` and loads the bundle or ES module accordingly. Nav control font-size is controlled by `--slides-nav-font-size`, defined per view mode.
 
-**Breaking changes:**
+### Breaking changes:
 
 | What changed | Old | New |
 |---|---|---|
@@ -204,4 +213,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 | Print styles | `@media print` per file | `print.css` |
 | Accessibility button | `btn-theme` | `btn-color` |
 
+### Known bugs
 
+- `layout.css` alternates `panel-item` section backgrounds via `main > .panel-item:nth-child(even)`, which redefines `--bg-color` and `--fg-color`. Some child elements (cards, code blocks, etc.) do not inherit these redefined variables and render with the wrong background color.
