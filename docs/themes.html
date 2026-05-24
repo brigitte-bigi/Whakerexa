@@ -7,51 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
-    <link id="wexa-theme" rel="stylesheet" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
+    <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
-    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-    <script>
-        (function () {
-            const usingFile = (window.location.protocol === 'file:');
-            const s = document.createElement('script');
-            if (usingFile) {
-                s.src = '../wexa_statics/js/wexa.bundle.js';
-                s.addEventListener('load', function () {
-                    if (window.Wexa && window.Wexa.ThemeManager) {
-                        const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-                        t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-                        t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                        t.setDefault('wexa_theme');
-                        window.themes = t;
-                    }
-                });
-            } else {
-                s.type = 'module';
-                s.src = '../wexa_statics/js/wexa.js';
-            }
-            document.head.appendChild(s);
-        })();
-    </script>
-    <script type="module">
-        import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
-        const themes = new ThemeManager();
-        themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
-        themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
-        themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
-        themes.setDefault('wexa_theme');
-        window.themes = themes;
-    </script>
+    <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
+
+    <style>
+        :root {
+            --header-height:   2rem;
+            --header-bg-color: transparent;
+            --header-fg-color: var(--fg-color-alt);
+            --header-slidein:  none;
+        }
+    </style>
 </head>
 <body>
 
 <header id="header-content">
     <a class="skip" href="#main-content" aria-label="skip to main content">Skip to main content</a>
-    <h1>Themes</h1>
+    <p>Whakerexa &gt; Getting started &gt; Themes</p>
 </header>
 <nav class="nav-wexa top" aria-label="Page navigation">
-    <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+    <a class="menuitem" id="btn-back" data-href="index.html" data-target="_self" aria-label="Back" title="Back">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <polyline points="20 24 12 16 20 8" />
         </svg>
@@ -67,9 +45,14 @@
             aria-label="color" aria-pressed="false"
             onclick="Wexa.accessibility.switchColorScheme()"></button>
 </nav>
+
 <main id="main-content">
 
+    <!-- ============================================================ -->
     <section class="panel-item">
+
+        <h1>Themes</h1>
+
         <h2>What is a theme?</h2>
         <p>
             A theme is a standalone CSS file that contains <strong>only an <code>@layer theme</code> block</strong>.
@@ -82,9 +65,12 @@
             <code>&lt;link id="wexa-theme"&gt;</code> element whose <code>href</code> is swapped on every
             theme switch.
         </p>
+
     </section>
 
+    <!-- ============================================================ -->
     <section class="panel-item">
+
         <h2>Integration</h2>
         <p>Two requirements make theme switching work correctly:</p>
         <ol>
@@ -96,21 +82,35 @@
                 The default theme <strong>must be registered</strong> with <code>ThemeManager</code> and declared via <code>setDefault()</code>.
             </li>
         </ol>
-        <pre><code>&lt;!-- In &lt;head&gt; --&gt;
-&lt;link id="wexa-theme" rel="stylesheet" href="wexa_statics/css/themes/wexa_theme.css" /&gt;</code></pre>
-        <pre><code>const themes = new ThemeManager();
+
+        <article class="card-doc" aria-label="Theme link element">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>Add <code>id="wexa-theme"</code> to the default theme link in <code>&lt;head&gt;</code>.</p>
+            </div>
+            <pre class="dark"><code>&lt;link id="wexa-theme" rel="stylesheet"
+      href="wexa_statics/css/themes/wexa_theme.css" /&gt;</code></pre>
+        </article>
+
+        <article class="card-doc" aria-label="ThemeManager initialization">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>
+                    The active theme name is persisted in the URL parameter <code>wexa_theme</code> and propagated
+                    to all internal links via <code>setUrlWithParameters()</code>.
+                </p>
+            </div>
+            <pre class="dark"><code>const themes = new ThemeManager();
 themes.register('wexa_theme',   'wexa_statics/css/themes/wexa_theme.css');
 themes.register('aurora',       'wexa_statics/css/themes/wexa_theme_aurora.css');
 themes.register('highcontrast', 'wexa_statics/css/themes/wexa_theme_highcontrast.css');
 themes.setDefault('wexa_theme');
 window.themes = themes;</code></pre>
-        <p>
-            The active theme name is persisted in the URL parameter <code>wexa_theme</code> and propagated
-            to all internal links via <code>setUrlWithParameters()</code>.
-        </p>
+        </article>
+
     </section>
 
+    <!-- ============================================================ -->
     <section class="panel-item">
+
         <h2>Available themes</h2>
         <div class="cards-panel">
 
@@ -172,12 +172,20 @@ window.themes = themes;</code></pre>
             </article>
 
         </div>
+
     </section>
 
+    <!-- ============================================================ -->
     <section class="panel-item">
+
         <h2>Creating a custom theme</h2>
         <p>A theme file contains a single <code>@layer theme</code> block. Redefine only the variables you need — all others fall back to <code>wexa.css</code> defaults.</p>
-        <pre><code>/* my_theme.css */
+
+        <article class="card-doc" aria-label="Custom theme example">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>Register it the same way as built-in themes. The <code>.contrast</code> class is managed by <code>AccessibilityManager</code> — a theme must not override colors in contrast mode.</p>
+            </div>
+            <pre class="dark"><code>/* my_theme.css */
 @layer theme {
 
     :root:not(.dark) {
@@ -195,21 +203,61 @@ window.themes = themes;</code></pre>
     }
 
 }</code></pre>
-        <p>Register it the same way as built-in themes. The <code>.contrast</code> class is managed by <code>AccessibilityManager</code> — a theme must not override colors in contrast mode.</p>
+        </article>
+
     </section>
 
 </main>
 
-    <footer>
-        <p class="center">This site respects your privacy.</p>
-        <p class="center">We do not collect any information and do not use cookies.</p>
-        <hr>
-        <p>Copyright @ 2023-2026 Brigitte Bigi, CNRS<br>
-            Laboratoire Parole et Langage, Aix-en-Provence, France</p>
-        <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
-            This document is under the terms of the GNU Free Documentation License, v1.3.</a>
-        </p>
-    </footer>
+<footer>
+    <p class="center">This site respects your privacy.</p>
+    <p class="center">We do not collect any information and do not use cookies.</p>
+    <hr>
+    <p>Copyright @ 2023-2026 Brigitte Bigi, CNRS<br>
+        Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+    <p><a href="https://www.gnu.org/licenses/fdl-1.3.en.html" class="external-link">
+        This document is under the terms of the GNU Free Documentation License, v1.3.</a>
+    </p>
+</footer>
+
+<script>
+    window.addEventListener('load', () => {
+        Wexa.links.handleLinksWithParameters(['btn-back']);
+    });
+</script>
+
+<!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+<script>
+    (function () {
+        const usingFile = (window.location.protocol === 'file:');
+        const s = document.createElement('script');
+        if (usingFile) {
+            s.src = '../wexa_statics/js/wexa.bundle.js';
+            s.addEventListener('load', function () {
+                if (window.Wexa && window.Wexa.ThemeManager) {
+                    const t = new window.Wexa.ThemeManager();
+                    t.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+                    t.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+                    t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+                    t.setDefault('wexa_theme');
+                    window.themes = t;
+                }
+            });
+        } else {
+            s.type = 'module';
+            s.src = '../wexa_statics/js/wexa.js';
+        }
+        document.head.appendChild(s);
+    })();
+</script>
+<script type="module">
+    import { ThemeManager } from '../wexa_statics/js/extras/theme_manager.js';
+    const themes = new ThemeManager();
+    themes.register('wexa_theme',   '../wexa_statics/css/themes/wexa_theme.css');
+    themes.register('aurora',       '../wexa_statics/css/themes/wexa_theme_aurora.css');
+    themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
+    window.themes = themes;
+</script>
 
 </body>
 </html>

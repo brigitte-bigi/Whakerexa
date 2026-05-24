@@ -69,7 +69,7 @@
 
     <!-- Compact top bar for accessibility controls + submenu toggle -->
     <nav class="nav-wexa top mini-top" aria-label="Accessibility navigation">
-        <a class="menuitem" href="index.html" aria-label="Back" title="Back">
+        <a class="menuitem" id="btn-back" data-href="index.html" data-target="_self" aria-label="Back" title="Back">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
                  fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" aria-hidden="true">
@@ -308,6 +308,12 @@ menu.registerSubmenu('appmenu-menu',    'submenu-toggle-menu');</code></pre>
             start();
         }
     })();
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        Wexa.links.handleLinksWithParameters(['btn-back']);
+    });
 </script>
 
 <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->

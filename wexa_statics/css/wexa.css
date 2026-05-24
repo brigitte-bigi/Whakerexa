@@ -1828,10 +1828,13 @@ This banner notice must not be removed.
     /* Toggle visual effect */
     .menuitem[aria-pressed='true'].accessibility,
     [role='menuitem'][aria-pressed='true'].accessibility {
-        transform: scaleX(-1);
         opacity: 1;
-        /*background-color: color-mix(in srgb, currentColor 50%, transparent);*/
         box-shadow: inset 0 0 calc(var(--font-size) / 3) currentColor;
+    }
+
+    .menuitem[aria-pressed='true'].accessibility svg,
+    [role='menuitem'][aria-pressed='true'].accessibility svg {
+        transform: scaleX(-1);
     }
 
 }

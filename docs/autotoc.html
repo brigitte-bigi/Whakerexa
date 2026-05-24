@@ -40,7 +40,7 @@
     </header>
 
     <nav class="nav-wexa top" aria-label="Page navigation">
-        <a class="menuitem" href="book.html" aria-label="Back" title="Back">
+        <a class="menuitem" id="btn-back" data-href="book.html" data-target="_self" aria-label="Back" title="Back">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                 <polyline points="20 24 12 16 20 8"/>
             </svg>
@@ -168,6 +168,12 @@ book.fill_table(false);</code></pre>
         const book = new Book("main-content");
         book.fill_table();
     }
+</script>
+
+<script>
+    window.addEventListener('load', () => {
+        Wexa.links.handleLinksWithParameters(['btn-back']);
+    });
 </script>
 
 <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
