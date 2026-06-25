@@ -36,6 +36,7 @@ export class Book {
     #toc_element;
     #headings_container;
     #html_tags;
+    #toggle_button;
 
 
     // CONSTRUCTOR
@@ -49,6 +50,14 @@ export class Book {
         this.#toc_element = document.getElementById(id_toc);
         this.#headings_container = document.getElementById(id_headings);
         this.#html_tags = "h1, h2, h3, h4";
+        const container = this.#toc_element?.closest('nav, aside');
+        if (container instanceof HTMLElement) {
+            if (container.classList.contains('book-toc-aside')) {
+                this.#setup_aside(container);
+            } else {
+                container.setAttribute('tabindex', '-1');
+            }
+        }
     }
 
 
@@ -146,6 +155,38 @@ export class Book {
 
 
     // PRIVATE METHODS
+    /**
+     * Inject a toggle button and manage open/close state for aside.book-toc-aside.
+     *
+     * @param aside {HTMLElement} The aside.book-toc-aside element
+     */
+    #setup_aside(aside) {
+        if (!aside.id) aside.id = 'book-toc-aside';
+        aside.setAttribute('aria-hidden', 'true');
+
+        const titleEl = aside.querySelector('h1, h2');
+        const label = titleEl?.textContent?.trim() || 'Table of contents';
+
+        this.#toggle_button = document.createElement('button');
+        this.#toggle_button.className = 'book-toc-toggle';
+        this.#toggle_button.setAttribute('aria-controls', aside.id);
+        this.#toggle_button.setAttribute('aria-expanded', 'false');
+        this.#toggle_button.setAttribute('aria-label', label);
+        this.#toggle_button.textContent = label;
+        this.#toggle_button.addEventListener('click', () => {
+            const isOpen = aside.classList.toggle('open');
+            this.#toggle_button.setAttribute('aria-expanded', String(isOpen));
+            aside.setAttribute('aria-hidden', String(!isOpen));
+            if (isOpen) {
+                aside.querySelector('a[href], button')?.focus();
+            } else {
+                this.#toggle_button.focus();
+            }
+        });
+
+        aside.before(this.#toggle_button);
+    }
+
     /**
      * Searched all headings linked with the table of contents.
      *

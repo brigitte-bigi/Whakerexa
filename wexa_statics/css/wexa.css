@@ -277,7 +277,7 @@ This banner notice must not be removed.
         --skip-height: calc(var(--font-size) * 2);
 
         /* Font definitions */
-        --font-family-sans: SansFont, 'Verdana', sans-serif;
+        --font-family-sans: SansFont, Arial, Helvetica, sans-serif;
         --font-family-serif: SerifFont, 'Noto Serif', 'Times New Roman', serif;
         --font-family-mono: MonoFont, 'Courier New', monospace;
         --font-family-pre: PreFont, 'Noto Sans', monospace, 'Courier New';

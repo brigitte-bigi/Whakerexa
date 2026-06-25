@@ -32,6 +32,7 @@ This banner notice must not be removed.
 
 :root {
     --toc-width: 0;
+    --toc-aside-width: 0;
     --numbers-bg-color: rgb(140, 40, 40);
     --numbers-fg-color: rgb(250, 248, 252);
 }
@@ -43,6 +44,15 @@ This banner notice must not be removed.
 html {
     /* nav-width + its left- right- margins */
     margin-left: var(--toc-width);
+}
+
+html:has(aside.book-toc-aside) {
+    margin-left: var(--toc-aside-width);
+    transition: margin-left var(--transition, 0.25s ease-in-out);
+}
+
+html:has(aside.book-toc-aside.open) {
+    margin-left: calc(var(--toc-aside-width) + var(--toc-width));
 }
 
 body {
@@ -59,12 +69,13 @@ body {
     counter-increment: chapter;
     counter-reset: ssection;
     text-align: left;
+    min-height: 100vh;
 }
 
 .chapter > h1 {
     width: 100%;
-    border-top: var(--border-width) solid var(--h1-color);
-    border-bottom: var(--border-width) solid var(--h1-color);
+    border-top: calc(4 * var(--border-width)) solid var(--numbers-bg-color);
+    border-bottom: calc(4 * var(--border-width)) solid var(--numbers-bg-color);
     padding-top: 2rem;
     padding-bottom: 2rem;
     margin-bottom: 4rem;
@@ -138,6 +149,10 @@ nav.book-toc {
     font-size: 90%;
     overflow-x: hidden;
     display: block;
+}
+
+body:has(nav.nav-wexa.top) nav.book-toc {
+    top: var(--nav-min-height);
 }
 
 /* Reset any previous nav margin/padding */
@@ -274,4 +289,222 @@ nav.book-toc li.h6 a {
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: calc(0.7*var(--font-size));
+}
+
+/* ----------------------------------------------------------------------- */
+/* -------------- BOOK NAVIGATION: Toggleable aside ToC ------------------ */
+/* ----------------------------------------------------------------------- */
+
+/* Usage: <aside class="book-toc-aside" id="book-toc-aside">
+             <h1>Table des matières</h1>
+             <ul id="toc"></ul>
+          </aside>
+   book.js detects the class and injects button.book-toc-toggle before the aside. */
+
+aside.book-toc-aside {
+    z-index: 10;
+    width: var(--toc-width);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: var(--toc-aside-width);
+    padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
+    padding-bottom: 3rem;
+    overflow-x: hidden;
+    display: block;
+    background: var(--nav-bg-color);
+    box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
+    transform: translateX(calc(-1 * (var(--toc-aside-width) + var(--toc-width))));
+    transition: transform var(--transition, 0.25s ease-in-out);
+}
+
+aside.book-toc-aside.open {
+    transform: translateX(0);
+}
+
+body:has(nav.nav-wexa.top) aside.book-toc-aside {
+    top: var(--nav-min-height);
+}
+
+/* Toggle button injected by book.js */
+button.book-toc-toggle {
+    position: fixed;
+    top: 50vh;
+    left: 0;
+    z-index: 10;
+    writing-mode: vertical-rl;
+    transform: translateY(-50%) rotate(180deg);
+    padding: var(--typography-spacing-vertical) calc(0.5 * var(--typography-spacing-horizontal));
+    background: var(--nav-bg-color);
+    color: var(--nav-fg-color);
+    border: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    cursor: pointer;
+    font-size: calc(0.75 * var(--font-size));
+    font-family: inherit;
+    transition: left var(--transition, 0.25s ease-in-out);
+}
+
+body:has(aside.book-toc-aside.open) button.book-toc-toggle {
+    left: 0;
+}
+
+/* Inner content — mirrors nav.book-toc styles */
+aside.book-toc-aside * {
+    margin: auto;
+    padding: 0;
+    font-size: calc(0.8 * var(--font-size));
+}
+
+aside.book-toc-aside *:not([role=button]) {
+    color: var(--nav-fg-color);
+}
+
+aside.book-toc-aside > ul,
+aside.book-toc-aside > hr,
+aside.book-toc-aside > h1,
+aside.book-toc-aside > h2 {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+aside.book-toc-aside h1 {
+    font-size: calc(1.5 * var(--font-size));
+    font-weight: var(--font-weight-black);
+}
+
+aside.book-toc-aside h2 {
+    font-size: calc(1.5 * var(--font-size));
+    font-weight: var(--font-weight-bold);
+}
+
+aside.book-toc-aside ul { display: initial; }
+
+aside.book-toc-aside a:not([role=button],[role=menuitem]) { display: initial; }
+
+aside.book-toc-aside li.h1,
+aside.book-toc-aside li.h2,
+aside.book-toc-aside li.h3,
+aside.book-toc-aside li.h4,
+aside.book-toc-aside li.h5,
+aside.book-toc-aside li.h6 {
+    display: block;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+aside.book-toc-aside li.h1 { margin-top: 1.5rem; margin-bottom: 1rem; padding-left: 0; }
+aside.book-toc-aside li.h2 { margin-top: 1rem; padding-left: 0.5rem; }
+aside.book-toc-aside li.h3 { padding-left: 1.5rem; }
+aside.book-toc-aside li.h4 { padding-left: 2rem; }
+aside.book-toc-aside li.h5 { padding-left: 3rem; }
+aside.book-toc-aside li.h6 { padding-left: 4rem; }
+
+aside.book-toc-aside li.h2::before { content: "■"; padding-right: calc(0.4 * var(--typography-spacing-horizontal)); }
+aside.book-toc-aside li.h3::before { content: "◇"; padding-right: calc(0.4 * var(--typography-spacing-horizontal)); }
+aside.book-toc-aside li.h4::before { content: "-"; padding-right: calc(0.4 * var(--typography-spacing-horizontal)); }
+aside.book-toc-aside li.h5::before { content: "□"; padding-right: calc(0.4 * var(--typography-spacing-horizontal)); }
+
+aside.book-toc-aside li.h1 a {
+    text-decoration: none;
+    font-variant-caps: small-caps;
+    font-weight: var(--font-weight-bold);
+    font-size: calc(1.2 * var(--font-size));
+}
+aside.book-toc-aside li.h2 a {
+    text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    text-overflow: ellipsis;
+    font-size: var(--font-size);
+}
+aside.book-toc-aside li.h3 a {
+    text-decoration: none;
+    font-weight: var(--font-weight-normal);
+    text-overflow: ellipsis;
+    font-size: calc(0.9 * var(--font-size));
+}
+aside.book-toc-aside li.h4 a {
+    text-decoration: none;
+    font-weight: var(--font-weight-semithin);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+aside.book-toc-aside li.h5 a {
+    text-decoration: none;
+    font-weight: var(--font-weight-thin);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: calc(0.75 * var(--font-size));
+}
+aside.book-toc-aside li.h6 a {
+    text-decoration: none;
+    font-weight: var(--font-weight-thin);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: calc(0.7 * var(--font-size));
+}
+
+/* ----------------------------------------------------------------------- */
+/* ----------------------------- Abstract -------------------------------- */
+/* ----------------------------------------------------------------------- */
+
+.abstract {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+    padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
+    background-color: var(--bg-color-alt);
+    color: var(--fg-color-alt);
+    box-shadow: 0 0.2rem 0.8rem var(--shadow-color);
+    border-radius: var(--border-radius);
+    font-size: calc(0.9 * var(--font-size));
+    font-style: italic;
+}
+
+.abstract * {
+    background-color: transparent;
+    color: inherit;
+}
+
+.abstract h2 {
+    font-style: normal;
+}
+
+/* ----------------------------------------------------------------------- */
+/* ---------------------- Chapters without numbering --------------------- */
+/* ----------------------------------------------------------------------- */
+
+.chapter.nonumber {
+    counter-increment: none;
+}
+
+.chapter.nonumber > h1 {
+    display: block;
+}
+
+.chapter.nonumber > h1::before {
+    display: none;
+}
+
+.chapter.nonumber .ssection h2::before {
+    /* book.js #get_headings() includes a heading in the ToC only if
+       getComputedStyle(el, '::before').content differs from 'none', '""'
+       and "''". Using content: none would exclude these headings from the ToC.
+       A zero-size non-breaking space (\00a0) passes the JS filter while
+       remaining invisible and taking no space. */
+    content: "\00a0";
+    color: transparent;
+    font-size: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.chapter.nonumber .subssection h3::before {
+    /* Same reason as h2::before above. */
+    content: "\00a0";
+    color: transparent;
+    font-size: 0;
+    padding: 0;
+    margin: 0;
 }

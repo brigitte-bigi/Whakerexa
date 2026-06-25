@@ -216,3 +216,10 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 ### Known bugs
 
 - `layout.css` alternates `panel-item` section backgrounds via `main > .panel-item:nth-child(even)`, which redefines `--bg-color` and `--fg-color`. Some child elements (cards, code blocks, etc.) do not inherit these redefined variables and render with the wrong background color.
+
+
+## Version 3.1 - develop
+
+- Extra Book. Added `abstract` class.
+- Extra Book. Added `aside.book-toc-aside`: toggleable ToC panel, auto-injected toggle button, new variable `--toc-aside-width`.
+- Updated `print.css`. 

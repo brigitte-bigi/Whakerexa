@@ -34,11 +34,15 @@ This banner notice must not be removed.
    ======================================================================= */
 
 /* -----------------------------------------------------------------------
-   Page setup
+   Page setup -- not supported by Firefox.
    ----------------------------------------------------------------------- */
 
 @page {
-    margin: 2cm;
+    @bottom-center {
+        content: counter(page);
+        font-size: 9pt;
+        color: rgb(100, 100, 100);
+    }
 }
 
 /* -----------------------------------------------------------------------
@@ -50,13 +54,19 @@ This banner notice must not be removed.
     --header-slidein: none;
     --footer-slidein: none;
     --transition: none;
+    --font-size: 12pt;
+    --typography-spacing-vertical: calc(1.2 * var(--font-size));
+    --typography-spacing-horizontal: calc(0.8 * var(--font-size));
+
+    --bg-color: white;
+    --fg-color: black;
+    --font-size: 11pt;
 }
 
 html, body {
     width: 100%;
     background: white;
     color: black;
-    font-size: 12pt;
 }
 
 /* -----------------------------------------------------------------------
@@ -109,8 +119,21 @@ body > footer nav {
 dialog,
 button,
 [role="button"],
+.skip,
 .print-off {
     display: none;
+}
+
+nav.nav-wexa {
+    display: none;
+}
+
+body:has(nav.nav-wexa.top) {
+    padding-top: 0;
+}
+
+body:has(nav.nav-wexa.bottom) {
+    padding-bottom: 0;
 }
 
 /* -----------------------------------------------------------------------
@@ -144,16 +167,49 @@ html {
     margin-left: 0;
 }
 
-body > header,
+html, body, main {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* @layer base sets overflow: hidden — must be reset for print pagination */
+    overflow: visible;
+}
+
+
 body > footer {
     display: none;
 }
 
-nav.book-toc {
+body > header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    page-break-after: always;
+    border: none;
+    background: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+body > header * {
+    background: transparent;
+    color: black;
+}
+
+nav.book-toc,
+aside.book-toc-aside {
     z-index: 9;
     width: 100%;
     position: relative;
     top: 0;
+    left: 0;
     padding-top: 1rem;
     padding-bottom: 0.3rem;
     margin: 0;
@@ -165,13 +221,32 @@ nav.book-toc {
     border-top: var(--border-width) solid var(--border-color);
     border-bottom: var(--border-width) solid var(--border-color);
     text-align: left;
+    transform: none;
     page-break-after: always;
+    display: block;
 }
 
-nav.book-toc *:not([role=button]) {
+nav.book-toc *:not([role=button]),
+aside.book-toc-aside *:not([role=button]) {
     color: var(--a-color);
 }
 
 #toc-content {
     margin-left: 1rem;
+}
+
+.chapter {
+    min-height: unset;
+}
+
+.chapter > h1::before {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+}
+
+.abstract {
+    box-shadow: none;
+    border: 1pt solid rgb(140, 40, 40);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
 }

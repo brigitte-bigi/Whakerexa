@@ -10,6 +10,7 @@
     <meta name="keywords" content="book, toc, table of contents, web, css, html5, framework, accessibility"/>
 
     <link rel="icon" href="../wexa_statics/icons/whakerexa.ico" type="image/x-icon" />
+    
     <link rel="stylesheet" href="../wexa_statics/css/wexa.css" type="text/css" media="screen" />
     <link rel="stylesheet" id="wexa-theme" href="../wexa_statics/css/themes/wexa_theme.css" type="text/css" />
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
@@ -24,6 +25,7 @@
             --header-bg-color: transparent;
             --header-fg-color: var(--fg-color-alt);
             --header-slidein:  none;
+            --toc-aside-width: 2rem;
             --toc-width:       18rem;
         }
     </style>
@@ -57,14 +59,14 @@
                 onclick="Wexa.accessibility.switchColorScheme()"></button>
     </nav>
 
-    <nav class="book-toc" aria-label="Table of contents">
-        <h1>Auto ToC</h1>
-        <p><a href="index.html">Whakerexa</a></p>
-        <h2>Table of Contents</h2>
-        <ul id="toc"></ul>
-    </nav>
-
     <main id="main-content">
+
+        <aside class="book-toc-aside" aria-label="Table of contents">
+            <h1>Auto ToC</h1>
+            <p><a href="index.html">Whakerexa</a></p>
+            <h2>Table of Contents</h2>
+            <ul id="toc"></ul>
+        </aside>
 
         <section id="description" class="chapter">
             <h1>Description</h1>
