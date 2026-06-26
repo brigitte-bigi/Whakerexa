@@ -185,6 +185,18 @@ export class Book {
         });
 
         aside.before(this.#toggle_button);
+
+        // Browsers do not honour page-break on <aside> elements when printing.
+        // Inserting a <section class="blank-page"> immediately after the aside
+        // acts as the page-break carrier (print.css targets .blank-page).
+        // The empty <p> that follows prevents the section from being collapsed
+        // by certain layout engines before the break is applied.
+        const blankPage = document.createElement('section');
+        blankPage.className = 'blank-page';
+        aside.after(blankPage);
+
+        const spacer = document.createElement('p');
+        blankPage.after(spacer);
     }
 
     /**

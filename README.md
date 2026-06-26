@@ -222,4 +222,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 - Extra Book. Added `abstract` class.
 - Extra Book. Added `aside.book-toc-aside`: toggleable ToC panel, auto-injected toggle button, new variable `--toc-aside-width`.
-- Updated `print.css`. 
+- Extra Book. Improved chapter and aside page-break handling.
+- Extra Book. Theme support: chapter numbers use `--custom-color1` / `--custom-color2`.
+- Themes. Corrected `--custom-color1` / `--custom-color2` in `highcontrast`.

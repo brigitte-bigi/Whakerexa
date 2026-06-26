@@ -195,13 +195,13 @@
     /* -- Slides accent colors — flat, no gradients --------------------------- */
 
     :root:not(.dark) {
-        --custom-color1: rgb(0, 0, 0);
-        --custom-color2: rgb(0, 0, 139);
+        --custom-color1: rgb(20, 19, 37);
+        --custom-color2: rgb(255, 255, 0);
     }
 
     .dark {
-        --custom-color1: rgb(255, 255, 255);
-        --custom-color2: rgb(255, 255, 0);
+        --custom-color1: rgb(232, 217, 123);
+        --custom-color2: rgb(17, 15, 61);
     }
 
     /* -- Blockquote: flat background ---------------------------------------- */

@@ -33,26 +33,22 @@ This banner notice must not be removed.
 :root {
     --toc-width: 0;
     --toc-aside-width: 0;
-    --numbers-bg-color: rgb(140, 40, 40);
-    --numbers-fg-color: rgb(250, 248, 252);
-}
-.dark {
-    --numbers-bg-color: rgb(240, 180, 180);
-    --numbers-fg-color: rgb(14, 18, 28);
 }
 
-html {
-    /* nav-width + its left- right- margins */
-    margin-left: var(--toc-width);
-}
 
-html:has(aside.book-toc-aside) {
-    margin-left: var(--toc-aside-width);
-    transition: margin-left var(--transition, 0.25s ease-in-out);
-}
+@media screen {
+    html {
+        margin-left: var(--toc-width);
+    }
 
-html:has(aside.book-toc-aside.open) {
-    margin-left: calc(var(--toc-aside-width) + var(--toc-width));
+    html:has(aside.book-toc-aside) {
+        margin-left: var(--toc-aside-width);
+        transition: margin-left var(--transition, 0.25s ease-in-out);
+    }
+
+    html:has(aside.book-toc-aside.open) {
+        margin-left: calc(var(--toc-aside-width) + var(--toc-width));
+    }
 }
 
 body {
@@ -74,13 +70,13 @@ body {
 
 .chapter > h1 {
     width: 100%;
-    border-top: calc(4 * var(--border-width)) solid var(--numbers-bg-color);
-    border-bottom: calc(4 * var(--border-width)) solid var(--numbers-bg-color);
+    border-top: calc(4 * var(--border-width)) solid var(--custom-color1);
+    border-bottom: calc(4 * var(--border-width)) solid var(--custom-color1);
     padding-top: 2rem;
     padding-bottom: 2rem;
     margin-bottom: 4rem;
-    line-height: calc(5 * var(--font-size));
-    font-size: calc(4 * var(--font-size));
+    line-height: calc(4 * var(--font-size));
+    font-size: calc(3 * var(--font-size));
 
     /* a chapter title is a box for 2 items: number + title */
     display: inline-flex;
@@ -91,14 +87,14 @@ body {
 }
 
 .chapter > h1::before {
-    background-color: var(--numbers-bg-color);
-    color: var(--numbers-fg-color);
+    background-color: var(--custom-color1);
+    color: var(--custom-color2);
     content: counter(chapter) ".";
     padding-top: 1rem;
     padding-bottom: 2rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    font-size: calc(4 * var(--font-size));
+    font-size: calc(3 * var(--font-size));
     margin-top: 0;
     margin-right: 1rem;
     margin-bottom: 4rem;
@@ -110,25 +106,36 @@ body {
 .ssection {
     counter-increment: ssection;
     counter-reset: subssection;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .ssection h2 {
     border-bottom: var(--border-width) solid var(--h2-color);
+    font-size: calc(1.6 * var(--font-size));
 }
 
 .ssection h2::before {
     content: counter(chapter) "." counter(ssection) " ";
-    color: var(--numbers-bg-color);
+    color: var(--custom-color1);
+    font-size: calc(1.6 * var(--font-size));
 }
 
 /* A new numbered sub-section in the section */
 .subssection {
     counter-increment: subssection;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.subssection h3 {
+    font-size: calc(1.4 * var(--font-size));
 }
 
 .subssection h3::before {
     content: counter(chapter) "." counter(ssection) "." counter(subssection) " ";
-    color: var(--numbers-bg-color);
+    color: var(--custom-color1);
+    font-size: calc(1.4 * var(--font-size));
 }
 
 /* ----------------------------------------------------------------------- */
@@ -302,51 +309,56 @@ nav.book-toc li.h6 a {
    book.js detects the class and injects button.book-toc-toggle before the aside. */
 
 aside.book-toc-aside {
-    z-index: 10;
     width: var(--toc-width);
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: var(--toc-aside-width);
+    display: block;
     padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
     padding-bottom: 3rem;
-    overflow-x: hidden;
-    display: block;
-    background: var(--nav-bg-color);
-    box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
-    transform: translateX(calc(-1 * (var(--toc-aside-width) + var(--toc-width))));
-    transition: transform var(--transition, 0.25s ease-in-out);
 }
 
-aside.book-toc-aside.open {
-    transform: translateX(0);
-}
+@media screen {
+    aside.book-toc-aside {
+        z-index: 10;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: var(--toc-aside-width);
+        overflow-x: hidden;
+        background: var(--nav-bg-color);
+        box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
+        transform: translateX(calc(-1 * (var(--toc-aside-width) + var(--toc-width))));
+        transition: transform var(--transition, 0.25s ease-in-out);
+    }
 
-body:has(nav.nav-wexa.top) aside.book-toc-aside {
-    top: var(--nav-min-height);
-}
+    aside.book-toc-aside.open {
+        transform: translateX(0);
+    }
 
-/* Toggle button injected by book.js */
-button.book-toc-toggle {
-    position: fixed;
-    top: 50vh;
-    left: 0;
-    z-index: 10;
-    writing-mode: vertical-rl;
-    transform: translateY(-50%) rotate(180deg);
-    padding: var(--typography-spacing-vertical) calc(0.5 * var(--typography-spacing-horizontal));
-    background: var(--nav-bg-color);
-    color: var(--nav-fg-color);
-    border: none;
-    border-radius: var(--border-radius) 0 0 var(--border-radius);
-    cursor: pointer;
-    font-size: calc(0.75 * var(--font-size));
-    font-family: inherit;
-    transition: left var(--transition, 0.25s ease-in-out);
-}
+    body:has(nav.nav-wexa.top) aside.book-toc-aside {
+        top: var(--nav-min-height);
+    }
 
-body:has(aside.book-toc-aside.open) button.book-toc-toggle {
-    left: 0;
+    /* Toggle button injected by book.js */
+    button.book-toc-toggle {
+        position: fixed;
+        top: 50vh;
+        left: 0;
+        z-index: 10;
+        writing-mode: vertical-rl;
+        transform: translateY(-50%) rotate(180deg);
+        padding: var(--typography-spacing-vertical) calc(0.5 * var(--typography-spacing-horizontal));
+        background: var(--nav-bg-color);
+        color: var(--nav-fg-color);
+        border: var(--border-width) solid var(--border-color);
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        cursor: pointer;
+        font-size: calc(0.75 * var(--font-size));
+        font-family: inherit;
+        transition: left var(--transition, 0.25s ease-in-out);
+    }
+
+    body:has(aside.book-toc-aside.open) button.book-toc-toggle {
+        left: 0;
+    }
 }
 
 /* Inner content — mirrors nav.book-toc styles */
@@ -354,6 +366,7 @@ aside.book-toc-aside * {
     margin: auto;
     padding: 0;
     font-size: calc(0.8 * var(--font-size));
+    background-color: transparent;
 }
 
 aside.book-toc-aside *:not([role=button]) {
