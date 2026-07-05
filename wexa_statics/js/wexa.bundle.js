@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-06-26 15:42:00
+// Bundle automatically generated on 2026-07-05 18:53:36
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -280,7 +280,7 @@ class BaseManager {
             WexaLogger.error(`HTTP error ${this._requestManager.status}: ${error}`);
             this._showDialog('error_dialog', `Erreur ${this._requestManager.status} : ${error}`);
         } else {
-            if (info) {
+            if (info && !reload) {
                 WexaLogger.info(info);
                 this._showDialog('info_dialog', info);
             }
@@ -3011,6 +3011,256 @@ class SortaTable {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.SortaTable = SortaTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/keypiano/keypiano.js ---------------
+// --------------------------------------------------------------------------
+// Constants
+// --------------------------------------------------------------------------
+const CSS_GROUP = 'wexa-key-piano-group';
+const CSS_KEY = 'wexa-key-piano-key';
+const CSS_CONTROLS = 'wexa-key-piano-controls';
+const CSS_CONTROL = 'wexa-key-piano-control';
+const CSS_STATUS = 'wexa-key-piano-status';
+const MODE_RADIO = 'radio';
+const MODE_FREE = 'free';
+const DEFAULT_GROUP_SEP = '-';
+const DEFAULT_KEY_SEP = '.';
+const DEFAULT_BACKSPACE_LABEL = 'Delete last key';
+const DEFAULT_CLEAR_LABEL = 'Clear all';
+// --------------------------------------------------------------------------
+class KeyPiano {
+    static #BACKSPACE_ICON = 'backward';
+    static #CLEAR_ICON = 'cancel';
+    // Fields
+    #container;
+    #targetField;
+    #groupSep;
+    #keySep;
+    #groups;
+    #history;
+    #buffer;
+    #currentTurn;
+    #freeClickCount;
+    #statusElt;
+    #instanceId;
+    constructor(container) {
+        if ((container instanceof HTMLElement) === false) {
+            throw new Error(`KeyPiano instantiation failed: container is not an HTMLElement. Got ${container}.`);
+        }
+        this.#container = container;
+        this.#instanceId = container.id.length > 0 ? container.id : `key-piano-${Math.random().toString(36).slice(2)}`;
+        this.#targetField = document.getElementById(container.dataset.target);
+        if (this.#targetField === null) {
+            throw new Error(`KeyPiano instantiation failed: no target field found with `
+                + `id: ${container.dataset.target}.`);
+        }
+        this.#groupSep = container.dataset.groupSep ?? DEFAULT_GROUP_SEP;
+        this.#keySep = container.dataset.keySep ?? DEFAULT_KEY_SEP;
+        this.#groups = Array.from(container.querySelectorAll(`.${CSS_GROUP}`));
+        this.#history = [];
+        this.#buffer = new Array(this.#groups.length).fill(null);
+        this.#currentTurn = 0;
+        this.#freeClickCount = 0;
+        this.#setupGroups();
+        this.#applyGating();
+        this.#injectControls();
+        this.#injectStatus();
+        WexaLogger.debug(`KeyPiano: activated on #${this.#instanceId} with ${this.#groups.length} group(s).`);
+    }
+    // ------------------------------------------------------------------
+    // Retargeting
+    // ------------------------------------------------------------------
+    setTarget(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field === null) {
+            throw new Error(`KeyPiano.setTarget failed: no field found with id: ${fieldId}.`);
+        }
+        this.#targetField = field;
+        this.#history = [];
+        this.#freeClickCount = 0;
+        this.#resetCycle();
+    }
+    // ------------------------------------------------------------------
+    // Setup
+    // ------------------------------------------------------------------
+    #setupGroups() {
+        this.#groups.forEach((group, index) => {
+            const mode = group.dataset.mode === MODE_RADIO ? MODE_RADIO : MODE_FREE;
+            group.dataset.mode = mode;
+            if (mode === MODE_RADIO) {
+                this.#setupRadioGroup(group, index);
+            } else {
+                this.#setupFreeGroup(group);
+            }
+        });
+    }
+    // ------------------------------------------------------------------
+    #setupRadioGroup(group, index) {
+        const groupName = `${this.#instanceId}-group-${index}`;
+        const radios = group.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio) => {
+            radio.name = groupName;
+            radio.addEventListener('change', () => this.#handleRadioChange(index, radio.value));
+        });
+        if (radios.length === 0) {
+            WexaLogger.warn(`KeyPiano: group ${index} is declared "radio" but has no radio input.`);
+        }
+    }
+    // ------------------------------------------------------------------
+    #setupFreeGroup(group) {
+        const buttons = group.querySelectorAll(`button.${CSS_KEY}`);
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => this.#handleFreeClick(button.value));
+        });
+        if (buttons.length === 0) {
+            WexaLogger.warn('KeyPiano: a "free" group has no button key.');
+        }
+    }
+    // ------------------------------------------------------------------
+    // Radio groups: turn-taking
+    // ------------------------------------------------------------------
+    #handleRadioChange(index, value) {
+        this.#buffer[index] = value;
+        if (index === this.#currentTurn) {
+            this.#currentTurn += 1;
+        }
+        this.#applyGating();
+        const isCycleComplete = this.#groups.every((group, i) => {
+            return group.dataset.mode !== MODE_RADIO || this.#buffer[i] !== null;
+        });
+        if (isCycleComplete === true) {
+            const composedKey = this.#buffer.join(this.#groupSep);
+            this.#appendToTarget(composedKey);
+            this.#announce(`Key added: ${composedKey}`);
+            this.#resetCycle();
+        }
+    }
+    // ------------------------------------------------------------------
+    #applyGating() {
+        this.#groups.forEach((group, index) => {
+            if (group.dataset.mode !== MODE_RADIO) {
+                return;
+            }
+            const radios = group.querySelectorAll('input[type="radio"]');
+            radios.forEach((radio) => {
+                radio.disabled = index !== this.#currentTurn;
+            });
+        });
+    }
+    // ------------------------------------------------------------------
+    #resetCycle() {
+        this.#buffer = new Array(this.#groups.length).fill(null);
+        this.#currentTurn = 0;
+        this.#groups.forEach((group) => {
+            group.querySelectorAll('input[type="radio"]:checked').forEach((radio) => {
+                radio.checked = false;
+            });
+        });
+        this.#applyGating();
+    }
+    // ------------------------------------------------------------------
+    // Free groups: immediate append
+    // ------------------------------------------------------------------
+    #handleFreeClick(value) {
+        const isCycleStart = this.#freeClickCount % this.#groups.length === 0;
+        const separator = isCycleStart ? this.#keySep : this.#groupSep;
+        this.#freeClickCount += 1;
+        this.#appendToTarget(value, separator);
+        this.#announce(`Added: ${value}`);
+    }
+    // ------------------------------------------------------------------
+    // Target field: append, undo, clear
+    // ------------------------------------------------------------------
+    #appendToTarget(value, separator) {
+        const sep = typeof separator === 'string' ? separator : this.#keySep;
+        this.#history.push(this.#targetField.value);
+        this.#setTargetValue(this.#targetField.value.length === 0
+            ? value
+            : this.#targetField.value + sep + value);
+    }
+    // ------------------------------------------------------------------
+    #setTargetValue(value) {
+        this.#targetField.value = value;
+        this.#targetField.dispatchEvent(new Event('input', {bubbles: true}));
+    }
+    // ------------------------------------------------------------------
+    #handleBackspace() {
+        if (this.#currentTurn > 0) {
+            const index = this.#currentTurn - 1;
+            const group = this.#groups[index];
+            group.querySelectorAll('input[type="radio"]:checked').forEach((radio) => {
+                radio.checked = false;
+            });
+            this.#buffer[index] = null;
+            this.#currentTurn = index;
+            this.#applyGating();
+            this.#announce('Last key selection undone.');
+            return;
+        }
+        if (this.#history.length === 0) {
+            this.#announce('Nothing to undo.');
+            return;
+        }
+        this.#setTargetValue(this.#history.pop());
+        this.#announce('Last entry deleted.');
+    }
+    // ------------------------------------------------------------------
+    #handleClear() {
+        this.#setTargetValue('');
+        this.#history = [];
+        this.#freeClickCount = 0;
+        this.#resetCycle();
+        this.#announce('Everything cleared.');
+    }
+    // ------------------------------------------------------------------
+    // Injected controls: "delete last key", "clear all", live status
+    // ------------------------------------------------------------------
+    async #injectControls() {
+        const backspaceLabel = this.#container.dataset.backspaceLabel ?? DEFAULT_BACKSPACE_LABEL;
+        const clearLabel = this.#container.dataset.clearLabel ?? DEFAULT_CLEAR_LABEL;
+        const backspaceButton = await this.#createControlButton(
+            KeyPiano.#BACKSPACE_ICON, backspaceLabel, () => this.#handleBackspace());
+        backspaceButton.classList.add(`${CSS_CONTROL}-backspace`);
+        const clearButton = await this.#createControlButton(
+            KeyPiano.#CLEAR_ICON, clearLabel, () => this.#handleClear());
+        clearButton.classList.add(`${CSS_CONTROL}-clear`);
+        // The outer container is a column flex (one row per group): both
+        // controls are wrapped in their own row, same idiom as the
+        // accessibility buttons sitting side by side in their <nav> section.
+        const controls = document.createElement('div');
+        controls.classList.add(CSS_CONTROLS);
+        controls.appendChild(backspaceButton);
+        controls.appendChild(clearButton);
+        this.#container.appendChild(controls);
+    }
+    // ------------------------------------------------------------------
+    async #createControlButton(iconName, label, onClick) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.classList.add(CSS_CONTROL);
+        button.setAttribute('aria-label', label);
+        button.addEventListener('click', onClick);
+        button.innerHTML = await SVGIconsManager.get(iconName);
+        return button;
+    }
+    // ------------------------------------------------------------------
+    #injectStatus() {
+        this.#statusElt = document.createElement('div');
+        this.#statusElt.classList.add(CSS_STATUS);
+        this.#statusElt.setAttribute('role', 'status');
+        this.#statusElt.setAttribute('aria-live', 'polite');
+        this.#container.appendChild(this.#statusElt);
+    }
+    // ------------------------------------------------------------------
+    #announce(message) {
+        this.#statusElt.textContent = message;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.KeyPiano = KeyPiano;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 

@@ -76,6 +76,7 @@ JS_FILES = [
     os.path.join('extras', 'theme_manager.js'),
     os.path.join('extras', 'book.js'),
     os.path.join('extras', 'sortatable.js'),
+    os.path.join('extras', 'keypiano', 'keypiano.js'),
     os.path.join('extras', 'slides', 'slides.init.js'),
 ]
 
