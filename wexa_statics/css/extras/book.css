@@ -28,6 +28,13 @@ This banner notice must not be removed.
 
 -------------------------------------------------------------------------
 
+Architecture:
+  - Unlayered rules: structural invariants that must always win (layout, sizing,
+    counters, positioning, transitions). These cannot be overridden by themes.
+  - @layer theme block at the bottom: visual defaults (colors, accent borders,
+    backgrounds, shadows). Theme files injected later in <head> override these
+    within the same layer by source order.
+
 */
 
 :root {
@@ -70,8 +77,6 @@ body {
 
 .chapter > h1 {
     width: 100%;
-    border-top: calc(4 * var(--border-width)) solid var(--custom-color1);
-    border-bottom: calc(4 * var(--border-width)) solid var(--custom-color1);
     padding-top: 2rem;
     padding-bottom: 2rem;
     margin-bottom: 4rem;
@@ -87,8 +92,6 @@ body {
 }
 
 .chapter > h1::before {
-    background-color: var(--custom-color1);
-    color: var(--custom-color2);
     content: counter(chapter) ".";
     padding-top: 1rem;
     padding-bottom: 2rem;
@@ -111,13 +114,11 @@ body {
 }
 
 .ssection h2 {
-    border-bottom: var(--border-width) solid var(--h2-color);
     font-size: calc(1.6 * var(--font-size));
 }
 
 .ssection h2::before {
     content: counter(chapter) "." counter(ssection) " ";
-    color: var(--custom-color1);
     font-size: calc(1.6 * var(--font-size));
 }
 
@@ -134,7 +135,6 @@ body {
 
 .subssection h3::before {
     content: counter(chapter) "." counter(ssection) "." counter(subssection) " ";
-    color: var(--custom-color1);
     font-size: calc(1.4 * var(--font-size));
 }
 
@@ -168,10 +168,6 @@ nav.book-toc * {
     padding: 0;
     font-size: calc(0.8*var(--font-size));
 }
-nav.book-toc *:not([role=button]) {
-    color: var(--nav-fg-color);
-}
-
 nav.book-toc > ul, nav.book-toc > hr, nav.book-toc > h1, nav.book-toc > h2 {
     margin-top: 1rem;
     margin-bottom: 2rem;
@@ -323,8 +319,6 @@ aside.book-toc-aside {
         top: 0;
         left: var(--toc-aside-width);
         overflow-x: hidden;
-        background: var(--nav-bg-color);
-        box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
         transform: translateX(calc(-1 * (var(--toc-aside-width) + var(--toc-width))));
         transition: transform var(--transition, 0.25s ease-in-out);
     }
@@ -346,9 +340,6 @@ aside.book-toc-aside {
         writing-mode: vertical-rl;
         transform: translateY(-50%) rotate(180deg);
         padding: var(--typography-spacing-vertical) calc(0.5 * var(--typography-spacing-horizontal));
-        background: var(--nav-bg-color);
-        color: var(--nav-fg-color);
-        border: var(--border-width) solid var(--border-color);
         border-radius: var(--border-radius) 0 0 var(--border-radius);
         cursor: pointer;
         font-size: calc(0.75 * var(--font-size));
@@ -367,10 +358,6 @@ aside.book-toc-aside * {
     padding: 0;
     font-size: calc(0.8 * var(--font-size));
     background-color: transparent;
-}
-
-aside.book-toc-aside *:not([role=button]) {
-    color: var(--nav-fg-color);
 }
 
 aside.book-toc-aside > ul,
@@ -467,9 +454,6 @@ aside.book-toc-aside li.h6 a {
     margin-top: var(--typography-spacing-vertical);
     margin-bottom: var(--typography-spacing-vertical);
     padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
-    background-color: var(--bg-color-alt);
-    color: var(--fg-color-alt);
-    box-shadow: 0 0.2rem 0.8rem var(--shadow-color);
     border-radius: var(--border-radius);
     font-size: calc(0.9 * var(--font-size));
     font-style: italic;
@@ -520,4 +504,71 @@ aside.book-toc-aside li.h6 a {
     font-size: 0;
     padding: 0;
     margin: 0;
+}
+
+/* ----------------------------------------------------------------------- */
+/* ------------- VISUAL DEFAULTS — @layer theme, overrideable ------------ */
+/*                                                                         */
+/* Theme files injected by ThemeManager are appended to <head> after this  */
+/* stylesheet. Within @layer theme, later source order wins, so any theme  */
+/* file that defines the same selectors will automatically override these  */
+/* defaults without specificity tricks.                                    */
+/* ----------------------------------------------------------------------- */
+
+@layer theme {
+
+    /* Chapter title: accent border and number badge */
+    .chapter > h1 {
+        border-top: calc(4 * var(--border-width)) solid var(--custom-color1);
+        border-bottom: calc(4 * var(--border-width)) solid var(--custom-color1);
+    }
+
+    .chapter > h1::before {
+        background-color: var(--custom-color1);
+        color: var(--custom-color2);
+    }
+
+    /* Section / sub-section numbering and underline */
+    .ssection h2 {
+        border-bottom: var(--border-width) solid var(--h2-color);
+    }
+
+    .ssection h2::before {
+        color: var(--custom-color1);
+    }
+
+    .subssection h3::before {
+        color: var(--custom-color1);
+    }
+
+    /* Table of content: text color */
+    nav.book-toc *:not([role=button]) {
+        color: var(--nav-fg-color);
+    }
+
+    aside.book-toc-aside *:not([role=button]) {
+        color: var(--nav-fg-color);
+    }
+
+    /* Toggleable aside ToC: panel and toggle button decoration */
+    @media screen {
+        aside.book-toc-aside {
+            background: var(--nav-bg-color);
+            box-shadow: 0.3rem 0 1.2rem var(--shadow-color);
+        }
+
+        button.book-toc-toggle {
+            background: var(--nav-bg-color);
+            color: var(--nav-fg-color);
+            border: var(--border-width) solid var(--border-color);
+        }
+    }
+
+    /* Abstract block */
+    .abstract {
+        background-color: var(--bg-color-alt);
+        color: var(--fg-color-alt);
+        box-shadow: 0 0.2rem 0.8rem var(--shadow-color);
+    }
+
 }

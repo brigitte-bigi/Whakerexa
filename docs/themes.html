@@ -55,15 +55,30 @@
 
         <h2>What is a theme?</h2>
         <p>
-            A theme is a standalone CSS file that contains <strong>only an <code>@layer theme</code> block</strong>.
-            It redefines CSS variables and decoration rules — colors, gradients, borders, typography accents — without
-            touching structure or accessibility layers.
+            A theme is a standalone CSS file. It redefines CSS variables and decoration rules — colors, gradients,
+            borders, typography accents — without touching structure or accessibility layers.
         </p>
         <p>
             Themes are <strong>mutually exclusive</strong>: each theme replaces the previous one entirely.
             They never stack. This is enforced by <code>ThemeManager</code>, which manages a single
             <code>&lt;link id="wexa-theme"&gt;</code> element whose <code>href</code> is swapped on every
             theme switch.
+        </p>
+
+        <h3>Unlayered colors, layered accents</h3>
+        <p>
+            Most color variables (<code>--bg-color</code>, <code>--border-color</code>, <code>--nav-bg-color</code>,
+            <code>--buttons-bg-color</code>…) are declared <strong>unlayered</strong> in a theme file — no
+            <code>@layer</code> wrapper. An unlayered rule always wins over <em>any</em> <code>@layer</code> rule,
+            regardless of selector specificity or load order, so this guarantees the active theme's colors beat
+            <code>wexa.css</code>'s own <code>@layer theme</code> defaults every time.
+        </p>
+        <p>
+            <code>--custom-color1</code> and <code>--custom-color2</code> (the accent pair used for chapter titles
+            in <code>book.css</code> and slide headings in <code>slides.css</code>) are the exception: they are
+            declared <strong>inside <code>@layer theme</code></strong>. This lets a single document write its own
+            unlayered override for a specific element — see <code>wexa_theme_highcontrast.css</code>'s flat
+            <code>.slide h1</code> border — without a specificity fight against the theme file.
         </p>
 
     </section>
@@ -82,6 +97,18 @@
                 The default theme <strong>must be registered</strong> with <code>ThemeManager</code> and declared via <code>setDefault()</code>.
             </li>
         </ol>
+
+        <article class="card-doc" aria-label="Theme file must not be double-loaded">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>
+                    <strong>Never load a theme file with a static <code>&lt;link&gt;</code> in addition to registering it.</strong>
+                    <code>ThemeManager</code> only ever swaps the <code>href</code> of <code>#wexa-theme</code> — it does
+                    not remove a second, separately linked copy. If that file is also needed for page-specific rules that
+                    must always be present (layout, custom classes for one document), split it in two: the page-specific
+                    file stays statically linked, and only the color/variable file is registered as a theme.
+                </p>
+            </div>
+        </article>
 
         <article class="card-doc" aria-label="Theme link element">
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
@@ -179,27 +206,37 @@ window.themes = themes;</code></pre>
     <section class="panel-item">
 
         <h2>Creating a custom theme</h2>
-        <p>A theme file contains a single <code>@layer theme</code> block. Redefine only the variables you need — all others fall back to <code>wexa.css</code> defaults.</p>
+        <p>
+            Redefine only the variables you need — all others fall back to <code>wexa.css</code> defaults.
+            Keep colors unlayered; put <code>--custom-color1</code>/<code>--custom-color2</code> inside
+            <code>@layer theme</code>, matching the built-in themes.
+        </p>
 
         <article class="card-doc" aria-label="Custom theme example">
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
                 <p>Register it the same way as built-in themes. The <code>.contrast</code> class is managed by <code>AccessibilityManager</code> — a theme must not override colors in contrast mode.</p>
             </div>
             <pre class="dark"><code>/* my_theme.css */
+:root:not(.dark) {
+    --bg-color: rgb(255, 250, 240);
+    --a-color:  rgb(180, 60, 0);
+}
+
+.dark {
+    --bg-color: rgb(20, 15, 10);
+    --a-color:  rgb(255, 160, 80);
+}
+
 @layer theme {
 
     :root:not(.dark) {
-        --bg-color:       rgb(255, 250, 240);
-        --a-color:        rgb(180, 60, 0);
-        --custom-color1:  rgb(80, 20, 0);
-        --custom-color2:  rgb(180, 60, 0);
+        --custom-color1: rgb(80, 20, 0);
+        --custom-color2: rgb(180, 60, 0);
     }
 
     .dark {
-        --bg-color:       rgb(20, 15, 10);
-        --a-color:        rgb(255, 160, 80);
-        --custom-color1:  rgb(255, 220, 180);
-        --custom-color2:  rgb(255, 160, 80);
+        --custom-color1: rgb(255, 220, 180);
+        --custom-color2: rgb(255, 160, 80);
     }
 
 }</code></pre>
