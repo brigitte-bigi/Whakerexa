@@ -312,31 +312,33 @@ export default class SlidesInitializer {
     // -----------------------------------------------------------------------
 
     /**
-     * Inject menu.css into <head> if it is absent.
+     * Inject a required stylesheet into <head> if it is absent.
      *
-     * Called before any nav elements are built so that menu styles are
-     * always available. In bundle mode (this.#base === null) a warning is
-     * emitted instead, because relative URL resolution is not possible.
+     * Called before any nav elements are built so that menu and toggle-group
+     * styles are always available. In bundle mode (this.#base === null) a
+     * warning is emitted instead, because relative URL resolution is not
+     * possible.
      *
      * @private
+     * @param {string} filename - CSS file name, relative to wexa_statics/css/.
      * @returns {void}
      */
-    #ensureMenuCss() {
+    #ensureCss(filename) {
         const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
-            .some(link => link.href.endsWith('menu.css'));
+            .some(link => link.href.endsWith(filename));
 
         if (alreadyLoaded === true) {
             return;
         }
 
         if (this.#base === null) {
-            console.warn('SlidesInitializer: menu.css not found in <head>. Add it manually in bundle mode.');
+            console.warn(`SlidesInitializer: ${filename} not found in <head>. Add it manually in bundle mode.`);
             return;
         }
 
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = new URL('../../../css/menu.css', this.#base).href;
+        link.href = new URL(`../../../css/${filename}`, this.#base).href;
         document.head.appendChild(link);
     }
 
@@ -351,7 +353,8 @@ export default class SlidesInitializer {
      * @returns {Promise<void>}
      */
     async #injectBoilerplate() {
-        this.#ensureMenuCss();
+        this.#ensureCss('menu.css');
+        this.#ensureCss('togglegroup.css');
 
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
@@ -373,7 +376,7 @@ export default class SlidesInitializer {
         }
 
         if (document.getElementById('nav-content') === null) {
-            document.body.appendChild(this.#buildNavContent());
+            document.body.appendChild(await this.#buildNavContent());
         }
 
         if (this.#logoSrc !== '' && document.getElementById('logo-container') === null) {
@@ -471,22 +474,34 @@ export default class SlidesInitializer {
     /**
      * Build the slide navigation controls nav element.
      *
+     * @async
      * @private
-     * @returns {HTMLElement}
+     * @returns {Promise<HTMLElement>}
      */
-    #buildNavContent() {
+    async #buildNavContent() {
         const nav = document.createElement('nav');
         nav.id = 'nav-content';
         nav.className = 'nav-wexa bottom controls-hidden';
         nav.setAttribute('aria-label', 'Slide navigation');
+
+        const prevIcon  = await window.Wexa.icons.get('back');
+        const nextIcon  = await window.Wexa.icons.get('next');
+        const firstIcon = await window.Wexa.icons.get('first');
+        const lastIcon  = await window.Wexa.icons.get('last');
+        const gotoIcon  = await window.Wexa.icons.get('goto');
+
         nav.innerHTML =
-            '<button class="menuitem" id="btn-prev">Prev</button>'
-            + '<button class="menuitem" id="btn-next">Next</button>'
-            + '<button class="menuitem" id="btn-back">First</button>'
-            + '<button class="menuitem" id="btn-last">Last</button>'
-            + '<button class="menuitem" id="btn-goto">Go to</button>'
-            + '<button class="menuitem" id="btn-fullscreen">Fullscreen</button>'
-            + '<div id="slides-controls-view" role="radiogroup" aria-label="View mode">'
+            '<section>'
+            +     '<button class="menuitem" id="btn-prev" aria-label="Previous slide" title="Previous slide">' + prevIcon + '</button>'
+            +     '<button class="menuitem" id="btn-next" aria-label="Next slide" title="Next slide">' + nextIcon + '</button>'
+            +     '<button class="menuitem" id="btn-back" aria-label="First slide" title="First slide">' + firstIcon + '</button>'
+            +     '<button class="menuitem" id="btn-last" aria-label="Last slide" title="Last slide">' + lastIcon + '</button>'
+            +     '<button class="menuitem" id="btn-goto" aria-label="Go to slide" title="Go to slide">' + gotoIcon + '</button>'
+            + '</section>'
+            + '<section>'
+            +     '<button class="menuitem" id="btn-fullscreen">Fullscreen</button>'
+            + '</section>'
+            + '<section id="slides-controls-view" class="toggle-group" role="radiogroup" aria-label="View mode">'
             +     '<label class="menuitem" for="btn-overview">'
             +         '<input type="radio" name="view-mode" id="btn-overview" value="overview">'
             +         ' Overview'
@@ -495,11 +510,15 @@ export default class SlidesInitializer {
             +         '<input type="radio" name="view-mode" id="btn-handout" value="handout">'
             +         ' Handout'
             +     '</label>'
+            +     '<label class="menuitem" for="btn-note">'
+            +         '<input type="radio" name="view-mode" id="btn-note" value="note">'
+            +         ' Note'
+            +     '</label>'
             +     '<label class="menuitem" for="btn-presentation">'
             +         '<input type="radio" name="view-mode" id="btn-presentation" value="presentation" checked>'
-            +         ' Slides View'
+            +         ' Slides'
             +     '</label>'
-            + '</div>';
+            + '</section>';
         return nav;
     }
 

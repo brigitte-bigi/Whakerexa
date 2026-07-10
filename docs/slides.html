@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="../wexa_statics/css/dialog.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/extras/sortatable.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" />
+	<link rel="stylesheet" href="../wexa_statics/css/togglegroup.css" type="text/css" />
 	<link rel="stylesheet" href="../wexa_statics/css/extras/slides.css">
 
     <style>
@@ -70,7 +71,7 @@
         <ul>
             <li>One <code>&lt;script&gt;</code> block — protocol-aware, works on <code>http://</code> and <code>file://</code></li>
             <li>Keyboard, touch, and overview-panel navigation</li>
-            <li>Three view modes: presentation, handout, speaker notes</li>
+            <li>Four view modes: presentation, overview, handout, speaker notes</li>
             <li>Theming, dark mode, high-contrast accessibility built in</li>
             <li>Incremental reveals, logo overlay, fullscreen — all optional</li>
         </ul>
@@ -163,7 +164,7 @@ const app = new Slides({
     progressBar:          document.getElementById('progress-bar'),
     logo:                 document.getElementById('logo-container'),
     accessibility:        document.getElementById('accessibility-controls'),
-    mode: 'presentation'  // 'presentation' | 'handout' | 'memo'
+    mode: 'presentation'  // 'presentation' | 'overview' | 'handout' | 'note'
 });
 app.init();</code></pre>
     </section>
@@ -578,6 +579,27 @@ app.init();</code></pre>
         <p>Press <kbd>&nbsp;Escape&nbsp;</kbd> or <kbd>&nbsp;s&nbsp;</kbd> to return to presentation.</p>
         <p>In overview, click a <strong>GoTo</strong> button → must navigate to that slide
             and return to presentation mode automatically.</p>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Handout mode</h2>
+        <p>Press <kbd>&nbsp;d&nbsp;</kbd> to enter handout mode.</p>
+        <p>Press <kbd>&nbsp;Escape&nbsp;</kbd> or <kbd>&nbsp;s&nbsp;</kbd> to return to presentation.</p>
+        <p>Handout mode prints all slides as a scrollable, printable document —
+            no incremental reveals, no per-slide navigation.</p>
+    </section>
+
+    <!-- ---------------------------------------------------------------- -->
+
+    <section class="slide">
+        <h2>Note mode</h2>
+        <p>Press <kbd>&nbsp;m&nbsp;</kbd> to enter note mode.</p>
+        <p>Press <kbd>&nbsp;Escape&nbsp;</kbd> or <kbd>&nbsp;s&nbsp;</kbd> to return to presentation.</p>
+        <p>Note mode lists every slide as a scrollable, printable document,
+            each one paired with its speaker notes from a matching
+            <code>&lt;aside for="slide-id"&gt;</code>.</p>
     </section>
 
     <!-- ================================================================ -->

@@ -616,16 +616,9 @@ body.presentation-view {
     font-weight: normal;
 }
 
-/* Radio inputs are state-only — visually hidden, kept accessible */
-#slides-controls-view input[type="radio"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Active view-mode label — unlayered to beat menu.css .menuitem rules */
+/* Radio hiding and the generic checked-state highlight come from
+   togglegroup.css (.toggle-group). This overrides the highlight with the
+   slide deck's own accent colors — ID beats togglegroup's class selector. */
 #slides-controls-view label:has(input[type="radio"]:checked) {
     background: var(--custom-color2);
     color: var(--custom-color1);

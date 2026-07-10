@@ -226,3 +226,10 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. Theme support: chapter numbers use `--custom-color1` / `--custom-color2`.
 - Themes. Corrected `--custom-color1` / `--custom-color2` in `highcontrast`.
 - Extra KeyPiano. New extra: generic clickable "piano" of buttons composing a technical sequence into a target text field.
+- Extra Slides. Added the missing "Note" (`m`) view mode to the nav menu.
+- Extra Slides. Nav split into three sections: navigation, fullscreen, view mode.
+- Extra Slides. Prev/First/Last/Next/GoTo buttons now use SVG icons (new `first.svg`, `last.svg`); view-mode toggle renamed "Slides" (was "Slides View") and uses the new `.toggle-group`.
+- Themes. Fixed `highcontrast` slide `h2` title: white text was unreadable on its yellow background.
+- wexa.css. Fixed `--nav-bg-color` (light mode): flat gray replaced with a blue matching the theme's palette.
+- menu.css. Added the missing `gap` on horizontal nav `> section` groups (top/bottom), already present on the side variant.
+- New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, composable with `.menuitem`. Documented in `docs/button.html`.

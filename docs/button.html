@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../wexa_statics/css/print.css" type="text/css" media="print" />
     <link rel="stylesheet" href="doc.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../wexa_statics/css/togglegroup.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/button.css" type="text/css" media="all" />
 
@@ -266,6 +267,63 @@
         <p>
             Height: <code>--action-height</code> (default <code>calc(var(--font-size) * 2.8)</code>)
             and <code>--apply-height</code> (default <code>calc(var(--font-size) * 2.1)</code>).
+        </p>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
+        <h2>Toggle group</h2>
+        <p>
+            Load <code>togglegroup.css</code> and add <code>.toggle-group</code> to a
+            container of <code>.menuitem</code> labels to render a segmented control
+            for mutually-exclusive choices — the inner borders flatten and overlap
+            so the group reads as one connected control instead of separate pills.
+        </p>
+        <p>
+            <strong>Accessibility.</strong>
+            The container carries <code>role="radiogroup"</code> and an
+            <code>aria-label</code>. Each option is a real
+            <code>&lt;input type="radio"&gt;</code> wrapped in its
+            <code>&lt;label&gt;</code> — arrow-key cycling and checked/unchecked
+            announcement come from the native radio semantics, not from JavaScript.
+            The input is visually hidden (not <code>aria-hidden</code>: it stays
+            focusable and meaningful to assistive tech) while the label supplies
+            both the visible control and its accessible name.
+        </p>
+
+        <article class="card-doc" aria-label="Toggle group — example">
+            <div class="card-view">
+                <section class="toggle-group" role="radiogroup" aria-label="Text alignment">
+                    <label class="menuitem" for="align-left">
+                        <input type="radio" name="align" id="align-left" checked> Left
+                    </label>
+                    <label class="menuitem" for="align-center">
+                        <input type="radio" name="align" id="align-center"> Center
+                    </label>
+                    <label class="menuitem" for="align-right">
+                        <input type="radio" name="align" id="align-right"> Right
+                    </label>
+                </section>
+            </div>
+            <pre class="dark"><code>&lt;section class="toggle-group" role="radiogroup" aria-label="Text alignment"&gt;
+    &lt;label class="menuitem" for="align-left"&gt;
+        &lt;input type="radio" name="align" id="align-left" checked&gt; Left
+    &lt;/label&gt;
+    &lt;label class="menuitem" for="align-center"&gt;
+        &lt;input type="radio" name="align" id="align-center"&gt; Center
+    &lt;/label&gt;
+    &lt;label class="menuitem" for="align-right"&gt;
+        &lt;input type="radio" name="align" id="align-right"&gt; Right
+    &lt;/label&gt;
+&lt;/section&gt;</code></pre>
+        </article>
+
+        <p>
+            The checked item swaps to <code>--buttons-bg-color-hover</code> /
+            <code>--buttons-fg-color</code>; corner rounding uses
+            <code>--border-radius</code> on the first and last items only.
         </p>
 
     </section>

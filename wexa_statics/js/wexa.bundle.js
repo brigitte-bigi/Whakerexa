@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-05 18:53:36
+// Bundle automatically generated on 2026-07-10 11:23:07
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3285,12 +3285,15 @@ SVGIconsManager.register('discovery', "<ns0:svg xmlns:ns0=\"http://www.w3.org/20
 SVGIconsManager.register('download', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M16 5v16\"/>\n  <polyline points=\"10 15 16 21 22 15\"/>\n  <line x1=\"6\" y1=\"27\" x2=\"26\" y2=\"27\"/>\n</svg>\n");
 SVGIconsManager.register('error', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polygon points=\"16 3 29 27 3 27 16 3\" />\n  <line x1=\"16\" y1=\"12\" x2=\"16\" y2=\"17\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>");
 SVGIconsManager.register('feedback', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <ns0:path d=\"M28 20a3 3 0 0 1-3 3H9l-5 5V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n</ns0:svg>");
+SVGIconsManager.register('first', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n    <line x1=\"4\" y1=\"4\" x2=\"4\" y2=\"28\" />\n</svg>\n");
 SVGIconsManager.register('games', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <ns0:rect x=\"5\" y=\"11\" width=\"21\" height=\"11\" rx=\"3\" />\n  <ns0:circle cx=\"11\" cy=\"16\" r=\"1\" />\n  <ns0:circle cx=\"13\" cy=\"16\" r=\"1\" />\n  <ns0:circle cx=\"19\" cy=\"13\" r=\"1\" />\n  <ns0:circle cx=\"19\" cy=\"19\" r=\"1\" />\n</ns0:svg>");
+SVGIconsManager.register('goto', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M6 8 H18 V18\" />\n    <polyline points=\"12 18 18 24 24 18\" />\n</svg>\n");
 SVGIconsManager.register('heart-svgrepo-com', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" width=\"800px\" height=\"800px\" viewBox=\"0 0 32 32\" fill=\"none\">\n  <ns0:path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M16 8C14 5 10 4 7 7C4 9 3 14 6 17C7 19 13 25 15 26C16 27 16 27 16 27C16 27 16 27 16 27C16 27 16 27 17 26C19 25 25 19 26 17C29 14 28 9 25 7C22 4 18 5 16 8Z\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n</ns0:svg>");
 SVGIconsManager.register('help', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <ns0:circle cx=\"16\" cy=\"16\" r=\"13\" />\n  <ns0:path d=\"M12 12a4 4 0 0 1 8 0c0 3-4 3-4 5\" />\n  <ns0:circle cx=\"16\" cy=\"23\" r=\"1\" />\n</ns0:svg>");
 SVGIconsManager.register('house', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <ns0:path d=\"M4 16L16 5l12 11\" />\n  <ns0:path d=\"M7 16v9a1 1 0 0 0 1 1h5v-7h5v7h5a1 1 0 0 0 1-1v-9\" />\n</ns0:svg>");
 SVGIconsManager.register('install', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n\t<path d=\"M28.36 14.65V11.38l-3.63-.59a9.64 9.64 0 0 0-1-2.41l2.12-3.03-2.16-2.16-2.98 2.14a8.94 8.94 0 0 0-2.42-1l-.63-3.63h-3.06l-.64 3.63a9.1 9.1 0 0 0-2.43 1L8.12 3.19 5.97 5.35l2.09 2.99a9.5 9.5 0 0 0-.22 2.48L4.06 11.4v3.27l3.6.64a9.6 9.6 0 0 0 1.02 2.45l-2.13 2.98 2.17 2.17 3.01-2.11a9 9 0 0 0 2.43 1l.6 3.63h3.06l.64-3.63a9.1 9.1 0 0 0 2.42-1l3 2.11 2.16-2.17-2.16-3a9.5 9.5 0 0 0 1-2.46l3.63-.62zM16 16.54a4.26 4.26 0 1 1 0-8.52 4.26 4.26 0 0 1 0 8.52zM29.54 23.36v4.92a1.23 1.23 0 0 1-1.23 1.23H3.69a1.23 1.23 0 0 1-1.23-1.23v-4.92H0v4.92a3.69 3.69 0 0 0 3.69 3.69h24.62a3.69 3.69 0 0 0 3.69-3.69v-4.92h-2.46z\"/>\n</svg>");
 SVGIconsManager.register('lang', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <ns0:path d=\"M28 20a3 3 0 0 1-3 3h-5l-5 5v-5H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h19a3 3 0 0 1 3 3z\" />\n  <ns0:line x1=\"11\" y1=\"12\" x2=\"21\" y2=\"12\" />\n  <ns0:line x1=\"13\" y1=\"17\" x2=\"19\" y2=\"17\" />\n</ns0:svg>");
+SVGIconsManager.register('last', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M12 4 L24 16 L12 28 Z\" />\n    <line x1=\"28\" y1=\"4\" x2=\"28\" y2=\"28\" />\n</svg>\n");
 SVGIconsManager.register('light-bulb', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Bulb -->\n  <circle cx=\"16\" cy=\"12\" r=\"8\"/>\n  <!-- Filament -->\n  <polyline points=\"13 13 15 15 17 11 19 13\"/>\n  <!-- Neck -->\n  <line x1=\"12\" y1=\"20\" x2=\"20\" y2=\"20\"/>\n  <line x1=\"12\" y1=\"22\" x2=\"20\" y2=\"22\"/>\n  <!-- Base -->\n  <line x1=\"13\" y1=\"24\" x2=\"19\" y2=\"24\"/>\n  <line x1=\"14\" y1=\"26\" x2=\"18\" y2=\"26\"/>\n</svg>\n");
 SVGIconsManager.register('like', "<ns0:svg xmlns:ns0=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <ns0:path d=\"M16 28c-4-4-8-8-8-13a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 9-8 13z\" />\n</ns0:svg>");
 SVGIconsManager.register('logout', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <path d=\"M21 23l7-7-7-7\" />\n  <path d=\"M28 16H12\" />\n  <path d=\"M16 4H8a3 3 0 0 0-3 3v19a3 3 0 0 0 3 3h8\" />\n</svg>");
@@ -3488,23 +3491,24 @@ class SlidesInitializer {
     // -----------------------------------------------------------------------
     // PRIVATE METHODS — DOM building
     // -----------------------------------------------------------------------
-    #ensureMenuCss() {
+    #ensureCss(filename) {
         const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
-            .some(link => link.href.endsWith('menu.css'));
+            .some(link => link.href.endsWith(filename));
         if (alreadyLoaded === true) {
             return;
         }
         if (this.#base === null) {
-            console.warn('SlidesInitializer: menu.css not found in <head>. Add it manually in bundle mode.');
+            console.warn(`SlidesInitializer: ${filename} not found in <head>. Add it manually in bundle mode.`);
             return;
         }
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = new URL('../../../css/menu.css', this.#base).href;
+        link.href = new URL(`../../../css/${filename}`, this.#base).href;
         document.head.appendChild(link);
     }
     async #injectBoilerplate() {
-        this.#ensureMenuCss();
+        this.#ensureCss('menu.css');
+        this.#ensureCss('togglegroup.css');
         if (this.#progressOn === true && document.getElementById('progress-container') === null) {
             const container = document.createElement('div');
             container.id = 'progress-container';
@@ -3522,7 +3526,7 @@ class SlidesInitializer {
             document.body.appendChild(await this.#buildAccessibilityNav());
         }
         if (document.getElementById('nav-content') === null) {
-            document.body.appendChild(this.#buildNavContent());
+            document.body.appendChild(await this.#buildNavContent());
         }
         if (this.#logoSrc !== '' && document.getElementById('logo-container') === null) {
             const logo = document.createElement('div');
@@ -3587,19 +3591,28 @@ class SlidesInitializer {
         btn.addEventListener('click', onClick);
         return btn;
     }
-    #buildNavContent() {
+    async #buildNavContent() {
         const nav = document.createElement('nav');
         nav.id = 'nav-content';
         nav.className = 'nav-wexa bottom controls-hidden';
         nav.setAttribute('aria-label', 'Slide navigation');
+        const prevIcon  = await window.Wexa.icons.get('back');
+        const nextIcon  = await window.Wexa.icons.get('next');
+        const firstIcon = await window.Wexa.icons.get('first');
+        const lastIcon  = await window.Wexa.icons.get('last');
+        const gotoIcon  = await window.Wexa.icons.get('goto');
         nav.innerHTML =
-            '<button class="menuitem" id="btn-prev">Prev</button>'
-            + '<button class="menuitem" id="btn-next">Next</button>'
-            + '<button class="menuitem" id="btn-back">First</button>'
-            + '<button class="menuitem" id="btn-last">Last</button>'
-            + '<button class="menuitem" id="btn-goto">Go to</button>'
-            + '<button class="menuitem" id="btn-fullscreen">Fullscreen</button>'
-            + '<div id="slides-controls-view" role="radiogroup" aria-label="View mode">'
+            '<section>'
+            +     '<button class="menuitem" id="btn-prev" aria-label="Previous slide" title="Previous slide">' + prevIcon + '</button>'
+            +     '<button class="menuitem" id="btn-next" aria-label="Next slide" title="Next slide">' + nextIcon + '</button>'
+            +     '<button class="menuitem" id="btn-back" aria-label="First slide" title="First slide">' + firstIcon + '</button>'
+            +     '<button class="menuitem" id="btn-last" aria-label="Last slide" title="Last slide">' + lastIcon + '</button>'
+            +     '<button class="menuitem" id="btn-goto" aria-label="Go to slide" title="Go to slide">' + gotoIcon + '</button>'
+            + '</section>'
+            + '<section>'
+            +     '<button class="menuitem" id="btn-fullscreen">Fullscreen</button>'
+            + '</section>'
+            + '<section id="slides-controls-view" class="toggle-group" role="radiogroup" aria-label="View mode">'
             +     '<label class="menuitem" for="btn-overview">'
             +         '<input type="radio" name="view-mode" id="btn-overview" value="overview">'
             +         ' Overview'
@@ -3608,11 +3621,15 @@ class SlidesInitializer {
             +         '<input type="radio" name="view-mode" id="btn-handout" value="handout">'
             +         ' Handout'
             +     '</label>'
+            +     '<label class="menuitem" for="btn-note">'
+            +         '<input type="radio" name="view-mode" id="btn-note" value="note">'
+            +         ' Note'
+            +     '</label>'
             +     '<label class="menuitem" for="btn-presentation">'
             +         '<input type="radio" name="view-mode" id="btn-presentation" value="presentation" checked>'
-            +         ' Slides View'
+            +         ' Slides'
             +     '</label>'
-            + '</div>';
+            + '</section>';
         return nav;
     }
     // -----------------------------------------------------------------------

@@ -262,7 +262,7 @@
 
 .slide > h2 {
     background: var(--custom-color2);
-    color: var(--table-head-fg-color);
+    color: var(--custom-color1);
 }
 
 
