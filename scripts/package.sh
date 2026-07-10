@@ -73,14 +73,22 @@ function fct_package {
     fct_echo_title "Creating Whakerexa ZIP archive"
 
     PACKAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}.zip"
+    STAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}"
+    STAGE_DIR="$PROGRAM_DIR/../$STAGE_NAME"
 
-    pushd "$PROGRAM_DIR" > /dev/null
+    rm -rf "$STAGE_DIR"
+    mkdir -p "$STAGE_DIR"
+    cp -r "$PROGRAM_DIR/../wexa_statics" "$PROGRAM_DIR/../docs" "$PROGRAM_DIR/../README.md" "$PROGRAM_DIR/../AUTHORS" "$PROGRAM_DIR/../LICENSE" "$STAGE_DIR/"
 
-    zip -q -r "$PACKAGE_NAME" $PROGRAM_DIR/../wexa_statics $PROGRAM_DIR/../docs $PROGRAM_DIR/../README.md $PROGRAM_DIR/../AUTHORS $PROGRAM_DIR/../LICENSE
+    pushd "$PROGRAM_DIR/.." > /dev/null
+
+    zip -q -r "scripts/$PACKAGE_NAME" "$STAGE_NAME"
 
     popd > /dev/null
 
-    echo "The file $PACKAGE_NAME has been created."
+    rm -rf "$STAGE_DIR"
+
+    echo "The file scripts/$PACKAGE_NAME has been created."
 }
 
 
