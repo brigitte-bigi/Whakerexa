@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-10 12:18:39
+// Bundle automatically generated on 2026-07-13 07:58:22
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1744,10 +1744,19 @@ class AccessibilityManager extends BaseManager {
             return '';
         }
         const customUrl = new URL(url, window.location.href);
-        // Forward all parameters from the current URL so that params owned by
-        // other managers (e.g. wexa_theme) survive cross-page navigation.
+        // Forward only the parameters this framework owns ("wexa_" prefix,
+        // e.g. wexa_theme) so that they survive cross-page navigation.
+        // Application parameters are not forwarded, and a parameter already
+        // present in the target URL is never overwritten: the caller's
+        // explicit intent wins over the ambient state.
         const currentParams = new URLSearchParams(window.location.search);
         for (const [key, value] of currentParams) {
+            if (key.startsWith('wexa_') === false) {
+                continue;
+            }
+            if (customUrl.searchParams.has(key) === true) {
+                continue;
+            }
             customUrl.searchParams.set(key, value);
         }
         if (this.#activatedColor !== '') {

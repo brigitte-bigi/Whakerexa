@@ -40,15 +40,13 @@ For usage examples of the CSS and JS frameworks, visit the **online documentatio
 
 👉 <https://whakerexa.sourceforge.io>
 
-The HTML files available in the `docs` folder are also provided for offline reference,
-but note that dynamic examples (those using JavaScript modules) require a web server
-and will not work if opened directly from your disk (`file://` protocol).
+The HTML files available in the `docs` folder are also provided for offline reference.
 
-Browse the local documentation with:
+Browse to Whakerexa folder and either double-clic index.html or launch:
 ``` 
 > python -m http.server 8000 
 ```
-Then open a new tab into Firefox with the url: http://localhost:8000/docs/
+Then open a new tab into Firefox with the url: http://localhost:8000/
 
 
 ## Projects using Whakerexa
