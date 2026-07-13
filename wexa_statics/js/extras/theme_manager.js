@@ -205,7 +205,9 @@ export class ThemeManager extends BaseManager {
         }
 
         if (this.#activeTheme === "") {
-            await this.activate(names[0]);
+            const defaultIdx = names.indexOf(this.#defaultTheme);
+            const nextIdx = defaultIdx + 1;
+            await this.activate(nextIdx >= names.length ? "" : names[nextIdx]);
             return;
         }
 

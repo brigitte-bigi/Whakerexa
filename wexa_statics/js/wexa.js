@@ -141,9 +141,3 @@ window.Wexa = Object.assign(window.Wexa || {}, {
 
 // Make every [data-href] element without a real href focusable via Tab.
 OnLoadManager.addLoadFunction(() => LinkController.initFocusable());
-
-// Register the global onload handler so that all deferred load functions
-// declared across Whakerexa modules are executed once the document is ready.
-window.onload = () => {
-    OnLoadManager.runLoadFunctions();
-};

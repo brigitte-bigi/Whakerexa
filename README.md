@@ -231,3 +231,13 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - wexa.css. Fixed `--nav-bg-color` (light mode): flat gray replaced with a blue matching the theme's palette.
 - menu.css. Added the missing `gap` on horizontal nav `> section` groups (top/bottom), already present on the side variant.
 - New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, composable with `.menuitem`. Documented in `docs/button.html`.
+
+
+## Version 3.2 - devel
+
+- index.html. Fixed missing `./` in the `theme_manager.js` module import path.
+- ThemeManager. Fixed `next()`: resumes after the default theme instead of the first registered one.
+- OnLoadManager. Now registers its own `load` listener on first `addLoadFunction()` call.
+- wexa.js. Removed the now-redundant manual `window.onload` wiring.
+
+

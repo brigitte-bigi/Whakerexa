@@ -35,22 +35,39 @@
 export class OnLoadManager {
     // FIELDS
     static #functions = [];
+    static #listenerRegistered = false;
 
     // PUBLIC STATIC METHODS
     /**
      * Appends the given function to the list of functions to call during the onload event.
-     * 
+     *
+     * Registers the window 'load' listener on first use, so callers never need
+     * to wire it themselves nor depend on another script's load order.
+     *
      * @param func the function to call during the onload event.
      */
     static addLoadFunction(func) {
         OnLoadManager.#functions.push(func);
+        OnLoadManager.#registerListener();
     }
 
     /**
      * Calls all functions added.
-     * This function has to be called in the 'window.onload' event.
      */
     static runLoadFunctions() {
         OnLoadManager.#functions.forEach(func => func());
+    }
+
+    // PRIVATE STATIC METHODS
+    /**
+     * Registers the window 'load' listener once, regardless of how many
+     * modules call addLoadFunction().
+     */
+    static #registerListener() {
+        if (OnLoadManager.#listenerRegistered === true) {
+            return;
+        }
+        OnLoadManager.#listenerRegistered = true;
+        window.addEventListener('load', OnLoadManager.runLoadFunctions);
     }
 }

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-13 07:58:22
+// Bundle automatically generated on 2026-07-13 11:00:22
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1583,12 +1583,22 @@ window.Wexa.Slides = Slides;
 class OnLoadManager {
     // FIELDS
     static #functions = [];
+    static #listenerRegistered = false;
     // PUBLIC STATIC METHODS
     static addLoadFunction(func) {
         OnLoadManager.#functions.push(func);
+        OnLoadManager.#registerListener();
     }
     static runLoadFunctions() {
         OnLoadManager.#functions.forEach(func => func());
+    }
+    // PRIVATE STATIC METHODS
+    static #registerListener() {
+        if (OnLoadManager.#listenerRegistered === true) {
+            return;
+        }
+        OnLoadManager.#listenerRegistered = true;
+        window.addEventListener('load', OnLoadManager.runLoadFunctions);
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -2651,7 +2661,9 @@ class ThemeManager extends BaseManager {
             return;
         }
         if (this.#activeTheme === "") {
-            await this.activate(names[0]);
+            const defaultIdx = names.indexOf(this.#defaultTheme);
+            const nextIdx = defaultIdx + 1;
+            await this.activate(nextIdx >= names.length ? "" : names[nextIdx]);
             return;
         }
         const idx = names.indexOf(this.#activeTheme);
@@ -3387,11 +3399,6 @@ window.Wexa = Object.assign(window.Wexa || {}, {
 });
 // Make every [data-href] element without a real href focusable via Tab.
 OnLoadManager.addLoadFunction(() => LinkController.initFocusable());
-// Register the global onload handler so that all deferred load functions
-// declared across Whakerexa modules are executed once the document is ready.
-window.onload = () => {
-    OnLoadManager.runLoadFunctions();
-};
 // ---------------- extras/slides/slides.init.js ---------------
 'use strict';
 const _MODULE_URL = null;
