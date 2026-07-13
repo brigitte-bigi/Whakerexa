@@ -212,6 +212,28 @@ This banner notice must not be removed.
     }
 
     /* ------------------------------------------------------------------ */
+    /* Wrap panel — space-driven flexible container                        */
+    /* ------------------------------------------------------------------ */
+
+    :root {
+        --wrap-panel-gap: 0.5rem;
+    }
+
+    .wrap-panel {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        row-gap: var(--wrap-panel-gap);
+        column-gap: var(--wrap-panel-gap);
+    }
+
+    .wrap-item {
+        flex: 0 1 auto;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    /* ------------------------------------------------------------------ */
     /* Grid panel                                                           */
     /* ------------------------------------------------------------------ */
 

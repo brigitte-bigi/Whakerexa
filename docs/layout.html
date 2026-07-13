@@ -199,6 +199,30 @@
 
         <!-- ============================================================ -->
         <section class="panel-item">
+            <h2>Wrap panel</h2>
+            <p>Use <code>.wrap-panel</code> for a row of items that keep their natural size and wrap to a new line only when space runs out.
+                Each child takes <code>.wrap-item</code>.
+                Unlike <code>.flex-panel</code>, there is no forced single-column collapse on narrow screens — wrapping follows the actual available space.</p>
+            <article class="card-doc" aria-label="Wrap panel — example">
+                <div class="card-view" style="width: 100%;">
+                    <div class="wrap-panel">
+                        <p class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">Short item</p>
+                        <p class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">A bit longer item</p>
+                        <p class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">Even longer longer longer item</p>
+                        <p class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">Yet another longer longer item</p>
+                    </div>
+                </div>
+                <pre class="dark"><code>&lt;div class="wrap-panel"&gt;
+    &lt;p class="wrap-item"&gt;Short item&lt;/p&gt;
+    &lt;p class="wrap-item"&gt;A bit longer item&lt;/p&gt;
+    &lt;p class="wrap-item"&gt;Even longer longer longer item&lt;/p&gt;
+    &lt;p class="wrap-item"&gt;Yet another longer longer item&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </article>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="panel-item">
             <h2>Collapsible panel</h2>
             <p>Use the native HTML <code>&lt;details&gt;</code> / <code>&lt;summary&gt;</code> elements.
                 No CSS class required — <code>wexa.css</code> styles them directly.
