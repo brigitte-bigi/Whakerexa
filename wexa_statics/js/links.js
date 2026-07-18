@@ -50,7 +50,8 @@
  *   - `data-target`:
  *       * `_blank` → open in new tab (default)
  *       * `_self`  → open in same page
- *       * any other value → treated as iframe id, URL assigned to iframe.src
+ *       * any other value → iframe id if such an iframe exists, otherwise
+ *         a window name: the tab of this name is opened, or reused
  *
  * Accessibility::
  *   Both click and Enter key trigger the same action.
@@ -199,8 +200,10 @@ export class LinkController {
         if (iframe && iframe.tagName.toLowerCase() === 'iframe') {
             iframe.src = finalUrl;
         } else {
-            console.warn(`LinkController: No iframe found with id="${target}". Opening in new tab.`);
-            window.open(finalUrl, '_blank', 'noopener');
+            // A named window: open the tab of this name, or reuse it.
+            // No 'noopener' here: the window name lookup needs the opener
+            // relationship, and a named target is an internal page.
+            window.open(finalUrl, target);
         }
     }
 }

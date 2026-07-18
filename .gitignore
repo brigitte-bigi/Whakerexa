@@ -8,6 +8,4 @@ Whakerexa.egg-info
 build
 dist/*
 .*
-presentation_LTC25/
-docs/swapp.css
-docs/test_swapp.html
+notes/
