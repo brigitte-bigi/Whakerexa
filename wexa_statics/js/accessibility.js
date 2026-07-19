@@ -306,9 +306,48 @@ export class AccessibilityManager extends BaseManager {
         linkElements.forEach(element => {
             element.addEventListener("click", event => {
                 event.preventDefault();
+                const namedTarget = element.dataset.namedTarget;
+                if (typeof namedTarget === 'string' && namedTarget.length > 0) {
+                    this.#goToNamedTab(element, namedTarget);
+                    return;
+                }
                 this.goToLink(element, element.target === '_blank');
             });
         });
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Open, or switch to, the named tab -- without navigating the current
+     * tab at all.
+     *
+     * A `data-named-target` attribute names a browsing context (a window
+     * name, as in window.open()'s second argument): this reuses it if
+     * some page already claimed that name -- typically by setting
+     * `window.name` on load -- or opens a fresh tab under that name
+     * otherwise. No 'noopener': the named-tab lookup needs it.
+     *
+     * @param {HTMLAnchorElement} element - The clicked link.
+     * @param {string} name - The window name to open or switch to.
+     * @private
+     * @returns {void}
+     */
+    #goToNamedTab(element, name) {
+        const rawHref = element.getAttribute('href');
+        if (rawHref === null || rawHref === '') {
+            return;
+        }
+        const url = new URL(element.href, window.location.href);
+
+        let targetUrl;
+        if (window.location.protocol !== 'file:' && (window.location.hostname === 'localhost' || url.host === window.location.host)) {
+            targetUrl = this.setUrlWithParameters(url.href);
+        } else {
+            targetUrl = url.href;
+        }
+
+        window.open(targetUrl, name);
     }
 
     // -----------------------------------------------------------------------

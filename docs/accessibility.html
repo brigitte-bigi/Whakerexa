@@ -212,6 +212,34 @@
         onclick="Wexa.accessibility.switchColorScheme()"&gt;&lt;/button&gt;</code></pre>
         </article>
 
+        <h2>Reusing a named tab</h2>
+
+        <article class="card-doc" aria-label="Named tab links">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>
+                    A plain <code>&lt;a&gt;</code> normally navigates the current tab. Set
+                    <code>data-named-target</code> to a window name instead, and the click opens
+                    — or switches to, if it is already open — the tab carrying that name, leaving
+                    the current tab untouched. A page claims a name for its own tab by setting
+                    <code>window.name</code> on load; any later link pointing to that same name
+                    reuses it rather than opening a duplicate.
+                </p>
+                <p>
+                    This differs from <code>LinkController</code>'s <code>data-target</code>
+                    (see <a href="links.html">Links</a>): that one opens a NEW tab under the given
+                    name every time none exists yet under that exact name at the moment of the
+                    click. <code>data-named-target</code> is for the reverse case — a link meant
+                    to rejoin a tab that already claimed its own identity independently, whether
+                    or not it was opened by this click.
+                </p>
+            </div>
+            <pre class="dark"><code>&lt;!-- The page that owns the tab claims its name once, on load --&gt;
+&lt;script&gt;window.name = 'app-main';&lt;/script&gt;
+
+&lt;!-- Any link elsewhere reuses that tab instead of duplicating it --&gt;
+&lt;a href="main.html" data-named-target="app-main"&gt;Back to Main&lt;/a&gt;</code></pre>
+        </article>
+
     </section>
 
 </main>

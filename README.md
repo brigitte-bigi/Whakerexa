@@ -240,5 +240,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - OnLoadManager. Now registers its own `load` listener on first `addLoadFunction()` call.
 - wexa.js. Removed the now-redundant manual `window.onload` wiring.
 - New `.wrap-panel` / `.wrap-item` in layout.css. Space-driven flex wrap container: items keep their natural size, no forced single-column collapse on narrow screens. Documented in `docs/layout.html`.
+- AccessibilityManager. New `data-named-target` attribute on plain `<a>` links: opens or switches to the tab that claimed this window name (`window.name`) instead of navigating the current tab. Documented in `docs/accessibility.html`.
 
 
