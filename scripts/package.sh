@@ -78,7 +78,7 @@ function fct_package {
 
     rm -rf "$STAGE_DIR"
     mkdir -p "$STAGE_DIR"
-    cp -r "$PROGRAM_DIR/../wexa_statics" "$PROGRAM_DIR/../docs" "$PROGRAM_DIR/../README.md" "$PROGRAM_DIR/../AUTHORS" "$PROGRAM_DIR/../LICENSE" "$STAGE_DIR/"
+    cp -r "$PROGRAM_DIR/../wexa_statics" "$PROGRAM_DIR/../docs" "$PROGRAM_DIR/../index.html" "$PROGRAM_DIR/../README.md" "$PROGRAM_DIR/../AUTHORS" "$PROGRAM_DIR/../LICENSE" "$STAGE_DIR/"
 
     pushd "$PROGRAM_DIR/.." > /dev/null
 
