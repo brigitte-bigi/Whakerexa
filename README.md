@@ -233,6 +233,17 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, composable with `.menuitem`. Documented in `docs/button.html`.
 
 
+## Version 3.3
+
+- Extra Book. New bibliography, built from BibTeX data written in the page or kept in a `.bib` file next to it. Nothing is fetched from the internet, and nothing is run by hand: the work happens in the browser when the page opens.
+- Extra Book. New JS modules under `js/extras/book/`: `BookBibliography` assembles, `BibtexSource` reads, `BibtexParser` prepares, `ReferenceFormatter` displays a reference according to its type, `BibliographyTable` builds the table, `ReferenceDisclosure` opens and closes, `BibliographyControls` sorts and searches.
+- Extra Book. New `bibbook.css`: one row per reference, an abstract and a BibTeX source that open across the whole table, addresses written in full on paper.
+- Extra Book. Every author is displayed, whatever their number. A missing field and an unknown entry type are shown rather than dropped.
+- SortaTable. A cell may carry its own sort value in `data-sort-value`, used instead of the displayed text.
+- SortaTable. Texts are compared according to the language of the page, read on the closest element that declares it. Numbers written inside a text are compared as numbers.
+- Unit tests. New `js/tests/tests.html` runs the test files of the bibliography; results are written in the console.
+- New documentation pages `docs/bibliography.html` and `docs/publications.html`, both in the Extras menu.
+
 ## Version 3.2 - stable
 
 - index.html. Fixed missing `./` in the `theme_manager.js` module import path.

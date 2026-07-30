@@ -1,0 +1,270 @@
+/*
+:filename: wexa_statics/css/extras/bibbook.css
+:author: Brigitte Bigi
+:contact: contact@sppas.org
+:summary: style for a bibliography built from BibTeX data
+
+-------------------------------------------------------------------------
+
+This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
+
+Copyright (C) 2023-2026 Brigitte Bigi, CNRS
+Laboratoire Parole et Langage, Aix-en-Provence, France
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+This banner notice must not be removed.
+
+-------------------------------------------------------------------------
+
+*/
+
+
+/* ----------------------------------------------------------------------- */
+/* Searching the bibliography                                              */
+/* ----------------------------------------------------------------------- */
+
+.bib-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.bib-search-field {
+    flex: 1 1 12rem;
+    max-width: 100%;
+}
+
+/* What changed is said. It is shown too: what is announced to some has no
+   reason to be hidden from the others. */
+.bib-announcement {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: calc(var(--font-size) * 0.9);
+    font-weight: var(--font-weight-semithin);
+    color: var(--fg-color-alt);
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* The table                                                               */
+/* ----------------------------------------------------------------------- */
+
+/* The number and the year are read as columns, and never wrap. */
+.bib-number,
+.bib-year {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+.bib-number {
+    font-weight: var(--font-weight-semibold);
+}
+
+.bib-reference,
+.bib-details {
+    vertical-align: top;
+}
+
+/* What leads to the publication and what opens on demand. The column takes
+   the width its content needs on a single line, and no more: what it opens
+   takes a row of its own, further down. */
+.bib-details {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: top;
+}
+
+/* The stripes count the references, not the rows: a content that opens is a
+   row too, and the colours would shift by one as soon as anything opened.
+   Which rows to stripe is decided in the code, and a content takes the colour
+   of the reference it belongs to. */
+.bib-table tbody tr > td,
+.bib-table tbody tr > td * {
+    background-color: var(--table-cell-bg-color);
+}
+
+.bib-table tbody tr.bib-striped > td,
+.bib-table tbody tr.bib-striped > td *:not(.bib-disclosure-control) {
+    background-color: var(--table-row-stripped-bg-color);
+}
+
+/* A content takes a row of its own, across the whole table. The bar on its
+   left is what ties it to the reference above it. */
+.bib-opened-row > td {
+    border-top: none;
+    border-left: calc(3 * var(--border-width)) solid var(--border-color);
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* One reference                                                           */
+/* ----------------------------------------------------------------------- */
+
+.bib-title {
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Where the work was published is written in italics, as bibliographies do,
+   and the work itself is not: that is what tells them apart at a glance. */
+.bib-journal,
+.bib-booktitle {
+    font-style: italic;
+}
+
+/* A missing field is shown, and stays readable: it is written for whoever
+   keeps the BibTeX data, not against the reader. */
+.bib-missing {
+    color: var(--error-color);
+    font-style: italic;
+    text-decoration: underline dotted;
+}
+
+/* Back to every place of the text where the reference is cited. */
+.bib-backlink {
+    margin-left: 0.3rem;
+    font-size: calc(var(--font-size) * 0.9);
+    vertical-align: super;
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* What can be reached, and what can be opened                             */
+/* ----------------------------------------------------------------------- */
+
+/* What leads elsewhere and what acts here stand side by side, at the end of
+   the reference they belong to. */
+.bib-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: calc(var(--font-size) * 0.9);
+}
+
+/* An address is a link, and looks like one: it is underlined, it carries the
+   icon that says it leaves the document, and it has no frame. */
+.bib-link {
+    color: var(--a-color);
+    text-decoration: underline;
+}
+
+/* A control acts here and now: it looks like a button, and never like a
+   link. What tells them apart has to be seen without reading them.
+   The selector reaches past the "td *" rule of wexa.css, which clears the
+   background of everything a cell holds. */
+.bib-table td .bib-disclosure-control {
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    margin: 0;
+    padding: 0.2rem 0.5rem;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--buttons-fg-color);
+    background-color: var(--buttons-bg-color);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.bib-table td .bib-disclosure-control:hover,
+.bib-table td .bib-disclosure-control:focus {
+    background-color: var(--buttons-bg-color-hover);
+}
+
+/* The control says itself whether it is open: the mark follows what it says,
+   and never the other way around. */
+.bib-disclosure-control::before {
+    content: '\25B8\00A0';
+}
+
+.bib-disclosure-control[aria-expanded='true']::before {
+    content: '\25BE\00A0';
+}
+
+/* A content that opens takes the whole width of the table: an abstract read
+   in the width of a column is an abstract nobody reads. */
+.bib-disclosure-content {
+    padding: 0.5rem;
+    white-space: pre-wrap;
+    font-size: calc(var(--font-size) * 0.9);
+}
+
+/* The BibTeX source is read as it was written, and copied as it stands. */
+.bib-disclosure-source {
+    font-family: var(--font-family-mono);
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* On paper                                                                */
+/* ----------------------------------------------------------------------- */
+
+@media print {
+
+    /* What only makes sense on a screen does not print. */
+    .bib-search,
+    .bib-announcement,
+    .bib-disclosure-control,
+    .bib-opened-row,
+    .bib-backlink,
+    .sortatable::after {
+        display: none;
+    }
+
+    /* On paper an address is read, not clicked: it is written where it
+       stands, and nothing frames it. */
+    .bib-actions {
+        display: block;
+        margin-top: 0;
+    }
+
+    .bib-link {
+        text-decoration: none;
+    }
+
+    /* A sort button has nothing left to do, and its label stays: it is the
+       header of the column. */
+    .sortatable {
+        padding: 0;
+        text-align: left;
+    }
+
+    /* An address that cannot be clicked has to be read, so it is written in
+       full, next to what it leads to. The icon that says the link goes out
+       has nothing left to say on paper, and gives its place to the address. */
+    a.bib-link.external-link::after {
+        content: ' (' attr(href) ')';
+        display: inline;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        mask-image: none;
+        background-color: transparent;
+        font-family: var(--font-family-mono);
+        word-break: break-all;
+    }
+
+    /* A reference is never cut across two pages. */
+    .bib-table tbody tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+}

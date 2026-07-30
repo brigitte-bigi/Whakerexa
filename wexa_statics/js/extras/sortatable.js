@@ -297,26 +297,86 @@ export class SortaTable {
         // Check if the attribute to sort by is 'date'
         const isDate = sortAttribute === 'date';
 
+        // Compare according to the language of the page: comparing character
+        // by character puts accented words after every other one, which is
+        // wrong in every language that uses them.
+        const collator = new Intl.Collator(this.#language(), {numeric: true, sensitivity: 'base'});
+
         // Sort the rows array using a custom comparator
         rows.sort((a, b) => {
-            // Fetch the text content of the cells in the current column
-            let aValue = a.cells[columnIndex].textContent.trim();
-            let bValue = b.cells[columnIndex].textContent.trim();
+            // Fetch the value to sort on for the cells in the current column
+            const aValue = SortaTable.#cellValue(a.cells[columnIndex]);
+            const bValue = SortaTable.#cellValue(b.cells[columnIndex]);
 
             // If the attribute is 'date', convert string to Date object
             if (isDate) {
-                aValue = new Date(aValue);
-                bValue = new Date(bValue);
+                const aDate = new Date(aValue);
+                const bDate = new Date(bValue);
+
+                if (aDate < bDate) return isAsc ? -1 : 1;
+                if (aDate > bDate) return isAsc ? 1 : -1;
+                return 0;
             }
 
-            // Determine the sort order based on the cell values and isAsc flag
-            if (aValue < bValue) return isAsc ? -1 : 1;
-            if (aValue > bValue) return isAsc ? 1 : -1;
-            return 0;
+            const order = collator.compare(aValue, bValue);
+
+            return isAsc ? order : -order;
         });
 
         // Re-append sorted rows back to the table body
         rows.forEach(row => tableBody.appendChild(row));
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Gets the value a cell is sorted on.
+     *
+     * A cell may carry its own sort value in a 'data-sort-value' attribute,
+     * which is used instead of the displayed text. This is what a cell needs
+     * when what is read and what is sorted on differ: a full reference is
+     * displayed, and sorted on the family name of its first author.
+     *
+     * @param {HTMLElement} cell - The cell of the column being sorted.
+     * @returns {string} The value to sort on.
+     *
+     */
+    static #cellValue(cell) {
+        // A row may not reach that far: one holding a content that spans the
+        // whole table has a single cell. It is sorted as an empty value, and
+        // whoever put it there is the one who knows where it belongs.
+        if (!cell) {
+            return '';
+        }
+
+        const declared = cell.getAttribute('data-sort-value');
+
+        if (declared !== null) {
+            return declared.trim();
+        }
+
+        return cell.textContent.trim();
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * Gets the language the table is written in.
+     *
+     * The language is read on the element, the closest one that declares it,
+     * and is never written in the code.
+     *
+     * @returns {string|undefined} The language, or undefined to let the browser decide.
+     *
+     */
+    #language() {
+        const declaring = this._tableElt.closest('[lang]');
+
+        if (!declaring) {
+            return undefined;
+        }
+
+        return declaring.getAttribute('lang');
     }
 
 }

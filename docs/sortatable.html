@@ -96,6 +96,33 @@
 &lt;/table&gt;</code></pre>
         </article>
 
+        <h2>Sort value</h2>
+        <p>
+            A cell is sorted on the text it displays. When what is read and what
+            is sorted on differ, the cell carries its own value in a
+            <code>data-sort-value</code> attribute, which is then used instead.
+            A bibliography displays a whole reference, and is sorted on the family
+            name of its first author.
+        </p>
+
+        <article class="card-doc" aria-label="SortaTable — sort value">
+            <div class="card-view">
+                <p>Only the cells that need it carry the attribute.</p>
+            </div>
+            <pre class="dark"><code>&lt;td data-sort-value="Bigi, Brigitte"&gt;
+    Brigitte Bigi, A Large Open Corpus, 2022.
+&lt;/td&gt;</code></pre>
+        </article>
+
+        <h2>Language</h2>
+        <p>
+            Texts are compared according to the language of the page, read on the
+            closest element that declares a <code>lang</code> attribute. Comparing
+            character by character would put every accented word after all the
+            others, which is wrong in each language that uses them. Numbers written
+            inside a text are compared as numbers, so that 9 comes before 10.
+        </p>
+
         <h2>API</h2>
         <p>
             Instantiate with the table <code>id</code>, then call

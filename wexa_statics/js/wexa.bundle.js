@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-22 11:44:13
+// Bundle automatically generated on 2026-07-30 20:28:08
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3032,28 +3032,1341 @@ class SortaTable {
         const rows = Array.from(tableBody.getElementsByTagName('tr'));
         // Check if the attribute to sort by is 'date'
         const isDate = sortAttribute === 'date';
+        // Compare according to the language of the page: comparing character
+        // by character puts accented words after every other one, which is
+        // wrong in every language that uses them.
+        const collator = new Intl.Collator(this.#language(), {numeric: true, sensitivity: 'base'});
         // Sort the rows array using a custom comparator
         rows.sort((a, b) => {
-            // Fetch the text content of the cells in the current column
-            let aValue = a.cells[columnIndex].textContent.trim();
-            let bValue = b.cells[columnIndex].textContent.trim();
+            // Fetch the value to sort on for the cells in the current column
+            const aValue = SortaTable.#cellValue(a.cells[columnIndex]);
+            const bValue = SortaTable.#cellValue(b.cells[columnIndex]);
             // If the attribute is 'date', convert string to Date object
             if (isDate) {
-                aValue = new Date(aValue);
-                bValue = new Date(bValue);
+                const aDate = new Date(aValue);
+                const bDate = new Date(bValue);
+                if (aDate < bDate) return isAsc ? -1 : 1;
+                if (aDate > bDate) return isAsc ? 1 : -1;
+                return 0;
             }
-            // Determine the sort order based on the cell values and isAsc flag
-            if (aValue < bValue) return isAsc ? -1 : 1;
-            if (aValue > bValue) return isAsc ? 1 : -1;
-            return 0;
+            const order = collator.compare(aValue, bValue);
+            return isAsc ? order : -order;
         });
         // Re-append sorted rows back to the table body
         rows.forEach(row => tableBody.appendChild(row));
+    }
+    // ----------------------------------------------------------------------
+    static #cellValue(cell) {
+        // A row may not reach that far: one holding a content that spans the
+        // whole table has a single cell. It is sorted as an empty value, and
+        // whoever put it there is the one who knows where it belongs.
+        if (!cell) {
+            return '';
+        }
+        const declared = cell.getAttribute('data-sort-value');
+        if (declared !== null) {
+            return declared.trim();
+        }
+        return cell.textContent.trim();
+    }
+    // ----------------------------------------------------------------------
+    #language() {
+        const declaring = this._tableElt.closest('[lang]');
+        if (!declaring) {
+            return undefined;
+        }
+        return declaring.getAttribute('lang');
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.SortaTable = SortaTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/errors.js ---------------
+'use strict';
+class BibliographyError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'BibliographyError';
+    }
+}
+class MissingBibtexData extends BibliographyError {
+    constructor(message) {
+        super(message);
+        this.name = 'MissingBibtexData';
+    }
+}
+class MissingBibliographyPlace extends BibliographyError {
+    constructor(message) {
+        super(message);
+        this.name = 'MissingBibliographyPlace';
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibliographyError = BibliographyError;
+window.Wexa.MissingBibtexData = MissingBibtexData;
+window.Wexa.MissingBibliographyPlace = MissingBibliographyPlace;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/labels.js ---------------
+'use strict';
+class Labels {
+    // CONSTANTS
+    static FALLBACK = 'en';
+    // FIELDS
+    #labels;
+    // CONSTRUCTOR
+    constructor(labels) {
+        this.#labels = labels;
+    }
+    // GETTERS
+    get language() {
+        const declared = document.documentElement.getAttribute('lang');
+        if (declared === null) {
+            return Labels.FALLBACK;
+        }
+        const spoken = declared.split('-')[0].toLowerCase();
+        if (this.#labels.has(spoken) === false) {
+            return Labels.FALLBACK;
+        }
+        return spoken;
+    }
+    get isKnown() {
+        const declared = document.documentElement.getAttribute('lang');
+        if (declared === null) {
+            return false;
+        }
+        return this.#labels.has(declared.split('-')[0].toLowerCase());
+    }
+    // PUBLIC METHODS
+    text(name) {
+        return this.#labels.get(this.language)[name];
+    }
+    write(element, name) {
+        element.textContent = this.text(name);
+        this.declare(element);
+    }
+    declare(element) {
+        if (this.isKnown === false) {
+            element.setAttribute('lang', Labels.FALLBACK);
+        }
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Labels = Labels;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/author.js ---------------
+'use strict';
+class Author {
+    // FIELDS
+    #place;
+    #firstName;
+    #particle;
+    #lastName;
+    #suffix;
+    // CONSTRUCTOR
+    constructor(place, firstName, particle, lastName, suffix) {
+        this.#place = place;
+        this.#firstName = firstName;
+        this.#particle = particle;
+        this.#lastName = lastName;
+        this.#suffix = suffix;
+    }
+    // GETTERS
+    get place() {
+        return this.#place;
+    }
+    get firstName() {
+        return this.#firstName;
+    }
+    get particle() {
+        return this.#particle;
+    }
+    get lastName() {
+        return this.#lastName;
+    }
+    get suffix() {
+        return this.#suffix;
+    }
+    // PUBLIC METHODS
+    text() {
+        const parts = [this.#firstName, this.#particle, this.#lastName, this.#suffix];
+        const written = parts.filter(part => part.length > 0);
+        return written.join(' ');
+    }
+    sortValue() {
+        if (this.#lastName.length === 0) {
+            return this.text();
+        }
+        const parts = [this.#firstName, this.#particle];
+        const given = parts.filter(part => part.length > 0);
+        if (given.length === 0) {
+            return this.#lastName;
+        }
+        return this.#lastName + ', ' + given.join(' ');
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Author = Author;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/link.js ---------------
+'use strict';
+const LinkKind = Object.freeze({
+    PDF: 'pdf',
+    REPOSITORY: 'repository',
+    PUBLISHER: 'publisher',
+    OTHER: 'other'
+});
+class Link {
+    // CONSTANTS
+    static DEFAULT_REPOSITORY_HOSTS = ['hal.science', 'archives-ouvertes.fr', 'arxiv.org', 'zenodo.org'];
+    static PUBLISHER_MARKS = ['doi.org', '/doi/'];
+    // FIELDS
+    static #repositoryHosts = [...Link.DEFAULT_REPOSITORY_HOSTS];
+    #address;
+    // PUBLIC STATIC METHODS
+    static get repositoryHosts() {
+        return [...Link.#repositoryHosts];
+    }
+    static addRepositoryHosts(...hosts) {
+        hosts.forEach(host => {
+            if (typeof host !== 'string' || host.length === 0) {
+                console.error('Link.addRepositoryHosts: a host must be a string that is not empty.');
+                return;
+            }
+            const known = Link.#repositoryHosts.includes(host);
+            if (known === false) {
+                Link.#repositoryHosts.push(host);
+            }
+        });
+    }
+    static deleteRepositoryHosts(...hosts) {
+        hosts.forEach(host => {
+            const place = Link.#repositoryHosts.indexOf(host);
+            if (place === -1) {
+                console.warn(`Link.deleteRepositoryHosts: "${host}" was not known as an archive.`);
+                return;
+            }
+            Link.#repositoryHosts.splice(place, 1);
+        });
+    }
+    static resetRepositoryHosts() {
+        Link.#repositoryHosts = [...Link.DEFAULT_REPOSITORY_HOSTS];
+    }
+    // CONSTRUCTOR
+    constructor(address) {
+        this.#address = address;
+    }
+    // GETTERS
+    get address() {
+        return this.#address;
+    }
+    // PUBLIC METHODS
+    kind() {
+        const address = this.#address.toLowerCase();
+        if (address.endsWith('.pdf') === true) {
+            return LinkKind.PDF;
+        }
+        if (Link.#containsOneOf(address, Link.#repositoryHosts) === true) {
+            return LinkKind.REPOSITORY;
+        }
+        if (Link.#containsOneOf(address, Link.PUBLISHER_MARKS) === true) {
+            return LinkKind.PUBLISHER;
+        }
+        return LinkKind.OTHER;
+    }
+    // PRIVATE STATIC METHODS
+    static #containsOneOf(address, marks) {
+        return marks.some(mark => address.includes(mark));
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Link = Link;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/reference.js ---------------
+'use strict';
+class Reference {
+    // FIELDS
+    #key;
+    #type;
+    #fields;
+    #authors;
+    #links;
+    #source;
+    // CONSTRUCTOR
+    constructor(key, type, fields, authors, links, source) {
+        this.#key = key;
+        this.#type = type;
+        this.#fields = new Map();
+        this.#authors = [...authors];
+        this.#links = [...links];
+        this.#source = source;
+        fields.forEach((value, name) => {
+            this.#fields.set(name.toLowerCase(), value);
+        });
+    }
+    // GETTERS
+    get key() {
+        return this.#key;
+    }
+    get type() {
+        return this.#type;
+    }
+    get authors() {
+        return [...this.#authors];
+    }
+    get links() {
+        return [...this.#links];
+    }
+    get source() {
+        return this.#source;
+    }
+    get abstract() {
+        return this.field('abstract');
+    }
+    // PUBLIC METHODS
+    field(name) {
+        const wanted = name.toLowerCase();
+        if (this.#fields.has(wanted) === false) {
+            return '';
+        }
+        return this.#fields.get(wanted);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Reference = Reference;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/cited_reference.js ---------------
+'use strict';
+class CitedReference {
+    // FIELDS
+    #number;
+    #places;
+    // CONSTRUCTOR
+    constructor(number, places) {
+        this.#number = number;
+        this.#places = [...places];
+    }
+    // GETTERS
+    get number() {
+        return this.#number;
+    }
+    get places() {
+        return [...this.#places];
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.CitedReference = CitedReference;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/parser.js ---------------
+'use strict';
+class BibtexParser {
+    // CONSTANTS
+    static ACCENTS = new Map([
+        ["'", '́'],    // acute
+        ['`', '̀'],    // grave
+        ['^', '̂'],    // circumflex
+        ['"', '̈'],    // diaeresis
+        ['~', '̃'],    // tilde
+        ['=', '̄'],    // macron
+        ['.', '̇'],    // dot above
+        ['c', '̧'],    // cedilla
+        ['v', '̌'],    // caron
+        ['u', '̆'],    // breve
+        ['H', '̋'],    // double acute
+        ['r', '̊'],    // ring above
+        ['k', '̨']     // ogonek
+    ]);
+    static LETTERS = new Map([
+        ['\\AA', 'Å'], ['\\aa', 'å'], ['\\AE', 'Æ'], ['\\ae', 'æ'],
+        ['\\OE', 'Œ'], ['\\oe', 'œ'], ['\\ss', 'ß'],
+        ['\\O', 'Ø'], ['\\o', 'ø'], ['\\L', 'Ł'], ['\\l', 'ł'],
+        ['\\i', 'ı'], ['\\j', 'ȷ']
+    ]);
+    static ESCAPED = ['&', '%', '$', '#', '_'];
+    static LINK_FIELDS = ['url', 'note'];
+    // PUBLIC METHODS
+    parse(content) {
+        const references = new Map();
+        let inEntry = false;
+        let open = 0;
+        let buffer = '';
+        let previous = '';
+        for (let i = 0; i < content.length; i++) {
+            let character = content[i];
+            if (open !== 0 && character === '@' && BibtexParser.#startsALine(content, i) === true) {
+                console.warn('BibtexParser: a closing brace is missing, the entry is closed by force.');
+                character = '}';
+                i--;
+            }
+            if (open === 0 && character === '@') {
+                inEntry = true;
+            } else if (inEntry === true && character === '{' && previous !== '\\') {
+                open++;
+            } else if (inEntry === true && character === '}' && previous !== '\\') {
+                open--;
+                if (open === 0) {
+                    inEntry = false;
+                    this.#keepEntry(references, buffer);
+                    buffer = '';
+                }
+            }
+            if (inEntry === true) {
+                buffer += character;
+            }
+            previous = character;
+        }
+        // The last entry may have lost its closing brace at the end of the file.
+        if (open > 0) {
+            console.warn('BibtexParser: the last entry has no closing brace.');
+            this.#keepEntry(references, buffer);
+        }
+        return references;
+    }
+    // PRIVATE METHODS
+    #keepEntry(references, buffer) {
+        const reference = this.#parseEntry(buffer + '}');
+        if (reference === null) {
+            return;
+        }
+        if (references.has(reference.key) === true) {
+            console.warn(`BibtexParser: the key "${reference.key}" is used twice, the second entry wins.`);
+        }
+        references.set(reference.key, reference);
+    }
+    #parseEntry(source) {
+        const fields = new Map();
+        let entry = source.substring(0, source.length - 1);
+        while (entry.includes('=') === true) {
+            let position = entry.lastIndexOf('=');
+            while (position !== -1 && BibtexParser.#isSeparator(entry, position) === false) {
+                position = entry.lastIndexOf('=', position - 1);
+            }
+            if (position === -1) {
+                break;
+            }
+            const value = entry.substring(position + 1);
+            entry = entry.substring(0, position);
+            const comma = entry.lastIndexOf(',');
+            if (comma === -1) {
+                break;
+            }
+            const name = entry.substring(comma + 1).trim().toLowerCase();
+            entry = entry.substring(0, comma);
+            if (name.length > 0) {
+                fields.set(name, this.#cleanValue(value));
+            }
+        }
+        const brace = entry.indexOf('{');
+        if (brace === -1) {
+            console.warn('BibtexParser: an entry has no opening brace, it is left aside.');
+            return null;
+        }
+        const type = entry.substring(0, brace).trim().replace('@', '');
+        const key = entry.substring(brace + 1).trim();
+        if (key.length === 0) {
+            console.warn('BibtexParser: an entry has no key, it is left aside.');
+            return null;
+        }
+        let authors = [];
+        if (fields.has('author') === true) {
+            authors = this.#parseAuthors(fields.get('author'));
+        }
+        return new Reference(key, type, fields, authors, this.#readLinks(fields), source);
+    }
+    #cleanValue(value) {
+        let cleaned = value.trim();
+        if (cleaned.endsWith(',') === true) {
+            cleaned = cleaned.substring(0, cleaned.length - 1).trim();
+        }
+        cleaned = BibtexParser.#stripDelimiters(cleaned);
+        cleaned = cleaned.replace(/\s+/g, ' ').trim();
+        cleaned = this.#decodeLatex(cleaned);
+        // Braces that protected a case have done their work; what they
+        // protected is left untouched.
+        return cleaned.replace(/(^|[^\\])[{}]/g, '$1');
+    }
+    #decodeLatex(text) {
+        let converted = text;
+        BibtexParser.LETTERS.forEach((letter, command) => {
+            converted = converted.split(command + '{}').join(letter);
+            converted = converted.split(command + ' ').join(letter);
+            converted = converted.split(command).join(letter);
+        });
+        const accents = Array.from(BibtexParser.ACCENTS.keys()).map(BibtexParser.#escapeForRegExp).join('');
+        const pattern = new RegExp('\\\\([' + accents + '])\\s*\\{?([A-Za-z])\\}?', 'g');
+        converted = converted.replace(pattern, (whole, accent, letter) => {
+            return letter + BibtexParser.ACCENTS.get(accent);
+        });
+        BibtexParser.ESCAPED.forEach(character => {
+            converted = converted.split('\\' + character).join(character);
+        });
+        // Two hyphens are how LaTeX writes a range; one hyphen reads better.
+        converted = converted.split('--').join('-');
+        return converted.normalize('NFC');
+    }
+    #parseAuthors(value) {
+        const written = value.split(' and ');
+        const authors = [];
+        written.forEach((name, index) => {
+            const parts = BibtexParser.#splitName(name.trim());
+            authors.push(new Author(index + 1, parts.first, parts.particle, parts.last, parts.suffix));
+        });
+        return authors;
+    }
+    #readLinks(fields) {
+        const links = [];
+        BibtexParser.LINK_FIELDS.forEach(name => {
+            if (fields.has(name) === false) {
+                return;
+            }
+            const value = fields.get(name).trim();
+            if (value.startsWith('http') === true) {
+                links.push(new Link(value));
+            }
+        });
+        return links;
+    }
+    // PRIVATE STATIC METHODS
+    static #isSeparator(entry, position) {
+        if (position > 0 && entry[position - 1] === '\\') {
+            return false;
+        }
+        let open = 0;
+        for (let i = entry.length - 1; i >= position; i--) {
+            if (entry[i] === '{' && entry[i - 1] !== '\\') {
+                open++;
+            }
+            if (entry[i] === '}' && entry[i - 1] !== '\\') {
+                open--;
+            }
+        }
+        if (open !== 0) {
+            return false;
+        }
+        let tail = entry.trimEnd();
+        if (tail.endsWith(',') === true) {
+            tail = tail.substring(0, tail.length - 1).trimEnd();
+        }
+        if (tail.endsWith('"') === false) {
+            return true;
+        }
+        let found = 0;
+        for (let i = entry.length - 1; i >= position; i--) {
+            if (entry[i] === '"' && entry[i - 1] !== '\\') {
+                found++;
+            }
+            if (found === 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+    static #stripDelimiters(value) {
+        if (value.startsWith('{') === true && value.endsWith('}') === true) {
+            return value.substring(1, value.length - 1);
+        }
+        if (value.startsWith('"') === true && value.endsWith('"') === true) {
+            return value.substring(1, value.length - 1);
+        }
+        return value;
+    }
+    static #splitName(name) {
+        const parts = name.split(',');
+        if (parts.length === 1) {
+            return BibtexParser.#splitFirstVonLast(name);
+        }
+        const vonLast = BibtexParser.#splitVonLast(parts[0].trim());
+        let suffix = '';
+        if (parts.length > 2) {
+            suffix = parts[1].trim();
+        }
+        return {
+            first: parts[parts.length - 1].trim(),
+            particle: vonLast.particle,
+            last: vonLast.last,
+            suffix: suffix
+        };
+    }
+    static #splitFirstVonLast(name) {
+        const words = name.split(/\s+/).filter(word => word.length > 0);
+        if (words.length === 1) {
+            return {first: '', particle: '', last: words[0], suffix: ''};
+        }
+        const lastLower = BibtexParser.#lastLowerCaseWord(words, words.length - 1);
+        if (lastLower === -1) {
+            return {
+                first: words.slice(0, words.length - 1).join(' '),
+                particle: '',
+                last: words[words.length - 1],
+                suffix: ''
+            };
+        }
+        const firstLower = BibtexParser.#firstLowerCaseWord(words, lastLower);
+        return {
+            first: words.slice(0, firstLower).join(' '),
+            particle: words.slice(firstLower, lastLower + 1).join(' '),
+            last: words.slice(lastLower + 1).join(' '),
+            suffix: ''
+        };
+    }
+    static #splitVonLast(text) {
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        if (words.length === 1) {
+            return {particle: '', last: words[0]};
+        }
+        const lastLower = BibtexParser.#lastLowerCaseWord(words, words.length - 1);
+        if (lastLower === -1) {
+            return {particle: '', last: words.join(' ')};
+        }
+        const firstLower = BibtexParser.#firstLowerCaseWord(words, lastLower);
+        return {
+            particle: words.slice(firstLower, lastLower + 1).join(' '),
+            last: words.slice(lastLower + 1).join(' ')
+        };
+    }
+    static #lastLowerCaseWord(words, limit) {
+        for (let i = limit - 1; i >= 0; i--) {
+            if (BibtexParser.#isLowerCase(words[i]) === true) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    static #firstLowerCaseWord(words, lastLower) {
+        let start = lastLower;
+        while (start > 0 && BibtexParser.#isLowerCase(words[start - 1]) === true) {
+            start--;
+        }
+        return start;
+    }
+    static #isLowerCase(word) {
+        let depth = 0;
+        for (const character of word) {
+            if (character === '{') {
+                depth++;
+            } else if (character === '}') {
+                depth--;
+            } else if (depth === 0 && /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(character) === true) {
+                return character === character.toLowerCase();
+            }
+        }
+        return false;
+    }
+    static #startsALine(content, position) {
+        for (let i = position - 1; i >= 0; i--) {
+            const character = content[i];
+            if (character === '\n') {
+                return true;
+            }
+            if (character !== ' ' && character !== '\t' && character !== '\r') {
+                return false;
+            }
+        }
+        return true;
+    }
+    static #escapeForRegExp(character) {
+        return character.replace(/[.*+?^${}()|[\]\\-]/g, '\\$&');
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibtexParser = BibtexParser;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/formatter.js ---------------
+'use strict';
+class ReferenceFormatter {
+    // CONSTANTS
+    static TEMPLATES = new Map([
+        ['article', ['author', 'title', 'journal', 'volume', 'number', 'pages', 'year']],
+        ['inproceedings', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
+        ['conference', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
+        ['incollection', ['author', 'title', 'booktitle', 'editor', 'publisher', 'pages', 'year']],
+        ['inbook', ['author', 'chapter', 'title', 'editor', 'publisher', 'pages', 'year']],
+        ['book', ['author', 'title', 'editor', 'publisher', 'address', 'year']],
+        ['techreport', ['author', 'title', 'institution', 'address', 'year']],
+        ['phdthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
+        ['mastersthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
+        ['unpublished', ['author', 'title', 'note', 'year']],
+        ['misc', ['author', 'title', 'howpublished', 'year']]
+    ]);
+    static FALLBACK_TEMPLATE = ['author', 'title', 'howpublished', 'year'];
+    static REQUIRED = new Map([
+        ['article', ['author', 'title', 'journal', 'year']],
+        ['inproceedings', ['author', 'title', 'booktitle', 'year']],
+        ['conference', ['author', 'title', 'booktitle', 'year']],
+        ['incollection', ['author', 'title', 'booktitle', 'publisher', 'year']],
+        ['inbook', ['author', 'title', 'publisher', 'year']],
+        ['book', ['title', 'publisher', 'year']],
+        ['techreport', ['author', 'title', 'institution', 'year']],
+        ['phdthesis', ['author', 'title', 'school', 'year']],
+        ['mastersthesis', ['author', 'title', 'school', 'year']],
+        ['unpublished', ['author', 'title']],
+        ['misc', []]
+    ]);
+    static FALLBACK_REQUIRED = ['title'];
+    static SEPARATOR = ', ';
+    static TERMINATOR = '.';
+    // PUBLIC METHODS
+    format(reference) {
+        const fragment = document.createDocumentFragment();
+        const template = this.#templateFor(reference.type);
+        const required = this.#requiredFor(reference.type);
+        let written = 0;
+        template.forEach(name => {
+            const element = this.#formatField(reference, name, required.includes(name));
+            if (element === null) {
+                return;
+            }
+            if (written > 0) {
+                fragment.appendChild(document.createTextNode(ReferenceFormatter.SEPARATOR));
+            }
+            fragment.appendChild(element);
+            written++;
+        });
+        if (written === 0) {
+            fragment.appendChild(this.#formatMissing('title'));
+        }
+        fragment.appendChild(document.createTextNode(ReferenceFormatter.TERMINATOR));
+        return fragment;
+    }
+    // PRIVATE METHODS
+    #formatField(reference, name, isRequired) {
+        let value = reference.field(name);
+        if (name === 'author') {
+            value = reference.authors.map(author => author.text()).join(ReferenceFormatter.SEPARATOR);
+        }
+        if (value.length > 0) {
+            const element = document.createElement('span');
+            element.className = 'bib-' + name;
+            element.textContent = value;
+            return element;
+        }
+        if (isRequired === true) {
+            return this.#formatMissing(name);
+        }
+        return null;
+    }
+    #formatMissing(name) {
+        const element = document.createElement('span');
+        element.className = 'bib-missing';
+        element.textContent = '[' + name + ']';
+        element.setAttribute('title', 'This reference has no ' + name + '.');
+        return element;
+    }
+    #templateFor(type) {
+        const wanted = type.toLowerCase();
+        if (ReferenceFormatter.TEMPLATES.has(wanted) === false) {
+            return ReferenceFormatter.FALLBACK_TEMPLATE;
+        }
+        return ReferenceFormatter.TEMPLATES.get(wanted);
+    }
+    #requiredFor(type) {
+        const wanted = type.toLowerCase();
+        if (ReferenceFormatter.REQUIRED.has(wanted) === false) {
+            return ReferenceFormatter.FALLBACK_REQUIRED;
+        }
+        return ReferenceFormatter.REQUIRED.get(wanted);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ReferenceFormatter = ReferenceFormatter;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/bibtable.js ---------------
+'use strict';
+class BibliographyTable {
+    // CONSTANTS
+    static TABLE_ID = 'bibliography-table';
+    static ROW_PREFIX = 'bib-';
+    static LABELS = new Map([
+        ['en', {
+            number: 'No.', year: 'Year', reference: 'Reference',
+            details: 'Details', abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
+            pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link'
+        }],
+        ['fr', {
+            number: 'N°', year: 'Année', reference: 'Référence',
+            details: 'Détails', abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
+            pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien'
+        }]
+    ]);
+    // FIELDS
+    #formatter;
+    #texts;
+    // CONSTRUCTOR
+    constructor(formatter = new ReferenceFormatter()) {
+        this.#formatter = formatter;
+        this.#texts = new Labels(BibliographyTable.LABELS);
+    }
+    // PUBLIC METHODS
+    build(references, cited) {
+        const hasNumbers = cited.size > 0;
+        const columns = BibliographyTable.#columnCount(hasNumbers);
+        const table = document.createElement('table');
+        table.id = BibliographyTable.TABLE_ID;
+        table.className = 'bib-table';
+        table.appendChild(this.#buildHead(hasNumbers));
+        const body = document.createElement('tbody');
+        references.forEach(reference => {
+            const row = this.#buildRow(reference, cited.get(reference.key), hasNumbers);
+            body.appendChild(row);
+            this.#buildOpenedRows(reference, columns).forEach(opened => body.appendChild(opened));
+        });
+        table.appendChild(body);
+        BibliographyTable.stripe(table);
+        return table;
+    }
+    static stripe(table) {
+        let seen = 0;
+        table.querySelectorAll('tbody tr.bib-row').forEach(row => {
+            if (row.hidden === false) {
+                seen++;
+            }
+            const striped = row.hidden === false && seen % 2 === 0;
+            row.classList.toggle('bib-striped', striped);
+            const opened = table.querySelectorAll(`tr.bib-opened-row[data-opens="${row.id}"]`);
+            opened.forEach(content => content.classList.toggle('bib-striped', striped));
+        });
+    }
+    // PRIVATE METHODS
+    #buildHead(hasNumbers) {
+        const head = document.createElement('thead');
+        const row = document.createElement('tr');
+        if (hasNumbers === true) {
+            row.appendChild(this.#buildHeader('number', true));
+        }
+        row.appendChild(this.#buildHeader('year', true));
+        row.appendChild(this.#buildHeader('reference', true, 'author'));
+        row.appendChild(this.#buildHeader('details', false));
+        head.appendChild(row);
+        return head;
+    }
+    #buildHeader(name, isSortable, sortName = name) {
+        const header = document.createElement('th');
+        header.setAttribute('scope', 'col');
+        if (isSortable === false) {
+            this.#texts.write(header, name);
+            return header;
+        }
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'sortatable';
+        button.setAttribute('data-sort', sortName);
+        this.#texts.write(button, name);
+        header.appendChild(button);
+        return header;
+    }
+    #buildRow(reference, cited, hasNumbers) {
+        const row = document.createElement('tr');
+        row.id = BibliographyTable.ROW_PREFIX + reference.key;
+        row.className = 'bib-row';
+        if (hasNumbers === true) {
+            const number = document.createElement('td');
+            number.className = 'bib-number';
+            if (cited !== undefined) {
+                number.textContent = String(cited.number);
+            }
+            row.appendChild(number);
+        }
+        const year = document.createElement('td');
+        year.className = 'bib-year';
+        year.textContent = reference.field('year');
+        row.appendChild(year);
+        row.appendChild(this.#buildReferenceCell(reference, cited));
+        row.appendChild(this.#buildDetailsCell(reference));
+        return row;
+    }
+    #buildReferenceCell(reference, cited) {
+        const cell = document.createElement('td');
+        cell.className = 'bib-reference';
+        cell.setAttribute('data-sort-value', this.#sortValueOf(reference));
+        cell.appendChild(this.#formatter.format(reference));
+        if (cited !== undefined) {
+            cell.appendChild(this.#backLinks(cited.places));
+        }
+        return cell;
+    }
+    #buildDetailsCell(reference) {
+        const cell = document.createElement('td');
+        cell.className = 'bib-details';
+        const actions = document.createElement('div');
+        actions.className = 'bib-actions';
+        reference.links.forEach(link => {
+            actions.appendChild(this.#buildLink(link));
+        });
+        this.#openableOf(reference).forEach(opened => {
+            actions.appendChild(this.#buildControl(reference.key, opened.name));
+        });
+        cell.appendChild(actions);
+        return cell;
+    }
+    #sortValueOf(reference) {
+        const authors = reference.authors;
+        if (authors.length === 0) {
+            return reference.field('title');
+        }
+        return authors[0].sortValue();
+    }
+    #backLinks(places) {
+        const fragment = document.createDocumentFragment();
+        places.forEach((place, index) => {
+            if (place.id === '') {
+                return;
+            }
+            const link = document.createElement('a');
+            link.className = 'bib-backlink';
+            link.setAttribute('href', '#' + place.id);
+            link.textContent = String(index + 1);
+            link.setAttribute('aria-label', this.#texts.text('backTo') + ' ' + String(index + 1));
+            this.#texts.declare(link);
+            fragment.appendChild(link);
+        });
+        return fragment;
+    }
+    #openableOf(reference) {
+        const openable = [];
+        if (reference.abstract.length > 0) {
+            openable.push({name: 'abstract', text: reference.abstract});
+        }
+        openable.push({name: 'source', text: reference.source});
+        return openable;
+    }
+    #buildLink(link) {
+        const element = document.createElement('a');
+        // Every address of a reference leaves the document: the reader is told
+        // so before following it, the way Whakerexa marks any outward link.
+        element.className = 'bib-link external-link';
+        element.setAttribute('href', link.address);
+        this.#texts.write(element, BibliographyTable.#labelOf(link.kind()));
+        return element;
+    }
+    #buildControl(key, name) {
+        const control = document.createElement('button');
+        control.type = 'button';
+        control.className = 'bib-disclosure-control';
+        control.setAttribute('aria-expanded', 'false');
+        control.setAttribute('aria-controls', BibliographyTable.#contentId(key, name));
+        this.#texts.write(control, name);
+        return control;
+    }
+    #buildOpenedRows(reference, columns) {
+        return this.#openableOf(reference).map(opened => {
+            const row = document.createElement('tr');
+            row.id = BibliographyTable.#contentId(reference.key, opened.name);
+            row.className = 'bib-opened-row';
+            row.setAttribute('data-opens', BibliographyTable.ROW_PREFIX + reference.key);
+            row.hidden = true;
+            const cell = document.createElement('td');
+            cell.colSpan = columns;
+            cell.className = 'bib-disclosure-content bib-disclosure-' + opened.name;
+            cell.textContent = opened.text;
+            row.appendChild(cell);
+            return row;
+        });
+    }
+    // PRIVATE STATIC METHODS
+    static #columnCount(hasNumbers) {
+        if (hasNumbers === true) {
+            return 4;
+        }
+        return 3;
+    }
+    static #contentId(key, name) {
+        return BibliographyTable.ROW_PREFIX + key + '-' + name;
+    }
+    static #labelOf(kind) {
+        if (kind === LinkKind.PDF) {
+            return 'pdf';
+        }
+        if (kind === LinkKind.REPOSITORY) {
+            return 'repository';
+        }
+        if (kind === LinkKind.PUBLISHER) {
+            return 'publisher';
+        }
+        return 'other';
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibliographyTable = BibliographyTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/source.js ---------------
+'use strict';
+class BibtexSource {
+    // FIELDS
+    #element;
+    #address;
+    // CONSTRUCTOR
+    constructor(elementId, address = '') {
+        this.#element = document.getElementById(elementId);
+        this.#address = address;
+    }
+    // GETTERS
+    get element() {
+        return this.#element;
+    }
+    get address() {
+        return this.#address;
+    }
+    // PUBLIC METHODS
+    async read() {
+        const written = this.#readFromPage();
+        if (written.trim().length > 0) {
+            return written;
+        }
+        const fetched = await this.#readFromAddress();
+        if (fetched.trim().length > 0) {
+            return fetched;
+        }
+        throw new MissingBibtexData('No BibTeX data, neither in the page nor at an address.');
+    }
+    // PRIVATE METHODS
+    #readFromPage() {
+        if (this.#element === null) {
+            return '';
+        }
+        return this.#element.textContent;
+    }
+    async #readFromAddress() {
+        if (this.#address.length === 0) {
+            return '';
+        }
+        const wanted = new URL(this.#address, window.location.href);
+        if (wanted.origin !== window.location.origin) {
+            console.error(`BibtexSource: "${this.#address}" is on another server, it is not read.`);
+            return '';
+        }
+        const manager = new RequestManager();
+        const answer = await manager.send_get_request(wanted.pathname.substring(1) + wanted.search);
+        if (manager.status !== 200) {
+            console.error(`BibtexSource: "${this.#address}" answered ${manager.status}.`);
+            return '';
+        }
+        return answer;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibtexSource = BibtexSource;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/disclosure.js ---------------
+'use strict';
+class ReferenceDisclosure {
+    // CONSTANTS
+    static CLOSING_CONTROL = '.bib-disclosure-close';
+    // FIELDS
+    #control;
+    #content;
+    // CONSTRUCTOR
+    constructor(control, content) {
+        this.#control = control;
+        this.#content = content;
+        this.#control.addEventListener('click', () => this.toggle());
+        const closing = this.#content.querySelector(ReferenceDisclosure.CLOSING_CONTROL);
+        if (closing !== null) {
+            closing.addEventListener('click', () => this.close());
+        }
+    }
+    // GETTERS
+    get control() {
+        return this.#control;
+    }
+    get content() {
+        return this.#content;
+    }
+    get isOpen() {
+        return this.#control.getAttribute('aria-expanded') === 'true';
+    }
+    // PUBLIC METHODS
+    open() {
+        this.#control.setAttribute('aria-expanded', 'true');
+        this.#content.hidden = false;
+    }
+    close() {
+        this.#control.setAttribute('aria-expanded', 'false');
+        this.#content.hidden = true;
+        this.#control.focus();
+    }
+    toggle() {
+        if (this.isOpen === true) {
+            this.close();
+            return;
+        }
+        this.open();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.ReferenceDisclosure = ReferenceDisclosure;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/controls.js ---------------
+'use strict';
+class BibliographyControls {
+    // CONSTANTS
+    static LABELS = new Map([
+        ['en', {
+            search: 'Search in the bibliography',
+            shownOne: 'reference shown', shownMany: 'references shown',
+            sortedBy: 'sorted by', ascending: 'ascending', descending: 'descending',
+            unsorted: 'back to the original order'
+        }],
+        ['fr', {
+            search: 'Rechercher dans la bibliographie',
+            shownOne: 'référence affichée', shownMany: 'références affichées',
+            sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
+            unsorted: 'retour à l\'ordre de départ'
+        }]
+    ]);
+    // FIELDS
+    #table;
+    #texts;
+    #sorter;
+    #field;
+    #announcement;
+    // CONSTRUCTOR
+    constructor(table) {
+        this.#table = table;
+        this.#texts = new Labels(BibliographyControls.LABELS);
+        const search = this.#buildSearch();
+        this.#field = search.querySelector('input');
+        this.#announcement = this.#buildAnnouncement();
+        this.#table.before(search);
+        this.#table.before(this.#announcement);
+        this.#sorter = new SortaTable(this.#table.id);
+        this.#sorter.attachSortListeners();
+        this.#watchSortButtons();
+    }
+    // GETTERS
+    get field() {
+        return this.#field;
+    }
+    get announcement() {
+        return this.#announcement;
+    }
+    // PUBLIC METHODS
+    sortBy(column, isAscending = true) {
+        this.#sorter.sort(column, isAscending);
+        this.#putOpenedRowsBack();
+        BibliographyTable.stripe(this.#table);
+        this.#sayHowItIsSorted();
+    }
+    filter(word) {
+        const wanted = BibliographyControls.#simplify(word);
+        const rows = this.#table.querySelectorAll('tbody tr.bib-row');
+        let shown = 0;
+        rows.forEach(row => {
+            const found = BibliographyControls.#simplify(this.#textOf(row)).includes(wanted);
+            row.hidden = found === false;
+            // A content that was left open goes away with its reference, and
+            // comes back with it: nobody asked for it to be closed.
+            this.#openedRowsOf(row).forEach(opened => {
+                opened.hidden = found === false || this.#isOpen(opened) === false;
+            });
+            if (found === true) {
+                shown++;
+            }
+        });
+        BibliographyTable.stripe(this.#table);
+        this.#sayHowManyAreShown(shown);
+    }
+    // PRIVATE METHODS
+    #openedRowsOf(row) {
+        return Array.from(this.#table.querySelectorAll(`tr.bib-opened-row[data-opens="${row.id}"]`));
+    }
+    #isOpen(opened) {
+        const control = this.#table.querySelector(`[aria-controls="${opened.id}"]`);
+        if (control === null) {
+            return false;
+        }
+        return control.getAttribute('aria-expanded') === 'true';
+    }
+    #textOf(row) {
+        const texts = [row.textContent];
+        this.#openedRowsOf(row).forEach(opened => texts.push(opened.textContent));
+        return texts.join(' ');
+    }
+    #putOpenedRowsBack() {
+        const body = this.#table.querySelector('tbody');
+        body.querySelectorAll('tr.bib-row').forEach(row => {
+            let previous = row;
+            this.#openedRowsOf(row).forEach(opened => {
+                previous.after(opened);
+                previous = opened;
+            });
+        });
+    }
+    #buildSearch() {
+        const label = document.createElement('label');
+        label.className = 'bib-search';
+        const text = document.createElement('span');
+        this.#texts.write(text, 'search');
+        const field = document.createElement('input');
+        field.type = 'search';
+        field.className = 'bib-search-field';
+        label.appendChild(text);
+        label.appendChild(field);
+        field.addEventListener('input', () => this.filter(field.value));
+        return label;
+    }
+    #buildAnnouncement() {
+        const region = document.createElement('p');
+        region.className = 'bib-announcement';
+        region.setAttribute('role', 'status');
+        region.setAttribute('aria-live', 'polite');
+        return region;
+    }
+    #watchSortButtons() {
+        this.#table.querySelectorAll('button.sortatable').forEach(button => {
+            button.addEventListener('click', () => {
+                this.#putOpenedRowsBack();
+                BibliographyTable.stripe(this.#table);
+                this.#sayHowItIsSorted();
+            });
+        });
+    }
+    #sayHowItIsSorted() {
+        const ascending = this.#table.querySelector('button.sortatable.sort-asc');
+        const descending = this.#table.querySelector('button.sortatable.sort-desc');
+        if (ascending !== null) {
+            this.#announce(`${this.#texts.text('sortedBy')} ${ascending.textContent}, `
+                + this.#texts.text('ascending'));
+            return;
+        }
+        if (descending !== null) {
+            this.#announce(`${this.#texts.text('sortedBy')} ${descending.textContent}, `
+                + this.#texts.text('descending'));
+            return;
+        }
+        this.#announce(this.#texts.text('unsorted'));
+    }
+    #sayHowManyAreShown(shown) {
+        if (shown === 1) {
+            this.#announce(`1 ${this.#texts.text('shownOne')}`);
+            return;
+        }
+        this.#announce(`${shown} ${this.#texts.text('shownMany')}`);
+    }
+    #announce(text) {
+        this.#announcement.textContent = text;
+        this.#texts.declare(this.#announcement);
+    }
+    // PRIVATE STATIC METHODS
+    static #simplify(text) {
+        return text.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibliographyControls = BibliographyControls;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/bibbook.js ---------------
+'use strict';
+class BookBibliography {
+    // FIELDS
+    #source;
+    #parser;
+    #table;
+    #placeId;
+    #contentId;
+    #disclosures;
+    #controls;
+    // CONSTRUCTOR
+    constructor(dataId, placeId = 'bibliography', contentId = 'main-content', address = '') {
+        this.#source = new BibtexSource(dataId, address);
+        this.#parser = new BibtexParser();
+        this.#table = new BibliographyTable();
+        this.#placeId = placeId;
+        this.#contentId = contentId;
+        this.#disclosures = [];
+        this.#controls = null;
+    }
+    // GETTERS
+    get disclosures() {
+        return [...this.#disclosures];
+    }
+    get controls() {
+        return this.#controls;
+    }
+    // PUBLIC METHODS
+    async run() {
+        try {
+            const content = await this.#source.read();
+            const references = this.#parser.parse(content);
+            const place = document.getElementById(this.#placeId);
+            if (place === null) {
+                throw new MissingBibliographyPlace(`No element with id "${this.#placeId}".`);
+            }
+            const table = this.#table.build(references, new Map());
+            // The identifier comes from the place, which is unique by
+            // definition: a page may hold more than one bibliography, and
+            // sorting one must not reach the other.
+            table.id = this.#placeId + '-table';
+            place.textContent = '';
+            place.appendChild(table);
+            this.#disclosures = this.#buildDisclosures(place);
+            this.#controls = new BibliographyControls(place.querySelector('table'));
+        } catch (error) {
+            if (error instanceof BibliographyError) {
+                this.#report(error);
+                return;
+            }
+            throw error;
+        }
+    }
+    // PRIVATE METHODS
+    #buildDisclosures(place) {
+        const disclosures = [];
+        const controls = place.querySelectorAll('.bib-disclosure-control[aria-controls]');
+        controls.forEach(control => {
+            const content = document.getElementById(control.getAttribute('aria-controls'));
+            if (content === null) {
+                console.error(`BookBibliography: the control of "${control.textContent}" opens nothing.`);
+                return;
+            }
+            disclosures.push(new ReferenceDisclosure(control, content));
+        });
+        return disclosures;
+    }
+    #report(error) {
+        console.error(`BookBibliography: ${error.message}`);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BookBibliography = BookBibliography;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
