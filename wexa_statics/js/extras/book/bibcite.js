@@ -146,7 +146,8 @@ export class CitationIndex {
                 return;
             }
 
-            citation.showReference(this.#numberOf(key), this.#buildContent(cited.reference));
+            citation.showReference(this.#numberOf(key), this.#buildContent(cited.reference),
+                BibliographyTable.ROW_PREFIX + key);
             this.#rememberPlace(key, element);
         });
     }

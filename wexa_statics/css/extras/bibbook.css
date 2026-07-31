@@ -237,6 +237,11 @@ td.bib-number {
     border: none;
 }
 
+/* The number leads to the bibliography on paper, where nothing opens. */
+.bib-citation-anchor {
+    display: none;
+}
+
 /* What a citation opens stands in the paragraph, and is set apart by a bar
    on its left rather than by a frame that would cut the text. */
 .bib-citation-content:not([hidden]) {
@@ -302,11 +307,15 @@ td.bib-number {
     }
 
     /* The number of a citation stays on paper: it is what the bibliography is
-       read with. Nothing opens on paper, so the mark that says whether it is
-       open goes away. */
+       read with. It becomes the link it always was, which a PDF keeps
+       clickable, and the button that opens nothing goes away. */
     .bib-citation-control {
+        display: none;
+    }
+
+    .bib-citation-anchor {
         display: inline;
-        color: inherit;
+        color: var(--a-color);
     }
 
     .bib-disclosure-control::before {

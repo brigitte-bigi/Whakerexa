@@ -246,6 +246,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. The bibliography is built in the order of the numbers, the references nobody cites after them, by year. A reference without a number sorts after every reference that has one.
 - Extra Book. The BibTeX source is shown without its abstract, which has a control of its own.
 - Extra Book. On paper: no headers, no colours, no frames, no year column, nothing that opens; addresses written in full inside their link, which a PDF keeps clickable; and the table breaks over pages while a reference does not.
+- Extra Book. The number of a citation is written twice: a button, which opens the reference on screen, and a link to the bibliography, which takes its place on paper and stays clickable in an exported PDF.
 - Extra Book. Every link to a publication carries a name of its own, "PDF of <title>", so that twenty links named "PDF" are told apart.
 - Documentation. `docs/bibliography.html` lists every CSS class the bibliography writes, and what each of them is for.
 - SortaTable. A cell may carry its own sort value in `data-sort-value`, used instead of the displayed text.

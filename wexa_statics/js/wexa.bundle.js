@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-31 12:24:11
+// Bundle automatically generated on 2026-07-31 12:37:38
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3954,7 +3954,7 @@ class Citation {
         this.#show(Citation.OPENING + String(number) + Citation.CLOSING,
             this.#texts.text('reference') + ' ' + String(number));
     }
-    showReference(number, content) {
+    showReference(number, content, target) {
         this.showNumber(number);
         const control = document.createElement('button');
         control.type = 'button';
@@ -3964,9 +3964,19 @@ class Citation {
         control.setAttribute('aria-label', this.#element.getAttribute('aria-label'));
         control.textContent = this.#element.textContent;
         this.#texts.declare(control);
+        // On paper nothing opens, and a button is neither a link nor
+        // clickable in a PDF. The same number is written a second time, as a
+        // link to the bibliography, and each of the two shows where it serves.
+        const anchor = document.createElement('a');
+        anchor.className = 'bib-citation-anchor';
+        anchor.setAttribute('href', '#' + target);
+        anchor.textContent = control.textContent;
+        anchor.setAttribute('aria-label', control.getAttribute('aria-label'));
+        this.#texts.declare(anchor);
         this.#element.textContent = '';
         this.#element.removeAttribute('aria-label');
         this.#element.appendChild(control);
+        this.#element.appendChild(anchor);
         const opened = document.createElement('span');
         opened.className = 'bib-citation-content';
         opened.id = this.#element.id + Citation.CONTENT_SUFFIX;
@@ -4331,7 +4341,8 @@ class CitationIndex {
                 citation.showMissing();
                 return;
             }
-            citation.showReference(this.#numberOf(key), this.#buildContent(cited.reference));
+            citation.showReference(this.#numberOf(key), this.#buildContent(cited.reference),
+                BibliographyTable.ROW_PREFIX + key);
             this.#rememberPlace(key, element);
         });
     }

@@ -209,5 +209,30 @@ citation_tests.add_test(() => {
 });
 
 
+// -----------------------------------------------------------------------
+// A citation leads to its reference in the bibliography. On paper the
+// number is that link, which a PDF keeps clickable. C26.
+// -----------------------------------------------------------------------
+
+citation_tests.add_test(() => {
+    const written = write_sentence('anchor', 'bigi2022lrec');
+    const citation = new Citation(written.element, 1, [new CitedKey(1, 'bigi2022lrec', null, '')]);
+
+    citation.showReference(7, document.createDocumentFragment(), 'bib-bigi2022lrec');
+
+    const anchor = written.element.querySelector('a.bib-citation-anchor');
+    const control = written.element.querySelector('button.bib-citation-control');
+
+    UnitTest.assert_values_not_equals(null, anchor, "citation_anchor_test");
+    UnitTest.assert_values_equals('#bib-bigi2022lrec', anchor.getAttribute('href'),
+        "citation_anchor_target_test");
+    UnitTest.assert_values_equals('[7]', anchor.textContent, "citation_anchor_number_test");
+    UnitTest.assert_values_equals(anchor.textContent, control.textContent,
+        "citation_anchor_same_mark_test");
+
+    written.remove();
+});
+
+
 // launch all unit tests added
 citation_tests.launch_unit_test();

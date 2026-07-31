@@ -155,9 +155,10 @@ export class Citation {
      *
      * @param number {number} The number of the reference, 1 or more.
      * @param content {DocumentFragment} The reference, its addresses and what it says.
+     * @param target {string} The identifier of its row in the bibliography.
      * @returns {HTMLElement} What opens, so that whoever opens it can be tied to it.
      */
-    showReference(number, content) {
+    showReference(number, content, target) {
         this.showNumber(number);
 
         const control = document.createElement('button');
@@ -169,9 +170,20 @@ export class Citation {
         control.textContent = this.#element.textContent;
         this.#texts.declare(control);
 
+        // On paper nothing opens, and a button is neither a link nor
+        // clickable in a PDF. The same number is written a second time, as a
+        // link to the bibliography, and each of the two shows where it serves.
+        const anchor = document.createElement('a');
+        anchor.className = 'bib-citation-anchor';
+        anchor.setAttribute('href', '#' + target);
+        anchor.textContent = control.textContent;
+        anchor.setAttribute('aria-label', control.getAttribute('aria-label'));
+        this.#texts.declare(anchor);
+
         this.#element.textContent = '';
         this.#element.removeAttribute('aria-label');
         this.#element.appendChild(control);
+        this.#element.appendChild(anchor);
 
         const opened = document.createElement('span');
         opened.className = 'bib-citation-content';
