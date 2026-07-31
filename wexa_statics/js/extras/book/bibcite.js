@@ -199,7 +199,7 @@ export class CitationIndex {
         if (reference.abstract.length > 0) {
             content.appendChild(this.#buildPart('abstract', reference.abstract));
         }
-        content.appendChild(this.#buildPart('source', reference.source));
+        content.appendChild(this.#buildPart('source', reference.sourceWithoutAbstract));
 
         return content;
     }

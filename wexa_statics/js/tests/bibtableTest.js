@@ -146,6 +146,14 @@ bibliography_table_tests.add_test(() => {
     const row = table.querySelector('#bib-ghio2023dunod');
 
     UnitTest.assert_values_equals('', row.cells[0].textContent, "table_no_number_for_uncited_test");
+
+    // Sorting on the numbers puts it after every reference that has one: an
+    // empty cell would put it first of all.
+    const numbered = table.querySelector('#bib-bigi2022lrec');
+    UnitTest.assert_array_contains(true,
+        [Number(row.cells[0].getAttribute('data-sort-value'))
+            > Number(numbered.cells[0].getAttribute('data-sort-value'))],
+        "table_uncited_sorts_last_test");
 });
 
 // -----------------------------------------------------------------------
@@ -233,8 +241,8 @@ bibliography_table_tests.add_test(() => {
 
 bibliography_table_tests.add_test(() => {
     const table = new BibliographyTable().build(table_references(), new Map());
-    const with_links = table.querySelector('#bib-bigi2022lrec').querySelectorAll('a[href]');
-    const without = table.querySelector('#bib-ghio2023dunod').querySelectorAll('a[href]');
+    const with_links = table.querySelector('#bib-bigi2022lrec').querySelectorAll('a.bib-link[href]');
+    const without = table.querySelector('#bib-ghio2023dunod').querySelectorAll('a.bib-link[href]');
 
     UnitTest.assert_values_equals(2, with_links.length, "table_links_test");
     UnitTest.assert_values_equals('http://www.example.org/paper.pdf', with_links[0].getAttribute('href'),

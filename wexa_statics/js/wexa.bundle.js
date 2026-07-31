@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-31 09:44:03
+// Bundle automatically generated on 2026-07-31 12:24:11
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3334,6 +3334,9 @@ class Reference {
     get source() {
         return this.#source;
     }
+    get sourceWithoutAbstract() {
+        return Reference.#withoutField(this.#source, 'abstract');
+    }
     get abstract() {
         return this.field('abstract');
     }
@@ -3344,6 +3347,54 @@ class Reference {
             return '';
         }
         return this.#fields.get(wanted);
+    }
+    // PRIVATE STATIC METHODS
+    static #withoutField(source, name) {
+        const start = source.search(new RegExp('[,{]\\s*' + name + '\\s*=', 'i'));
+        if (start === -1) {
+            return source;
+        }
+        // The comma or brace that opens the field is kept: it belongs to what
+        // comes before, and taking it away would join two fields into one.
+        let position = source.indexOf('=', start) + 1;
+        while (position < source.length && /\s/.test(source[position]) === true) {
+            position++;
+        }
+        const end = Reference.#endOfValue(source, position);
+        const before = source.substring(0, start + 1);
+        const after = source.substring(end);
+        // A field written last leaves the comma of the one before it hanging
+        // in front of the brace that closes the entry.
+        if (after.trim().startsWith('}') === true && before.trimEnd().endsWith(',') === true) {
+            return before.trimEnd().slice(0, -1) + after;
+        }
+        return before + after;
+    }
+    static #endOfValue(source, start) {
+        const opening = source[start];
+        let position = start;
+        let depth = 0;
+        while (position < source.length) {
+            const character = source[position];
+            if (character === '{') {
+                depth++;
+            } else if (character === '}') {
+                depth--;
+                if (depth === 0) {
+                    position++;
+                    break;
+                }
+            } else if (character === '"' && opening === '"' && position > start) {
+                position++;
+                break;
+            }
+            position++;
+        }
+        // The comma that follows goes too: the field before it already has one.
+        while (position < source.length && /[\s,]/.test(source[position]) === true) {
+            position++;
+        }
+        return position;
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -3699,19 +3750,19 @@ window.Wexa.BibtexParser = BibtexParser;
 class ReferenceFormatter {
     // CONSTANTS
     static TEMPLATES = new Map([
-        ['article', ['author', 'title', 'journal', 'volume', 'number', 'pages', 'year']],
-        ['inproceedings', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
-        ['conference', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
-        ['incollection', ['author', 'title', 'booktitle', 'editor', 'publisher', 'pages', 'year']],
-        ['inbook', ['author', 'chapter', 'title', 'editor', 'publisher', 'pages', 'year']],
-        ['book', ['author', 'title', 'editor', 'publisher', 'address', 'year']],
-        ['techreport', ['author', 'title', 'institution', 'address', 'year']],
-        ['phdthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
-        ['mastersthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
-        ['unpublished', ['author', 'title', 'note', 'year']],
-        ['misc', ['author', 'title', 'howpublished', 'year']]
+        ['article', [['author', 'year'], ['title'], ['journal', 'volume', 'number', 'pages']]],
+        ['inproceedings', [['author', 'year'], ['title'], ['booktitle', 'address', 'publisher', 'pages']]],
+        ['conference', [['author', 'year'], ['title'], ['booktitle', 'address', 'publisher', 'pages']]],
+        ['incollection', [['author', 'year'], ['title'], ['booktitle', 'editor', 'publisher', 'pages']]],
+        ['inbook', [['author', 'year'], ['chapter'], ['title', 'editor', 'publisher', 'pages']]],
+        ['book', [['author', 'year'], ['title'], ['editor', 'publisher', 'address']]],
+        ['techreport', [['author', 'year'], ['title'], ['institution', 'address']]],
+        ['phdthesis', [['author', 'year'], ['title'], ['type', 'school', 'address']]],
+        ['mastersthesis', [['author', 'year'], ['title'], ['type', 'school', 'address']]],
+        ['unpublished', [['author', 'year'], ['title'], ['note']]],
+        ['misc', [['author', 'year'], ['title'], ['howpublished']]]
     ]);
-    static FALLBACK_TEMPLATE = ['author', 'title', 'howpublished', 'year'];
+    static FALLBACK_TEMPLATE = [['author', 'year'], ['title'], ['howpublished']];
     static REQUIRED = new Map([
         ['article', ['author', 'title', 'journal', 'year']],
         ['inproceedings', ['author', 'title', 'booktitle', 'year']],
@@ -3728,30 +3779,61 @@ class ReferenceFormatter {
     static FALLBACK_REQUIRED = ['title'];
     static SEPARATOR = ', ';
     static TERMINATOR = '.';
+    static YEAR_OPENING = ' (';
+    static YEAR_CLOSING = ')';
+    static LINE_NAMES = ['authors', 'title', 'source'];
     // PUBLIC METHODS
     format(reference) {
         const fragment = document.createDocumentFragment();
-        const template = this.#templateFor(reference.type);
         const required = this.#requiredFor(reference.type);
         let written = 0;
-        template.forEach(name => {
+        this.#templateFor(reference.type).forEach((fields, order) => {
+            const line = this.#formatLine(reference, fields, required, order);
+            if (line === null) {
+                return;
+            }
+            fragment.appendChild(line);
+            written++;
+        });
+        if (written === 0) {
+            const line = document.createElement('span');
+            line.className = 'bib-line';
+            line.appendChild(this.#formatMissing('title'));
+            fragment.appendChild(line);
+        }
+        return fragment;
+    }
+    // PRIVATE METHODS
+    #formatLine(reference, fields, required, order) {
+        const line = document.createElement('span');
+        line.className = 'bib-line bib-line-' + ReferenceFormatter.LINE_NAMES[order];
+        let written = 0;
+        fields.forEach(name => {
             const element = this.#formatField(reference, name, required.includes(name));
             if (element === null) {
                 return;
             }
-            if (written > 0) {
-                fragment.appendChild(document.createTextNode(ReferenceFormatter.SEPARATOR));
+            // The year follows the authors in parentheses; every other field
+            // follows the one before it after a comma.
+            if (name === 'year' && written > 0) {
+                line.appendChild(document.createTextNode(ReferenceFormatter.YEAR_OPENING));
+                line.appendChild(element);
+                line.appendChild(document.createTextNode(ReferenceFormatter.YEAR_CLOSING));
+                written++;
+                return;
             }
-            fragment.appendChild(element);
+            if (written > 0) {
+                line.appendChild(document.createTextNode(ReferenceFormatter.SEPARATOR));
+            }
+            line.appendChild(element);
             written++;
         });
         if (written === 0) {
-            fragment.appendChild(this.#formatMissing('title'));
+            return null;
         }
-        fragment.appendChild(document.createTextNode(ReferenceFormatter.TERMINATOR));
-        return fragment;
+        line.appendChild(document.createTextNode(ReferenceFormatter.TERMINATOR));
+        return line;
     }
-    // PRIVATE METHODS
     #formatField(reference, name, isRequired) {
         let value = reference.field(name);
         if (name === 'author') {
@@ -3793,227 +3875,6 @@ class ReferenceFormatter {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.ReferenceFormatter = ReferenceFormatter;
-// ---- END AUTO-GENERATED EXPORTS ----
-
-
-// ---------------- extras/book/bibtable.js ---------------
-'use strict';
-class BibliographyTable {
-    // CONSTANTS
-    static TABLE_ID = 'bibliography-table';
-    static ROW_PREFIX = 'bib-';
-    static LABELS = new Map([
-        ['en', {
-            number: 'No.', year: 'Year', reference: 'Reference',
-            details: 'Details', abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
-            pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link'
-        }],
-        ['fr', {
-            number: 'N°', year: 'Année', reference: 'Référence',
-            details: 'Détails', abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
-            pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien'
-        }]
-    ]);
-    // FIELDS
-    #formatter;
-    #texts;
-    // CONSTRUCTOR
-    constructor(formatter = new ReferenceFormatter()) {
-        this.#formatter = formatter;
-        this.#texts = new Labels(BibliographyTable.LABELS);
-    }
-    // PUBLIC METHODS
-    build(references, cited) {
-        const hasNumbers = cited.size > 0;
-        const columns = BibliographyTable.#columnCount(hasNumbers);
-        const table = document.createElement('table');
-        table.id = BibliographyTable.TABLE_ID;
-        table.className = 'bib-table';
-        table.appendChild(this.#buildHead(hasNumbers));
-        const body = document.createElement('tbody');
-        references.forEach(reference => {
-            const row = this.#buildRow(reference, cited.get(reference.key), hasNumbers);
-            body.appendChild(row);
-            this.#buildOpenedRows(reference, columns).forEach(opened => body.appendChild(opened));
-        });
-        table.appendChild(body);
-        BibliographyTable.stripe(table);
-        return table;
-    }
-    static stripe(table) {
-        let seen = 0;
-        table.querySelectorAll('tbody tr.bib-row').forEach(row => {
-            if (row.hidden === false) {
-                seen++;
-            }
-            const striped = row.hidden === false && seen % 2 === 0;
-            row.classList.toggle('bib-striped', striped);
-            const opened = table.querySelectorAll(`tr.bib-opened-row[data-opens="${row.id}"]`);
-            opened.forEach(content => content.classList.toggle('bib-striped', striped));
-        });
-    }
-    // PRIVATE METHODS
-    #buildHead(hasNumbers) {
-        const head = document.createElement('thead');
-        const row = document.createElement('tr');
-        if (hasNumbers === true) {
-            row.appendChild(this.#buildHeader('number', true));
-        }
-        row.appendChild(this.#buildHeader('year', true));
-        row.appendChild(this.#buildHeader('reference', true, 'author'));
-        row.appendChild(this.#buildHeader('details', false));
-        head.appendChild(row);
-        return head;
-    }
-    #buildHeader(name, isSortable, sortName = name) {
-        const header = document.createElement('th');
-        header.setAttribute('scope', 'col');
-        if (isSortable === false) {
-            this.#texts.write(header, name);
-            return header;
-        }
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'sortatable';
-        button.setAttribute('data-sort', sortName);
-        this.#texts.write(button, name);
-        header.appendChild(button);
-        return header;
-    }
-    #buildRow(reference, cited, hasNumbers) {
-        const row = document.createElement('tr');
-        row.id = BibliographyTable.ROW_PREFIX + reference.key;
-        row.className = 'bib-row';
-        if (hasNumbers === true) {
-            const number = document.createElement('td');
-            number.className = 'bib-number';
-            if (cited !== undefined) {
-                number.textContent = String(cited.number);
-            }
-            row.appendChild(number);
-        }
-        const year = document.createElement('td');
-        year.className = 'bib-year';
-        year.textContent = reference.field('year');
-        row.appendChild(year);
-        row.appendChild(this.#buildReferenceCell(reference, cited));
-        row.appendChild(this.#buildDetailsCell(reference));
-        return row;
-    }
-    #buildReferenceCell(reference, cited) {
-        const cell = document.createElement('td');
-        cell.className = 'bib-reference';
-        cell.setAttribute('data-sort-value', this.#sortValueOf(reference));
-        cell.appendChild(this.#formatter.format(reference));
-        if (cited !== undefined) {
-            cell.appendChild(this.#backLinks(cited.places));
-        }
-        return cell;
-    }
-    #buildDetailsCell(reference) {
-        const cell = document.createElement('td');
-        cell.className = 'bib-details';
-        const actions = document.createElement('div');
-        actions.className = 'bib-actions';
-        reference.links.forEach(link => {
-            actions.appendChild(this.#buildLink(link));
-        });
-        this.#openableOf(reference).forEach(opened => {
-            actions.appendChild(this.#buildControl(reference.key, opened.name));
-        });
-        cell.appendChild(actions);
-        return cell;
-    }
-    #sortValueOf(reference) {
-        const authors = reference.authors;
-        if (authors.length === 0) {
-            return reference.field('title');
-        }
-        return authors[0].sortValue();
-    }
-    #backLinks(places) {
-        const fragment = document.createDocumentFragment();
-        places.forEach((place, index) => {
-            if (place.id === '') {
-                return;
-            }
-            const link = document.createElement('a');
-            link.className = 'bib-backlink';
-            link.setAttribute('href', '#' + place.id);
-            link.textContent = String(index + 1);
-            link.setAttribute('aria-label', this.#texts.text('backTo') + ' ' + String(index + 1));
-            this.#texts.declare(link);
-            fragment.appendChild(link);
-        });
-        return fragment;
-    }
-    #openableOf(reference) {
-        const openable = [];
-        if (reference.abstract.length > 0) {
-            openable.push({name: 'abstract', text: reference.abstract});
-        }
-        openable.push({name: 'source', text: reference.source});
-        return openable;
-    }
-    #buildLink(link) {
-        const element = document.createElement('a');
-        // Every address of a reference leaves the document: the reader is told
-        // so before following it, the way Whakerexa marks any outward link.
-        element.className = 'bib-link external-link';
-        element.setAttribute('href', link.address);
-        this.#texts.write(element, BibliographyTable.#labelOf(link.kind()));
-        return element;
-    }
-    #buildControl(key, name) {
-        const control = document.createElement('button');
-        control.type = 'button';
-        control.className = 'bib-disclosure-control';
-        control.setAttribute('aria-expanded', 'false');
-        control.setAttribute('aria-controls', BibliographyTable.#contentId(key, name));
-        this.#texts.write(control, name);
-        return control;
-    }
-    #buildOpenedRows(reference, columns) {
-        return this.#openableOf(reference).map(opened => {
-            const row = document.createElement('tr');
-            row.id = BibliographyTable.#contentId(reference.key, opened.name);
-            row.className = 'bib-opened-row';
-            row.setAttribute('data-opens', BibliographyTable.ROW_PREFIX + reference.key);
-            row.hidden = true;
-            const cell = document.createElement('td');
-            cell.colSpan = columns;
-            cell.className = 'bib-disclosure-content bib-disclosure-' + opened.name;
-            cell.textContent = opened.text;
-            row.appendChild(cell);
-            return row;
-        });
-    }
-    // PRIVATE STATIC METHODS
-    static #columnCount(hasNumbers) {
-        if (hasNumbers === true) {
-            return 4;
-        }
-        return 3;
-    }
-    static #contentId(key, name) {
-        return BibliographyTable.ROW_PREFIX + key + '-' + name;
-    }
-    static #labelOf(kind) {
-        if (kind === LinkKind.PDF) {
-            return 'pdf';
-        }
-        if (kind === LinkKind.REPOSITORY) {
-            return 'repository';
-        }
-        if (kind === LinkKind.PUBLISHER) {
-            return 'publisher';
-        }
-        return 'other';
-    }
-}
-// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
-if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.BibliographyTable = BibliographyTable;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -4142,6 +4003,285 @@ window.Wexa.Citation = Citation;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- extras/book/bibtable.js ---------------
+'use strict';
+class BibliographyTable {
+    // CONSTANTS
+    static TABLE_ID = 'bibliography-table';
+    static ROW_PREFIX = 'bib-';
+    static UNCITED_SORT_VALUE = String(Number.MAX_SAFE_INTEGER);
+    static BACK_SEPARATOR = '-';
+    static LABELS = new Map([
+        ['en', {
+            number: 'No.', year: 'Year', reference: 'Reference',
+            abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
+            pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link',
+            of: 'of'
+        }],
+        ['fr', {
+            number: 'N°', year: 'Année', reference: 'Référence',
+            abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
+            pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien',
+            of: 'de'
+        }]
+    ]);
+    // FIELDS
+    #formatter;
+    #texts;
+    // CONSTRUCTOR
+    constructor(formatter = new ReferenceFormatter()) {
+        this.#formatter = formatter;
+        this.#texts = new Labels(BibliographyTable.LABELS);
+    }
+    // PUBLIC METHODS
+    build(references, cited) {
+        const hasNumbers = cited.size > 0;
+        const columns = BibliographyTable.#columnCount(hasNumbers);
+        const table = document.createElement('table');
+        table.id = BibliographyTable.TABLE_ID;
+        table.className = 'bib-table';
+        table.appendChild(this.#buildHead(hasNumbers));
+        const body = document.createElement('tbody');
+        BibliographyTable.#inReadingOrder(references, cited).forEach(reference => {
+            const row = this.#buildRow(reference, cited.get(reference.key), hasNumbers);
+            body.appendChild(row);
+            this.#buildOpenedRows(reference, columns).forEach(opened => body.appendChild(opened));
+        });
+        table.appendChild(body);
+        BibliographyTable.stripe(table);
+        return table;
+    }
+    static stripe(table) {
+        let seen = 0;
+        table.querySelectorAll('tbody tr.bib-row').forEach(row => {
+            if (row.hidden === false) {
+                seen++;
+            }
+            const striped = row.hidden === false && seen % 2 === 0;
+            row.classList.toggle('bib-striped', striped);
+            const opened = table.querySelectorAll(`tr.bib-opened-row[data-opens="${row.id}"]`);
+            opened.forEach(content => content.classList.toggle('bib-striped', striped));
+        });
+    }
+    // PRIVATE METHODS
+    #buildHead(hasNumbers) {
+        const head = document.createElement('thead');
+        const row = document.createElement('tr');
+        if (hasNumbers === true) {
+            row.appendChild(this.#buildHeader('number', true));
+        }
+        row.appendChild(this.#buildHeader('year', true));
+        row.appendChild(this.#buildHeader('reference', true, 'author'));
+        head.appendChild(row);
+        return head;
+    }
+    #buildHeader(name, isSortable, sortName = name) {
+        const header = document.createElement('th');
+        header.setAttribute('scope', 'col');
+        header.className = 'bib-header bib-header-' + name;
+        if (isSortable === false) {
+            this.#texts.write(header, name);
+            return header;
+        }
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'sortatable';
+        button.setAttribute('data-sort', sortName);
+        this.#texts.write(button, name);
+        header.appendChild(button);
+        return header;
+    }
+    #buildRow(reference, cited, hasNumbers) {
+        const row = document.createElement('tr');
+        row.id = BibliographyTable.ROW_PREFIX + reference.key;
+        row.className = 'bib-row';
+        if (hasNumbers === true) {
+            const number = document.createElement('td');
+            number.className = 'bib-number';
+            number.setAttribute('data-sort-value', BibliographyTable.UNCITED_SORT_VALUE);
+            if (cited !== undefined) {
+                number.textContent = String(cited.number);
+                number.setAttribute('data-sort-value', String(cited.number));
+            }
+            row.appendChild(number);
+        }
+        const year = document.createElement('td');
+        year.className = 'bib-year';
+        year.textContent = reference.field('year');
+        row.appendChild(year);
+        row.appendChild(this.#buildReferenceCell(reference, cited));
+        return row;
+    }
+    #buildReferenceCell(reference, cited) {
+        const cell = document.createElement('td');
+        cell.className = 'bib-reference';
+        cell.setAttribute('data-sort-value', this.#sortValueOf(reference));
+        cell.appendChild(this.#formatter.format(reference));
+        cell.appendChild(this.#buildActions(reference, cited));
+        return cell;
+    }
+    #buildActions(reference, cited) {
+        const actions = document.createElement('div');
+        actions.className = 'bib-actions';
+        if (cited !== undefined) {
+            actions.appendChild(this.#backLinks(cited.places, cited.number));
+        }
+        reference.links.forEach(link => {
+            actions.appendChild(this.#buildLink(link, reference));
+        });
+        this.#openableOf(reference).forEach(opened => {
+            actions.appendChild(this.#buildControl(reference.key, opened.name));
+        });
+        return actions;
+    }
+    #sortValueOf(reference) {
+        const authors = reference.authors;
+        if (authors.length === 0) {
+            return reference.field('title');
+        }
+        return authors[0].sortValue();
+    }
+    #backLinks(places, number) {
+        const fragment = document.createDocumentFragment();
+        places.forEach((place, order) => {
+            if (place.id === '') {
+                return;
+            }
+            const mark = Citation.OPENING + String(number) + Citation.CLOSING;
+            const suffix = BibliographyTable.#suffixOf(order, places.length);
+            const link = document.createElement('a');
+            link.className = 'bib-backlink';
+            link.setAttribute('href', '#' + place.id);
+            link.textContent = mark + suffix;
+            link.setAttribute('aria-label', this.#texts.text('backTo') + ' ' + String(number) + suffix);
+            this.#texts.declare(link);
+            fragment.appendChild(link);
+        });
+        return fragment;
+    }
+    #openableOf(reference) {
+        const openable = [];
+        if (reference.abstract.length > 0) {
+            openable.push({name: 'abstract', text: reference.abstract});
+        }
+        openable.push({name: 'source', text: reference.sourceWithoutAbstract});
+        return openable;
+    }
+    #buildLink(link, reference) {
+        const element = document.createElement('a');
+        // Every address of a reference leaves the document: the reader is told
+        // so before following it, the way Whakerexa marks any outward link.
+        element.className = 'bib-link external-link';
+        element.setAttribute('href', link.address);
+        // A page holding twenty links all named "PDF" is a page where a name
+        // says nothing, so each one names its reference.
+        const label = BibliographyTable.#labelOf(link.kind());
+        element.setAttribute('aria-label', this.#nameOf(label, reference));
+        // On screen a reader needs to know what the link leads to; on paper
+        // they need the address, and the link is still one in a PDF. Both are
+        // written inside the link, and each shows where it serves.
+        const shown = document.createElement('span');
+        shown.className = 'bib-link-label';
+        this.#texts.write(shown, label);
+        const address = document.createElement('span');
+        address.className = 'bib-link-address';
+        address.textContent = link.address;
+        this.#texts.declare(address);
+        element.appendChild(shown);
+        element.appendChild(address);
+        return element;
+    }
+    #nameOf(label, reference) {
+        const title = reference.field('title');
+        if (title.length === 0) {
+            return this.#texts.text(label);
+        }
+        return this.#texts.text(label) + ' ' + this.#texts.text('of') + ' ' + title;
+    }
+    #buildControl(key, name) {
+        const control = document.createElement('button');
+        control.type = 'button';
+        control.className = 'bib-disclosure-control';
+        control.setAttribute('aria-expanded', 'false');
+        control.setAttribute('aria-controls', BibliographyTable.#contentId(key, name));
+        this.#texts.write(control, name);
+        return control;
+    }
+    #buildOpenedRows(reference, columns) {
+        return this.#openableOf(reference).map(opened => {
+            const row = document.createElement('tr');
+            row.id = BibliographyTable.#contentId(reference.key, opened.name);
+            row.className = 'bib-opened-row';
+            row.setAttribute('data-opens', BibliographyTable.ROW_PREFIX + reference.key);
+            row.hidden = true;
+            const cell = document.createElement('td');
+            cell.colSpan = columns;
+            cell.className = 'bib-disclosure-content bib-disclosure-' + opened.name;
+            cell.textContent = opened.text;
+            row.appendChild(cell);
+            return row;
+        });
+    }
+    // PRIVATE STATIC METHODS
+    static #inReadingOrder(references, cited) {
+        const ordered = Array.from(references.values());
+        ordered.sort((one, other) => {
+            const first = BibliographyTable.#numberOf(one, cited);
+            const second = BibliographyTable.#numberOf(other, cited);
+            if (first !== second) {
+                return first - second;
+            }
+            return Number(one.field('year')) - Number(other.field('year'));
+        });
+        return ordered;
+    }
+    static #numberOf(reference, cited) {
+        const owed = cited.get(reference.key);
+        if (owed === undefined) {
+            return Number.MAX_SAFE_INTEGER;
+        }
+        return owed.number;
+    }
+    static #suffixOf(order, total) {
+        if (total < 2) {
+            return '';
+        }
+        let letters = '';
+        let left = order;
+        while (left >= 0) {
+            letters = String.fromCharCode(97 + (left % 26)) + letters;
+            left = Math.floor(left / 26) - 1;
+        }
+        return BibliographyTable.BACK_SEPARATOR + letters;
+    }
+    static #columnCount(hasNumbers) {
+        if (hasNumbers === true) {
+            return 3;
+        }
+        return 2;
+    }
+    static #contentId(key, name) {
+        return BibliographyTable.ROW_PREFIX + key + '-' + name;
+    }
+    static #labelOf(kind) {
+        if (kind === LinkKind.PDF) {
+            return 'pdf';
+        }
+        if (kind === LinkKind.REPOSITORY) {
+            return 'repository';
+        }
+        if (kind === LinkKind.PUBLISHER) {
+            return 'publisher';
+        }
+        return 'other';
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.BibliographyTable = BibliographyTable;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- extras/book/bibcite.js ---------------
 'use strict';
 class CitationIndex {
@@ -4217,7 +4357,7 @@ class CitationIndex {
         if (reference.abstract.length > 0) {
             content.appendChild(this.#buildPart('abstract', reference.abstract));
         }
-        content.appendChild(this.#buildPart('source', reference.source));
+        content.appendChild(this.#buildPart('source', reference.sourceWithoutAbstract));
         return content;
     }
     #buildBibliographyLink(key) {
@@ -4600,8 +4740,8 @@ class BookBibliography {
             place.appendChild(table);
             // What opens is written in two places: in the table, and in the
             // sentences that cite. Both are tied to what opens them the same way.
-            this.#disclosures = this.#buildDisclosures(place)
-                .concat(this.#buildDisclosures(document.getElementById(this.#contentId)));
+            this.#disclosures = this.#buildDisclosures(
+                [place, document.getElementById(this.#contentId)]);
             this.#controls = new BibliographyControls(place.querySelector('table'));
         } catch (error) {
             if (error instanceof BibliographyError) {
@@ -4612,12 +4752,20 @@ class BookBibliography {
         }
     }
     // PRIVATE METHODS
-    #buildDisclosures(place) {
+    #buildDisclosures(roots) {
         const disclosures = [];
-        if (place === null) {
-            return disclosures;
-        }
-        const controls = place.querySelectorAll('.bib-disclosure-control[aria-controls]');
+        const controls = new Set();
+        // One of the roots holds the other: the bibliography stands in the
+        // content of the document. A control met twice would be tied twice,
+        // and a click would open and close it in the same breath.
+        roots.forEach(root => {
+            if (root === null) {
+                return;
+            }
+            root.querySelectorAll('.bib-disclosure-control[aria-controls]').forEach(control => {
+                controls.add(control);
+            });
+        });
         controls.forEach(control => {
             const content = document.getElementById(control.getAttribute('aria-controls'));
             if (content === null) {

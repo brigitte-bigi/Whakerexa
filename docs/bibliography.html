@@ -170,6 +170,175 @@ biblio.run();</code></pre>
                     back to every place where it is cited.</p>
             </section>
 
+            <section class="ssection"><h2>CSS classes</h2>
+
+                <p>Everything the bibliography writes carries a class, and
+                    <code>bibbook.css</code> only styles what a bibliography needs to be read:
+                    the rest is left to whoever writes the document. An unlayered rule of your
+                    own wins over the ones of the framework, so overriding any of these takes
+                    no <code>!important</code> and no complex selector.</p>
+
+                <h3>A reference</h3>
+
+                <p>A reference is written in three lines: who wrote it, what it is called, and
+                    where it came out. The three names never change, whatever the type of the
+                    entry, so a stylesheet can lay them out side by side, wrap them, or reorder
+                    them.</p>
+
+                <article class="card-doc" aria-label="CSS — laying out the three lines">
+                    <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                        <p>The three lines, side by side rather than one under the other.</p>
+                    </div>
+                    <pre class="dark"><code>.bib-reference {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}</code></pre>
+                </article>
+
+                <table>
+                    <caption>What a reference is made of</caption>
+                    <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>On</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>.bib-line</code></td>
+                        <td><code>span</code></td>
+                        <td>One of the three lines of a reference. Displayed as a block.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-line-authors</code>, <code>.bib-line-title</code>,
+                            <code>.bib-line-source</code></td>
+                        <td><code>span.bib-line</code></td>
+                        <td>Which line it is: the signatories and the year, the title, where it came out.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-author</code>, <code>.bib-title</code>, <code>.bib-journal</code>, …</td>
+                        <td><code>span</code></td>
+                        <td>One field, named <code>bib-</code> followed by the name of the BibTeX field.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-missing</code></td>
+                        <td><code>span</code></td>
+                        <td>A field the type cannot do without, and that the entry does not have.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-actions</code></td>
+                        <td><code>div</code></td>
+                        <td>Under the reference: what leads to the publication, and what opens on demand.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-link</code></td>
+                        <td><code>a.external-link</code></td>
+                        <td>One address of the publication. What it says is read in the address itself.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-backlink</code></td>
+                        <td><code>a</code></td>
+                        <td>Back to one place of the text where the reference is cited.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h3>The table</h3>
+
+                <table>
+                    <caption>The table of the bibliography</caption>
+                    <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>On</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>.bib-table</code></td>
+                        <td><code>table</code></td>
+                        <td>The whole bibliography. Its <code>id</code> comes from the element it is put in.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-row</code></td>
+                        <td><code>tr</code></td>
+                        <td>One reference. Its <code>id</code> is <code>bib-</code> and the BibTeX key.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-striped</code></td>
+                        <td><code>tr</code></td>
+                        <td>One row out of two, counting the references alone. Applied by the code.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-opened-row</code></td>
+                        <td><code>tr</code></td>
+                        <td>A content that opens, across the whole table, right after its reference.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-number</code>, <code>.bib-year</code>, <code>.bib-reference</code></td>
+                        <td><code>td</code></td>
+                        <td>The three cells. The number column only exists when something is cited.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-search</code>, <code>.bib-search-field</code></td>
+                        <td><code>label</code>, <code>input</code></td>
+                        <td>Searching the bibliography, written before the table.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-announcement</code></td>
+                        <td><code>p[role=status]</code></td>
+                        <td>What changed after a search or a sort, said as well as shown.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h3>What opens</h3>
+
+                <table>
+                    <caption>Contents that open on demand, and citations</caption>
+                    <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>On</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>.bib-disclosure-control</code></td>
+                        <td><code>button[aria-expanded]</code></td>
+                        <td>What opens and closes a content. It says itself whether it is open.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-disclosure-content</code></td>
+                        <td><code>td</code></td>
+                        <td>What it opens, with <code>.bib-disclosure-abstract</code> or
+                            <code>.bib-disclosure-source</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-citation-control</code></td>
+                        <td><code>button</code></td>
+                        <td>The number of a citation, inside the sentence.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-citation-content</code></td>
+                        <td><code>span</code></td>
+                        <td>The whole reference, read without leaving the sentence.</td>
+                    </tr>
+                    <tr>
+                        <td><code>.bib-citation-link</code>, <code>.bib-citation-part</code>,
+                            <code>.bib-citation-text</code></td>
+                        <td><code>a</code>, <code>span</code></td>
+                        <td>Inside it: the link to the bibliography, a named part, what it says.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </section>
+
         </section>
 
         <!-- ------------------------------------------------------------- -->

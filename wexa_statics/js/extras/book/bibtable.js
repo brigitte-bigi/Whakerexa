@@ -31,6 +31,7 @@
  */
 'use strict';
 
+import { Citation } from './bibcitation.js';
 import { ReferenceFormatter } from './bibformatter.js';
 import { LinkKind } from './biblink.js';
 import { Labels } from './labels.js';
@@ -57,6 +58,20 @@ export class BibliographyTable {
     static ROW_PREFIX = 'bib-';
 
     /**
+     * What a reference without a number is sorted on.
+     *
+     * An empty cell would sort before every number, and a reference nobody
+     * cites would come first of all. It has no number at all, so it goes after
+     * every reference that has one.
+     */
+    static UNCITED_SORT_VALUE = String(Number.MAX_SAFE_INTEGER);
+
+    /**
+     * What tells apart two ways back to a reference cited more than once.
+     */
+    static BACK_SEPARATOR = '-';
+
+    /**
      * What the program writes, in the languages it knows.
      *
      * A language it does not know falls back on English, and what is written
@@ -65,13 +80,15 @@ export class BibliographyTable {
     static LABELS = new Map([
         ['en', {
             number: 'No.', year: 'Year', reference: 'Reference',
-            details: 'Details', abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
-            pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link'
+            abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
+            pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link',
+            of: 'of'
         }],
         ['fr', {
             number: 'N°', year: 'Année', reference: 'Référence',
-            details: 'Détails', abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
-            pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien'
+            abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
+            pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien',
+            of: 'de'
         }]
     ]);
 
@@ -110,7 +127,7 @@ export class BibliographyTable {
         table.appendChild(this.#buildHead(hasNumbers));
 
         const body = document.createElement('tbody');
-        references.forEach(reference => {
+        BibliographyTable.#inReadingOrder(references, cited).forEach(reference => {
             const row = this.#buildRow(reference, cited.get(reference.key), hasNumbers);
             body.appendChild(row);
 
@@ -174,7 +191,6 @@ export class BibliographyTable {
         }
         row.appendChild(this.#buildHeader('year', true));
         row.appendChild(this.#buildHeader('reference', true, 'author'));
-        row.appendChild(this.#buildHeader('details', false));
 
         head.appendChild(row);
 
@@ -192,6 +208,7 @@ export class BibliographyTable {
     #buildHeader(name, isSortable, sortName = name) {
         const header = document.createElement('th');
         header.setAttribute('scope', 'col');
+        header.className = 'bib-header bib-header-' + name;
 
         if (isSortable === false) {
             this.#texts.write(header, name);
@@ -224,9 +241,11 @@ export class BibliographyTable {
         if (hasNumbers === true) {
             const number = document.createElement('td');
             number.className = 'bib-number';
+            number.setAttribute('data-sort-value', BibliographyTable.UNCITED_SORT_VALUE);
 
             if (cited !== undefined) {
                 number.textContent = String(cited.number);
+                number.setAttribute('data-sort-value', String(cited.number));
             }
             row.appendChild(number);
         }
@@ -237,7 +256,6 @@ export class BibliographyTable {
         row.appendChild(year);
 
         row.appendChild(this.#buildReferenceCell(reference, cited));
-        row.appendChild(this.#buildDetailsCell(reference));
 
         return row;
     }
@@ -258,37 +276,38 @@ export class BibliographyTable {
         cell.setAttribute('data-sort-value', this.#sortValueOf(reference));
         cell.appendChild(this.#formatter.format(reference));
 
-        if (cited !== undefined) {
-            cell.appendChild(this.#backLinks(cited.places));
-        }
+        cell.appendChild(this.#buildActions(reference, cited));
 
         return cell;
     }
 
     /**
-     * Build the cell of what leads to the publication and what opens on demand.
+     * Build what leads to the publication and what opens on demand.
+     *
+     * They stand under the reference they belong to. A column of their own
+     * would be as wide as its widest label and say nothing.
      *
      * @param reference {Reference} The reference to display.
-     * @returns {HTMLElement} The cell.
+     * @param cited {CitedReference} What the text owes to it, or undefined.
+     * @returns {HTMLElement} The addresses, the controls, and the way back to the text.
      */
-    #buildDetailsCell(reference) {
-        const cell = document.createElement('td');
-        cell.className = 'bib-details';
-
+    #buildActions(reference, cited) {
         const actions = document.createElement('div');
         actions.className = 'bib-actions';
 
+        if (cited !== undefined) {
+            actions.appendChild(this.#backLinks(cited.places, cited.number));
+        }
+
         reference.links.forEach(link => {
-            actions.appendChild(this.#buildLink(link));
+            actions.appendChild(this.#buildLink(link, reference));
         });
 
         this.#openableOf(reference).forEach(opened => {
             actions.appendChild(this.#buildControl(reference.key, opened.name));
         });
 
-        cell.appendChild(actions);
-
-        return cell;
+        return actions;
     }
 
     /**
@@ -313,25 +332,33 @@ export class BibliographyTable {
     /**
      * Build a link back to every place of the text where a reference is cited.
      *
+     * A way back bears the same mark as the citation it leads to, written the
+     * same way: the reader recognises "[12]" on both sides. When a reference
+     * is cited more than once, a letter tells the ways back apart.
+     *
      * A place without an identifier cannot be reached, and is left out rather
      * than turned into a link that leads nowhere.
      *
      * @param places {HTMLElement[]} Where the reference is cited, in the order of the text.
+     * @param number {number} The number the reference bears in the text.
      * @returns {DocumentFragment} The links, possibly none.
      */
-    #backLinks(places) {
+    #backLinks(places, number) {
         const fragment = document.createDocumentFragment();
 
-        places.forEach((place, index) => {
+        places.forEach((place, order) => {
             if (place.id === '') {
                 return;
             }
 
+            const mark = Citation.OPENING + String(number) + Citation.CLOSING;
+            const suffix = BibliographyTable.#suffixOf(order, places.length);
+
             const link = document.createElement('a');
             link.className = 'bib-backlink';
             link.setAttribute('href', '#' + place.id);
-            link.textContent = String(index + 1);
-            link.setAttribute('aria-label', this.#texts.text('backTo') + ' ' + String(index + 1));
+            link.textContent = mark + suffix;
+            link.setAttribute('aria-label', this.#texts.text('backTo') + ' ' + String(number) + suffix);
             this.#texts.declare(link);
 
             fragment.appendChild(link);
@@ -352,7 +379,7 @@ export class BibliographyTable {
         if (reference.abstract.length > 0) {
             openable.push({name: 'abstract', text: reference.abstract});
         }
-        openable.push({name: 'source', text: reference.source});
+        openable.push({name: 'source', text: reference.sourceWithoutAbstract});
 
         return openable;
     }
@@ -366,16 +393,52 @@ export class BibliographyTable {
      * @param link {Link} The address to reach.
      * @returns {HTMLElement} The link.
      */
-    #buildLink(link) {
+    #buildLink(link, reference) {
         const element = document.createElement('a');
 
         // Every address of a reference leaves the document: the reader is told
         // so before following it, the way Whakerexa marks any outward link.
         element.className = 'bib-link external-link';
         element.setAttribute('href', link.address);
-        this.#texts.write(element, BibliographyTable.#labelOf(link.kind()));
+
+        // A page holding twenty links all named "PDF" is a page where a name
+        // says nothing, so each one names its reference.
+        const label = BibliographyTable.#labelOf(link.kind());
+        element.setAttribute('aria-label', this.#nameOf(label, reference));
+
+        // On screen a reader needs to know what the link leads to; on paper
+        // they need the address, and the link is still one in a PDF. Both are
+        // written inside the link, and each shows where it serves.
+        const shown = document.createElement('span');
+        shown.className = 'bib-link-label';
+        this.#texts.write(shown, label);
+
+        const address = document.createElement('span');
+        address.className = 'bib-link-address';
+        address.textContent = link.address;
+        this.#texts.declare(address);
+
+        element.appendChild(shown);
+        element.appendChild(address);
 
         return element;
+    }
+
+    /**
+     * Get the name a screen reader gives to one link.
+     *
+     * @param label {string} What the link leads to: a PDF, an archive, a publisher.
+     * @param reference {Reference} The reference the link belongs to.
+     * @returns {string} A name no other link of the page bears.
+     */
+    #nameOf(label, reference) {
+        const title = reference.field('title');
+
+        if (title.length === 0) {
+            return this.#texts.text(label);
+        }
+
+        return this.#texts.text(label) + ' ' + this.#texts.text('of') + ' ' + title;
     }
 
     /**
@@ -434,6 +497,80 @@ export class BibliographyTable {
 
     // PRIVATE STATIC METHODS
     /**
+     * Put the references in the order they are read in.
+     *
+     * The numbers come first, and they go up: reading the bibliography from
+     * one end to the other, a reader follows the text. What is never cited
+     * has no number and comes after, by year, oldest first.
+     *
+     * This is also the order the bibliography is printed in, whatever the
+     * reader sorted it by on screen before.
+     *
+     * @param references {Map} The references, by key.
+     * @param cited {Map} What the text owes to each cited reference, by key.
+     * @returns {Reference[]} The references, in the order they are displayed.
+     */
+    static #inReadingOrder(references, cited) {
+        const ordered = Array.from(references.values());
+
+        ordered.sort((one, other) => {
+            const first = BibliographyTable.#numberOf(one, cited);
+            const second = BibliographyTable.#numberOf(other, cited);
+
+            if (first !== second) {
+                return first - second;
+            }
+
+            return Number(one.field('year')) - Number(other.field('year'));
+        });
+
+        return ordered;
+    }
+
+    /**
+     * Get the number a reference bears in the text.
+     *
+     * @param reference {Reference} The reference to place.
+     * @param cited {Map} What the text owes to each cited reference, by key.
+     * @returns {number} Its number, or a number no reference can reach.
+     */
+    static #numberOf(reference, cited) {
+        const owed = cited.get(reference.key);
+
+        if (owed === undefined) {
+            return Number.MAX_SAFE_INTEGER;
+        }
+
+        return owed.number;
+    }
+
+    /**
+     * Get what tells one way back from the others.
+     *
+     * A reference cited once needs nothing: its mark is enough. Cited more
+     * than once, each way back gets a letter, a to z, then aa, ab, and so on.
+     *
+     * @param order {number} Which way back it is, from 0 up.
+     * @param total {number} How many there are.
+     * @returns {string} The suffix, empty when there is only one.
+     */
+    static #suffixOf(order, total) {
+        if (total < 2) {
+            return '';
+        }
+
+        let letters = '';
+        let left = order;
+
+        while (left >= 0) {
+            letters = String.fromCharCode(97 + (left % 26)) + letters;
+            left = Math.floor(left / 26) - 1;
+        }
+
+        return BibliographyTable.BACK_SEPARATOR + letters;
+    }
+
+    /**
      * Get how many columns the table has.
      *
      * @param hasNumbers {boolean} Whether the number column exists.
@@ -441,10 +578,10 @@ export class BibliographyTable {
      */
     static #columnCount(hasNumbers) {
         if (hasNumbers === true) {
-            return 4;
+            return 3;
         }
 
-        return 3;
+        return 2;
     }
 
     /**

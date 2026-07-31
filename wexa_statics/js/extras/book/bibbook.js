@@ -150,8 +150,8 @@ export class BookBibliography {
 
             // What opens is written in two places: in the table, and in the
             // sentences that cite. Both are tied to what opens them the same way.
-            this.#disclosures = this.#buildDisclosures(place)
-                .concat(this.#buildDisclosures(document.getElementById(this.#contentId)));
+            this.#disclosures = this.#buildDisclosures(
+                [place, document.getElementById(this.#contentId)]);
             this.#controls = new BibliographyControls(place.querySelector('table'));
 
         } catch (error) {
@@ -172,17 +172,25 @@ export class BookBibliography {
      * The table writes the control and the content; what opens and closes them
      * is put on top afterwards, so that neither has to know the other.
      *
-     * @param place {HTMLElement} Where the bibliography was put.
-     * @returns {ReferenceDisclosure[]} One per content that opens.
+     * @param roots {HTMLElement[]} Where to look, one of them possibly null.
+     * @returns {ReferenceDisclosure[]} One per content that opens, never two.
      */
-    #buildDisclosures(place) {
+    #buildDisclosures(roots) {
         const disclosures = [];
+        const controls = new Set();
 
-        if (place === null) {
-            return disclosures;
-        }
+        // One of the roots holds the other: the bibliography stands in the
+        // content of the document. A control met twice would be tied twice,
+        // and a click would open and close it in the same breath.
+        roots.forEach(root => {
+            if (root === null) {
+                return;
+            }
 
-        const controls = place.querySelectorAll('.bib-disclosure-control[aria-controls]');
+            root.querySelectorAll('.bib-disclosure-control[aria-controls]').forEach(control => {
+                controls.add(control);
+            });
+        });
 
         controls.forEach(control => {
             const content = document.getElementById(control.getAttribute('aria-controls'));

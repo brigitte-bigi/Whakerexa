@@ -63,29 +63,20 @@ This banner notice must not be removed.
 /* The table                                                               */
 /* ----------------------------------------------------------------------- */
 
-/* The number and the year are read as columns, and never wrap. */
-.bib-number,
-.bib-year {
+/* The number and the year are read as columns, and never wrap. Only the
+   cells: the year is also written in the reference itself. */
+td.bib-number,
+td.bib-year {
     width: 1%;
     white-space: nowrap;
     vertical-align: top;
 }
 
-.bib-number {
+td.bib-number {
     font-weight: var(--font-weight-semibold);
 }
 
-.bib-reference,
-.bib-details {
-    vertical-align: top;
-}
-
-/* What leads to the publication and what opens on demand. The column takes
-   the width its content needs on a single line, and no more: what it opens
-   takes a row of its own, further down. */
-.bib-details {
-    width: 1%;
-    white-space: nowrap;
+.bib-reference {
     vertical-align: top;
 }
 
@@ -115,6 +106,13 @@ This banner notice must not be removed.
 /* One reference                                                           */
 /* ----------------------------------------------------------------------- */
 
+/* A reference is read in three lines: who wrote it, what it is called, and
+   where it came out. Each line says which one it is, so that a stylesheet
+   can lay them out otherwise: side by side, wrapped, or anything else. */
+.bib-line {
+    display: block;
+}
+
 .bib-title {
     font-weight: var(--font-weight-semibold);
 }
@@ -134,11 +132,11 @@ This banner notice must not be removed.
     text-decoration: underline dotted;
 }
 
-/* Back to every place of the text where the reference is cited. */
+/* Back to every place of the text where the reference is cited. They stand
+   with the addresses, and are numbered in the order of the text: a reference
+   cited three times has three of them. */
 .bib-backlink {
-    margin-left: 0.3rem;
-    font-size: calc(var(--font-size) * 0.9);
-    vertical-align: super;
+    margin-right: 0.3rem;
 }
 
 
@@ -146,21 +144,28 @@ This banner notice must not be removed.
 /* What can be reached, and what can be opened                             */
 /* ----------------------------------------------------------------------- */
 
-/* What leads elsewhere and what acts here stand side by side, at the end of
-   the reference they belong to. */
+/* What leads elsewhere and what acts here stand side by side, under the
+   reference they belong to, and go to the next line when there is no room. */
 .bib-actions {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
+    margin-top: 0.3rem;
     font-size: calc(var(--font-size) * 0.9);
 }
 
 /* An address is a link, and looks like one: it is underlined, it carries the
-   icon that says it leaves the document, and it has no frame. */
+   icon that says it leaves the document, and it has no frame. On screen it
+   says what it leads to; the address itself waits for the paper. */
 .bib-link {
     color: var(--a-color);
     text-decoration: underline;
+}
+
+/* The link says what it leads to; the address it holds waits for the paper. */
+.bib-link-address {
+    display: none;
 }
 
 /* A control acts here and now: it looks like a button, and never like a
@@ -206,9 +211,13 @@ This banner notice must not be removed.
     font-size: calc(var(--font-size) * 0.9);
 }
 
-/* The BibTeX source is read as it was written, and copied as it stands. */
+/* The BibTeX source is read as it was written, and copied as it stands. A
+   fixed width font draws wider than the text around it, so it is written
+   smaller and its letters are not spaced further apart. */
 .bib-disclosure-source {
     font-family: var(--font-family-mono);
+    font-size: calc(var(--font-size) * 0.8);
+    letter-spacing: 0;
 }
 
 
@@ -252,6 +261,8 @@ This banner notice must not be removed.
 .bib-citation-source .bib-citation-text {
     white-space: pre-wrap;
     font-family: var(--font-family-mono);
+    font-size: calc(var(--font-size) * 0.8);
+    letter-spacing: 0;
 }
 
 
@@ -261,13 +272,21 @@ This banner notice must not be removed.
 
 @media print {
 
-    /* What only makes sense on a screen does not print. */
+    /* What only makes sense on a screen does not print. The year has its own
+       column to be sorted on, and sorting is over: it is written in the
+       reference itself. */
     .bib-search,
     .bib-announcement,
-    .bib-disclosure-control:not(.bib-citation-control),
     .bib-opened-row,
     .bib-citation-content:not([hidden]),
-    .bib-backlink {
+    .bib-backlink,
+    td.bib-year {
+        display: none;
+    }
+
+    /* The selector reaches past the one that gives these controls their frame
+       on screen: what opens on demand cannot be opened on paper. */
+    .bib-table td .bib-disclosure-control {
         display: none;
     }
 
@@ -283,26 +302,65 @@ This banner notice must not be removed.
     }
 
     /* The number of a citation stays on paper: it is what the bibliography is
-       read with. */
+       read with. Nothing opens on paper, so the mark that says whether it is
+       open goes away. */
     .bib-citation-control {
         display: inline;
         color: inherit;
     }
 
-    /* An address that cannot be clicked has to be read, so it is written in
-       full, next to what it leads to. The icon that says the link goes out
-       has nothing left to say on paper, and gives its place to the address. */
-    a.bib-link.external-link::after {
-        content: ' (' attr(href) ')';
+    .bib-disclosure-control::before {
+        content: none;
+    }
+
+    /* On paper the address takes the place of what the link leads to: it is
+       what a reader can copy, and the link is still one in a PDF. */
+    .bib-link-label {
+        display: none;
+    }
+
+    /* One address per line: two of them side by side read as one. A fixed
+       width font spaces its letters more than the text around it, so the
+       address is written tighter. */
+    .bib-link {
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .bib-link-address {
         display: inline;
-        width: auto;
-        height: auto;
-        margin: 0;
-        padding: 0;
-        mask-image: none;
-        background-color: transparent;
         font-family: var(--font-family-mono);
+        font-size: calc(var(--font-size) * 0.9);
+        letter-spacing: 0;
         word-break: break-all;
+    }
+
+    /* On paper a bibliography is a list, not a table: nothing of the table
+       itself is seen. Backgrounds are ink spent on saying what the page
+       already says, and rules around each reference say it twice. */
+    .bib-table tbody tr > td,
+    .bib-table tbody tr > td *,
+    .bib-table tbody tr.bib-striped > td,
+    .bib-table tbody tr.bib-striped > td *:not(.bib-disclosure-control) {
+        background-color: transparent;
+    }
+
+    .bib-table,
+    .bib-table td,
+    .bib-table th {
+        border: none;
+    }
+
+    /* A bibliography of a hundred references runs over several pages: the
+       table has to break, which print.css forbids of every table. */
+    .bib-table {
+        page-break-inside: auto;
+        break-inside: auto;
+    }
+
+    /* No headers on paper: what they name is sorting, and there is none. */
+    .bib-table thead {
+        display: none;
     }
 
     /* A reference is never cut across two pages. */

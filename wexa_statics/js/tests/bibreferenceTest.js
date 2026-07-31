@@ -153,5 +153,110 @@ reference_tests.add_test(() => {
 });
 
 
+// -----------------------------------------------------------------------
+// The BibTeX source is given without its abstract: the abstract is shown
+// on its own, and a wall of text between the fields helps nobody.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = String.raw`@article{demo2026abstract,
+    author = {Brigitte Bigi},
+    abstract = {What the paper says, at length.},
+    year = {2026}
+}`;
+    const reference = new BibtexParser().parse(entry).get('demo2026abstract');
+    const shown = reference.sourceWithoutAbstract;
+
+    UnitTest.assert_array_contains(false, [shown.includes('at length')],
+        "reference_source_without_abstract_test");
+    UnitTest.assert_array_contains(true, [shown.includes('Brigitte Bigi')],
+        "reference_source_keeps_author_test");
+    UnitTest.assert_array_contains(true, [shown.includes('year = {2026}')],
+        "reference_source_keeps_year_test");
+    UnitTest.assert_array_contains(true, [shown.includes('@article{demo2026abstract,')],
+        "reference_source_keeps_key_test");
+});
+
+// -----------------------------------------------------------------------
+// What is kept is left exactly as it was written. Requirement B13.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = String.raw`@article{demo2026kept,
+    title = {Les donn{\'e}es},
+    abstract = {Something}
+}`;
+    const reference = new BibtexParser().parse(entry).get('demo2026kept');
+
+    UnitTest.assert_array_contains(true, [reference.sourceWithoutAbstract.includes(String.raw`{\'e}`)],
+        "reference_source_kept_as_written_test");
+    UnitTest.assert_array_contains(true, [reference.source.includes('Something')],
+        "reference_whole_source_test");
+});
+
+// -----------------------------------------------------------------------
+// An entry without any abstract is given back untouched.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = '@misc{demo2026none, title = {A Title}, year = {2026}}';
+    const reference = new BibtexParser().parse(entry).get('demo2026none');
+
+    UnitTest.assert_values_equals(reference.source, reference.sourceWithoutAbstract,
+        "reference_source_untouched_test");
+});
+
+// -----------------------------------------------------------------------
+// A field written in capitals is a field: BibTeX is written by hand.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = String.raw`@article{demo2026capitals,
+    ABSTRACT = "What the paper says",
+    YEAR = "2026"
+}`;
+    const reference = new BibtexParser().parse(entry).get('demo2026capitals');
+
+    UnitTest.assert_array_contains(false, [reference.sourceWithoutAbstract.includes('What the paper')],
+        "reference_source_capitals_test");
+    UnitTest.assert_array_contains(true, [reference.sourceWithoutAbstract.includes('2026')],
+        "reference_source_capitals_keeps_year_test");
+});
+
+// -----------------------------------------------------------------------
+// An abstract holding braces of its own is followed to its real end.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = String.raw`@article{demo2026braces,
+    abstract = {It says {SPPAS} and {LPC}, twice.},
+    year = {2026}
+}`;
+    const reference = new BibtexParser().parse(entry).get('demo2026braces');
+
+    UnitTest.assert_array_contains(false, [reference.sourceWithoutAbstract.includes('twice')],
+        "reference_source_braces_test");
+    UnitTest.assert_array_contains(true, [reference.sourceWithoutAbstract.includes('year = {2026}')],
+        "reference_source_braces_keeps_year_test");
+});
+
+// -----------------------------------------------------------------------
+// An abstract written last leaves no comma hanging before the brace that
+// closes the entry: what is given back is pasted into a bibliography.
+// -----------------------------------------------------------------------
+
+reference_tests.add_test(() => {
+    const entry = String.raw`@article{demo2026last,
+    year = {2026},
+    abstract = {What the paper says.}
+}`;
+    const reference = new BibtexParser().parse(entry).get('demo2026last');
+    const shown = reference.sourceWithoutAbstract;
+
+    UnitTest.assert_array_contains(false, [shown.includes(',}')], "reference_source_no_hanging_comma_test");
+    UnitTest.assert_array_contains(true, [shown.trim().endsWith('}')], "reference_source_closed_test");
+});
+
+
 // launch all unit tests added
 reference_tests.launch_unit_test();

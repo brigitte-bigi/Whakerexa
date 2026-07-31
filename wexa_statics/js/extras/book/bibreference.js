@@ -130,6 +130,19 @@ export class Reference {
     }
 
     /**
+     * Get the BibTeX entry without its abstract.
+     *
+     * The abstract is shown on its own, and a reader who asks for the BibTeX
+     * source asks for what they would paste into their own bibliography: the
+     * abstract there is a wall of text between them and the fields.
+     *
+     * @returns {string} The entry, its abstract field taken out.
+     */
+    get sourceWithoutAbstract() {
+        return Reference.#withoutField(this.#source, 'abstract');
+    }
+
+    /**
      * Get the abstract.
      *
      * @returns {string} An empty string when the entry has none.
@@ -158,5 +171,82 @@ export class Reference {
         }
 
         return this.#fields.get(wanted);
+    }
+
+
+    // PRIVATE STATIC METHODS
+    /**
+     * Take one field out of a BibTeX entry, leaving the rest as it was.
+     *
+     * The value is followed brace by brace, or quote by quote, because a
+     * value holds anything: braces, commas, equal signs.
+     *
+     * @param source {string} The entry, as written in the data.
+     * @param name {string} The name of the field to take out.
+     * @returns {string} The entry without that field.
+     */
+    static #withoutField(source, name) {
+        const start = source.search(new RegExp('[,{]\\s*' + name + '\\s*=', 'i'));
+
+        if (start === -1) {
+            return source;
+        }
+
+        // The comma or brace that opens the field is kept: it belongs to what
+        // comes before, and taking it away would join two fields into one.
+        let position = source.indexOf('=', start) + 1;
+        while (position < source.length && /\s/.test(source[position]) === true) {
+            position++;
+        }
+
+        const end = Reference.#endOfValue(source, position);
+        const before = source.substring(0, start + 1);
+        const after = source.substring(end);
+
+        // A field written last leaves the comma of the one before it hanging
+        // in front of the brace that closes the entry.
+        if (after.trim().startsWith('}') === true && before.trimEnd().endsWith(',') === true) {
+            return before.trimEnd().slice(0, -1) + after;
+        }
+
+        return before + after;
+    }
+
+    /**
+     * Find where the value of a field ends.
+     *
+     * @param source {string} The entry, as written in the data.
+     * @param start {number} Where the value begins.
+     * @returns {number} Where it ends, its trailing comma included.
+     */
+    static #endOfValue(source, start) {
+        const opening = source[start];
+        let position = start;
+        let depth = 0;
+
+        while (position < source.length) {
+            const character = source[position];
+
+            if (character === '{') {
+                depth++;
+            } else if (character === '}') {
+                depth--;
+                if (depth === 0) {
+                    position++;
+                    break;
+                }
+            } else if (character === '"' && opening === '"' && position > start) {
+                position++;
+                break;
+            }
+            position++;
+        }
+
+        // The comma that follows goes too: the field before it already has one.
+        while (position < source.length && /[\s,]/.test(source[position]) === true) {
+            position++;
+        }
+
+        return position;
     }
 }

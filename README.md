@@ -242,6 +242,12 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. Citations. A `<span data-bibtex="key">` written between two words of a sentence is numbered in the order the citations appear, and every later citation of the same reference carries that same number. What is written inside the span is what a reader gets when JavaScript does not run.
 - Extra Book. A citation opens the whole reference in the sentence itself: what it says, a link to its row in the bibliography, its addresses, its abstract and its BibTeX source. Closing it gives the focus back to the number, and the page never scrolls.
 - Extra Book. A key that names no reference stays visible, says so to a screen reader, takes no number, and is reported in the console.
+- Extra Book. A reference is written in three lines, named `bib-line-authors`, `bib-line-title` and `bib-line-source`, whatever the type of the entry: a stylesheet lays them out otherwise with one selector.
+- Extra Book. The bibliography is built in the order of the numbers, the references nobody cites after them, by year. A reference without a number sorts after every reference that has one.
+- Extra Book. The BibTeX source is shown without its abstract, which has a control of its own.
+- Extra Book. On paper: no headers, no colours, no frames, no year column, nothing that opens; addresses written in full inside their link, which a PDF keeps clickable; and the table breaks over pages while a reference does not.
+- Extra Book. Every link to a publication carries a name of its own, "PDF of <title>", so that twenty links named "PDF" are told apart.
+- Documentation. `docs/bibliography.html` lists every CSS class the bibliography writes, and what each of them is for.
 - SortaTable. A cell may carry its own sort value in `data-sort-value`, used instead of the displayed text.
 - SortaTable. On paper, a sort button is written as the header of its column: `print.css` hides every button, and a table was losing its headers.
 - SortaTable. Texts are compared according to the language of the page, read on the closest element that declares it. Numbers written inside a text are compared as numbers.

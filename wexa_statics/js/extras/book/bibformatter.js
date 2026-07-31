@@ -50,23 +50,20 @@ export class ReferenceFormatter {
      * reference is always displayed, whatever its type.
      */
     static TEMPLATES = new Map([
-        ['article', ['author', 'title', 'journal', 'volume', 'number', 'pages', 'year']],
-        ['inproceedings', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
-        ['conference', ['author', 'title', 'booktitle', 'address', 'publisher', 'pages', 'year']],
-        ['incollection', ['author', 'title', 'booktitle', 'editor', 'publisher', 'pages', 'year']],
-        ['inbook', ['author', 'chapter', 'title', 'editor', 'publisher', 'pages', 'year']],
-        ['book', ['author', 'title', 'editor', 'publisher', 'address', 'year']],
-        ['techreport', ['author', 'title', 'institution', 'address', 'year']],
-        ['phdthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
-        ['mastersthesis', ['author', 'title', 'type', 'school', 'address', 'year']],
-        ['unpublished', ['author', 'title', 'note', 'year']],
-        ['misc', ['author', 'title', 'howpublished', 'year']]
+        ['article', [['author', 'year'], ['title'], ['journal', 'volume', 'number', 'pages']]],
+        ['inproceedings', [['author', 'year'], ['title'], ['booktitle', 'address', 'publisher', 'pages']]],
+        ['conference', [['author', 'year'], ['title'], ['booktitle', 'address', 'publisher', 'pages']]],
+        ['incollection', [['author', 'year'], ['title'], ['booktitle', 'editor', 'publisher', 'pages']]],
+        ['inbook', [['author', 'year'], ['chapter'], ['title', 'editor', 'publisher', 'pages']]],
+        ['book', [['author', 'year'], ['title'], ['editor', 'publisher', 'address']]],
+        ['techreport', [['author', 'year'], ['title'], ['institution', 'address']]],
+        ['phdthesis', [['author', 'year'], ['title'], ['type', 'school', 'address']]],
+        ['mastersthesis', [['author', 'year'], ['title'], ['type', 'school', 'address']]],
+        ['unpublished', [['author', 'year'], ['title'], ['note']]],
+        ['misc', [['author', 'year'], ['title'], ['howpublished']]]
     ]);
 
-    /**
-     * What is shown of a type nobody planned for.
-     */
-    static FALLBACK_TEMPLATE = ['author', 'title', 'howpublished', 'year'];
+    static FALLBACK_TEMPLATE = [['author', 'year'], ['title'], ['howpublished']];
 
     /**
      * Which fields a type cannot do without.
@@ -96,10 +93,26 @@ export class ReferenceFormatter {
     static FALLBACK_REQUIRED = ['title'];
 
     /**
-     * What stands between two fields, and what closes a reference.
+     * What stands between two fields, and what closes a line.
      */
     static SEPARATOR = ', ';
     static TERMINATOR = '.';
+
+    /**
+     * What surrounds the year, which follows the authors rather than being
+     * listed with the rest: a reader looks for a name and a date first.
+     */
+    static YEAR_OPENING = ' (';
+    static YEAR_CLOSING = ')';
+
+    /**
+     * What each line is called, whatever the type of the reference.
+     *
+     * The names do not change from one type to the next: a stylesheet that
+     * wants the three lines side by side, or wrapped, has one name to reach
+     * them by.
+     */
+    static LINE_NAMES = ['authors', 'title', 'source'];
 
 
     // PUBLIC METHODS
@@ -114,34 +127,83 @@ export class ReferenceFormatter {
      */
     format(reference) {
         const fragment = document.createDocumentFragment();
-        const template = this.#templateFor(reference.type);
         const required = this.#requiredFor(reference.type);
         let written = 0;
 
-        template.forEach(name => {
-            const element = this.#formatField(reference, name, required.includes(name));
+        this.#templateFor(reference.type).forEach((fields, order) => {
+            const line = this.#formatLine(reference, fields, required, order);
 
-            if (element === null) {
+            if (line === null) {
                 return;
             }
 
-            if (written > 0) {
-                fragment.appendChild(document.createTextNode(ReferenceFormatter.SEPARATOR));
-            }
-            fragment.appendChild(element);
+            fragment.appendChild(line);
             written++;
         });
 
         if (written === 0) {
-            fragment.appendChild(this.#formatMissing('title'));
+            const line = document.createElement('span');
+            line.className = 'bib-line';
+            line.appendChild(this.#formatMissing('title'));
+            fragment.appendChild(line);
         }
-        fragment.appendChild(document.createTextNode(ReferenceFormatter.TERMINATOR));
 
         return fragment;
     }
 
 
     // PRIVATE METHODS
+    /**
+     * Display one line of a reference.
+     *
+     * A reference read as a single run of commas is a reference nobody reads:
+     * who wrote it, what it is called, and where it came out are three
+     * questions, and each of them gets its own line.
+     *
+     * @param reference {Reference} The reference being displayed.
+     * @param fields {string[]} The fields of this line, in order.
+     * @param required {string[]} The fields the type cannot do without.
+     * @param order {number} Which line it is, from 0 up.
+     * @returns {HTMLElement} The line, or null when it would hold nothing.
+     */
+    #formatLine(reference, fields, required, order) {
+        const line = document.createElement('span');
+        line.className = 'bib-line bib-line-' + ReferenceFormatter.LINE_NAMES[order];
+        let written = 0;
+
+        fields.forEach(name => {
+            const element = this.#formatField(reference, name, required.includes(name));
+
+            if (element === null) {
+                return;
+            }
+
+            // The year follows the authors in parentheses; every other field
+            // follows the one before it after a comma.
+            if (name === 'year' && written > 0) {
+                line.appendChild(document.createTextNode(ReferenceFormatter.YEAR_OPENING));
+                line.appendChild(element);
+                line.appendChild(document.createTextNode(ReferenceFormatter.YEAR_CLOSING));
+                written++;
+                return;
+            }
+
+            if (written > 0) {
+                line.appendChild(document.createTextNode(ReferenceFormatter.SEPARATOR));
+            }
+            line.appendChild(element);
+            written++;
+        });
+
+        if (written === 0) {
+            return null;
+        }
+
+        line.appendChild(document.createTextNode(ReferenceFormatter.TERMINATOR));
+
+        return line;
+    }
+
     /**
      * Display one field of a reference.
      *
