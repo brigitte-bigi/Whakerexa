@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-31 12:37:38
+// Bundle automatically generated on 2026-07-31 16:18:19
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2808,13 +2808,20 @@ class Book {
             link.setAttribute('href', '#toc' + index);
             link.textContent = heading.textContent;
             let item = document.createElement('li');
-            item.setAttribute('class', heading.tagName.toLowerCase());
+            item.setAttribute('class', this.#class_of(heading));
             item.appendChild(link);
             this.#toc_element.appendChild(item);
             heading.parentNode.insertBefore(anchor, heading);
         });
     }
     // PRIVATE METHODS
+    #class_of(heading) {
+        const level = heading.tagName.toLowerCase();
+        if (heading.closest('.chapter.nonumber') === null) {
+            return level;
+        }
+        return level + ' nonumber';
+    }
     #setup_aside(aside) {
         if (!aside.id) aside.id = 'book-toc-aside';
         aside.setAttribute('aria-hidden', 'true');

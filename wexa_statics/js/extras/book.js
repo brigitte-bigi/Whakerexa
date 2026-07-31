@@ -145,7 +145,7 @@ export class Book {
             link.textContent = heading.textContent;
 
             let item = document.createElement('li');
-            item.setAttribute('class', heading.tagName.toLowerCase());
+            item.setAttribute('class', this.#class_of(heading));
 
             item.appendChild(link);
             this.#toc_element.appendChild(item);
@@ -155,6 +155,28 @@ export class Book {
 
 
     // PRIVATE METHODS
+    /**
+     * Get the classes of an entry of the table of contents.
+     *
+     * The level of the heading tells how the entry is written and numbered,
+     * and book.css does both. Whether the chapter it belongs to is numbered
+     * is the one thing a stylesheet cannot see from the table of contents,
+     * so it is written here.
+     *
+     * @param heading {HTMLElement} The heading the entry leads to.
+     *
+     * @returns {string} The classes of the entry.
+     */
+    #class_of(heading) {
+        const level = heading.tagName.toLowerCase();
+
+        if (heading.closest('.chapter.nonumber') === null) {
+            return level;
+        }
+
+        return level + ' nonumber';
+    }
+
     /**
      * Inject a toggle button and manage open/close state for aside.book-toc-aside.
      *

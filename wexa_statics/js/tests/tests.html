@@ -33,6 +33,7 @@
     <h2>What is tested</h2>
 
     <ul>
+        <li><code>Book</code>, the table of contents</li>
         <li><code>Author</code></li>
         <li><code>Link</code></li>
         <li><code>Reference</code></li>
@@ -56,6 +57,7 @@
     // The tested classes are ES6 modules, the test files expect plain names.
     // They are put on the global object before the test files are loaded, and
     // the test files are imported afterwards so that the order is guaranteed.
+    import { Book } from '../extras/book.js';
     import { Author } from '../extras/book/bibauthor.js';
     import { Link, LinkKind } from '../extras/book/biblink.js';
     import { Reference } from '../extras/book/bibreference.js';
@@ -72,6 +74,7 @@
     import { CitationIndex } from '../extras/book/bibcite.js';
     import { BookBibliography } from '../extras/book/bibbook.js';
 
+    window.Book = Book;
     window.Author = Author;
     window.Link = Link;
     window.LinkKind = LinkKind;
@@ -90,6 +93,7 @@
     window.CitationIndex = CitationIndex;
     window.BookBibliography = BookBibliography;
 
+    await import('./bookTest.js');
     await import('./bibauthorTest.js');
     await import('./biblinkTest.js');
     await import('./bibreferenceTest.js');
