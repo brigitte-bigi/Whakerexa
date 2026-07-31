@@ -213,6 +213,49 @@ This banner notice must not be removed.
 
 
 /* ----------------------------------------------------------------------- */
+/* A citation, in the middle of a sentence                                 */
+/* ----------------------------------------------------------------------- */
+
+/* The number is a button, and looks like the sentence it sits in: framing it
+   would break the line a reader is following. */
+.bib-citation-control {
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    color: var(--a-color);
+    background: none;
+    border: none;
+}
+
+/* What a citation opens stands in the paragraph, and is set apart by a bar
+   on its left rather than by a frame that would cut the text. */
+.bib-citation-content:not([hidden]) {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-left: calc(3 * var(--border-width)) solid var(--border-color);
+    font-size: calc(var(--font-size) * 0.9);
+}
+
+.bib-citation-link,
+.bib-citation-content .bib-link,
+.bib-citation-part {
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.bib-citation-part > b {
+    margin-right: 0.5rem;
+}
+
+.bib-citation-source .bib-citation-text {
+    white-space: pre-wrap;
+    font-family: var(--font-family-mono);
+}
+
+
+/* ----------------------------------------------------------------------- */
 /* On paper                                                                */
 /* ----------------------------------------------------------------------- */
 
@@ -221,10 +264,10 @@ This banner notice must not be removed.
     /* What only makes sense on a screen does not print. */
     .bib-search,
     .bib-announcement,
-    .bib-disclosure-control,
+    .bib-disclosure-control:not(.bib-citation-control),
     .bib-opened-row,
-    .bib-backlink,
-    .sortatable::after {
+    .bib-citation-content:not([hidden]),
+    .bib-backlink {
         display: none;
     }
 
@@ -239,11 +282,11 @@ This banner notice must not be removed.
         text-decoration: none;
     }
 
-    /* A sort button has nothing left to do, and its label stays: it is the
-       header of the column. */
-    .sortatable {
-        padding: 0;
-        text-align: left;
+    /* The number of a citation stays on paper: it is what the bibliography is
+       read with. */
+    .bib-citation-control {
+        display: inline;
+        color: inherit;
     }
 
     /* An address that cannot be clicked has to be read, so it is written in

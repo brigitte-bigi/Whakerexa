@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/parser.js
+ :filename: wexa_statics/js/extras/book/bibparser.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to turn BibTeX data into references.
@@ -31,9 +31,9 @@
  */
 'use strict';
 
-import { Reference } from './reference.js';
-import { Author } from './author.js';
-import { Link } from './link.js';
+import { Reference } from './bibreference.js';
+import { Author } from './bibauthor.js';
+import { Link } from './biblink.js';
 
 /**
  * Turn BibTeX data into references.

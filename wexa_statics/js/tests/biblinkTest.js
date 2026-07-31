@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.linkTest.js
+:filename: tests.js.biblinkTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the Link class.

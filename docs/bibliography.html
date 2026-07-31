@@ -210,7 +210,7 @@ biblio.run();</code></pre>
 
         </section>
 
-    <!--noscript>
+    <noscript>
         <style> #bibtex { display: block; } </style>
     </noscript>
 
@@ -286,7 +286,6 @@ biblio.run();</code></pre>
 }
 
     </pre>
-    -->
 
     </main>
 
@@ -323,6 +322,9 @@ biblio.run();</code></pre>
 						t.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
 						window.themes = t;
 					}
+					if (window.Wexa && window.Wexa.BookBibliography) {
+						bootBibliographyDemo(window.Wexa.BookBibliography);
+					}
 				});
 			} else {
 				s.type = 'module';
@@ -339,7 +341,6 @@ biblio.run();</code></pre>
 		themes.register('highcontrast', '../wexa_statics/css/themes/wexa_theme_highcontrast.css');
 		window.themes = themes;
 	</script>
-<!--
     <script>
         function bootBibliographyDemo(BookBibliography) {
             const biblio = new BookBibliography('bibtex', 'bibliography', 'main-content');
@@ -350,7 +351,6 @@ biblio.run();</code></pre>
         import { BookBibliography } from '../wexa_statics/js/extras/book/bibbook.js';
         bootBibliographyDemo(BookBibliography);
     </script>
-    -->
 
     </body>
 </html>

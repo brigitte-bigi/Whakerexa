@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/errors.js
+ :filename: wexa_statics/js/extras/book/biberrors.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: The errors a bibliography can raise.

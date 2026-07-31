@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/link.js
+ :filename: wexa_statics/js/extras/book/biblink.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to represent an address where a publication can be reached.

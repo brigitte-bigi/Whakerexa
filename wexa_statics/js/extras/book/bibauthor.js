@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/author.js
+ :filename: wexa_statics/js/extras/book/bibauthor.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to represent one signatory of a bibliographic reference.

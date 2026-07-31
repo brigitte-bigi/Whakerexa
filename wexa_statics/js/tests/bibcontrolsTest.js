@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.bibliographyControlsTest.js
+:filename: tests.js.bibcontrolsTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the BibliographyControls class.

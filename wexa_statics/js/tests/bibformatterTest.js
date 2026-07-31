@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.referenceFormatterTest.js
+:filename: tests.js.bibformatterTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the ReferenceFormatter class.

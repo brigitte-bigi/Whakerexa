@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/reference.js
+ :filename: wexa_statics/js/extras/book/bibreference.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to represent one bibliographic reference.

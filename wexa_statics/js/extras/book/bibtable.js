@@ -31,8 +31,8 @@
  */
 'use strict';
 
-import { ReferenceFormatter } from './formatter.js';
-import { LinkKind } from './link.js';
+import { ReferenceFormatter } from './bibformatter.js';
+import { LinkKind } from './biblink.js';
 import { Labels } from './labels.js';
 
 /**

@@ -42,6 +42,8 @@
         <li><code>BibtexSource</code>, which reads <code>sample.bib</code></li>
         <li><code>ReferenceDisclosure</code></li>
         <li><code>BibliographyControls</code></li>
+        <li><code>CitedKey</code> and <code>Citation</code></li>
+        <li><code>CitationIndex</code></li>
         <li><code>BookBibliography</code></li>
     </ul>
 
@@ -54,17 +56,20 @@
     // The tested classes are ES6 modules, the test files expect plain names.
     // They are put on the global object before the test files are loaded, and
     // the test files are imported afterwards so that the order is guaranteed.
-    import { Author } from '../extras/book/author.js';
-    import { Link, LinkKind } from '../extras/book/link.js';
-    import { Reference } from '../extras/book/reference.js';
-    import { BibtexParser } from '../extras/book/parser.js';
-    import { ReferenceFormatter } from '../extras/book/formatter.js';
-    import { CitedReference } from '../extras/book/cited_reference.js';
+    import { Author } from '../extras/book/bibauthor.js';
+    import { Link, LinkKind } from '../extras/book/biblink.js';
+    import { Reference } from '../extras/book/bibreference.js';
+    import { BibtexParser } from '../extras/book/bibparser.js';
+    import { ReferenceFormatter } from '../extras/book/bibformatter.js';
+    import { CitedReference } from '../extras/book/bibcitedref.js';
     import { BibliographyTable } from '../extras/book/bibtable.js';
-    import { BibtexSource } from '../extras/book/source.js';
-    import { BibliographyError, MissingBibtexData } from '../extras/book/errors.js';
-    import { ReferenceDisclosure } from '../extras/book/disclosure.js';
-    import { BibliographyControls } from '../extras/book/controls.js';
+    import { BibtexSource } from '../extras/book/bibsource.js';
+    import { BibliographyError, MissingBibtexData } from '../extras/book/biberrors.js';
+    import { ReferenceDisclosure } from '../extras/book/bibdisclosure.js';
+    import { BibliographyControls } from '../extras/book/bibcontrols.js';
+    import { CitedKey } from '../extras/book/bibcitedkey.js';
+    import { Citation } from '../extras/book/bibcitation.js';
+    import { CitationIndex } from '../extras/book/bibcite.js';
     import { BookBibliography } from '../extras/book/bibbook.js';
 
     window.Author = Author;
@@ -80,18 +85,24 @@
     window.MissingBibtexData = MissingBibtexData;
     window.ReferenceDisclosure = ReferenceDisclosure;
     window.BibliographyControls = BibliographyControls;
+    window.CitedKey = CitedKey;
+    window.Citation = Citation;
+    window.CitationIndex = CitationIndex;
     window.BookBibliography = BookBibliography;
 
-    await import('./authorTest.js');
-    await import('./linkTest.js');
-    await import('./referenceTest.js');
-    await import('./bibtexParserTest.js');
-    await import('./referenceFormatterTest.js');
-    await import('./bibliographyTableTest.js');
-    await import('./bibtexSourceTest.js');
-    await import('./referenceDisclosureTest.js');
-    await import('./bibliographyControlsTest.js');
-    await import('./bookBibliographyTest.js');
+    await import('./bibauthorTest.js');
+    await import('./biblinkTest.js');
+    await import('./bibreferenceTest.js');
+    await import('./bibparserTest.js');
+    await import('./bibformatterTest.js');
+    await import('./bibtableTest.js');
+    await import('./bibsourceTest.js');
+    await import('./bibdisclosureTest.js');
+    await import('./bibcontrolsTest.js');
+    await import('./bibcitedkeyTest.js');
+    await import('./bibcitationTest.js');
+    await import('./bibciteTest.js');
+    await import('./bibbookTest.js');
 </script>
 
 </body>

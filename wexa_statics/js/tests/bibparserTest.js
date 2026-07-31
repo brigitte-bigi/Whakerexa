@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.bibtexParserTest.js
+:filename: tests.js.bibparserTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the BibtexParser class.

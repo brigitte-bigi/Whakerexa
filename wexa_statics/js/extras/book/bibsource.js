@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/source.js
+ :filename: wexa_statics/js/extras/book/bibsource.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to take the BibTeX data, wherever the document keeps them.
@@ -32,7 +32,7 @@
 'use strict';
 
 import { RequestManager } from '../../transport/request.js';
-import { MissingBibtexData } from './errors.js';
+import { MissingBibtexData } from './biberrors.js';
 
 /**
  * Take the BibTeX data, wherever the document keeps them.

@@ -31,12 +31,13 @@
  */
 'use strict';
 
-import { BibtexSource } from './source.js';
-import { BibtexParser } from './parser.js';
+import { BibtexSource } from './bibsource.js';
+import { BibtexParser } from './bibparser.js';
+import { CitationIndex } from './bibcite.js';
 import { BibliographyTable } from './bibtable.js';
-import { ReferenceDisclosure } from './disclosure.js';
-import { BibliographyControls } from './controls.js';
-import { BibliographyError, MissingBibliographyPlace } from './errors.js';
+import { ReferenceDisclosure } from './bibdisclosure.js';
+import { BibliographyControls } from './bibcontrols.js';
+import { BibliographyError, MissingBibliographyPlace } from './biberrors.js';
 
 /**
  * Build the bibliography of a document when its page opens.
@@ -55,6 +56,7 @@ export class BookBibliography {
     // FIELDS
     #source;
     #parser;
+    #citationIndex;
     #table;
     #placeId;
     #contentId;
@@ -74,6 +76,7 @@ export class BookBibliography {
     constructor(dataId, placeId = 'bibliography', contentId = 'main-content', address = '') {
         this.#source = new BibtexSource(dataId, address);
         this.#parser = new BibtexParser();
+        this.#citationIndex = new CitationIndex();
         this.#table = new BibliographyTable();
         this.#placeId = placeId;
         this.#contentId = contentId;
@@ -90,6 +93,15 @@ export class BookBibliography {
      */
     get disclosures() {
         return [...this.#disclosures];
+    }
+
+    /**
+     * Get what numbers the citations of the text.
+     *
+     * @returns {CitationIndex} Empty until run() has read the text.
+     */
+    get citationIndex() {
+        return this.#citationIndex;
     }
 
     /**
@@ -116,12 +128,17 @@ export class BookBibliography {
             const content = await this.#source.read();
             const references = this.#parser.parse(content);
 
+            // The citations are numbered before anything else is looked for:
+            // they are in the text, and the text is there. A document with
+            // nowhere to put its bibliography still reads.
+            this.#citationIndex.index(document.getElementById(this.#contentId), references);
+
             const place = document.getElementById(this.#placeId);
             if (place === null) {
                 throw new MissingBibliographyPlace(`No element with id "${this.#placeId}".`);
             }
 
-            const table = this.#table.build(references, new Map());
+            const table = this.#table.build(references, this.#citationIndex.citedReferences());
 
             // The identifier comes from the place, which is unique by
             // definition: a page may hold more than one bibliography, and
@@ -131,7 +148,10 @@ export class BookBibliography {
             place.textContent = '';
             place.appendChild(table);
 
-            this.#disclosures = this.#buildDisclosures(place);
+            // What opens is written in two places: in the table, and in the
+            // sentences that cite. Both are tied to what opens them the same way.
+            this.#disclosures = this.#buildDisclosures(place)
+                .concat(this.#buildDisclosures(document.getElementById(this.#contentId)));
             this.#controls = new BibliographyControls(place.querySelector('table'));
 
         } catch (error) {
@@ -157,6 +177,11 @@ export class BookBibliography {
      */
     #buildDisclosures(place) {
         const disclosures = [];
+
+        if (place === null) {
+            return disclosures;
+        }
+
         const controls = place.querySelectorAll('.bib-disclosure-control[aria-controls]');
 
         controls.forEach(control => {

@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/formatter.js
+ :filename: wexa_statics/js/extras/book/bibformatter.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to display a bibliographic reference according to its type.

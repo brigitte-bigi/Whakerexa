@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.referenceDisclosureTest.js
+:filename: tests.js.bibdisclosureTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the ReferenceDisclosure class.

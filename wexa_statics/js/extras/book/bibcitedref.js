@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/cited_reference.js
+ :filename: wexa_statics/js/extras/book/bibcitedref.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to hold what a reference owes to the text that cites it.

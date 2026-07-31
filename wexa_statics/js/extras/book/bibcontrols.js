@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/controls.js
+ :filename: wexa_statics/js/extras/book/bibcontrols.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to sort and to search a bibliography.

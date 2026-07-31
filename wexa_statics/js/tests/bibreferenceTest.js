@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.referenceTest.js
+:filename: tests.js.bibreferenceTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the Reference class.

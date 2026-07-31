@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.bibliographyTableTest.js
+:filename: tests.js.bibtableTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the BibliographyTable class.

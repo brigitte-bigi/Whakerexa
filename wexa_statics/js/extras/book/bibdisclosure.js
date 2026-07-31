@@ -1,5 +1,5 @@
 /**
- :filename: wexa_statics/js/extras/book/disclosure.js
+ :filename: wexa_statics/js/extras/book/bibdisclosure.js
  :author: Brigitte Bigi
  :contact: contact@sppas.org
  :summary: A class to open and close a content of a bibliography on demand.

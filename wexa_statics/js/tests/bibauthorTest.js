@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.authorTest.js
+:filename: tests.js.bibauthorTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the Author class.

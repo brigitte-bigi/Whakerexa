@@ -1,5 +1,5 @@
 /**
-:filename: tests.js.bookBibliographyTest.js
+:filename: tests.js.bibbookTest.js
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Test file of the BookBibliography class.
@@ -172,6 +172,39 @@ book_bibliography_tests.add_test(async () => {
         "book_one_table_test");
     UnitTest.assert_values_equals(once, twice, "book_same_result_test");
 
+    parts.forEach(part => part.remove());
+});
+
+
+// -----------------------------------------------------------------------
+// A text that cites gets its citations numbered, and the table gets the
+// number column and a link back to every place. C11, C26 and C27.
+// -----------------------------------------------------------------------
+
+book_bibliography_tests.add_test(async () => {
+    const parts = write_document('cited', String.raw`
+@misc{book2026cited, author = {Brigitte Bigi}, title = {A Title}, year = {2026}}
+
+@misc{book2026uncited, author = {Alain Ghio}, title = {Another Title}, year = {2023}}`);
+
+    const text = document.createElement('div');
+    text.id = 'cited-text';
+    text.innerHTML = 'This is said in <span data-bibtex="book2026cited">Bigi, 2026</span>.';
+    document.body.appendChild(text);
+
+    await new BookBibliography('cited-data', 'cited-place', 'cited-text').run();
+
+    const place = document.getElementById('cited-place');
+    UnitTest.assert_values_equals('[1]', text.querySelector('[data-bibtex]').textContent,
+        "book_citation_numbered_test");
+    UnitTest.assert_values_not_equals(null, place.querySelector('button[data-sort="number"]'),
+        "book_number_column_test");
+    UnitTest.assert_values_equals('1',
+        place.querySelector('#bib-book2026cited').cells[0].textContent, "book_number_test");
+    UnitTest.assert_values_equals(1,
+        place.querySelectorAll('.bib-backlink').length, "book_back_link_test");
+
+    text.remove();
     parts.forEach(part => part.remove());
 });
 

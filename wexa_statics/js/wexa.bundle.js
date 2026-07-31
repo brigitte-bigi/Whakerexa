@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-30 20:28:08
+// Bundle automatically generated on 2026-07-31 09:44:03
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3084,7 +3084,7 @@ window.Wexa.SortaTable = SortaTable;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/errors.js ---------------
+// ---------------- extras/book/biberrors.js ---------------
 'use strict';
 class BibliographyError extends Error {
     constructor(message) {
@@ -3162,7 +3162,7 @@ window.Wexa.Labels = Labels;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/author.js ---------------
+// ---------------- extras/book/bibauthor.js ---------------
 'use strict';
 class Author {
     // FIELDS
@@ -3219,7 +3219,7 @@ window.Wexa.Author = Author;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/link.js ---------------
+// ---------------- extras/book/biblink.js ---------------
 'use strict';
 const LinkKind = Object.freeze({
     PDF: 'pdf',
@@ -3296,7 +3296,7 @@ window.Wexa.Link = Link;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/reference.js ---------------
+// ---------------- extras/book/bibreference.js ---------------
 'use strict';
 class Reference {
     // FIELDS
@@ -3352,7 +3352,7 @@ window.Wexa.Reference = Reference;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/cited_reference.js ---------------
+// ---------------- extras/book/bibcitedref.js ---------------
 'use strict';
 class CitedReference {
     // FIELDS
@@ -3377,7 +3377,7 @@ window.Wexa.CitedReference = CitedReference;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/parser.js ---------------
+// ---------------- extras/book/bibparser.js ---------------
 'use strict';
 class BibtexParser {
     // CONSTANTS
@@ -3694,7 +3694,7 @@ window.Wexa.BibtexParser = BibtexParser;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/formatter.js ---------------
+// ---------------- extras/book/bibformatter.js ---------------
 'use strict';
 class ReferenceFormatter {
     // CONSTANTS
@@ -4017,7 +4017,260 @@ window.Wexa.BibliographyTable = BibliographyTable;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/source.js ---------------
+// ---------------- extras/book/bibcitedkey.js ---------------
+'use strict';
+class CitedKey {
+    // FIELDS
+    #place;
+    #writtenKey;
+    #reference;
+    #targetPage;
+    // CONSTRUCTOR
+    constructor(place, writtenKey, reference, targetPage) {
+        this.#place = place;
+        this.#writtenKey = writtenKey;
+        this.#reference = reference;
+        this.#targetPage = targetPage;
+    }
+    // GETTERS
+    get place() {
+        return this.#place;
+    }
+    get writtenKey() {
+        return this.#writtenKey;
+    }
+    get reference() {
+        return this.#reference;
+    }
+    get targetPage() {
+        return this.#targetPage;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.CitedKey = CitedKey;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/bibcitation.js ---------------
+'use strict';
+class Citation {
+    // CONSTANTS
+    static ID_PREFIX = 'cite-';
+    static OPENING = '[';
+    static CLOSING = ']';
+    static UNKNOWN = '?';
+    static UNBREAKABLE_SPACE = '\u00A0';
+    static CONTENT_SUFFIX = '-reference';
+    static LABELS = new Map([
+        ['en', {reference: 'Reference', missing: 'missing reference'}],
+        ['fr', {reference: 'Référence', missing: 'référence absente'}]
+    ]);
+    // FIELDS
+    #element;
+    #place;
+    #citedKeys;
+    #texts;
+    // CONSTRUCTOR
+    constructor(element, place, citedKeys) {
+        this.#element = element;
+        this.#place = place;
+        this.#citedKeys = [...citedKeys];
+        this.#texts = new Labels(Citation.LABELS);
+    }
+    // GETTERS
+    get element() {
+        return this.#element;
+    }
+    get place() {
+        return this.#place;
+    }
+    get citedKeys() {
+        return [...this.#citedKeys];
+    }
+    // PUBLIC METHODS
+    showNumber(number) {
+        this.#show(Citation.OPENING + String(number) + Citation.CLOSING,
+            this.#texts.text('reference') + ' ' + String(number));
+    }
+    showReference(number, content) {
+        this.showNumber(number);
+        const control = document.createElement('button');
+        control.type = 'button';
+        control.className = 'bib-disclosure-control bib-citation-control';
+        control.setAttribute('aria-expanded', 'false');
+        control.setAttribute('aria-controls', this.#element.id + Citation.CONTENT_SUFFIX);
+        control.setAttribute('aria-label', this.#element.getAttribute('aria-label'));
+        control.textContent = this.#element.textContent;
+        this.#texts.declare(control);
+        this.#element.textContent = '';
+        this.#element.removeAttribute('aria-label');
+        this.#element.appendChild(control);
+        const opened = document.createElement('span');
+        opened.className = 'bib-citation-content';
+        opened.id = this.#element.id + Citation.CONTENT_SUFFIX;
+        opened.hidden = true;
+        opened.appendChild(content);
+        this.#element.after(opened);
+        return opened;
+    }
+    showMissing() {
+        this.#show(Citation.OPENING + Citation.UNKNOWN + Citation.CLOSING,
+            this.#texts.text('missing'));
+    }
+    // PRIVATE METHODS
+    #show(seen, spoken) {
+        if (this.#element.id === '') {
+            this.#element.id = Citation.ID_PREFIX + String(this.#place);
+        }
+        this.#element.textContent = seen;
+        this.#element.setAttribute('aria-label', spoken);
+        this.#texts.declare(this.#element);
+        this.#keepWithPreviousWord();
+    }
+    #keepWithPreviousWord() {
+        const before = this.#element.previousSibling;
+        if (before === null || before.nodeType !== Node.TEXT_NODE) {
+            return;
+        }
+        before.textContent = before.textContent.replace(/\s+$/, Citation.UNBREAKABLE_SPACE);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Citation = Citation;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/bibcite.js ---------------
+'use strict';
+class CitationIndex {
+    // CONSTANTS
+    static CITATION_SELECTOR = '[data-bibtex]';
+    static KEY_ATTRIBUTE = 'data-bibtex';
+    static LABELS = new Map([
+        ['en', {inBibliography: 'In the bibliography', abstract: 'Abstract', source: 'BibTeX'}],
+        ['fr', {inBibliography: 'Dans la bibliographie', abstract: 'Résumé', source: 'BibTeX'}]
+    ]);
+    // FIELDS
+    #citations;
+    #numbersByKey;
+    #placesByKey;
+    #formatter;
+    #texts;
+    // CONSTRUCTOR
+    constructor(formatter = new ReferenceFormatter()) {
+        this.#citations = [];
+        this.#numbersByKey = new Map();
+        this.#placesByKey = new Map();
+        this.#formatter = formatter;
+        this.#texts = new Labels(CitationIndex.LABELS);
+    }
+    // GETTERS
+    get citations() {
+        return [...this.#citations];
+    }
+    // PUBLIC METHODS
+    index(root, references) {
+        this.#citations = [];
+        this.#numbersByKey = new Map();
+        this.#placesByKey = new Map();
+        if (root === null) {
+            console.warn('CitationIndex: no text to read, the citations are not numbered.');
+            return;
+        }
+        const written = root.querySelectorAll(CitationIndex.CITATION_SELECTOR);
+        written.forEach((element, order) => {
+            const key = element.getAttribute(CitationIndex.KEY_ATTRIBUTE).trim();
+            const reference = references.get(key);
+            const cited = new CitedKey(1, key, this.#found(reference), '');
+            const citation = new Citation(element, order + 1, [cited]);
+            this.#citations.push(citation);
+            if (cited.reference === null) {
+                console.warn(`CitationIndex: the key "${key}" names no reference.`);
+                citation.showMissing();
+                return;
+            }
+            citation.showReference(this.#numberOf(key), this.#buildContent(cited.reference));
+            this.#rememberPlace(key, element);
+        });
+    }
+    citedReferences() {
+        const cited = new Map();
+        this.#numbersByKey.forEach((number, key) => {
+            cited.set(key, new CitedReference(number, this.#placesOf(key)));
+        });
+        return cited;
+    }
+    // PRIVATE METHODS
+    #buildContent(reference) {
+        const content = document.createDocumentFragment();
+        content.appendChild(this.#formatter.format(reference));
+        content.appendChild(this.#buildBibliographyLink(reference.key));
+        reference.links.forEach(link => {
+            const address = document.createElement('a');
+            address.className = 'bib-link external-link';
+            address.setAttribute('href', link.address);
+            address.textContent = link.address;
+            content.appendChild(address);
+        });
+        if (reference.abstract.length > 0) {
+            content.appendChild(this.#buildPart('abstract', reference.abstract));
+        }
+        content.appendChild(this.#buildPart('source', reference.source));
+        return content;
+    }
+    #buildBibliographyLink(key) {
+        const link = document.createElement('a');
+        link.className = 'bib-citation-link';
+        link.setAttribute('href', '#' + BibliographyTable.ROW_PREFIX + key);
+        this.#texts.write(link, 'inBibliography');
+        return link;
+    }
+    #buildPart(name, text) {
+        const part = document.createElement('span');
+        part.className = 'bib-citation-part bib-citation-' + name;
+        const title = document.createElement('b');
+        this.#texts.write(title, name);
+        part.appendChild(title);
+        const written = document.createElement('span');
+        written.className = 'bib-citation-text';
+        written.textContent = text;
+        part.appendChild(written);
+        return part;
+    }
+    #found(reference) {
+        if (reference === undefined) {
+            return null;
+        }
+        return reference;
+    }
+    #numberOf(key) {
+        if (this.#numbersByKey.has(key) === false) {
+            this.#numbersByKey.set(key, this.#numbersByKey.size + 1);
+        }
+        return this.#numbersByKey.get(key);
+    }
+    #rememberPlace(key, element) {
+        if (this.#placesByKey.has(key) === false) {
+            this.#placesByKey.set(key, []);
+        }
+        this.#placesByKey.get(key).push(element);
+    }
+    #placesOf(key) {
+        if (this.#placesByKey.has(key) === false) {
+            return [];
+        }
+        return [...this.#placesByKey.get(key)];
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.CitationIndex = CitationIndex;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/book/bibsource.js ---------------
 'use strict';
 class BibtexSource {
     // FIELDS
@@ -4078,7 +4331,7 @@ window.Wexa.BibtexSource = BibtexSource;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/disclosure.js ---------------
+// ---------------- extras/book/bibdisclosure.js ---------------
 'use strict';
 class ReferenceDisclosure {
     // CONSTANTS
@@ -4130,7 +4383,7 @@ window.Wexa.ReferenceDisclosure = ReferenceDisclosure;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/book/controls.js ---------------
+// ---------------- extras/book/bibcontrols.js ---------------
 'use strict';
 class BibliographyControls {
     // CONSTANTS
@@ -4298,6 +4551,7 @@ class BookBibliography {
     // FIELDS
     #source;
     #parser;
+    #citationIndex;
     #table;
     #placeId;
     #contentId;
@@ -4307,6 +4561,7 @@ class BookBibliography {
     constructor(dataId, placeId = 'bibliography', contentId = 'main-content', address = '') {
         this.#source = new BibtexSource(dataId, address);
         this.#parser = new BibtexParser();
+        this.#citationIndex = new CitationIndex();
         this.#table = new BibliographyTable();
         this.#placeId = placeId;
         this.#contentId = contentId;
@@ -4317,6 +4572,9 @@ class BookBibliography {
     get disclosures() {
         return [...this.#disclosures];
     }
+    get citationIndex() {
+        return this.#citationIndex;
+    }
     get controls() {
         return this.#controls;
     }
@@ -4325,18 +4583,25 @@ class BookBibliography {
         try {
             const content = await this.#source.read();
             const references = this.#parser.parse(content);
+            // The citations are numbered before anything else is looked for:
+            // they are in the text, and the text is there. A document with
+            // nowhere to put its bibliography still reads.
+            this.#citationIndex.index(document.getElementById(this.#contentId), references);
             const place = document.getElementById(this.#placeId);
             if (place === null) {
                 throw new MissingBibliographyPlace(`No element with id "${this.#placeId}".`);
             }
-            const table = this.#table.build(references, new Map());
+            const table = this.#table.build(references, this.#citationIndex.citedReferences());
             // The identifier comes from the place, which is unique by
             // definition: a page may hold more than one bibliography, and
             // sorting one must not reach the other.
             table.id = this.#placeId + '-table';
             place.textContent = '';
             place.appendChild(table);
-            this.#disclosures = this.#buildDisclosures(place);
+            // What opens is written in two places: in the table, and in the
+            // sentences that cite. Both are tied to what opens them the same way.
+            this.#disclosures = this.#buildDisclosures(place)
+                .concat(this.#buildDisclosures(document.getElementById(this.#contentId)));
             this.#controls = new BibliographyControls(place.querySelector('table'));
         } catch (error) {
             if (error instanceof BibliographyError) {
@@ -4349,6 +4614,9 @@ class BookBibliography {
     // PRIVATE METHODS
     #buildDisclosures(place) {
         const disclosures = [];
+        if (place === null) {
+            return disclosures;
+        }
         const controls = place.querySelectorAll('.bib-disclosure-control[aria-controls]');
         controls.forEach(control => {
             const content = document.getElementById(control.getAttribute('aria-controls'));
