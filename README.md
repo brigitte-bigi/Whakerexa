@@ -247,7 +247,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New variables `--panel-bg-color`, `--panel-fg-color`, `--panel-bg-color-alt`, `--panel-fg-color-alt`. Documented in `docs/layout.html`.
 
 
-## Version 3.3
+## Version 3.3 - devel
 
 - Extra Book. New bibliography, built in the browser from BibTeX data written in the page or kept in a `.bib` file.
 - Extra Book. New JS modules under `js/extras/book/`, and a new `bibbook.css`.
@@ -256,5 +256,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - SortaTable. A cell may carry its own sort value in `data-sort-value`.
 - SortaTable. Texts are compared according to the language of the page; numbers as numbers.
 - SortaTable. On paper, a sort button is written as the header of its column.
-- New unit tests, run by `js/tests/tests.html`.
-- New documentation pages `docs/bibliography.html` and `docs/publications.html`.
+- Extra Slides. The bibliography can be inserted in the slides and used like in any document.
+- 

@@ -195,8 +195,12 @@ book_bibliography_tests.add_test(async () => {
     await new BookBibliography('cited-data', 'cited-place', 'cited-text').run();
 
     const place = document.getElementById('cited-place');
-    UnitTest.assert_values_equals('[1]', text.querySelector('[data-bibtex]').textContent,
+    // The number is written twice: the button that opens the reference, and the
+    // anchor that stays a link on paper. Both say the same number.
+    UnitTest.assert_values_equals('[1]', text.querySelector('[data-bibtex] .bib-citation-control').textContent,
         "book_citation_numbered_test");
+    UnitTest.assert_values_equals('[1]', text.querySelector('[data-bibtex] .bib-citation-anchor').textContent,
+        "book_citation_anchored_test");
     UnitTest.assert_values_not_equals(null, place.querySelector('button[data-sort="number"]'),
         "book_number_column_test");
     UnitTest.assert_values_equals('1',

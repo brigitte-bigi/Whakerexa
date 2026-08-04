@@ -48,6 +48,15 @@
         <li><code>BookBibliography</code></li>
     </ul>
 
+    <p>Of the slides, what is laid out on a paginated support:</p>
+
+    <ul>
+        <li><code>SlideBlock</code></li>
+        <li><code>SlideLayout</code></li>
+        <li><code>SlidePaginator</code>, which needs no rendering</li>
+        <li><code>SlideBlockReader</code></li>
+    </ul>
+
 </main>
 
 <!-- UnitTest is a plain class, loaded before anything uses it. -->
@@ -107,6 +116,25 @@
     await import('./bibcitationTest.js');
     await import('./bibciteTest.js');
     await import('./bibbookTest.js');
+</script>
+
+<script type="module">
+    // The slides classes stand in their own script: a class that is not
+    // written yet stops this import, and leaves the bibliography tests alone.
+    import { SlideBlock } from '../extras/slides/slide_block.js';
+    import { SlideLayout } from '../extras/slides/slide_layout.js';
+    import { SlidePaginator } from '../extras/slides/slide_paginator.js';
+    import { SlideBlockReader } from '../extras/slides/slide_block_reader.js';
+
+    window.SlideBlock = SlideBlock;
+    window.SlideLayout = SlideLayout;
+    window.SlidePaginator = SlidePaginator;
+    window.SlideBlockReader = SlideBlockReader;
+
+    await import('./slide_blockTest.js');
+    await import('./slide_layoutTest.js');
+    await import('./slide_paginatorTest.js');
+    await import('./slide_block_readerTest.js');
 </script>
 
 </body>

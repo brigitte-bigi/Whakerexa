@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-07-31 16:18:19
+// Bundle automatically generated on 2026-08-04 23:01:08
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1576,6 +1576,462 @@ class Slides {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.Slides = Slides;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_errors.js ---------------
+'use strict';
+class PaginationError extends Error {
+}
+class MissingSlide extends PaginationError {
+}
+class UnmeasurableSlide extends PaginationError {
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.PaginationError = PaginationError;
+window.Wexa.MissingSlide = MissingSlide;
+window.Wexa.UnmeasurableSlide = UnmeasurableSlide;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_block.js ---------------
+'use strict';
+class SlideBlock {
+    // FIELDS
+    #element;
+    #place;
+    #height;
+    // CONSTRUCTOR
+    constructor(element, place) {
+        this.#element = element;
+        this.#place = place;
+        this.#height = 0;
+    }
+    // GETTERS
+    get element() {
+        return this.#element;
+    }
+    get place() {
+        return this.#place;
+    }
+    get height() {
+        return this.#height;
+    }
+    // SETTERS
+    set height(value) {
+        this.#height = value;
+    }
+    // PUBLIC METHODS
+    fitsIn(room) {
+        return this.#height <= room;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideBlock = SlideBlock;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_layout.js ---------------
+'use strict';
+class SlideLayout {
+    // FIELDS
+    #parts;
+    // CONSTRUCTOR
+    constructor(parts) {
+        this.#parts = parts.map(part => [...part]);
+    }
+    // GETTERS
+    get parts() {
+        return this.#parts.map(part => [...part]);
+    }
+    // PUBLIC METHODS
+    count() {
+        return this.#parts.length;
+    }
+    oversized(room) {
+        const found = [];
+        this.#parts.forEach(part => {
+            part.forEach(block => {
+                if (block.fitsIn(room) === false) {
+                    found.push(block);
+                }
+            });
+        });
+        return found;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideLayout = SlideLayout;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_block_reader.js ---------------
+'use strict';
+class SlideBlockReader {
+    // CONSTANTS
+    static KEPT_APART = 'h1, h2, h3, h4, h5, h6, [role="note"]';
+    static READ_AS_ROWS = 'TABLE';
+    static READ_AS_ITEMS = ['UL', 'OL'];
+    // PUBLIC METHODS
+    blocks(slide) {
+        const found = [];
+        Array.from(slide.children).forEach(child => {
+            this.#readChild(child).forEach(element => {
+                found.push(new SlideBlock(element, found.length + 1));
+            });
+        });
+        return found;
+    }
+    // PRIVATE METHODS
+    #readChild(child) {
+        if (child.matches(SlideBlockReader.KEPT_APART) === true) {
+            return [];
+        }
+        if (child.tagName === SlideBlockReader.READ_AS_ROWS) {
+            return this.#rowsOf(child);
+        }
+        if (SlideBlockReader.READ_AS_ITEMS.includes(child.tagName) === true) {
+            return Array.from(child.children);
+        }
+        if (this.#holdsParts(child) === true) {
+            const parts = [];
+            Array.from(child.children).forEach(held => {
+                this.#readChild(held).forEach(element => parts.push(element));
+            });
+            return parts;
+        }
+        return [child];
+    }
+    #holdsParts(child) {
+        return Array.from(child.children).some(held => {
+            return held.tagName === SlideBlockReader.READ_AS_ROWS
+                || SlideBlockReader.READ_AS_ITEMS.includes(held.tagName) === true;
+        });
+    }
+    #rowsOf(table) {
+        const bodies = Array.from(table.tBodies);
+        if (bodies.length === 0) {
+            return Array.from(table.rows);
+        }
+        const rows = [];
+        bodies.forEach(body => {
+            Array.from(body.rows).forEach(row => rows.push(row));
+        });
+        return rows;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideBlockReader = SlideBlockReader;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_measure.js ---------------
+'use strict';
+class SlideMeasure {
+    // CONSTANTS
+    static TITLE = 'h1, h2, h3, h4, h5, h6';
+    static SLIDE = 'section.slide';
+    // PUBLIC METHODS
+    room(slide, blocks) {
+        if (slide === null || slide === undefined || typeof slide.matches !== 'function') {
+            throw new MissingSlide('The element to measure is not an element of the document.');
+        }
+        if (slide.matches(SlideMeasure.SLIDE) === false) {
+            throw new MissingSlide('The element to measure is not a slide.');
+        }
+        const box = slide.getBoundingClientRect();
+        if (box.height === 0) {
+            throw new UnmeasurableSlide('The slide has no height: it is not rendered.');
+        }
+        const style = window.getComputedStyle(slide);
+        const inside = box.height
+            - parseFloat(style.paddingTop)
+            - parseFloat(style.paddingBottom)
+            - parseFloat(style.borderTopWidth)
+            - parseFloat(style.borderBottomWidth);
+        return inside - this.#counterHeight(slide) - this.#aroundHeight(slide, blocks);
+    }
+    measure(blocks, slide) {
+        blocks.forEach(block => {
+            block.height = this.#heightOf(block.element);
+        });
+    }
+    // PRIVATE METHODS
+    #aroundHeight(slide, blocks) {
+        let held = 0;
+        Array.from(slide.children).forEach(child => {
+            held = held + this.#heightOf(child);
+        });
+        let laid = 0;
+        blocks.forEach(block => {
+            laid = laid + block.height;
+        });
+        return Math.max(0, held - laid);
+    }
+    #counterHeight(slide) {
+        const counter = window.getComputedStyle(slide, ':before');
+        const height = parseFloat(counter.height);
+        if (isNaN(height) === true) {
+            return 0;
+        }
+        return height;
+    }
+    #heightOf(element) {
+        const box = element.getBoundingClientRect();
+        const style = window.getComputedStyle(element);
+        return box.height + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideMeasure = SlideMeasure;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_paginator.js ---------------
+'use strict';
+class SlidePaginator {
+    // PUBLIC METHODS
+    paginate(blocks, room) {
+        if (blocks.length === 0) {
+            return new SlideLayout([[]]);
+        }
+        const parts = [];
+        let current = [];
+        let left = room;
+        blocks.forEach(block => {
+            const opensASlide = (current.length > 0 && block.fitsIn(left) === false);
+            if (opensASlide === true) {
+                parts.push(current);
+                current = [];
+                left = room;
+            }
+            current.push(block);
+            left = left - block.height;
+        });
+        parts.push(current);
+        return new SlideLayout(parts);
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidePaginator = SlidePaginator;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slide_composer.js ---------------
+'use strict';
+class SlideComposer {
+    // CONSTANTS
+    static TITLE = 'h1, h2, h3, h4, h5, h6';
+    // PUBLIC METHODS
+    freezeTables(slide) {
+        Array.from(slide.querySelectorAll('table')).forEach(table => {
+            this.#freezeColumns(table, this.#columnWidths(table));
+        });
+    }
+    compose(slide, layout) {
+        const parts = layout.parts;
+        const slides = [slide];
+        for (let rank = 1; rank < parts.length; rank++) {
+            const next = this.#buildSlide(slide);
+            this.#announce(slide, next);
+            this.#lay(next, parts[rank]);
+            slides[slides.length - 1].after(next);
+            slides.push(next);
+        }
+        return slides;
+    }
+    // PRIVATE METHODS
+    #buildSlide(source) {
+        const next = document.createElement(source.tagName);
+        next.className = source.className;
+        return next;
+    }
+    #announce(source, next) {
+        const title = source.querySelector(SlideComposer.TITLE);
+        if (title === null) {
+            return;
+        }
+        next.appendChild(title.cloneNode(true));
+    }
+    #lay(next, blocks) {
+        let group = [];
+        let parent = null;
+        blocks.forEach(block => {
+            const holder = block.element.parentElement;
+            if (holder !== parent && group.length > 0) {
+                this.#layGroup(next, parent, group);
+                group = [];
+            }
+            parent = holder;
+            group.push(block.element);
+        });
+        if (group.length > 0) {
+            this.#layGroup(next, parent, group);
+        }
+    }
+    #layGroup(next, parent, elements) {
+        if (parent === null) {
+            elements.forEach(element => next.appendChild(element));
+            return;
+        }
+        if (parent.tagName === 'TBODY') {
+            next.appendChild(this.#rebuildTable(parent, elements));
+            return;
+        }
+        if (parent.tagName === 'UL' || parent.tagName === 'OL') {
+            next.appendChild(this.#rebuildList(parent, elements));
+            return;
+        }
+        elements.forEach(element => next.appendChild(element));
+    }
+    #rebuildTable(body, rows) {
+        const source = body.closest('table');
+        const table = source.cloneNode(false);
+        const group = source.querySelector('colgroup');
+        const head = source.querySelector('thead');
+        if (group !== null) {
+            table.appendChild(group.cloneNode(true));
+        }
+        if (head !== null) {
+            table.appendChild(head.cloneNode(true));
+        }
+        const next = document.createElement('tbody');
+        rows.forEach(row => next.appendChild(row));
+        table.appendChild(next);
+        return table;
+    }
+    #columnWidths(table) {
+        const row = table.rows[0];
+        if (row === undefined) {
+            return [];
+        }
+        // A width is fractional, and a column held to a fraction less than it
+        // was drawn with clips what it holds: the first letter of a heading
+        // goes first. It is therefore rounded up, never down.
+        return Array.from(row.cells).map(cell => Math.ceil(this.#cellWidth(cell)));
+    }
+    #cellWidth(cell) {
+        const given = cell.getBoundingClientRect().width;
+        const held = Array.from(cell.children);
+        if (held.length === 0) {
+            return given;
+        }
+        const style = window.getComputedStyle(cell);
+        const around = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+            + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+        let asked = 0;
+        held.forEach(child => {
+            asked = Math.max(asked, child.scrollWidth);
+        });
+        return Math.max(given, asked + around);
+    }
+    #freezeColumns(table, widths) {
+        if (widths.length === 0) {
+            return;
+        }
+        const group = document.createElement('colgroup');
+        widths.forEach(width => {
+            const column = document.createElement('col');
+            column.style.width = width + 'px';
+            group.appendChild(column);
+        });
+        const written = table.querySelector('colgroup');
+        if (written !== null) {
+            written.remove();
+        }
+        table.insertBefore(group, table.firstChild);
+        table.style.tableLayout = 'fixed';
+        // The table is as wide as its columns, and nothing caps it: capped, it
+        // would give every column a share of what is left, and the narrowest
+        // one loses the most. A heading then reads without its first letter.
+        let total = 0;
+        widths.forEach(width => {
+            total = total + width;
+        });
+        table.style.width = total + 'px';
+        table.style.maxWidth = 'none';
+    }
+    #rebuildList(source, items) {
+        const list = source.cloneNode(false);
+        items.forEach(item => list.appendChild(item));
+        return list;
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideComposer = SlideComposer;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/slides/slides_pagination.js ---------------
+'use strict';
+class SlidesPagination {
+    // CONSTANTS
+    static SLIDES = 'section.slide';
+    // FIELDS
+    #reader;
+    #measure;
+    #paginator;
+    #composer;
+    // CONSTRUCTOR
+    constructor() {
+        this.#reader = new SlideBlockReader();
+        this.#measure = new SlideMeasure();
+        this.#paginator = new SlidePaginator();
+        this.#composer = new SlideComposer();
+    }
+    // PUBLIC METHODS
+    async run() {
+        try {
+            const written = Array.from(document.querySelectorAll(SlidesPagination.SLIDES));
+            written.forEach(slide => this.#layOut(slide));
+        } catch (error) {
+            if (error instanceof PaginationError) {
+                console.error('SlidesPagination: ' + error.message);
+                return;
+            }
+            throw error;
+        }
+    }
+    // PRIVATE METHODS
+    #layOut(slide) {
+        const blocks = this.#reader.blocks(slide);
+        if (blocks.length === 0) {
+            return;
+        }
+        // The tables are held to their widths before anything is measured:
+        // what is measured is then what will be shown, whatever the rows a
+        // table is left with.
+        this.#composer.freezeTables(slide);
+        this.#measure.measure(blocks, slide);
+        const room = this.#measure.room(slide, blocks);
+        const layout = this.#paginator.paginate(blocks, room);
+        this.#report(layout.oversized(room));
+        if (layout.count() === 1) {
+            return;
+        }
+        // The blocks are laid down once, in the order they were written. What
+        // was measured is what is shown, so what was decided holds: laying a
+        // slide out a second time would cut again on a difference of a pixel,
+        // and leave a slide holding one block.
+        this.#composer.compose(slide, layout);
+    }
+    #report(blocks) {
+        blocks.forEach(block => {
+            console.warn('SlidesPagination: a block is taller than the slide, and overflows.',
+                block.element);
+        });
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlidesPagination = SlidesPagination;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -5255,6 +5711,7 @@ class SlidesInitializer {
         await this.#injectBoilerplate();
         window.Wexa.accessibility = new window.Wexa.AccessibilityManager();
         this.#registerThemes(window.Wexa.ThemeManager || null);
+        await this.#paginate(window.Wexa.SlidesPagination || null);
         const app = this.#buildConfig(window.Wexa.Slides);
         app.init();
         this.#ready(app);
@@ -5270,6 +5727,8 @@ class SlidesInitializer {
             const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
             this.#registerThemes(ThemeManager);
         }
+        const { SlidesPagination } = await import(new URL('slides_pagination.js', this.#base).href);
+        await this.#paginate(SlidesPagination);
         const app = this.#buildConfig(slidesModule.default);
         app.init();
         this.#ready(app);
@@ -5437,6 +5896,21 @@ class SlidesInitializer {
             manager.setDefault(this.#defaultName);
         }
         window.themes = manager;
+    }
+    async #paginate(SlidesPagination) {
+        if (SlidesPagination === null || SlidesPagination === undefined) {
+            console.warn('SlidesInitializer: SlidesPagination not found. Slides are shown as they are written.');
+            return;
+        }
+        const pending = (window.Wexa && Array.isArray(window.Wexa.contentReady))
+            ? window.Wexa.contentReady
+            : [];
+        await Promise.allSettled(pending);
+        // A slide only has the height of a slide once the body wears the class
+        // of the view. Measured before that, it is as tall as what it holds,
+        // and nothing ever overflows. The class is the one app.init() sets.
+        document.body.classList.add(this.#mode + '-view');
+        await new SlidesPagination().run();
     }
     #buildConfig(SlidesClass) {
         return new SlidesClass({

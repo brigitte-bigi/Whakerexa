@@ -48,6 +48,7 @@ This banner notice must not be removed.
     max-width: 100%;
 }
 
+
 /* What changed is said. It is shown too: what is announced to some has no
    reason to be hidden from the others. */
 .bib-announcement {
@@ -268,6 +269,108 @@ td.bib-number {
     font-family: var(--font-family-mono);
     font-size: calc(var(--font-size) * 0.8);
     letter-spacing: 0;
+}
+
+
+/* ----------------------------------------------------------------------- */
+/* In a slide                                                              */
+/* ----------------------------------------------------------------------- */
+
+/* Everything above is written for a page, where a bibliography has all the
+   room it needs. A slide has one screen, and shows it to an audience: the
+   sizes are given again, and nothing is left to inheritance, because wexa.css
+   gives an absolute font-size to every element and its cells carry one of
+   their own. */
+
+/* A bibliography laid on several slides holds its columns to the widths they
+   were drawn with. Capped at a share of the slide, they would all be given a
+   share of what is left, and the narrowest one loses the most: a heading then
+   reads without its first letter. */
+.slide .bib-table {
+    max-width: none;
+}
+
+.slide .bib-table td,
+.slide .bib-table th {
+    font-size: calc(var(--font-size) * 0.55);
+    padding: calc(var(--font-size) * 0.15) calc(var(--font-size) * 0.3);
+}
+
+.slide .bib-table td *,
+.slide .bib-table th * {
+    font-size: inherit;
+}
+
+.slide .bib-actions {
+    font-size: calc(var(--font-size) * 0.5);
+    margin-top: calc(var(--font-size) * 0.1);
+    gap: calc(var(--font-size) * 0.3);
+}
+
+.slide .bib-announcement {
+    font-size: calc(var(--font-size) * 0.5);
+    margin-bottom: calc(var(--font-size) * 0.3);
+}
+
+/* A button is at least a character and a half tall, and three characters
+   wide, counted on the font size of the document. In a slide, that is far
+   more than the reference it stands under: it is counted on the cell. */
+.slide .bib-table td .bib-disclosure-control {
+    min-height: 0;
+    min-width: 0;
+    padding: calc(var(--font-size) * 0.1) calc(var(--font-size) * 0.2);
+}
+
+/* The icon that says a link leaves the document is drawn from the font size
+   of the document, not from the one of the cell it stands in. In a slide, it
+   follows the reference it belongs to. */
+.slide .bib-table a.external-link::after {
+    width: calc(var(--font-size) * 0.45);
+    height: calc(var(--font-size) * 0.45);
+    padding-top: 0;
+    margin-left: calc(var(--font-size) * 0.15);
+    margin-right: calc(var(--font-size) * 0.15);
+}
+
+/* A sort button is drawn in rem by sortatable.css: its padding and its mark
+   are as tall in a slide as in a page. Here they follow the head they are in. */
+.slide .bib-table .sortatable {
+    padding: calc(var(--font-size) * 0.15);
+    min-height: 0;
+}
+
+/* A button as wide as its column gives that column nothing to be sized on: the
+   column is drawn on the shortest text it holds, and the heading is clipped.
+   Here the button asks for what it needs, and the column follows. */
+.slide .bib-table thead .sortatable {
+    width: auto;
+    white-space: nowrap;
+}
+
+.slide .bib-table .sortatable::after {
+    width: calc(var(--font-size) * 0.35);
+    height: calc(var(--font-size) * 0.25);
+    margin-left: calc(var(--font-size) * 0.3);
+}
+
+.slide .bib-table .sortatable:not(.sort-asc):not(.sort-desc)::after {
+    width: calc(var(--font-size) * 0.35);
+    height: 0;
+    border-top-width: calc(var(--font-size) * 0.05);
+}
+
+.slide .bib-table .sort-asc::after {
+    border-width: 0 calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2);
+}
+
+.slide .bib-table .sort-desc::after {
+    border-width: calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) 0 calc(var(--font-size) * 0.2);
+}
+
+/* Searching a bibliography that is read one screen at a time has nothing to
+   find: the field goes, and sorting stays, which is read as well as done. */
+.slide .bib-search {
+    display: none;
 }
 
 
