@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-04 23:01:08
+// Bundle automatically generated on 2026-08-06 08:02:28
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -1826,20 +1826,12 @@ window.Wexa.SlidePaginator = SlidePaginator;
 // ---------------- extras/slides/slide_composer.js ---------------
 'use strict';
 class SlideComposer {
-    // CONSTANTS
-    static TITLE = 'h1, h2, h3, h4, h5, h6';
     // PUBLIC METHODS
-    freezeTables(slide) {
-        Array.from(slide.querySelectorAll('table')).forEach(table => {
-            this.#freezeColumns(table, this.#columnWidths(table));
-        });
-    }
     compose(slide, layout) {
         const parts = layout.parts;
         const slides = [slide];
         for (let rank = 1; rank < parts.length; rank++) {
             const next = this.#buildSlide(slide);
-            this.#announce(slide, next);
             this.#lay(next, parts[rank]);
             slides[slides.length - 1].after(next);
             slides.push(next);
@@ -1851,13 +1843,6 @@ class SlideComposer {
         const next = document.createElement(source.tagName);
         next.className = source.className;
         return next;
-    }
-    #announce(source, next) {
-        const title = source.querySelector(SlideComposer.TITLE);
-        if (title === null) {
-            return;
-        }
-        next.appendChild(title.cloneNode(true));
     }
     #lay(next, blocks) {
         let group = [];
@@ -1893,11 +1878,7 @@ class SlideComposer {
     #rebuildTable(body, rows) {
         const source = body.closest('table');
         const table = source.cloneNode(false);
-        const group = source.querySelector('colgroup');
         const head = source.querySelector('thead');
-        if (group !== null) {
-            table.appendChild(group.cloneNode(true));
-        }
         if (head !== null) {
             table.appendChild(head.cloneNode(true));
         }
@@ -1905,57 +1886,6 @@ class SlideComposer {
         rows.forEach(row => next.appendChild(row));
         table.appendChild(next);
         return table;
-    }
-    #columnWidths(table) {
-        const row = table.rows[0];
-        if (row === undefined) {
-            return [];
-        }
-        // A width is fractional, and a column held to a fraction less than it
-        // was drawn with clips what it holds: the first letter of a heading
-        // goes first. It is therefore rounded up, never down.
-        return Array.from(row.cells).map(cell => Math.ceil(this.#cellWidth(cell)));
-    }
-    #cellWidth(cell) {
-        const given = cell.getBoundingClientRect().width;
-        const held = Array.from(cell.children);
-        if (held.length === 0) {
-            return given;
-        }
-        const style = window.getComputedStyle(cell);
-        const around = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
-            + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
-        let asked = 0;
-        held.forEach(child => {
-            asked = Math.max(asked, child.scrollWidth);
-        });
-        return Math.max(given, asked + around);
-    }
-    #freezeColumns(table, widths) {
-        if (widths.length === 0) {
-            return;
-        }
-        const group = document.createElement('colgroup');
-        widths.forEach(width => {
-            const column = document.createElement('col');
-            column.style.width = width + 'px';
-            group.appendChild(column);
-        });
-        const written = table.querySelector('colgroup');
-        if (written !== null) {
-            written.remove();
-        }
-        table.insertBefore(group, table.firstChild);
-        table.style.tableLayout = 'fixed';
-        // The table is as wide as its columns, and nothing caps it: capped, it
-        // would give every column a share of what is left, and the narrowest
-        // one loses the most. A heading then reads without its first letter.
-        let total = 0;
-        widths.forEach(width => {
-            total = total + width;
-        });
-        table.style.width = total + 'px';
-        table.style.maxWidth = 'none';
     }
     #rebuildList(source, items) {
         const list = source.cloneNode(false);
@@ -2005,10 +1935,6 @@ class SlidesPagination {
         if (blocks.length === 0) {
             return;
         }
-        // The tables are held to their widths before anything is measured:
-        // what is measured is then what will be shown, whatever the rows a
-        // table is left with.
-        this.#composer.freezeTables(slide);
         this.#measure.measure(blocks, slide);
         const room = this.#measure.room(slide, blocks);
         const layout = this.#paginator.paginate(blocks, room);

@@ -288,6 +288,7 @@ td.bib-number {
    reads without its first letter. */
 .slide .bib-table {
     max-width: none;
+    margin-top: calc(var(--font-size) * 0.5);
 }
 
 .slide .bib-table td,
@@ -339,13 +340,6 @@ td.bib-number {
     min-height: 0;
 }
 
-/* A button as wide as its column gives that column nothing to be sized on: the
-   column is drawn on the shortest text it holds, and the heading is clipped.
-   Here the button asks for what it needs, and the column follows. */
-.slide .bib-table thead .sortatable {
-    width: auto;
-    white-space: nowrap;
-}
 
 .slide .bib-table .sortatable::after {
     width: calc(var(--font-size) * 0.35);
@@ -371,6 +365,20 @@ td.bib-number {
    find: the field goes, and sorting stays, which is read as well as done. */
 .slide .bib-search {
     display: none;
+}
+
+/* The number is written twice, once as what opens the reference and once as
+   the link that stays on paper. The link is hidden on screen, and slides.css
+   gives every link of a slide a display of its own, which shows it again. It
+   is hidden here, where the rule is read after that one. */
+.slide .bib-citation-anchor {
+    display: none;
+}
+
+/* What opens a reference in a slide is the number, and nothing else: an
+   audience reads a sentence, it does not look for a control to press. */
+.slide .bib-citation-control::before {
+    content: none;
 }
 
 

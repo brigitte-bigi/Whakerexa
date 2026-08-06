@@ -141,9 +141,9 @@
 
             <section class="ssection"><h2>The title</h2>
 
-                <p>A title is not a block, and is never distributed: every slide that is
-                    engendered carries it, as the author wrote it. Nothing is added to it: the
-                    reader sees the same heading, and reads on.</p>
+                <p>A title is not a block, and is never distributed: it stays on the slide
+                    the author wrote it on, and is not written again on the slides that
+                    continue it.</p>
 
                 <p>The notes written for a slide stay with the first one.</p>
             </section>
@@ -461,14 +461,11 @@
                 </table>
 
                 <p>Nothing more is written in the source than today: that is what the
-                    requirement asks. The engendered slides carry the title of the one that
-                    produced them, as the author wrote it.</p>
+                    requirement asks. The title stays on the slide it was written on.</p>
 
                 <p>Two choices the requirement does not determine: the cut is made between
                     blocks, never inside one; a table that is split keeps its head on every
-                    support, and the widths its columns had. Drawn again with fewer rows, a
-                    column would be narrower, and a cell would take one line more than the one
-                    it was measured for.</p>
+                    support.</p>
             </section>
 
             <section class="ssection"><h2>MOpT: where the code goes</h2>
@@ -527,7 +524,7 @@
                         <code>SlideLayout</code>.</li>
                     <li>The blocks taller than a slide are said in the console.</li>
                     <li><code>SlideComposer.compose(slide, layout)</code>, when the layout asks
-                        for more than one slide, then the title and the table head on each.</li>
+                        for more than one slide, with the head of a table on each.</li>
                     <li>The promise is kept, and the assembly counts the slides and builds the
                         overview.</li>
                 </ol>
@@ -611,8 +608,7 @@
                     <tr><td>SlideMeasure.measure</td><td>(blocks: SlideBlock[], slide: HTMLElement): void</td><td>pre: the blocks are those of that slide. post: every block carries its height, measured in the slide</td></tr>
                     <tr><td>SlidePaginator.paginate</td><td>(blocks: SlideBlock[], room: Number): SlideLayout</td><td>pre: every block carries its height, room is more than 0. post: every block is placed, once, in order; one part more as soon as the next block does not fit; a block taller than room is alone on its part; without a block, one empty part</td></tr>
                     <tr><td>SlideComposer.compose</td><td>(slide: HTMLElement, layout: SlideLayout): HTMLElement[]</td><td>pre: the layout comes from the blocks of that slide. post: the slides, the original one first; every block in its own; nothing is lost</td></tr>
-                    <tr><td>SlideComposer.announce</td><td>(source: HTMLElement, next: HTMLElement): void</td><td>post: next carries the title of source, as the author wrote it</td></tr>
-                    <tr><td>SlideComposer.repeatHead</td><td>(table: HTMLTableElement, next: HTMLElement): void</td><td>pre: the table is split. post: every part carries the head, and the columns of every part are as wide as they were in the table the rows were written in</td></tr>
+                    <tr><td>SlideComposer.repeatHead</td><td>(table: HTMLTableElement, next: HTMLElement): void</td><td>pre: the table is split. post: every part carries the head</td></tr>
                     <tr><td>SlidesPagination.run</td><td>(): Promise&lt;void&gt;</td><td>post: every written slide is laid down; never raises; kept when everything is done</td></tr>
                     </tbody>
                 </table>

@@ -43,31 +43,8 @@
  * lose what makes it readable.
  */
 export class SlideComposer {
-    // CONSTANTS
-    /**
-     * What a title of a slide is.
-     */
-    static TITLE = 'h1, h2, h3, h4, h5, h6';
-
 
     // PUBLIC METHODS
-    /**
-     * Hold the tables of a slide to the widths their columns are drawn with.
-     *
-     * A table draws its columns from what they hold: with fewer rows, they are
-     * drawn otherwise, and a cell that wraps one line more is a cell whose
-     * height was measured for nothing. This is done before anything is
-     * measured, so that what is measured is what will be shown.
-     *
-     * @param slide {HTMLElement} A slide of the document.
-     * @returns {void}
-     */
-    freezeTables(slide) {
-        Array.from(slide.querySelectorAll('table')).forEach(table => {
-            this.#freezeColumns(table, this.#columnWidths(table));
-        });
-    }
-
     /**
      * Lay a slide out on as many slides as the layout asks for.
      *
@@ -82,7 +59,6 @@ export class SlideComposer {
         for (let rank = 1; rank < parts.length; rank++) {
             const next = this.#buildSlide(slide);
 
-            this.#announce(slide, next);
             this.#lay(next, parts[rank]);
 
             slides[slides.length - 1].after(next);
@@ -105,26 +81,6 @@ export class SlideComposer {
         next.className = source.className;
 
         return next;
-    }
-
-    /**
-     * Write the title of a slide on the one that continues it.
-     *
-     * The title is the one the author wrote, and nothing is added to it: the
-     * reader sees the same heading, and reads on.
-     *
-     * @param source {HTMLElement} The slide the title is taken from.
-     * @param next {HTMLElement} The slide that continues it.
-     * @returns {void}
-     */
-    #announce(source, next) {
-        const title = source.querySelector(SlideComposer.TITLE);
-
-        if (title === null) {
-            return;
-        }
-
-        next.appendChild(title.cloneNode(true));
     }
 
     /**
@@ -196,12 +152,7 @@ export class SlideComposer {
     #rebuildTable(body, rows) {
         const source = body.closest('table');
         const table = source.cloneNode(false);
-        const group = source.querySelector('colgroup');
         const head = source.querySelector('thead');
-
-        if (group !== null) {
-            table.appendChild(group.cloneNode(true));
-        }
 
         if (head !== null) {
             table.appendChild(head.cloneNode(true));
@@ -212,103 +163,6 @@ export class SlideComposer {
         table.appendChild(next);
 
         return table;
-    }
-
-    /**
-     * Get the width of each column of a table, as it is drawn.
-     *
-     * @param table {HTMLTableElement} The table the rows are taken from.
-     * @returns {number[]} One width per column. Empty when the table has no row.
-     */
-    #columnWidths(table) {
-        const row = table.rows[0];
-
-        if (row === undefined) {
-            return [];
-        }
-
-        // A width is fractional, and a column held to a fraction less than it
-        // was drawn with clips what it holds: the first letter of a heading
-        // goes first. It is therefore rounded up, never down.
-        return Array.from(row.cells).map(cell => Math.ceil(this.#cellWidth(cell)));
-    }
-
-    /**
-     * Get the width a cell needs, and not only the one it was given.
-     *
-     * A cell holding a button that is as wide as its column, which is what a
-     * sort button is, gives the column nothing to be sized on: the column is
-     * drawn on the shortest text it holds, and the heading is clipped. What
-     * the button asks for is therefore counted too.
-     *
-     * @param cell {HTMLElement} A cell of the first row of the table.
-     * @returns {number} The width to hold the column to.
-     */
-    #cellWidth(cell) {
-        const given = cell.getBoundingClientRect().width;
-        const held = Array.from(cell.children);
-
-        if (held.length === 0) {
-            return given;
-        }
-
-        const style = window.getComputedStyle(cell);
-        const around = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
-            + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
-
-        let asked = 0;
-
-        held.forEach(child => {
-            asked = Math.max(asked, child.scrollWidth);
-        });
-
-        return Math.max(given, asked + around);
-    }
-
-    /**
-     * Give a table the widths its columns had before its rows were shared.
-     *
-     * A table draws its columns from what they hold: with fewer rows, they are
-     * drawn otherwise, and a cell that wraps one line more is a cell whose
-     * height was measured for nothing. The widths are therefore the ones of
-     * the table the rows were written in, and every part keeps them.
-     *
-     * @param table {HTMLTableElement} The table to hold to those widths.
-     * @param widths {number[]} One width per column.
-     * @returns {void}
-     */
-    #freezeColumns(table, widths) {
-        if (widths.length === 0) {
-            return;
-        }
-
-        const group = document.createElement('colgroup');
-
-        widths.forEach(width => {
-            const column = document.createElement('col');
-            column.style.width = width + 'px';
-            group.appendChild(column);
-        });
-
-        const written = table.querySelector('colgroup');
-
-        if (written !== null) {
-            written.remove();
-        }
-
-        table.insertBefore(group, table.firstChild);
-        table.style.tableLayout = 'fixed';
-
-        // The table is as wide as its columns, and nothing caps it: capped, it
-        // would give every column a share of what is left, and the narrowest
-        // one loses the most. A heading then reads without its first letter.
-        let total = 0;
-        widths.forEach(width => {
-            total = total + width;
-        });
-
-        table.style.width = total + 'px';
-        table.style.maxWidth = 'none';
     }
 
     /**

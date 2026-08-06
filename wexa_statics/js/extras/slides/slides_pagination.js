@@ -119,11 +119,6 @@ export class SlidesPagination {
             return;
         }
 
-        // The tables are held to their widths before anything is measured:
-        // what is measured is then what will be shown, whatever the rows a
-        // table is left with.
-        this.#composer.freezeTables(slide);
-
         this.#measure.measure(blocks, slide);
         const room = this.#measure.room(slide, blocks);
 

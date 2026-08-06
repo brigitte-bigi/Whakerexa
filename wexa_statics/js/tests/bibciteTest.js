@@ -82,6 +82,27 @@ function references_named(keys) {
 }
 
 
+/**
+ * Give the number a citation shows.
+ *
+ * A citation that names a reference writes its number twice: once in the
+ * button that opens the reference, and once in the anchor that stays a link
+ * on paper. What is read on screen is the button. A citation that names
+ * nothing has neither, and says so by itself.
+ *
+ * @param {HTMLElement} element - The citation written in the text.
+ * @returns {string} The number, brackets included.
+ */
+function number_shown(element) {
+    const control = element.querySelector('.bib-citation-control');
+
+    if (control === null) {
+        return element.textContent;
+    }
+
+    return control.textContent;
+}
+
 // -----------------------------------------------------------------------
 // Numbers follow the order the citations appear in the text, and there
 // is a single sequence for the whole document. C13 and C14.
@@ -93,9 +114,9 @@ citation_index_tests.add_test(() => {
 
     index.index(written.root, references_named(['one2026', 'two2026', 'three2026']));
 
-    UnitTest.assert_values_equals('[1]', written.elements[0].textContent, "index_first_number_test");
-    UnitTest.assert_values_equals('[2]', written.elements[1].textContent, "index_second_number_test");
-    UnitTest.assert_values_equals('[3]', written.elements[2].textContent, "index_third_number_test");
+    UnitTest.assert_values_equals('[1]', number_shown(written.elements[0]), "index_first_number_test");
+    UnitTest.assert_values_equals('[2]', number_shown(written.elements[1]), "index_second_number_test");
+    UnitTest.assert_values_equals('[3]', number_shown(written.elements[2]), "index_third_number_test");
 
     written.remove();
 });
@@ -111,10 +132,10 @@ citation_index_tests.add_test(() => {
 
     index.index(written.root, references_named(['one2026', 'two2026', 'three2026']));
 
-    UnitTest.assert_values_equals('[1]', written.elements[0].textContent, "index_again_first_test");
-    UnitTest.assert_values_equals('[2]', written.elements[1].textContent, "index_again_second_test");
-    UnitTest.assert_values_equals('[1]', written.elements[2].textContent, "index_again_repeated_test");
-    UnitTest.assert_values_equals('[3]', written.elements[3].textContent, "index_again_next_test");
+    UnitTest.assert_values_equals('[1]', number_shown(written.elements[0]), "index_again_first_test");
+    UnitTest.assert_values_equals('[2]', number_shown(written.elements[1]), "index_again_second_test");
+    UnitTest.assert_values_equals('[1]', number_shown(written.elements[2]), "index_again_repeated_test");
+    UnitTest.assert_values_equals('[3]', number_shown(written.elements[3]), "index_again_next_test");
 
     written.remove();
 });
@@ -130,9 +151,9 @@ citation_index_tests.add_test(() => {
 
     index.index(written.root, references_named(['one2026', 'two2026']));
 
-    UnitTest.assert_values_equals('[1]', written.elements[0].textContent, "index_missing_before_test");
-    UnitTest.assert_values_equals('[?]', written.elements[1].textContent, "index_missing_test");
-    UnitTest.assert_values_equals('[2]', written.elements[2].textContent, "index_missing_after_test");
+    UnitTest.assert_values_equals('[1]', number_shown(written.elements[0]), "index_missing_before_test");
+    UnitTest.assert_values_equals('[?]', number_shown(written.elements[1]), "index_missing_test");
+    UnitTest.assert_values_equals('[2]', number_shown(written.elements[2]), "index_missing_after_test");
 
     written.remove();
 });
