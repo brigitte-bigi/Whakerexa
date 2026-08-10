@@ -270,8 +270,8 @@ nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
 :is([role="menuitem"], .menuitem) > img,
 :is([role="menuitem"], .menuitem) > svg {
     display: block;
-    width: calc(1.8rem / var(--size-divisor));
-    height: calc(1.8rem / var(--size-divisor));
+    width: calc(var(--nav-item-width-h) * 0.9);
+    height: calc(var(--nav-item-height) * 0.9);
     cursor: pointer;
     margin: 0;
 }
