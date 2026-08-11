@@ -79,6 +79,7 @@
 :root:not(.dark) {
     --body-bg-color:         rgb(245, 245, 245);
     --bg-color:              rgb(255, 255, 255);
+    --img-bg-color:          rgb(255, 255, 255);
     --bg-color-alt:          rgb(240, 240, 240);
     --fg-color:              rgb(0, 0, 0);
     --fg-color-alt:          rgb(26, 26, 26);
@@ -137,6 +138,7 @@
 
 .dark {
         --bg-color:              rgb(0, 0, 0);
+        --img-bg-color:          rgb(255, 255, 255);
         --bg-color-alt:          rgb(26, 26, 26);
         --fg-color:              rgb(255, 255, 255);
         --fg-color-alt:          rgb(240, 240, 240);
@@ -241,10 +243,13 @@
 
     /* -- Buttons inside nav: transparent bg, nav colors --------------------- */
 
+    /* A transparent button borrows a surface its color pair does not match. */
     nav :is(button, [role="button"], .menuitem) {
-        background-color: transparent;
-        color: var(--nav-fg-color);
-        border-color: var(--nav-fg-color);
+        background-color: var(--buttons-bg-color);
+        color: var(--buttons-fg-color);
+        border-width: var(--border-width);
+        border-style: solid;
+        border-color: var(--border-color);
     }
 
 }

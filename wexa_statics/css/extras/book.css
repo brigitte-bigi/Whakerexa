@@ -424,6 +424,12 @@ aside.book-toc-aside {
     body:has(aside.book-toc-aside.open) button.book-toc-toggle {
         left: 0;
     }
+
+    /* The button and the open table of contents shared a z-index, and the DOM
+       order settled it in favor of the aside. */
+    button.book-toc-toggle {
+        z-index: 11;
+    }
 }
 
 /* Inner content — mirrors nav.book-toc styles */

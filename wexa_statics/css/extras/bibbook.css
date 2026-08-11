@@ -196,12 +196,23 @@ td.bib-number {
 
 /* The control says itself whether it is open: the mark follows what it says,
    and never the other way around. */
+/* The mark is drawn, not written: no font of the project holds a chevron, and
+   a borrowed glyph comes at the size and the weight of another font. */
 .bib-disclosure-control::before {
-    content: '\25B8\00A0';
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(var(--font-size) * 0.42);
+    height: calc(var(--font-size) * 0.42);
+    margin-right: calc(var(--font-size) * 0.5);
+    margin-left: calc(var(--font-size) * 0.1);
+    border-top: calc(var(--font-size) * 0.13) solid currentColor;
+    border-right: calc(var(--font-size) * 0.13) solid currentColor;
+    transform: rotate(45deg);
 }
 
 .bib-disclosure-control[aria-expanded='true']::before {
-    content: '\25BE\00A0';
+    transform: rotate(135deg);
 }
 
 /* A content that opens takes the whole width of the table: an abstract read
@@ -229,13 +240,14 @@ td.bib-number {
 /* The number is a button, and looks like the sentence it sits in: framing it
    would break the line a reader is following. */
 .bib-citation-control {
-    padding: 0;
+    padding: 0 calc(var(--font-size) * 0.2);
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
     color: var(--a-color);
     background: none;
     border: none;
+    border-radius: 0;
 }
 
 /* The number leads to the bibliography on paper, where nothing opens. */

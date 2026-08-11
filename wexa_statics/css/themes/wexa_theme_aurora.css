@@ -72,6 +72,7 @@
     /* ── @layer theme color overrides ──────────────────────────────── */
     --body-bg-color: rgb(248, 242, 255);
     --bg-color:     rgb(252, 250, 255);
+    --img-bg-color: rgb(252, 250, 255);
     --bg-color-alt: rgb(240, 236, 255);
     --fg-color:     rgb(28, 18, 60);
     --fg-color-alt: rgb(58, 44, 95);
@@ -126,6 +127,7 @@
 :root.dark {
     --body-bg-color: rgb(17, 11, 40);
     --bg-color: rgb(12, 8, 28);
+    --img-bg-color: rgb(252, 250, 255);
 }
 
 

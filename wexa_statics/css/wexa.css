@@ -502,7 +502,7 @@ This banner notice must not be removed.
     /* Widest smartphone in landscape, up to 932px, and tablet in portrait */
     @media screen and (min-width: 896px) {
         :root {
-             --size-divisor: 1.75;
+            --size-divisor: 1.75;
             --fontsize-divisor: 1.18;
         }
     }
@@ -677,6 +677,8 @@ This banner notice must not be removed.
         --body-bg-color: rgb(255, 255, 255);
         --bg-color: rgb(242, 244, 251);
         --bg-color-alt: rgb(236, 239, 245);
+        /* Images keep a light background in every mode. */
+        --img-bg-color: var(--bg-color);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
         --border-color: rgb(117, 130, 155);
@@ -764,6 +766,7 @@ This banner notice must not be removed.
             /* Main colors */
             --bg-color: rgb(14, 18, 28);
             --bg-color-alt: rgb(18, 24, 42);
+            --img-bg-color: rgb(242, 244, 251);
             --fg-color: rgb(215, 225, 245);
             --fg-color-alt: rgb(168, 185, 218);
             --border-color: rgb(200, 227, 245);
@@ -834,6 +837,13 @@ This banner notice must not be removed.
             --tips-bg-color: rgb(70, 60, 20);
             --question-color: rgb(200, 150, 255);
             --question-bg-color: rgb(40, 20, 60);
+        }
+
+        /* An image is drawn for a light page, and cannot invert its colors. */
+        .dark img {
+            background-color: var(--img-bg-color);
+            padding: calc(0.3 * var(--typography-spacing-horizontal));
+            border-radius: var(--border-radius);
         }
     }
 
@@ -1180,7 +1190,7 @@ This banner notice must not be removed.
         font-size: calc(1.8 * var(--font-size));
         line-height: calc(1.5 * var(--line-height));
         color: var(--h1-color);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-black);
         letter-spacing: calc(4*var(--letter-spacing));
     }
 
@@ -1285,7 +1295,7 @@ This banner notice must not be removed.
         background: var(--code-bg-color);
         border-radius: var(--border-radius);
         line-height: var(--line-height);
-        display: inline-block;
+        display: inline;
     }
 
     pre code {

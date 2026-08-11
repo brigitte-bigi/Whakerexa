@@ -63,6 +63,15 @@ This banner notice must not be removed.
         display: block;
     }
 
+    /* Centers the element and its text in a block, a flex line or a grid. */
+    .center {
+        align-self: center;
+        justify-self: center;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     /* ------------------------------------------------------------------ */
     /* Classes for sizes                                                    */
     /* ------------------------------------------------------------------ */
@@ -451,7 +460,7 @@ This banner notice must not be removed.
     }
 
     @media only screen and (max-width: 1023.98px) {
-        /* The card stands up: the number above its text, not beside it. */
+        /* The card stands up: its number above its text. */
         li.enumerate-cards-item {
             flex-direction: column;
             text-align: center;

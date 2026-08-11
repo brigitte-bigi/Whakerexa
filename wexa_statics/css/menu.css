@@ -47,8 +47,7 @@ This banner notice must not be removed.
     --nav-item-height: max(calc(var(--font-size) * 2.5 / var(--size-divisor)), calc(var(--font-size) * 2.5));
     --nav-item-max-height: max(calc(var(--font-size) * 3 / var(--size-divisor)), calc(var(--font-size) * 3));
 
-    /* An item gives up its own width before the row wraps: it may shrink down
-       to its content, and no further. A page may ask for a wider floor. */
+    /* An item gives up its own width before the row wraps. */
     --nav-item-min-width-h: min-content;
     --nav-item-width-h: max(calc(var(--font-size) * 8 / var(--size-divisor)), calc(var(--font-size) * 6));
     --nav-item-max-width-h: max(calc(var(--font-size) * 15 / var(--size-divisor)), calc(var(--font-size) * 12));
@@ -56,9 +55,7 @@ This banner notice must not be removed.
     /* Vertical side widths */
     --nav-expanded-width: max(calc(var(--font-size) * 16 / var(--size-divisor)), calc(var(--font-size) * 14)); /* open side */
 
-    /* Width proposed to the open side menu under the mobile border, where a
-       nav narrower than a third of the screen makes no sense. A page redefines
-       it to ask for another share of the screen, the full width included. */
+    /* A nav narrower than a third of a phone screen makes no sense. */
     --nav-mobile-expanded-width: min(80vw, calc(var(--font-size) * 30));
     --nav-item-width-v-collapsed: var(--nav-min-width);
     --nav-item-width-v-expanded: var(--nav-expanded-width);
@@ -252,9 +249,7 @@ nav.nav-wexa.side.collapsible.expanded:not(:has(aside.appmenu.open)) {
     height:     var(--nav-item-height);
     max-height: var(--nav-item-max-height);
 
-    /* Horizontal defaults (used when not overridden). The row breaks only once
-       the items have given up their own width: they start at their content and
-       grow to --nav-item-width-h when the row can afford it. */
+    /* Horizontal defaults, used when not overridden. */
     min-width:  var(--nav-item-min-width-h);
     flex-basis: var(--nav-item-min-width-h);
     width:      var(--nav-item-width-h);
@@ -473,7 +468,8 @@ body > nav > * *:focus-within .submenu {
     height: var(--menu-button-size);
 
     border-radius: 50%;
-    border: var(--border-width) solid var(--buttons-bg-color);
+    /* A dark button outlined with its own color vanishes on a dark header. */
+    border: var(--border-width) solid var(--border-color);
     color: var(--buttons-fg-color);
     cursor: pointer;
 
@@ -504,6 +500,11 @@ body > nav > * *:focus-within .submenu {
     }
     nav.nav-wexa.side #pin-menu {
         display: none;
+    }
+
+    /* A narrow screen leaves no room beside the title. */
+    nav#header-nav-content {
+        position: static;
     }
 }
 
@@ -808,9 +809,7 @@ nav.nav-wexa.bottom > :is([role="menuitem"], .menuitem) + section {
         flex-direction: row;
         align-items: center;
         gap: calc(var(--font-size) * 0.5);
-        /* Under the mobile border every button has the same fixed width, as in
-           any mobile menu: it neither grows nor shrinks with its neighbours.
-           Five of them stand on a row, the four gaps deducted. */
+        /* A mobile menu holds buttons of one fixed width, five to a row. */
         flex: none;
         width: calc((100% - 4 * calc(var(--font-size) / var(--size-divisor))) / 5);
         height: auto;

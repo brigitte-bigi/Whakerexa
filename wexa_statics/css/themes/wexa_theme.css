@@ -41,6 +41,7 @@
 
     --bg-color:     transparent;
     --bg-color-alt: transparent;
+    --img-bg-color: rgb(229, 238, 252);
     --body-bg-color: radial-gradient(at left center, rgba(229, 238, 252, 1.0), rgba(212, 220, 255, 1.0));
 
 }
@@ -54,6 +55,7 @@
 
     --bg-color: transparent;
     --body-bg-color: radial-gradient(at left center, rgba(10, 15, 26, 1.0), rgba(16, 13, 64, 1.0));
+    --img-bg-color: rgb(229, 238, 252);
 }
 
 
