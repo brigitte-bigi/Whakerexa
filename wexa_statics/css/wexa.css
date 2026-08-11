@@ -470,68 +470,74 @@ This banner notice must not be removed.
     /* Smartphone, portrait: 320 to 430px wide */
     @media screen and (max-width: 540px) {
         :root {
-            --size-divisor: 2.15;
-            --fontsize-divisor: 1.3;
+            --size-divisor: 1;
+            --fontsize-divisor: 1;
         }
     }
 
     /* Large smartphone in portrait, narrow smartphone in landscape */
     @media screen and (min-width: 540px) {
         :root {
-            --size-divisor: 2.0;
-            --fontsize-divisor: 1.22;
+            --size-divisor: 1;
+            --fontsize-divisor: 1;
         }
     }
 
     /* Smartphone, landscape: 640 to 932px wide */
     @media screen and (min-width: 620px) {
         :root {
-            --size-divisor: 1.75;
-            --fontsize-divisor: 1.18;
+            --size-divisor: 1.25;
+            --fontsize-divisor: 1.05;
         }
     }
 
     /* Tablet, portrait: 768 to 834px wide. Mobile menu, larger text. */
     @media screen and (min-width: 768px) {
         :root {
-            --size-divisor: 1.4;
-            --fontsize-divisor: 1.12;
+            --size-divisor: 1.5;
+            --fontsize-divisor: 1.1;
+        }
+    }
+
+    /* Widest smartphone in landscape, up to 932px, and tablet in portrait */
+    @media screen and (min-width: 896px) {
+        :root {
+             --size-divisor: 1.75;
+            --fontsize-divisor: 1.18;
         }
     }
 
     /* Tablet in landscape, and computer: the desktop display starts here */
     @media screen and (min-width: 1024px) {
         :root {
-            --size-divisor: 1;
-            --fontsize-divisor: 1;
+            --size-divisor: 1.25;
+            --fontsize-divisor: 1.1;
         }
     }
 
     /* Laptop */
     @media screen and (min-width: 1200px) {
         :root {
-            --size-divisor: 0.9;
-            --fontsize-divisor: 0.95;
+            --size-divisor: 1.0;
+            --fontsize-divisor: 1.0;
         }
     }
 
     /* Wide desktop screen */
     @media screen and (min-width: 1400px) {
         :root {
-            --size-divisor: 0.8;
-            --fontsize-divisor: 0.9;
+            --size-divisor: 0.9;
+            --fontsize-divisor: 0.95;
         }
     }
 
     /* Very wide desktop screen */
     @media screen and (min-width: 1600px) {
         :root {
-            --size-divisor: 0.75;
-            --fontsize-divisor: 0.85;
+            --size-divisor: 0.8;
+            --fontsize-divisor: 0.9;
         }
     }
-
-
 } 
 /* end @layer base: responsive divisors */
 
@@ -600,10 +606,10 @@ This banner notice must not be removed.
         --font-weight-semibold: 500;
         --font-weight-bold: 600;
         --font-weight-black: 750;
-        --font-size: calc(14px / var(--fontsize-divisor));
+        --font-size: calc(16px / var(--fontsize-divisor));
         --line-height: 1.2;
-        --typography-spacing-vertical: calc(1.2 * 14px / var(--size-divisor));
-        --typography-spacing-horizontal: calc(0.8 * 14px / var(--size-divisor));
+        --typography-spacing-vertical: calc(1.2 * 16px / var(--size-divisor));
+        --typography-spacing-horizontal: calc(0.8 * 16px / var(--size-divisor));
         --letter-spacing: 0.04rem;
         --word-spacing: 0.06rem;
 
@@ -639,10 +645,10 @@ This banner notice must not be removed.
         --font-weight-semibold: 600;
         --font-weight-bold: 750;
         --font-weight-black: 800;
-        --font-size: calc(16px / var(--fontsize-divisor));
+        --font-size: calc(18px / var(--fontsize-divisor));
         --line-height: 1.5;
-        --typography-spacing-vertical: calc(1.2 * 16px / var(--size-divisor));
-        --typography-spacing-horizontal: calc(0.8 * 16px / var(--size-divisor));
+        --typography-spacing-vertical: calc(1.2 * 18px / var(--size-divisor));
+        --typography-spacing-horizontal: calc(0.8 * 18px / var(--size-divisor));
         --letter-spacing: 0.12rem;
         --word-spacing: 0.16rem;
 
@@ -1108,7 +1114,8 @@ This banner notice must not be removed.
         background-color: transparent;
     }
 
-    body > header > *,  body > footer > * {
+    body > header > *,
+    body > footer > * {
         z-index: 1;
         text-align: center;
         padding-top: var(--typography-spacing-vertical);
@@ -1170,61 +1177,32 @@ This banner notice must not be removed.
     }
 
     h1 {
-        font-size: calc(1.9 * var(--font-size));
-        line-height: var(--line-height);
+        font-size: calc(1.8 * var(--font-size));
+        line-height: calc(1.5 * var(--line-height));
         color: var(--h1-color);
         font-weight: var(--font-weight-bold);
         letter-spacing: calc(4*var(--letter-spacing));
     }
 
-    body > header > h1,
-    body > footer > h1,
-    body > footer > * h1
-    {
-        font-size: calc(3 * var(--font-size));
-    }
-
-    body > main > h1,
-    body > main > * h1
-    {
-        font-size: calc(2.25*var(--font-size));
-        line-height: calc(1.5*var(--typography-spacing-vertical));
-        padding-bottom: calc(1.5 * var(--typography-spacing-vertical));
-    }
-
     h2 {
         font-size: calc(1.6 * var(--font-size));
-        line-height: var(--line-height);
+        line-height: calc(1.4 * var(--line-height));
         color: var(--h2-color);
         font-weight: var(--font-weight-bold);
         letter-spacing: calc(3*var(--letter-spacing));
     }
 
-    body > main > h2,
-    body > main > * h2 {
-        font-size: calc(1.8 * var(--font-size));
-        line-height: calc(1.8 * var(--typography-spacing-vertical));
-        padding-bottom: var(--typography-spacing-vertical);
-        position: relative;
-    }
-
-    body > header > h2,
-    body > footer > h2
-    {
-        font-size: calc(1.8 * var(--font-size));
-    }
-
     h3 {
-        font-size: calc(1.35 * var(--font-size));
-        line-height: var(--line-height);
+        font-size: calc(1.4 * var(--font-size));
+        line-height: calc(1.25 * var(--line-height));
         font-weight: var(--font-weight-semibold);
         color: var(--h3-color);
         letter-spacing: calc(2*var(--letter-spacing));
     }
 
     h4 {
-        font-size: calc(1.15 * var(--font-size));
-        line-height: var(--line-height);
+        font-size: calc(1.2 * var(--font-size));
+        line-height: calc(1.05 * var(--line-height));
         letter-spacing: calc(1.4*var(--letter-spacing));
         color: var(--h4-color);
         font-weight: var(--font-weight-semibold);

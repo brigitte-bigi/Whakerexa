@@ -78,6 +78,14 @@ Architecture:
     }
 }
 
+/* Widest smartphone in landscape, up to 932px, and tablet in portrait */
+@media screen and (min-width: 896px) {
+    :root {
+        --slides-size-divisor: 1.25;
+        --slides-fontsize-divisor: 1.5;
+    }
+}
+
 /* Tablet in landscape, and computer: the desktop display starts here */
 @media screen and (min-width: 1024px) {
     :root {
