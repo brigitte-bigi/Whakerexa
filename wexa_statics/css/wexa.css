@@ -453,25 +453,37 @@ This banner notice must not be removed.
 
 @layer base {
 
+    /* The ladder below names device classes, not round numbers. The wider the
+       screen, the smaller the divisors: a component grows when --size-divisor
+       goes down, and the text grows when --fontsize-divisor goes down.
+
+       1024px is the single mobile/desktop border of the framework. Under it,
+       the menu is the mobile one and the text is written a bit larger, which
+       is what a tablet held vertically asks for. The nav, the panels and the
+       cards all switch at that very width. */
+
     :root {
         --size-divisor: 1;
         --fontsize-divisor: 1;
     }
 
+    /* Smartphone, portrait: 320 to 430px wide */
     @media screen and (max-width: 540px) {
         :root {
-            --size-divisor: 2.75;
-            --fontsize-divisor: 1.5;
+            --size-divisor: 2.15;
+            --fontsize-divisor: 1.3;
         }
     }
 
+    /* Large smartphone in portrait, narrow smartphone in landscape */
     @media screen and (min-width: 540px) {
         :root {
-            --size-divisor: 2.5;
-            --fontsize-divisor: 1.25;
+            --size-divisor: 2.0;
+            --fontsize-divisor: 1.22;
         }
     }
 
+    /* Smartphone, landscape: 640 to 932px wide */
     @media screen and (min-width: 620px) {
         :root {
             --size-divisor: 1.75;
@@ -479,26 +491,23 @@ This banner notice must not be removed.
         }
     }
 
+    /* Tablet, portrait: 768 to 834px wide. Mobile menu, larger text. */
     @media screen and (min-width: 768px) {
         :root {
-            --size-divisor: 1.5;
-            --fontsize-divisor: 1.1;
+            --size-divisor: 1.4;
+            --fontsize-divisor: 1.12;
         }
     }
 
-    @media screen and (min-width: 896px) {
-        :root {
-            --size-divisor: 1.25;
-            --fontsize-divisor: 1.05;
-        }
-    }
-
-    @media screen and (min-width: 1100px) {
+    /* Tablet in landscape, and computer: the desktop display starts here */
+    @media screen and (min-width: 1024px) {
         :root {
             --size-divisor: 1;
+            --fontsize-divisor: 1;
         }
     }
 
+    /* Laptop */
     @media screen and (min-width: 1200px) {
         :root {
             --size-divisor: 0.9;
@@ -506,6 +515,7 @@ This banner notice must not be removed.
         }
     }
 
+    /* Wide desktop screen */
     @media screen and (min-width: 1400px) {
         :root {
             --size-divisor: 0.8;
@@ -513,6 +523,7 @@ This banner notice must not be removed.
         }
     }
 
+    /* Very wide desktop screen */
     @media screen and (min-width: 1600px) {
         :root {
             --size-divisor: 0.75;

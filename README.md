@@ -249,7 +249,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.3 - devel
 
-- Extra Book. New bibliography, built in the browser from BibTeX data written in the page or kept in a `.bib` file.
+- Extra Book. New bibliography, built in the browser from BibTeX data written on the page or kept in a `.bib` file.
 - Extra Book. New JS modules under `js/extras/book/`, and a new `bibbook.css`.
 - Extra Book. Citations: `<span data-bibtex="key">` is numbered in the order of the text, and opens its reference in the sentence.
 - Extra Book. The table of contents bears the numbers of the titles, counted by `book.css`. New variable `--toc-number-width`.
@@ -257,4 +257,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - SortaTable. Texts are compared according to the language of the page; numbers as numbers.
 - SortaTable. On paper, a sort button is written as the header of its column.
 - Extra Slides. The bibliography can be inserted in the slides and used like in any document.
-- 
+- Fonts. Split into `unicode-range` subsets by the new `scripts/build_fonts_subsets.py`. Removed `NotoSansMono.woff2`.
+- Logos. New `whakerexa-512.webp` and `whakerexa-128.webp`.
+- Screens. A single mobile/desktop border at 1024px.
+- menu.css. Sizes in `--font-size` coefficients. New `--nav-mobile-expanded-width`.
