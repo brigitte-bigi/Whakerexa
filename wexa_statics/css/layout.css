@@ -451,8 +451,15 @@ This banner notice must not be removed.
     }
 
     @media only screen and (max-width: 1023.98px) {
+        /* The card stands up: the number above its text, not beside it. */
         li.enumerate-cards-item {
-            max-width: min(80%, calc(100% - 2 * var(--typography-spacing-horizontal)));
+            flex-direction: column;
+            text-align: center;
+            max-width: calc(100% - 2 * var(--typography-spacing-horizontal));
+        }
+
+        li.enumerate-cards-item::before {
+            margin-left: 0;
         }
     }
 

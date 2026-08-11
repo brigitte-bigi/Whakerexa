@@ -261,3 +261,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Logos. New `whakerexa-512.webp` and `whakerexa-128.webp`.
 - Screens. A single mobile/desktop border at 1024px.
 - menu.css. Sizes in `--font-size` coefficients. New `--nav-mobile-expanded-width`.
+- layout.css: `enumerate-card` swith to vertical with mobile. 
+
