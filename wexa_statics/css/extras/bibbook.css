@@ -502,10 +502,12 @@ td.bib-number {
 }
 
 
+/* What belongs together stands closer: the button that applies is part of the
+   selector, where the selector and the search field are two halves of a line. */
 .bib-columns {
     display: flex;
     align-items: center;
-    gap: calc(var(--font-size) * 0.5);
+    gap: calc(var(--wrap-panel-gap) / 2);
 }
 
 /* The list of columns takes the half it was given, and the button that applies

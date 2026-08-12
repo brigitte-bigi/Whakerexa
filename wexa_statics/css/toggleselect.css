@@ -36,17 +36,11 @@ This banner notice must not be removed.
     border: none;
     background: var(--bg-color);
     color: var(--fg-color);
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: calc(var(--font-size) * 0.5);
+    white-space: nowrap;
 }
 
 .summary-choice span {
-    flex: 1 1 auto;
-    min-width: 0;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -124,7 +118,7 @@ ul > li.check-item::before {
 }
 
 summary button.accordion-action, summary a[role=button].accordion-action {
-    flex: 0 0 auto;
+    color: var(--fg-color);
     width: calc(var(--font-size) * 2);
     border: none;
     position: relative;
@@ -143,6 +137,13 @@ summary a[role=button].accordion-action svg {
     margin: auto;
 }
 
+/* wexa.css paints a background on every element, so what a details holds draws
+   a square over its rounded corners: the content leaves the corners to it. */
+details:has(summary.summary-choice) > div,
+details:has(summary.summary-choice) > div * {
+    background-color: transparent;
+}
+
 /* The content is set off from the border it is drawn in: a choice flush with
    the edge has its focus outline drawn outside the box. */
 details:has(summary.summary-choice) > div {
@@ -158,8 +159,9 @@ details:has(summary.summary-choice) > div > ul {
     padding-left: calc(var(--font-size) * 0.5);
 }
 
-/* The icon is drawn with the color of the text, whatever color the button it
-   stands in was given: currentColor would take the one of the button. */
+/* wexa.css propagates the color of a button to everything it holds, so an icon
+   injected in one is written in the color of a filled button. The drawing takes
+   the color of the text, in the button as in the list. */
 summary button.accordion-action svg *,
 li.check-item svg * {
     stroke: var(--fg-color);
