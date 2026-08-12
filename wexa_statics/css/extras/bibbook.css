@@ -4,6 +4,10 @@
 :contact: contact@sppas.org
 :summary: style for a bibliography built from BibTeX data
 
+A bibliography is a table that sorts and whose columns are shown or hidden, so
+this stylesheet brings what it is built with. A page loads this one, and knows
+nothing of the other two.
+
 -------------------------------------------------------------------------
 
 This file is part of Whakerexa: https://github.com/brigitte-bigi/Whakerexa
@@ -29,6 +33,9 @@ This banner notice must not be removed.
 -------------------------------------------------------------------------
 
 */
+
+@import url("sortatable.css");
+@import url("../toggleselect.css");
 
 
 /* ----------------------------------------------------------------------- */

@@ -60,14 +60,14 @@ export class BibliographyControls {
             shownOne: 'reference shown', shownMany: 'references shown',
             sortedBy: 'sorted by', ascending: 'ascending', descending: 'descending',
             unsorted: 'back to the original order',
-            columns: 'Columns visibility:', apply: 'Apply', showHide: 'Show/Hide'
+            columns: 'Columns visibility:', apply: 'Apply'
         }],
         ['fr', {
             searchName: 'Rechercher dans les références',
             shownOne: 'référence affichée', shownMany: 'références affichées',
             sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
             unsorted: 'retour à l\'ordre de départ',
-            columns: 'Visibilité des colonnes :', apply: 'Appliquer', showHide: 'Afficher/Masquer'
+            columns: 'Visibilité des colonnes :', apply: 'Appliquer'
         }]
     ]);
 
@@ -361,7 +361,7 @@ export class BibliographyControls {
             const label = document.createElement('label');
             label.id = box.id + '-label';
             label.setAttribute('for', box.id);
-            label.textContent = this.#texts.text('showHide') + ' ' + header.textContent.trim();
+            label.textContent = header.textContent.trim();
 
             item.appendChild(box);
             item.appendChild(label);

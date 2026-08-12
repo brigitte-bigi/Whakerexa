@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="../wexa_statics/css/menu.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/layout.css" type="text/css" media="all" />
     <link rel="stylesheet" href="../wexa_statics/css/extras/book.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="../wexa_statics/css/extras/sortatable.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../wexa_statics/css/toggleselect.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../wexa_statics/css/extras/bibbook.css" type="text/css" media="all" />
 
     <style>
@@ -86,6 +84,15 @@
 
             <section class="ssection"><h2>How to use</h2>
                 <p>Four steps: write the data, cite in the text, add the placeholder, call the JS API.</p>
+
+                <article class="card-doc" aria-label="HTML — the stylesheet a bibliography needs">
+                    <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                        <p>One stylesheet, and one only. A bibliography is a table that sorts and
+                            whose columns are shown or hidden; <code>bibbook.css</code> brings what
+                            it is built with, so a page has nothing else to know.</p>
+                    </div>
+                    <pre class="dark"><code>&lt;link rel="stylesheet" href="wexa_statics/css/extras/bibbook.css"&gt;</code></pre>
+                </article>
 
                 <article class="card-doc" aria-label="HTML — BibTeX data">
                     <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">

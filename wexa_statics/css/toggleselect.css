@@ -94,9 +94,17 @@ li.check-item label {
     cursor: pointer;
 }
 
+/* The drawn box is a box, not a letter: left inline, it would sit on the
+   baseline and leave under it the room a descender asks for, which the focus
+   outline draws around. */
+li.check-item span.check-box {
+    display: inline-flex;
+}
+
 li.check-item svg {
     width: calc(var(--font-size) * 1.4);
     height: calc(var(--font-size) * 1.4);
+    display: block;
     color: inherit;
     flex: none;
 }
@@ -133,6 +141,14 @@ summary a[role=button].accordion-action svg {
     height: calc(var(--font-size) * 1.4);
     display: block;
     margin: auto;
+}
+
+/* The content is set off from the border it is drawn in: a choice flush with
+   the edge has its focus outline drawn outside the box. */
+details:has(summary.summary-choice) > div {
+    padding-top: calc(var(--font-size) * 0.4);
+    padding-bottom: calc(var(--font-size) * 0.4);
+    padding-right: calc(var(--font-size) * 0.5);
 }
 
 /* The choices line up under the line that opens them, and not under its text:

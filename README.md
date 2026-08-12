@@ -271,4 +271,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - ToggleSelector. Boxes and toggle drawn with mono-svg icons: new `unchecked` and `half-checked`, and no icon path to give.
 - wexa.css. `fadeIn` no longer animates `display`: what a `details` opened showed nothing.
 - Docs. Architecture says where the rule of proportional sizes stops, and why.
+- Extra Book. `bibbook.css` brings the stylesheets a bibliography is built with: a page loads it alone.
+- wexa.css. A `details` clips what its rounded corners would leave out, and lets a focus outline through.
 

@@ -1786,6 +1786,11 @@ This banner notice must not be removed.
         border-radius: var(--border-radius);
         margin-bottom: var(--typography-spacing-vertical);
         padding: 0;
+        /* A child that paints a background covers the rounded corners, and the
+           border looks cut at the two lower ones. What is clipped stops at the
+           distance an outline needs, so the focus of the summary stays whole. */
+        overflow: clip;
+        overflow-clip-margin: calc(2 * (var(--outline-size) + var(--outline-offset, var(--outline-size))));
     }
 
     details > *:not(summary) {
