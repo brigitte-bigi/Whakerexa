@@ -262,4 +262,9 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Screens. A single mobile/desktop border at 1024px.
 - menu.css. Sizes in `--font-size` coefficients. New `--nav-mobile-expanded-width`.
 - layout.css: `enumerate-card` swith to vertical with mobile. 
+- Printing. The dark mode is left on `beforeprint` and restored on `afterprint`: a theme has nothing to guard.
+- wexa.css. `--custom-color1` and `--custom-color2` default to the border colors.
+- Extra Book. A citation opens the reference and its abstract. The BibTeX source belongs to the bibliography (C23).
+- Extra Book. The disclosure mark is a chevron drawn in CSS, shown in the slides too.
+- Extra Slides. `opacity` replaced by `visibility`, and lengths written as `--font-size` coefficients.
 

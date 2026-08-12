@@ -39,12 +39,12 @@ This banner notice must not be removed.
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: calc(var(--font-size) * 0.5);
+    margin-bottom: calc(var(--font-size) * 1);
 }
 
 .bib-search-field {
-    flex: 1 1 12rem;
+    flex: 1 1 calc(var(--font-size) * 12);
     max-width: 100%;
 }
 
@@ -53,7 +53,7 @@ This banner notice must not be removed.
    reason to be hidden from the others. */
 .bib-announcement {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: calc(var(--font-size) * 1);
     font-size: calc(var(--font-size) * 0.9);
     font-weight: var(--font-weight-semithin);
     color: var(--fg-color-alt);
@@ -137,7 +137,7 @@ td.bib-number {
    with the addresses, and are numbered in the order of the text: a reference
    cited three times has three of them. */
 .bib-backlink {
-    margin-right: 0.3rem;
+    margin-right: calc(var(--font-size) * 0.3);
 }
 
 
@@ -151,18 +151,13 @@ td.bib-number {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.3rem;
+    gap: calc(var(--font-size) * 0.5);
+    margin-top: calc(var(--font-size) * 0.3);
     font-size: calc(var(--font-size) * 0.9);
 }
 
-/* An address is a link, and looks like one: it is underlined, it carries the
-   icon that says it leaves the document, and it has no frame. On screen it
-   says what it leads to; the address itself waits for the paper. */
-.bib-link {
-    color: var(--a-color);
-    text-decoration: underline;
-}
+/* An address is a link and nothing else: it takes the colors of a link, its
+   hover and its focus, and carries the icon that says it leaves the document. */
 
 /* The link says what it leads to; the address it holds waits for the paper. */
 .bib-link-address {
@@ -178,7 +173,7 @@ td.bib-number {
     align-items: center;
     width: auto;
     margin: 0;
-    padding: 0.2rem 0.5rem;
+    padding: calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.5);
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
@@ -218,7 +213,7 @@ td.bib-number {
 /* A content that opens takes the whole width of the table: an abstract read
    in the width of a column is an abstract nobody reads. */
 .bib-disclosure-content {
-    padding: 0.5rem;
+    padding: calc(var(--font-size) * 0.5);
     white-space: pre-wrap;
     font-size: calc(var(--font-size) * 0.9);
 }
@@ -259,8 +254,8 @@ td.bib-number {
    on its left rather than by a frame that would cut the text. */
 .bib-citation-content:not([hidden]) {
     display: block;
-    margin: 0.5rem 0;
-    padding: 0.5rem;
+    margin: calc(var(--font-size) * 0.5) 0;
+    padding: calc(var(--font-size) * 0.5);
     border-left: calc(3 * var(--border-width)) solid var(--border-color);
     font-size: calc(var(--font-size) * 0.9);
 }
@@ -269,18 +264,11 @@ td.bib-number {
 .bib-citation-content .bib-link,
 .bib-citation-part {
     display: block;
-    margin-top: 0.3rem;
+    margin-top: calc(var(--font-size) * 0.3);
 }
 
 .bib-citation-part > b {
-    margin-right: 0.5rem;
-}
-
-.bib-citation-source .bib-citation-text {
-    white-space: pre-wrap;
-    font-family: var(--font-family-mono);
-    font-size: calc(var(--font-size) * 0.8);
-    letter-spacing: 0;
+    margin-right: calc(var(--font-size) * 0.5);
 }
 
 
@@ -387,12 +375,6 @@ td.bib-number {
     display: none;
 }
 
-/* What opens a reference in a slide is the number, and nothing else: an
-   audience reads a sentence, it does not look for a control to press. */
-.slide .bib-citation-control::before {
-    content: none;
-}
-
 
 /* ----------------------------------------------------------------------- */
 /* On paper                                                                */
@@ -456,7 +438,7 @@ td.bib-number {
        address is written tighter. */
     .bib-link {
         display: block;
-        margin-bottom: 0.3rem;
+        margin-bottom: calc(var(--font-size) * 0.3);
     }
 
     .bib-link-address {

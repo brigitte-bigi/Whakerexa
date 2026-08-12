@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-06 08:02:28
+// Bundle automatically generated on 2026-08-12 09:18:07
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2054,6 +2054,7 @@ class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
     #activatedColor;
     #activatedContrast;
+    #colorModeSuspendedForPaper;
     // -----------------------------------------------------------------------
     // CONSTRUCTOR
     // -----------------------------------------------------------------------
@@ -2061,10 +2062,15 @@ class AccessibilityManager extends BaseManager {
         super();
         this.#activatedColor = "";
         this.#activatedContrast = "";
+        this.#colorModeSuspendedForPaper = false;
         OnLoadManager.addLoadFunction(this.#loadBodyClasses.bind(this));
         OnLoadManager.addLoadFunction(this.#setAllLinksCustom.bind(this));
         OnLoadManager.addLoadFunction(this.#setSubmitCustom.bind(this));
         OnLoadManager.addLoadFunction(this.#injectButtonIcons.bind(this));
+        // Paper is light. Held here rather than in every stylesheet, so that a
+        // theme never has to know that printing exists.
+        window.addEventListener('beforeprint', this.#leaveColorModeForPaper.bind(this));
+        window.addEventListener('afterprint', this.#restoreColorModeAfterPaper.bind(this));
     }
     // -----------------------------------------------------------------------
     // STATIC CONSTANTS
@@ -2165,6 +2171,22 @@ class AccessibilityManager extends BaseManager {
     }
     // -----------------------------------------------------------------------
     // PRIVATE METHODS
+    // -----------------------------------------------------------------------
+    #leaveColorModeForPaper() {
+        if (this.#activatedColor === "") {
+            return;
+        }
+        document.documentElement.classList.remove(AccessibilityManager.COLOR_MODE);
+        this.#colorModeSuspendedForPaper = true;
+    }
+    // -----------------------------------------------------------------------
+    #restoreColorModeAfterPaper() {
+        if (this.#colorModeSuspendedForPaper === false) {
+            return;
+        }
+        document.documentElement.classList.add(AccessibilityManager.COLOR_MODE);
+        this.#colorModeSuspendedForPaper = false;
+    }
     // -----------------------------------------------------------------------
     async #loadBodyClasses() {
         const params = new URLSearchParams(window.location.search);
@@ -4688,8 +4710,8 @@ class CitationIndex {
     static CITATION_SELECTOR = '[data-bibtex]';
     static KEY_ATTRIBUTE = 'data-bibtex';
     static LABELS = new Map([
-        ['en', {inBibliography: 'In the bibliography', abstract: 'Abstract', source: 'BibTeX'}],
-        ['fr', {inBibliography: 'Dans la bibliographie', abstract: 'Résumé', source: 'BibTeX'}]
+        ['en', {inBibliography: 'In the bibliography', abstract: 'Abstract'}],
+        ['fr', {inBibliography: 'Dans la bibliographie', abstract: 'Résumé'}]
     ]);
     // FIELDS
     #citations;
@@ -4757,7 +4779,6 @@ class CitationIndex {
         if (reference.abstract.length > 0) {
             content.appendChild(this.#buildPart('abstract', reference.abstract));
         }
-        content.appendChild(this.#buildPart('source', reference.sourceWithoutAbstract));
         return content;
     }
     #buildBibliographyLink(key) {

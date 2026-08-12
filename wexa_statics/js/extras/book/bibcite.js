@@ -73,8 +73,8 @@ export class CitationIndex {
      * What the program writes, in the languages it knows.
      */
     static LABELS = new Map([
-        ['en', {inBibliography: 'In the bibliography', abstract: 'Abstract', source: 'BibTeX'}],
-        ['fr', {inBibliography: 'Dans la bibliographie', abstract: 'Résumé', source: 'BibTeX'}]
+        ['en', {inBibliography: 'In the bibliography', abstract: 'Abstract'}],
+        ['fr', {inBibliography: 'Dans la bibliographie', abstract: 'Résumé'}]
     ]);
 
 
@@ -200,7 +200,6 @@ export class CitationIndex {
         if (reference.abstract.length > 0) {
             content.appendChild(this.#buildPart('abstract', reference.abstract));
         }
-        content.appendChild(this.#buildPart('source', reference.sourceWithoutAbstract));
 
         return content;
     }
@@ -223,7 +222,7 @@ export class CitationIndex {
     /**
      * Build one named part of what a citation opens.
      *
-     * @param name {string} What it is: the abstract or the BibTeX source.
+     * @param name {string} What it is: the abstract.
      * @param text {string} What is written inside.
      * @returns {HTMLElement} The part, with its name before it.
      */

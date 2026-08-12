@@ -668,6 +668,13 @@ This banner notice must not be removed.
 
 @layer theme {
 
+    /* An accent pair a theme is free to redefine. A component of the framework
+       draws with it, so it holds a value even when no theme is loaded. */
+    :root {
+        --custom-color1: var(--border-color);
+        --custom-color2: var(--border-color-alt);
+    }
+
     :root:not(.dark), .light {
 
         /* Accessibility/Focus */
