@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-12 09:18:07
+// Bundle automatically generated on 2026-08-12 14:29:07
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2785,31 +2785,18 @@ window.Wexa.ProgressBar = ProgressBar;
 // --------------------------------------------------------------------------
 class ToggleSelector {
     // Define base path and icon names as member variables
-    static ICON_PATH = "./whakerkit/icons";
-    // Icon names for different states
     static ICONS = {
-        CHECKED: "checked.png",
-        UNCHECKED: "unchecked.png",
-        HALF_CHECKED: "half-checked.png",
-        HALF_UNCHECKED: "half-unchecked.png",
-        HALF_CHECKED_DARK: "half-checked-dark.png",
-        HALF_UNCHECKED_DARK: "half-unchecked-dark.png",
-        CHECKED_DARK: "checked-dark.png",
-        UNCHECKED_DARK: "unchecked-dark.png"
+        CHECKED: "checked",
+        UNCHECKED: "unchecked",
+        HALF: "half-checked"
     };
     // Define CSS selectors for buttons and checkboxes
     static BUTTON_SELECTOR = 'button.accordion-action';
     static CHECKBOX_SELECTOR = 'input[type="checkbox"]';
     // Fields
-    _iconPath;
     _detailsElt;
     // Constructor
-    constructor(icon_path, detailsId) {
-        if (icon_path) {
-            this._iconPath = icon_path;
-        } else {
-            this._iconPath = ToggleSelector.ICON_PATH;
-        }
+    constructor(detailsId) {
         // The <details> element which is manipulated in this class
         this._detailsElt = document.getElementById(detailsId);
         if (!this._detailsElt) {
@@ -2826,8 +2813,12 @@ class ToggleSelector {
     handleInputsOnLoad() {
         // Setup listeners for checkboxes
         this.setupCheckboxListeners();
-        // Update all toggle buttons to adjust colors with theme
-        this.updateAllToggleButtons();
+        // The icons are drawn once the framework knows where to read them: a
+        // page may instantiate this class before wexa.js has said so.
+        OnLoadManager.addLoadFunction(() => {
+            this.drawBoxes();
+            this.updateAllToggleButtons();
+        });
         // Attach event listener for click events on checkboxes
         document.addEventListener('click', (event) => {
             const target = event.target;
@@ -2837,7 +2828,35 @@ class ToggleSelector {
         });
     }
     // ----------------------------------------------------------------------
+    drawBoxes() {
+        this.getCheckboxes().forEach(checkbox => {
+            const label = this._detailsElt.querySelector('label[for="' + checkbox.id + '"]');
+            if (label === null) {
+                console.warn(`ToggleSelector: the checkbox "${checkbox.id}" has no label, its box is not drawn.`);
+                return;
+            }
+            let holder = label.querySelector('span.check-box');
+            if (holder === null) {
+                holder = document.createElement('span');
+                holder.className = 'check-box';
+                label.insertBefore(holder, label.firstChild);
+            }
+            holder.replaceChildren();
+            SVGIconsManager.inject(holder,
+                checkbox.checked === true ? ToggleSelector.ICONS.CHECKED : ToggleSelector.ICONS.UNCHECKED);
+        });
+    }
+    // ----------------------------------------------------------------------
     toggleSelection(event) {
+        // A key that is not the one acting on this button belongs to the page:
+        // preventing it would keep the focus from ever leaving.
+        if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+        // A click inside a summary opens or closes the disclosure: this button
+        // acts on the boxes, and on nothing else.
+        event.preventDefault();
+        event.stopPropagation();
         const checkboxes = this.getCheckboxes();
         const button = event.currentTarget;
         // Check if any of the checkboxes are already checked
@@ -2846,40 +2865,22 @@ class ToggleSelector {
         checkboxes.forEach(checkbox => {
             checkbox.checked = !anyChecked;
         });
-        // Update the button image based on the new state
+        // Update the button image and every box with the new state
         this.updateToggleButton(button, !anyChecked);
+        this.drawBoxes();
     }
     // ----------------------------------------------------------------------
-    updateToggleButton(button, anyChecked, oneChecked = false, check = false) {
-        // Get the image inside the button
-        const toggleImg = button.querySelector('img');
-        // Detect if dark mode is active
-        const isDarkMode = document.body.classList.contains('dark');
-        let imgSrc = ""; // Variable to hold the image source path
-        // Determine which image to display based on the checkbox states
-        if (oneChecked && check) {
-            imgSrc = isDarkMode ?
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_CHECKED_DARK}` :
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_CHECKED}`;
-        } else if (oneChecked && !check) {
-            imgSrc = isDarkMode ?
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED_DARK}` :
-                `${this._iconPath}/${ToggleSelector.ICONS.HALF_UNCHECKED}`;
-        } else {
-            imgSrc = anyChecked
-                ? (isDarkMode ?
-                    `${this._iconPath}/${ToggleSelector.ICONS.CHECKED_DARK}` :
-                    `${this._iconPath}/${ToggleSelector.ICONS.CHECKED}`)
-                : (isDarkMode ?
-                    `${this._iconPath}/${ToggleSelector.ICONS.UNCHECKED_DARK}` :
-                    `${this._iconPath}/${ToggleSelector.ICONS.UNCHECKED}`);
+    updateToggleButton(button, anyChecked, oneChecked = false) {
+        let name = ToggleSelector.ICONS.UNCHECKED;
+        if (oneChecked === true) {
+            name = ToggleSelector.ICONS.HALF;
+        } else if (anyChecked === true) {
+            name = ToggleSelector.ICONS.CHECKED;
         }
-        // Update the image source
-        if (toggleImg) {
-            toggleImg.src = imgSrc;
-        } else {
-            console.error(`Image not found in button: ${button.id}`);
-        }
+        // inject() leaves an element that already holds an SVG untouched: what
+        // is drawn has to go before the new state can be drawn.
+        button.replaceChildren();
+        SVGIconsManager.inject(button, name);
     }
     // ----------------------------------------------------------------------
     setupCheckboxListeners() {
@@ -2892,10 +2893,9 @@ class ToggleSelector {
                 const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
                 // All are checked
                 const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-                // Log the state for debugging purposes
-                console.log(`Checkbox ${checkbox.id} changed. Any checked: ${anyChecked}, All checked: ${allChecked}`);
-                // Update button based on the state
+                // Update button and boxes based on the state
                 this.updateButtonState(button, anyChecked, allChecked);
+                this.drawBoxes();
             });
         });
     }
@@ -2904,9 +2904,9 @@ class ToggleSelector {
         if (allChecked) {
             this.updateToggleButton(button, anyChecked);
         } else if (anyChecked) {
-            this.updateToggleButton(button, anyChecked, true, true);
+            this.updateToggleButton(button, anyChecked, true);
         } else {
-            this.updateToggleButton(button, anyChecked, false, false);
+            this.updateToggleButton(button, anyChecked, false);
         }
     }
     // ----------------------------------------------------------------------
@@ -4950,36 +4950,55 @@ class BibliographyControls {
     // CONSTANTS
     static LABELS = new Map([
         ['en', {
-            search: 'Search in the bibliography',
+            searchName: 'Search in references',
             shownOne: 'reference shown', shownMany: 'references shown',
             sortedBy: 'sorted by', ascending: 'ascending', descending: 'descending',
-            unsorted: 'back to the original order'
+            unsorted: 'back to the original order',
+            columns: 'Columns visibility:', apply: 'Apply', showHide: 'Show/Hide'
         }],
         ['fr', {
-            search: 'Rechercher dans la bibliographie',
+            searchName: 'Rechercher dans les références',
             shownOne: 'référence affichée', shownMany: 'références affichées',
             sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
-            unsorted: 'retour à l\'ordre de départ'
+            unsorted: 'retour à l\'ordre de départ',
+            columns: 'Visibilité des colonnes :', apply: 'Appliquer', showHide: 'Afficher/Masquer'
         }]
     ]);
+    static NARROW_WIDTH_IN_FONTS = 38.75;
     // FIELDS
     #table;
     #texts;
     #sorter;
     #field;
     #announcement;
+    #columns;
+    #selector;
+    #wasNarrow;
     // CONSTRUCTOR
     constructor(table) {
         this.#table = table;
         this.#texts = new Labels(BibliographyControls.LABELS);
         const search = this.#buildSearch();
-        this.#field = search.querySelector('input');
+        this.#field = search;
         this.#announcement = this.#buildAnnouncement();
-        this.#table.before(search);
+        this.#columns = this.#buildColumns();
+        const panel = document.createElement('div');
+        panel.className = 'wrap-panel bib-controls';
+        search.classList.add('wrap-item');
+        this.#columns.classList.add('wrap-item');
+        panel.appendChild(search);
+        panel.appendChild(this.#columns);
+        this.#table.before(panel);
         this.#table.before(this.#announcement);
         this.#sorter = new SortaTable(this.#table.id);
         this.#sorter.attachSortListeners();
         this.#watchSortButtons();
+        this.#selector = new ToggleSelector(this.#columns.querySelector('details').id);
+        this.#wasNarrow = null;
+        this.#showColumnsTheWidthAllows();
+        // A device turned over changes the width without loading anything: the
+        // columns follow it, as they do when the page opens.
+        window.addEventListener('resize', () => this.#showColumnsTheWidthAllows());
     }
     // GETTERS
     get field() {
@@ -5041,17 +5060,88 @@ class BibliographyControls {
         });
     }
     #buildSearch() {
-        const label = document.createElement('label');
-        label.className = 'bib-search';
-        const text = document.createElement('span');
-        this.#texts.write(text, 'search');
         const field = document.createElement('input');
         field.type = 'search';
         field.className = 'bib-search-field';
-        label.appendChild(text);
-        label.appendChild(field);
+        // What is searched is the reference, not the whole bibliography: the
+        // number and the year are not read by a search. The placeholder says it
+        // in the field; the name says it to whoever does not see the field, and
+        // stays when the placeholder gives way to the first letter typed.
+        field.setAttribute('aria-label', this.#texts.text('searchName'));
+        field.setAttribute('placeholder', this.#texts.text('searchName'));
         field.addEventListener('input', () => this.filter(field.value));
-        return label;
+        return field;
+    }
+    #buildColumns() {
+        const group = document.createElement('div');
+        group.className = 'bib-columns';
+        const details = document.createElement('details');
+        details.className = 'flex-item';
+        details.id = this.#table.id + '-columns';
+        const summary = document.createElement('summary');
+        summary.className = 'summary-choice';
+        const title = document.createElement('span');
+        this.#texts.write(title, 'columns');
+        summary.appendChild(title);
+        const all = document.createElement('button');
+        all.type = 'button';
+        all.className = 'accordion-action';
+        all.setAttribute('data-toggle', '');
+        all.setAttribute('aria-label', this.#texts.text('columns'));
+        all.appendChild(document.createElement('img'));
+        all.addEventListener('click', event => this.#selector.toggleSelection(event));
+        all.addEventListener('keydown', event => this.#selector.toggleSelection(event));
+        summary.appendChild(all);
+        details.appendChild(summary);
+        const holder = document.createElement('div');
+        const list = document.createElement('ul');
+        this.#table.querySelectorAll('thead th').forEach((header, index) => {
+            const button = header.querySelector('button.sortatable');
+            const name = button === null ? header.getAttribute('data-sort') : button.getAttribute('data-sort');
+            if (name === null) {
+                return;
+            }
+            const item = document.createElement('li');
+            item.className = 'check-item';
+            const box = document.createElement('input');
+            box.type = 'checkbox';
+            box.id = this.#table.id + '-column-' + name;
+            box.checked = true;
+            box.setAttribute('data-toggle', name);
+            box.setAttribute('aria-labelledby', box.id + '-label');
+            const label = document.createElement('label');
+            label.id = box.id + '-label';
+            label.setAttribute('for', box.id);
+            label.textContent = this.#texts.text('showHide') + ' ' + header.textContent.trim();
+            item.appendChild(box);
+            item.appendChild(label);
+            list.appendChild(item);
+        });
+        holder.appendChild(list);
+        details.appendChild(holder);
+        const apply = document.createElement('button');
+        apply.type = 'button';
+        apply.className = 'flex-item';
+        this.#texts.write(apply, 'apply');
+        apply.addEventListener('click', () => this.#applyColumns());
+        group.appendChild(details);
+        group.appendChild(apply);
+        return group;
+    }
+    #showColumnsTheWidthAllows() {
+        const font = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const isNarrow = window.innerWidth < BibliographyControls.NARROW_WIDTH_IN_FONTS * font;
+        if (isNarrow === this.#wasNarrow) {
+            return;
+        }
+        this.#wasNarrow = isNarrow;
+        this.#selector.getCheckboxes().forEach(box => {
+            box.checked = isNarrow === false || box.getAttribute('data-toggle') === 'author';
+        });
+        this.#applyColumns();
+    }
+    #applyColumns() {
+        this.#sorter.toggleColumnVisibility(this.#selector.getCheckboxes());
     }
     #buildAnnouncement() {
         const region = document.createElement('p');
@@ -5466,7 +5556,7 @@ SVGIconsManager.register('bell', "<svg xmlns=\"http://www.w3.org/2000/svg\" view
 SVGIconsManager.register('book-open', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 6h10a4 4 0 0 1 4 4v16a4 4 0 0 0-4-4H4z\"/>\n  <path d=\"M28 6H18a4 4 0 0 0-4 4v16a4 4 0 0 1 4-4h10z\"/>\n</svg>\n");
 SVGIconsManager.register('cadenas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"7\" y=\"15\" width=\"19\" height=\"13\" rx=\"3\" />\n  <path d=\"M11 15V9a5 5 0 0 1 11 0v5\" />\n</svg>");
 SVGIconsManager.register('cancel', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n\t<circle cx=\"16\" cy=\"16\" r=\"10\" />\n\t<line x1=\"10\" y1=\"22\" x2=\"22\" y2=\"10\" />\n</svg>");
-SVGIconsManager.register('checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\">\n  <g id=\"SVGRepo_bgCarrier\" stroke-width=\"2\" />\n  <g id=\"SVGRepo_tracerCarrier\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n  <g id=\"SVGRepo_iconCarrier\">\n    <path d=\"M11 17L14 20L21 12M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n  </g>\n</svg>");
+SVGIconsManager.register('checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z M11 17L14 20L21 12\" />\n</svg>\n");
 SVGIconsManager.register('color', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" \n\t  fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <!-- Diagonal half fill -->\n  <clipPath id=\"cut\">\n\t<polygon points=\"0,32 32,0 32,32\"/>\n  </clipPath>\n  <circle cx=\"16\" cy=\"16\" r=\"13\" fill=\"currentColor\" clip-path=\"url(#cut)\" stroke=\"none\"/>\n</svg>");
 SVGIconsManager.register('compas', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n\n  <!-- Compass ticks -->\n  <line x1=\"16\" y1=\"2\" x2=\"16\" y2=\"4\"/>\n  <line x1=\"16\" y1=\"28\" x2=\"16\" y2=\"30\"/>\n  <line x1=\"2\" y1=\"16\" x2=\"4\" y2=\"16\"/>\n  <line x1=\"28\" y1=\"16\" x2=\"30\" y2=\"16\"/>\n\n  <!-- Needle (angled ~30\u00b0) -->\n  <polygon points=\"18 8 22 18 14 24 10 14\"/>\n  <circle cx=\"16\" cy=\"16\" r=\"1\"/>\n</svg>\n\n");
 SVGIconsManager.register('congrats', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <circle cx=\"16\" cy=\"11\" r=\"8\" />\n  <path d=\"M11 19l-3 8 8-4 8 4-3-8\" />\n</svg>");
@@ -5481,6 +5571,7 @@ SVGIconsManager.register('feedback', "<svg xmlns=\"http://www.w3.org/2000/svg\" 
 SVGIconsManager.register('first', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n    <path d=\"M20 28 L8 16 L20 4 Z\" />\n    <line x1=\"4\" y1=\"4\" x2=\"4\" y2=\"28\" />\n</svg>\n");
 SVGIconsManager.register('games', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <rect x=\"5\" y=\"11\" width=\"21\" height=\"11\" rx=\"3\" />\n  <circle cx=\"11\" cy=\"16\" r=\"1\" />\n  <circle cx=\"13\" cy=\"16\" r=\"1\" />\n  <circle cx=\"19\" cy=\"13\" r=\"1\" />\n  <circle cx=\"19\" cy=\"19\" r=\"1\" />\n</svg>");
 SVGIconsManager.register('goto', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M6 8 H18 V18\" />\n    <polyline points=\"12 18 18 24 24 18\" />\n</svg>\n");
+SVGIconsManager.register('half-checked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n  <circle cx=\"16\" cy=\"16\" r=\"3.5\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");
 SVGIconsManager.register('heart-svgrepo-com', "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800px\" height=\"800px\" viewBox=\"0 0 32 32\" fill=\"none\">\n  <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M16 8C14 5 10 4 7 7C4 9 3 14 6 17C7 19 13 25 15 26C16 27 16 27 16 27C16 27 16 27 16 27C16 27 16 27 17 26C19 25 25 19 26 17C29 14 28 9 25 7C22 4 18 5 16 8Z\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n</svg>");
 SVGIconsManager.register('help', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"16\" r=\"13\" />\n  <path d=\"M12 12a4 4 0 0 1 8 0c0 3-4 3-4 5\" />\n  <circle cx=\"16\" cy=\"23\" r=\"1\" />\n</svg>");
 SVGIconsManager.register('house', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 16L16 5l12 11\" />\n  <path d=\"M7 16v9a1 1 0 0 0 1 1h5v-7h5v7h5a1 1 0 0 0 1-1v-9\" />\n</svg>");
@@ -5509,6 +5600,7 @@ SVGIconsManager.register('sun-svgrepo-com', "<svg xmlns=\"http://www.w3.org/2000
 SVGIconsManager.register('switch_contrast', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-label=\"Contrast switcher icon\">\n  <path d=\"M2 16s4-8 14-8 14 8 14 8-4 8-14 8S2 16 2 16z\"/>\n  <!-- text x=\"16\" y=\"20\" font-size=\"13\" text-anchor=\"middle\" fill=\"currentColor\" font-family=\"Commissioner, sans-serif\">A</text -->\n  <!-- Letter A drawn with three lines -->\n  <line x1=\"13\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"19\" y1=\"20\" x2=\"16\" y2=\"12\"/>\n  <line x1=\"14\" y1=\"18\" x2=\"18\" y2=\"18\"/>\n  \n  <!-- Plus sign (top-left) -->\n  <line x1=\"5.5\" y1=\"5.5\" x2=\"5.5\" y2=\"8.5\"/>\n  <line x1=\"4\" y1=\"7\" x2=\"7\" y2=\"7\"/>\n\n  <!-- Minus sign (bottom-right) -->\n  <line x1=\"25\" y1=\"25\" x2=\"28\" y2=\"25\"/>\n</svg>");
 SVGIconsManager.register('switch_theme', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n  <!-- Outer circle -->\n  <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n  <!-- Diagonal half fill -->\n  <clipPath id=\"cut\">\n    <polygon points=\"0,32 32,0 32,32\"/>\n  </clipPath>\n  <circle cx=\"16\" cy=\"16\" r=\"13\" fill=\"currentColor\" clip-path=\"url(#cut)\" stroke=\"none\"/>\n</svg>\n");
 SVGIconsManager.register('theme', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\"\n     fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"\n     stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\">\n    <circle cx=\"16\" cy=\"16\" r=\"13\"/>\n    <circle cx=\"16\" cy=\"16\" r=\"5\" fill=\"currentColor\" stroke=\"none\"/>\n    <line x1=\"16\" y1=\"3\"  x2=\"16\" y2=\"8\"/>\n    <line x1=\"16\" y1=\"24\" x2=\"16\" y2=\"29\"/>\n    <line x1=\"3\"  y1=\"16\" x2=\"8\"  y2=\"16\"/>\n    <line x1=\"24\" y1=\"16\" x2=\"29\" y2=\"16\"/>\n</svg>\n");
+SVGIconsManager.register('unchecked', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M10 27H22C24 27 25 27 25 26C26 26 26 26 26 25C27 25 27 24 27 22V10C27 8 27 7 26 7C26 6 26 6 25 6C25 5 24 5 22 5H10C8 5 7 5 7 6C6 6 6 6 6 7C5 7 5 8 5 10V22C5 24 5 25 6 25C6 26 6 26 7 26C7 27 8 27 10 27Z\" />\n</svg>\n");
 SVGIconsManager.register('user', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n</svg>");
 SVGIconsManager.register('valid', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <polyline points=\"7 17 12 23 25 9\" />\n</svg>");
 SVGIconsManager.register('video', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\">\n  <rect x=\"4\" y=\"8\" width=\"20\" height=\"16\" rx=\"3\" />\n  <polygon points=\"21 13 28 9 28 23 21 19\" />\n</svg>");

@@ -267,4 +267,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. A citation opens the reference and its abstract. The BibTeX source belongs to the bibliography (C23).
 - Extra Book. The disclosure mark is a chevron drawn in CSS, shown in the slides too.
 - Extra Slides. `opacity` replaced by `visibility`, and lengths written as `--font-size` coefficients.
+- Extra Book. The bibliography carries a column selector. Under 38.75 font sizes, the number and the year are unchecked (B24).
+- ToggleSelector. Boxes and toggle drawn with mono-svg icons: new `unchecked` and `half-checked`, and no icon path to give.
+- wexa.css. `fadeIn` no longer animates `display`: what a `details` opened showed nothing.
+- Docs. Architecture says where the rule of proportional sizes stops, and why.
 

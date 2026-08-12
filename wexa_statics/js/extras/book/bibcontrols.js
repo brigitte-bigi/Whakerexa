@@ -32,6 +32,7 @@
 'use strict';
 
 import { SortaTable } from '../sortatable.js';
+import { ToggleSelector } from '../../toggleselect.js';
 import { BibliographyTable } from './bibtable.js';
 import { Labels } from './labels.js';
 
@@ -55,19 +56,32 @@ export class BibliographyControls {
      */
     static LABELS = new Map([
         ['en', {
-            search: 'Search in the bibliography',
+            searchName: 'Search in references',
             shownOne: 'reference shown', shownMany: 'references shown',
             sortedBy: 'sorted by', ascending: 'ascending', descending: 'descending',
-            unsorted: 'back to the original order'
+            unsorted: 'back to the original order',
+            columns: 'Columns visibility:', apply: 'Apply', showHide: 'Show/Hide'
         }],
         ['fr', {
-            search: 'Rechercher dans la bibliographie',
+            searchName: 'Rechercher dans les références',
             shownOne: 'référence affichée', shownMany: 'références affichées',
             sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
-            unsorted: 'retour à l\'ordre de départ'
+            unsorted: 'retour à l\'ordre de départ',
+            columns: 'Visibilité des colonnes :', apply: 'Appliquer', showHide: 'Afficher/Masquer'
         }]
     ]);
 
+
+    /**
+     * The width under which the reference alone is shown, counted in fonts.
+     *
+     * A phone held sideways starts there. Under it, a column of two or four
+     * characters still asks for its share, and the text is left with a dozen
+     * characters a line. The width is counted in font sizes and not in pixels:
+     * the contrast mode writes larger, and what is too narrow for a text of 16
+     * is too narrow sooner for a text of 18.
+     */
+    static NARROW_WIDTH_IN_FONTS = 38.75;
 
     // FIELDS
     #table;
@@ -75,6 +89,9 @@ export class BibliographyControls {
     #sorter;
     #field;
     #announcement;
+    #columns;
+    #selector;
+    #wasNarrow;
 
 
     // CONSTRUCTOR
@@ -91,15 +108,32 @@ export class BibliographyControls {
         this.#texts = new Labels(BibliographyControls.LABELS);
 
         const search = this.#buildSearch();
-        this.#field = search.querySelector('input');
+        this.#field = search;
         this.#announcement = this.#buildAnnouncement();
 
-        this.#table.before(search);
+        this.#columns = this.#buildColumns();
+
+        const panel = document.createElement('div');
+        panel.className = 'wrap-panel bib-controls';
+        search.classList.add('wrap-item');
+        this.#columns.classList.add('wrap-item');
+        panel.appendChild(search);
+        panel.appendChild(this.#columns);
+
+        this.#table.before(panel);
         this.#table.before(this.#announcement);
 
         this.#sorter = new SortaTable(this.#table.id);
         this.#sorter.attachSortListeners();
         this.#watchSortButtons();
+
+        this.#selector = new ToggleSelector(this.#columns.querySelector('details').id);
+        this.#wasNarrow = null;
+        this.#showColumnsTheWidthAllows();
+
+        // A device turned over changes the width without loading anything: the
+        // columns follow it, as they do when the page opens.
+        window.addEventListener('resize', () => this.#showColumnsTheWidthAllows());
     }
 
 
@@ -245,27 +279,145 @@ export class BibliographyControls {
     }
 
     /**
-     * Build the label and the field a word is searched from.
+     * Build the field a word is searched from.
      *
-     * @returns {HTMLElement} The label, the field inside it.
+     * No visible label: the magnifier wexa.css draws in a search field says
+     * what it is, and the field carries its name for whoever does not see it.
+     *
+     * @returns {HTMLElement} The field itself: nothing has to hold it.
      */
     #buildSearch() {
-        const label = document.createElement('label');
-        label.className = 'bib-search';
-
-        const text = document.createElement('span');
-        this.#texts.write(text, 'search');
-
         const field = document.createElement('input');
         field.type = 'search';
         field.className = 'bib-search-field';
-
-        label.appendChild(text);
-        label.appendChild(field);
+        // What is searched is the reference, not the whole bibliography: the
+        // number and the year are not read by a search. The placeholder says it
+        // in the field; the name says it to whoever does not see the field, and
+        // stays when the placeholder gives way to the first letter typed.
+        field.setAttribute('aria-label', this.#texts.text('searchName'));
+        field.setAttribute('placeholder', this.#texts.text('searchName'));
 
         field.addEventListener('input', () => this.filter(field.value));
 
-        return label;
+        return field;
+    }
+
+    /**
+     * Build the list of the columns that can be shown or hidden.
+     *
+     * The markup is the one the column selector of a sortable table is written
+     * with: a details holding a list of check items, and a button that applies
+     * what is checked. A document writes its data and its text; what acts upon
+     * them is built here, with the search field.
+     *
+     * @returns {HTMLElement} What holds the list and the button that applies it.
+     */
+    #buildColumns() {
+        const group = document.createElement('div');
+        group.className = 'bib-columns';
+
+        const details = document.createElement('details');
+        details.className = 'flex-item';
+        details.id = this.#table.id + '-columns';
+
+        const summary = document.createElement('summary');
+        summary.className = 'summary-choice';
+        const title = document.createElement('span');
+        this.#texts.write(title, 'columns');
+        summary.appendChild(title);
+
+        const all = document.createElement('button');
+        all.type = 'button';
+        all.className = 'accordion-action';
+        all.setAttribute('data-toggle', '');
+        all.setAttribute('aria-label', this.#texts.text('columns'));
+        all.appendChild(document.createElement('img'));
+        all.addEventListener('click', event => this.#selector.toggleSelection(event));
+        all.addEventListener('keydown', event => this.#selector.toggleSelection(event));
+        summary.appendChild(all);
+
+        details.appendChild(summary);
+
+        const holder = document.createElement('div');
+        const list = document.createElement('ul');
+
+        this.#table.querySelectorAll('thead th').forEach((header, index) => {
+            const button = header.querySelector('button.sortatable');
+            const name = button === null ? header.getAttribute('data-sort') : button.getAttribute('data-sort');
+            if (name === null) {
+                return;
+            }
+
+            const item = document.createElement('li');
+            item.className = 'check-item';
+
+            const box = document.createElement('input');
+            box.type = 'checkbox';
+            box.id = this.#table.id + '-column-' + name;
+            box.checked = true;
+            box.setAttribute('data-toggle', name);
+            box.setAttribute('aria-labelledby', box.id + '-label');
+
+            const label = document.createElement('label');
+            label.id = box.id + '-label';
+            label.setAttribute('for', box.id);
+            label.textContent = this.#texts.text('showHide') + ' ' + header.textContent.trim();
+
+            item.appendChild(box);
+            item.appendChild(label);
+            list.appendChild(item);
+        });
+
+        holder.appendChild(list);
+        details.appendChild(holder);
+
+        const apply = document.createElement('button');
+        apply.type = 'button';
+        apply.className = 'flex-item';
+        this.#texts.write(apply, 'apply');
+        apply.addEventListener('click', () => this.#applyColumns());
+
+        group.appendChild(details);
+        group.appendChild(apply);
+
+        return group;
+    }
+
+    /**
+     * Show the columns the width of the screen has room for.
+     *
+     * Nothing is taken away: the reader checks back whatever they want to read.
+     * The columns are set when the page opens and each time the screen crosses
+     * that width, a device turned over being the ordinary case; between two
+     * crossings, what the reader checked is left alone.
+     *
+     * @returns {void}
+     */
+    #showColumnsTheWidthAllows() {
+        const font = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const isNarrow = window.innerWidth < BibliographyControls.NARROW_WIDTH_IN_FONTS * font;
+        if (isNarrow === this.#wasNarrow) {
+            return;
+        }
+        this.#wasNarrow = isNarrow;
+
+        this.#selector.getCheckboxes().forEach(box => {
+            box.checked = isNarrow === false || box.getAttribute('data-toggle') === 'author';
+        });
+
+        this.#applyColumns();
+    }
+
+    /**
+     * Apply to the table what the checkboxes say.
+     *
+     * Nothing is announced: what the boxes say is what the table shows, and a
+     * count of columns tells a reader nothing they cannot see.
+     *
+     * @returns {void}
+     */
+    #applyColumns() {
+        this.#sorter.toggleColumnVisibility(this.#selector.getCheckboxes());
     }
 
     /**

@@ -413,17 +413,18 @@ This banner notice must not be removed.
     }
 }
 
+/* No display in these frames: it is a discrete property, and a first frame
+   that hides the element keeps the animation from ever running -- what opens
+   a details never showed itself again. */
 @keyframes fadeIn {
     0% {
         opacity: 0;
         transform: scaleY(0);
-        display: none;
     }
 
     100% {
         opacity: 1;
         transform: scaleY(1);
-        display: block;
     }
 }
 
@@ -1238,6 +1239,37 @@ This banner notice must not be removed.
         line-height: var(--line-height);
         font-weight: var(--font-weight-normal);
         color: var(--h6-color);
+    }
+
+    /* A title of five words has to hold on a screen of five hundred pixels:
+       under the mobile border it is written smaller, and its letters are not
+       spaced further apart. */
+    @media screen and (max-width: 1023.98px) {
+
+        h1 {
+            font-size: calc(1.5 * var(--font-size));
+            letter-spacing: var(--letter-spacing);
+        }
+
+        h2 {
+            font-size: calc(1.35 * var(--font-size));
+            letter-spacing: var(--letter-spacing);
+        }
+
+        h3 {
+            font-size: calc(1.2 * var(--font-size));
+            letter-spacing: var(--letter-spacing);
+        }
+
+        h4 {
+            font-size: calc(1.1 * var(--font-size));
+            letter-spacing: var(--letter-spacing);
+        }
+
+        h5 {
+            font-size: var(--font-size);
+            letter-spacing: var(--letter-spacing);
+        }
     }
 
     /* ---------------------- Text & inline text ----------------------------- */

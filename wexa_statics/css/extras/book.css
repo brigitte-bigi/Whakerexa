@@ -56,6 +56,16 @@ Architecture:
     html:has(aside.book-toc-aside.open) {
         margin-left: calc(var(--toc-aside-width) + var(--toc-width));
     }
+
+    /* A narrow screen has no width to lend to a column nobody reads: the
+       toggle and the panel stand over the text instead of pushing it. */
+    @media (max-width: 1023.98px) {
+        html,
+        html:has(aside.book-toc-aside),
+        html:has(aside.book-toc-aside.open) {
+            margin-left: 0;
+        }
+    }
 }
 
 body {
@@ -113,13 +123,10 @@ body {
     padding-right: 0;
 }
 
-.ssection h2 {
-    font-size: calc(1.6 * var(--font-size));
-}
-
+/* The size of a title belongs to wexa.css: the number takes the size of the
+   title it numbers. */
 .ssection h2::before {
     content: counter(chapter) "." counter(ssection) " ";
-    font-size: calc(1.6 * var(--font-size));
 }
 
 /* A new numbered sub-section in the section */

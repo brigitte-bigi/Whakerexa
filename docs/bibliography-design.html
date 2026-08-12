@@ -204,10 +204,11 @@
                     <tr><td>B15</td><td>Reading an abstract does not lose your place in the bibliography.</td></tr>
                     <tr><td>B16</td><td>The references can be sorted by year, or by author.</td></tr>
                     <tr><td>B19</td><td>Only the references a word appears in can be kept.</td></tr>
-                    <tr><td>B20</td><td>Sorting, searching, and how the bibliography is built are said, not only shown.</td></tr>
+                    <tr><td>B20</td><td>Sorting, searching, and how the bibliography is built are said to whoever does not see the table: a status message, WCAG 4.1.3. Nothing of it is drawn.</td></tr>
                     <tr><td>B21</td><td>On paper the references read, the addresses written in full.</td></tr>
                     <tr><td>B22</td><td>Two entries sharing a key: the console says so, and the second replaces the first.</td></tr>
                     <tr><td>B23</td><td>The bibliography is shown whole in a presentation. How this is done is <a href="slides-design.html">the slides pagination</a>.</td></tr>
+                    <tr><td>B24</td><td>A reference is read whole on a narrow screen: what numbers it and what dates it never take the width its text needs. The columns follow the width of the screen, at every moment and not only when the page opens.</td></tr>
                     </tbody>
                 </table>
             </section>
@@ -266,6 +267,46 @@
                     numbers go up, which tells a reader whether a reference is a new one without
                     opening anything. An alphabetical order would give a sequence with no
                     apparent logic.</p>
+            </section>
+
+            <section class="ssection"><h2>Where the columns give way</h2>
+
+                <p>On a narrow screen the number and the year are not shown, and the reference
+                    takes the whole width. Nothing else changes: the table stays a table, its
+                    columns stay columns, and the reader turns the two of them back on from the
+                    column selector the bibliography builds with its search field.</p>
+
+                <p>When: whenever the screen crosses that width, and not only when the page
+                    opens. A device is turned over and a window is resized without anything
+                    being loaded again, and the columns follow. Between two crossings, what the
+                    reader checked is left alone: the width decides the default, never the
+                    choice.</p>
+
+                <p>Why not stack the entry: laying a row out as blocks takes the roles of a
+                    table away from it, and a screen reader stops saying which cell it is
+                    reading and under which header. Hiding a column costs none of that, and the
+                    selector is the component the sortable table is built with.</p>
+
+                <p>Why at all: the number and the year are two characters and four characters,
+                    but a column asks for a share of the width all the same. Measured on a
+                    reference of 413 characters, they take 186 pixels out of 800, leaving 581 to
+                    the text, which reads in six lines. On a screen of 400 pixels they take 225
+                    and leave 185, which is a dozen characters a line and a reference thirty
+                    lines tall.</p>
+
+                <p>Where: at the step of the phone held sideways, and not at the mobile border
+                    of the framework. A tablet held upright has the width for the three columns,
+                    and hiding them there would waste it.</p>
+
+                <p>Counted in what: in font sizes, 38.75 of them, and never in pixels. That is
+                    620 pixels for a text of 16 and 698 for a text of 18, so the columns give way
+                    sooner in contrast mode, where the text is written larger. A media query
+                    could not do this, its condition being read before any variable is resolved;
+                    this threshold is held in JavaScript, which has no such limit.</p>
+
+                <p>What this is not: a feature withheld from a small screen. Everything the
+                    bibliography does on a wide screen, it does on a phone. Only the columns
+                    checked at the opening differ.</p>
             </section>
 
             <section class="ssection"><h2>The citation in the source</h2>
@@ -607,7 +648,7 @@
                     <tr><td><code>BibliographyTable</code></td><td><code>bibtable.js</code></td><td>Builds the table. Knows nothing of the citations.</td></tr>
                     <tr><td><code>CitationIndex</code></td><td><code>bibcite.js</code></td><td>Numbers the citations and ties them to references.</td></tr>
                     <tr><td><code>ReferenceDisclosure</code></td><td><code>bibdisclosure.js</code></td><td>Opens and closes one content.</td></tr>
-                    <tr><td><code>BibliographyControls</code></td><td><code>bibcontrols.js</code></td><td>Sorts and searches, and says what changed.</td></tr>
+                    <tr><td><code>BibliographyControls</code></td><td><code>bibcontrols.js</code></td><td>Sorts and searches, says what changed, and checks the columns the width has room for.</td></tr>
                     <tr><td><code>BookBibliography</code></td><td><code>bibbook.js</code></td><td>Calls the others in order. The entry point.</td></tr>
                     <tr><td><code>Labels</code></td><td><code>labels.js</code></td><td>Writes in the language of the document.</td></tr>
                     </tbody>
@@ -677,7 +718,8 @@
                     <tr><td>8</td><td><code>BookBibliography</code></td><td><code>BibliographyTable</code></td><td>The table</td></tr>
                     <tr><td>9</td><td><code>BookBibliography</code></td><td><code>ReferenceDisclosure</code></td><td>One per content that opens, all closed</td></tr>
                     <tr><td>10</td><td><code>BookBibliography</code></td><td><code>BibliographyControls</code></td><td>Sorting and searching, put on the table</td></tr>
-                    <tr><td>11</td><td>The browser</td><td>The table of contents</td><td>Built, and it sees the heading of the bibliography</td></tr>
+                    <tr><td>11</td><td><code>BibliographyControls</code></td><td>The column selector</td><td>The columns the width has room for, checked. The reader may check the others</td></tr>
+                    <tr><td>12</td><td>The browser</td><td>The table of contents</td><td>Built, and it sees the heading of the bibliography</td></tr>
                     </tbody>
                 </table>
 

@@ -35,28 +35,26 @@ This banner notice must not be removed.
 /* Searching the bibliography                                              */
 /* ----------------------------------------------------------------------- */
 
-.bib-search {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: calc(var(--font-size) * 0.5);
-    margin-bottom: calc(var(--font-size) * 1);
-}
-
 .bib-search-field {
     flex: 1 1 calc(var(--font-size) * 12);
     max-width: 100%;
 }
 
 
-/* What changed is said. It is shown too: what is announced to some has no
-   reason to be hidden from the others. */
+/* What changed is said, and only said: a reader who sees the table sees the
+   rows go, and B20 answers WCAG 4.1.3, which is about what is not seen. The
+   region stays in the page and in the accessibility tree; it takes no room and
+   draws nothing. */
 .bib-announcement {
-    margin-top: 0;
-    margin-bottom: calc(var(--font-size) * 1);
-    font-size: calc(var(--font-size) * 0.9);
-    font-weight: var(--font-weight-semithin);
-    color: var(--fg-color-alt);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 
@@ -363,7 +361,7 @@ td.bib-number {
 
 /* Searching a bibliography that is read one screen at a time has nothing to
    find: the field goes, and sorting stays, which is read as well as done. */
-.slide .bib-search {
+.slide .bib-search-field {
     display: none;
 }
 
@@ -385,7 +383,7 @@ td.bib-number {
     /* What only makes sense on a screen does not print. The year has its own
        column to be sorted on, and sorting is over: it is written in the
        reference itself. */
-    .bib-search,
+    .bib-controls,
     .bib-announcement,
     .bib-opened-row,
     .bib-citation-content:not([hidden]),
@@ -482,4 +480,35 @@ td.bib-number {
         page-break-inside: avoid;
         break-inside: avoid;
     }
+}
+
+/* The search field and the column selector share a line, and the second goes
+   under the first when the width no longer holds both. */
+.bib-controls {
+    align-items: center;
+    margin-bottom: calc(var(--font-size) * 1);
+}
+
+/* Both halves of the line are given the same share of it, the gap deducted. */
+.bib-controls > .wrap-item {
+    flex: 1 1 calc(50% - var(--wrap-panel-gap));
+}
+
+
+.bib-columns {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--font-size) * 0.5);
+}
+
+/* The list of columns takes the half it was given, and the button that applies
+   it keeps the width of what it says. */
+.bib-columns > details {
+    flex: 1 1 0;
+}
+
+.bib-columns > button {
+    flex: 0 1 calc(var(--font-size) * 6);
+    min-width: min-content;
+    white-space: nowrap;
 }
