@@ -206,7 +206,7 @@ export class Book {
             }
         });
 
-        aside.before(this.#toggle_button);
+        this.#placeToggleButton();
 
         // Browsers do not honour page-break on <aside> elements when printing.
         // Inserting a <section class="blank-page"> immediately after the aside
@@ -219,6 +219,43 @@ export class Book {
 
         const spacer = document.createElement('p');
         blankPage.after(spacer);
+    }
+
+    /**
+     * Put the button where a reader reaches it first.
+     *
+     * The button navigates the document, so it stands with what navigates it:
+     * last of the navigation bar. Beside the aside it commands, it came in the
+     * tabbing order at the place of a table of contents, which a book writes
+     * after its preface, while it is seen from the first second.
+     *
+     * Nothing of the framework is asked for: a nav, a header, a main and a body
+     * are what HTML gives every document. A document without a nav keeps the
+     * order all the same, end of the header, then start of the main, then start
+     * of the body.
+     *
+     * @returns {void}
+     */
+    #placeToggleButton() {
+        const bar = document.querySelector('nav');
+        if (bar !== null) {
+            bar.appendChild(this.#toggle_button);
+            return;
+        }
+
+        const header = document.querySelector('header');
+        if (header !== null) {
+            header.appendChild(this.#toggle_button);
+            return;
+        }
+
+        const main = document.querySelector('main');
+        if (main !== null) {
+            main.prepend(this.#toggle_button);
+            return;
+        }
+
+        document.body.prepend(this.#toggle_button);
     }
 
     /**

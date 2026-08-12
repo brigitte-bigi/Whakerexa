@@ -935,6 +935,10 @@ This banner notice must not be removed.
     Fixed full-width at top of page, above all other content. */
     .skip,
     .focus-visible-only {
+        /* A banner of its own, wherever it is written: a nav lays its children
+           out as flex items, and a flex item ignores the alignment of the text
+           it is given. */
+        display: block;
         opacity: 0;
         pointer-events: none;
         position: fixed;
@@ -948,7 +952,7 @@ This banner notice must not be removed.
         color: var(--buttons-fg-color);
         font-weight: var(--font-weight-semibold);
         padding: 0;
-        margin: 0;
+        margin: auto;
         z-index: 200;
         transition: opacity 0.3s ease;
     }

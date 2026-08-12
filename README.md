@@ -273,4 +273,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Docs. Architecture says where the rule of proportional sizes stops, and why.
 - Extra Book. `bibbook.css` brings the stylesheets a bibliography is built with: a page loads it alone.
 - wexa.css. A `details` clips what its rounded corners would leave out, and lets a focus outline through.
+- Extra Book. The toc toggle stands in the navigation, where a reader reaches it first, and no longer beside the aside it commands.
+- wexa.css. The skip link keeps its layout wherever it is written, a nav laying its children out as flex items.
 

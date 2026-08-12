@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-12 14:55:13
+// Bundle automatically generated on 2026-08-12 15:49:18
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3247,7 +3247,7 @@ class Book {
                 this.#toggle_button.focus();
             }
         });
-        aside.before(this.#toggle_button);
+        this.#placeToggleButton();
         // Browsers do not honour page-break on <aside> elements when printing.
         // Inserting a <section class="blank-page"> immediately after the aside
         // acts as the page-break carrier (print.css targets .blank-page).
@@ -3258,6 +3258,24 @@ class Book {
         aside.after(blankPage);
         const spacer = document.createElement('p');
         blankPage.after(spacer);
+    }
+    #placeToggleButton() {
+        const bar = document.querySelector('nav');
+        if (bar !== null) {
+            bar.appendChild(this.#toggle_button);
+            return;
+        }
+        const header = document.querySelector('header');
+        if (header !== null) {
+            header.appendChild(this.#toggle_button);
+            return;
+        }
+        const main = document.querySelector('main');
+        if (main !== null) {
+            main.prepend(this.#toggle_button);
+            return;
+        }
+        document.body.prepend(this.#toggle_button);
     }
     #get_headings(only_numerate_headings) {
         if (!(this.#headings_container instanceof HTMLElement)) return [];
