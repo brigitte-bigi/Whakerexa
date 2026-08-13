@@ -128,16 +128,28 @@
     import { SlideLayout } from '../extras/slides/slide_layout.js';
     import { SlidePaginator } from '../extras/slides/slide_paginator.js';
     import { SlideBlockReader } from '../extras/slides/slide_block_reader.js';
+    import SlidesData from '../extras/slides/slides_data.js';
+    import NavigationLogic from '../extras/slides/navigation_logic.js';
+    import ViewModeLogic from '../extras/slides/viewmode_logic.js';
+    import SlideReaching from '../extras/slides/slide_reaching.js';
 
     window.SlideBlock = SlideBlock;
     window.SlideLayout = SlideLayout;
     window.SlidePaginator = SlidePaginator;
     window.SlideBlockReader = SlideBlockReader;
+    window.SlidesData = SlidesData;
+    window.NavigationLogic = NavigationLogic;
+    window.ViewModeLogic = ViewModeLogic;
+    window.SlideReaching = SlideReaching;
 
     await import('./slide_blockTest.js');
     await import('./slide_layoutTest.js');
     await import('./slide_paginatorTest.js');
     await import('./slide_block_readerTest.js');
+    await import('./slides_dataTest.js');
+    await import('./viewmode_logicTest.js');
+    await import('./navigation_logicTest.js');
+    await import('./slide_reachingTest.js');
 </script>
 
 </body>

@@ -210,6 +210,7 @@
                     <tr><td>B23</td><td>The bibliography is shown whole in a presentation. How this is done is <a href="slides-design.html">the slides pagination</a>.</td></tr>
                     <tr><td>B24</td><td>A reference is read whole on a narrow screen: what numbers it and what dates it never take the width its text needs. The columns follow the width of the screen, at every moment and not only when the page opens.</td></tr>
                     <tr><td>B25</td><td>What a reference opens, its abstract and its BibTeX source, is read whatever the columns show. Hiding a column takes away a column, never the content of a row that has none: B13 and B14 hold at every width.</td></tr>
+                    <tr><td>B26</td><td>In a presentation, what acts upon the bibliography is not shown: neither the search field nor the column selector. An audience reads what is on the screen and acts on nothing; what is read on its own stays, the sorting of a column being written as well as done.</td></tr>
                     </tbody>
                 </table>
             </section>
@@ -487,7 +488,7 @@
                     <tr><td>Op4, consult a reference</td><td>A consultation is asked for</td><td>The reference, or "missing reference"; the start and the end are said</td></tr>
                     <tr><td>Op5, sort or filter</td><td>A sort or a search is asked for</td><td>The bibliography sorted or filtered, and what changed is said</td></tr>
                     <tr><td>Op6, reach a publication</td><td>A link is followed</td><td>The publication</td></tr>
-                    <tr><td>Op7, go from a citation to its reference, and back</td><td>The move is asked for</td><td>The move</td></tr>
+                    <tr><td>Op7, go from a citation to its reference, and back</td><td>The move is asked for</td><td>A request to reach a place in the document, named by the reference or by the place of the citation</td></tr>
                     <tr><td>Op8, print</td><td>Printing is asked for</td><td>The printable document</td></tr>
                     </tbody>
                 </table>
@@ -502,9 +503,25 @@
                     slides need it too, which is what
                     <a href="slides-design.html">the slides pagination</a> is about.</p>
 
+                <p>Op7 shows nothing by itself. It knows which place is wanted, never what it
+                    takes to show it, that depending on the support the document is read on.
+                    It therefore produces a request, and the treatment that answers it,
+                    reaching a place in the document, is modelled where the supports are, in
+                    <a href="slides-design.html">the slides pagination</a>. C26 and C27 are
+                    held by the two together: this dossier names the place, that one shows it.
+                    The place named never travels in the address of the page, which holds
+                    where the reader stands and nothing else.</p>
+
+                <p>Op5 is the only operation a support can take away. What triggers it, a
+                    search or a choice of columns, is asked for by whoever reads and acts;
+                    an audience does neither. So Op3 composes the bibliography without what
+                    triggers Op5 when it composes it in a presentation, and Op5 is then never
+                    triggered. What is read on its own stays, the order of a sorted column
+                    being written in its header and not only drawn. B26.</p>
+
                 <p>Three requirements are not operations: the work gives the same result every
                     time, the bibliography exists before the table of contents is built, and
-                    without JavaScript the sentence stays readable.</p>
+                    the sentence stays readable when no operation has run.</p>
             </section>
 
             <section class="ssection"><h2>MOT: where, when, and by whom</h2>
@@ -522,9 +539,9 @@
                     <tr><td>PF2</td><td>Numbers the citations and ties them to the references</td><td>Request for the page</td><td>Page and console</td></tr>
                     <tr><td>PF3</td><td>Composes the bibliography</td><td>Request for the page</td><td>Page</td></tr>
                     <tr><td>PF4</td><td>Makes a reference consultable</td><td>Request in the page</td><td>Page</td></tr>
-                    <tr><td>PF5</td><td>Sorts or filters</td><td>Request in the page</td><td>Page</td></tr>
+                    <tr><td>PF5</td><td>Sorts or filters</td><td>Request in the page, which a presentation does not offer: what would ask for it is not composed there. B26</td><td>Page</td></tr>
                     <tr><td>PF6</td><td>Leads to the publication</td><td>Request in the page</td><td>Outside site</td></tr>
-                    <tr><td>PF7</td><td>Moves between a citation and its reference</td><td>Request in the page</td><td>Page</td></tr>
+                    <tr><td>PF7</td><td>Names the place a citation or a reference leads to</td><td>Request in the page</td><td>A request handed to the procedure that reaches a place, whatever the support</td></tr>
                     <tr><td>PF8</td><td>Prints</td><td>Request in the page</td><td>Paper</td></tr>
                     </tbody>
                 </table>
@@ -572,7 +589,7 @@
                     <code>&lt;span data-bibtex="bigi2022lrec"&gt;Bigi, 2022&lt;/span&gt;</code>:
                     a span is allowed inside a sentence, the attribute carries the key and
                     tells a citation from a <code>&lt;cite&gt;</code> holding a title, and what
-                    is written inside stays readable when JavaScript does not run.</p>
+                    is written inside stays readable when no operation has run.</p>
 
                 <p>Everything the program writes follows the language of the document, read on
                     the element and never written in the code, which is the WCAG 3.1.2
@@ -593,11 +610,18 @@
                     <tr><td>consultation</td><td>Opens, closes, announces</td><td>PF4</td></tr>
                     <tr><td>sorting</td><td>Sorts, filters, announces</td><td>PF5</td></tr>
                     <tr><td>assembly</td><td>Calls the others in order, before the table of contents</td><td>the order itself</td></tr>
+                    <tr><td>presentation</td><td>Says what each support shows of what the others built: a presentation shows no control, a printed page no button</td><td>the emission rules of PF3, PF5 and PF8</td></tr>
                     </tbody>
                 </table>
 
-                <p>All under <code>wexa_statics/js/extras/book/</code>. PF6, PF7 and PF8 need no
-                    module: they are links, and a print stylesheet.</p>
+                <p>The presentation module holds no treatment: it takes nothing in and gives
+                    nothing back, it only says what of a built bibliography each support shows.
+                    That is why the same bibliography, built once, is read on a page, on a
+                    slide and on paper. PF6 and PF7 need no module at all: they are links.</p>
+
+                <p>Written where each is: the modules that treat under
+                    <code>wexa_statics/js/extras/book/</code>, the presentation module in
+                    <code>wexa_statics/css/extras/bibbook.css</code>.</p>
             </section>
 
             <section class="ssection"><h2>UML, and where it is written</h2>
@@ -605,7 +629,8 @@
                 <p>The class diagram is the chapter below, the sequence when the page opens and
                     the states of a consultation are the two chapters after it. The classes
                     that carry the data come from the MLD, those that do the work from the
-                    MOpT, one per module.</p>
+                    MOpT, one per module. The presentation module has none: it holds no
+                    treatment, so there is nothing for a class to do.</p>
             </section>
         </section>
 

@@ -381,9 +381,10 @@ td.bib-number {
     border-width: calc(var(--font-size) * 0.2) calc(var(--font-size) * 0.2) 0 calc(var(--font-size) * 0.2);
 }
 
-/* Searching a bibliography that is read one screen at a time has nothing to
-   find: the field goes, and sorting stays, which is read as well as done. */
-.slide .bib-search-field {
+/* An audience reads what is on the screen and acts on nothing: what acts upon
+   the bibliography goes, the search field as the column selector. What is read
+   on its own stays, the sorting of a column being written as well as done. B26 */
+.slide .bib-controls {
     display: none;
 }
 

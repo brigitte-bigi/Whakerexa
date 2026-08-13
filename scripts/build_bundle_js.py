@@ -62,6 +62,7 @@ JS_FILES = [
     os.path.join('extras', 'slides', 'buttons_controller.js'),
     os.path.join('extras', 'slides', 'note_view.js'),
     os.path.join('extras', 'slides', 'help_dialog.js'),
+    os.path.join('extras', 'slides', 'slide_reaching.js'),
     os.path.join('extras', 'slides', 'slides_assembler.js'),
     os.path.join('extras', 'slides', 'slides.js'),
     os.path.join('extras', 'slides', 'slide_errors.js'),

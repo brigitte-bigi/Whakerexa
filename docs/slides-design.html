@@ -349,7 +349,7 @@
 
             <section class="ssection"><h2>MCD: what the data are made of</h2>
 
-                <p>Three entities.</p>
+                <p>Four entities.</p>
 
                 <ul>
                     <li><b>SUPPORT</b>, known by its rank in the document. It has a height and
@@ -359,6 +359,15 @@
                     <li><b>BLOCK</b>, which exists only inside a written content. It has its
                         place in the order the content is written, and is the smallest part
                         that can be laid down whole.</li>
+                    <li><b>READING</b>, where the reader stands: the support shown, and how far
+                        the reader has gone inside it. There is one, and only one, for a
+                        presentation being read.</li>
+                    <li><b>VIEW</b>, the way the supports are shown: one at a time, all at
+                        once, each with what is said about it, or all one after the other for
+                        the hand. There is one at a time, and the reading is kept whichever
+                        it is.</li>
+                    <li><b>NOTE</b>, what the author writes about a support and does not show
+                        to the audience. A support has one, or none.</li>
                 </ul>
 
                 <table>
@@ -369,6 +378,9 @@
                     <tr><td>is made of</td><td>WRITTEN CONTENT (1,n)</td><td>BLOCK (1,1)</td></tr>
                     <tr><td>is laid on</td><td>BLOCK (1,1)</td><td>SUPPORT (0,n)</td></tr>
                     <tr><td>is rendered by</td><td>WRITTEN CONTENT (1,n)</td><td>SUPPORT (1,1)</td></tr>
+                    <tr><td>stands at</td><td>READING (1,1)</td><td>SUPPORT (0,n)</td></tr>
+                    <tr><td>is shown in</td><td>READING (1,1)</td><td>VIEW (0,n)</td></tr>
+                    <tr><td>is said about</td><td>NOTE (1,1)</td><td>SUPPORT (0,1)</td></tr>
                     </tbody>
                 </table>
 
@@ -380,9 +392,14 @@
                     written; the blocks of a support fit in its height, unless a block is
                     taller than the support on its own; two blocks of a content never share a
                     place.</p>
+
+                <p>Two rules more, for the reading: it stands at a support that exists, never
+                    outside the presentation; and a support that shows nothing of what a reader
+                    is looking for is never the one it stands at, which is what makes an
+                    internal link an event of its own.</p>
             </section>
 
-            <section class="ssection"><h2>MCT: the operation</h2>
+            <section class="ssection"><h2>MCT: the three operations</h2>
 
                 <p><b>Op1, lay a written content on a paginated support.</b></p>
 
@@ -414,13 +431,88 @@
                     <tr><td>Slide</td><td>Nobody</td><td>Op1</td></tr>
                     </tbody>
                 </table>
+
+                <p><b>Op2, move the reading.</b></p>
+
+                <p><i>Triggered when</i>: the reader asks to move — to the next support, to the
+                    previous one, to the first, to the last, or to a support named by rank.</p>
+
+                <p><i>Produces</i>: the reading stands at the support asked for, and that
+                    support is shown. A move asked for beyond the first or the last support
+                    produces nothing: the reading does not leave the presentation.</p>
+
+                <p><b>Op3, reach a place in the document.</b></p>
+
+                <p><i>Triggered when</i>: the reader follows a renvoi to a place written in the
+                    same document. Every renvoi, whoever wrote it: a table of contents, a note,
+                    and the two of a bibliography, which name a reference and the places it is
+                    cited in — Op7 of <a href="bibliography-design.html">the bibliography</a>
+                    produces such a request and nothing else.</p>
+
+                <p><i>Produces</i>: that place is shown and read. What it takes to show it
+                    depends on the support, and that is the only thing that does: on a page,
+                    the place is brought under the eyes; in a presentation, the support
+                    carrying it becomes the support the reading stands at, and the place is
+                    where the reading resumes; on paper, nothing is produced, everything being
+                    laid down already.</p>
+
+                <p>Op3 is not Op2 with another trigger. Op2 receives a support and moves to it;
+                    Op3 receives a place and does not know, when it starts, which support
+                    carries it. In a presentation Op3 ends by asking Op2 for the support it
+                    found, which is the only tie between them.</p>
+
+                <p><b>Op4, change the view.</b></p>
+
+                <p><i>Triggered when</i>: the reader asks for another way of showing the
+                    supports.</p>
+
+                <p><i>Produces</i>: the supports shown that way, and the reading unchanged. A
+                    view that shows them all says which one the reading stands at; leaving it
+                    for one support at a time shows that one.</p>
+
+                <p><b>Op5, consult the shortcuts.</b></p>
+
+                <p><i>Triggered when</i>: the reader asks what can be asked for.</p>
+
+                <p><i>Produces</i>: the list of what the reader can ask, and the presentation
+                    untouched behind it. Closing it gives the reading back where it was.</p>
+
+                <p>What triggers a request is not part of these operations. The same request
+                    comes from a key, from a button, or from a finger drawn across the screen,
+                    and the operation is the same one: three ways in, one treatment. This is
+                    why what listens to a key knows nothing of the reading, and what holds the
+                    reading knows nothing of the keys.</p>
+
+                <p>Three requirements are not operations: nothing is kept from one opening to
+                    the next, the author writes nothing more than today, and a content laid on
+                    a support is never cut inside a block.</p>
             </section>
 
             <section class="ssection"><h2>MOT: where, when, and by whom</h2>
 
-                <p>In the browser of whoever opens the page. Once, when the page is asked for.
-                    One procedure, PF1, which lays a written content on as many supports as it
-                    takes, and no human intervention.</p>
+                <p>In the browser of whoever opens the page. Three procedures. PF1 lays a
+                    written content on as many supports as it takes: once, when the page is
+                    asked for, with no human intervention. PF2 moves the reading, and PF3
+                    reaches a place in the document: both on a request from the reader, as
+                    often as asked.</p>
+
+                <table>
+                    <thead>
+                    <tr><th>PF</th><th>What it does</th><th>When</th><th>Where it comes out</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>PF1</td><td>Lays the content on the supports</td><td>Request for the page</td><td>Page and console</td></tr>
+                    <tr><td>PF2</td><td>Moves the reading</td><td>Request in the page</td><td>Page, and the position said in the address</td></tr>
+                    <tr><td>PF3</td><td>Reaches a place in the document</td><td>Request in the page</td><td>Page, through PF2 when the support is not the one shown</td></tr>
+                    <tr><td>PF4</td><td>Changes the view</td><td>Request in the page</td><td>Page</td></tr>
+                    <tr><td>PF5</td><td>Shows what can be asked for</td><td>Request in the page</td><td>Page</td></tr>
+                    </tbody>
+                </table>
+
+                <p>A request in the page comes from a key, a button or a finger. Which one it
+                    is changes nothing to the procedure: the way in is written apart from what
+                    it triggers, so that a way may be added without a treatment being
+                    touched.</p>
 
                 <p>Op1 measures, so it needs the contents the program builds to exist, the
                     bibliography being one of them. It happens after them, and before the
@@ -437,6 +529,8 @@
                     <li><b>WRITTEN_CONTENT</b> (<u>content_id</u>, title)</li>
                     <li><b>BLOCK</b> (<u>content_id</u>, <u>place</u>, support_rank)</li>
                     <li><b>SUPPORT</b> (<u>rank</u>, height, width)</li>
+                    <li><b>READING</b> (<u>rank_of_the_support</u>, step, view)</li>
+                    <li><b>NOTE</b> (<u>rank_of_the_support</u>, text)</li>
                 </ul>
 
                 <p>A block exists only in the content where it is written, so it carries its
@@ -457,8 +551,18 @@
                     <tr><td>WRITTEN_CONTENT</td><td>a slide written by the author</td><td>the element itself</td><td>the first slide of the series</td></tr>
                     <tr><td>BLOCK</td><td>what it holds: a child, a table row, a list item</td><td>that same element, in document order</td><td>laid in one of the slides</td></tr>
                     <tr><td>SUPPORT</td><td>nothing</td><td>a slide, written or engendered</td><td>a slide</td></tr>
+                    <tr><td>READING</td><td>nothing</td><td>the rank and the step held by the program</td><td>the slide shown, and the position written in the address</td></tr>
+                    <tr><td>VIEW</td><td>nothing</td><td>a name held beside the reading</td><td>the way the supports are laid out</td></tr>
+                    <tr><td>NOTE</td><td>an aside written next to the slide it speaks of</td><td>that same element</td><td>nothing, unless the view asks for it</td></tr>
                     </tbody>
                 </table>
+
+                <p>The reading is the only table written outside the program: it is said in the
+                    address of the page, after the sharp sign, as the rank of the support and
+                    the step inside it. That place holds the reading and nothing else, so that
+                    an address, once copied, opens the presentation where it was left. A place
+                    named in a renvoi is an entry of Op3 and is never written there: it would
+                    take the place of a reading that could no longer be read.</p>
 
                 <p>Nothing more is written in the source than today: that is what the
                     requirement asks. The title stays on the slide it was written on.</p>
@@ -478,12 +582,20 @@
                     <tr><td>measure</td><td>Gives the room a support leaves, and the height of a block laid in it</td></tr>
                     <tr><td>layout</td><td>Says which blocks go on which support, from heights it is given</td></tr>
                     <tr><td>compose</td><td>Engenders the supports and puts the blocks in them</td></tr>
+                    <tr><td>navigation</td><td>Holds the reading and moves it, and says it in the address</td></tr>
+                    <tr><td>reaching</td><td>From a place named in a renvoi, finds the support carrying it and asks the navigation for it</td></tr>
+                    <tr><td>view</td><td>Holds which view is in force, and changes it</td></tr>
+                    <tr><td>showing</td><td>Draws the supports the way the view in force asks: one at a time, all at once, or each with its note</td></tr>
+                    <tr><td>ways in</td><td>Turns a key, a click or a swipe into the request it means, and knows nothing of what it triggers</td></tr>
+                    <tr><td>shortcuts</td><td>Shows what can be asked for, and gives the reading back when it closes</td></tr>
                     </tbody>
                 </table>
 
                 <p>Under <code>wexa_statics/js/extras/slides/</code>, one file per class. The
                     layout module touches no document: it receives heights and gives a
-                    distribution back, which is what makes it testable.</p>
+                    distribution back, which is what makes it testable. The navigation module
+                    is testable for the same reason: it reads and writes the reading, and
+                    nothing else.</p>
             </section>
 
             <section class="ssection"><h2>UML: the states of a written slide</h2>
@@ -610,6 +722,9 @@
                     <tr><td>SlideComposer.compose</td><td>(slide: HTMLElement, layout: SlideLayout): HTMLElement[]</td><td>pre: the layout comes from the blocks of that slide. post: the slides, the original one first; every block in its own; nothing is lost</td></tr>
                     <tr><td>SlideComposer.repeatHead</td><td>(table: HTMLTableElement, next: HTMLElement): void</td><td>pre: the table is split. post: every part carries the head</td></tr>
                     <tr><td>SlidesPagination.run</td><td>(): Promise&lt;void&gt;</td><td>post: every written slide is laid down; never raises; kept when everything is done</td></tr>
+                    <tr><td>NavigationLogic.updateFromHash</td><td>(fragment: String): void</td><td>pre: none. post: the reading stands at the position the fragment holds; an empty fragment gives the first support; a fragment that is not a position leaves the reading where it is, being the name of a place and not a position. Never writes the address</td></tr>
+                    <tr><td>SlideReaching.supportOf</td><td>(place: String): Number</td><td>pre: none. post: the rank of the support carrying that place, 0 when no element bears that name or when it is carried by no support</td></tr>
+                    <tr><td>SlideReaching.reach</td><td>(place: String): Number</td><td>pre: none. post: the reading stands at the support carrying that place, which is shown whole, and the place is where reading resumes without the support having been scrolled; 0 and nothing done when no support carries it</td></tr>
                     </tbody>
                 </table>
 

@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-13 20:59:23
+// Bundle automatically generated on 2026-08-13 22:46:11
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -455,10 +455,13 @@ class NavigationLogic {
         const parts = hash.substring(1).split('.');
         const idx = parseInt(parts[0], 10);
         const stp = parts.length > 1 ? parseInt(parts[1], 10) : 0;
-        this._setPosition(
-            Number.isNaN(idx) ? 1 : idx,
-            Number.isNaN(stp) ? 0 : stp
-        );
+        // The address holds the reading and nothing else. A fragment that is
+        // not a position names a place in the document: it is an entry of the
+        // treatment that reaches a place, and the reading does not move for it.
+        if (Number.isNaN(idx) === true) {
+            return;
+        }
+        this._setPosition(idx, Number.isNaN(stp) ? 0 : stp);
     }
     // -----------------------------------------------------------------------
     // Private
@@ -1401,6 +1404,68 @@ window.Wexa.HelpDialog = HelpDialog;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- extras/slides/slide_reaching.js ---------------
+'use strict';
+class SlideReaching {
+    // FIELDS
+    _data
+    _navigation
+    // CONSTRUCTOR
+    constructor(data, navigation) {
+        this._data = data;
+        this._navigation = navigation;
+    }
+    // ----------------------------------------------------------------------
+    // PUBLIC
+    // ----------------------------------------------------------------------
+    supportOf(place) {
+        if (typeof place !== 'string' || place === '') {
+            return 0;
+        }
+        const element = document.getElementById(place);
+        if (element === null) {
+            return 0;
+        }
+        const supports = this._data.slides;
+        for (let index = 0; index < supports.length; index++) {
+            if (supports[index].contains(element) === true) {
+                return index + 1;
+            }
+        }
+        return 0;
+    }
+    // ----------------------------------------------------------------------
+    reach(place) {
+        const rank = this.supportOf(place);
+        if (rank === 0) {
+            return 0;
+        }
+        this._navigation.goTo(rank);
+        this._focus(document.getElementById(place));
+        return rank;
+    }
+    // ----------------------------------------------------------------------
+    // PRIVATE
+    // ----------------------------------------------------------------------
+    _focus(element) {
+        if (element === null) {
+            return;
+        }
+        const reachable = element.hasAttribute('tabindex');
+        if (reachable === false) {
+            element.setAttribute('tabindex', '-1');
+            element.addEventListener('blur', () => element.removeAttribute('tabindex'),
+                { once: true });
+        }
+        element.focus({ preventScroll: true });
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.SlideReaching = SlideReaching;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- extras/slides/slides_assembler.js ---------------
 'use strict';
 class SlidesAssembler {
@@ -1411,6 +1476,7 @@ class SlidesAssembler {
         // ── 2. LOGIC ─────────────────────────────────────────────────────────
         this._navLogic  = new NavigationLogic(this._data);
         this._modeLogic = new ViewModeLogic(this._data);
+        this._reaching  = new SlideReaching(this._data, this._navLogic);
         // ── 3. VIEWS ─────────────────────────────────────────────────────────
         this._presentationView = new PresentationView(
             config.slides,
@@ -1489,6 +1555,23 @@ class SlidesAssembler {
         // ── 8. HASH CHANGE ───────────────────────────────────────────────────
         window.addEventListener('hashchange', () => {
             this._navLogic.updateFromHash(window.location.hash);
+        });
+        // ── 8b. RENVOI FOLLOWED ──────────────────────────────────────────────
+        // A renvoi names a place, never a position. The browser would write
+        // that name in the address, where the reading stands: the request is
+        // taken before it does, and the support carrying the place is asked
+        // for instead.
+        document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href^="#"]');
+            if (link === null) {
+                return;
+            }
+            const place = link.getAttribute('href').substring(1);
+            if (this._reaching.supportOf(place) === 0) {
+                return;
+            }
+            event.preventDefault();
+            this._reaching.reach(place);
         });
         // ── 9. INITIAL MODE ──────────────────────────────────────────────────
         this._initialMode = ViewModeLogic.DEFAULT;
