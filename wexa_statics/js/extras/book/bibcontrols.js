@@ -32,6 +32,7 @@
 'use strict';
 
 import { SortaTable } from '../sortatable.js';
+import { SVGIconsManager } from '../../svgicons.js';
 import { ToggleSelector } from '../../toggleselect.js';
 import { BibliographyTable } from './bibtable.js';
 import { Labels } from './labels.js';
@@ -67,7 +68,7 @@ export class BibliographyControls {
             shownOne: 'référence affichée', shownMany: 'références affichées',
             sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
             unsorted: 'retour à l\'ordre de départ',
-            columns: 'Visibilité des colonnes :', apply: 'Appliquer'
+            columns: 'Colonnes visibles :', apply: 'Appliquer'
         }]
     ]);
 
@@ -310,6 +311,10 @@ export class BibliographyControls {
      * what is checked. A document writes its data and its text; what acts upon
      * them is built here, with the search field.
      *
+     * The button that applies carries a mark and not a word: a word is as long
+     * as the language it is written in, and the line it stands on is the one
+     * of a phone. What it does is said to whoever does not see the mark.
+     *
      * @returns {HTMLElement} What holds the list and the button that applies it.
      */
     #buildColumns() {
@@ -374,7 +379,8 @@ export class BibliographyControls {
         const apply = document.createElement('button');
         apply.type = 'button';
         apply.className = 'flex-item';
-        this.#texts.write(apply, 'apply');
+        apply.setAttribute('aria-label', this.#texts.text('apply'));
+        SVGIconsManager.inject(apply, 'valid');
         apply.addEventListener('click', () => this.#applyColumns());
 
         group.appendChild(details);

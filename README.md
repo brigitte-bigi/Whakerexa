@@ -275,4 +275,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - wexa.css. A `details` clips what its rounded corners would leave out, and lets a focus outline through.
 - Extra Book. The toc toggle stands in the navigation, where a reader reaches it first, and no longer beside the aside it commands.
 - wexa.css. The skip link keeps its layout wherever it is written, a nav laying its children out as flex items.
+- Extra Book. A citation number stands on the line of the sentence: it is a fragment of text, and not a box.
+- Extra Book. The button that applies the columns carries a mark, its name being said to whoever does not see it.
+- Extra Book. The controls no longer share their line in halves: the search field has a minimum and a maximum.
 

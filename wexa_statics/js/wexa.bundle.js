@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-12 15:49:18
+// Bundle automatically generated on 2026-08-13 16:21:44
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -4979,7 +4979,7 @@ class BibliographyControls {
             shownOne: 'référence affichée', shownMany: 'références affichées',
             sortedBy: 'rangé par', ascending: 'ordre croissant', descending: 'ordre décroissant',
             unsorted: 'retour à l\'ordre de départ',
-            columns: 'Visibilité des colonnes :', apply: 'Appliquer'
+            columns: 'Colonnes visibles :', apply: 'Appliquer'
         }]
     ]);
     static NARROW_WIDTH_IN_FONTS = 38.75;
@@ -5140,7 +5140,8 @@ class BibliographyControls {
         const apply = document.createElement('button');
         apply.type = 'button';
         apply.className = 'flex-item';
-        this.#texts.write(apply, 'apply');
+        apply.setAttribute('aria-label', this.#texts.text('apply'));
+        SVGIconsManager.inject(apply, 'valid');
         apply.addEventListener('click', () => this.#applyColumns());
         group.appendChild(details);
         group.appendChild(apply);

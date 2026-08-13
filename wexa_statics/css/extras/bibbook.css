@@ -42,9 +42,16 @@ This banner notice must not be removed.
 /* Searching the bibliography                                              */
 /* ----------------------------------------------------------------------- */
 
+/* The field takes the room the line leaves it, and never less than what it
+   says it is for: a field whose own placeholder is cut short is a field that
+   asks for a word without saying which. The longest of the two languages the
+   bibliography is written in sets the width, frame included. */
+/* It stops growing at twice what it asks for: past that width a search field
+   holds nothing more than it held, and what is next to it would be pushed to
+   the far edge of the screen, away from the table it acts upon. */
 .bib-search-field {
-    flex: 1 1 calc(var(--font-size) * 12);
-    max-width: 100%;
+    flex: 1 1 calc(var(--font-size) * 19);
+    max-width: min(100%, calc(var(--font-size) * 38));
 }
 
 
@@ -238,8 +245,16 @@ td.bib-number {
 /* ----------------------------------------------------------------------- */
 
 /* The number is a button, and looks like the sentence it sits in: framing it
-   would break the line a reader is following. */
+   would break the line a reader is following. So it is a fragment of text and
+   not a box: wexa.css lays a button out as a flex box that holds a height of
+   its own, and such a box takes its baseline from the first thing it holds,
+   the mark, instead of from its own number, which then sits under the line. */
 .bib-citation-control {
+    display: inline;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+    vertical-align: baseline;
     padding: 0 calc(var(--font-size) * 0.2);
     font-family: inherit;
     font-size: inherit;
@@ -490,15 +505,18 @@ td.bib-number {
 }
 
 /* The search field and the column selector share a line, and the second goes
-   under the first when the width no longer holds both. */
+   under the first when the width no longer holds both.
+
+   The line is not halved: a half is a width nobody asked for, and the selector
+   held in one of them puts its own text under its own box as soon as the words
+   are those of another language. Each takes what it is written for — the
+   selector what it holds, the field the rest down to the twelve fonts it asks
+   for — and the panel wraps when the two no longer fit. Both come from the
+   framework, `.wrap-item` for the one and `.bib-search-field` for the other,
+   so nothing is written here. */
 .bib-controls {
     align-items: center;
     margin-bottom: calc(var(--font-size) * 1);
-}
-
-/* Both halves of the line are given the same share of it, the gap deducted. */
-.bib-controls > .wrap-item {
-    flex: 1 1 calc(50% - var(--wrap-panel-gap));
 }
 
 
@@ -511,13 +529,19 @@ td.bib-number {
 }
 
 /* The list of columns takes the half it was given, and the button that applies
-   it keeps the width of what it says. */
+   it keeps the width of the mark it carries. */
 .bib-columns > details {
     flex: 1 1 0;
 }
 
 .bib-columns > button {
-    flex: 0 1 calc(var(--font-size) * 6);
-    min-width: min-content;
-    white-space: nowrap;
+    flex: none;
+}
+
+/* The mark is drawn at the size of the icons of the framework: an svg carrying
+   no size of its own is laid out at the size of an image, which no line holds. */
+.bib-columns > button svg {
+    display: block;
+    width: calc(var(--font-size) * 1.4);
+    height: calc(var(--font-size) * 1.4);
 }
