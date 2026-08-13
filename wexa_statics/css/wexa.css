@@ -464,14 +464,14 @@ This banner notice must not be removed.
        cards all switch at that very width. */
 
     :root {
-        --size-divisor: 1;
+        --size-divisor: 1.5;
         --fontsize-divisor: 1;
     }
 
     /* Smartphone, portrait: 320 to 430px wide */
     @media screen and (max-width: 540px) {
         :root {
-            --size-divisor: 1;
+            --size-divisor: 1.5;
             --fontsize-divisor: 1;
         }
     }
@@ -479,7 +479,7 @@ This banner notice must not be removed.
     /* Large smartphone in portrait, narrow smartphone in landscape */
     @media screen and (min-width: 540px) {
         :root {
-            --size-divisor: 1;
+            --size-divisor: 1.5;
             --fontsize-divisor: 1;
         }
     }
@@ -487,7 +487,7 @@ This banner notice must not be removed.
     /* Smartphone, landscape: 640 to 932px wide */
     @media screen and (min-width: 620px) {
         :root {
-            --size-divisor: 1.25;
+            --size-divisor: 1.4;
             --fontsize-divisor: 1.05;
         }
     }
@@ -495,7 +495,7 @@ This banner notice must not be removed.
     /* Tablet, portrait: 768 to 834px wide. Mobile menu, larger text. */
     @media screen and (min-width: 768px) {
         :root {
-            --size-divisor: 1.5;
+            --size-divisor: 1.3;
             --fontsize-divisor: 1.1;
         }
     }
@@ -503,7 +503,7 @@ This banner notice must not be removed.
     /* Widest smartphone in landscape, up to 932px, and tablet in portrait */
     @media screen and (min-width: 896px) {
         :root {
-            --size-divisor: 1.75;
+            --size-divisor: 1.2;
             --fontsize-divisor: 1.18;
         }
     }
@@ -511,7 +511,7 @@ This banner notice must not be removed.
     /* Tablet in landscape, and computer: the desktop display starts here */
     @media screen and (min-width: 1024px) {
         :root {
-            --size-divisor: 1.25;
+            --size-divisor: 1.1;
             --fontsize-divisor: 1.1;
         }
     }
@@ -1199,31 +1199,31 @@ This banner notice must not be removed.
     }
 
     h1 {
-        font-size: calc(1.8 * var(--font-size));
-        line-height: calc(1.5 * var(--line-height));
+        font-size: calc(2.6 * var(--font-size) / var(--size-divisor));
+        line-height: calc(1.5 * var(--line-height) / var(--size-divisor));
         color: var(--h1-color);
         font-weight: var(--font-weight-black);
         letter-spacing: calc(4*var(--letter-spacing));
     }
 
     h2 {
-        font-size: calc(1.6 * var(--font-size));
-        line-height: calc(1.4 * var(--line-height));
+        font-size: calc(2.0 * var(--font-size) / var(--size-divisor));
+        line-height: calc(1.4 * var(--line-height) / var(--size-divisor));
         color: var(--h2-color);
         font-weight: var(--font-weight-bold);
         letter-spacing: calc(3*var(--letter-spacing));
     }
 
     h3 {
-        font-size: calc(1.4 * var(--font-size));
-        line-height: calc(1.25 * var(--line-height));
+        font-size: calc(1.5 * var(--font-size) / var(--size-divisor));
+        line-height: calc(1.25 * var(--line-height) / var(--size-divisor));
         font-weight: var(--font-weight-semibold);
         color: var(--h3-color);
         letter-spacing: calc(2*var(--letter-spacing));
     }
 
     h4 {
-        font-size: calc(1.2 * var(--font-size));
+        font-size: calc(1.1 * var(--font-size));
         line-height: calc(1.05 * var(--line-height));
         letter-spacing: calc(1.4*var(--letter-spacing));
         color: var(--h4-color);
@@ -1243,37 +1243,6 @@ This banner notice must not be removed.
         line-height: var(--line-height);
         font-weight: var(--font-weight-normal);
         color: var(--h6-color);
-    }
-
-    /* A title of five words has to hold on a screen of five hundred pixels:
-       under the mobile border it is written smaller, and its letters are not
-       spaced further apart. */
-    @media screen and (max-width: 1023.98px) {
-
-        h1 {
-            font-size: calc(1.5 * var(--font-size));
-            letter-spacing: var(--letter-spacing);
-        }
-
-        h2 {
-            font-size: calc(1.35 * var(--font-size));
-            letter-spacing: var(--letter-spacing);
-        }
-
-        h3 {
-            font-size: calc(1.2 * var(--font-size));
-            letter-spacing: var(--letter-spacing);
-        }
-
-        h4 {
-            font-size: calc(1.1 * var(--font-size));
-            letter-spacing: var(--letter-spacing);
-        }
-
-        h5 {
-            font-size: var(--font-size);
-            letter-spacing: var(--letter-spacing);
-        }
     }
 
     /* ---------------------- Text & inline text ----------------------------- */
