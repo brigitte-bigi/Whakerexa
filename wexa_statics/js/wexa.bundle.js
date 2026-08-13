@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-13 16:21:44
+// Bundle automatically generated on 2026-08-13 20:59:23
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3431,13 +3431,21 @@ class SortaTable {
         // Iterate over each row (including header)
         for (let i = 0; i < rows.length; i++) {
             const cell = rows[i].cells[columnIndex];
-            if (cell) {
-                // Toggle the 'hidden' class based on the show flag
-                if (show) {
-                    cell.classList.remove('hidden');
-                } else {
-                    cell.classList.add('hidden');
-                }
+            if (cell === undefined) {
+                continue;
+            }
+            // A cell spanning several columns belongs to none of them: a row
+            // holding one single cell across the whole table says something
+            // about the row above it, not about a column. Hiding a column
+            // takes away a column, and never that content. Requirement B25.
+            if (cell.colSpan > 1) {
+                continue;
+            }
+            // Toggle the 'hidden' class based on the show flag
+            if (show) {
+                cell.classList.remove('hidden');
+            } else {
+                cell.classList.add('hidden');
             }
         }
     }

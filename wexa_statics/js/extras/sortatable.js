@@ -238,6 +238,9 @@ export class SortaTable {
     /**
      * Enable or disable the visibility of a column in the table.
      *
+     * Only the cells belonging to that column are hidden or shown. A cell
+     * spanning several columns belongs to none of them and is left alone.
+     *
      * @param {number} columnIndex - The index of the column to toggle.
      * @param {boolean} show - Whether to show or hide the column.
      *
@@ -249,13 +252,23 @@ export class SortaTable {
         // Iterate over each row (including header)
         for (let i = 0; i < rows.length; i++) {
             const cell = rows[i].cells[columnIndex];
-            if (cell) {
-                // Toggle the 'hidden' class based on the show flag
-                if (show) {
-                    cell.classList.remove('hidden');
-                } else {
-                    cell.classList.add('hidden');
-                }
+            if (cell === undefined) {
+                continue;
+            }
+
+            // A cell spanning several columns belongs to none of them: a row
+            // holding one single cell across the whole table says something
+            // about the row above it, not about a column. Hiding a column
+            // takes away a column, and never that content. Requirement B25.
+            if (cell.colSpan > 1) {
+                continue;
+            }
+
+            // Toggle the 'hidden' class based on the show flag
+            if (show) {
+                cell.classList.remove('hidden');
+            } else {
+                cell.classList.add('hidden');
             }
         }
     }

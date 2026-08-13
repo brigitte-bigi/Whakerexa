@@ -209,6 +209,7 @@
                     <tr><td>B22</td><td>Two entries sharing a key: the console says so, and the second replaces the first.</td></tr>
                     <tr><td>B23</td><td>The bibliography is shown whole in a presentation. How this is done is <a href="slides-design.html">the slides pagination</a>.</td></tr>
                     <tr><td>B24</td><td>A reference is read whole on a narrow screen: what numbers it and what dates it never take the width its text needs. The columns follow the width of the screen, at every moment and not only when the page opens.</td></tr>
+                    <tr><td>B25</td><td>What a reference opens, its abstract and its BibTeX source, is read whatever the columns show. Hiding a column takes away a column, never the content of a row that has none: B13 and B14 hold at every width.</td></tr>
                     </tbody>
                 </table>
             </section>
@@ -902,7 +903,7 @@
                     order: changing a display is changing that map, and nothing else.</p>
 
                 <table>
-                    <caption>BibliographyTable, CitationIndex, ReferenceDisclosure, BibliographyControls, BookBibliography</caption>
+                    <caption>BibliographyTable, CitationIndex, ReferenceDisclosure, BibliographyControls, BookBibliography, SortaTable</caption>
                     <thead><tr><th>Operation</th><th>Signature</th><th>Contract</th></tr></thead>
                     <tbody>
                     <tr><td>BibliographyTable.build</td><td>(references, cited): HTMLTableElement</td><td>pre: neither map is null, cited may be empty. post: one row per reference, each bearing an identifier; the number column exists only when cited is not empty; a caption and column heads declared as such</td></tr>
@@ -917,6 +918,7 @@
                     <tr><td>BibliographyControls.sortBy</td><td>(column: Number): void</td><td>pre: the column exists. post: the rows are sorted, the numbers have not moved, what changed is said</td></tr>
                     <tr><td>BibliographyControls.filter</td><td>(word: String): void</td><td>pre: none. post: the rows the word does not appear in are hidden; an empty word gives them all back; what changed is said</td></tr>
                     <tr><td>BookBibliography.run</td><td>(): Promise&lt;void&gt;</td><td>post: never raises. Every exception is caught and said in the console. The page stays readable whatever happens</td></tr>
+                    <tr><td>SortaTable.columnVisibility</td><td>(columnIndex: Number, show: Boolean): void</td><td>pre: none. post: only the cells belonging to that column are hidden or shown. A cell spanning several columns belongs to none of them and is never touched, so what a row opens stays readable. B25</td></tr>
                     </tbody>
                 </table>
             </section>

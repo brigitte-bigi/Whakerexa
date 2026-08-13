@@ -108,7 +108,7 @@ function shown_rows(table) {
 bibliography_controls_tests.add_test(() => {
     const written = write_bibliography('written');
 
-    UnitTest.assert_values_not_equals(null, document.querySelector('#written-holder .bib-search'),
+    UnitTest.assert_values_not_equals(null, document.querySelector('#written-holder .bib-search-field'),
         "controls_search_field_test");
     UnitTest.assert_values_not_equals(null, document.querySelector('#written-holder .bib-announcement'),
         "controls_announcement_test");

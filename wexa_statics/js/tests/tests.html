@@ -82,6 +82,7 @@
     import { Citation } from '../extras/book/bibcitation.js';
     import { CitationIndex } from '../extras/book/bibcite.js';
     import { BookBibliography } from '../extras/book/bibbook.js';
+    import { SortaTable } from '../extras/sortatable.js';
 
     window.Book = Book;
     window.Author = Author;
@@ -101,6 +102,7 @@
     window.Citation = Citation;
     window.CitationIndex = CitationIndex;
     window.BookBibliography = BookBibliography;
+    window.SortaTable = SortaTable;
 
     await import('./bookTest.js');
     await import('./bibauthorTest.js');
@@ -116,6 +118,7 @@
     await import('./bibcitationTest.js');
     await import('./bibciteTest.js');
     await import('./bibbookTest.js');
+    await import('./sortatableTest.js');
 </script>
 
 <script type="module">
