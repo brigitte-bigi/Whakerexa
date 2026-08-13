@@ -71,9 +71,15 @@ This banner notice must not be removed.
                             OVERRIDES STYLE
   ======================================================================== */
 
+/* The bar keeps, above and below its items, the room the focus outline is
+   drawn in. Without it that room is what is left over when the bar is asked to
+   be taller than its items, so lowering the height of the bar takes the outline
+   away with it, and the bar clips what its items draw outside themselves. */
 nav.nav-wexa {
     min-height: var(--nav-min-height);
     min-width: var(--nav-min-width);
+    padding-top: var(--outline-size);
+    padding-bottom: var(--outline-size);
 }
 
 /* Required for a submenu positioning */
@@ -141,8 +147,8 @@ nav.nav-wexa.top {
     right: 0;
     padding-left: var(--typography-spacing-horizontal);
     padding-right: var(--typography-spacing-horizontal);
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: var(--outline-size);
+    padding-bottom: var(--outline-size);
 }
 
 /* When the top menu is present, push down the page content */
@@ -159,8 +165,8 @@ nav.nav-wexa.bottom {
     right: 0;
     padding-left: var(--typography-spacing-horizontal);
     padding-right: var(--typography-spacing-horizontal);
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: var(--outline-size);
+    padding-bottom: var(--outline-size);
 }
 
 /* When the bottom menu is present, push up the page content */

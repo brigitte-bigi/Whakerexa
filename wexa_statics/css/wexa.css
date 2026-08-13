@@ -614,7 +614,7 @@ This banner notice must not be removed.
         --letter-spacing: 0.04rem;
         --word-spacing: 0.06rem;
 
-        --outline-size: 2px;
+        --outline-size: 3px;
         --hr-width: 1px;
 
     }
@@ -653,7 +653,7 @@ This banner notice must not be removed.
         --letter-spacing: 0.12rem;
         --word-spacing: 0.16rem;
 
-        --outline-size: 3px;
+        --outline-size: 4px;
         --hr-width: 2px;
 
     }
