@@ -182,7 +182,7 @@ Previous procedural APIs are not preserved.
 Increased accessibility and corrected bugs.
 
 
-## Version 3.0 - stable
+## Version 3.0
 
 Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS selectors and JS APIs are not preserved.
 
@@ -233,7 +233,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, composable with `.menuitem`. Documented in `docs/button.html`.
 
 
-## Version 3.2 - stable
+## Version 3.2
 
 - index.html. Fixed missing `./` in the `theme_manager.js` module import path.
 - ThemeManager. Fixed `next()`: resumes after the default theme instead of the first registered one.
@@ -247,16 +247,14 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New variables `--panel-bg-color`, `--panel-fg-color`, `--panel-bg-color-alt`, `--panel-fg-color-alt`. Documented in `docs/layout.html`.
 
 
-## Version 3.3 - devel
+## Version 3.3 - stable
 
 - Extra Book. Write your BibTeX in the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
 - Extra Book. Choose which columns of a bibliography are shown; on a narrow screen the reference is kept whole.
 - Extra Book. Number the titles of a table of contents. New variable `--toc-number-width`.
 - Extra Slides. Put a bibliography in a presentation: it is laid on as many slides as it takes.
-- SortaTable. Give a cell its own sort value with `data-sort-value`. Sorting follows the language of the page.
-- ToggleSelector. Nothing to give but the boxes: the icons come with it. New `unchecked` and `half-checked`.
+- Icons SVG: New `unchecked` and `half-checked`.
 - Fonts. A page downloads only the character blocks it displays. New `scripts/build_fonts_subsets.py`.
-- Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
 - Screens. One border between mobile and desktop, at 1024px.
-- menu.css. Set the width of the mobile nav with the new `--nav-mobile-expanded-width`.
+- Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
 
