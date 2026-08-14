@@ -258,3 +258,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Screens. One border between mobile and desktop, at 1024px.
 - Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
 
+## Version 3.4 - develop
+
+
