@@ -396,6 +396,19 @@ td.bib-number {
     display: none;
 }
 
+/* REQUIREMENT NOT SATISFIED, AND THE BUG IS NOT FOUND. Following a renvoi in a
+   presentation lays the slides over one another and leaves them half drawn.
+   The support reached is the right one, the reading stands at it, and nothing
+   inside it is touched; what undoes the rendering has not been found, in either
+   direction. So what leads from a citation to its reference, and from a
+   reference to the places it is cited at, is not shown to an audience: C26 and
+   C27 hold on a page and on paper, and not here. What is written stays written,
+   and showing these links again is all it takes to try again. */
+.slide .bib-citation-link,
+.slide .bib-backlink {
+    display: none;
+}
+
 
 /* ----------------------------------------------------------------------- */
 /* On paper                                                                */
