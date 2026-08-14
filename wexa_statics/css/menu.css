@@ -476,12 +476,12 @@ body > nav > * *:focus-within .submenu {
     border-radius: 50%;
     /* A dark button outlined with its own color vanishes on a dark header. */
     border: var(--border-width) solid var(--border-color);
-    color: var(--buttons-fg-color);
+    color: var(--nav-fg-color);
     cursor: pointer;
 
     transition: background-color 0.2s ease, transform 0.1s ease;
 
-    background-color: var(--buttons-bg-color);
+    background-color: var(--nav-bg-color);
     padding: 0;
     z-index: 100;
 }
@@ -493,8 +493,8 @@ body > nav > * *:focus-within .submenu {
 }
 
 #menu-button:hover {
-    background-color: var(--buttons-fg-color);
-    color: var(--buttons-bg-color);
+    background-color: var(--nav-fg-color);
+    color: var(--nav-bg-color);
     transform: scale(1.05);
 }
 

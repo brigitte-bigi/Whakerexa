@@ -44,6 +44,11 @@
     --img-bg-color: rgb(229, 238, 252);
     --body-bg-color: radial-gradient(at left center, rgba(229, 238, 252, 1.0), rgba(212, 220, 255, 1.0));
 
+    /* A deep blue, and a cream on it: the pair reads on a light page, where
+       the nav is the one dark band. */
+    --nav-bg-color: rgb(20, 40, 70);
+    --nav-fg-color: rgb(240, 230, 210);
+
 }
 
 
