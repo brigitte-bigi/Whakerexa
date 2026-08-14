@@ -243,17 +243,6 @@
         border-color: var(--border-color);
     }
 
-    /* -- Buttons inside nav: transparent bg, nav colors --------------------- */
-
-    /* A transparent button borrows a surface its color pair does not match. */
-    nav :is(button, [role="button"], .menuitem) {
-        background-color: var(--buttons-bg-color);
-        color: var(--buttons-fg-color);
-        border-width: var(--border-width);
-        border-style: solid;
-        border-color: var(--border-color);
-    }
-
 }
 
 

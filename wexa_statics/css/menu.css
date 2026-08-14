@@ -486,16 +486,29 @@ body > nav > * *:focus-within .submenu {
     z-index: 100;
 }
 
+/* The strokes are named here, and not left to the currentColor the icon
+   declares: that relay did not happen at rest, and the icon stayed the color it
+   had been given last, which no eye finds again on the white nav of the high
+   contrast theme. Why it held under the pointer and not at rest is not known.
+
+   This is written for this button alone. The same could be done for every icon
+   of a menu item, but not in one rule: an icon that is drawn asks for 'stroke',
+   an icon that is filled for 'fill', and giving 'fill' to one that declares
+   'fill: none' fills the shapes it draws with. */
 #menu-button > svg {
     width: 55%;
     height: 55%;
-    color: inherit;
+    stroke: var(--nav-fg-color);
 }
 
 #menu-button:hover {
     background-color: var(--nav-fg-color);
     color: var(--nav-bg-color);
     transform: scale(1.05);
+}
+
+#menu-button:hover > svg {
+    stroke: var(--nav-bg-color);
 }
 
 /* -------- mobile screen and print -------- */
