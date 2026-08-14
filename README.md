@@ -249,33 +249,14 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.3 - devel
 
-- Extra Book. New bibliography, built in the browser from BibTeX data written on the page or kept in a `.bib` file.
-- Extra Book. New JS modules under `js/extras/book/`, and a new `bibbook.css`.
-- Extra Book. Citations: `<span data-bibtex="key">` is numbered in the order of the text, and opens its reference in the sentence.
-- Extra Book. The table of contents bears the numbers of the titles, counted by `book.css`. New variable `--toc-number-width`.
-- SortaTable. A cell may carry its own sort value in `data-sort-value`.
-- SortaTable. Texts are compared according to the language of the page; numbers as numbers.
-- SortaTable. On paper, a sort button is written as the header of its column.
-- Extra Slides. The bibliography can be inserted in the slides and used like in any document.
-- Fonts. Split into `unicode-range` subsets by the new `scripts/build_fonts_subsets.py`. Removed `NotoSansMono.woff2`.
-- Logos. New `whakerexa-512.webp` and `whakerexa-128.webp`.
-- Screens. A single mobile/desktop border at 1024px.
-- menu.css. Sizes in `--font-size` coefficients. New `--nav-mobile-expanded-width`.
-- layout.css: `enumerate-card` swith to vertical with mobile. 
-- Printing. The dark mode is left on `beforeprint` and restored on `afterprint`: a theme has nothing to guard.
-- wexa.css. `--custom-color1` and `--custom-color2` default to the border colors.
-- Extra Book. A citation opens the reference and its abstract. The BibTeX source belongs to the bibliography (C23).
-- Extra Book. The disclosure mark is a chevron drawn in CSS, shown in the slides too.
-- Extra Slides. `opacity` replaced by `visibility`, and lengths written as `--font-size` coefficients.
-- Extra Book. The bibliography carries a column selector. Under 38.75 font sizes, the number and the year are unchecked (B24).
-- ToggleSelector. Boxes and toggle drawn with mono-svg icons: new `unchecked` and `half-checked`, and no icon path to give.
-- wexa.css. `fadeIn` no longer animates `display`: what a `details` opened showed nothing.
-- Docs. Architecture says where the rule of proportional sizes stops, and why.
-- Extra Book. `bibbook.css` brings the stylesheets a bibliography is built with: a page loads it alone.
-- wexa.css. A `details` clips what its rounded corners would leave out, and lets a focus outline through.
-- Extra Book. The toc toggle stands in the navigation, where a reader reaches it first, and no longer beside the aside it commands.
-- wexa.css. The skip link keeps its layout wherever it is written, a nav laying its children out as flex items.
-- Extra Book. A citation number stands on the line of the sentence: it is a fragment of text, and not a box.
-- Extra Book. The button that applies the columns carries a mark, its name being said to whoever does not see it.
-- Extra Book. The controls no longer share their line in halves: the search field has a minimum and a maximum.
+- Extra Book. Write your BibTeX in the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
+- Extra Book. Choose which columns of a bibliography are shown; on a narrow screen the reference is kept whole.
+- Extra Book. Number the titles of a table of contents. New variable `--toc-number-width`.
+- Extra Slides. Put a bibliography in a presentation: it is laid on as many slides as it takes.
+- SortaTable. Give a cell its own sort value with `data-sort-value`. Sorting follows the language of the page.
+- ToggleSelector. Nothing to give but the boxes: the icons come with it. New `unchecked` and `half-checked`.
+- Fonts. A page downloads only the character blocks it displays. New `scripts/build_fonts_subsets.py`.
+- Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
+- Screens. One border between mobile and desktop, at 1024px.
+- menu.css. Set the width of the mobile nav with the new `--nav-mobile-expanded-width`.
 

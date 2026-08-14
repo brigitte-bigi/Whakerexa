@@ -192,8 +192,8 @@ slide_reaching_tests.add_test(() => {
 
 
 // -----------------------------------------------------------------------
-// The place reached is where reading resumes, and not the top of the
-// support: it is what the keyboard stands on afterwards.
+// Nothing inside the support is touched: a support is shown whole, so the
+// place reached takes no focus, and the keyboard stands where it stood.
 // -----------------------------------------------------------------------
 
 slide_reaching_tests.add_test(() => {
@@ -201,12 +201,22 @@ slide_reaching_tests.add_test(() => {
     const holder = reaching_presentation();
     const parts = reaching_parts(holder);
 
+    const elsewhere = document.createElement('button');
+    elsewhere.id = 'reaching-elsewhere';
+    document.body.appendChild(elsewhere);
+    elsewhere.focus();
+
     parts.reaching.reach('reaching-citation');
 
-    UnitTest.assert_values_equals('reaching-citation', document.activeElement.id,
-        "reaching_puts_the_focus_on_the_place_test");
+    UnitTest.assert_values_equals('reaching-elsewhere', document.activeElement.id,
+        "reaching_leaves_the_focus_where_it_was_test");
+
+    const place = document.getElementById('reaching-citation');
+    UnitTest.assert_values_equals(false, place.hasAttribute('tabindex'),
+        "reaching_adds_no_stop_to_the_keyboard_order_test");
 
     window.location.hash = written === '' ? '#1.0' : written;
+    elsewhere.remove();
     holder.remove();
 });
 

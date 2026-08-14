@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-13 22:46:11
+// Bundle automatically generated on 2026-08-14 09:34:44
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -866,10 +866,10 @@ class PresentationView {
     // -----------------------------------------------------------------------
     _renderSlide(newIndex, oldIndex) {
         const total = this._slides.length;
-        if (oldIndex >= 1 && oldIndex <= total) {
-            const prev = this._slides[oldIndex - 1];
-            if (prev instanceof HTMLElement) {
-                prev.removeAttribute('aria-selected');
+        for (let index = 0; index < total; index++) {
+            const slide = this._slides[index];
+            if (slide instanceof HTMLElement && index + 1 !== newIndex) {
+                slide.removeAttribute('aria-selected');
             }
         }
         if (newIndex >= 1 && newIndex <= total) {
@@ -1441,23 +1441,7 @@ class SlideReaching {
             return 0;
         }
         this._navigation.goTo(rank);
-        this._focus(document.getElementById(place));
         return rank;
-    }
-    // ----------------------------------------------------------------------
-    // PRIVATE
-    // ----------------------------------------------------------------------
-    _focus(element) {
-        if (element === null) {
-            return;
-        }
-        const reachable = element.hasAttribute('tabindex');
-        if (reachable === false) {
-            element.setAttribute('tabindex', '-1');
-            element.addEventListener('blur', () => element.removeAttribute('tabindex'),
-                { once: true });
-        }
-        element.focus({ preventScroll: true });
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----

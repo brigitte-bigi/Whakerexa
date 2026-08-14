@@ -169,6 +169,21 @@
                     measures nothing. Counting before laying out would give wrong numbers.</p>
             </section>
 
+            <section class="ssection"><h2>A place reached, and what it does not touch</h2>
+
+                <p>On a page, reaching a place brings it under the eyes and leaves the
+                    reading there: the document is longer than the screen, so where the
+                    reader stands inside it has to be said. A slide is not longer than
+                    the screen. The support is shown whole, and the place is under the
+                    eyes as soon as that support is the one shown.</p>
+
+                <p>So nothing inside the support is touched: the place takes no focus,
+                    and the support is not scrolled. Moving to what is already seen
+                    gains nothing, and it costs the rendering: the supports are laid
+                    where they are by the view, and a browser going to a place inside
+                    one of them lays them over one another.</p>
+            </section>
+
             <section class="ssection"><h2>The author writes nothing more</h2>
 
                 <p>One slide of references, and the program makes of it what it takes. No
@@ -452,9 +467,9 @@
                 <p><i>Produces</i>: that place is shown and read. What it takes to show it
                     depends on the support, and that is the only thing that does: on a page,
                     the place is brought under the eyes; in a presentation, the support
-                    carrying it becomes the support the reading stands at, and the place is
-                    where the reading resumes; on paper, nothing is produced, everything being
-                    laid down already.</p>
+                    carrying it becomes the support the reading stands at, and nothing
+                    inside that support is touched, a support being shown whole; on paper,
+                    nothing is produced, everything being laid down already.</p>
 
                 <p>Op3 is not Op2 with another trigger. Op2 receives a support and moves to it;
                     Op3 receives a place and does not know, when it starts, which support
@@ -724,7 +739,7 @@
                     <tr><td>SlidesPagination.run</td><td>(): Promise&lt;void&gt;</td><td>post: every written slide is laid down; never raises; kept when everything is done</td></tr>
                     <tr><td>NavigationLogic.updateFromHash</td><td>(fragment: String): void</td><td>pre: none. post: the reading stands at the position the fragment holds; an empty fragment gives the first support; a fragment that is not a position leaves the reading where it is, being the name of a place and not a position. Never writes the address</td></tr>
                     <tr><td>SlideReaching.supportOf</td><td>(place: String): Number</td><td>pre: none. post: the rank of the support carrying that place, 0 when no element bears that name or when it is carried by no support</td></tr>
-                    <tr><td>SlideReaching.reach</td><td>(place: String): Number</td><td>pre: none. post: the reading stands at the support carrying that place, which is shown whole, and the place is where reading resumes without the support having been scrolled; 0 and nothing done when no support carries it</td></tr>
+                    <tr><td>SlideReaching.reach</td><td>(place: String): Number</td><td>pre: none. post: the reading stands at the support carrying that place, which is shown whole; nothing inside that support is touched, neither what the keyboard stands on nor what is scrolled; 0 and nothing done when no support carries it</td></tr>
                     </tbody>
                 </table>
 

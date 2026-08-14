@@ -44,6 +44,8 @@ This banner notice must not be removed.
  * - Reads the document, and moves nothing itself: the reading is moved by the
  *   navigation it was given.
  * - A place no support carries moves nothing.
+ * - Nothing inside the support is touched: a support is shown whole, so the
+ *   place takes no focus and the support is not scrolled.
  */
 export default class SlideReaching {
 
@@ -96,7 +98,12 @@ export default class SlideReaching {
     // ----------------------------------------------------------------------
 
     /**
-     * Show a place, and resume the reading there.
+     * Show the support carrying a place.
+     *
+     * The support is shown whole, so the place is under the eyes as soon as
+     * that support is the one shown: nothing inside it is touched. Bringing
+     * the eyes to what they already see gains nothing, and it costs the
+     * rendering, the supports being laid where they are by the view.
      *
      * @param place {String} The name of the place, without the sharp sign.
      * @returns {number} The rank of the support reached, or 0 when none carries it.
@@ -108,43 +115,7 @@ export default class SlideReaching {
         }
 
         this._navigation.goTo(rank);
-        this._focus(document.getElementById(place));
 
         return rank;
-    }
-
-    // ----------------------------------------------------------------------
-    // PRIVATE
-    // ----------------------------------------------------------------------
-
-    /**
-     * Put the reading where the place is, and not at the top of the support.
-     *
-     * An element that is not reachable by the keyboard is made reachable for
-     * that one move, and gives its place back as soon as it is left: a
-     * document does not gain a stop in its keyboard order because a renvoi
-     * once led there.
-     *
-     * The support is not scrolled. A support holds what fits in a screen, and
-     * bringing a place into view would show its foot and the head of the next
-     * one instead of the support the reading stands at.
-     *
-     * @param element {HTMLElement} The place reached.
-     * @returns {void}
-     * @private
-     */
-    _focus(element) {
-        if (element === null) {
-            return;
-        }
-
-        const reachable = element.hasAttribute('tabindex');
-        if (reachable === false) {
-            element.setAttribute('tabindex', '-1');
-            element.addEventListener('blur', () => element.removeAttribute('tabindex'),
-                { once: true });
-        }
-
-        element.focus({ preventScroll: true });
     }
 }
