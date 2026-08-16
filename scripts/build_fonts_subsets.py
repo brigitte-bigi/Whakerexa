@@ -68,10 +68,6 @@ FONT_FACES = [
      "family": "SerifFont",
      "descriptors": ["font-display: swap;"]},
 
-    {"source": "FiraCode.woff2",
-     "family": "MonoFont",
-     "descriptors": ["font-display: swap;"]},
-
     {"source": "AccessibleDfA-Regular.woff2",
      "family": "ContrastFont",
      "descriptors": ["font-style: normal;", "font-weight: normal;"]},
