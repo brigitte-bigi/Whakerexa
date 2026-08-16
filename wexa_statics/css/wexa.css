@@ -520,8 +520,8 @@ This banner notice must not be removed.
         --skip-height: calc(var(--font-size) * 2);
 
         /* Font definitions */
-        --font-family-sans: SansFont, Arial, Helvetica, sans-serif;
-        --font-family-serif: SerifFont, 'Noto Serif', 'Times New Roman', serif;
+        --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+        --font-family-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
         --font-family-mono: ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', 'Cascadia Mono', 'Segoe UI Mono', monospace;
         --font-family-pre: ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', 'Cascadia Mono', 'Segoe UI Mono', monospace;
 
