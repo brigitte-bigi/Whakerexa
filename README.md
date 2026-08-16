@@ -249,7 +249,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.3 - stable
 
-- Extra Book. Write your BibTeX in the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
+- Extra Book. Write your BibTeX on the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
 - Extra Book. Choose which columns of a bibliography are shown; on a narrow screen the reference is kept whole.
 - Extra Book. Number the titles of a table of contents. New variable `--toc-number-width`.
 - Extra Slides. Put a bibliography in a presentation: it is laid on as many slides as it takes.
@@ -257,4 +257,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Fonts. A page downloads only the character blocks it displays. New `scripts/build_fonts_subsets.py`.
 - Screens. One border between mobile and desktop, at 1024px.
 - Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
+
+## Version 3.4 - develop
+
 

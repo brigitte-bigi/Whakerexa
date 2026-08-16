@@ -1055,10 +1055,12 @@ This banner notice must not be removed.
         overflow-x: hidden;
         overflow-y: scroll !important;
 
-        /* The HTML background must be the same as the one of the body element
-        even when switching the whole document to "dark" color theme. Turn it
-        into transparent is an easy path to that! */
-        background-color: rgba(255, 255, 255, 0);
+        /* The ground of the page is carried here, and not by the body: the body
+        is a column of a fixed width, so a gradient laid on it is as tall as the
+        screen and starts again below it. Laid here, it paints the canvas once,
+        whatever the length of the document. */
+        background: var(--body-bg-color, var(--bg-color));
+        background-attachment: fixed;
     }
 
     body {
@@ -1068,7 +1070,8 @@ This banner notice must not be removed.
         cursor: default;
         overflow: hidden;
 
-        background: var(--body-bg-color, var(--bg-color));
+        /* The column of the content, on the ground html carries. */
+        background: var(--bg-color);
         background-clip: content-box;
         transition: all var(--border-color) 0.3s;
         transition-duration: 0.4s;
