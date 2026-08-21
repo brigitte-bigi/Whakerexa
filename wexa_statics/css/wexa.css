@@ -627,7 +627,7 @@ This banner notice must not be removed.
         --custom-color2: var(--border-color-alt);
     }
 
-    :root:not(.dark), .light {
+    :root:not(.dark) {
 
         /* Accessibility/Focus */
         --outline-color: rgba(0, 191, 255, 0.8);
@@ -2166,9 +2166,13 @@ This banner notice must not be removed.
         margin-top: var(--typography-spacing-vertical);
     }
 
-    /* Buttons inside a summary are floated right */
+    /* Actions inside a summary are floated right. A link is not a button:
+       it is named here by its own role, next to the button ones, and the
+       plain links of the summary text are left where they are. */
     summary button,
-    summary a[role=button] {
+    summary a,
+    summary [role=button],
+    summary [role=link] {
         float: right;
         margin: 0;
         padding: 0;
@@ -2179,6 +2183,16 @@ This banner notice must not be removed.
         vertical-align: center;
         max-height: 90%;
         width: auto;
+    }
+
+    /* An action drawn by an image: the max-height of the action bounds the
+       action, never what it holds, and an image keeps the size it is stored
+       at. It is given the height of the line it sits on, the very same one
+       the icons of an action already have. */
+    summary :is(button, a, [role=button], [role=link]) > img {
+        display: block;
+        width: auto;
+        height: calc(var(--font-size) * 1.4);
     }
 
     /* ── Aside ─────────────────────────────────────────────────────────── */
