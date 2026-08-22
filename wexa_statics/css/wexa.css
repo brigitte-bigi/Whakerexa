@@ -636,8 +636,6 @@ This banner notice must not be removed.
         --body-bg-color: rgb(255, 255, 255);
         --bg-color: rgb(242, 244, 251);
         --bg-color-alt: rgb(236, 239, 245);
-        /* Images keep a light background in every mode. */
-        --img-bg-color: var(--bg-color);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
         --border-color: rgb(117, 130, 155);
@@ -725,7 +723,6 @@ This banner notice must not be removed.
             /* Main colors */
             --bg-color: rgb(14, 18, 28);
             --bg-color-alt: rgb(18, 24, 42);
-            --img-bg-color: rgb(242, 244, 251);
             --fg-color: rgb(215, 225, 245);
             --fg-color-alt: rgb(168, 185, 218);
             --border-color: rgb(200, 227, 245);
@@ -796,13 +793,6 @@ This banner notice must not be removed.
             --tips-bg-color: rgb(70, 60, 20);
             --question-color: rgb(200, 150, 255);
             --question-bg-color: rgb(40, 20, 60);
-        }
-
-        /* An image is drawn for a light page, and cannot invert its colors. */
-        .dark img {
-            background-color: var(--img-bg-color);
-            padding: calc(0.3 * var(--typography-spacing-horizontal));
-            border-radius: var(--border-radius);
         }
     }
 
@@ -1650,8 +1640,15 @@ This banner notice must not be removed.
         max-width: 95%;
     }
 
+    /* An image is drawn for a page that is not the one it is read on, and
+       cannot answer for its own edges: it is laid on a ground of its own, in
+       every mode. Which ground it is belongs to the themes: the framework has
+       no colour whose meaning is the back of an image. */
     img {
         max-width: 100%;
+        background-color: var(--img-bg-color);
+        padding: calc(0.3 * var(--typography-spacing-horizontal));
+        border-radius: var(--border-radius);
     }
 
     :where(svg:not([fill])) {
