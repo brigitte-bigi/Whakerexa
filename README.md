@@ -267,3 +267,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New `wexa_statics/css.min`: the same stylesheets, half the weight. Point your pages at it to serve them.
 - New `--nav-height`, the room a nav bar takes: place under a bar with it.
 - Extra Book. The number of a chapter is announced by its word, in the language of the page.
+
+
+## Version 3.5 - develop
+
+
