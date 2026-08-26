@@ -6,13 +6,15 @@
 # Brief:   Whakerexa release build script.
 # ---------------------------------------------------------------------------
 #
-# This script builds what a release ships but no source holds:
+# This script builds a release of Whakerexa:
 #
 #   1. The local JavaScript bundle, for pages read through file:///.
 #   2. The minified stylesheets, for pages served over a network.
+#   3. The ZIP archive of the distribution, written in build/.
 #
-# Both are engendered from the sources, and neither is written by hand. It is
-# launched from anywhere: the paths are taken from the location of the script.
+# The first two are engendered from the sources, and neither is written by
+# hand. It is launched from anywhere: the paths are taken from the location of
+# the script.
 #
 # ---------------------------------------------------------------------------
 
@@ -79,6 +81,34 @@ function fct_build_css_min {
 
 
 # ---------------------------------------------------------------------------
+# Create ZIP package
+# ---------------------------------------------------------------------------
+
+function fct_package {
+    fct_echo_title "Creating Whakerexa ZIP archive"
+
+    PROGRAM_NAME="Whakerexa"
+    PACKAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}.zip"
+    STAGE_NAME="${PROGRAM_NAME}-${PROGRAM_VERSION}"
+    STAGE_DIR="$ROOT_DIR/$STAGE_NAME"
+    BUILD_DIR="$ROOT_DIR/build"
+
+    mkdir -p "$BUILD_DIR"
+    rm -rf "$STAGE_DIR"
+    mkdir -p "$STAGE_DIR"
+    cp -r "$ROOT_DIR/wexa_statics" "$ROOT_DIR/docs" "$ROOT_DIR/index.html" \
+          "$ROOT_DIR/README.md" "$ROOT_DIR/AUTHORS" "$ROOT_DIR/LICENSE" "$STAGE_DIR/"
+
+    rm -f "$BUILD_DIR/$PACKAGE_NAME"
+    zip -q -r "build/$PACKAGE_NAME" "$STAGE_NAME"
+
+    rm -rf "$STAGE_DIR"
+
+    echo "The file build/$PACKAGE_NAME has been created."
+}
+
+
+# ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
 
@@ -87,6 +117,7 @@ pushd "$ROOT_DIR" > /dev/null
 fct_echo_header
 fct_build_bundle
 fct_build_css_min
+fct_package
 
 popd > /dev/null
 

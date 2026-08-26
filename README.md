@@ -247,7 +247,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New variables `--panel-bg-color`, `--panel-fg-color`, `--panel-bg-color-alt`, `--panel-fg-color-alt`. Documented in `docs/layout.html`.
 
 
-## Version 3.3 - stable
+## Version 3.3
 
 - Extra Book. Write your BibTeX on the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
 - Extra Book. Choose which columns of a bibliography are shown; on a narrow screen the reference is kept whole.
@@ -258,14 +258,12 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Screens. One border between mobile and desktop, at 1024px.
 - Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
 
-## Version 3.4 - develop
+
+## Version 3.4 - stable
 
 - Breaking change. An element no longer gets a background of its own: only what carries one paints one. Add `background-color` where your page relied on it.
-- An element bearing `dark` or `contrast` is drawn on the background of that mode, so a passage shown in the other mode reads on its own ground.
 - Fonts. A page downloads none: the system fonts are used, and a theme brings the ones of the house back.
-- Images. A theme gives them a background, in every mode. New `--img-bg-color`, documented in `docs/colors.html`.
+- New `--img-bg-color`. A theme can give an image background, in every mode.
 - New `wexa_statics/css.min`: the same stylesheets, half the weight. Point your pages at it to serve them.
 - New `--nav-height`, the room a nav bar takes: place under a bar with it.
 - Extra Book. The number of a chapter is announced by its word, in the language of the page.
-
-
