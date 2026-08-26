@@ -260,4 +260,12 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.4 - develop
 
+- Breaking change. An element no longer gets a background of its own: only what carries one paints one. Add `background-color` where your page relied on it.
+- An element bearing `dark` or `contrast` is drawn on the background of that mode, so a passage shown in the other mode reads on its own ground.
+- Fonts. A page downloads none: the system fonts are used, and a theme brings the ones of the house back.
+- Images. A theme gives them a background, in every mode. New `--img-bg-color`, documented in `docs/colors.html`.
+- New `wexa_statics/css.min`: the same stylesheets, half the weight. Point your pages at it to serve them.
+- New `--nav-height`, the room a nav bar takes: place under a bar with it.
+- Extra Book. The number of a chapter is announced by its word, in the language of the page.
+
 

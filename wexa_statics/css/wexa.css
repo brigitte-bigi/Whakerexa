@@ -805,6 +805,15 @@ This banner notice must not be removed.
         --dialog-border-radius: 0.4rem;
     }
 
+    /* Whoever changes the palette carries the ground of that palette. On the
+       root, that is the page; on an element, that is the element -- a passage
+       shown in the other mode is written on the ground of the mode it shows,
+       and not on the one of the page around it. */
+    .dark:not(:root),
+    .contrast:not(:root) {
+        background-color: var(--bg-color);
+    }
+
 }
 /* end @layer theme: variables */
 
@@ -940,13 +949,17 @@ This banner notice must not be removed.
                                 HTML PAGE STYLING
     ======================================================================== */
 
+    /* An element is born without a ground of its own: what is seen behind it is
+       what its page, its panel or its banner is painted with. A ground given
+       here would have to be taken back everywhere a container carries one, and
+       that is what every 'background-color: transparent' of this framework used
+       to do. */
     * {
         margin: 0;
         padding: 0;
         -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
 
-        background-color: var(--bg-color);
         color: var(--fg-color);
 
         font-size: var(--font-size);
@@ -1066,18 +1079,36 @@ This banner notice must not be removed.
         color: var(--footer-fg-color);
     }
 
-    /* Elements inside */
-    /* All elements in any header/footer/nav must have same colors than the parent.
-    It also means that links won't be blue! */
+    /* A banner is written in one colour, its own: what it holds is not painted
+       one by one, it is given the colours to inherit from. A rule reaching
+       every child would also take away what a child is entitled to -- the
+       ground of an image, the ink of a marked word -- which belongs to
+       whoever wrote the page, never to the framework. */
 
-    body > header * {
-        color: var(--header-fg-color);
-        background-color: transparent;
+    body > header {
+        --fg-color:     var(--header-fg-color);
+        --fg-color-alt: var(--header-fg-color);
+        --a-color:      var(--header-fg-color);
+        --li-color:     var(--header-fg-color);
+        --h1-color:     var(--header-fg-color);
+        --h2-color:     var(--header-fg-color);
+        --h3-color:     var(--header-fg-color);
+        --h4-color:     var(--header-fg-color);
+        --h5-color:     var(--header-fg-color);
+        --h6-color:     var(--header-fg-color);
     }
 
-    body > footer * {
-        color: var(--footer-fg-color);
-        background-color: transparent;
+    body > footer {
+        --fg-color:     var(--footer-fg-color);
+        --fg-color-alt: var(--footer-fg-color);
+        --a-color:      var(--footer-fg-color);
+        --li-color:     var(--footer-fg-color);
+        --h1-color:     var(--footer-fg-color);
+        --h2-color:     var(--footer-fg-color);
+        --h3-color:     var(--footer-fg-color);
+        --h4-color:     var(--footer-fg-color);
+        --h5-color:     var(--footer-fg-color);
+        --h6-color:     var(--footer-fg-color);
     }
 
     body > header > *,
@@ -1110,10 +1141,25 @@ This banner notice must not be removed.
 
     }
 
+    /* A bar is written in one colour, as a banner is: what it holds inherits
+       it. Only the laying out is imposed, a bar being a row of items. */
+
+    nav,
+    [role=doc-toc] {
+        --fg-color:     var(--nav-fg-color);
+        --fg-color-alt: var(--nav-fg-color);
+        --a-color:      var(--nav-fg-color);
+        --li-color:     var(--nav-fg-color);
+        --h1-color:     var(--nav-fg-color);
+        --h2-color:     var(--nav-fg-color);
+        --h3-color:     var(--nav-fg-color);
+        --h4-color:     var(--nav-fg-color);
+        --h5-color:     var(--nav-fg-color);
+        --h6-color:     var(--nav-fg-color);
+    }
+
     nav *,
     [role=doc-toc] * {
-        color: var(--nav-fg-color);
-        background-color: transparent;
         display: flex;
     }
 
