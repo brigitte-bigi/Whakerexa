@@ -274,4 +274,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New `KeyboardController` in `keyboard.js`, used by extra slides.
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
 - New page `docs/gallery.html`: an all-in-one page to demonstrate themes, accessibility and JS features.
+- New `wexa.loader.js`: one tag loads Whakerexa, the bundle on `file://` and the modules over HTTP.
 

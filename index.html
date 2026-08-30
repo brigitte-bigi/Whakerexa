@@ -47,41 +47,12 @@
         }
     </style>
 
-    <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
-    <script>
-        (function () {
-            const usingFile = (window.location.protocol === 'file:');
-            const s = document.createElement('script');
-            if (usingFile) {
-                s.src = 'wexa_statics/js/wexa.bundle.js';
-                s.addEventListener('load', function () {
-                    if (window.Wexa && window.Wexa.ThemeManager) {
-                        const t = new window.Wexa.ThemeManager();
-                        t.register('wexa_theme',   'wexa_statics/css/themes/wexa_theme.css');
-                        t.register('aurora',       'wexa_statics/css/themes/wexa_theme_aurora.css');
-                        t.register('highcontrast', 'wexa_statics/css/themes/wexa_theme_highcontrast.css');
-                        t.setDefault('wexa_theme');
-                        window.themes = t;
-                    }
-                });
-            } else {
-                s.type = 'module';
-                s.src = 'wexa_statics/js/wexa.js';
-            }
-            document.head.appendChild(s);
-        })();
-    </script>
-    <script type="module">
-        import { ThemeManager } from './wexa_statics/js/extras/theme_manager.js';
-        const themes = new ThemeManager();
-        themes.register('wexa_theme',   'wexa_statics/css/themes/wexa_theme.css');
-        themes.register('aurora',       'wexa_statics/css/themes/wexa_theme_aurora.css');
-        themes.register('highcontrast', 'wexa_statics/css/themes/wexa_theme_highcontrast.css');
-        themes.setDefault('wexa_theme');
-        window.themes = themes;
-    </script>
+    <script src="wexa_statics/js/wexa.loader.js"
+            data-base="wexa_statics/"
+            data-default="wexa_theme"
+            data-links="nav-wexa,nav-quickstart,nav-architecture,nav-javascript,nav-themes,nav-cssvariables,nav-colors,nav-accessibility,nav-gallery,nav-containers,nav-typography,nav-code,nav-tables,nav-inputs,nav-button,nav-switch,nav-progressbar,nav-menu,nav-menu-side,nav-menu-bottom,nav-accordion,nav-dialog,nav-links,nav-autotoc,nav-book,nav-sortatable,nav-bibliography,nav-publications,nav-keypiano,nav-slides,nav-bundle,card-nav-wexa,card-nav-cssvariables,card-nav-architecture,card-nav-accessibility,card-nav-bundle,card-nav-slides,start-quickstart,cta-quickstart,cta-browsedocs"></script>
 
-    <script>
+<script>
         (function () {
             function initMenu() {
                 if (!window.Wexa || !window.Wexa.MenuManager) return false;
@@ -532,26 +503,6 @@
         </p>
     </section>
 </footer>
-
-<script>
-    window.addEventListener('load', () => {
-        Wexa.links.handleLinksWithParameters([
-            'nav-wexa', 'nav-quickstart', 'nav-architecture', 'nav-javascript', 'nav-themes',
-            'nav-cssvariables', 'nav-colors', 'nav-accessibility', 'nav-gallery',
-            'nav-containers',
-            'nav-typography', 'nav-code', 'nav-tables',
-            'nav-inputs', 'nav-button', 'nav-switch', 'nav-progressbar',
-            'nav-menu', 'nav-menu-side', 'nav-menu-bottom',
-            'nav-accordion', 'nav-dialog', 'nav-links', 'nav-autotoc', 'nav-book', 'nav-sortatable',
-            'nav-bibliography', 'nav-publications',
-            'nav-keypiano', 'nav-slides', 'nav-bundle',
-            'card-nav-wexa', 'card-nav-cssvariables', 'card-nav-architecture',
-            'card-nav-accessibility', 'card-nav-bundle', 'card-nav-slides',
-            'start-quickstart',
-            'cta-quickstart', 'cta-browsedocs'
-        ]);
-    });
-</script>
 
 </body>
 </html>
