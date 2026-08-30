@@ -249,7 +249,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.3
 
-- Extra Book. Write your BibTeX on the page or in a `.bib` file: you get a bibliography, sortable and searchable, and citations that open their reference and its abstract. New `bibbook.css`, new modules under `js/extras/book/`.
+- Extra Book. New `bibbook.css`, new modules under `js/extras/book/`, Write your BibTeX on the page or in a `.bib` file
 - Extra Book. Choose which columns of a bibliography are shown; on a narrow screen the reference is kept whole.
 - Extra Book. Number the titles of a table of contents. New variable `--toc-number-width`.
 - Extra Slides. Put a bibliography in a presentation: it is laid on as many slides as it takes.
@@ -261,7 +261,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.4 - stable
 
-- Breaking change. An element no longer gets a background of its own: only what carries one paints one. Add `background-color` where your page relied on it.
+- Breaking change. An element no longer gets a background of its own. 
 - Fonts. A page downloads none: the system fonts are used, and a theme brings the ones of the house back.
 - New `--img-bg-color`. A theme can give an image background, in every mode.
 - New `wexa_statics/css.min`: the same stylesheets, half the weight. Point your pages at it to serve them.
@@ -271,8 +271,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.5 - develop
 
-- New `KeyboardController` in `keyboard.js`: a page declares its shortcuts, and the guard that gives keys back to whoever is typing is held once, for all of them. Documented in `docs/accessibility.html`.
-- Extra Slides. Their keyboard file holds nothing but the fourteen shortcuts and the events they say.
+- New `KeyboardController` in `keyboard.js`, used by extra slides.
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
-
+- New page `docs/gallery.html`: an all-in-one page to demonstrate themes, accessibility and JS features.
 

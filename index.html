@@ -27,10 +27,10 @@
             --appmenu-align:    left top;
             --card-max-width:  18rem;
         }
-        :root:not(.dark) {
-            --nav-item-min-height: 2.5rem;
-            --nav-item-height:     2.5rem;
-            --nav-item-max-height: 2.5rem;
+        :root {
+            --nav-item-min-height: calc(var(--font-size) * 2.5);
+            --nav-item-height:     calc(var(--font-size) * 2.5);
+            --nav-item-max-height: calc(var(--font-size) * 2.5);
         }
         .card-header > svg {
             height: 2rem;
@@ -245,6 +245,7 @@
             <a class="menuitem" id="nav-cssvariables"  data-href="docs/css-variables.html"  data-target="_self">CSS Variables</a>
             <a class="menuitem" id="nav-colors"        data-href="docs/colors.html"         data-target="_self">Colors</a>
             <a class="menuitem" id="nav-themes"        data-href="docs/themes.html"         data-target="_self">Themes</a>
+            <a class="menuitem" id="nav-gallery"       data-href="docs/gallery.html"        data-target="_self">Gallery</a>
             </section>
         </nav>
     </aside>
@@ -536,7 +537,7 @@
     window.addEventListener('load', () => {
         Wexa.links.handleLinksWithParameters([
             'nav-wexa', 'nav-quickstart', 'nav-architecture', 'nav-javascript', 'nav-themes',
-            'nav-cssvariables', 'nav-colors', 'nav-accessibility',
+            'nav-cssvariables', 'nav-colors', 'nav-accessibility', 'nav-gallery',
             'nav-containers',
             'nav-typography', 'nav-code', 'nav-tables',
             'nav-inputs', 'nav-button', 'nav-switch', 'nav-progressbar',

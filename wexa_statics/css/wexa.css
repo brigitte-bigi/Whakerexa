@@ -646,8 +646,8 @@ This banner notice must not be removed.
         --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
         --nav-bg-color: rgb(212, 224, 246);
         --footer-bg-color: rgb(224, 228, 237);
-        --buttons-bg-color: rgb(29, 74, 106);
-        --buttons-bg-color-hover: rgb(64, 98, 121);
+        --buttons-bg-color: rgb(28 103 163);
+        --buttons-bg-color-hover: rgb(41 128 193);
         --progress-bg-color: rgb(183, 184, 209);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
         --inputs-bg-color: rgb(255, 255, 255);
@@ -671,10 +671,10 @@ This banner notice must not be removed.
         /* Table colors */
         --table-border-color: rgba(70, 105, 165, 0.15);
         --table-cell-bg-color: rgb(255, 255, 255);
-        --table-row-stripped-bg-color: rgb(242, 238, 252);
-        --table-head-bg-color: rgb(220, 216, 248);
+        --table-row-stripped-bg-color: rgb(238 245 252);
+        --table-head-bg-color: rgb(201 218 225);
         --table-head-fg-color: rgb(18, 22, 38);
-        --table-caption-bg-color: rgb(220, 216, 248);
+        --table-caption-bg-color: rgb(216 228 248);
         --table-caption-fg-color: rgb(45, 55, 80);
 
         /* Other colors */
@@ -734,8 +734,8 @@ This banner notice must not be removed.
             --header-bg-color: linear-gradient(155deg, rgb(4, 8, 28) 0%, rgb(10, 22, 68) 55%, rgb(18, 48, 90) 100%);
             --nav-bg-color: rgba(4, 8, 28, 0.85);
             --footer-bg-color: rgb(12, 18, 35);
-            --buttons-bg-color:       rgb(30, 112, 178);
-            --buttons-bg-color-hover: rgb(42, 135, 205);
+            --buttons-bg-color: rgb(25 89 140);
+            --buttons-bg-color-hover: rgb(36 112 170);
             --progress-bg-color: rgb(7, 9, 13);
             --inputs-bg-color: rgb(18, 24, 42);
 
