@@ -55,6 +55,7 @@ import { LinkController } from './links.js';
 import { ProgressBar } from './progressbar.js';
 import { ToggleSelector } from './toggleselect.js';
 import { SVGIconsManager } from './svgicons.js';
+import { KeyboardController } from './keyboard.js';
 
 import { BaseManager } from './transport/base_manager.js';
 import { RequestManager } from './transport/request.js';
@@ -73,7 +74,8 @@ console.debug('Imports OK:', {
     ProgressBar,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    SVGIconsManager,
+    KeyboardController
 });
 
 // ----- Exports (framework public API) -----
@@ -88,7 +90,8 @@ export {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    SVGIconsManager,
+    KeyboardController
 };
 
 // ---------------------------------------------------------------------------
@@ -136,7 +139,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    SVGIconsManager,
+    KeyboardController
 });
 
 // Make every [data-href] element without a real href focusable via Tab.

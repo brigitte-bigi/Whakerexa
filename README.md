@@ -271,4 +271,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ## Version 3.5 - develop
 
+- New `KeyboardController` in `keyboard.js`: a page declares its shortcuts, and the guard that gives keys back to whoever is typing is held once, for all of them. Documented in `docs/accessibility.html`.
+- Extra Slides. Their keyboard file holds nothing but the fourteen shortcuts and the events they say.
+- New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
+
 

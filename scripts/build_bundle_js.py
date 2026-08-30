@@ -47,6 +47,7 @@ JS_FILES = [
     'logger.js',
     os.path.join('transport', 'request.js'),
     os.path.join('transport', 'base_manager.js'),
+    'keyboard.js',
 
     os.path.join('extras', 'slides', 'slides_data.js'),
     os.path.join('extras', 'slides', 'navigation_logic.js'),

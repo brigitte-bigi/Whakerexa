@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-26 11:46:20
+// Bundle automatically generated on 2026-08-30 09:04:44
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -361,6 +361,127 @@ class BaseManager {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.BaseManager = BaseManager;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- keyboard.js ---------------
+'use strict';
+class KeyboardController {
+    // CONSTANTS
+    static RESERVED_KEYS = ['Enter', ' '];
+    static INTERACTIVE_TAGS = ['input', 'select', 'textarea', 'button', 'summary'];
+    // FIELDS
+    #shortcuts;
+    #boundHandler;
+    #listening;
+    // CONSTRUCTOR
+    constructor() {
+        this.#shortcuts = new Map();
+        this.#boundHandler = this.#onKeyDown.bind(this);
+        this.#listening = false;
+    }
+    // GETTERS
+    get shortcuts() {
+        const said = [];
+        this.#shortcuts.forEach(shortcut => {
+            if (said.includes(shortcut) === false) {
+                said.push(shortcut);
+            }
+        });
+        return said.map(shortcut => ({keys: [...shortcut.keys], label: shortcut.label}));
+    }
+    // PUBLIC METHODS
+    register({keys, action, detail = {}, label = '', preventsDefault = false}) {
+        if (Array.isArray(keys) === false || keys.length === 0) {
+            console.warn('KeyboardController: a shortcut without a key is not declared.');
+            return;
+        }
+        if (typeof action !== 'function' && typeof action !== 'string') {
+            console.warn(`KeyboardController: the keys "${keys.join(', ')}" do nothing, and are not declared.`);
+            return;
+        }
+        const answered = keys.filter(key => KeyboardController.RESERVED_KEYS.includes(key) === false);
+        if (answered.length !== keys.length) {
+            console.warn('KeyboardController: Enter and space operate what holds the focus, and are not declared.');
+        }
+        if (answered.length === 0) {
+            return;
+        }
+        const shortcut = {keys: answered, action: action, detail: detail,
+                          label: label, preventsDefault: preventsDefault};
+        answered.forEach(key => {
+            if (this.#shortcuts.has(key) === true) {
+                console.warn(`KeyboardController: the key "${key}" was already answered, and its answer is replaced.`);
+            }
+            this.#shortcuts.set(key, shortcut);
+        });
+    }
+    // -----------------------------------------------------------------------
+    forget(keys) {
+        keys.forEach(key => this.#shortcuts.delete(key));
+    }
+    // -----------------------------------------------------------------------
+    init() {
+        if (this.#listening === true) {
+            return;
+        }
+        document.body.addEventListener('keydown', this.#boundHandler, false);
+        this.#listening = true;
+    }
+    // -----------------------------------------------------------------------
+    destroy() {
+        document.body.removeEventListener('keydown', this.#boundHandler, false);
+        this.#listening = false;
+    }
+    // -----------------------------------------------------------------------
+    static isInteractiveTarget(target) {
+        if (target instanceof HTMLElement === false) {
+            return true;
+        }
+        const tag = target.tagName.toLowerCase();
+        if (KeyboardController.INTERACTIVE_TAGS.includes(tag) === true) {
+            return true;
+        }
+        if (tag === 'a' && target.hasAttribute('href') === true) {
+            return true;
+        }
+        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls') === true) {
+            return true;
+        }
+        if (target.isContentEditable === true) {
+            return true;
+        }
+        const reachable = target.getAttribute('tabindex');
+        if (reachable !== null) {
+            const rank = parseInt(reachable, 10);
+            if (Number.isNaN(rank) === false && rank >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // PRIVATE METHODS
+    #onKeyDown(event) {
+        const shortcut = this.#shortcuts.get(event.key);
+        if (shortcut === undefined) {
+            return;
+        }
+        if (KeyboardController.isInteractiveTarget(event.target) === true) {
+            return;
+        }
+        if (shortcut.preventsDefault === true) {
+            event.preventDefault();
+        }
+        if (typeof shortcut.action === 'function') {
+            shortcut.action(event);
+            return;
+        }
+        document.dispatchEvent(new CustomEvent(shortcut.action, {detail: shortcut.detail}));
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.KeyboardController = KeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -1020,121 +1141,65 @@ window.Wexa.OverviewView = OverviewView;
 
 // ---------------- extras/slides/keyboard_controller.js ---------------
 'use strict';
-class KeyboardController {
+class SlidesKeyboard {
+    // CONSTANTS
     static SHORTCUTS = [
-        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide' },
-        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide' },
-        { keys: ['Home'],                                 label: 'First slide' },
-        { keys: ['End'],                                  label: 'Last slide' },
-        { keys: ['h', 'H', '?'],                          label: 'Help' },
-        { keys: ['f', 'F'],                               label: 'Fullscreen' },
-        { keys: ['o', 'O'],                               label: 'Overview mode' },
-        { keys: ['d', 'D'],                               label: 'Handout mode' },
-        { keys: ['m', 'M'],                               label: 'Memo mode' },
-        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode' },
-        { keys: ['a', 'A'],                               label: 'Accessibility controls' },
-        { keys: ['n', 'N'],                               label: 'Navigation controls' },
-        { keys: ['b', 'B'],                               label: 'Progress bar' },
-        { keys: ['l', 'L'],                               label: 'Logo' },
+        { keys: ['ArrowRight', 'ArrowDown', 'PageDown'], label: 'Next slide',
+          event: 'slides:navigate', detail: { action: 'next' }, scrolls: true },
+        { keys: ['ArrowLeft', 'ArrowUp', 'PageUp'],      label: 'Previous slide',
+          event: 'slides:navigate', detail: { action: 'prev' }, scrolls: true },
+        { keys: ['Home'],                                 label: 'First slide',
+          event: 'slides:navigate', detail: { action: 'goStart' }, scrolls: true },
+        { keys: ['End'],                                  label: 'Last slide',
+          event: 'slides:navigate', detail: { action: 'goEnd' }, scrolls: true },
+        { keys: ['h', 'H', '?'],                          label: 'Help',
+          event: 'slides:help', detail: { action: 'toggle' } },
+        { keys: ['f', 'F'],                               label: 'Fullscreen',
+          event: 'slides:fullscreen', detail: {} },
+        { keys: ['o', 'O'],                               label: 'Overview mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'overview' } },
+        { keys: ['d', 'D'],                               label: 'Handout mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'handout' } },
+        { keys: ['m', 'M'],                               label: 'Memo mode',
+          event: 'slides:viewmode', detail: { action: 'toggle', mode: 'note' } },
+        { keys: ['Escape', 's', 'S'],                     label: 'Presentation mode',
+          event: 'slides:viewmode', detail: { mode: 'presentation' } },
+        { keys: ['a', 'A'],                               label: 'Accessibility controls',
+          event: 'slides:visibility', detail: { name: 'accessibility', action: 'toggle' } },
+        { keys: ['n', 'N'],                               label: 'Navigation controls',
+          event: 'slides:visibility', detail: { name: 'controls', action: 'toggle' } },
+        { keys: ['b', 'B'],                               label: 'Progress bar',
+          event: 'slides:visibility', detail: { name: 'progress', action: 'toggle' } },
+        { keys: ['l', 'L'],                               label: 'Logo',
+          event: 'slides:visibility', detail: { name: 'logo', action: 'toggle' } },
     ];
-    static SLIDE_KEYS = new Set(KeyboardController.SHORTCUTS.flatMap(s => s.keys));
+    // FIELDS
+    #keyboard;
+    // CONSTRUCTOR
     constructor() {
-        this._boundHandler = this._onKeyDown.bind(this);
+        this.#keyboard = new KeyboardController();
+        SlidesKeyboard.SHORTCUTS.forEach(shortcut => {
+            this.#keyboard.register({
+                keys: shortcut.keys,
+                action: shortcut.event,
+                detail: shortcut.detail,
+                label: shortcut.label,
+                preventsDefault: shortcut.scrolls === true
+            });
+        });
     }
+    // PUBLIC METHODS
     init() {
-        document.body.addEventListener('keydown', this._boundHandler, false);
+        this.#keyboard.init();
     }
+    // -----------------------------------------------------------------------
     destroy() {
-        document.body.removeEventListener('keydown', this._boundHandler, false);
-    }
-    // -----------------------------------------------------------------------
-    // Private
-    // -----------------------------------------------------------------------
-    _onKeyDown(event) {
-        const key = event.key;
-        if (!KeyboardController.SLIDE_KEYS.has(key)) return;
-        if (key === 'Enter' || key === ' ')            return;
-        if (this._isInteractiveTarget(event.target))   return;
-        switch (key) {
-            case 'h': case 'H': case '?':
-                this._emit('slides:help', { action: 'toggle' });
-                return;
-            case 'Escape':
-            case 's': case 'S':
-                this._emit('slides:viewmode', { mode: 'presentation' });
-                return;
-            case 'o': case 'O':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'overview' });
-                return;
-            case 'd': case 'D':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'handout' });
-                return;
-            case 'm': case 'M':
-                this._emit('slides:viewmode', { action: 'toggle', mode: 'note' });
-                return;
-            case 'f': case 'F':
-                this._emit('slides:fullscreen', {});
-                return;
-            case 'a': case 'A':
-                this._emit('slides:visibility', { name: 'accessibility', action: 'toggle' });
-                return;
-            case 'n': case 'N':
-                this._emit('slides:visibility', { name: 'controls', action: 'toggle' });
-                return;
-            case 'b': case 'B':
-                this._emit('slides:visibility', { name: 'progress', action: 'toggle' });
-                return;
-            case 'l': case 'L':
-                this._emit('slides:visibility', { name: 'logo', action: 'toggle' });
-                return;
-            case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'prev' });
-                return;
-            case 'ArrowRight': case 'ArrowDown': case 'PageDown':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'next' });
-                return;
-            case 'Home':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'goStart' });
-                return;
-            case 'End':
-                event.preventDefault();
-                this._emit('slides:navigate', { action: 'goEnd' });
-                return;
-        }
-    }
-    _emit(type, detail) {
-        document.dispatchEvent(new CustomEvent(type, { detail }));
-    }
-    _isInteractiveTarget(target) {
-        if (!(target instanceof HTMLElement)) {
-            return true;
-        }
-        const tag = target.tagName.toLowerCase();
-        if (['input', 'select', 'textarea', 'button', 'summary'].includes(tag)) {
-            return true;
-        }
-        if (tag === 'a' && target.hasAttribute('href')) {
-            return true;
-        }
-        if ((tag === 'video' || tag === 'audio') && target.hasAttribute('controls')) {
-            return true;
-        }
-        const tab = target.getAttribute('tabindex');
-        if (tab !== null) {
-            const n = parseInt(tab, 10);
-            if (!Number.isNaN(n) && n >= 0) {
-                return true;
-            }
-        }
-        return false;
+        this.#keyboard.destroy();
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
-window.Wexa.KeyboardController = KeyboardController;
+window.Wexa.SlidesKeyboard = SlidesKeyboard;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -1375,7 +1440,7 @@ class HelpDialog {
         div.appendChild(h2);
         const table = document.createElement('table');
         table.setAttribute('role', 'presentation');
-        for (const { keys, label } of KeyboardController.SHORTCUTS) {
+        for (const { keys, label } of SlidesKeyboard.SHORTCUTS) {
             const tr = document.createElement('tr');
             const tdKeys = document.createElement('td');
             tdKeys.textContent = keys.map(k => this._keyLabel(k)).join(' / ');
@@ -1483,7 +1548,7 @@ class SlidesAssembler {
         });
         // ── 5. CONTROLLERS ───────────────────────────────────────────────────
         this._helpDialog = new HelpDialog();
-        this._keyboard = new KeyboardController();
+        this._keyboard = new SlidesKeyboard();
         this._touch    = new TouchController();
         const c = config.controls;
         const v = config.controlsView;
@@ -5716,7 +5781,8 @@ console.debug('Imports OK:', {
     ProgressBar,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    SVGIconsManager,
+    KeyboardController
 });
 // ----- Exports (framework public API) -----
 // ---------------------------------------------------------------------------
@@ -5757,7 +5823,8 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     ToggleSelector,
     BaseManager,
     RequestManager,
-    SVGIconsManager
+    SVGIconsManager,
+    KeyboardController
 });
 // Make every [data-href] element without a real href focusable via Tab.
 OnLoadManager.addLoadFunction(() => LinkController.initFocusable());

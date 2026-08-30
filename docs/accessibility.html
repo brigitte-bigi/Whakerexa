@@ -212,6 +212,45 @@
         onclick="Wexa.accessibility.switchColorScheme()"&gt;&lt;/button&gt;</code></pre>
         </article>
 
+        <h2>Keyboard shortcuts, without stealing the letters</h2>
+
+        <p>
+            A page that answers keys has one thing to get right: standing back when the person
+            is typing. <code>KeyboardController</code> holds that rule, so no component writes
+            it again. It listens once, answers the keys the page declared, and gives every key
+            back as soon as the focus is on a field, a control, a link, a media with its own
+            commands, or anything the page made reachable with the tab key. Enter and space are
+            never answered: they operate whatever holds the focus.
+        </p>
+
+        <article class="card-doc" aria-label="KeyboardController — one shortcut">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>
+                    A shortcut is its keys and what they do — a function, or the name of a
+                    <code>CustomEvent</code> dispatched on the document for a component whose
+                    work is done elsewhere. A key that would scroll the page says so.
+                </p>
+            </div>
+            <pre class="dark"><code>const keyboard = new Wexa.KeyboardController();
+
+keyboard.register({keys: ['h', 'H', '?'], label: 'Help',
+                   action: () =&gt; document.getElementById('btn-help').click()});
+
+keyboard.register({keys: ['ArrowRight'], label: 'Next',
+                   action: 'page:navigate', detail: {action: 'next'},
+                   preventsDefault: true});
+
+keyboard.init();</code></pre>
+        </article>
+
+        <p>
+            What was declared is read back with <code>keyboard.shortcuts</code>, which gives the
+            keys and their labels: a help dialog written from it says what the page answers, and
+            nothing else. <code>forget(keys)</code> gives keys back, <code>destroy()</code> gives
+            them all back. The slides of the framework are the first user of this class: their
+            own file holds nothing but their fourteen shortcuts and the events each of them says.
+        </p>
+
         <h2>Reusing a named tab</h2>
 
         <article class="card-doc" aria-label="Named tab links">
