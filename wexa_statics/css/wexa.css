@@ -1836,8 +1836,6 @@ This banner notice must not be removed.
 
     /* Form: any type of inputs: input, select, textarea... */
 
-    /* input/select/textarea width: 80% → @layer theme */
-
     input, select, textarea {
         margin-bottom: var(--typography-spacing-vertical);
     }
@@ -2209,6 +2207,17 @@ This banner notice must not be removed.
         margin-top: var(--typography-spacing-vertical);
     }
 
+    /* A reset is the secondary of the pair: it takes the alternate ground of
+       the page rather than the one of a button, so that the button which acts
+       is the one that is seen first. A theme that wants another pair writes
+       it, as the high contrast one does. */
+    button[type=reset],
+    input[type=reset] {
+        background-color: var(--bg-color-alt);
+        color: var(--fg-color);
+        border-color: var(--border-color);
+    }
+
     /* Actions inside a summary are floated right. A link is not a button:
        it is named here by its own role, next to the button ones, and the
        plain links of the summary text are left where they are. */
@@ -2422,11 +2431,16 @@ This banner notice must not be removed.
         height: calc(1.5 * var(--font-size));
     }
 
+    /* A field takes the whole width it is given, and a form reads as one
+       column. The three themes wrote this, each on its own, which said the
+       eight tenths of before were nobody's choice. A range and a file carry
+       their own width, and are left alone. */
     button[type=submit],
-    input:not([type=checkbox],[type=radio]),
+    button[type=reset],
+    input:not([type=checkbox],[type=radio],[type=range],[type=file]),
     select,
     textarea {
-        width: 80%;
+        width: 100%;
     }
 
     /* ── Group: inline form group ────────────────────────────────────────── */

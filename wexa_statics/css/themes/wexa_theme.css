@@ -219,47 +219,4 @@
         color: var(--a-color);
     }
 
-    /* ======================================================================
-       Reset button — secondary style
-       ====================================================================== */
-
-    button[type=reset],
-    input[type=reset] {
-        background-color: var(--bg-color-alt);
-        color: var(--fg-color);
-        border-color: var(--border-color);
-    }
-
-    /* ======================================================================
-       Forms — full-width inputs
-       ====================================================================== */
-
-    button[type=submit],
-    button[type=reset],
-    input:not([type=checkbox],[type=radio],[type=range],[type=file]),
-    select,
-    textarea {
-        width: 100%;
-    }
-
-    /* ======================================================================
-       Layout — grid panel top-aligned
-       ====================================================================== */
-
-    .grid-panel {
-        align-items: start;
-    }
-
-}
-
-/* ======================================================================
-    Enumerate cards — layout.css draws them with the two grounds of the
-    palette, which this theme leaves transparent: they carry the ground of
-    a card instead, as the cards above them do.
-    ====================================================================== */
-
-li.enumerate-cards-item,
-main > .panel-item:nth-child(even) li.enumerate-cards-item {
-    background: var(--card-bg-color);
-    color: var(--card-fg-color);
 }

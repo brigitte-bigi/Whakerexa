@@ -230,10 +230,6 @@
         border-radius: 0;
     }
 
-    article.card * {
-        background-color: transparent;
-    }
-
     article.card > footer {
         margin-top: var(--typography-spacing-vertical);
         padding-top: var(--typography-spacing-vertical);
