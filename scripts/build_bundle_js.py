@@ -83,7 +83,7 @@ JS_FILES = [
     'progressbar.js',
     'toggleselect.js',
     'links.js',
-    os.path.join('extras', 'theme_manager.js'),
+    os.path.join('customize', 'theme_manager.js'),
     os.path.join('extras', 'book.js'),
     os.path.join('extras', 'sortatable.js'),
 

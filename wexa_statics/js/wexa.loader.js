@@ -201,7 +201,7 @@
     async function loadModules() {
         try {
             const wexa = await import(addressOf('js/wexa.js'));
-            const themeModule = await import(addressOf('js/extras/theme_manager.js'));
+            const themeModule = await import(addressOf('js/customize/theme_manager.js'));
 
             const namespace = Object.assign({}, wexa);
             for (const extra of extras) {

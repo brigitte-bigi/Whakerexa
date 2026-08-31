@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-08-30 09:04:44
+// Bundle automatically generated on 2026-08-31 11:26:32
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3143,7 +3143,7 @@ window.Wexa.LinkController = LinkController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras/theme_manager.js ---------------
+// ---------------- customize/theme_manager.js ---------------
 class ThemeManager extends BaseManager {
     // -----------------------------------------------------------------------
     // FIELDS
@@ -5927,7 +5927,7 @@ class SlidesInitializer {
         window.Wexa = window.Wexa || {};
         await this.#injectBoilerplate();
         if (this.#themesAttr !== '') {
-            const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
+            const { ThemeManager } = await import(new URL('../../customize/theme_manager.js', this.#base).href);
             this.#registerThemes(ThemeManager);
         }
         const { SlidesPagination } = await import(new URL('slides_pagination.js', this.#base).href);

@@ -299,7 +299,7 @@ export default class SlidesInitializer {
         await this.#injectBoilerplate();
 
         if (this.#themesAttr !== '') {
-            const { ThemeManager } = await import(new URL('../theme_manager.js', this.#base).href);
+            const { ThemeManager } = await import(new URL('../../customize/theme_manager.js', this.#base).href);
             this.#registerThemes(ThemeManager);
         }
 
