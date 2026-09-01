@@ -96,6 +96,8 @@ export class IconPlacer {
         const element = demand.element;
         if (demand.kind === DemandKind.SURFACE) {
             element.style.removeProperty('background-image');
+            element.style.removeProperty('background-repeat');
+            element.style.removeProperty('background-position');
             return;
         }
 
@@ -170,7 +172,13 @@ export class IconPlacer {
      * @returns {void}
      */
     #cover(demand, content) {
-        demand.element.style.backgroundImage = 'url("' + content.source + '")';
+        const element = demand.element;
+        element.style.backgroundImage = 'url("' + content.source + '")';
+        // A ground covers: it is laid from the corner and repeated. The
+        // framework asks for no repetition on every element, which would leave
+        // one drawing at the top of the surface.
+        element.style.backgroundRepeat = 'repeat';
+        element.style.backgroundPosition = '0 0';
     }
 
     // -----------------------------------------------------------------------

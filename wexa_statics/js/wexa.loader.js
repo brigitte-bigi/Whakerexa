@@ -126,11 +126,30 @@
      * @returns {void}
      */
     function startIcons(namespace) {
-        if (!namespace.IconSets || !namespace.IconManager) {
+        const icons = namespace.icons || (window.Wexa && window.Wexa.icons) || null;
+        if (icons === null || !namespace.IconSet) {
             return;
         }
 
-        const sets = new namespace.IconSets();
+        // What follows must not take the rest of the page with it: a page
+        // whose icons do not answer still navigates and still switches theme.
+        try {
+            declareSets(icons, namespace);
+        } catch (error) {
+            console.error('wexa.loader: the sets of icons were not declared.', error);
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Hold the sets a page brings, and answer its demands.
+     *
+     * @param {Object} icons - The manager of the icons.
+     * @param {Object} namespace - What holds the classes of the icons.
+     * @returns {void}
+     */
+    function declareSets(icons, namespace) {
 
         for (const declared of iconSets.split('\n')) {
             const said = declared.trim();
@@ -145,19 +164,16 @@
                 continue;
             }
 
-            sets.declare(new namespace.IconSet(parts[0].trim(), parts[1].trim(),
+            // The path is written from data-base, as the page says it is.
+            icons.declare(new namespace.IconSet(parts[0].trim(),
+                base + parts[1].trim(),
                 parts[2].split(',').map(file => file.trim())));
         }
 
-        sets.reference(new namespace.IconSet('mono-svg',
-            base + namespace.REFERENCE_BASE, namespace.REFERENCE_FILES));
+        if (iconsDefault !== '') {
+            icons.show(iconsDefault);
+        }
 
-        const icons = new namespace.IconManager(sets, iconsDefault);
-        window.Wexa = window.Wexa || {};
-        // Not under "icons": that name is the one of SVGIconsManager, which
-        // the components of the framework still call. The two live side by
-        // side until the older one is taken apart.
-        window.Wexa.iconsets = icons;
         icons.run();
     }
 
@@ -266,9 +282,7 @@
 
             const iconModules = await Promise.all([
                 import(addressOf('js/customize/icon_set.js')),
-                import(addressOf('js/customize/icon_sets.js')),
-                import(addressOf('js/customize/icon_manager.js')),
-                import(addressOf('js/customize/icon_reference.js'))
+                import(addressOf('js/customize/icons.js'))
             ]);
             iconModules.forEach(module => Object.assign(namespace, module));
 

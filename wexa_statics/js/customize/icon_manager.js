@@ -38,7 +38,7 @@ import { IconReader } from './icon_reader.js';
 import { IconPlacer } from './icon_placer.js';
 import { IconWatcher } from './icon_watcher.js';
 import { IconRegister } from './icon_register.js';
-import { IconDemand } from './icon_demand.js';
+import { IconDemand, DemandKind } from './icon_demand.js';
 import { IconError } from './icon_errors.js';
 
 /**
@@ -68,7 +68,7 @@ export class IconManager {
     #placer = new IconPlacer();
 
     /** @type {IconWatcher} */
-    #watcher = new IconWatcher();
+    #watcher;
 
     /** @type {IconRegister} */
     #register = new IconRegister();
@@ -76,10 +76,15 @@ export class IconManager {
     /**
      * @param {IconSets} sets - The sets that were declared.
      * @param {string} [named] - The set the page names, if any.
+     * @param {IconWatcher} [watcher] - What says when a demand is about to be
+     *                                  seen. One is made when none is given;
+     *                                  another one is given by a test, which
+     *                                  cannot wait for a rendering.
      */
-    constructor(sets, named = '') {
+    constructor(sets, named = '', watcher = null) {
         this.#sets = sets;
         this.#choice = new IconChoice(sets, named);
+        this.#watcher = watcher !== null ? watcher : new IconWatcher();
     }
 
     // -----------------------------------------------------------------------
@@ -92,6 +97,82 @@ export class IconManager {
     /** @returns {string[]} The names of the sets, the reference one last. */
     names() {
         return this.#sets.names();
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Hold a set the page brings.
+     *
+     * @param {IconSet} set - The set to hold.
+     * @returns {void}
+     */
+    declare(set) {
+        this.#sets.declare(set);
+    }
+
+    /**
+     * Hold the set a name falls back to.
+     *
+     * @param {IconSet} set - The set of the framework.
+     * @returns {void}
+     */
+    reference(set) {
+        this.#sets.reference(set);
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Give what answers a name, for whoever writes it themselves.
+     *
+     * A component of the framework asks for an icon by its name and puts it
+     * where it wants: it does not write an attribute in a document it does not
+     * own.
+     *
+     * @param {string} name - The name asked for.
+     * @returns {Promise<string>} The markup of a line drawing, the address of
+     *                            an image, or an empty string.
+     */
+    async get(name) {
+        const set = this.#sets.setFor(name, this.#choice.inForce());
+        if (set === null) {
+            WexaLogger.warn('IconManager: no set carries the name "' + name + '".');
+            return '';
+        }
+
+        try {
+            const content = await this.#reader.read(set, name);
+            return content.source;
+        } catch (error) {
+            this.#say(error);
+            return '';
+        }
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Put an icon in an element, unless it already holds one.
+     *
+     * @param {HTMLElement} element - What receives it.
+     * @param {string} name - The name asked for.
+     * @returns {Promise<void>} Never raises.
+     */
+    async inject(element, name) {
+        if (element === null || element === undefined) {
+            return;
+        }
+        if (element.querySelector('svg') !== null) {
+            return;
+        }
+
+        const markup = await this.get(name);
+        if (markup === '') {
+            return;
+        }
+
+        element.insertAdjacentHTML('afterbegin', markup);
     }
 
     // -----------------------------------------------------------------------
@@ -168,7 +249,11 @@ export class IconManager {
         }
 
         try {
-            const content = await this.#reader.read(set, demand.name);
+            // A ground is laid on a surface: it is never written into the page,
+            // so it is never read. Its address is what answers.
+            const content = demand.kind === DemandKind.SURFACE
+                ? this.#reader.address(set, demand.name)
+                : await this.#reader.read(set, demand.name);
             this.#placer.place(demand, content);
         } catch (error) {
             this.#placer.clear(demand);

@@ -66,6 +66,7 @@
         <li><code>IconReader</code>, which goes and gets as rarely as it can</li>
         <li><code>IconDemand</code> and <code>IconPlacer</code></li>
         <li><code>IconRegister</code></li>
+        <li><code>IconManager</code>, which never raises</li>
     </ul>
 
 </main>
@@ -177,6 +178,7 @@
     import { IconDemand } from '../customize/icon_demand.js';
     import { IconPlacer } from '../customize/icon_placer.js';
     import { IconRegister } from '../customize/icon_register.js';
+    import { IconManager } from '../customize/icon_manager.js';
 
     window.IconSet = IconSet;
     window.IconSets = IconSets;
@@ -186,12 +188,14 @@
     window.IconDemand = IconDemand;
     window.IconPlacer = IconPlacer;
     window.IconRegister = IconRegister;
+    window.IconManager = IconManager;
 
     await import('./icon_setsTest.js');
     await import('./icon_choiceTest.js');
     await import('./icon_readerTest.js');
     await import('./icon_placerTest.js');
     await import('./icon_registerTest.js');
+    await import('./icon_managerTest.js');
 </script>
 
 </body>

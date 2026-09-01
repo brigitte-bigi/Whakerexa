@@ -1,6 +1,6 @@
 import { BaseManager } from '../transport/base_manager.js';
 import { OnLoadManager } from '../dom-loader.js';
-import { SVGIconsManager } from '../svgicons.js';
+import { icons } from './icons.js';
 
 /**
 :filename: statics.js.customize.theme_manager.js
@@ -253,7 +253,7 @@ export class ThemeManager extends BaseManager {
      * @returns {Promise<void>}
      */
     async #injectButtonIcon() {
-        await SVGIconsManager.inject(document.getElementById('btn-css-theme'), 'theme');
+        await icons.inject(document.getElementById('btn-css-theme'), 'theme');
     }
 
     // -----------------------------------------------------------------------

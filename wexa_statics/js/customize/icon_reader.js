@@ -96,6 +96,22 @@ export class IconReader {
     // -----------------------------------------------------------------------
 
     /**
+     * Give the address of what answers a name, without reading anything.
+     *
+     * A ground is laid on a surface, whatever the file it stands in: it is
+     * never written into the page, so it is never read.
+     *
+     * @param {IconSet} set - A set that carries the name.
+     * @param {string} name - The name asked for.
+     * @returns {IconContent} Its address, under the form of an image.
+     */
+    address(set, name) {
+        return new IconContent(name, IconForm.IMAGE, set.addressOf(name));
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
      * Give what answers a name in a set.
      *
      * @param {IconSet} set - A set that carries the name.

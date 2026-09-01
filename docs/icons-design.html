@@ -693,8 +693,9 @@
                     <code>scripts/</code>, run before a release, beside the one that builds
                     the bundle.</p>
 
-                <p><code>SVGIconsManager</code> answers today for reading and for placing at
-                    once, and for one set only. It is what the modules above take apart.</p>
+                <p><code>SVGIconsManager</code> answered for reading and for placing at once,
+                    and for one set only. It is what the modules above took apart, and it is
+                    gone.</p>
             </section>
 
             <section class="ssection"><h2>The decisions of the tool</h2>
@@ -708,11 +709,20 @@
                     force, read in the address and written back — and they answer the same
                     need on two matters. They are written together rather than apart.</p>
 
+                <p><b>D1b. The manager is held under <code>Wexa.iconsets</code>.</b>
+                    <code>Wexa.icons</code> is the name of the older manager, which the
+                    components of the framework still call: taking it would leave them
+                    without icons. The two names live side by side until D2 is done, and
+                    D2 is a broken promise for whoever calls
+                    <code>Wexa.icons.get()</code>.</p>
+
                 <p><b>D2. What reads and what places are taken apart.</b>
-                    <code>SVGIconsManager</code> does both today, for one set. Reading changes
-                    when a document is served or not; placing changes when a content is a
-                    line, an image or a ground. They do not change for the same reasons, so
-                    they are not one class.</p>
+                    <code>SVGIconsManager</code> did both, for one set. Reading changes when a
+                    document is served or not; placing changes when a content is a line, an
+                    image or a ground. They do not change for the same reasons, so they are
+                    not one class. The older one is removed, and <code>Wexa.icons</code> is
+                    the new manager: what it holds of the old are <code>get()</code> and
+                    <code>inject()</code>, which the components of the framework call.</p>
 
                 <p><b>D3. A place declares its room counted on the font size</b>, in
                     <code>calc(var(--font-size) * n)</code> as the framework counts every
@@ -916,7 +926,8 @@
                     <tr><td>IconWatcher.watch</td><td>(demands: IconDemand[], onView): void</td><td>pre: none. post: onView is called once per demand when it comes into view, and again after clear(). Reads the rendering, and decides nothing. [026] [076]</td></tr>
                     <tr><td>IconRegister.hold</td><td>(demand: IconDemand): void</td><td>pre: none. post: the demand is given back by inView()</td></tr>
                     <tr><td>IconRegister.inView</td><td>(): IconDemand[]</td><td>post: those of the held demands that are in view, in no order. May be empty. [027]</td></tr>
-                    <tr><td>IconManager.run</td><td>(): Promise&lt;void&gt;</td><td>post: every demand in view is answered or left empty; never raises; kept when everything is done</td></tr>
+                    <tr><td>IconManager.constructor</td><td>(sets, named, watcher)</td><td>pre: sets is not null. post: one set in force. A watcher is made when none is given: a test gives one, being unable to wait for a rendering</td></tr>
+                    <tr><td>IconManager.run</td><td>(root): Promise&lt;void&gt;</td><td>post: every demand in view is answered or left empty; never raises; kept when everything is done</td></tr>
                     <tr><td>IconManager.show</td><td>(name: String): Promise&lt;void&gt;</td><td>pre: none. post: the document is shown with that set; the demands in view are answered again and no others; never raises. [025] [027]</td></tr>
                     </tbody>
                 </table>

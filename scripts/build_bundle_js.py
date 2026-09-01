@@ -76,7 +76,6 @@ JS_FILES = [
     os.path.join('extras', 'slides', 'slides_pagination.js'),
 
     'dom-loader.js',
-    'svgicons.js',
     'accessibility.js',
     'menu.js',
     'dialog.js',
@@ -96,6 +95,7 @@ JS_FILES = [
     os.path.join('customize', 'icon_register.js'),
     os.path.join('customize', 'icon_reference.js'),
     os.path.join('customize', 'icon_manager.js'),
+    os.path.join('customize', 'icons.js'),
     os.path.join('extras', 'book.js'),
     os.path.join('extras', 'sortatable.js'),
 
@@ -361,8 +361,8 @@ def generate_wexa_exports(class_names, module_name):
 
 
 def generate_svg_preregistration(icons_folder):
-    """Inline all SVG files as SVGIconsManager.register() calls for bundle mode."""
-    out = ['\n// ---------------- SVG icons (pre-registered for file:// mode) ---------------\n']
+    """Gather all SVG files into the bundle, for a document read from a disk."""
+    out = ['\n// ------------- SVG icons (gathered in, for a document on a disk) ------------\n']
     for svg_file in sorted(os.listdir(icons_folder)):
         if not svg_file.endswith('.svg'):
             continue
@@ -370,7 +370,6 @@ def generate_svg_preregistration(icons_folder):
         svg_path = os.path.join(icons_folder, svg_file)
         with open(svg_path, 'r', encoding='utf-8') as fp:
             svg_content = fp.read().replace('\\', '\\\\').replace('`', '\\`')
-        out.append(f"SVGIconsManager.register({repr(name)}, {json.dumps(svg_content)});\n")
         out.append(f"IconReader.gather('mono-svg', {repr(name)}, {json.dumps(svg_content)});\n")
     return ''.join(out)
 
@@ -417,7 +416,7 @@ if __name__ == '__main__':
         if class_names:
             buffer.append(generate_wexa_exports(class_names, MODULE_NAME))
 
-    # SVG icons pre-registration — must run after SVGIconsManager is defined
+    # The drawings of the reference set — must run after IconReader is defined
     # ----------------------------------------------------------------------
     if os.path.isdir(ICONS_FOLDER):
         buffer.append(generate_svg_preregistration(ICONS_FOLDER))

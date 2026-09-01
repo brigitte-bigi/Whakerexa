@@ -122,6 +122,36 @@
     <!-- ============================================================ -->
     <section class="panel-item">
 
+        <h2>Grounds</h2>
+
+        <p>A ground covers a surface. It is asked for by name, in the same sets, and it
+            designates nothing: nothing is said of it to whoever does not see it.</p>
+
+        <article class="card-doc" aria-label="Three grounds">
+            <div class="card-view">
+                <p data-ground="diagonals" style="padding: 1rem; min-width: 8rem">diagonals</p>
+                <p data-ground="dots" style="padding: 1rem; min-width: 8rem">dots</p>
+                <p data-ground="grid" style="padding: 1rem; min-width: 8rem">grid</p>
+            </div>
+            <pre class="dark"><code>&lt;section data-ground="diagonals"&gt;…&lt;/section&gt;</code></pre>
+        </article>
+
+        <p>This page shows itself with the set <code>grounds</code>, which carries these
+            three and nothing else: the icons above it are answered by the reference set,
+            name by name. A ground declared in a set that is not in force is never looked
+            at — only the set in force and the reference one are.</p>
+
+        <p>These three are drawn in a grey that holds on a light page as on a dark one. A
+            ground cannot take the color of what surrounds it: it is laid as an image, and
+            an image is a document of its own, where <code>currentColor</code> means
+            nothing. A set that draws for one mode only draws two grounds, and the page
+            names the one it wants.</p>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
         <h2>Declare a set</h2>
 
         <p>A set is declared where a page already says what it loads, on the tag of the
@@ -235,7 +265,7 @@
         <p>From a page, the reader changes it without the page being loaded again. Only
             what is on the screen is asked for again:</p>
 
-        <pre class="dark"><code>&lt;button type="button" onclick="Wexa.iconsets.show('child')"&gt;Child&lt;/button&gt;</code></pre>
+        <pre class="dark"><code>&lt;button type="button" onclick="Wexa.icons.show('child')"&gt;Child&lt;/button&gt;</code></pre>
 
     </section>
 
@@ -249,9 +279,9 @@
             <tr><th>Call</th><th>What it does</th></tr>
             </thead>
             <tbody>
-            <tr><td><code>Wexa.iconsets.show(name)</code></td><td>Shows the document with that set, and asks again for what is in view. A set that was never declared changes nothing</td></tr>
-            <tr><td><code>Wexa.iconsets.inForce()</code></td><td>The name of the set the document is shown with</td></tr>
-            <tr><td><code>Wexa.iconsets.names()</code></td><td>The names of the sets that were declared, the reference one last</td></tr>
+            <tr><td><code>Wexa.icons.show(name)</code></td><td>Shows the document with that set, and asks again for what is in view. A set that was never declared changes nothing</td></tr>
+            <tr><td><code>Wexa.icons.inForce()</code></td><td>The name of the set the document is shown with</td></tr>
+            <tr><td><code>Wexa.icons.names()</code></td><td>The names of the sets that were declared, the reference one last</td></tr>
             </tbody>
         </table>
 
@@ -291,7 +321,9 @@
 
 <script src="../wexa_statics/js/wexa.loader.js"
         data-base="../wexa_statics/"
-        data-links="btn-back"></script>
+        data-links="btn-back"
+        data-icons="grounds:icons/grounds/:diagonals.svg,dots.svg,grid.svg"
+        data-icons-default="grounds"></script>
 
 </body>
 </html>
