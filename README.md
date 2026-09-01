@@ -213,24 +213,29 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 ### Known bugs
 
-- `layout.css` alternates `panel-item` section backgrounds via `main > .panel-item:nth-child(even)`, which redefines `--bg-color` and `--fg-color`. Some child elements (cards, code blocks, etc.) do not inherit these redefined variables and render with the wrong background color.
+- `layout.css` alternates `panel-item` section backgrounds via `main > .panel-item:nth-child(even)`, which 
+  redefines `--bg-color` and `--fg-color`. Some child elements (cards, code blocks, etc.) do not inherit these 
+  redefined variables and render with the wrong background color.
 
 
 ## Version 3.1
 
 - Extra Book. Added `abstract` class.
-- Extra Book. Added `aside.book-toc-aside`: toggleable ToC panel, auto-injected toggle button, new variable `--toc-aside-width`.
+- Extra Book. Added `aside.book-toc-aside`: toggleable ToC panel, auto-injected toggle button, 
+  new variable `--toc-aside-width`.
 - Extra Book. Improved chapter and aside page-break handling.
 - Extra Book. Theme support: chapter numbers use `--custom-color1` / `--custom-color2`.
 - Themes. Corrected `--custom-color1` / `--custom-color2` in `highcontrast`.
 - Extra KeyPiano. New extra: generic clickable "piano" of buttons composing a technical sequence into a target text field.
 - Extra Slides. Added the missing "Note" (`m`) view mode to the nav menu.
 - Extra Slides. Nav split into three sections: navigation, fullscreen, view mode.
-- Extra Slides. Prev/First/Last/Next/GoTo buttons now use SVG icons (new `first.svg`, `last.svg`); view-mode toggle renamed "Slides" (was "Slides View") and uses the new `.toggle-group`.
+- Extra Slides. Prev/First/Last/Next/GoTo buttons now use SVG icons (new `first.svg`, `last.svg`); 
+  view-mode toggle renamed "Slides" (was "Slides View") and uses the new `.toggle-group`.
 - Themes. Fixed `highcontrast` slide `h2` title: white text was unreadable on its yellow background.
 - wexa.css. Fixed `--nav-bg-color` (light mode): flat gray replaced with a blue matching the theme's palette.
 - menu.css. Added the missing `gap` on horizontal nav `> section` groups (top/bottom), already present on the side variant.
-- New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, composable with `.menuitem`. Documented in `docs/button.html`.
+- New `togglegroup.css`. Generic segmented "toggle group" component for mutually-exclusive choices, 
+  composable with `.menuitem`. Documented in `docs/button.html`.
 
 
 ## Version 3.2
@@ -244,7 +249,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - LinkController. Fixed named targets: the window name is now honored.
 - Icons. New `info-square` icon, and removed the XML namespaces of the mono-svg icons.
 - layout.css. Bug corrected. Alternating `panel-item` sections now swap the whole color pair. 
-- New variables `--panel-bg-color`, `--panel-fg-color`, `--panel-bg-color-alt`, `--panel-fg-color-alt`. Documented in `docs/layout.html`.
+- New variables `--panel-bg-color`, `--panel-fg-color`, `--panel-bg-color-alt`, `--panel-fg-color-alt`. 
+  Documented in `docs/layout.html`.
 
 
 ## Version 3.3
@@ -275,5 +281,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
 - New page `docs/gallery.html`: an all-in-one page to demonstrate themes, accessibility and JS features.
 - New `wexa.loader.js`: one tag loads Whakerexa, the bundle on `file://` and the modules over HTTP.
-- Bring your own icons: declare sets of them, the reader chooses, and what you do not draw is still shown. See `docs/icons.html`.
+- Bring your own icons: declare sets of them, the reader chooses, and what you do not draw is still shown. 
+  See `docs/icons.html`.
+- Breaking change. `ThemeManager` moves to `js/customize/theme_manager.js`, and `SVGIconsManager` is removed: 
+  `Wexa.icons` is now the manager of the sets, with the same `get()` and `inject()`.
 

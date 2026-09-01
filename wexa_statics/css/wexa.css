@@ -954,12 +954,20 @@ This banner notice must not be removed.
        here would have to be taken back everywhere a container carries one, and
        that is what every 'background-color: transparent' of this framework used
        to do. */
+    /* What every element gets, and what it does not: the properties below are
+       not inherited, so each element has to be given them. */
     * {
         margin: 0;
         padding: 0;
         -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
+    }
 
+    /* What is written is given to the body, and inherited from there. Given to
+       every element instead, it would be given again to each one: a span in a
+       heading would be written at the size of a paragraph, and nothing inside
+       anything would follow what holds it. */
+    body {
         color: var(--fg-color);
 
         font-size: var(--font-size);
@@ -968,6 +976,22 @@ This banner notice must not be removed.
         line-height: var(--line-height);
         letter-spacing: var(--letter-spacing);
         word-spacing: var(--word-spacing);
+    }
+
+    /* A form control is not given the font of the page by a browser: it asks
+       for it. */
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        word-spacing: inherit;
     }
 
     *, *:before, *:after {
