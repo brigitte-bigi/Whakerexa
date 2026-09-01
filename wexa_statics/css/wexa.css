@@ -1686,6 +1686,24 @@ This banner notice must not be removed.
         max-width: 95%;
     }
 
+    /* An icon takes the room its place declared, and that room is declared
+       before the drawing arrives: nothing moves when it does, and nothing
+       moves when the set of icons changes. The two dimensions are given, an
+       icon being not always square, and both are counted on the font size, so
+       that an icon grows with the text it stands beside. */
+    :root {
+        --icon-width:  calc(var(--font-size) * 1);
+        --icon-height: calc(var(--font-size) * 1);
+    }
+
+    [data-icon] > svg,
+    [data-icon] > img {
+        width: var(--icon-width);
+        height: var(--icon-height);
+        object-fit: contain;
+        vertical-align: middle;
+    }
+
     /* An image is drawn for a page that is not the one it is read on, and
        cannot answer for its own edges: it is laid on a ground of its own, in
        every mode. Which ground it is belongs to the themes: the framework has

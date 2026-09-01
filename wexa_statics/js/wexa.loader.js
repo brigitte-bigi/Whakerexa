@@ -41,6 +41,10 @@
  *  data-themes-base  where the themes stand, when they are not under
  *               css/themes/ of the base: a page served with the minified
  *               stylesheets asks for the minified themes.
+ *  data-icons   the sets of icons the page brings, one per line, written
+ *               "name:path:file,file,file". A file answers to the name it
+ *               bears without its extension.
+ *  data-icons-default  the set to show when the address names none.
  *  data-extras  the files to load besides wexa.js, written from the base and
  *               separated by commas. Ignored on file://, where the bundle
  *               already holds them.
@@ -73,6 +77,8 @@
         .filter(name => name.length > 0);
     const defaultTheme = tag.getAttribute('data-default') || '';
     const themesBase = tag.getAttribute('data-themes-base') || (base + 'css/themes/');
+    const iconSets = tag.getAttribute('data-icons') || '';
+    const iconsDefault = tag.getAttribute('data-icons-default') || '';
     const extras = (tag.getAttribute('data-extras') || '')
         .split(',')
         .map(name => name.trim())
@@ -105,6 +111,54 @@
             themes.setDefault(defaultTheme);
         }
         window.themes = themes;
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Declare the sets of icons, and answer the demands of the document.
+     *
+     * The set of the framework is declared last, so that it is the one a name
+     * falls back to. What a page brings is read on its own tag, where it
+     * already says what it loads.
+     *
+     * @param {Object} namespace - What holds the classes of the icons.
+     * @returns {void}
+     */
+    function startIcons(namespace) {
+        if (!namespace.IconSets || !namespace.IconManager) {
+            return;
+        }
+
+        const sets = new namespace.IconSets();
+
+        for (const declared of iconSets.split('\n')) {
+            const said = declared.trim();
+            if (said === '') {
+                continue;
+            }
+
+            const parts = said.split(':');
+            if (parts.length < 3) {
+                console.error('wexa.loader: a set of icons is written'
+                    + ' "name:path:file,file": ' + said);
+                continue;
+            }
+
+            sets.declare(new namespace.IconSet(parts[0].trim(), parts[1].trim(),
+                parts[2].split(',').map(file => file.trim())));
+        }
+
+        sets.reference(new namespace.IconSet('mono-svg',
+            base + namespace.REFERENCE_BASE, namespace.REFERENCE_FILES));
+
+        const icons = new namespace.IconManager(sets, iconsDefault);
+        window.Wexa = window.Wexa || {};
+        // Not under "icons": that name is the one of SVGIconsManager, which
+        // the components of the framework still call. The two live side by
+        // side until the older one is taken apart.
+        window.Wexa.iconsets = icons;
+        icons.run();
     }
 
     // -----------------------------------------------------------------------
@@ -166,6 +220,7 @@
                 return;
             }
             registerThemes(wexa.ThemeManager);
+            startIcons(wexa);
             handleLinks(wexa);
             bootPage(wexa);
         });
@@ -209,7 +264,16 @@
                 Object.assign(namespace, module);
             }
 
+            const iconModules = await Promise.all([
+                import(addressOf('js/customize/icon_set.js')),
+                import(addressOf('js/customize/icon_sets.js')),
+                import(addressOf('js/customize/icon_manager.js')),
+                import(addressOf('js/customize/icon_reference.js'))
+            ]);
+            iconModules.forEach(module => Object.assign(namespace, module));
+
             registerThemes(themeModule.ThemeManager);
+            startIcons(namespace);
             handleLinks(window.Wexa || wexa);
             bootPage(namespace);
 

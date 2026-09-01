@@ -57,6 +57,17 @@
         <li><code>SlideBlockReader</code></li>
     </ul>
 
+    <p>Of what customises the look, which set of icons answers a name:</p>
+
+    <ul>
+        <li><code>IconSet</code></li>
+        <li><code>IconSets</code>, which reads nothing and asks nothing</li>
+        <li><code>IconChoice</code></li>
+        <li><code>IconReader</code>, which goes and gets as rarely as it can</li>
+        <li><code>IconDemand</code> and <code>IconPlacer</code></li>
+        <li><code>IconRegister</code></li>
+    </ul>
+
 </main>
 
 <!-- UnitTest is a plain class, loaded before anything uses it. -->
@@ -154,6 +165,33 @@
     await import('./viewmode_logicTest.js');
     await import('./navigation_logicTest.js');
     await import('./slide_reachingTest.js');
+</script>
+
+<script type="module">
+    // The classes that customise the look stand in their own script too.
+    import { IconSet } from '../customize/icon_set.js';
+    import { IconSets } from '../customize/icon_sets.js';
+    import { IconChoice } from '../customize/icon_choice.js';
+    import { IconContent } from '../customize/icon_content.js';
+    import { IconReader } from '../customize/icon_reader.js';
+    import { IconDemand } from '../customize/icon_demand.js';
+    import { IconPlacer } from '../customize/icon_placer.js';
+    import { IconRegister } from '../customize/icon_register.js';
+
+    window.IconSet = IconSet;
+    window.IconSets = IconSets;
+    window.IconChoice = IconChoice;
+    window.IconContent = IconContent;
+    window.IconReader = IconReader;
+    window.IconDemand = IconDemand;
+    window.IconPlacer = IconPlacer;
+    window.IconRegister = IconRegister;
+
+    await import('./icon_setsTest.js');
+    await import('./icon_choiceTest.js');
+    await import('./icon_readerTest.js');
+    await import('./icon_placerTest.js');
+    await import('./icon_registerTest.js');
 </script>
 
 </body>

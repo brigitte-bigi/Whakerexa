@@ -90,6 +90,9 @@
                     of what surrounds it, on a document opened from a disk, without a server
                     and without the internet; and ask an application for the drawings, and
                     for nothing else.</p>
+
+                <p>What an application writes to get all that is on
+                    <a href="icons.html">icons.html</a>.</p>
             </section>
 
             <section class="ssection"><h2>Expression of the needs</h2>
@@ -113,6 +116,12 @@
                     and harder to aim at when a button holds nothing else. And whoever does
                     not see them is told what they stand for.</p>
 
+                <p>Nothing moves when a drawing arrives, and nothing moves when the set
+                    changes. The room is therefore declared by the place and not by the
+                    drawing, in both its dimensions, since an icon is not always square: a
+                    set of flags is not a set of arrows. A drawing of other proportions is
+                    held inside that room rather than stretched to it.</p>
+
                 <p>An icon may be asked for under a name that no set carries. The page holds
                     and shows the rest, and the console names it, so that whoever wrote the
                     page can correct it.</p>
@@ -132,9 +141,9 @@
                     stands for, never where it is drawn: the same name is answered by a
                     different drawing from one set to the next.</p>
 
-                <p>A <b>drawing</b> is what answers a name. It is a line drawing, which
-                    takes the color of what surrounds it, or an image, which carries its
-                    own.</p>
+                <p>A <b>drawing</b> is what answers a name. Its form follows from the file
+                    it stands in: a line drawing, which takes the color of what surrounds it,
+                    or an image, which carries its own.</p>
 
                 <p>A <b>ground</b> is what covers a surface: a texture laid on a plain
                     background. It is named as an icon is, and answered the same way, but it
@@ -174,10 +183,12 @@
 
                 <p><b>[030] What an icon is made of</b></p>
                 <ul>
-                    <li>[031] The author can bring line drawings, or images. Grounds are [070].</li>
+                    <li>[031] The author can bring line drawings and images, of whatever the file they stand in, in one set. Grounds are [070].</li>
                     <li>[032] A line drawing is shown in the color of what surrounds it.</li>
                     <li>[033] An icon that carries its colors is shown as it is drawn.</li>
-                    <li>[034] The element that holds an icon declares the room it takes, before the drawing arrives. RGESN</li>
+                    <li>[034] The element that holds an icon declares the room it takes, in both its dimensions, before the drawing arrives. RGESN</li>
+                    <li>[037] An image carries the two dimensions the place declared, so that nothing waits for the file to know them. RGESN</li>
+                    <li>[038] A drawing whose proportions are not those of the place is held inside it, and never stretched.</li>
                     <li>[035] Nothing moves around the icon when the drawing arrives.</li>
                     <li>[036] An icon is drawn at the size of the text around it, and grows with it.</li>
                 </ul>
@@ -340,8 +351,8 @@
                     <tr><th>Class</th><th>Properties</th><th>What it is</th></tr>
                     </thead>
                     <tbody>
-                    <tr><td>SET</td><td># name, where_the_drawings_are, form</td><td>A set of icons. One is the reference set, the others are declared. Its form says whether it is made of drawings or of images</td></tr>
-                    <tr><td>CONTENT</td><td># content_name, kind, source</td><td>What answers a name. Its kind is a drawing, shown at a place, or a ground, laid on a surface. It exists only inside a set, and is identified relatively to it</td></tr>
+                    <tr><td>SET</td><td># name, where_the_drawings_are</td><td>A set of icons. One is the reference set, the others are declared</td></tr>
+                    <tr><td>CONTENT</td><td># content_name, kind, file, /form</td><td>What answers a name. Its kind is a drawing, shown at a place, or a ground, laid on a surface. Its file is what the set declared under that name, and its form follows from it. It exists only inside a set, and is identified relatively to it</td></tr>
                     <tr><td>PLACE</td><td># place_id, name_asked, room</td><td>Somewhere in the document where an icon is asked for. It says the name it asks for and the room it takes</td></tr>
                     <tr><td>SURFACE</td><td># surface_id, name_asked</td><td>Somewhere in the document that is covered. It says the name it asks for, and takes the room it already has</td></tr>
                     <tr><td>READING</td><td># document</td><td>The document being read. There is one, and it is shown with one set</td></tr>
@@ -400,10 +411,10 @@
                     <tr><td>C2</td><td>The reference set carries every name asked for by what the organisation draws itself</td><td>[014]</td></tr>
                     <tr><td>C3</td><td>A place is answered by a drawing of the set in force, or, when that set carries no drawing under the name, by one of the reference set</td><td>R1, R2, R3, [014]</td></tr>
                     <tr><td>C4</td><td>A place that no set answers is not asked again under the same set in force: what a set carries it has already said</td><td>[I6] [061]</td></tr>
-                    <tr><td>C5</td><td>All the drawings of one set take the same form: a set is made of line drawings, or of images, and never of both. A ground is an image whatever the form of the drawings</td><td>SET.form, [031] [071]</td></tr>
+                    <tr><td>C5</td><td>The form of a content follows from its file, and from nothing else: a set carries line drawings and images side by side, since an author takes the files he has</td><td>CONTENT.file, [031]</td></tr>
                     <tr><td>C8</td><td>A content answers places, or covers surfaces, and never both: its kind says which</td><td>R2, R4, CONTENT.kind</td></tr>
                     <tr><td>C9</td><td>A surface is never told to whoever does not see it, a ground standing for nothing</td><td>[074]</td></tr>
-                    <tr><td>C6</td><td>A place declares its room before it is answered, and the room does not depend on which set answers it</td><td>[034] [035]</td></tr>
+                    <tr><td>C6</td><td>A place declares its room, in both dimensions, before it is answered. The room does not depend on which set answers it, nor on the proportions of the drawing that does</td><td>[034] [035] [038]</td></tr>
                     <tr><td>C7</td><td>A place is asked for only while it is in view, and only once under a given set in force</td><td>[026] [027]</td></tr>
                     </tbody>
                 </table>
@@ -575,8 +586,8 @@
                     <tr><th>Table</th><th>Columns</th><th>Comes from</th></tr>
                     </thead>
                     <tbody>
-                    <tr><td>SET</td><td><u>name</u>, where_the_contents_are, form</td><td>The entity class SET</td></tr>
-                    <tr><td>CONTENT</td><td><u>set_name</u>, <u>content_name</u>, kind, source</td><td>The entity class CONTENT, and R1</td></tr>
+                    <tr><td>SET</td><td><u>name</u>, where_the_contents_are</td><td>The entity class SET</td></tr>
+                    <tr><td>CONTENT</td><td><u>set_name</u>, <u>content_name</u>, kind, file</td><td>The entity class CONTENT, and R1. The form is not a column: it is read in the file</td></tr>
                     <tr><td>PLACE</td><td><u>place_id</u>, name_asked, room</td><td>The entity class PLACE</td></tr>
                     <tr><td>SURFACE</td><td><u>surface_id</u>, name_asked</td><td>The entity class SURFACE</td></tr>
                     <tr><td>READING</td><td><u>document</u>, set_in_force</td><td>The entity class READING, and R3</td></tr>
@@ -617,7 +628,7 @@
                     <tbody>
                     <tr>
                         <td>SET</td>
-                        <td>What a page declares on <code>wexa.loader.js</code>, under a new attribute: a name, a path, a form, and the names it carries</td>
+                        <td>What a page declares on <code>wexa.loader.js</code>, under a new attribute: a name, a path, and the files it carries, each under the name it answers to</td>
                         <td>An object held by the manager of the sets</td>
                         <td>Nothing of its own</td>
                     </tr>
@@ -629,7 +640,7 @@
                     </tr>
                     <tr>
                         <td>PLACE</td>
-                        <td>An element that names its icon and declares its room, in <code>calc(var(--font-size) * n)</code></td>
+                        <td>An element that names its icon and declares its room, in <code>calc(var(--font-size) * n)</code> for each of its two dimensions</td>
                         <td>That same element</td>
                         <td>The room, then the drawing</td>
                     </tr>
@@ -705,8 +716,12 @@
 
                 <p><b>D3. A place declares its room counted on the font size</b>, in
                     <code>calc(var(--font-size) * n)</code> as the framework counts every
-                    size. One declaration holds two needs: the room kept before the image
-                    arrives [034], and the size that follows the text [036].</p>
+                    size, and in both dimensions. One declaration holds three needs: the room
+                    kept before the image arrives [034], the size that follows the text [036],
+                    and the two dimensions an image is given so that nothing waits for the
+                    file to know them [037]. A drawing of other proportions is held inside
+                    that room [038]: the place is what does not change from one set to the
+                    next, so it is the place that decides the shape.</p>
 
                 <p><b>D4. A set is declared on the loader</b>, beside the themes, and not in a
                     call written in every page. A page says what it brings where it already
@@ -851,11 +866,11 @@
                     <caption>IconSet</caption>
                     <thead><tr><th>Operation</th><th>Signature</th><th>Contract</th></tr></thead>
                     <tbody>
-                    <tr><td>constructor</td><td>(name, base, form, names)</td><td>pre: name and base are not empty; form is a drawing or an image; names may be empty. post: the object does not change any more</td></tr>
+                    <tr><td>constructor</td><td>(name, base, files)</td><td>pre: name and base are not empty; files names a file under each name it answers to, and may be empty. post: the object does not change any more</td></tr>
                     <tr><td>get name</td><td>(): String</td><td>post: the name the set was declared under</td></tr>
-                    <tr><td>get form</td><td>(): IconForm</td><td>post: line or image. It is the form of every content of the set. C5</td></tr>
                     <tr><td>carries</td><td>(name: String): Boolean</td><td>pre: none. post: true when the set declared that name. Reads nothing and asks nothing. [I6]</td></tr>
-                    <tr><td>addressOf</td><td>(name: String): String</td><td>pre: the set carries the name. post: where the content stands, from the base of the set</td></tr>
+                    <tr><td>addressOf</td><td>(name: String): String</td><td>pre: the set carries the name. post: where the content stands, from the base of the set and the file declared under that name</td></tr>
+                    <tr><td>/formOf</td><td>(name: String): IconForm</td><td>pre: the set carries the name. post: line when the file is an SVG, image otherwise. Read in the file, never held. C5</td></tr>
                     </tbody>
                 </table>
 
@@ -868,7 +883,7 @@
                     <tbody>
                     <tr><td>constructor</td><td>(name, kind, form, source)</td><td>pre: name is not empty; kind is a drawing or a ground; source is what was read. post: the object does not change any more</td></tr>
                     <tr><td>get kind</td><td>(): IconKind</td><td>post: drawing or ground. It says what answers a place and what covers a surface. C8</td></tr>
-                    <tr><td>get form</td><td>(): IconForm</td><td>post: line or image, taken from the set that carried it</td></tr>
+                    <tr><td>get form</td><td>(): IconForm</td><td>post: line or image, read in the file it stands in</td></tr>
                     <tr><td>get source</td><td>(): String</td><td>post: the markup of a line drawing, or the address of an image. Never empty</td></tr>
                     </tbody>
                 </table>
@@ -896,7 +911,7 @@
                     <tr><td>IconChoice.inForce</td><td>(): String</td><td>post: the name of the set the document is shown with. Never empty: the reference set when nothing else was named</td></tr>
                     <tr><td>IconChoice.put</td><td>(name: String): Boolean</td><td>pre: none. post: true when the set in force changed, and the address says it; false when the name was already in force or was never declared. [023] [024]</td></tr>
                     <tr><td>IconReader.read</td><td>(set: IconSet, name: String): Promise&lt;IconContent&gt;</td><td>pre: the set carries the name. post: the content, read where the document is read from; raises UnreadableContent when it cannot be read. The only one that goes and gets anything</td></tr>
-                    <tr><td>IconPlacer.place</td><td>(demand: IconDemand, content: IconContent): void</td><td>pre: the kind of the content answers the kind of the demand. post: the content is where it was asked for; nothing around it has moved; a line drawing takes the color of what surrounds it, an image keeps its own. [032] [033] [035] [075]</td></tr>
+                    <tr><td>IconPlacer.place</td><td>(demand: IconDemand, content: IconContent): void</td><td>pre: the kind of the content answers the kind of the demand. post: the content is where it was asked for, held inside the room the place declared and never stretched to it; an image carries that room in its two dimensions; nothing around it has moved; a line drawing takes the color of what surrounds it, an image keeps its own. [032] [033] [035] [037] [038] [075]</td></tr>
                     <tr><td>IconPlacer.clear</td><td>(demand: IconDemand): void</td><td>pre: none. post: the demand shows nothing, and keeps its room. Calling it twice does nothing wrong</td></tr>
                     <tr><td>IconWatcher.watch</td><td>(demands: IconDemand[], onView): void</td><td>pre: none. post: onView is called once per demand when it comes into view, and again after clear(). Reads the rendering, and decides nothing. [026] [076]</td></tr>
                     <tr><td>IconRegister.hold</td><td>(demand: IconDemand): void</td><td>pre: none. post: the demand is given back by inView()</td></tr>
@@ -950,8 +965,10 @@
                 <p><code>IconPlacer</code> is checked on written markup: a line drawing takes
                     the color of what surrounds it and an image keeps its own [032] [033]; a
                     ground covers a surface and no place [C8]; what surrounds a demand has the
-                    same size before and after [035] [075]; and <code>clear()</code> leaves
-                    the room where it was.</p>
+                    same size before and after, and the same again with a drawing of other
+                    proportions [035] [038] [075]; an image carries the two dimensions the
+                    place declared [037]; and <code>clear()</code> leaves the room where it
+                    was.</p>
 
                 <p><code>IconWatcher</code> is checked on a document taller than one screen: a
                     demand out of view is not announced, and is announced when the reading

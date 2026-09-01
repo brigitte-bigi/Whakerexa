@@ -275,4 +275,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
 - New page `docs/gallery.html`: an all-in-one page to demonstrate themes, accessibility and JS features.
 - New `wexa.loader.js`: one tag loads Whakerexa, the bundle on `file://` and the modules over HTTP.
+- Bring your own icons: declare sets of them, the reader chooses, and what you do not draw is still shown. See `docs/icons.html`.
 

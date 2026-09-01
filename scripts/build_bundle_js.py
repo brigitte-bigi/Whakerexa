@@ -84,6 +84,18 @@ JS_FILES = [
     'toggleselect.js',
     'links.js',
     os.path.join('customize', 'theme_manager.js'),
+    os.path.join('customize', 'icon_set.js'),
+    os.path.join('customize', 'icon_sets.js'),
+    os.path.join('customize', 'icon_choice.js'),
+    os.path.join('customize', 'icon_errors.js'),
+    os.path.join('customize', 'icon_content.js'),
+    os.path.join('customize', 'icon_reader.js'),
+    os.path.join('customize', 'icon_demand.js'),
+    os.path.join('customize', 'icon_placer.js'),
+    os.path.join('customize', 'icon_watcher.js'),
+    os.path.join('customize', 'icon_register.js'),
+    os.path.join('customize', 'icon_reference.js'),
+    os.path.join('customize', 'icon_manager.js'),
     os.path.join('extras', 'book.js'),
     os.path.join('extras', 'sortatable.js'),
 
@@ -359,6 +371,7 @@ def generate_svg_preregistration(icons_folder):
         with open(svg_path, 'r', encoding='utf-8') as fp:
             svg_content = fp.read().replace('\\', '\\\\').replace('`', '\\`')
         out.append(f"SVGIconsManager.register({repr(name)}, {json.dumps(svg_content)});\n")
+        out.append(f"IconReader.gather('mono-svg', {repr(name)}, {json.dumps(svg_content)});\n")
     return ''.join(out)
 
 
