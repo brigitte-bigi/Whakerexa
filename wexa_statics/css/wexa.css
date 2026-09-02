@@ -978,6 +978,17 @@ This banner notice must not be removed.
         word-spacing: var(--word-spacing);
     }
 
+    /* An element that changes the palette takes the color it has just changed.
+       The page is written in the color of the body, and inherited from there:
+       an element that redefines --fg-color for what it holds would otherwise
+       keep the color computed before, and a dark block would be written in the
+       ink of a light page. */
+    .light,
+    .dark,
+    .contrast {
+        color: var(--fg-color);
+    }
+
     /* A form control is not given the font of the page by a browser: it asks
        for it. */
     button,

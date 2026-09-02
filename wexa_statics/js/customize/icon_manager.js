@@ -112,13 +112,40 @@ export class IconManager {
     }
 
     /**
-     * Hold the set a name falls back to.
+     * Hold the markup of a drawing, read from nowhere.
+     *
+     * What gathers the drawings into a document calls this, so that a document
+     * read where nothing serves it answers without reading anything.
+     *
+     * @param {string} setName - The name of the set that carries it.
+     * @param {string} name - The name it answers to.
+     * @param {string} markup - The markup of the drawing.
+     * @returns {void}
+     */
+    gather(setName, name, markup) {
+        this.#reader.gather(setName, name, markup);
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
+     * Hold the set a name falls back to last.
      *
      * @param {IconSet} set - The set of the framework.
      * @returns {void}
      */
     reference(set) {
         this.#sets.reference(set);
+    }
+
+    /**
+     * Name the set that answers what the others leave unanswered.
+     *
+     * @param {string} name - The name of one of the declared sets.
+     * @returns {void}
+     */
+    fallback(name) {
+        this.#sets.fallback(name);
     }
 
     // -----------------------------------------------------------------------

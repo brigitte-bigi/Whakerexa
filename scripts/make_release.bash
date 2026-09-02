@@ -47,6 +47,40 @@ function fct_echo_header {
 
 
 # ---------------------------------------------------------------------------
+# Check that every theme holds its contract
+# ---------------------------------------------------------------------------
+
+function fct_check_themes {
+    fct_echo_title "Checking the contract of the themes"
+
+    python3 "$PROGRAM_DIR/check_themes.py"
+    if [ "$?" != 0 ]; then
+        echo "Error: a theme leaves a group of variables incomplete."
+        exit 1
+    fi
+
+    echo "The contract is held."
+}
+
+
+# ---------------------------------------------------------------------------
+# Write what the reference set of icons carries
+# ---------------------------------------------------------------------------
+
+function fct_build_icons_reference {
+    fct_echo_title "Writing what the reference set of icons carries"
+
+    python3 "$PROGRAM_DIR/build_icons_reference.py"
+    if [ "$?" != 0 ]; then
+        echo "Error: the reference set was not written."
+        exit 1
+    fi
+
+    echo "Reference set written."
+}
+
+
+# ---------------------------------------------------------------------------
 # Build the JS bundle
 # ---------------------------------------------------------------------------
 
@@ -115,6 +149,8 @@ function fct_package {
 pushd "$ROOT_DIR" > /dev/null
 
 fct_echo_header
+fct_check_themes
+fct_build_icons_reference
 fct_build_bundle
 fct_build_css_min
 fct_package

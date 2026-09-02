@@ -159,9 +159,10 @@
 
         <pre class="dark"><code>&lt;script src="wexa_statics/js/wexa.loader.js"
         data-base="wexa_statics/"
-        data-icons="child:icons/child/:home.svg,back.png,next.svg
-                    adult:icons/adult/:home.webp,back.jpg"
-        data-icons-default="adult"&gt;&lt;/script&gt;</code></pre>
+        data-icons="refine:icons/refine/:home.png,back.png,next.png
+                    colored:icons/colored/:home.png"
+        data-icons-fallback="refine"
+        data-icons-default="colored"&gt;&lt;/script&gt;</code></pre>
 
         <table>
             <caption>What a set says about itself</caption>
@@ -172,6 +173,18 @@
             <tr><td>name</td><td>How the set is named, and what the reader chooses</td></tr>
             <tr><td>path</td><td>Where its files stand, written from <code>data-base</code></td></tr>
             <tr><td>files</td><td>What the set carries, separated by commas. Each file answers to the name it bears without its extension: <code>home.webp</code> answers to <code>home</code></td></tr>
+            </tbody>
+        </table>
+
+        <table>
+            <caption>What the page says of the sets together</caption>
+            <thead>
+            <tr><th>Attribute</th><th>What it does</th></tr>
+            </thead>
+            <tbody>
+            <tr><td><code>data-icons</code></td><td>The sets, one per line</td></tr>
+            <tr><td><code>data-icons-default</code></td><td>The one to show when the address names none</td></tr>
+            <tr><td><code>data-icons-fallback</code></td><td>The one that answers what the others leave unanswered</td></tr>
             </tbody>
         </table>
 
@@ -188,6 +201,17 @@
 
         <p><code>data-icons-default</code> names the set to show when the address names
             none. Without it, the set of Whakerexa is the one in force.</p>
+
+        <p><strong>Which set answers for the others.</strong> Your sets are rarely all
+            complete: one of them is, and the others draw a few names differently.
+            <code>data-icons-fallback</code> names the complete one, and a name that the
+            shown set does not carry is taken from it. Above, a page shown with
+            <code>colored</code> draws <code>home</code> in colors and takes
+            <code>back</code> and <code>next</code> from <code>refine</code>.</p>
+
+        <p>A name goes down a chain of two, and no more: the set shown, the set that
+            answers for the others, then the set of Whakerexa. What none of the three
+            carries is not drawn.</p>
 
     </section>
 
@@ -295,14 +319,26 @@
 
         <h2>A document read from a disk</h2>
 
-        <p>A document opened without a server cannot go and get a file. The drawings of
-            Whakerexa are written into the bundle when it is built; the drawings of your
-            sets are written the same way:</p>
+        <p>A document opened without a server cannot go and get a file: a browser refuses
+            to read one there. The drawings of Whakerexa are gathered into the bundle when
+            it is built; the drawings of your sets are gathered the same way, by a script
+            that reads your folders and writes one file:</p>
 
         <pre class="dark"><code>python3 scripts/build_icons.py icons/child/ icons/adult/</code></pre>
 
-        <p>Without that step, your sets answer on a served document and the set of
-            Whakerexa answers on a local one.</p>
+        <p>The name of a set is the name of its folder, so that what you declare on the
+            loader and what the script writes say the same thing. Add the file it produced
+            to the page, anywhere, and the loader pours it in before answering the first
+            demand:</p>
+
+        <pre class="dark"><code>&lt;script src="wexa_icons.js"&gt;&lt;/script&gt;</code></pre>
+
+        <p>Only line drawings are gathered, and only they need it: they are written into
+            the page. An image is never read — its address is what answers, and a document
+            read from a disk finds it beside itself. Grounds are in that case too.</p>
+
+        <p>Without that step, your line drawings answer on a served document and the set
+            of Whakerexa answers on a local one.</p>
 
     </section>
 

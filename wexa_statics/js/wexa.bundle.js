@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-01 11:38:43
+// Bundle automatically generated on 2026-09-01 15:59:14
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3297,6 +3297,7 @@ window.Wexa.IconSet = IconSet;
 class IconSets {
     #declared = new Map();
     #reference = null;
+    #fallback = '';
     // -----------------------------------------------------------------------
     declare(set) {
         if (set === null || set === undefined) {
@@ -3317,10 +3318,25 @@ class IconSets {
         this.#reference = set;
     }
     // -----------------------------------------------------------------------
+    fallback(name) {
+        if (this.#declared.has(name) === false) {
+            WexaLogger.warn('IconSets: the set "' + name
+                + '" answers for the others, and was never declared.');
+            return;
+        }
+        this.#fallback = name;
+    }
+    // -----------------------------------------------------------------------
     setFor(name, inForce) {
         const chosen = this.#declared.get(inForce);
         if (chosen !== undefined && chosen.carries(name) === true) {
             return chosen;
+        }
+        if (this.#fallback !== '' && this.#fallback !== inForce) {
+            const answering = this.#declared.get(this.#fallback);
+            if (answering !== undefined && answering.carries(name) === true) {
+                return answering;
+            }
         }
         if (this.#reference !== null && this.#reference.carries(name) === true) {
             return this.#reference;
@@ -3848,8 +3864,15 @@ class IconManager {
     declare(set) {
         this.#sets.declare(set);
     }
+    gather(setName, name, markup) {
+        this.#reader.gather(setName, name, markup);
+    }
+    // -----------------------------------------------------------------------
     reference(set) {
         this.#sets.reference(set);
+    }
+    fallback(name) {
+        this.#sets.fallback(name);
     }
     // -----------------------------------------------------------------------
     async get(name) {

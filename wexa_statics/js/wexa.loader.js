@@ -45,6 +45,9 @@
  *               "name:path:file,file,file". A file answers to the name it
  *               bears without its extension.
  *  data-icons-default  the set to show when the address names none.
+ *  data-icons-fallback  the set that answers what the others leave
+ *               unanswered. What it does not carry either is answered by the
+ *               set of the framework.
  *  data-extras  the files to load besides wexa.js, written from the base and
  *               separated by commas. Ignored on file://, where the bundle
  *               already holds them.
@@ -79,6 +82,7 @@
     const themesBase = tag.getAttribute('data-themes-base') || (base + 'css/themes/');
     const iconSets = tag.getAttribute('data-icons') || '';
     const iconsDefault = tag.getAttribute('data-icons-default') || '';
+    const iconsFallback = tag.getAttribute('data-icons-fallback') || '';
     const extras = (tag.getAttribute('data-extras') || '')
         .split(',')
         .map(name => name.trim())
@@ -168,6 +172,18 @@
             icons.declare(new namespace.IconSet(parts[0].trim(),
                 base + parts[1].trim(),
                 parts[2].split(',').map(file => file.trim())));
+        }
+
+        // What a build gathered into the document, if anything did. It is left
+        // on the window by a file the page loads, in no particular order: the
+        // drawings are held before the first demand is answered.
+        const gathered = window.WEXA_GATHERED_ICONS;
+        if (Array.isArray(gathered) === true) {
+            gathered.forEach(one => icons.gather(one[0], one[1], one[2]));
+        }
+
+        if (iconsFallback !== '') {
+            icons.fallback(iconsFallback);
         }
 
         if (iconsDefault !== '') {

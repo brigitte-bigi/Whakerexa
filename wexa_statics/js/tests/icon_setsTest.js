@@ -234,6 +234,60 @@ icon_sets_tests.add_test(() => {
 
 
 // -----------------------------------------------------------------------
+// A name the set in force does not carry is answered by the set that
+// answers for the others, before the reference one. C3, [016]
+// -----------------------------------------------------------------------
+
+icon_sets_tests.add_test(() => {
+    const sets = new IconSets();
+    sets.declare(new IconSet('colored', 'icons/colored/', ['home.png']));
+    sets.declare(new IconSet('refine', 'icons/refine/', ['home.png', 'first.png']));
+    sets.reference(a_reference_set());
+    sets.fallback('refine');
+
+    UnitTest.assert_values_equals('refine', sets.setFor('first', 'colored').name,
+        "icon_sets_the_fallback_answers_before_the_reference_test");
+    UnitTest.assert_values_equals('colored', sets.setFor('home', 'colored').name,
+        "icon_sets_the_set_in_force_still_answers_first_test");
+    UnitTest.assert_values_equals('mono-svg', sets.setFor('last', 'colored').name,
+        "icon_sets_the_reference_answers_last_test");
+});
+
+
+// -----------------------------------------------------------------------
+// The chain is read once: a set that answers for itself answers as if it
+// answered for nothing. C10
+// -----------------------------------------------------------------------
+
+icon_sets_tests.add_test(() => {
+    const sets = new IconSets();
+    sets.declare(a_line_set());
+    sets.reference(a_reference_set());
+    sets.fallback('child');
+
+    UnitTest.assert_values_equals('child', sets.setFor('home', 'child').name,
+        "icon_sets_a_set_answering_for_itself_test");
+    UnitTest.assert_values_equals('mono-svg', sets.setFor('first', 'child').name,
+        "icon_sets_no_cycle_test");
+});
+
+
+// -----------------------------------------------------------------------
+// A set that was never declared answers for nobody.
+// -----------------------------------------------------------------------
+
+icon_sets_tests.add_test(() => {
+    const sets = new IconSets();
+    sets.declare(a_line_set());
+    sets.reference(a_reference_set());
+    sets.fallback('nobody');
+
+    UnitTest.assert_values_equals('mono-svg', sets.setFor('first', 'child').name,
+        "icon_sets_an_unknown_fallback_test");
+});
+
+
+// -----------------------------------------------------------------------
 // Without a reference set, a name nobody carries is answered by nothing.
 // -----------------------------------------------------------------------
 

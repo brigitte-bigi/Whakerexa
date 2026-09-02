@@ -43,6 +43,11 @@ import { WexaLogger } from '../logger.js';
  *
  * The fallback is name by name, and not set by set: a set that carries three
  * drawings does not have to carry the others.
+ *
+ * A name goes down a chain of two: the set that answers for the others, which
+ * the application names among its own, and then the reference set. An
+ * application whose complete set is its own does not want the framework to
+ * answer what one of its incomplete sets leaves out.
  */
 export class IconSets {
 
@@ -51,6 +56,9 @@ export class IconSets {
 
     /** @type {IconSet|null} */
     #reference = null;
+
+    /** @type {string} The name of the set that answers for the others. */
+    #fallback = '';
 
     // -----------------------------------------------------------------------
 
@@ -95,7 +103,30 @@ export class IconSets {
     // -----------------------------------------------------------------------
 
     /**
+     * Name the set that answers what the others leave unanswered.
+     *
+     * A name that was never declared leaves the chain as it was.
+     *
+     * @param {string} name - The name of one of the declared sets.
+     * @returns {void}
+     */
+    fallback(name) {
+        if (this.#declared.has(name) === false) {
+            WexaLogger.warn('IconSets: the set "' + name
+                + '" answers for the others, and was never declared.');
+            return;
+        }
+        this.#fallback = name;
+    }
+
+    // -----------------------------------------------------------------------
+
+    /**
      * Say which set answers a name.
+     *
+     * The chain is walked once, and has two links: the set that answers for
+     * the others, then the reference set. A set that answers for itself is
+     * therefore asked once and not twice.
      *
      * @param {string} name - The name asked for.
      * @param {string} inForce - The name of the set the document is shown with.
@@ -105,6 +136,13 @@ export class IconSets {
         const chosen = this.#declared.get(inForce);
         if (chosen !== undefined && chosen.carries(name) === true) {
             return chosen;
+        }
+
+        if (this.#fallback !== '' && this.#fallback !== inForce) {
+            const answering = this.#declared.get(this.#fallback);
+            if (answering !== undefined && answering.carries(name) === true) {
+                return answering;
+            }
         }
 
         if (this.#reference !== null && this.#reference.carries(name) === true) {
