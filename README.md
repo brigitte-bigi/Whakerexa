@@ -285,4 +285,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   See `docs/icons.html`.
 - Breaking change. `ThemeManager` moves to `js/customize/theme_manager.js`, and `SVGIconsManager` is removed: 
   `Wexa.icons` is now the manager of the sets, with the same `get()` and `inject()`.
+- Icons. `cuedspeech` leaves the reference set, and the four that kept a size, a namespace or a colour 
+  of their own now take the one of the text.
 

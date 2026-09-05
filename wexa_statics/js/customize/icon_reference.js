@@ -54,7 +54,6 @@ export const REFERENCE_FILES = [
     'congrats.svg',
     'content.svg',
     'contrast.svg',
-    'cuedspeech.svg',
     'dashboard.svg',
     'discovery.svg',
     'download.svg',
