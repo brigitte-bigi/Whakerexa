@@ -294,3 +294,11 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   files, media, arrows, views, and what an application asks for every day.
 - Icons. `Wexa.icons.carried()` says the names a set answers; `docs/icons.html` lays them all out 
   from it, so the page shows what it carries when it is read.
+- Icons. No page of the documentation draws its own any more: `index.html` and `docs/` ask the 
+  set by name. Nine drawings joined it on the way — `book`, `box`, `page`, `layers`, 
+  `accessibility`, `screen`, `chevron-left`, `chevron-right`, `compress` — for 151 in all.
+- Accessibility. `AccessibilityNav` builds the bar of three buttons, and `NAV_WORDING` says what 
+  each one is called. A page names the ones it wants to name; what it leaves out keeps the 
+  wording proposed. See `docs/accessibility.html`.
+- Buttons. A `.text-reveal-button` gives its drawing nine tenths of its own size, whatever that 
+  size is, and keeps it there when the label is revealed.

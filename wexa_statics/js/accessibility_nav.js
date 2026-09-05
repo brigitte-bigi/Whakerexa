@@ -34,6 +34,20 @@
 import { icons } from './customize/icons.js';
 
 /**
+ * What each button is called when the document says nothing.
+ *
+ * A document that knows better says so: the wording is proposed here, and
+ * never imposed on the page that shows the bar.
+ *
+ * @type {Object}
+ */
+export const NAV_WORDING = {
+    theme: { label: 'Switch theme', title: 'Switch theme' },
+    contrast: { label: 'Switch contrast', title: 'Switch contrast' },
+    color: { label: 'Switch light and dark', title: 'Switch light and dark' }
+};
+
+/**
  * The bar a document shows to whoever reads it, and what it switches.
  *
  * It holds three buttons and nothing else: the theme, the contrast and the
@@ -78,6 +92,9 @@ export class AccessibilityNav {
      * @param {string} [options.id] - The identifier it carries.
      * @param {string} [options.className] - The classes it carries.
      * @param {string} [options.label] - What it is called for a screen reader.
+     * @param {Object} [options.wording] - What each button is called: an entry
+     *                 'theme', 'contrast' or 'color', each one taking a label
+     *                 and a title. What is left out keeps NAV_WORDING.
      * @returns {Promise<HTMLElement>} The nav, to be added where it belongs.
      */
     async build(options = {}) {
@@ -91,28 +108,31 @@ export class AccessibilityNav {
             : 'Accessibility controls');
 
         if (this.#shown.theme === true) {
+            const wording = this.#wordingOf(options, 'theme');
             nav.appendChild(await this.#button(
-                'btn-css-theme', 'menuitem', 'theme', 'Switch theme',
+                'btn-css-theme', 'menuitem', 'theme', wording.label,
                 () => {
                     if (window.themes !== null && window.themes !== undefined) {
                         window.themes.next();
                     }
                 },
-                { title: 'Switch theme' }));
+                { title: wording.title }));
         }
 
         if (this.#shown.contrast === true) {
+            const wording = this.#wordingOf(options, 'contrast');
             nav.appendChild(await this.#button(
-                'btn-contrast', 'menuitem accessibility', 'contrast', 'contrast',
+                'btn-contrast', 'menuitem accessibility', 'contrast', wording.label,
                 () => this.#accessibility('switchContrastScheme'),
-                { ariaPressed: 'false' }));
+                { ariaPressed: 'false', title: wording.title }));
         }
 
         if (this.#shown.color === true) {
+            const wording = this.#wordingOf(options, 'color');
             nav.appendChild(await this.#button(
-                'btn-color', 'menuitem accessibility', 'color', 'color',
+                'btn-color', 'menuitem accessibility', 'color', wording.label,
                 () => this.#accessibility('switchColorScheme'),
-                { ariaPressed: 'false' }));
+                { ariaPressed: 'false', title: wording.title }));
         }
 
         return nav;
@@ -120,6 +140,33 @@ export class AccessibilityNav {
 
     // -----------------------------------------------------------------------
     // PRIVATE
+    // -----------------------------------------------------------------------
+
+    /**
+     * Say how one button is called.
+     *
+     * What the document gives is taken, what it leaves out keeps the wording
+     * the bar proposes: a page names the buttons in its own language without
+     * having to name all three.
+     *
+     * @private
+     * @param {Object} options - What build() was given.
+     * @param {string} which - 'theme', 'contrast' or 'color'.
+     * @returns {Object} The label and the title to write.
+     */
+    #wordingOf(options, which) {
+        const proposed = NAV_WORDING[which];
+        const said = options.wording !== undefined ? options.wording[which] : undefined;
+
+        if (said === undefined || said === null) {
+            return { label: proposed.label, title: proposed.title };
+        }
+
+        const label = said.label !== undefined ? said.label : proposed.label;
+        const title = said.title !== undefined ? said.title : proposed.title;
+        return { label: label, title: title };
+    }
+
     // -----------------------------------------------------------------------
 
     /**
