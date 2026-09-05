@@ -122,6 +122,20 @@
     <!-- ============================================================ -->
     <section class="panel-item">
 
+        <h2>The drawings of the framework</h2>
+
+        <p>The reference set, the one a name falls back to when no other carries it.
+            The page writes this panel itself, from <code>Wexa.icons.carried()</code>:
+            it says what the set carries when the page is read, and not what it carried
+            when this documentation was written.</p>
+
+        <div class="wrap-panel" id="icons-carried"></div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
         <h2>Grounds</h2>
 
         <p>A ground covers a surface. It is asked for by name, in the same sets, and it
@@ -354,6 +368,47 @@
         This document is under the terms of the GNU Free Documentation License, v1.3.</a>
     </p>
 </footer>
+
+<script>
+    /**
+     * Lay out the drawings this page can ask for, one cell per name.
+     *
+     * The cells are written after the framework has answered the page, so the
+     * panel is handed to it once it is filled.
+     *
+     * @param {Object} wexa - The framework the loader was asked for.
+     * @returns {void}
+     */
+    function bootPage(wexa) {
+        const panel = document.getElementById("icons-carried");
+        if (panel === null) {
+            return;
+        }
+
+        // The sets, the reference one last: this page declares grounds of its
+        // own, and it is the drawings of the framework that are laid out here.
+        const declared = wexa.icons.names();
+        const reference = declared[declared.length - 1];
+
+        for (const name of wexa.icons.carried(reference)) {
+            const cell = document.createElement("figure");
+            cell.className = "wrap-item";
+
+            const drawing = document.createElement("span");
+            drawing.setAttribute("data-icon", name);
+            drawing.setAttribute("aria-hidden", "true");
+
+            const label = document.createElement("figcaption");
+            label.textContent = name;
+
+            cell.appendChild(drawing);
+            cell.appendChild(label);
+            panel.appendChild(cell);
+        }
+
+        wexa.icons.run(panel);
+    }
+</script>
 
 <script src="../wexa_statics/js/wexa.loader.js"
         data-base="../wexa_statics/"

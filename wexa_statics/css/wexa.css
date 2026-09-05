@@ -651,6 +651,7 @@ This banner notice must not be removed.
         --progress-bg-color: rgb(183, 184, 209);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
         --inputs-bg-color: rgb(255, 255, 255);
+        --dialog-bg-color: var(--bg-color);
         --code-bg-color: rgba(200, 195, 255, 0.35);
 
         /* Foreground colors */
@@ -666,6 +667,7 @@ This banner notice must not be removed.
         --h4-color: rgb(42, 55, 95);
         --h5-color: rgb(55, 75, 118);
         --h6-color: rgb(60, 80, 125);
+        --dialog-fg-color: var(--fg-color);
         --dialog-icon-color: rgb(255, 255, 255);
 
         /* Table colors */
@@ -2077,6 +2079,8 @@ This banner notice must not be removed.
 
 
     dialog {
+        background-color: var(--dialog-bg-color);
+        color: var(--dialog-fg-color);
         padding-left: var(--typography-spacing-horizontal);
         padding-right: var(--typography-spacing-horizontal);
         padding-top: var(--typography-spacing-vertical);

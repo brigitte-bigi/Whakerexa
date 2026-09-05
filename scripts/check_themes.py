@@ -120,6 +120,10 @@ GROUPS = {
         "--card-bg-color",
         "--card-fg-color",
     ],
+    "dialog": [
+        "--dialog-bg-color",
+        "--dialog-fg-color",
+    ],
     "progress": [
         "--progress-bg-color",
         "--progress-fg-color",

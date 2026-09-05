@@ -287,4 +287,10 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   `Wexa.icons` is now the manager of the sets, with the same `get()` and `inject()`.
 - Icons. `cuedspeech` leaves the reference set, and the four that kept a size, a namespace or a colour 
   of their own now take the one of the text.
-
+- Dialogs. New `--dialog-bg-color` and `--dialog-fg-color`: the ground of a dialog, and the text 
+  laid on it. Every theme carries the pair, and `scripts/check_themes.py` asks for it.
+- Icons. The reference set is drawn as one: the same grid of 32, the same stroke of 2, rounded 
+  caps and joins, and the colour of the text it stands beside. It goes from 56 drawings to 142 — 
+  files, media, arrows, views, and what an application asks for every day.
+- Icons. `Wexa.icons.carried()` says the names a set answers; `docs/icons.html` lays them all out 
+  from it, so the page shows what it carries when it is read.
