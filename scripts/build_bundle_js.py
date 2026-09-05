@@ -77,6 +77,7 @@ JS_FILES = [
 
     'dom-loader.js',
     'accessibility.js',
+    'accessibility_nav.js',
     'menu.js',
     'dialog.js',
     'progressbar.js',
@@ -97,6 +98,7 @@ JS_FILES = [
     os.path.join('customize', 'icon_manager.js'),
     os.path.join('customize', 'icons.js'),
     os.path.join('extras', 'book.js'),
+    os.path.join('extras', 'poster.js'),
     os.path.join('extras', 'sortatable.js'),
 
     os.path.join('extras', 'book', 'biberrors.js'),

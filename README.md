@@ -265,7 +265,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Logos. Lighter `whakerexa-512.webp` and `whakerexa-128.webp` to use instead of the png.
 
 
-## Version 3.4 - stable
+## Version 3.4
 
 - Breaking change. An element no longer gets a background of its own. 
 - Fonts. A page downloads none: the system fonts are used, and a theme brings the ones of the house back.
@@ -275,7 +275,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. The number of a chapter is announced by its word, in the language of the page.
 
 
-## Version 3.5 - develop
+## Version 3.5 - stable
 
 - New `KeyboardController` in `keyboard.js`, used by extra slides.
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.

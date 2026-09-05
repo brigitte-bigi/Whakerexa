@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-01 15:59:14
+// Bundle automatically generated on 2026-09-05 15:53:49
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2361,6 +2361,86 @@ window.Wexa.AccessibilityManager = AccessibilityManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- accessibility_nav.js ---------------
+'use strict';
+class AccessibilityNav {
+    #shown;
+    constructor(shown = {}) {
+        this.#shown = {
+            theme: shown.theme !== false,
+            contrast: shown.contrast !== false,
+            color: shown.color !== false
+        };
+    }
+    // -----------------------------------------------------------------------
+    async build(options = {}) {
+        const nav = document.createElement('nav');
+        nav.id = options.id !== undefined ? options.id : 'accessibility-controls';
+        nav.className = options.className !== undefined
+            ? options.className
+            : 'nav-wexa';
+        nav.setAttribute('aria-label', options.label !== undefined
+            ? options.label
+            : 'Accessibility controls');
+        if (this.#shown.theme === true) {
+            nav.appendChild(await this.#button(
+                'btn-css-theme', 'menuitem', 'theme', 'Switch theme',
+                () => {
+                    if (window.themes !== null && window.themes !== undefined) {
+                        window.themes.next();
+                    }
+                },
+                { title: 'Switch theme' }));
+        }
+        if (this.#shown.contrast === true) {
+            nav.appendChild(await this.#button(
+                'btn-contrast', 'menuitem accessibility', 'contrast', 'contrast',
+                () => this.#accessibility('switchContrastScheme'),
+                { ariaPressed: 'false' }));
+        }
+        if (this.#shown.color === true) {
+            nav.appendChild(await this.#button(
+                'btn-color', 'menuitem accessibility', 'color', 'color',
+                () => this.#accessibility('switchColorScheme'),
+                { ariaPressed: 'false' }));
+        }
+        return nav;
+    }
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    async #button(id, className, iconName, ariaLabel, onClick, extras = {}) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.id = id;
+        button.className = className;
+        button.setAttribute('aria-label', ariaLabel);
+        if (extras.ariaPressed !== undefined) {
+            button.setAttribute('aria-pressed', extras.ariaPressed);
+        }
+        if (extras.title !== undefined) {
+            button.title = extras.title;
+        }
+        button.innerHTML = await icons.get(iconName);
+        button.addEventListener('click', onClick);
+        return button;
+    }
+    // -----------------------------------------------------------------------
+    #accessibility(what) {
+        const manager = window.Wexa !== undefined && window.Wexa !== null
+            ? window.Wexa.accessibility
+            : null;
+        if (manager !== null && manager !== undefined) {
+            manager[what]();
+        }
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.AccessibilityNav = AccessibilityNav;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
 // ---------------- menu.js ---------------
 'use strict';
 // --------------------------------------------------------------------------
@@ -4131,6 +4211,97 @@ class Book {
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.Book = Book;
+// ---- END AUTO-GENERATED EXPORTS ----
+
+
+// ---------------- extras/poster.js ---------------
+'use strict';
+class Poster {
+    // CONSTANTS
+    static SHORTCUT_KEYS = ['a', 'A'];
+    static HIDDEN_CLASS = 'controls-hidden';
+    // FIELDS
+    #shown;
+    #nav;
+    #keyboard;
+    // CONSTRUCTOR
+    constructor(shown = {}) {
+        this.#shown = {
+            theme: shown.theme !== false,
+            contrast: shown.contrast !== false,
+            color: shown.color !== false
+        };
+        this.#nav = null;
+        this.#keyboard = null;
+    }
+    // GETTERS
+    get nav() {
+        return this.#nav;
+    }
+    // -----------------------------------------------------------------------
+    get visible() {
+        if (this.#nav === null) {
+            return false;
+        }
+        return this.#nav.classList.contains(Poster.HIDDEN_CLASS) === false;
+    }
+    // PUBLIC METHODS
+    async init(options = {}) {
+        const id = options.id || 'accessibility-controls';
+        if (document.getElementById(id) !== null) {
+            return null;
+        }
+        const bar = new AccessibilityNav(this.#shown);
+        this.#nav = await bar.build({
+            id: id,
+            className: options.className || `nav-wexa ${Poster.HIDDEN_CLASS}`,
+            label: options.label || 'Accessibility controls'
+        });
+        document.body.prepend(this.#nav);
+        this.#answerKey();
+        return this.#nav;
+    }
+    // -----------------------------------------------------------------------
+    show() {
+        if (this.#nav !== null) {
+            this.#nav.classList.remove(Poster.HIDDEN_CLASS);
+        }
+    }
+    // -----------------------------------------------------------------------
+    hide() {
+        if (this.#nav !== null) {
+            this.#nav.classList.add(Poster.HIDDEN_CLASS);
+        }
+    }
+    // -----------------------------------------------------------------------
+    toggle() {
+        if (this.visible === true) {
+            this.hide();
+            return;
+        }
+        this.show();
+    }
+    // -----------------------------------------------------------------------
+    destroy() {
+        if (this.#keyboard !== null) {
+            this.#keyboard.destroy();
+            this.#keyboard = null;
+        }
+    }
+    // PRIVATE METHODS
+    #answerKey() {
+        this.#keyboard = new KeyboardController();
+        this.#keyboard.register({
+            keys: Poster.SHORTCUT_KEYS,
+            action: () => this.toggle(),
+            label: 'Accessibility controls'
+        });
+        this.#keyboard.init();
+    }
+}
+// ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
+if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
+window.Wexa.Poster = Poster;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
@@ -6479,6 +6650,7 @@ console.debug('Imports OK:', {
     BaseManager,
     RequestManager,
     IconManager,
+    AccessibilityNav,
     KeyboardController
 });
 // ----- Exports (framework public API) -----
@@ -6522,6 +6694,7 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     BaseManager,
     RequestManager,
     IconManager,
+    AccessibilityNav,
     KeyboardController
 });
 // Make every [data-href] element without a real href focusable via Tab.
@@ -6687,55 +6860,22 @@ class SlidesInitializer {
         }
     }
     async #buildAccessibilityNav() {
-        const nav = document.createElement('nav');
-        nav.id = 'accessibility-controls';
-        nav.className = 'nav-wexa controls-hidden';
-        nav.setAttribute('aria-label', 'Accessibility controls');
-        nav.appendChild(await this.#buildIconButton(
-            'btn-color',
-            'menuitem accessibility',
-            'color',
-            'color',
-            () => {
-                if (window.Wexa !== null
-                        && window.Wexa !== undefined
-                        && window.Wexa.accessibility !== null
-                        && window.Wexa.accessibility !== undefined) {
-                    window.Wexa.accessibility.switchColorScheme();
-                }
-            },
-            { ariaPressed: 'false' }
-        ));
-        if (this.#themesAttr !== '') {
-            nav.appendChild(await this.#buildIconButton(
-                'btn-css-theme',
-                'menuitem',
-                'theme',
-                'Switch theme',
-                () => {
-                    if (window.themes !== null && window.themes !== undefined) {
-                        window.themes.next();
-                    }
-                },
-                { title: 'Switch theme' }
-            ));
-        }
-        return nav;
-    }
-    async #buildIconButton(id, className, iconName, ariaLabel, onClick, extras = {}) {
-        const btn = document.createElement('button');
-        btn.id = id;
-        btn.className = className;
-        btn.setAttribute('aria-label', ariaLabel);
-        if (extras.ariaPressed !== undefined) {
-            btn.setAttribute('aria-pressed', extras.ariaPressed);
-        }
-        if (extras.title !== undefined) {
-            btn.title = extras.title;
-        }
-        btn.innerHTML = await window.Wexa.icons.get(iconName);
-        btn.addEventListener('click', onClick);
-        return btn;
+        // The bundle holds the class in the namespace, and there is nothing to
+        // import: an import there would be given a null base and would raise.
+        const NavClass = (window.Wexa !== undefined && window.Wexa.AccessibilityNav)
+            ? window.Wexa.AccessibilityNav
+            : (await import(new URL('../../accessibility_nav.js', this.#base).href))
+                .AccessibilityNav;
+        const bar = new NavClass({
+            theme: this.#themesAttr !== '',
+            contrast: true,
+            color: true
+        });
+        return await bar.build({
+            id: 'accessibility-controls',
+            className: 'nav-wexa controls-hidden',
+            label: 'Accessibility controls'
+        });
     }
     async #buildNavContent() {
         const nav = document.createElement('nav');
