@@ -12,8 +12,10 @@ codepoints belonging to no known block are gathered into a last file. Every
 codepoint is written in exactly one subset, so the browser downloads a block
 only when the page actually contains one of its characters.
 
-The script writes the woff2 files next to their source and prints the
-@font-face rules to paste into wexa_statics/css/wexa.css.
+The whole fonts are read from build/fonts/ and stay there: they are the
+sources of the cutting, and a page never downloads them. The blocks are
+written into wexa_statics/fonts/, and the @font-face rules are printed, to
+paste into wexa_statics/css/wexa.css.
 
 It requires fontTools and brotli:
     pip install "fonttools[woff]"
@@ -54,7 +56,11 @@ from fontTools.ttLib import TTFont
 # Unicode categories of the characters a font is expected to draw nothing for.
 BLANK_CATEGORIES = ("Zs", "Zl", "Zp", "Cc", "Cf")
 
-# Inputs and outputs
+# Inputs: the whole fonts, which are cut and never served. They stand out of
+# wexa_statics, a page having no use for what it does not download.
+SOURCES_FOLDER = os.path.join("build", "fonts")
+
+# Outputs: the blocks a page asks for, one file per unicode-range.
 FONTS_FOLDER = os.path.join("wexa_statics", "fonts")
 
 # The source fonts, with the @font-face descriptors they are declared with.
@@ -269,7 +275,7 @@ if __name__ == '__main__':
 
     for face in FONT_FACES:
 
-        source_path = os.path.join(FONTS_FOLDER, face["source"])
+        source_path = os.path.join(SOURCES_FOLDER, face["source"])
         if os.path.exists(source_path) is False:
             raise FileNotFoundError('Missing font: %s' % source_path)
 

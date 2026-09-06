@@ -185,7 +185,6 @@ export const REFERENCE_FILES = [
     'volume-low.svg',
     'volume-medium.svg',
     'volume-mute.svg',
-    'volume.svg',
     'warning.svg',
     'wifi-off.svg',
     'wifi.svg',

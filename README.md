@@ -280,25 +280,21 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - New `KeyboardController` in `keyboard.js`, used by extra slides.
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.
 - New page `docs/gallery.html`: an all-in-one page to demonstrate themes, accessibility and JS features.
+- New `AccessibilityNav` builds the bar of three buttons, and `NAV_WORDING` says what 
+  each one is called. 
+- New : Bring your own icons. Declare sets of them, the reader chooses, and what you do not draw is still shown.
 - New `wexa.loader.js`: one tag loads Whakerexa, the bundle on `file://` and the modules over HTTP.
-- Bring your own icons: declare sets of them, the reader chooses, and what you do not draw is still shown. 
-  See `docs/icons.html`.
+- Icons. Extended and cleaned icon set in mono-svg: the same grid of 32, the same stroke of 2, rounded 
+  caps and joins, and the color of the text it stands beside. Now 151 icons available.
+- Dialogs. New `--dialog-bg-color` and `--dialog-fg-color` variables.
 - Breaking change. `ThemeManager` moves to `js/customize/theme_manager.js`, and `SVGIconsManager` is removed: 
   `Wexa.icons` is now the manager of the sets, with the same `get()` and `inject()`.
-- Icons. `cuedspeech` leaves the reference set, and the four that kept a size, a namespace or a colour 
-  of their own now take the one of the text.
-- Dialogs. New `--dialog-bg-color` and `--dialog-fg-color`: the ground of a dialog, and the text 
-  laid on it. Every theme carries the pair, and `scripts/check_themes.py` asks for it.
-- Icons. The reference set is drawn as one: the same grid of 32, the same stroke of 2, rounded 
-  caps and joins, and the colour of the text it stands beside. It goes from 56 drawings to 142 — 
-  files, media, arrows, views, and what an application asks for every day.
-- Icons. `Wexa.icons.carried()` says the names a set answers; `docs/icons.html` lays them all out 
-  from it, so the page shows what it carries when it is read.
-- Icons. No page of the documentation draws its own any more: `index.html` and `docs/` ask the 
-  set by name. Nine drawings joined it on the way — `book`, `box`, `page`, `layers`, 
-  `accessibility`, `screen`, `chevron-left`, `chevron-right`, `compress` — for 151 in all.
-- Accessibility. `AccessibilityNav` builds the bar of three buttons, and `NAV_WORDING` says what 
-  each one is called. A page names the ones it wants to name; what it leaves out keeps the 
-  wording proposed. See `docs/accessibility.html`.
-- Buttons. A `.text-reveal-button` gives its drawing nine tenths of its own size, whatever that 
-  size is, and keeps it there when the label is revealed.
+- Breaking change. The JavaScript API is camelCase throughout: `fillTable`, `addHtmlTags`, 
+  `deleteHtmlTags`, `sendPostRequest`, `sendGetRequest`, `requestUrl`.
+- Loading. `wexa.loader.js` takes `data-themes`, so a page declares its own theme on the tag 
+  instead of after the load. A path written `./`, `../`, `/` or with a scheme is taken as it is; 
+  only a bare one is read from `data-base`.
+- Fonts. The whole fonts move to `build/fonts/`: they are cut, never served. `wexa_statics` loses 
+  535 Ko.
+- New `scripts/check_ecodesign.py`: what a served page downloads, and what it borrows from 
+  elsewhere.

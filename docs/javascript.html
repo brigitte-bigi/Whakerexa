@@ -86,21 +86,55 @@
 
         <article class="card-doc" aria-label="Loading whichever suits the protocol">
             <div class="card-view" style="flex-direction: column; align-items: flex-start;">
-                <p>A page that has to work both ways chooses on the protocol. Every page of this
-                    documentation ends with these lines.</p>
+                <p>A page that has to work both ways says neither of the two: it names the
+                    loader, which reads the protocol and takes the modules over http, the
+                    bundle from the disk. Every page of this documentation ends with this
+                    line.</p>
             </div>
-            <pre class="dark"><code>&lt;script&gt;
-    const usingFile = (window.location.protocol === 'file:');
-    const loader = document.createElement('script');
-    if (usingFile === true) {
-        loader.src = 'wexa_statics/js/wexa.bundle.js';
-    } else {
-        loader.type = 'module';
-        loader.src = 'wexa_statics/js/wexa.js';
-    }
-    document.head.appendChild(loader);
-&lt;/script&gt;</code></pre>
+            <pre class="dark"><code>&lt;script src="wexa_statics/js/wexa.loader.js"
+        data-base="wexa_statics/"&gt;&lt;/script&gt;</code></pre>
         </article>
+
+        <article class="card-doc" aria-label="wexa.loader.js">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>One tag does the choosing, and says at the same time what the page brings:
+                    its themes, its sets of icons, the extras it loads. Everything is
+                    registered before the framework reads the address, so a theme or a set
+                    named in the address is known when it is asked for.</p>
+            </div>
+            <pre class="dark"><code>&lt;script src="wexa_statics/js/wexa.loader.js"
+        data-base="wexa_statics/"
+        data-default="wexa_theme"
+        data-links="btn-back,nav-menu"&gt;&lt;/script&gt;</code></pre>
+        </article>
+
+        <table>
+            <caption>What the tag of the loader carries</caption>
+            <thead>
+            <tr><th>Attribute</th><th>What it says</th></tr>
+            </thead>
+            <tbody>
+            <tr><td><code>data-base</code></td><td>Where <code>wexa_statics/</code> stands, seen from the page. Required.</td></tr>
+            <tr><td><code>data-default</code></td><td>The theme to apply when the address names none.</td></tr>
+            <tr><td><code>data-themes</code></td><td>The themes the page brings, one per line, written <code>name:path</code>.</td></tr>
+            <tr><td><code>data-themes-base</code></td><td>Where the themes of the framework stand, when they are not under <code>css/themes/</code> of the base.</td></tr>
+            <tr><td><code>data-icons</code></td><td>The sets the page brings, one per line, written <code>name:path:file,file</code>.</td></tr>
+            <tr><td><code>data-icons-default</code></td><td>The set to show when the address names none.</td></tr>
+            <tr><td><code>data-icons-fallback</code></td><td>The set that answers what the others leave unanswered.</td></tr>
+            <tr><td><code>data-links</code></td><td>The identifiers whose address carries the theme and the set.</td></tr>
+            <tr><td><code>data-extras</code></td><td>The files to load besides <code>wexa.js</code>, separated by commas. Ignored on <code>file://</code>, where the bundle already holds them.</td></tr>
+            </tbody>
+        </table>
+
+        <p>A path a page writes — a theme, a set of icons, an extra — is read from
+            <code>data-base</code> only when it is written bare, as the files of the
+            framework are. One written <code>./</code> or <code>../</code> is read from the
+            page, one written <code>/</code> from the root of the site, one carrying a
+            scheme from its host.</p>
+
+        <p>A page that has something of its own to start declares a function named
+            <code>bootPage</code>: it is called once everything is loaded, and receives the
+            namespace of the framework and the extras it asked for.</p>
 
     </section>
 

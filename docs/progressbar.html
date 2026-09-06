@@ -162,7 +162,7 @@
 
         <h3>Behavior</h3>
         <ol>
-            <li>Calls <code>updateCallback</code> or <code>RequestManager.send_post_request()</code> every interval.</li>
+            <li>Calls <code>updateCallback</code> or <code>RequestManager.sendPostRequest()</code> every interval.</li>
             <li>Updates DOM elements referenced by <code>domIds.percent</code>, <code>domIds.text</code>, <code>domIds.header</code>.</li>
             <li>Stops automatically when <code>percent &gt;= 100</code>, then calls <code>completeCallback</code>.</li>
         </ol>
@@ -313,7 +313,7 @@ bar.start();</code></pre>
                 constructor() {
                     this.status = 202;
                 }
-                async send_post_request(data, url) {
+                async sendPostRequest(data, url) {
                     const barEl = document.querySelector('#percent-autonomous');
                     const val = parseInt(barEl.value, 10) + 10;
                     barEl.value = val;

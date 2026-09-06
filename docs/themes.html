@@ -130,6 +130,29 @@ themes.setDefault('wexa_theme');
 window.themes = themes;</code></pre>
         </article>
 
+        <article class="card-doc" aria-label="A theme a page brings">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>
+                    A page that brings a theme of its own declares it on the tag of the
+                    loader, and not after the page is loaded: the manager reads the address
+                    as soon as it is built, and a theme registered afterwards is a name it
+                    has already refused. One theme per line, written
+                    <code>name:path</code>, the path read from <code>data-base</code> only
+                    when it is written bare: one written <code>./</code> or <code>../</code>
+                    is read from the page.
+                </p>
+                <p>
+                    What the page brings is registered before the themes of the framework,
+                    so that a page whose default is its own theme cycles through the others
+                    instead of coming straight back to it.
+                </p>
+            </div>
+            <pre class="dark"><code>&lt;script src="wexa_statics/js/wexa.loader.js"
+        data-base="wexa_statics/"
+        data-themes="swapp:/statics/css/main_swapp_theme.css"
+        data-default="swapp"&gt;&lt;/script&gt;</code></pre>
+        </article>
+
     </section>
 
     <!-- ============================================================ -->

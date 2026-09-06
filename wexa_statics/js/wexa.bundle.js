@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-05 20:08:33
+// Bundle automatically generated on 2026-09-06 10:29:16
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -63,7 +63,7 @@ class RequestManager {
         return this.#port;
     }
     // ----------------------------------------------------------------------
-    get request_url() {
+    get requestUrl() {
         return this.#url;
     }
     // ----------------------------------------------------------------------
@@ -73,11 +73,11 @@ class RequestManager {
     // ----------------------------------------------------------------------
     // METHODS
     // ----------------------------------------------------------------------
-    async send_get_request(uri = "", is_json_response = false) {
-        const complete_url = this.request_url + uri;
-        let request_response_data = null;
+    async sendGetRequest(uri = "", is_json_response = false) {
+        const completeUrl = this.requestUrl + uri;
+        let requestResponseData = null;
         // send request to the server
-        await fetch(complete_url)
+        await fetch(completeUrl)
             // then gets content of the server response
             .then(async response =>  {
                 // get the status response and check if there is an error
@@ -86,13 +86,13 @@ class RequestManager {
                 if (is_json_response) {
                     const text = await response.text();
                     if (text.trim() === '') {
-                        request_response_data = {};   // JSON vide → objet vide
+                        requestResponseData = {};   // JSON vide → objet vide
                     } else {
                         try {
-                            request_response_data = JSON.parse(text);
+                            requestResponseData = JSON.parse(text);
                         } catch (error) {
                             console.error('Failed to parse JSON response', error);
-                            request_response_data = {
+                            requestResponseData = {
                                 status: response.status,
                                 error: 'Failed to parse JSON.',
                                 raw: text
@@ -100,32 +100,32 @@ class RequestManager {
                         }
                     }
                 } else {
-                    request_response_data = await response.text();
+                    requestResponseData = await response.text();
                 }
             })
             // handle error
             .catch(error => {
                 this.#status = error.status;
-                request_response_data = error;
+                requestResponseData = error;
             });
-        return request_response_data;
+        return requestResponseData;
     }
     // ----------------------------------------------------------------------
-    async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
-		const complete_url = this.request_url + uri;
-        let request_response_data = null;
+    async sendPostRequest(postParameters, accept_type = "application/json", uri = "") {
+		const completeUrl = this.requestUrl + uri;
+        let requestResponseData = null;
         // build request header and body depending on parameter passed to the method
-        post_parameters = JSON.stringify(post_parameters);
-        let request_header = {
+        postParameters = JSON.stringify(postParameters);
+        let requestHeader = {
             'Accept': accept_type,
             'Content-Type': "application/json; charset=utf-8",
-            'Content-Length': post_parameters.length.toString()
+            'Content-Length': postParameters.length.toString()
         }
         // send request to the server
-        await fetch(complete_url, {
+        await fetch(completeUrl, {
             method: "POST",
-            headers: request_header,
-            body: post_parameters
+            headers: requestHeader,
+            body: postParameters
         })
             // then gets content of the server response
             .then(async response =>  {
@@ -134,17 +134,17 @@ class RequestManager {
                 if (accept_type.includes("application/json")) {
                     const text = await response.text();
                     if (text.trim() === '') {
-                        request_response_data = {};
+                        requestResponseData = {};
                     } else {
                         try {
-                            request_response_data = JSON.parse(text);
+                            requestResponseData = JSON.parse(text);
                         } catch (error) {
                             if (!response.headers.get('Content-Type')?.includes('application/json')) {
                                 // No backend available: ignore silently
                                 return {};
                             } else {
                                 console.error("Failed to parse JSON response: " + error);
-                                request_response_data = {
+                                requestResponseData = {
                                     status: response.status,
                                     error: "Failed to parse JSON. See error details in the newly opened tab.",
                                     html: text
@@ -158,7 +158,7 @@ class RequestManager {
                 else if (accept_type.includes("text/html")) {
                     // If response is HTML, treat it as a failed request (500 error or other)
                     const responseText = await response.text();
-                    request_response_data = {
+                    requestResponseData = {
                         status: response.status,
                         error: "Received HTML instead of JSON. See error details in the newly opened tab.",
                         html: responseText
@@ -167,16 +167,16 @@ class RequestManager {
                     this.openErrorTab(responseText);
                 }
                 else {
-                    request_response_data = await response.blob();
+                    requestResponseData = await response.blob();
                 }
             })
             // handle error
             .catch(error => {
                 this.#status = error.status;
-                request_response_data = error;
+                requestResponseData = error;
             })
         ;
-        return request_response_data;
+        return requestResponseData;
     }
     // ----------------------------------------------------------------------
     openErrorTab(responseText) {
@@ -191,9 +191,9 @@ class RequestManager {
         }
     }
     // ----------------------------------------------------------------------
-    async upload_file(input, accept_type = "application/json", token = "", uri = "") {
-        let response_data = null;
-        const complete_url = this.request_url + uri;
+    async uploadFile(input, accept_type = "application/json", token = "", uri = "") {
+        let responseData = null;
+        const completeUrl = this.requestUrl + uri;
         this.#status = 400;
         // Exit the function if no file is selected
         if (!input || !input.files || !input.files[0]) {
@@ -219,7 +219,7 @@ class RequestManager {
         let data = new FormData();
         data.append('file', sanitizedFile);
         // Send request to the back-end and wait for the response (response in json)
-        await fetch(complete_url, {
+        await fetch(completeUrl, {
             method: 'POST',
             headers: {
                 'Accept': accept_type,
@@ -234,19 +234,19 @@ class RequestManager {
             // Check if the status is not 200 and there is no error in the response
             if (response.status !== 200 && !response.error) {
                 // Return a JSON object with statusText to indicate the error
-                response_data = { "error": response.statusText };
+                responseData = { "error": response.statusText };
             } else {
                 // If status is 200 or there is an error, return the JSON response
-                response_data = await response.json();
+                responseData = await response.json();
             }
         })
         // handle error
         .catch(error => {
             console.error(" ... server error: ", error);
             this.#status = error.status;
-            response_data = error;
+            responseData = error;
         })
-        return response_data;
+        return responseData;
     }
 }
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
@@ -310,7 +310,7 @@ class BaseManager {
         let respError= "";
         let respInfo = "";
         try {
-            response = await this._requestManager.send_post_request(
+            response = await this._requestManager.sendPostRequest(
                 events,
                 'application/json',
                 this._uri
@@ -2094,28 +2094,36 @@ window.Wexa.SlidesPagination = SlidesPagination;
 
 
 // ---------------- dom-loader.js ---------------
+'use strict';
 class OnLoadManager {
-    // FIELDS
     static #functions = [];
-    static #listenerRegistered = false;
-    // PUBLIC STATIC METHODS
+    static #listening = false;
+    // -----------------------------------------------------------------------
     static addLoadFunction(func) {
+        if (typeof func !== 'function') {
+            return;
+        }
         if (document.readyState === 'complete') {
             func();
             return;
         }
         OnLoadManager.#functions.push(func);
-        OnLoadManager.#registerListener();
+        OnLoadManager.#listen();
     }
+    // -----------------------------------------------------------------------
     static runLoadFunctions() {
-        OnLoadManager.#functions.forEach(func => func());
+        for (const func of OnLoadManager.#functions) {
+            func();
+        }
     }
-    // PRIVATE STATIC METHODS
-    static #registerListener() {
-        if (OnLoadManager.#listenerRegistered === true) {
+    // -----------------------------------------------------------------------
+    // PRIVATE
+    // -----------------------------------------------------------------------
+    static #listen() {
+        if (OnLoadManager.#listening === true) {
             return;
         }
-        OnLoadManager.#listenerRegistered = true;
+        OnLoadManager.#listening = true;
         window.addEventListener('load', OnLoadManager.runLoadFunctions);
     }
 }
@@ -4046,7 +4054,6 @@ const REFERENCE_FILES = [
     'volume-low.svg',
     'volume-medium.svg',
     'volume-mute.svg',
-    'volume.svg',
     'warning.svg',
     'wifi-off.svg',
     'wifi.svg',
@@ -4206,51 +4213,51 @@ const icons = new IconManager(sets);
 'use strict';
 class Book {
     // FIELDS
-    #toc_element;
-    #headings_container;
-    #html_tags;
-    #toggle_button;
+    #tocElement;
+    #headingsContainer;
+    #htmlTags;
+    #toggleButton;
     // CONSTRUCTOR
     constructor(id_headings, id_toc = "toc") {
-        this.#toc_element = document.getElementById(id_toc);
-        this.#headings_container = document.getElementById(id_headings);
-        this.#html_tags = "h1, h2, h3, h4";
-        const container = this.#toc_element?.closest('nav, aside');
+        this.#tocElement = document.getElementById(id_toc);
+        this.#headingsContainer = document.getElementById(id_headings);
+        this.#htmlTags = "h1, h2, h3, h4";
+        const container = this.#tocElement?.closest('nav, aside');
         if (container instanceof HTMLElement) {
             if (container.classList.contains('book-toc-aside')) {
-                this.#setup_aside(container);
+                this.#setupAside(container);
             } else {
                 container.setAttribute('tabindex', '-1');
             }
         }
     }
     // GETTERS
-    get dom_toc() {
-        return this.#toc_element;
+    get domToc() {
+        return this.#tocElement;
     }
     get headings() {
-        return this.#headings_container;
+        return this.#headingsContainer;
     }
-    get html_tags() {
-        return this.#html_tags;
+    get htmlTags() {
+        return this.#htmlTags;
     }
     // PUBLIC METHODS
-    set_headings(id_headings) {
-        this.#headings_container =  document.getElementById(id_headings);
+    setHeadings(id_headings) {
+        this.#headingsContainer =  document.getElementById(id_headings);
     }
-    add_html_tags(...tags) {
+    addHtmlTags(...tags) {
         tags.forEach(current => {
-            this.#html_tags += ", " + current
+            this.#htmlTags += ", " + current
         });
     }
-    delete_html_tags(...tags) {
+    deleteHtmlTags(...tags) {
         tags.forEach(current => {
-            this.#html_tags = this.#html_tags.replace(", " + current, "");
+            this.#htmlTags = this.#htmlTags.replace(", " + current, "");
         });
     }
-    fill_table(only_numerate_headings = true) {
-        if (!(this.#toc_element instanceof HTMLElement)) return;
-        const headings = this.#get_headings(only_numerate_headings);
+    fillTable(only_numerate_headings = true) {
+        if (!(this.#tocElement instanceof HTMLElement)) return;
+        const headings = this.#getHeadings(only_numerate_headings);
         headings.forEach((heading, index) => {
             /* Add the anchor right before the heading */
             let anchor = document.createElement('a');
@@ -4261,21 +4268,21 @@ class Book {
             link.setAttribute('href', '#toc' + index);
             link.textContent = heading.textContent;
             let item = document.createElement('li');
-            item.setAttribute('class', this.#class_of(heading));
+            item.setAttribute('class', this.#classOf(heading));
             item.appendChild(link);
-            this.#toc_element.appendChild(item);
+            this.#tocElement.appendChild(item);
             heading.parentNode.insertBefore(anchor, heading);
         });
     }
     // PRIVATE METHODS
-    #class_of(heading) {
+    #classOf(heading) {
         const level = heading.tagName.toLowerCase();
         if (heading.closest('.chapter.nonumber') === null) {
             return level;
         }
         return level + ' nonumber';
     }
-    #setup_aside(aside) {
+    #setupAside(aside) {
         if (!aside.id) aside.id = 'book-toc-aside';
         // A panel that is set aside is out of reach: 'inert' says it once, for
         // the keyboard as for a screen reader. 'aria-hidden' would say it to
@@ -4283,20 +4290,20 @@ class Book {
         aside.inert = true;
         const titleEl = aside.querySelector('h1, h2');
         const label = titleEl?.textContent?.trim() || 'Table of contents';
-        this.#toggle_button = document.createElement('button');
-        this.#toggle_button.className = 'book-toc-toggle';
-        this.#toggle_button.setAttribute('aria-controls', aside.id);
-        this.#toggle_button.setAttribute('aria-expanded', 'false');
-        this.#toggle_button.setAttribute('aria-label', label);
-        this.#toggle_button.textContent = label;
-        this.#toggle_button.addEventListener('click', () => {
+        this.#toggleButton = document.createElement('button');
+        this.#toggleButton.className = 'book-toc-toggle';
+        this.#toggleButton.setAttribute('aria-controls', aside.id);
+        this.#toggleButton.setAttribute('aria-expanded', 'false');
+        this.#toggleButton.setAttribute('aria-label', label);
+        this.#toggleButton.textContent = label;
+        this.#toggleButton.addEventListener('click', () => {
             const isOpen = aside.classList.toggle('open');
-            this.#toggle_button.setAttribute('aria-expanded', String(isOpen));
+            this.#toggleButton.setAttribute('aria-expanded', String(isOpen));
             aside.inert = !isOpen;
             if (isOpen) {
                 aside.querySelector('a[href], button')?.focus();
             } else {
-                this.#toggle_button.focus();
+                this.#toggleButton.focus();
             }
         });
         this.#placeToggleButton();
@@ -4314,24 +4321,24 @@ class Book {
     #placeToggleButton() {
         const bar = document.querySelector('nav');
         if (bar !== null) {
-            bar.appendChild(this.#toggle_button);
+            bar.appendChild(this.#toggleButton);
             return;
         }
         const header = document.querySelector('header');
         if (header !== null) {
-            header.appendChild(this.#toggle_button);
+            header.appendChild(this.#toggleButton);
             return;
         }
         const main = document.querySelector('main');
         if (main !== null) {
-            main.prepend(this.#toggle_button);
+            main.prepend(this.#toggleButton);
             return;
         }
-        document.body.prepend(this.#toggle_button);
+        document.body.prepend(this.#toggleButton);
     }
-    #get_headings(only_numerate_headings) {
-        if (!(this.#headings_container instanceof HTMLElement)) return [];
-        const titles = Array.from(this.#headings_container.querySelectorAll(this.#html_tags));
+    #getHeadings(only_numerate_headings) {
+        if (!(this.#headingsContainer instanceof HTMLElement)) return [];
+        const titles = Array.from(this.#headingsContainer.querySelectorAll(this.#htmlTags));
         let headings = [];
         titles.forEach(current => {
             if (only_numerate_headings) {
@@ -6047,7 +6054,7 @@ class BibtexSource {
             return '';
         }
         const manager = new RequestManager();
-        const answer = await manager.send_get_request(wanted.pathname.substring(1) + wanted.search);
+        const answer = await manager.sendGetRequest(wanted.pathname.substring(1) + wanted.search);
         if (manager.status !== 200) {
             console.error(`BibtexSource: "${this.#address}" answered ${manager.status}.`);
             return '';
@@ -6863,7 +6870,6 @@ IconReader.gather('mono-svg', 'volume-high', "<svg xmlns=\"http://www.w3.org/200
 IconReader.gather('mono-svg', 'volume-low', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M20.5 12.5a5 5 0 0 1 0 7\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'volume-medium', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M20.5 12.5a5 5 0 0 1 0 7\" />\n  <path d=\"M24 10a9 9 0 0 1 0 12\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'volume-mute', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <line x1=\"22\" y1=\"12\" x2=\"29\" y2=\"19\" />\n  <line x1=\"29\" y1=\"12\" x2=\"22\" y2=\"19\" />\n</svg>\n");
-IconReader.gather('mono-svg', 'volume', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M6 12h5l6-5v18l-6-5H6a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1z\" />\n  <path d=\"M22 12a6 6 0 0 1 0 8\" />\n  <path d=\"M25.5 9a11 11 0 0 1 0 14\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'warning', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M16 5L29 27H3L16 5z\" />\n  <line x1=\"16\" y1=\"13\" x2=\"16\" y2=\"19\" />\n  <line x1=\"16\" y1=\"22.5\" x2=\"16\" y2=\"23.5\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'wifi-off', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 12a18 18 0 0 1 24 0\" />\n  <path d=\"M9 18a11 11 0 0 1 14 0\" />\n  <path d=\"M13.5 23.5a4 4 0 0 1 5 0\" />\n  <circle cx=\"16\" cy=\"27\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n  <line x1=\"5\" y1=\"5\" x2=\"27\" y2=\"27\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'wifi', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M4 12a18 18 0 0 1 24 0\" />\n  <path d=\"M9 18a11 11 0 0 1 14 0\" />\n  <path d=\"M13.5 23.5a4 4 0 0 1 5 0\" />\n  <circle cx=\"16\" cy=\"27\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\" />\n</svg>\n");

@@ -102,18 +102,18 @@
                 <article class="card-doc" aria-label="JavaScript — Book API">
                     <div class="card-view" style="flex-direction: column; align-items: flex-start; width: 100%;">
                         <p>Instantiate <code>Book</code> with the id of the content container,
-                            then call <code>fill_table()</code>.</p>
+                            then call <code>fillTable()</code>.</p>
                     </div>
                     <pre class="dark"><code>const book = new Book("main-content");
 
 // optionally adjust which headings are tracked:
-book.add_html_tags("h5", "h6");    // include h5, h6
-book.delete_html_tags("h4");       // exclude h4
+book.addHtmlTags("h5", "h6");    // include h5, h6
+book.deleteHtmlTags("h4");       // exclude h4
 
 // fill the ToC — numbered headings only (default):
-book.fill_table();
+book.fillTable();
 // or include all headings:
-book.fill_table(false);</code></pre>
+book.fillTable(false);</code></pre>
                 </article>
 
             </section>
@@ -165,7 +165,7 @@ book.fill_table(false);</code></pre>
 <script>
     function bootBookDemo(Book) {
         const book = new Book("main-content");
-        book.fill_table();
+        book.fillTable();
     }
 </script>
 

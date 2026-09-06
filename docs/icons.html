@@ -199,6 +199,15 @@
             </tbody>
         </table>
 
+        <p><strong>Where the set stands.</strong> The path is read from
+            <code>data-base</code> only when it is written bare, as the files of the
+            framework are. One written <code>./</code> or <code>../</code> is read from the
+            page, one written <code>/</code> from the root of the site, one carrying a
+            scheme from its host: a set a page brings has no reason to stand under
+            <code>wexa_statics/</code>, nor to be written as if it did. The same holds for
+            <code>data-themes</code>, <code>data-themes-base</code> and
+            <code>data-extras</code>.</p>
+
         <p><strong>Why the files are written.</strong> They are what lets a missing name
             fall back to the set of Whakerexa with no request at all. On a document opened
             from a disk a request is never answered, and on a served one it would cost a
