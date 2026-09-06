@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-06 13:31:02
+// Bundle automatically generated on 2026-09-06 20:41:52
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -3905,6 +3905,14 @@ window.Wexa.IconRegister = IconRegister;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
+// ---------------- customize/theme_reference.js ---------------
+'use strict';
+const THEMES_BASE = 'css/themes/';
+const REFERENCE_THEMES = [
+    ['wexa_theme', 'wexa_theme.css'],
+    ['aurora', 'wexa_theme_aurora.css'],
+    ['highcontrast', 'wexa_theme_highcontrast.css'],
+];
 // ---------------- customize/icon_reference.js ---------------
 'use strict';
 const REFERENCE_BASE = 'icons/mono-svg/';
@@ -6921,6 +6929,10 @@ window.Wexa = Object.assign(window.Wexa || {}, {
     // What answers a name with a drawing. A page brings its own sets to it,
     // and the components of the framework ask it for what they draw.
     icons,
+    // What the framework carries as themes: a page names one of them by its
+    // name alone, and the loader knows where it stands.
+    THEMES_BASE,
+    REFERENCE_THEMES,
     accessibility: new AccessibilityManager(),
     dialog: new DialogManager(),
     links: new LinkController(),

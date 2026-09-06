@@ -94,6 +94,7 @@ JS_FILES = [
     os.path.join('customize', 'icon_placer.js'),
     os.path.join('customize', 'icon_watcher.js'),
     os.path.join('customize', 'icon_register.js'),
+    os.path.join('customize', 'theme_reference.js'),
     os.path.join('customize', 'icon_reference.js'),
     os.path.join('customize', 'icon_manager.js'),
     os.path.join('customize', 'icons.js'),

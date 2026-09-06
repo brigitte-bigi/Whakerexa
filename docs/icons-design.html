@@ -176,6 +176,8 @@
                     <li>[014] A name the shown set does not carry is answered all the same, by another set.</li>
                     <li>[016] The author says which of the sets answers what the others leave unanswered. What that one does not carry either is answered last, by what came with the tool.</li>
                     <li>[015] The author adds an icon by bringing its drawing, and writes nothing else.</li>
+                    <li>[017] The author can be told the names a set answers, so that a page lays out the drawings it can ask for without listing them by hand.</li>
+                    <li>[018] The author says where his set stands, wherever that is: beside the page, at the root of the site, or on another host. A set he brings has no reason to stand where the tool stands.</li>
                 </ul>
 
                 <p><b>[020] Several sets</b></p>
@@ -426,6 +428,8 @@
                     <tr><td>C9</td><td>A surface is never told to whoever does not see it, a ground standing for nothing</td><td>[074]</td></tr>
                     <tr><td>C6</td><td>A place declares its room, in both dimensions, before it is answered. The room does not depend on which set answers it, nor on the proportions of the drawing that does</td><td>[034] [035] [038]</td></tr>
                     <tr><td>C7</td><td>A place is asked for only while it is in view, and only once under a given set in force</td><td>[026] [027]</td></tr>
+                    <tr><td>C11</td><td>Where a set stands is written by the page and read as the page writes it: from the page, from the root of the site, from another host, and from where the tool stands only when nothing else is said</td><td>[018]</td></tr>
+                    <tr><td>C12</td><td>The names a set answers are the names of the chain of C3, said once and in the order of that chain: what the set in force carries, then what answers for it, then the reference set</td><td>[017], C3</td></tr>
                     </tbody>
                 </table>
 
@@ -748,6 +752,18 @@
                     says what it loads, and names there the set that answers for the
                     others.</p>
 
+                <p><b>D7. A set is declared in one line: its name, its place, its files.</b>
+                    The name is what stands before the first colon and the files what stands
+                    after the last one, so that the place between the two keeps the colon of an
+                    address that carries a host. The files are written and not asked for: it is
+                    what lets a name fall back with no request at all, on a document read from a
+                    disk as on one that is served [041] [042].</p>
+
+                <p><b>D8. The names a set answers are computed, never held.</b> They follow the
+                    chain of C3 and change with the set in force, exactly as the drawing that
+                    answers a place does. A page that lays them out asks for them when it lays
+                    them out [017].</p>
+
                 <p><b>D6. The chain has two links and no more.</b> A set that answers for the
                     others, then the reference set. Letting each set name the one it falls
                     back to would make a chain of any length, which nobody asked for, and
@@ -761,7 +777,10 @@
                     than called on a class: a file loaded by a page cannot know when the
                     framework will be there, and a list waits without asking anything. Only
                     the line drawings are gathered — an image is answered by its address,
-                    which a document finds beside itself.</p>
+                    which a document finds beside itself. What the script writes is a list
+                    on the window and nothing else, so an author whose tools are his own writes
+                    that list as he likes: nothing of the framework runs to produce it, and
+                    nothing of it is asked at the moment it is read.</p>
             </section>
 
         </section>

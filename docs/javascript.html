@@ -116,7 +116,7 @@
             <tbody>
             <tr><td><code>data-base</code></td><td>Where <code>wexa_statics/</code> stands, seen from the page. Required.</td></tr>
             <tr><td><code>data-default</code></td><td>The theme to apply when the address names none.</td></tr>
-            <tr><td><code>data-themes</code></td><td>The themes the page brings, one per line, written <code>name:path</code>.</td></tr>
+            <tr><td><code>data-themes</code></td><td>The themes the page takes, in the order it cycles through them: a name alone for one of the framework, <code>name:path</code> for one the page brings. All of them when it says nothing.</td></tr>
             <tr><td><code>data-themes-base</code></td><td>Where the themes of the framework stand, when they are not under <code>css/themes/</code> of the base.</td></tr>
             <tr><td><code>data-icons</code></td><td>The sets the page brings, one per line, written <code>name:path:file,file</code>.</td></tr>
             <tr><td><code>data-icons-default</code></td><td>The set to show when the address names none.</td></tr>
@@ -135,6 +135,14 @@
         <p>A page that has something of its own to start declares a function named
             <code>bootPage</code>: it is called once everything is loaded, and receives the
             namespace of the framework and the extras it asked for.</p>
+
+        <p><strong>Two ways, and only two.</strong> Either the loader is asked for everything
+            — it reads the protocol, registers the themes and the sets, and hands the
+            namespace to <code>bootPage</code> —, or the page does the wiring itself: it names
+            <code>wexa.js</code> or <code>wexa.bundle.js</code>, builds its
+            <code>ThemeManager</code>, registers what it wants and declares its sets of icons.
+            What must not be done is half of each: a theme registered after the loader has
+            read the address is a name the manager has already refused.</p>
 
     </section>
 
@@ -421,13 +429,9 @@ keyboard_tests.launch_unit_test();</code></pre>
             one file. A source that changes leaves the bundle behind until it is built again,
             and a page opened from the disk keeps showing the old behaviour.</p>
 
-        <article class="card-doc" aria-label="Generating wexa.bundle.js">
-            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
-                <p>A new module is added to the list of the script, before the files that use
-                    it.</p>
-            </div>
-            <pre class="dark"><code>python3 scripts/build_bundle_js.py</code></pre>
-        </article>
+        <p>You have nothing to build: <code>wexa.bundle.js</code> is written before every
+            release and comes with the framework. The script that writes it lives in the
+            repository, for whoever works on Whakerexa itself.</p>
 
     </section>
 

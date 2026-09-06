@@ -300,3 +300,8 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   elsewhere.
 - Icons. New `yes` and `no`, written as a hand writes them, for a dialog that asks a question. 
   A dialog that only confirms says `valid`.
+
+## Version 4.0.1 - develop
+
+- Themes. `data-themes` says which ones a page takes, and in which order: a name alone for one of
+  the framework, `name:path` for its own.

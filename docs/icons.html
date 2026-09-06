@@ -353,6 +353,22 @@
 
         <pre class="dark"><code>&lt;script src="wexa_icons.js"&gt;&lt;/script&gt;</code></pre>
 
+        <p><strong>What that file holds.</strong> One array left on the window, one entry per
+            drawing: the name of the set, the name the drawing answers to — its file without
+            its extension — and the drawing itself. Nothing else is read in it. Written by
+            hand or by a tool of your own, it is answered the same way, so a page that never
+            runs the script says as much as one that does:</p>
+
+        <pre class="dark"><code>window.WEXA_GATHERED_ICONS = [
+    ["child", "home", "&lt;svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" …&gt;…&lt;/svg&gt;"],
+    ["child", "back", "&lt;svg …&gt;…&lt;/svg&gt;"],
+    ["adult", "home", "&lt;svg …&gt;…&lt;/svg&gt;"]
+];</code></pre>
+
+        <p>The name of the set is the one declared on the loader, and the name of the drawing
+            the one a page asks for. A set gathered this way still declares its files on the
+            loader: the list says what exists, the gathering says what it looks like.</p>
+
         <p>Only line drawings are gathered, and only they need it: they are written into
             the page. An image is never read — its address is what answers, and a document
             read from a disk finds it beside itself. Grounds are in that case too.</p>
