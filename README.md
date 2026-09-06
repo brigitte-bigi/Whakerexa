@@ -298,3 +298,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   535 Ko.
 - New `scripts/check_ecodesign.py`: what a served page downloads, and what it borrows from 
   elsewhere.
+- Icons. New `yes` and `no`, written as a hand writes them, for a dialog that asks a question. 
+  A dialog that only confirms says `valid`.
