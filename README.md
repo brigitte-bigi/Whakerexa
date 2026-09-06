@@ -275,7 +275,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Extra Book. The number of a chapter is announced by its word, in the language of the page.
 
 
-## Version 3.5 - stable
+## Version 4.0.0 - stable
 
 - New `KeyboardController` in `keyboard.js`, used by extra slides.
 - New page `docs/javascript.html`: the JavaScript API, and the conventions a module follows.

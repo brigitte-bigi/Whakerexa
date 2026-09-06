@@ -1,0 +1,39 @@
+{
+  "name": "whakerexa",
+  "version": "4.0.0",
+  "description": "A lightweight, modular set of CSS and JavaScript tools for building accessible, consistent and customizable web interfaces.",
+  "license": "AGPL-3.0-or-later",
+  "author": "Brigitte Bigi <contact@sppas.org>",
+  "homepage": "https://github.com/brigitte-bigi/Whakerexa",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brigitte-bigi/Whakerexa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brigitte-bigi/Whakerexa/issues"
+  },
+  "keywords": [
+    "css",
+    "javascript",
+    "html",
+    "accessibility",
+    "wcag",
+    "rgaa",
+    "framework"
+  ],
+  "type": "module",
+  "sideEffects": true,
+  "exports": {
+    ".": "./wexa_statics/js/wexa.js",
+    "./loader": "./wexa_statics/js/wexa.loader.js",
+    "./bundle": "./wexa_statics/js/wexa.bundle.js",
+    "./css": "./wexa_statics/css/wexa.css",
+    "./css.min": "./wexa_statics/css.min/wexa.css",
+    "./wexa_statics/*": "./wexa_statics/*"
+  },
+  "files": [
+    "wexa_statics",
+    "!wexa_statics/js/tests",
+    "AUTHORS"
+  ]
+}
