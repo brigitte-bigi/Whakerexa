@@ -277,7 +277,10 @@
         // page loads writes it on the namespace of the framework, which may not
         // be there yet: the file makes it, wexa.js adds to what it finds, and
         // the drawings are held before the first demand is answered.
-        const gathered = (window.Wexa || {}).gatheredIcons;
+        // WEXA_GATHERED_ICONS is where it was written before: a file produced
+        // by an older build is read the same way.
+        const gathered = (window.Wexa || {}).gatheredIcons
+            || window.WEXA_GATHERED_ICONS;
         if (Array.isArray(gathered) === true) {
             gathered.forEach(one => icons.gather(one[0], one[1], one[2]));
         }

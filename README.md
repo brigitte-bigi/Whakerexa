@@ -301,11 +301,11 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Icons. New `yes` and `no`, written as a hand writes them, for a dialog that asks a question. 
   A dialog that only confirms says `valid`.
 
-## Version 4.0.1 - develop
+## Version 4.1.0 - develop
 
 - Themes. `data-themes` says which ones a page takes, and in which order: a name alone for one of
   the framework, `name:path` for its own.
-- Breaking change. What a build gathers for a document read from a disk is now
-  `Wexa.gatheredIcons`, and no longer a global of its own: regenerate `wexa_icons.js`.
+- Icons. What a build gathers for a document read from a disk is now `Wexa.gatheredIcons`,
+  and no longer a global of its own. A file written by an older build is still read.
 - Themes. Slides read `data-themes` the way the loader does; `data-themes-path` is still read,
   so a presentation written before keeps working.
