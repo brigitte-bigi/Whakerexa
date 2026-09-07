@@ -86,6 +86,8 @@ console.debug('Imports OK:', {
 
 // ----- Exports (framework public API) -----
 export {
+    THEMES_BASE,
+    REFERENCE_THEMES,
     OnLoadManager,
     WexaLogger,
     AccessibilityManager,
