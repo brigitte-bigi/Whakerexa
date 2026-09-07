@@ -184,6 +184,64 @@
             </section>
         </section>
 
+        <!-- ---------------------------------------------------------------- -->
+
+        <section id="tests" class="chapter">
+            <h1>The tests, and the build</h1>
+
+            <p>What follows is of the repository and not of the distribution: neither the
+                tests nor the script that writes the bundle are given to whoever uses
+                Whakerexa.</p>
+
+            <section class="ssection"><h2>Tests</h2>
+
+
+        <p>The unit tests are in <code>js/tests/</code>, one file per tested class, and they run
+            in a browser: <code>tests.html</code> puts the classes on the global object, imports
+            the test files, and every assertion writes in the console, green or red. The page
+            has to be served, since it loads modules.</p>
+
+        <article class="card-doc" aria-label="Running the unit tests">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>From the root of the repository, then open
+                    <code>http://localhost:8000/wexa_statics/js/tests/tests.html</code>.</p>
+            </div>
+            <pre class="dark"><code>python3 -m http.server 8000</code></pre>
+        </article>
+
+        <article class="card-doc" aria-label="Writing a test">
+            <div class="card-view" style="flex-direction: column; align-items: flex-start;">
+                <p>A test file builds a <code>UnitTest</code>, adds its functions, and launches
+                    them at the end of the file.</p>
+            </div>
+            <pre class="dark"><code>const keyboard_tests = new UnitTest('KeyboardController');
+
+keyboard_tests.add_test(function test_declared_key() {
+    const controller = new KeyboardController();
+    controller.register({keys: ['n'], action: 'page:next'});
+    UnitTest.assert_values_equals(controller.shortcuts.length, 1);
+});
+
+keyboard_tests.launch_unit_test();</code></pre>
+        </article>
+            </section>
+
+            <section class="ssection"><h2>Building the bundle</h2>
+
+
+        <p>The bundle is generated from the sources: the script reads the files in the order it
+            declares, removes the <code>import</code> and <code>export</code> lines, and writes
+            one file. A source that changes leaves the bundle behind until it is built again,
+            and a page opened from the disk keeps showing the old behaviour.</p>
+
+        <p>You have nothing to build: <code>wexa.bundle.js</code> is written before every
+            release and comes with the framework. The script that writes it lives in the
+            repository, for whoever works on Whakerexa itself.</p>
+
+
+            </section>
+        </section>
+
     </main>
 
     <footer>

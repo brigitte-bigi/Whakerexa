@@ -338,16 +338,10 @@
         <h2>A document read from a disk</h2>
 
         <p>A document opened without a server cannot go and get a file: a browser refuses
-            to read one there. The drawings of Whakerexa are gathered into the bundle when
-            it is built; the drawings of your sets are gathered the same way, by a script
-            that reads your folders and writes one file:</p>
-
-        <pre class="dark"><code>python3 scripts/build_icons.py icons/child/ icons/adult/</code></pre>
-
-        <p>The name of a set is the name of its folder, so that what you declare on the
-            loader and what the script writes say the same thing. Add the file it produced
-            to the page, anywhere, and the loader pours it in before answering the first
-            demand:</p>
+            to read one there. The drawings of Whakerexa are gathered into the bundle when it
+            is built; the drawings of your sets are gathered the same way, into one file you
+            write beside your page. Add it anywhere in the page, and the loader pours it in
+            before answering the first demand:</p>
 
         <pre class="dark"><code>&lt;script src="wexa_icons.js"&gt;&lt;/script&gt;</code></pre>
 
