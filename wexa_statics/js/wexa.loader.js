@@ -39,10 +39,11 @@
  *  data-links   the identifiers whose address carries the theme, if any.
  *  data-default the theme to apply when the address names none, if any.
  *  data-themes  the themes the page takes, in the order it cycles through
- *               them: a name alone for one of the framework -- wexa_theme,
- *               aurora, highcontrast -- and "name:path" for one the page
- *               brings. Separated by commas or written one per line. A page
- *               that says nothing takes them all.
+ *               them: a name alone chooses among those of the framework --
+ *               wexa_theme, aurora, highcontrast --, and "name:path" is one
+ *               the page brings. Separated by commas or written one per line.
+ *               A page that names none of the framework's takes them all,
+ *               after what it brings.
  *  data-themes-base  where the themes stand, when they are not under
  *               css/themes/ of the base: a page served with the minified
  *               stylesheets asks for the minified themes.
@@ -156,10 +157,10 @@
      * Register the themes the page takes, and hold them for it.
      *
      * data-themes says what the page takes, in the order it wants to cycle
-     * through them: a name alone is a theme of the framework, taken from the
-     * list the framework carries; 'name:path' is a theme the page brings, its
-     * path read as any other. A page that says nothing takes them all, as it
-     * always did.
+     * through them. A name alone chooses among the themes of the framework;
+     * 'name:path' is a theme the page brings. A page that names none of the
+     * framework's takes them all, after what it brings: bringing a theme is
+     * adding one, and choosing among the others is said by naming them.
      *
      * Everything is registered here, before the manager reads the address: a
      * page that declared its theme afterwards would already have been told
@@ -176,12 +177,7 @@
 
         const carried = Array.isArray(reference) === true ? reference : [];
         const themes = new ThemeManager();
-
-        if (pageThemes.trim() === '') {
-            carried.forEach(theme => themes.register(theme[0], themesBase + theme[1]));
-            hold(themes);
-            return;
-        }
+        let chosen = false;
 
         for (const declared of pageThemes.split(/[\n,]/)) {
             const said = declared.trim();
@@ -199,12 +195,27 @@
                     continue;
                 }
                 themes.register(found[0], themesBase + found[1]);
+                chosen = true;
                 continue;
             }
 
             // A theme of the page: the place is written as the page sees it.
             themes.register(said.slice(0, first).trim(),
                             placeOf(said.slice(first + 1).trim()));
+        }
+
+        // Nothing chosen among the framework's: it takes them all.
+        if (chosen === false) {
+            carried.forEach(theme => themes.register(theme[0], themesBase + theme[1]));
+        }
+
+        // One theme is one theme: the button that switches is shown all the
+        // same, and it has nowhere to go. Said here, where the page is at
+        // fault, and not when a reader presses it.
+        const logger = (window.Wexa || {}).logger;
+        if (themes.themeNames.length === 1 && logger !== undefined) {
+            logger.warn('wexa.loader: one theme is registered, "'
+                + themes.themeNames[0] + '". What switches them has nowhere to go.');
         }
 
         hold(themes);

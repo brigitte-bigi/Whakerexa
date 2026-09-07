@@ -538,10 +538,10 @@ export default class SlidesInitializer {
     /**
      * Register the themes the page takes, and hold them for it.
      *
-     * data-themes is written as it is on the loader: a name alone is one of
-     * the framework, taken from the list the framework carries, and
-     * 'name:path' is one the page brings. Separated by commas or one per line.
-     * A page that says nothing of it registers nothing, the presentations
+     * data-themes is written as it is on the loader: a name alone chooses among
+     * the themes of the framework, and 'name:path' is one the page brings. A
+     * presentation that names none of the framework's takes them all, after
+     * what it brings. Saying nothing at all registers nothing, a presentation
      * being free of a theme.
      *
      * @private
@@ -556,6 +556,7 @@ export default class SlidesInitializer {
 
         const carried = Array.isArray(reference) === true ? reference : [];
         const manager = new ThemeManager();
+        let chosen = false;
 
         for (const declared of this.#themesAttr.split(/[\n,]/)) {
             const said = declared.trim();
@@ -572,11 +573,24 @@ export default class SlidesInitializer {
                     continue;
                 }
                 manager.register(found[0], this.#themesFolder() + found[1]);
+                chosen = true;
                 continue;
             }
 
             manager.register(said.slice(0, first).trim(),
                              this.#placeOf(said.slice(first + 1).trim()));
+        }
+
+        // Nothing chosen among the framework's: it takes them all.
+        if (chosen === false) {
+            carried.forEach(theme => manager.register(theme[0],
+                                                      this.#themesFolder() + theme[1]));
+        }
+
+        const logger = (window.Wexa || {}).logger;
+        if (manager.themeNames.length === 1 && logger !== undefined) {
+            logger.warn('SlidesInitializer: one theme is registered, "'
+                + manager.themeNames[0] + '". What switches them has nowhere to go.');
         }
 
         if (this.#defaultName !== '') {

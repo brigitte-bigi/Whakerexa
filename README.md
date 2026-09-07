@@ -284,28 +284,22 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   each one is called. 
 - New : Bring your own icons. Declare sets of them, the reader chooses, and what you do not draw is still shown.
 - New `wexa.loader.js`: one tag loads Whakerexa, the bundle on `file://` and the modules over HTTP.
+- New `scripts/check_ecodesign.py`: what a served page downloads, and what it borrows from elsewhere.
+- Fonts. The whole fonts move to `build/fonts/`: they are cut, never served.
 - Icons. Extended and cleaned icon set in mono-svg: the same grid of 32, the same stroke of 2, rounded 
-  caps and joins, and the color of the text it stands beside. Now 151 icons available.
+  caps and joins, and the color of the text it stands beside. Now 153 icons available.
 - Dialogs. New `--dialog-bg-color` and `--dialog-fg-color` variables.
 - Breaking change. `ThemeManager` moves to `js/customize/theme_manager.js`, and `SVGIconsManager` is removed: 
   `Wexa.icons` is now the manager of the sets, with the same `get()` and `inject()`.
 - Breaking change. The JavaScript API is camelCase throughout: `fillTable`, `addHtmlTags`, 
   `deleteHtmlTags`, `sendPostRequest`, `sendGetRequest`, `requestUrl`.
-- Loading. `wexa.loader.js` takes `data-themes`, so a page declares its own theme on the tag 
-  instead of after the load. A path written `./`, `../`, `/` or with a scheme is taken as it is; 
-  only a bare one is read from `data-base`.
-- Fonts. The whole fonts move to `build/fonts/`: they are cut, never served. `wexa_statics` loses 
-  535 Ko.
-- New `scripts/check_ecodesign.py`: what a served page downloads, and what it borrows from 
-  elsewhere.
-- Icons. New `yes` and `no`, written as a hand writes them, for a dialog that asks a question. 
-  A dialog that only confirms says `valid`.
+- Loading. `wexa.loader.js` takes `data-themes`.
+
 
 ## Version 4.1.0 - develop
 
-- Themes. `data-themes` says which ones a page takes, and in which order: a name alone for one of
-  the framework, `name:path` for its own.
-- Icons. What a build gathers for a document read from a disk is now `Wexa.gatheredIcons`,
-  and no longer a global of its own. A file written by an older build is still read.
-- Themes. Slides read `data-themes` the way the loader does; `data-themes-path` is still read,
-  so a presentation written before keeps working.
+- Themes. `data-themes` says which ones a page takes, and in which order.
+- Icons. New `Wexa.gatheredIcons`. A file written by an older build is still read.
+- Themes. Slides read `data-themes` the way the loader does.
+- Logging. A page says how much the framework says: `Wexa.logLevel = 'warning'`, before the
+  loader. A name as Python writes it, or a number.

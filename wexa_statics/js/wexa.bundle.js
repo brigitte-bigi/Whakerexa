@@ -1,17 +1,60 @@
-// Bundle automatically generated on 2026-09-07 09:38:50
+// Bundle automatically generated on 2026-09-07 15:34:27
 
 // ---------------- logger.js ---------------
 class WexaLogger {
-    static #logLevel = 20;
+    static DEFAULT_LEVEL = 20;
+    static #NAMES = {
+        debug: 10,
+        info: 20,
+        warning: 30,
+        error: 40,
+        critical: 50
+    };
+    static #logLevel = WexaLogger.DEFAULT_LEVEL;
+    // -----------------------------------------------------------------------
+    static levelOf(said) {
+        if (typeof said === 'number') {
+            return (said >= 0 && said <= 50) ? said : null;
+        }
+        if (typeof said !== 'string') {
+            return null;
+        }
+        const written = said.trim().toLowerCase();
+        if (written === '') {
+            return null;
+        }
+        if (Object.prototype.hasOwnProperty.call(WexaLogger.#NAMES, written) === true) {
+            return WexaLogger.#NAMES[written];
+        }
+        if (/^[0-9]+$/.test(written) === false) {
+            return null;
+        }
+        const counted = Number(written);
+        return counted <= 50 ? counted : null;
+    }
+    // -----------------------------------------------------------------------
+    static takeWhatThePageSaid() {
+        const namespace = (typeof window !== 'undefined') ? window.Wexa : undefined;
+        if (namespace === undefined || namespace === null) {
+            return;
+        }
+        const level = WexaLogger.levelOf(namespace.logLevel);
+        if (level !== null) {
+            WexaLogger.#logLevel = level;
+        }
+    }
     static getLogLevel() {
         return this.#logLevel;
     }
     static setLogLevel(level) {
-        if (typeof level !== 'number' || level < 0 || level > 50) {
-            console.warn('[WexaWarning] Invalid log level. Must be between 0 and 50.');
+        const counted = WexaLogger.levelOf(level);
+        if (counted === null) {
+            console.warn('[WexaWarning] Invalid log level: ' + level
+                + '. A name -- debug, info, warning, error, critical -- or a'
+                + ' number between 0 and 50.');
             return;
         }
-        this.#logLevel = level;
+        WexaLogger.#logLevel = counted;
     }
     static debug(msg) {
         if (this.#logLevel <= 10) console.info(`[WexaDebug] ${msg}`);
@@ -29,6 +72,9 @@ class WexaLogger {
         console.error(`[WexaCritical] ${msg}`, err || '');
     }
 }
+// What the page said before the framework was there. This file is the first of
+// the framework to be read, so nothing of it has spoken yet.
+WexaLogger.takeWhatThePageSaid();
 // ---- AUTO-GENERATED EXPORTS (Whakerexa bundle) ----
 if (typeof window.Wexa !== 'object') { window.Wexa = {}; }
 window.Wexa.WexaLogger = WexaLogger;
@@ -7209,6 +7255,7 @@ class SlidesInitializer {
         }
         const carried = Array.isArray(reference) === true ? reference : [];
         const manager = new ThemeManager();
+        let chosen = false;
         for (const declared of this.#themesAttr.split(/[\n,]/)) {
             const said = declared.trim();
             if (said === '') {
@@ -7223,10 +7270,21 @@ class SlidesInitializer {
                     continue;
                 }
                 manager.register(found[0], this.#themesFolder() + found[1]);
+                chosen = true;
                 continue;
             }
             manager.register(said.slice(0, first).trim(),
                              this.#placeOf(said.slice(first + 1).trim()));
+        }
+        // Nothing chosen among the framework's: it takes them all.
+        if (chosen === false) {
+            carried.forEach(theme => manager.register(theme[0],
+                                                      this.#themesFolder() + theme[1]));
+        }
+        const logger = (window.Wexa || {}).logger;
+        if (manager.themeNames.length === 1 && logger !== undefined) {
+            logger.warn('SlidesInitializer: one theme is registered, "'
+                + manager.themeNames[0] + '". What switches them has nowhere to go.');
         }
         if (this.#defaultName !== '') {
             manager.setDefault(this.#defaultName);
