@@ -307,3 +307,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
   the framework, `name:path` for its own.
 - Breaking change. What a build gathers for a document read from a disk is now
   `Wexa.gatheredIcons`, and no longer a global of its own: regenerate `wexa_icons.js`.
+- Themes. Slides read `data-themes` the way the loader does; `data-themes-path` is still read,
+  so a presentation written before keeps working.
