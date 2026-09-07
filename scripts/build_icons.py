@@ -106,7 +106,8 @@ def written_for(folders):
         "// Written by scripts/build_icons.py. What a document read from a",
         "// disk will need, gathered into it: a browser refuses to read a file",
         "// there, so nothing is asked for.",
-        "window.WEXA_GATHERED_ICONS = [",
+        "window.Wexa = window.Wexa || {};",
+        "window.Wexa.gatheredIcons = [",
     ]
 
     total = 0

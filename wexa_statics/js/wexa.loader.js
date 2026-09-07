@@ -273,10 +273,11 @@
                 said.slice(last + 1).split(',').map(file => file.trim())));
         }
 
-        // What a build gathered into the document, if anything did. It is left
-        // on the window by a file the page loads, in no particular order: the
-        // drawings are held before the first demand is answered.
-        const gathered = window.WEXA_GATHERED_ICONS;
+        // What a build gathered into the document, if anything did. A file the
+        // page loads writes it on the namespace of the framework, which may not
+        // be there yet: the file makes it, wexa.js adds to what it finds, and
+        // the drawings are held before the first demand is answered.
+        const gathered = (window.Wexa || {}).gatheredIcons;
         if (Array.isArray(gathered) === true) {
             gathered.forEach(one => icons.gather(one[0], one[1], one[2]));
         }

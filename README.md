@@ -305,3 +305,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 
 - Themes. `data-themes` says which ones a page takes, and in which order: a name alone for one of
   the framework, `name:path` for its own.
+- Breaking change. What a build gathers for a document read from a disk is now
+  `Wexa.gatheredIcons`, and no longer a global of its own: regenerate `wexa_icons.js`.

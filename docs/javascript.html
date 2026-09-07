@@ -149,6 +149,14 @@
     <!-- ============================================================ -->
     <section class="panel-item">
 
+        <p>What this is for, what it deliberately does not do, and why:
+            <a href="javascript-design.html">javascript-design.html</a>.</p>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
         <h2>What <code>Wexa</code> holds</h2>
 
         <p>The namespace makes a difference the framework maintains everywhere: a service that
@@ -342,8 +350,7 @@ Wexa.logger.debug('Slides: 57 pages laid out.');</code></pre>
         <h2>Components speak through events</h2>
 
         <p>A component that has something to announce dispatches a <code>CustomEvent</code> on
-            the document rather than calling what listens: what is announced does not have to
-            know who hears it. The name carries its domain first, then what happened &mdash;
+            the document. The name carries its domain first, then what happened &mdash;
             <code>slides:navigate</code>, <code>slides:viewmode</code>,
             <code>wexa:slides:ready</code>. This is also what a keyboard shortcut may be given
             instead of a function.</p>

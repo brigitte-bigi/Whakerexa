@@ -285,10 +285,8 @@
 
         <p><strong>Accessibility.</strong> An icon says nothing to a screen reader: what it
             stands for is written on what holds it — the text of a link, the
-            <code>aria-label</code> of a button that holds nothing else. That is why the
-            attribute goes on that element: an element written for the icon alone would
-            carry a drawing that names nothing. A ground stands for nothing and is never
-            announced.</p>
+            <code>aria-label</code> of a button that holds nothing else. The attribute goes on
+            that element. A ground stands for nothing and is never announced.</p>
 
         <p>A line drawing holds in dark mode and in high contrast, since it takes the color
             of what surrounds it. An image keeps the colors it was drawn with: read it in
@@ -353,13 +351,16 @@
 
         <pre class="dark"><code>&lt;script src="wexa_icons.js"&gt;&lt;/script&gt;</code></pre>
 
-        <p><strong>What that file holds.</strong> One array left on the window, one entry per
-            drawing: the name of the set, the name the drawing answers to — its file without
-            its extension — and the drawing itself. Nothing else is read in it. Written by
-            hand or by a tool of your own, it is answered the same way, so a page that never
-            runs the script says as much as one that does:</p>
+        <p><strong>What that file holds.</strong> One list on the namespace of the
+            framework, one entry per drawing: the name of the set, the name the drawing
+            answers to — its file without its extension — and the drawing itself. Nothing
+            else is read in it. The file may be loaded before Whakerexa, so it makes the
+            namespace if it is not there yet. Written by hand or by a tool of your own, it is
+            answered the same way, so a page that never runs the script says as much as one
+            that does:</p>
 
-        <pre class="dark"><code>window.WEXA_GATHERED_ICONS = [
+        <pre class="dark"><code>window.Wexa = window.Wexa || {};
+window.Wexa.gatheredIcons = [
     ["child", "home", "&lt;svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" …&gt;…&lt;/svg&gt;"],
     ["child", "back", "&lt;svg …&gt;…&lt;/svg&gt;"],
     ["adult", "home", "&lt;svg …&gt;…&lt;/svg&gt;"]
