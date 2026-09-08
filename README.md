@@ -302,3 +302,4 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Icons. New `Wexa.gatheredIcons`. A file written by an older build is still read.
 - Themes. Slides read `data-themes` the way the loader does.
 - Logging. A page says how much the framework says: `Wexa.logLevel = 'warning'`, before the loader.
+
