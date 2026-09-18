@@ -76,10 +76,11 @@ This banner notice must not be removed.
 /* The table                                                               */
 /* ----------------------------------------------------------------------- */
 
-/* The number and the year are read as columns, and never wrap. Only the
-   cells: the year is also written in the reference itself. */
+/* The number, the year and the type are read as columns, and never wrap.
+   Only the cells: the year is also written in the reference itself. */
 td.bib-number,
-td.bib-year {
+td.bib-year,
+td.bib-type {
     width: 1%;
     white-space: nowrap;
     vertical-align: top;

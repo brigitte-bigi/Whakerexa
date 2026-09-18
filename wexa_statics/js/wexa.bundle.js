@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-16 18:09:40
+// Bundle automatically generated on 2026-09-18 18:17:33
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -5430,8 +5430,38 @@ class ReferenceFormatter {
     static TERMINATOR = '.';
     static YEAR_OPENING = ' (';
     static YEAR_CLOSING = ')';
+    static TYPE_NAMES = new Map([
+        ['en', {
+            article: 'Article', inproceedings: 'Conference',
+            conference: 'Conference', incollection: 'Chapter',
+            inbook: 'Chapter', book: 'Book', techreport: 'Report',
+            phdthesis: 'PhD thesis', mastersthesis: "Master's thesis",
+            unpublished: 'Unpublished', misc: 'Miscellaneous'
+        }],
+        ['fr', {
+            article: 'Article', inproceedings: 'Communication',
+            conference: 'Communication', incollection: 'Chapitre',
+            inbook: 'Chapitre', book: 'Ouvrage', techreport: 'Rapport',
+            phdthesis: 'Thèse', mastersthesis: 'Mémoire',
+            unpublished: 'Non publié', misc: 'Divers'
+        }]
+    ]);
     static LINE_NAMES = ['authors', 'title', 'source'];
+    // FIELDS
+    #texts;
+    // CONSTRUCTOR
+    constructor() {
+        this.#texts = new Labels(ReferenceFormatter.TYPE_NAMES);
+    }
     // PUBLIC METHODS
+    nameOf(type) {
+        const wanted = type.toLowerCase();
+        const written = this.#texts.text(wanted);
+        if (written === undefined) {
+            return wanted.charAt(0).toUpperCase() + wanted.slice(1);
+        }
+        return written;
+    }
     format(reference) {
         const fragment = document.createDocumentFragment();
         const required = this.#requiredFor(reference.type);
@@ -5672,13 +5702,13 @@ class BibliographyTable {
     static BACK_SEPARATOR = '-';
     static LABELS = new Map([
         ['en', {
-            number: 'No.', year: 'Year', reference: 'Reference',
+            number: 'No.', year: 'Year', type: 'Type', reference: 'Reference',
             abstract: 'Abstract', source: 'BibTeX', backTo: 'Back to citation',
             pdf: 'PDF', repository: 'Open archive', publisher: 'Publisher', other: 'Link',
             of: 'of'
         }],
         ['fr', {
-            number: 'N°', year: 'Année', reference: 'Référence',
+            number: 'N°', year: 'Année', type: 'Type', reference: 'Référence',
             abstract: 'Résumé', source: 'BibTeX', backTo: 'Retour à la citation',
             pdf: 'PDF', repository: 'Archive ouverte', publisher: 'Éditeur', other: 'Lien',
             of: 'de'
@@ -5730,6 +5760,12 @@ class BibliographyTable {
             row.appendChild(this.#buildHeader('number', true));
         }
         row.appendChild(this.#buildHeader('year', true));
+        // What nothing else writes: a reference is displayed by the fields its
+        // type asks for, and two types ask for the same ones. The column opens
+        // unchecked, a bibliography being read for its references. B27.
+        const type = this.#buildHeader('type', true);
+        type.setAttribute('data-starts-hidden', '');
+        row.appendChild(type);
         row.appendChild(this.#buildHeader('reference', true, 'author'));
         head.appendChild(row);
         return head;
@@ -5768,6 +5804,16 @@ class BibliographyTable {
         year.className = 'bib-year';
         year.textContent = reference.field('year');
         row.appendChild(year);
+        // What the formatter calls this type, and never what BibTeX wrote:
+        // "@Article", "@article" and "@ARTICLE" are one type, and a column
+        // that repeated them would read as three. The column sorts as it
+        // reads, so the value to sort on is the written name. B27.
+        const written = this.#formatter.nameOf(reference.type);
+        const type = document.createElement('td');
+        type.className = 'bib-type';
+        type.textContent = written;
+        type.setAttribute('data-sort-value', written.toLowerCase());
+        row.appendChild(type);
         row.appendChild(this.#buildReferenceCell(reference, cited));
         return row;
     }
@@ -5915,9 +5961,9 @@ class BibliographyTable {
     }
     static #columnCount(hasNumbers) {
         if (hasNumbers === true) {
-            return 3;
+            return 4;
         }
-        return 2;
+        return 3;
     }
     static #contentId(key, name) {
         return BibliographyTable.ROW_PREFIX + key + '-' + name;
@@ -6341,12 +6387,19 @@ class BibliographyControls {
             }
             const item = document.createElement('li');
             item.className = 'check-item';
+            // A column whose header says it opens hidden is listed like the
+            // others, and unchecked: what it holds is read by whoever asks for
+            // it. The header decides, here nothing is named. B27.
+            const startsHidden = header.hasAttribute('data-starts-hidden');
             const box = document.createElement('input');
             box.type = 'checkbox';
             box.id = this.#table.id + '-column-' + name;
-            box.checked = true;
+            box.checked = startsHidden === false;
             box.setAttribute('data-toggle', name);
             box.setAttribute('aria-labelledby', box.id + '-label');
+            if (startsHidden === true) {
+                box.setAttribute('data-starts-hidden', '');
+            }
             const label = document.createElement('label');
             label.id = box.id + '-label';
             label.setAttribute('for', box.id);
@@ -6375,6 +6428,10 @@ class BibliographyControls {
         }
         this.#wasNarrow = isNarrow;
         this.#selector.getCheckboxes().forEach(box => {
+            if (box.hasAttribute('data-starts-hidden') === true) {
+                box.checked = false;
+                return;
+            }
             box.checked = isNarrow === false || box.getAttribute('data-toggle') === 'author';
         });
         this.#applyColumns();
