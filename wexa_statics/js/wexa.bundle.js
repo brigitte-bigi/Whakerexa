@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-18 18:17:33
+// Bundle automatically generated on 2026-09-22 18:16:28
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -4880,8 +4880,11 @@ class Link {
     // CONSTANTS
     static DEFAULT_REPOSITORY_HOSTS = ['hal.science', 'archives-ouvertes.fr', 'arxiv.org', 'zenodo.org'];
     static PUBLISHER_MARKS = ['doi.org', '/doi/'];
+    static DEFAULT_TARGET = '_blank';
+    static TARGETS = ['_self', '_blank'];
     // FIELDS
     static #repositoryHosts = [...Link.DEFAULT_REPOSITORY_HOSTS];
+    static #target = Link.DEFAULT_TARGET;
     #address;
     // PUBLIC STATIC METHODS
     static get repositoryHosts() {
@@ -4911,6 +4914,26 @@ class Link {
     }
     static resetRepositoryHosts() {
         Link.#repositoryHosts = [...Link.DEFAULT_REPOSITORY_HOSTS];
+    }
+    static get target() {
+        return Link.#target;
+    }
+    static setTarget(said) {
+        if (Link.TARGETS.includes(said) === false) {
+            console.warn(`Link.setTarget: "${said}" is not where an address opens.`
+                + ` It is "${Link.TARGETS.join('" or "')}".`);
+            return;
+        }
+        Link.#target = said;
+    }
+    static resetTarget() {
+        Link.#target = Link.DEFAULT_TARGET;
+    }
+    static openIn(element) {
+        element.setAttribute('target', Link.#target);
+        if (Link.#target === '_blank') {
+            element.setAttribute('rel', 'noopener');
+        }
     }
     // CONSTRUCTOR
     constructor(address) {
@@ -5878,6 +5901,9 @@ class BibliographyTable {
         // so before following it, the way Whakerexa marks any outward link.
         element.className = 'bib-link external-link';
         element.setAttribute('href', link.address);
+        // The class says the link leaves the document, the attribute says
+        // where it opens: what a reader is told, and what a browser does.
+        Link.openIn(element);
         // A page holding twenty links all named "PDF" is a page where a name
         // says nothing, so each one names its reference.
         const label = BibliographyTable.#labelOf(link.kind());
@@ -6058,6 +6084,7 @@ class CitationIndex {
             address.className = 'bib-link external-link';
             address.setAttribute('href', link.address);
             address.textContent = link.address;
+            Link.openIn(address);
             content.appendChild(address);
         });
         if (reference.abstract.length > 0) {
@@ -6530,6 +6557,10 @@ class BookBibliography {
         try {
             const content = await this.#source.read();
             const references = this.#parser.parse(content);
+            // Where the addresses open is read once, before the first one is
+            // written, and it is read where the bibliography stands. A page
+            // that says nothing opens a tab of its own. B28.
+            this.#takeWhereAddressesOpen();
             // The citations are numbered before anything else is looked for:
             // they are in the text, and the text is there. A document with
             // nowhere to put its bibliography still reads.
@@ -6559,6 +6590,18 @@ class BookBibliography {
         }
     }
     // PRIVATE METHODS
+    #takeWhereAddressesOpen() {
+        Link.resetTarget();
+        const place = document.getElementById(this.#placeId);
+        if (place === null) {
+            return;
+        }
+        const said = place.getAttribute('data-links-target');
+        if (said === null) {
+            return;
+        }
+        Link.setTarget(said);
+    }
     #buildDisclosures(roots) {
         const disclosures = [];
         const controls = new Set();

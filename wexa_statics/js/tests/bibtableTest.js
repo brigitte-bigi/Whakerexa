@@ -357,5 +357,37 @@ bibliography_table_tests.add_test(() => {
         "table_opened_row_colspan_test");
 });
 
+// -----------------------------------------------------------------------
+// An address opens in a tab of its own, and the page it opens holds no
+// handle on the one it was opened from. B28.
+// -----------------------------------------------------------------------
+
+bibliography_table_tests.add_test(() => {
+    const table = new BibliographyTable().build(table_references(), new Map());
+    const address = table.querySelector('#bib-bigi2022lrec a.bib-link');
+
+    UnitTest.assert_values_equals('_blank', address.getAttribute('target'),
+        "table_address_opens_a_tab_test");
+    UnitTest.assert_values_equals('noopener', address.getAttribute('rel'),
+        "table_address_holds_nothing_test");
+});
+
+// -----------------------------------------------------------------------
+// A page that asks to stay where it is gets what it asked for, and no
+// handle is given away, there being no tab to open. B28.
+// -----------------------------------------------------------------------
+
+bibliography_table_tests.add_test(() => {
+    Link.setTarget('_self');
+    const table = new BibliographyTable().build(table_references(), new Map());
+    const address = table.querySelector('#bib-bigi2022lrec a.bib-link');
+    Link.resetTarget();
+
+    UnitTest.assert_values_equals('_self', address.getAttribute('target'),
+        "table_address_stays_test");
+    UnitTest.assert_values_equals(null, address.getAttribute('rel'),
+        "table_address_no_rel_test");
+});
+
 // launch all unit tests added
 bibliography_table_tests.launch_unit_test();

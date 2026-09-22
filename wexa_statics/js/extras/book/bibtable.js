@@ -33,7 +33,7 @@
 
 import { Citation } from './bibcitation.js';
 import { ReferenceFormatter } from './bibformatter.js';
-import { LinkKind } from './biblink.js';
+import { Link, LinkKind } from './biblink.js';
 import { Labels } from './labels.js';
 
 /**
@@ -420,6 +420,10 @@ export class BibliographyTable {
         // so before following it, the way Whakerexa marks any outward link.
         element.className = 'bib-link external-link';
         element.setAttribute('href', link.address);
+
+        // The class says the link leaves the document, the attribute says
+        // where it opens: what a reader is told, and what a browser does.
+        Link.openIn(element);
 
         // A page holding twenty links all named "PDF" is a page where a name
         // says nothing, so each one names its reference.
