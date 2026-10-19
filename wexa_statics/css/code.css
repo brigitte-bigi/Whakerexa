@@ -38,8 +38,8 @@ This banner notice must not be removed.
     background: var(--bg-color-alt);
     color: var(--fg-color);
     border: 0;
-    border-top: var(--border-width) solid var(--border-color);
-    border-bottom: var(--border-width) solid var(--border-color);
+    border-top: var(--border-width-alt) solid var(--border-color-alt);
+    border-bottom: var(--border-width-alt) solid var(--border-color-alt);
     padding: calc(0.75 * var(--font-size));
 }
 

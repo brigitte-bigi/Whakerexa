@@ -99,7 +99,7 @@ dialog[role=alertdialog] {
     min-width: min(28rem, 80vw);
     max-height: 80vh;
     overflow: hidden;
-    border-left-width: var(--dialog-border-width); /* normalize: wexa.css sets 4x on left */
+    border-left-width: var(--border-width-alt); /* normalize: wexa.css sets 4x on left */
 }
 
 /* Override wexa.css @layer base hidden-alert rule (display:none is inside a layer,
@@ -190,7 +190,7 @@ dialog[role=alertdialog] form {
 }
 
 dialog[role=alertdialog] form button {
-    border-radius: var(--dialog-border-radius);
+    border-radius: var(--border-radius);
     padding: calc(var(--typography-spacing-vertical) / 2) var(--typography-spacing-horizontal);
     color: var(--dialog-icon-color, rgb(255, 255, 255));
     border: none;

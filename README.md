@@ -309,5 +309,6 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Themes: Apply the default theme when none is given.
 - Bibliography: Open the links of the references in a tab, table sort improved.
 - CSS: uniformized the element styling and the corresponding role.
+- CSS: borders are managed with 2 width/colors/radius only. Removed table-border-* and so on.
 - 
 

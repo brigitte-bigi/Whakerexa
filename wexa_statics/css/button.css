@@ -92,7 +92,7 @@ This banner notice must not be removed.
         background-color: var(--switch-bg-color);
         transition: background-color 0.4s ease, transform 0.4s ease;
         border-radius: var(--border-radius);
-        border: var(--border-width) solid var(--border-color-alt);
+        border: var(--border-width) solid var(--border-color);
     }
 
     .switch-slider:before {

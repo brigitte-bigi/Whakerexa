@@ -539,7 +539,6 @@ This banner notice must not be removed.
         --outline-hover-style: inset;
 
         /* border width adapts to contrast mode */
-        --blockquote-border-width: calc(0.25 * var(--font-size));
     }
 } 
 /* end @layer base: global variables */
@@ -621,11 +620,7 @@ This banner notice must not be removed.
 @layer theme {
 
     /* An accent pair a theme is free to redefine. A component of the framework
-       draws with it, so it holds a value even when no theme is loaded. */
-    :root {
-        --custom-color1: var(--border-color);
-        --custom-color2: var(--border-color-alt);
-    }
+       draws with it, so it holds a value of its own in each mode, below. */
 
     :root:not(.dark) {
 
@@ -638,8 +633,10 @@ This banner notice must not be removed.
         --bg-color-alt: rgb(236, 239, 245);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
-        --border-color: rgb(117, 130, 155);
-        --border-color-alt: rgba(70, 105, 165, 0.10);
+        --border-color: rgb(34, 62, 119);
+        --border-color-alt: rgb(97, 134, 209);
+        --custom-color1: rgb(117, 130, 155);
+        --custom-color2: rgb(225, 230, 242);
         --hr-color: rgba(128, 128, 128, 0.5);
 
         /* Background colors */
@@ -671,7 +668,6 @@ This banner notice must not be removed.
         --dialog-icon-color: rgb(255, 255, 255);
 
         /* Table colors */
-        --table-border-color: rgba(70, 105, 165, 0.15);
         --table-cell-bg-color: rgb(255, 255, 255);
         --table-row-stripped-bg-color: rgb(238 245 252);
         --table-head-bg-color: rgb(201 218 225);
@@ -707,12 +703,13 @@ This banner notice must not be removed.
 
     /* Structural variables — mode-independent, always defined */
     :root {
-        --border-width:       1px;
+        /* What answers is drawn with the first pair, what only surrounds
+           with the second: a command is tight and firm, a frame is thin and
+           soft. A container that wants no frame says it where it is drawn. */
+        --border-width:       2px;
         --border-radius:      3px;
-        --table-border-width: 1px;
-
-        --dialog-border-width:  1px;
-        --dialog-border-radius: 0.4rem;
+        --border-width-alt:   1px;
+        --border-radius-alt:  0.5rem;
         --dialog-box-shadow:    -0.2rem 0.2rem 0.6rem 0.2rem rgba(128, 128, 128, 0.5);
     }
 
@@ -727,8 +724,10 @@ This banner notice must not be removed.
             --bg-color-alt: rgb(18, 24, 42);
             --fg-color: rgb(215, 225, 245);
             --fg-color-alt: rgb(168, 185, 218);
-            --border-color: rgb(200, 227, 245);
-            --border-color-alt: rgba(100, 145, 215, 0.12);
+            --border-color: rgb(176, 195, 232);
+            --border-color-alt: rgb(77, 119, 203);
+            --custom-color1: rgb(200, 227, 245);
+            --custom-color2: rgb(24, 33, 50);
             --outline-color: rgba(0, 191, 255, 0.8);
             --hr-color: rgba(128, 128, 128, 0.5);
 
@@ -755,7 +754,6 @@ This banner notice must not be removed.
             --h6-color: rgb(135, 162, 202);
 
             /* Table colors */
-            --table-border-color: rgba(100, 145, 215, 0.15);
             --table-cell-bg-color: rgb(18, 24, 42);
             --table-row-stripped-bg-color: rgb(18, 26, 48);
             --table-head-bg-color: rgb(14, 20, 38);
@@ -769,7 +767,6 @@ This banner notice must not be removed.
             --li-color: rgb(62, 182, 180);
             --blockquote-border-color: rgb(62, 148, 202);
             --blockquote-footer-color: rgb(125, 162, 205);
-            --blockquote-border-width: calc(0.25 * var(--font-size));
             --shadow-color: rgba(30, 90, 200, 0.25);
 
             /* Switch */
@@ -800,11 +797,10 @@ This banner notice must not be removed.
 
     /* Contrast mode */
     .contrast {
-        --border-width:         2px;
+        --border-width:         4px;
         --border-radius:        3px;
-        --table-border-width:   2px;
-        --dialog-border-width:  2px;
-        --dialog-border-radius: 0.4rem;
+        --border-width-alt:     2px;
+        --border-radius-alt:    0.8rem;
     }
 
     /* Whoever changes the palette carries the ground of that palette. On the
@@ -1064,7 +1060,6 @@ This banner notice must not be removed.
         /* The column of the content, on the ground html carries. */
         background: var(--bg-color);
         background-clip: content-box;
-        transition: all var(--border-color) 0.3s;
         transition-duration: 0.4s;
 
         -webkit-tap-highlight-color: transparent;
@@ -1349,7 +1344,7 @@ This banner notice must not be removed.
         margin-top: var(--typography-spacing-horizontal);
         margin-bottom: var(--typography-spacing-horizontal);
         overflow: auto;
-        border-left: calc(2*var(--border-width)) solid var(--border-color-alt);
+        border-left: calc(2*var(--border-width-alt)) solid var(--border-color-alt);
     }
     
     ins {
@@ -1375,8 +1370,8 @@ This banner notice must not be removed.
         margin-bottom: calc(1.5*var(--typography-spacing-vertical));
         margin-left: calc(2*var(--typography-spacing-horizontal));
         margin-right: calc(2*var(--typography-spacing-horizontal));
-        border: var(--blockquote-border-color, var(--border-color)) solid var(--blockquote-border-width);
-        border-radius: var(--border-radius);
+        border: var(--border-width-alt) solid var(--border-color-alt);
+        border-radius: var(--border-radius-alt);
         color: var(--blockquote-fg-color, inherit);
     }
 
@@ -1641,8 +1636,8 @@ This banner notice must not be removed.
         color: var(--fg-color);
         font-weight: var(--font-weight-normal);
         font-size: var(--font-size);
-        border-left: var(--table-border-width) dashed var(--table-border-color);
-        border-bottom: var(--table-border-width) solid var(--table-border-color);
+        border-left: var(--border-width-alt) dashed var(--border-color-alt);
+        border-bottom: var(--border-width-alt) solid var(--border-color-alt);
         text-align: left;
     }
 
@@ -1659,7 +1654,7 @@ This banner notice must not be removed.
 
     tfoot td, 
     tfoot th {
-        border-top: var(--table-border-width) solid var(--table-border-color);
+        border-top: var(--border-width-alt) solid var(--border-color-alt);
         border-bottom: 0;
     }
 
@@ -1688,7 +1683,7 @@ This banner notice must not be removed.
     }
 
     table:not([role="presentation"]) {
-        border: var(--table-border-width) solid var(--table-border-color);
+        border: var(--border-width-alt) solid var(--border-color-alt);
         max-width: 100%;
     }
 
@@ -1760,8 +1755,8 @@ This banner notice must not be removed.
         appearance: none;
         width: 100%;
         height: calc(0.75 * var(--font-size));
-        border: var(--border-color) solid var(--border-width);
-        border-radius: var(--border-radius);
+        border: var(--border-color-alt) solid var(--border-width-alt);
+        border-radius: var(--border-radius-alt);
         background-color: var(--progress-bg-color);
         color: var(--progress-fg-color);
         background: var(--progress-bg-color);
@@ -1772,17 +1767,17 @@ This banner notice must not be removed.
 
     progress::-webkit-progress-bar {
         background-color: var(--progress-bg-color);
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius-alt);
     }
 
     progress::-webkit-progress-value {
         background-color: var(--progress-fg-color);
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius-alt);
     }
 
     progress::-moz-progress-bar {
         background-color: var(--progress-fg-color);
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius-alt);
     }
 
     /* =======================================================================
@@ -1799,8 +1794,8 @@ This banner notice must not be removed.
     }
 
     details {
-        border: var(--border-width) solid var(--border-color-alt);
-        border-radius: var(--border-radius);
+        border: var(--border-width-alt) solid var(--border-color-alt);
+        border-radius: var(--border-radius-alt);
         margin-bottom: var(--typography-spacing-vertical);
         padding: 0;
     }
@@ -1810,7 +1805,7 @@ This banner notice must not be removed.
     }
 
     summary {
-        border: var(--border-width) solid var(--border-color-alt);
+        border: var(--border-width) solid var(--border-color);
         font-weight: var(--font-weight-semibold);
         border-radius: var(--border-radius);
         margin: 0;
@@ -1842,7 +1837,7 @@ This banner notice must not be removed.
 
     fieldset {
         width: 100%;
-        border: var(--border-width) solid var(--border-color);
+        border: var(--border-width-alt) solid var(--border-color-alt);
         margin: 0;
         /* border-radius, padding → @layer theme */
     }
@@ -1856,7 +1851,7 @@ This banner notice must not be removed.
         background-color: var(--progress-bg-color);
         padding: 0.4rem;
         white-space: normal;
-        border: var(--border-width) solid var(--border-color);
+        border: var(--border-width-alt) solid var(--border-color-alt);
     }
 
     fieldset legend * {
@@ -1892,7 +1887,8 @@ This banner notice must not be removed.
         font-family: var(--font-family-serif);
         background-color: var(--inputs-bg-color);
         color: var(--fg-color-alt);
-        border: var(--border-width) solid var(--border-color-alt);
+        border: var(--border-width) solid var(--border-color);
+        border-radius: var(--border-radius);
         transition: 0.5s ease-in-out border-bottom;
     }
 
@@ -1988,11 +1984,11 @@ This banner notice must not be removed.
 
     optgroup {
         font-weight: var(--font-weight-semibold);
-        border-top: var(--border-width) solid var(--fg-color-alt);
+        border-top: var(--border-width-alt) solid var(--border-color-alt);
     }
 
     option {
-        border-top: var(--border-width) solid var(--fg-color-alt);
+        border-top: var(--border-width-alt) solid var(--border-color-alt);
     }
 
     optgroup > option {
@@ -2085,8 +2081,8 @@ This banner notice must not be removed.
         padding-bottom: var(--typography-spacing-vertical);
         z-index: 20;
         animation: fadeOut 0.7s ease-out;
-        border-radius: var(--dialog-border-radius);
-        border: var(--dialog-border-width) solid var(--border-color);
+        border-radius: var(--border-radius-alt);
+        border: var(--border-width-alt) solid var(--border-color-alt);
         box-shadow: var(--dialog-box-shadow);
         margin: 0;
         margin-top: var(--typography-spacing-vertical);
@@ -2104,7 +2100,7 @@ This banner notice must not be removed.
     dialog[role=alertdialog] {
         display: block;
         position: relative;
-        border-left: calc(4*var(--dialog-border-width)) solid;
+        border-left: calc(4*var(--border-width-alt)) solid;
     }
 
     dialog[role=alertdialog].hidden-alert {
@@ -2340,7 +2336,7 @@ This banner notice must not be removed.
     progress {
         width: 100%;
         height: 2rem;
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius-alt);
     }
 
     /* ── Forms ─────────────────────────────────────────────────────────── */
@@ -2350,7 +2346,7 @@ This banner notice must not be removed.
     }
 
     fieldset {
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius-alt);
         padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
     }
 
