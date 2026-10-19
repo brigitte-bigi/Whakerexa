@@ -240,6 +240,32 @@
 
         <!-- ============================================================ -->
         <section class="panel-item">
+            <h2>A panel written as a list</h2>
+            <p>When a panel holds a set — three themes, four cells, a row of
+                cards — write it as a list, and a reader who listens is told it
+                is one. Any of the panels above takes <code>&lt;ul&gt;</code> or
+                <code>&lt;ol&gt;</code> in place of its container, and
+                <code>&lt;li&gt;</code> in place of each item. The square the
+                framework draws before an item is not drawn there, and the room
+                it reserves is not taken: the item is the place the panel gives.</p>
+            <article class="card-doc" aria-label="A panel written as a list">
+                <div class="card-view" style="width: 100%;">
+                    <ul class="wrap-panel">
+                        <li class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">First</li>
+                        <li class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">Second</li>
+                        <li class="wrap-item" style="border: 1px solid var(--border-color); padding: 0.5rem;">Third</li>
+                    </ul>
+                </div>
+                <pre class="dark"><code>&lt;ul class="wrap-panel"&gt;
+    &lt;li class="wrap-item"&gt;First&lt;/li&gt;
+    &lt;li class="wrap-item"&gt;Second&lt;/li&gt;
+    &lt;li class="wrap-item"&gt;Third&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            </article>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="panel-item">
             <h2>Collapsible panel</h2>
             <p>Use the native HTML <code>&lt;details&gt;</code> / <code>&lt;summary&gt;</code> elements.
                 No CSS class required — <code>wexa.css</code> styles them directly.

@@ -450,6 +450,17 @@ body.note-view aside[for] {
     justify-content: center;
 }
 
+/* The label is the visible control: the radio it holds stays reachable by the
+   keyboard and by assistive tech, and is not painted. */
+.overview-btn input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    margin: 0;
+}
+
 .overview-btn {
     display: flex;
     flex-direction: column;

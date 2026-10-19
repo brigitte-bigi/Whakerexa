@@ -131,7 +131,7 @@
     --table-row-stripped-bg-color:    rgb(240, 240, 240);
 
     --inputs-bg-color:       rgb(255, 255, 255);
-    --progress-bg-color:     rgb(240, 240, 240);
+    --progress-bg-color:     rgb(118, 118, 118);
     --progress-fg-color:     rgb(0, 0, 0);
     --shadow-color:          rgba(0, 0, 0, 0.6);
 
@@ -194,7 +194,7 @@
         --table-row-stripped-bg-color:    rgb(26, 26, 26);
 
         --inputs-bg-color:       rgb(0, 0, 0);
-        --progress-bg-color:     rgb(26, 26, 26);
+        --progress-bg-color:     rgb(118, 118, 118);
         --progress-fg-color:     rgb(255, 255, 255);
         --shadow-color:          rgba(255, 255, 255, 0.3);
 
