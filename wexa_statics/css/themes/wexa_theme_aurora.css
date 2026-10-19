@@ -241,7 +241,7 @@
     :root:not(.contrast) {
         --border-radius:                 6px;
         --border-width:                  1px;
-        --border-width-alt:              0;
+        --border-width-alt:              0px;
         --font-size:                     calc(16px / var(--fontsize-divisor));
         --typography-spacing-vertical:   calc(0.8 * 16px / var(--size-divisor));
         --typography-spacing-horizontal: calc(0.6 * 16px / var(--size-divisor));
@@ -361,15 +361,15 @@
 
     td, th {
         border-left: none;
-        border-bottom: var(--border-width-alt) solid var(--border-color-alt);
+        border-bottom: var(--border-width) solid var(--border-color-alt);
     }
 
     thead td, thead th {
-        border-bottom: calc(var(--border-width-alt) * 3) solid var(--border-color-alt);
+        border-bottom: calc(var(--border-width) * 3) solid var(--border-color-alt);
     }
 
     tfoot td, tfoot th {
-        border-top: var(--border-width-alt) solid var(--border-color-alt);
+        border-top: var(--border-width) solid var(--border-color-alt);
         border-bottom: none;
     }
 
@@ -379,6 +379,32 @@
     label.switch {
         --switch-width:  calc(2.625 * var(--font-size));
         --switch-height: calc(1.375 * var(--font-size));
+    }
+
+    /* ── What a frame no longer draws ───────────────────────────────────── */
+    /* This theme gives a frame no width at all: an element a frame used to
+       hold is held by a shadow instead, the one a card is given below. */
+
+    fieldset,
+    fieldset legend,
+    details,
+    progress,
+    table:not([role="presentation"]),
+    .highlight,
+    .slide {
+        box-shadow: 0 calc(0.125 * var(--font-size)) calc(0.5 * var(--font-size)) var(--shadow-color);
+    }
+
+    /* A line that the frame no longer draws takes the width of a command, as
+       the bar of a quote and the lines of a table do above. */
+
+    pre {
+        border-left-width: calc(2 * var(--border-width));
+    }
+
+    optgroup,
+    option {
+        border-top-width: var(--border-width);
     }
 
     /* ── Article: card with Aurora gradient ──────────────────────────────── */
@@ -394,7 +420,7 @@
     article > footer {
         margin-top: var(--typography-spacing-vertical);
         padding-top: var(--typography-spacing-vertical);
-        border-top: var(--border-width-alt) solid var(--border-color-alt);
+        border-top: var(--border-width) solid var(--border-color-alt);
     }
 
 }

@@ -310,5 +310,5 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Bibliography: Open the links of the references in a tab, table sort improved.
 - CSS: uniformized the element styling and the corresponding role.
 - CSS: borders are managed with 2 width/colors/radius only. Removed table-border-* and so on.
-- 
+- CSS: a panel can be written as a list, the file field holds its button, and a theme that draws no frame holds with a shadow what the border no longer says.
 

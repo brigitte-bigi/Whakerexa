@@ -116,7 +116,8 @@ dialog[role=alertdialog] * {
 
 /* Content padding and scroll for direct children */
 dialog[role=alertdialog] > p,
-dialog[role=alertdialog] > div {
+dialog[role=alertdialog] > div,
+dialog[role=alertdialog] > form {
     padding: var(--typography-spacing-horizontal);
     overflow-y: auto;
 }

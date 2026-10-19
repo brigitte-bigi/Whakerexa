@@ -301,19 +301,27 @@ This banner notice must not be removed.
         grid-row-gap: calc(0.1 * var(--card-max-width));
     }
 
-    /* A panel of cards is written as a list when what it holds is a set. The
-       framework draws a square before an item and reserves its place: a card
-       is not a line of text, so it carries neither. The item is the place the
-       panel gives, and the card takes it entire. */
+    /* A panel is written as a list when what it holds is a set, and a set is
+       what a reader is told. The framework draws a square before an item and
+       reserves its place: an item of a panel is not a line of text, so it
+       carries neither. */
+
+    :is(ul, ol):is(.panel, .flex-panel, .wrap-panel, .grid-panel,
+                   .scrolled-panel, .cards-panel, .full-cards-panel) > li {
+        padding-inline-start: 0;
+    }
+
+    :is(ul, ol):is(.panel, .flex-panel, .wrap-panel, .grid-panel,
+                   .scrolled-panel, .cards-panel, .full-cards-panel) > li::before {
+        content: none;
+    }
+
+    /* In a panel of cards, the item is the place the panel gives and the card
+       takes it entire. */
 
     :is(ul, ol):is(.cards-panel, .full-cards-panel) > li {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
-        padding-inline-start: 0;
-    }
-
-    :is(ul, ol):is(.cards-panel, .full-cards-panel) > li::before {
-        content: none;
     }
 
     /* ------------------------------------------------------------------ */
