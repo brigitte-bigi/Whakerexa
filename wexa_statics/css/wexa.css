@@ -1162,8 +1162,7 @@ This banner notice must not be removed.
 
     /* -------------------------------- menu --------------------------------- */
 
-    nav, 
-    [role=doc-toc] {
+    nav {
         color: var(--nav-fg-color);
         background: var(--nav-bg-color);
         padding-left: var(--typography-spacing-horizontal);
@@ -1181,8 +1180,7 @@ This banner notice must not be removed.
     /* A bar is written in one colour, as a banner is: what it holds inherits
        it. Only the laying out is imposed, a bar being a row of items. */
 
-    nav,
-    [role=doc-toc] {
+    nav {
         --fg-color:     var(--nav-fg-color);
         --fg-color-alt: var(--nav-fg-color);
         --a-color:      var(--nav-fg-color);
@@ -1195,8 +1193,7 @@ This banner notice must not be removed.
         --h6-color:     var(--nav-fg-color);
     }
 
-    nav *,
-    [role=doc-toc] * {
+    nav * {
         display: flex;
     }
 
@@ -1419,16 +1416,19 @@ This banner notice must not be removed.
     }*/
 
     /* Image links: the clickable box must match the image (no extra line box). */
-    a:has(> img) {
+    a:has(> img),
+    [role=link]:has(> img) {
         display: inline-block;
         line-height: 0;
     }
 
-    a > img {
+    a > img,
+    [role=link] > img {
         display: block;
     }
 
-    a.external-link::after {
+    a.external-link::after,
+    [role=link].external-link::after {
         position: relative;
         content: "";
         background-color: var(--a-color);
@@ -1444,11 +1444,11 @@ This banner notice must not be removed.
 
     /* ----------------- Button, Label and Input tags ----------------------- */
 
-    button, input, a[role=button], select, textarea {
+    button, input, [role=button], select, textarea {
         overflow: visible;
     }
 
-    button, select, a[role=button], select, textarea {
+    button, select, [role=button], select, textarea {
         text-transform: none;
         text-decoration: none;
     }
@@ -1501,8 +1501,10 @@ This banner notice must not be removed.
         flex-basis: auto;  /* default is auto */
     }
 
-    [role=button]:is(:hover,:active,:focus),
-    [role=button]:is([aria-current]:not([aria-current=false])),
+    [role=button]:not([aria-disabled=true]):is(:hover,:active,:focus),
+    [role=button]:not([aria-disabled=true]):is([aria-current]:not([aria-current=false])),
+    *[role="menuitem"]:not([aria-disabled=true]):is(:hover,:active,:focus),
+    .menuitem:not([aria-disabled=true]):is(:hover,:active,:focus),
     [type=button]:is(:hover,:active,:focus),
     [type=button]:is([aria-current]:not([aria-current=false])),
     [type=file]::file-selector-button:is(:hover,:active,:focus),
@@ -1679,21 +1681,10 @@ This banner notice must not be removed.
         background-color: transparent;
     }
 
-    [role=presentation], 
+    table[role=presentation],
     table[role=presentation] td {
         border: none;
         text-align: left;
-    }
-
-    table[role="grid"] {
-        width: 100%;
-        table-layout: fixed; /* All columns will have equal width based on the table width */
-    }
-
-    table[role="grid"] th,
-    table[role="grid"] td {
-        overflow: hidden;
-        word-wrap: break-word;
     }
 
     table:not([role="presentation"]) {
@@ -1924,7 +1915,11 @@ This banner notice must not be removed.
 
     /* ── Buttons / interactive elements ──────────────────────────────────── */
 
+    /* A command carries no outer margin of its own: it is placed by what
+       holds it. The type and the role of an input are the same command. */
+
     button,
+    input[type=button],
     input[type=submit],
     input[type=reset],
     *[role=button],
@@ -1932,6 +1927,23 @@ This banner notice must not be removed.
     .menuitem,
     summary {
         margin: 0;
+    }
+
+    /* An action of a form is set apart from the fields it follows. A button of
+       a form is one unless its type says otherwise: the button written with no
+       type at all is the submit one, which no selector of an attribute sees. */
+
+    form button:not([type=button]),
+    form input[type=submit],
+    form input[type=reset] {
+        margin-top: var(--typography-spacing-vertical);
+    }
+
+    /* The field that searches is set apart the same way, form or no form. */
+
+    input[type=search],
+    input[name=search] {
+        margin-top: var(--typography-spacing-vertical);
     }
 
     /* Form: select */
@@ -1994,16 +2006,6 @@ This banner notice must not be removed.
         overflow: visible
     }
 
-    /* Submit, search and reset get top margin to separate from form fields above */
-    input[role="button"],
-    input[type="submit"],
-    input[type="search"],
-    input[name="search"],
-    input[type="reset"] {
-        margin-top: calc(0.75 * var(--typography-spacing-vertical));
-        margin-bottom: calc(0.75 * var(--typography-spacing-vertical));
-    }
-
     input[type="checkbox"],
     input[type="radio"] {
         margin-left: 0.5rem;
@@ -2027,10 +2029,6 @@ This banner notice must not be removed.
 
     input[name=search]:hover {
         width: 80%;
-    }
-
-    [type=button], [type=reset], [type=submit] {
-        margin-bottom:var(--typography-spacing-vertical)
     }
 
     :is(button,[type=submit],[type=button],[role=button]).secondary,[type=file]::file-selector-button,[type=reset] {
@@ -2207,8 +2205,7 @@ This banner notice must not be removed.
 
     /* ── Nav ─────────────────────────────────────────────────────────────── */
 
-    nav,
-    [role=doc-toc] {
+    nav {
         position: sticky;
         top: 0;
         overflow: unset;
@@ -2256,19 +2253,13 @@ This banner notice must not be removed.
 
     button,
     *[role=button],
+    *[role="menuitem"],
+    .menuitem,
     summary {
         padding-left: calc(0.5 * var(--typography-spacing-horizontal));
         padding-right: calc(0.5 * var(--typography-spacing-horizontal));
         padding-top: calc(0.5 * var(--typography-spacing-vertical));
         padding-bottom: calc(0.5 * var(--typography-spacing-vertical));
-        margin: 0;
-    }
-
-    button[type=submit],
-    button[type=reset],
-    input[type=submit],
-    input[type=reset] {
-        margin-top: var(--typography-spacing-vertical);
     }
 
     /* A reset is the secondary of the pair: it takes the alternate ground of
@@ -2498,10 +2489,9 @@ This banner notice must not be removed.
     /* A field takes the whole width it is given, and a form reads as one
        column. The three themes wrote this, each on its own, which said the
        eight tenths of before were nobody's choice. A range and a file carry
-       their own width, and are left alone. */
-    button[type=submit],
-    button[type=reset],
-    input:not([type=checkbox],[type=radio],[type=range],[type=file]),
+       their own width, and are left alone. So does an action: a button holds a
+       label, whose length is known, and which names what it does. */
+    input:not([type=checkbox],[type=radio],[type=range],[type=file],[type=submit],[type=reset],[type=button]),
     select,
     textarea {
         width: 100%;
@@ -2511,24 +2501,31 @@ This banner notice must not be removed.
     /* After the width rule — same specificity [0,2,1], later wins.          */
     /* No overflow:hidden — it clips the focus outline.                      */
 
-    fieldset[role="group"] {
+    fieldset.field-group {
         display: flex;
         padding: 0;
         border: none;
     }
 
-    fieldset[role="group"] > * {
+    fieldset.field-group > * {
         margin-top: 0;
         margin-bottom: 0;
     }
 
-    fieldset[role="group"] > :not(:last-child) {
+    /* An action that follows the fields of a form is set apart from them. Here
+       it follows nothing: the row places it, side by side with what it acts on. */
+
+    fieldset.field-group > :is(button, [role=button], input[type=submit], input[type=reset]) {
+        margin-top: 0;
+    }
+
+    fieldset.field-group > :not(:last-child) {
         flex: 1 1 auto;
         border-right: none;
         border-radius: var(--border-radius) 0 0 var(--border-radius);
     }
 
-    fieldset[role="group"] > :last-child {
+    fieldset.field-group > :last-child {
         flex: 0 0 auto;
         width: auto;
         border-radius: 0 var(--border-radius) var(--border-radius) 0;

@@ -194,6 +194,10 @@ dialog[role=alertdialog] form button {
     padding: calc(var(--typography-spacing-vertical) / 2) var(--typography-spacing-horizontal);
     color: var(--dialog-icon-color, rgb(255, 255, 255));
     border: none;
+
+    /* The row above places them itself, side by side: they take no margin of
+       their own, where an action that follows the fields of a form takes one. */
+    margin-top: 0;
 }
 
 dialog[role=alertdialog].info form button     { background-color: var(--info-color); }

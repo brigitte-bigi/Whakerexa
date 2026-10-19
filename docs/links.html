@@ -98,6 +98,32 @@
     <!-- ============================================================ -->
     <section class="panel-item">
 
+        <h2>An element that carries role="link"</h2>
+        <p>
+            A role announces a link to the reader who listens, and <code>wexa.css</code>
+            draws one for the reader who looks, on whatever element carries it.
+            The icon of <code>.external-link</code> comes with it, and so does the fit of
+            the box around an image it holds.
+            Being reached from the keyboard is the author's part: the role says what it is,
+            <code>tabindex</code> says it can be reached.
+        </p>
+
+        <article class="card-doc" aria-label="Links — role=link examples">
+            <div class="card-view">
+                <span role="link" tabindex="0">A span that is a link</span>
+                <span role="link" tabindex="0" class="external-link">A span that leaves the page</span>
+                <span role="link" tabindex="0"><img src="../wexa_statics/logos/whakerexa-128.webp" alt="The logo of Whakerexa" width="64"></span>
+            </div>
+            <pre class="dark"><code>&lt;span role="link" tabindex="0"&gt;A span that is a link&lt;/span&gt;
+&lt;span role="link" tabindex="0" class="external-link"&gt;A span that leaves the page&lt;/span&gt;
+&lt;span role="link" tabindex="0"&gt;&lt;img src="logo.webp" alt="The logo of Whakerexa" width="64"&gt;&lt;/span&gt;</code></pre>
+        </article>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
         <h2>LinkController — when and why</h2>
         <p>
             A plain <code>&lt;a href&gt;</code> is not enough when:

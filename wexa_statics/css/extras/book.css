@@ -255,7 +255,7 @@ nav.book-toc * {
     padding: 0;
 }
 
-aside.book-toc-aside *:not([role=button]) {
+aside.book-toc-aside *:not(button, [role=button]) {
     margin: 0;
     padding: 0;
     background-color: transparent;
@@ -284,7 +284,7 @@ aside.book-toc-aside *:not([role=button]) {
     font-weight: var(--font-weight-bold);
 }
 
-:is(nav.book-toc, aside.book-toc-aside) a[role=button],
+:is(nav.book-toc, aside.book-toc-aside) [role=button],
 :is(nav.book-toc, aside.book-toc-aside) button {
     width: calc(0.75 * var(--toc-width));
     height: calc(3 * var(--font-size));
@@ -580,7 +580,7 @@ aside.book-toc-aside *:not([role=button]) {
     /* Table of content: text color. The universal selector does not reach a
        pseudo-element, and the number of an entry is one: it is given the
        colour of the entry it numbers, and not the one of a link. */
-    :is(nav.book-toc, aside.book-toc-aside) *:not([role=button]),
+    :is(nav.book-toc, aside.book-toc-aside) *:not(button, [role=button]),
     :is(nav.book-toc, aside.book-toc-aside) li::before {
         color: var(--nav-fg-color);
     }

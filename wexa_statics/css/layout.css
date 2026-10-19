@@ -489,6 +489,26 @@ This banner notice must not be removed.
         margin-left: calc(var(--font-size) * 0.5);
     }
 
+    /* ------------------------------------------------------------------ */
+    /* Table — columns of equal width                                       */
+    /* ------------------------------------------------------------------ */
+
+    /* The columns of a table are drawn from what they hold, which makes a
+       table of two words and a sentence read crooked. Here the width of the
+       table is shared equally, and a word too long for its column is broken
+       rather than widening it. */
+
+    table.equal-columns {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    table.equal-columns th,
+    table.equal-columns td {
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
 } /* end @layer base */
 
 
@@ -590,12 +610,12 @@ This banner notice must not be removed.
         color: inherit;
     }
 
-    .card > * > a[role=button],
+    .card > * > [role=button],
     .card > * > button {
         border: calc(var(--border-width) / 2) solid var(--a-color);
     }
 
-    .card > * > a[role=button]:hover,
+    .card > * > [role=button]:not([aria-disabled=true]):hover,
     .card > * > button:enabled:hover {
         border: calc(var(--border-width) / 2) dashed var(--a-color);
     }

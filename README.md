@@ -303,3 +303,11 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - Themes. Slides read `data-themes` the way the loader does.
 - Logging. A page says how much the framework says: `Wexa.logLevel = 'warning'`, before the loader.
 
+
+## Version 4.2.0 - develop
+
+- Themes: Apply the default theme when none is given.
+- Bibliography: Open the links of the references in a tab, table sort improved.
+- CSS: uniformized the element styling and the corresponding role.
+- 
+

@@ -103,6 +103,33 @@
     <!-- ============================================================ -->
     <section class="panel-item">
 
+        <h2>An element that carries role="button"</h2>
+        <p>
+            <code>role="button"</code> is drawn the way a <code>&lt;button&gt;</code> is,
+            on whatever element carries it.
+            A command that no longer answers says it with
+            <code>aria-disabled="true"</code>: it keeps the look it has and is no longer
+            lit under the pointer, the way a <code>&lt;button disabled&gt;</code> is not.
+        </p>
+
+        <article class="card-doc" aria-label="Role button — example">
+            <div class="card-view">
+                <div role="button" tabindex="0">a div</div>
+                <span role="button" tabindex="0">a span</span>
+                <span role="button" tabindex="0" aria-disabled="true">a span that does not answer</span>
+                <button disabled>a disabled button</button>
+            </div>
+            <pre class="dark"><code>&lt;div role="button" tabindex="0"&gt;a div&lt;/div&gt;
+&lt;span role="button" tabindex="0"&gt;a span&lt;/span&gt;
+&lt;span role="button" tabindex="0" aria-disabled="true"&gt;a span that does not answer&lt;/span&gt;
+&lt;button disabled&gt;a disabled button&lt;/button&gt;</code></pre>
+        </article>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <section class="panel-item">
+
         <h2>Call-to-action</h2>
         <p>
             Use <code>.cta-button</code> for the single primary action on a page or panel.
