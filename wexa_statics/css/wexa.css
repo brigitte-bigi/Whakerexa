@@ -1198,7 +1198,7 @@ This banner notice must not be removed.
         --h6-color:     var(--nav-fg-color);
     }
 
-    nav * {
+    nav > * {
         display: flex;
     }
 
@@ -1211,8 +1211,7 @@ This banner notice must not be removed.
 
     /* ---------------------------- section/article ------------------------------ */
 
-    main > section,
-    main > * section {
+    main > section {
         padding-top: var(--typography-spacing-vertical);
         padding-bottom: var(--typography-spacing-vertical);
         padding-left: var(--typography-spacing-horizontal);
@@ -1687,7 +1686,8 @@ This banner notice must not be removed.
         text-align: left;
     }
 
-    table:not([role="presentation"]) thead * {
+    table:not([role="presentation"]) thead th,
+    table:not([role="presentation"]) thead td {
         background-color: var(--table-head-bg-color);
         color: var(--table-head-fg-color);
         font-weight: var(--font-weight-bold);
@@ -1704,7 +1704,8 @@ This banner notice must not be removed.
         border-bottom: 0;
     }
 
-    table:not([role="presentation"]) tbody tr:nth-child(even) * {
+    table:not([role="presentation"]) tbody tr:nth-child(even) td,
+    table:not([role="presentation"]) tbody tr:nth-child(even) th {
         background-color: var(--table-row-stripped-bg-color);
     }
 
@@ -2004,10 +2005,6 @@ This banner notice must not be removed.
         text-transform: none;
     }
 
-    select * {
-        background-color: transparent;
-    }
-
     /* Form: option/optgroup */
 
     option {
@@ -2133,10 +2130,6 @@ This banner notice must not be removed.
         position: revert;
     }
 
-    dialog[role=alertdialog] * {
-        background: transparent;
-    }
-
     /*
     * Select only the dialogs which are 'modal' (doesn't affect dialog open by default in the html).
     * The css 'position' of modal dialog doesn't have to be relative
@@ -2217,13 +2210,6 @@ This banner notice must not be removed.
 @layer theme {
 
 
-    /* @layer base sets background-color: var(--bg-color) on ALL elements (*).
-       Override it for some descendants so the background shows through. */
-    article > *,
-    figcaption > * {
-        background-color: transparent;
-    }
-
     /* ── Nav ─────────────────────────────────────────────────────────────── */
 
     nav {
@@ -2251,11 +2237,16 @@ This banner notice must not be removed.
 
     /* ── Code ────────────────────────────────────────────────────────────── */
 
+    /* What is painted behind a run of code is the box of its glyphs plus what
+       pads it, and that is painted over the lines around: the line it sits on
+       does not grow for it. The padding above and below is therefore the room
+       the line leaves, and no more. */
+
     code {
-        padding-left: var(--typography-spacing-horizontal);
+        padding-left: calc(0.5 * var(--typography-spacing-horizontal));
         padding-right: calc(0.5 * var(--typography-spacing-horizontal));
-        padding-top: calc(0.5 * var(--typography-spacing-vertical));
-        padding-bottom: calc(0.5 * var(--typography-spacing-vertical));
+        padding-top: calc(0.15 * var(--typography-spacing-vertical));
+        padding-bottom: calc(0.15 * var(--typography-spacing-vertical));
     }
 
     /* ── Blockquote ────────────────────────────────────────────────────── */
@@ -2365,10 +2356,6 @@ This banner notice must not be removed.
     }
 
     /* ── Forms ─────────────────────────────────────────────────────────── */
-
-    form * {
-        border-radius: var(--border-radius);
-    }
 
     fieldset {
         border-radius: var(--border-radius-alt);
@@ -2576,9 +2563,3 @@ This banner notice must not be removed.
 
 }
 
-/* Unlayered: beats all @layer rules — these containers provide the background, their children must be transparent */
-td *,
-th *,
-blockquote * {
-    background-color: transparent;
-}

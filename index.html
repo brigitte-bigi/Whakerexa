@@ -405,6 +405,17 @@
         </p>
 
         <details>
+            <summary>Readable CSS vs minified — which to link?</summary>
+            <p>
+                <code>wexa_statics/css/</code> holds the stylesheets as they are written,
+                comments included: this is what the documentation links, and what you read
+                when you want to know how something is drawn.
+                <code>wexa_statics/css.min/</code> holds the same sheets, same names, same
+                folders, at half the weight — point a site in production at it.
+            </p>
+        </details>
+
+        <details>
             <summary>ES6 modules vs bundle — which to use?</summary>
             <p>
                 Modules (<code>wexa.js</code>) require an HTTP server — run <code>python -m http.server 8000</code>

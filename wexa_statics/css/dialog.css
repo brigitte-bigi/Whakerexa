@@ -108,12 +108,6 @@ dialog[role=alertdialog].hidden-alert {
     display: none;
 }
 
-/* Children transparent: dialog bg-color (white/dark) shows through.
-   Must be unlayered to override wexa.css @layer base `* { background-color }`. */
-dialog[role=alertdialog] * {
-    background: transparent;
-}
-
 /* Content padding and scroll for direct children */
 dialog[role=alertdialog] > p,
 dialog[role=alertdialog] > div,

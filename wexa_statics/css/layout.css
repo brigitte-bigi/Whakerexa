@@ -362,11 +362,6 @@ This banner notice must not be removed.
         margin-bottom: 0;
     }
 
-    /* Reset background on all card children (wexa.css sets * { background-color: var(--bg-color) }) */
-    .card * {
-        background-color: transparent;
-    }
-
     @media only screen and (max-width: 1023.98px) {
         .card {
             max-width: 75%;
