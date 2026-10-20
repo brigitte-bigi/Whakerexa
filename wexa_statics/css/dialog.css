@@ -91,11 +91,20 @@ figure.img-video-visualization button[name=play-btn] {
                            Message dialogs
    ======================================================================= */
 
-/* Two-zone layout: colored icon header on top, bg-color content below. */
+/* A sign, a sentence, what answers it: one row, and another line when the
+   room runs out. A band of color across the whole width for one character
+   is a large flat area on a page made of blocks; the sign is a round, of
+   the color of its kind, beside the sentence it qualifies. */
 dialog[role=alertdialog] {
     display: flex;
-    flex-direction: column;
-    padding: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--typography-spacing-horizontal);
+    padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
+    /* The cross that closes the box is laid over the content, out of the
+       flow: the room it needs is kept here, on the right. */
+    padding-right: calc(4 * var(--typography-spacing-horizontal));
     min-width: min(28rem, 80vw);
     max-height: 80vh;
     overflow: hidden;
@@ -108,20 +117,33 @@ dialog[role=alertdialog].hidden-alert {
     display: none;
 }
 
-/* Content padding and scroll for direct children */
+/* The sentence takes the room left by the sign, and gives it back below a
+   width where a line would be too short to read. The box pads itself, so
+   what it holds does not pad itself again. */
 dialog[role=alertdialog] > p,
-dialog[role=alertdialog] > div,
-dialog[role=alertdialog] > form {
-    padding: var(--typography-spacing-horizontal);
+dialog[role=alertdialog] > div {
+    flex: 1 1 min(20rem, 100%);
+    padding: 0;
     overflow-y: auto;
 }
 
-/* Icon zone: centered, colored background, icon contrasts against it */
+/* What answers keeps the width of its label, at the end of the row. */
+dialog[role=alertdialog] > button,
+dialog[role=alertdialog] > form {
+    flex: none;
+    margin-top: 0;
+}
+
+/* The sign: a round of the color of its kind, holding one character. */
 dialog[role=alertdialog]::before {
+    flex: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--typography-spacing-vertical);
+    width: calc(2.4 * var(--font-size));
+    height: calc(2.4 * var(--font-size));
+    padding: 0;
+    border-radius: 50%;
     font-size: calc(1.5 * var(--font-size));
     color: var(--dialog-icon-color, rgb(255, 255, 255));
 }

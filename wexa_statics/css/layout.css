@@ -70,6 +70,18 @@ This banner notice must not be removed.
         margin-right: auto;
     }
 
+    .noborder {
+        border: none;
+    }
+
+    /* One space between what follows what, and none before the first: a
+       container says the distance once, and each element after the first
+       takes it. A child that wants another one writes --flow-space. */
+
+    .flow > * + * {
+        margin-top: var(--flow-space, 1em);
+    }
+
     /* ------------------------------------------------------------------ */
     /* Classes for sizes                                                    */
     /* ------------------------------------------------------------------ */
@@ -116,6 +128,88 @@ This banner notice must not be removed.
 
     .width_full {
         width: 100%;
+    }
+
+    /* A logo is bounded by its height where there is room, and by its width
+       where there is none: a wide screen has lines to spare and a narrow one
+       has not. The other side is left free, so the drawing keeps its shape. */
+
+    @media all and (min-width: 1024px) {
+
+        .small-logo {
+            max-height: 3.5rem;
+            width: auto;
+        }
+
+        .medium-logo {
+            max-height: 6.5rem;
+            width: auto;
+        }
+
+        .large-logo {
+            max-height: 10rem;
+            width: auto;
+        }
+    }
+
+    @media only screen and (max-width: 1023.98px) {
+
+        .small-logo {
+            max-width: 3.5rem;
+            height: auto;
+        }
+
+        .medium-logo {
+            max-width: 6.5rem;
+            height: auto;
+        }
+
+        .large-logo {
+            max-width: 10rem;
+            height: auto;
+        }
+    }
+
+    /* ------------------------------------------------------------------ */
+    /* Illustrated content — a drawing beside what it illustrates           */
+    /* ------------------------------------------------------------------ */
+
+    /* The drawing takes a share of the width and the text the rest, until
+       the room is too narrow for two columns: then one follows the other. */
+
+    .illustrated-content {
+        display: grid;
+        grid-template-columns: minmax(140px, 22%) 1fr;
+        gap: var(--typography-spacing-horizontal);
+        align-items: center;
+        padding: var(--typography-spacing-vertical) var(--typography-spacing-horizontal);
+    }
+
+    .illustrated-content > img {
+        display: block;
+        width: 100%;
+        max-width: 220px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    /* A grid cell is as wide as what it holds unless it is told it may be
+       narrower: a long word would otherwise widen the column. */
+
+    .illustrated-content > :not(img) {
+        min-width: 0;
+    }
+
+    @media only screen and (max-width: 640px) {
+
+        .illustrated-content {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .illustrated-content > img {
+            max-width: 160px;
+        }
     }
 
     /* ------------------------------------------------------------------ */

@@ -385,6 +385,65 @@
 
         <!-- ============================================================ -->
         <section class="panel-item">
+            <h2>A drawing beside what it illustrates</h2>
+            <p>
+                <code>.illustrated-content</code> gives a drawing a share of the
+                width and the text the rest. Under 640&nbsp;px, where two columns
+                would leave lines too short to read, one follows the other and the
+                text is centred. The drawing is the <code>&lt;img&gt;</code>; what
+                it illustrates is whatever else the container holds.
+            </p>
+
+            <article class="card-doc" aria-label="Illustrated content — example">
+                <div class="card-view" style="width: 100%;">
+                    <div class="illustrated-content" style="border: var(--border-width-alt) solid var(--border-color-alt);">
+                        <img src="../wexa_statics/logos/whakerexa-128.webp" alt="The logo of Whakerexa">
+                        <section>
+                            <h3>What it is for</h3>
+                            <p>A figure and what it says, side by side, without a
+                               panel and without a class on each of the two.</p>
+                        </section>
+                    </div>
+                </div>
+                <pre class="dark"><code>&lt;div class="illustrated-content"&gt;
+    &lt;img src="logo.webp" alt="..."&gt;
+    &lt;section&gt;...&lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </article>
+
+            <h3>Two utilities and the size of a logo</h3>
+            <p>
+                <code>.flow</code> puts one space between what follows what, and
+                none before the first: the container says the distance once, and
+                each element after the first takes it. A child that wants another
+                distance writes <code>--flow-space</code> on itself.
+                <code>.noborder</code> removes a border.
+            </p>
+            <p>
+                <code>.small-logo</code>, <code>.medium-logo</code> and
+                <code>.large-logo</code> bound an image by its height on a wide
+                screen — 3.5, 6.5 and 10&nbsp;rem — and by its width on a narrow
+                one. The other side is left free, so the drawing keeps its shape.
+            </p>
+
+            <article class="card-doc" aria-label="Flow and logo sizes — example">
+                <div class="card-view" style="width: 100%;">
+                    <div class="flow" style="width: 100%;">
+                        <img src="../wexa_statics/logos/whakerexa-128.webp" alt="The logo of Whakerexa" class="small-logo">
+                        <img src="../wexa_statics/logos/whakerexa-128.webp" alt="The logo of Whakerexa" class="medium-logo">
+                        <p style="--flow-space: 2rem;">This paragraph asks for twice the distance.</p>
+                    </div>
+                </div>
+                <pre class="dark"><code>&lt;div class="flow"&gt;
+    &lt;img src="logo.webp" alt="..." class="small-logo"&gt;
+    &lt;img src="logo.webp" alt="..." class="medium-logo"&gt;
+    &lt;p style="--flow-space: 2rem;"&gt;...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </article>
+        </section>
+
+        <!-- ============================================================ -->
+        <section class="panel-item">
             <h2>Alternating section backgrounds</h2>
             <p>Direct <code>.panel-item</code> children of <code>&lt;main&gt;</code> alternate their background.
                 Odd sections use <code>--bg-color</code>, even sections use <code>--bg-color-alt</code>.</p>
