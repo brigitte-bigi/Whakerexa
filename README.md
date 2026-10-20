@@ -312,4 +312,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - CSS: borders are managed with 2 width/colors/radius only. Removed table-border-* and others.
 - CSS: a panel can be written as a list, the file field holds its button.
 - CSS: new classes added to categorize links and add an icon right after.
-- 
+- CSS: the sheets of the components are in a layer of their own, a page owns the last word without !important.
+- CSS buttons: new `danger-button` and `icon-button`, and the states `aria-busy` and `aria-pressed`. Removed `action-button`, `apply-button`, `cta-button`, `secondary`, `--action-height` and `--apply-height`.
+- CSS: buttons revisions.
+

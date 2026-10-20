@@ -280,9 +280,3 @@ li.enumerate-cards-item {
     border: var(--border-color-alt) solid var(--border-width-alt);
     border-radius: none;
 }
-
-
-.cta-button {
-    border: var(--border-width) solid var(--border-color);
-    box-shadow: none;
-}

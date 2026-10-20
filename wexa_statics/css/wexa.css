@@ -30,7 +30,7 @@ This banner notice must not be removed.
 
 */
 
-@layer reset, base, theme, accessibility;
+@layer reset, base, theme, components, accessibility;
 
 /* =======================================================================
                               FONTS DEFINITIONS
@@ -1167,7 +1167,11 @@ This banner notice must not be removed.
 
     /* -------------------------------- menu --------------------------------- */
 
-    nav {
+    /* A bar is a component: what dresses it names it, so that a page writing
+       a second nav -- a list of links in a header -- does not receive a bar it
+       did not ask for. The nav of a submenu panel is one of the family. */
+
+    :is(nav.nav-wexa, aside.appmenu nav) {
         color: var(--nav-fg-color);
         background: var(--nav-bg-color);
         padding-left: var(--typography-spacing-horizontal);
@@ -1185,7 +1189,7 @@ This banner notice must not be removed.
     /* A bar is written in one colour, as a banner is: what it holds inherits
        it. Only the laying out is imposed, a bar being a row of items. */
 
-    nav {
+    :is(nav.nav-wexa, aside.appmenu nav) {
         --fg-color:     var(--nav-fg-color);
         --fg-color-alt: var(--nav-fg-color);
         --a-color:      var(--nav-fg-color);
@@ -1198,12 +1202,11 @@ This banner notice must not be removed.
         --h6-color:     var(--nav-fg-color);
     }
 
-    nav > * {
+    :is(nav.nav-wexa, aside.appmenu nav) > * {
         display: flex;
     }
 
-    nav ul, 
-    nav dl {
+    :is(nav.nav-wexa, aside.appmenu nav) :is(ul, dl) {
         list-style: none;
         margin: 0;
         text-align: center;
@@ -2057,7 +2060,7 @@ This banner notice must not be removed.
         width: 80%;
     }
 
-    :is(button,[type=submit],[type=button],[role=button]).secondary,[type=file]::file-selector-button,[type=reset] {
+    [type=file]::file-selector-button,[type=reset] {
         cursor: pointer
     }
 
@@ -2212,7 +2215,7 @@ This banner notice must not be removed.
 
     /* ── Nav ─────────────────────────────────────────────────────────────── */
 
-    nav {
+    :is(nav.nav-wexa, aside.appmenu nav) {
         position: sticky;
         top: 0;
         overflow: unset;

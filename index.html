@@ -92,7 +92,7 @@
     <input type="checkbox" id="mobile" role="button"
            aria-label="Menu" aria-haspopup="true" aria-expanded="false">
 
-    <nav id="header-nav-content" aria-label="Accessibility navigation">
+    <nav id="header-nav-content" class="nav-wexa header" aria-label="Accessibility navigation">
         <button id="btn-css-theme" class="menuitem" type="button"
                 aria-label="Switch theme" title="Switch theme"
                 onclick="window.themes && window.themes.next()">
@@ -107,10 +107,12 @@
 
     <h1>Whakerexa</h1>
     <h2>A minimal toolkit for clean, accessible HTML</h2>
-    <p class="wrap-panel">
-        <a class="cta-button" id="cta-quickstart" data-href="docs/quick-start.html" data-target="_self">Quick start</a>
-        <a class="cta-button" id="cta-browsedocs" data-href="docs/accessibility.html" data-target="_self">Accessibility</a>
-    </p>
+    <nav aria-label="Where to start">
+        <ul class="wrap-panel">
+            <li><a class="menuitem" id="cta-quickstart" href="docs/quick-start.html" data-target="_self">Quick start</a></li>
+            <li><a class="menuitem" id="cta-browsedocs" href="docs/accessibility.html" data-target="_self">Accessibility</a></li>
+        </ul>
+    </nav>
 </header>
 
 <nav id="nav-content" class="nav-wexa side collapsible" aria-label="Main navigation">
@@ -371,7 +373,6 @@
                     <li>Light / dark / contrast — <code>wexa.css</code> @layer</li>
                     <li>Accessibility controls — <code>AccessibilityManager</code></li>
                     <li>CSS theme switcher — <code>ThemeManager</code></li>
-                    <li>CTA buttons — <code>button.css</code> .cta-button</li>
                 </ul>
             </div>
 
