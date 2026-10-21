@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2026-09-22 18:16:28
+// Bundle automatically generated on 2026-10-21 13:58:22
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -2709,7 +2709,11 @@ class MenuManager {
     // ----------------------------------------------------------------------
     #initToggleAttributes(toggle, asideId) {
         toggle.setAttribute('aria-controls', asideId);
-        toggle.setAttribute('aria-haspopup', 'menu');
+        // What the page wrote is kept: 'true' and 'menu' both say a popup, and
+        // the value is the author's. One is written only when none is there.
+        if (toggle.hasAttribute('aria-haspopup') === false) {
+            toggle.setAttribute('aria-haspopup', 'menu');
+        }
         toggle.setAttribute('aria-expanded', 'false');
     }
     // ----------------------------------------------------------------------
@@ -6889,6 +6893,7 @@ window.Wexa.KeyPiano = KeyPiano;
 // ------------- SVG icons (gathered in, for a document on a disk) ------------
 IconReader.gather('mono-svg', 'accessibility', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"8\" r=\"3\" />\n  <path d=\"M8 15h16\" />\n  <path d=\"M16 15v10\" />\n  <path d=\"M10 25l2-6\" />\n  <path d=\"M22 25l-2-6\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'add', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"7\" x2=\"16\" y2=\"25\" />\n  <line x1=\"7\" y1=\"16\" x2=\"25\" y2=\"16\" />\n</svg>\n");
+IconReader.gather('mono-svg', 'anchor-link', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"13\" y1=\"5\" x2=\"10\" y2=\"27\" />\n  <line x1=\"23\" y1=\"5\" x2=\"20\" y2=\"27\" />\n  <line x1=\"6\" y1=\"12\" x2=\"27\" y2=\"12\" />\n  <line x1=\"5\" y1=\"20\" x2=\"26\" y2=\"20\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'anonymous', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <circle cx=\"16\" cy=\"11\" r=\"5\" />\n  <path d=\"M5 27c0-5 5-8 11-8s11 3 11 8\" />\n  <line x1=\"8\" y1=\"8\" x2=\"24\" y2=\"24\" />\n</svg>");
 IconReader.gather('mono-svg', 'arrow-down', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"16\" y1=\"5\" x2=\"16\" y2=\"27\" />\n  <polyline points=\"8 19 16 27 24 19\" />\n</svg>\n");
 IconReader.gather('mono-svg', 'arrow-left', "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <line x1=\"27\" y1=\"16\" x2=\"5\" y2=\"16\" />\n  <polyline points=\"13 8 5 16 13 24\" />\n</svg>\n");
