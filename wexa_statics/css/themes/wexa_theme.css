@@ -155,7 +155,10 @@
        Slides accent colors — override slides.css defaults
        ====================================================================== */
 
-    :root {
+    /* Said with the same reach as the rest of a light palette: the default of
+       the framework is written on :root:not(.dark), and a plain :root would
+       lose to it. */
+    :root:not(.dark) {
         --custom-color1: rgb(17, 25, 53);
         --custom-color2: rgb(130, 189, 215);
     }

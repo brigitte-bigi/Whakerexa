@@ -166,7 +166,15 @@ html:lang(fr) .chapter > h1::before {
 
 /* ------------------------- Placement: fixed panel ---------------------- */
 
+/* The ground and the colors of a table of contents: it took them from the rule
+   that dressed every nav, which now names the bar alone. They are said here,
+   where its place is said. */
 nav.book-toc {
+    background: var(--nav-bg-color);
+    color: var(--nav-fg-color);
+    --fg-color: var(--nav-fg-color);
+    --a-color:  var(--nav-fg-color);
+    --li-color: var(--nav-fg-color);
     z-index: 9;
     width: var(--toc-width);
     height: 100%;

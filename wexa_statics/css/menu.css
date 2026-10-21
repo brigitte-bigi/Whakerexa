@@ -286,11 +286,55 @@ This banner notice must not be removed.
     }
 
     /* -------- the current nav item -------- */
-    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
-        opacity: 1;
-        box-shadow: none;
+
+    /* Three things sit in a bar, and each says itself by its own shape, never
+       by a colour alone:
+         - an item that leads elsewhere: the ground of the bar, its border;
+         - the page being read: a thick line on the leading edge, and bold --
+           a place;
+         - a toggle that is on: a line all around inside and a shadow cast
+           inside, sinking it -- a state.
+       The ground and the ink stay those of the bar in all three: a command's
+       pair belongs to a command. */
+
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current]:not([aria-current=false]),
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-pressed="true"] {
         filter: none;
+        border-color: var(--nav-fg-color);
         border-radius: var(--border-radius);
+        background-color: var(--nav-bg-color);
+        color: var(--nav-fg-color);
+    }
+
+    /* The page being read: the line is on the side the items are stacked
+       against -- the left edge of a vertical bar, the lower edge of a row. */
+
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current]:not([aria-current=false]) {
+        /*box-shadow: inset calc(3 * var(--border-width)) 0 0 currentColor;*/
+        font-weight: var(--font-weight-bold);
+    }
+
+    nav.nav-wexa.top :is([role="menuitem"], .menuitem)[aria-current]:not([aria-current=false]),
+    nav.nav-wexa.bottom :is([role="menuitem"], .menuitem)[aria-current]:not([aria-current=false]) {
+        /*box-shadow: inset 0 calc(-3 * var(--border-width)) 0 currentColor;*/
+    }
+
+    /* The shadow cast inside only adds the depth. */
+
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-pressed="false"] {
+        border-color: var(--border-color-alt);
+    }
+
+    /* Open now, or pressed now: for whoever reads the bar it is the same
+       thing -- this command is active. The triangle says that an item can
+       open something; this says that it is open. */
+
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-pressed="true"],
+    nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-expanded="true"] {
+        border-style: solid;
+        border-color: var(--border-color-alt);
+        background-color: rgba(128, 128, 128, 0.25);
+        box-shadow: inset 0 calc(0.15 * var(--font-size)) calc(0.35 * var(--font-size)) var(--shadow-color);
     }
 
     /* -------- images in items -------- */
@@ -343,8 +387,23 @@ This banner notice must not be removed.
 
     /* ---- the menuitem is opening a submenu ---- */
 
-    :is([role="menuitem"], .menuitem)[aria-haspopup="true"] {
-        border-left: calc(4 * var(--border-width)) solid var(--a-color);
+    /* A triangle in the corner says there is something underneath. It takes no
+       room on the line, so a bar reduced to its icons keeps it, and it is drawn
+       in the ink of the item, which makes it readable on any bar and leaves it
+       visible when a system forces its own colours. */
+
+    /* The attribute carries "menu" as well as "true" -- both say a popup, and
+       menu.js writes "menu" -- so the value is not tested, only its presence. */
+    :is([role="menuitem"], .menuitem)[aria-haspopup]:not([aria-haspopup="false"])::after {
+        content: "";
+        position: absolute;
+        right: calc(0.15 * var(--font-size));
+        bottom: calc(0.15 * var(--font-size));
+        width: calc(0.45 * var(--font-size));
+        height: calc(0.45 * var(--font-size));
+        background-color: currentColor;
+        clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        pointer-events: none;
     }
 
 
@@ -579,10 +638,6 @@ This banner notice must not be removed.
     /* Toggle to expand/collapse the 'nav' content. Invisible. */
     body > nav.nav-wexa label {
         display: none;
-    }
-
-    :is([role="menuitem"], .menuitem).expand::after {
-        content: " ▼";
     }
 
 
@@ -849,32 +904,6 @@ This banner notice must not be removed.
             width: calc((100% - 4 * calc(var(--font-size) / var(--size-divisor))) / 5);
             height: auto;
         }
-    }
-
-
-    /* =======================================================================
-                                BUTTONS
-      ======================================================================== */
-
-    nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-pressed="false"] {
-        border-color: var(--border-color);
-    }
-
-    nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-pressed="true"] {
-        border-color: var(--nav-fg-color);
-    }
-
-    /* Skip button styles are defined in wexa.css (used on all pages, not just with menus). */
-
-    /* ------------------ Pin button -----------------------------------------
-      Optionally used by a side menu to pin it in expanded mode.
-      It has the same sizing as other menu items.
-      ------------------------------------------------------------------------ */
-
-    nav.nav-wexa.side :is([role="menuitem"], .menuitem)#pin-menu {
-        align-items: center;
-        justify-content: center;
-        color: var(--nav-fg-color);
     }
 
 } /* end @layer components */

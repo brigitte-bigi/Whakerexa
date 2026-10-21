@@ -634,7 +634,7 @@ This banner notice must not be removed.
         --bg-color-alt: rgb(236, 239, 245);
         --fg-color: rgb(18, 22, 38);
         --fg-color-alt: rgb(45, 55, 80);
-        --border-color: rgb(34, 62, 119);
+        --border-color: rgb(55 85 145);
         --border-color-alt: rgb(97, 134, 209);
         --custom-color1: rgb(117, 130, 155);
         --custom-color2: rgb(225, 230, 242);
@@ -1462,6 +1462,14 @@ This banner notice must not be removed.
         margin-right: 0.2rem;
     }
 
+    /* A mark follows a text, and says what the next click does to the reading.
+       A link that holds a drawing has no text for it to follow: the mark would
+       land under the drawing, and the drawing already carries what it opens. */
+
+    :is(.external-link, .anchor-link, .more-link, a[download], a[href^="mailto:"]):has(> img)::after {
+        content: none;
+    }
+
     .external-link::after {
         mask-image: var(--external-link-icon);
     }
@@ -1636,11 +1644,16 @@ This banner notice must not be removed.
         counter-increment: item;
     }
 
+    /* The number follows the size of the text it numbers, while the room kept
+       for it is a measure of the page: a text written larger -- a slide -- asks
+       for more than that room, and the number was breaking in two. The room is
+       a minimum, and the box grows with what it holds. */
     ol > li::before {
         content: counter(item) ". ";
         display: inline-block;
-        width: calc(2 * var(--typography-spacing-horizontal));
+        min-width: calc(2 * var(--typography-spacing-horizontal));
         margin-inline-start: calc(-2 * var(--typography-spacing-horizontal));
+        white-space: nowrap;
         color: var(--li-color);
         font-weight: var(--font-weight-semibold);
     }

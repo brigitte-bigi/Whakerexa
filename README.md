@@ -313,6 +313,7 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - CSS: a panel can be written as a list, the file field holds its button.
 - CSS: new classes added to categorize links and add an icon right after.
 - CSS: the sheets of the components are in a layer of their own, a page owns the last word without !important.
-- CSS buttons: new `danger-button` and `icon-button`, and the states `aria-busy` and `aria-pressed`. Removed `action-button`, `apply-button`, `cta-button`, `secondary`, `--action-height` and `--apply-height`.
-- CSS: buttons revisions.
-
+- CSS: buttons and menus revisions.
+- CSS: a declared background comes with its text color: sort buttons, piano keys.
+- CSS: fixed the mark of an image link, the number of a nested list, the background of a toc, and the slide accents of the themes.
+- JS: the menu keeps the aria-haspopup value the page has written.

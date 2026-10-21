@@ -650,9 +650,10 @@ body.presentation-view {
           VISUAL DEFAULTS — @layer theme, overrideable by theme files
 
    Theme files injected by ThemeManager are appended to <head> after this
-   stylesheet. Within @layer theme, later source order wins, so any theme
-   file that defines the same selectors will automatically override these
-   defaults without specificity tricks.
+   stylesheet. Within @layer theme, the more specific selector wins first, and
+   source order decides only between equals: a theme writes these on the same
+   selector as the framework does -- :root:not(.dark) for a light palette --
+   and its values are then taken.
    ======================================================================= */
 
 @layer theme {
