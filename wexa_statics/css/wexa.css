@@ -642,19 +642,19 @@ This banner notice must not be removed.
 
         /* Background colors */
         --header-bg-color: linear-gradient(155deg, rgb(8, 22, 68) 0%, rgb(14, 48, 105) 50%, rgb(22, 48, 118) 100%);
-        --nav-bg-color: rgb(212, 224, 246);
+        --nav-bg-color: rgb(8, 22, 68);
         --footer-bg-color: rgb(224, 228, 237);
         --buttons-bg-color: rgb(28 103 163);
         --buttons-bg-color-hover: rgb(41 128 193);
         --progress-bg-color: rgb(183, 184, 209);
         --mark-bg-color: rgba(255, 250, 100, 0.5);
         --inputs-bg-color: rgb(255, 255, 255);
-        --dialog-bg-color: var(--bg-color);
+        --dialog-bg-color: rgb(233, 235, 242);
         --code-bg-color: rgba(200, 195, 255, 0.35);
 
         /* Foreground colors */
-        --header-fg-color: rgb(210, 222, 248);
-        --nav-fg-color: rgb(21, 24, 69);
+        --header-fg-color: rgb(220, 222, 230);
+        --nav-fg-color: rgb(240, 230, 220);
         --footer-fg-color: rgb(20, 25, 39);
         --progress-fg-color: rgb(32, 59, 109);
         --buttons-fg-color: rgb(255, 255, 255);
@@ -665,7 +665,7 @@ This banner notice must not be removed.
         --h4-color: rgb(42, 55, 95);
         --h5-color: rgb(55, 75, 118);
         --h6-color: rgb(60, 80, 125);
-        --dialog-fg-color: var(--fg-color);
+        --dialog-fg-color: rgb(35, 38, 53);
         --dialog-icon-color: rgb(255, 255, 255);
 
         /* Table colors */
@@ -678,7 +678,7 @@ This banner notice must not be removed.
 
         /* Other colors */
         --a-color: rgb(8, 92, 148);
-        --li-color: rgb(95, 110, 145);
+        --li-color: rgb(50, 121, 142);
         --ins-color: rgba(20, 200, 20, 0.8);
         --del-color: rgba(240, 40, 40, 0.8);
         --s-color: rgb(100, 100, 100);
@@ -706,7 +706,12 @@ This banner notice must not be removed.
         --question-color: rgb(120, 60, 180);
         --question-bg-color: rgba(240, 230, 250);
 
-    }
+        --img-bg-color: rgba(150, 170, 210, 0.5);
+        --panel-bg-color: rgb(248, 249, 252);
+        --panel-bg-color-alt: rgb(237, 239, 245);
+        --card-bg-color: rgb(250, 251, 254);
+        --card-fg-color: rgb(18, 22, 38);
+}
 
     /* Structural variables — mode-independent, always defined */
     :root {
@@ -729,8 +734,8 @@ This banner notice must not be removed.
             /* Main colors */
             --bg-color: rgb(14, 18, 28);
             --bg-color-alt: rgb(18, 24, 42);
-            --fg-color: rgb(215, 225, 245);
-            --fg-color-alt: rgb(168, 185, 218);
+            --fg-color: rgb(246, 238, 222);
+            --fg-color-alt: rgb(216, 204, 182);
             --border-color: rgb(176, 195, 232);
             --border-color-alt: rgb(77, 119, 203);
             --custom-color1: rgb(200, 227, 245);
@@ -740,7 +745,7 @@ This banner notice must not be removed.
 
             /* Background colors */
             --header-bg-color: linear-gradient(155deg, rgb(4, 8, 28) 0%, rgb(10, 22, 68) 55%, rgb(18, 48, 90) 100%);
-            --nav-bg-color: rgba(4, 8, 28, 0.85);
+            --nav-bg-color: rgb(8, 16, 34);
             --footer-bg-color: rgb(12, 18, 35);
             --buttons-bg-color: rgb(25 89 140);
             --buttons-bg-color-hover: rgb(36 112 170);
@@ -748,8 +753,8 @@ This banner notice must not be removed.
             --inputs-bg-color: rgb(18, 24, 42);
 
             /* Foreground colors */
-            --header-fg-color: rgb(210, 222, 248);
-            --nav-fg-color: rgb(230, 235, 244);
+            --header-fg-color: rgb(246, 238, 222);
+            --nav-fg-color: rgb(246, 238, 222);
             --footer-fg-color: rgb(168, 185, 218);
             --buttons-fg-color: rgb(255, 255, 255);
             --progress-fg-color: rgb(62, 162, 215);
@@ -769,7 +774,7 @@ This banner notice must not be removed.
             --table-caption-fg-color: rgb(168, 185, 218);
 
             /* Other colors */
-            --a-color: rgb(72, 162, 218);
+            --a-color: rgb(130, 205, 240);
             --s-color: rgb(180, 180, 180);
             --li-color: rgb(62, 182, 180);
             --blockquote-border-color: rgb(62, 148, 202);
@@ -802,7 +807,15 @@ This banner notice must not be removed.
             --tips-bg-color: rgb(70, 60, 20);
             --question-color: rgb(200, 150, 255);
             --question-bg-color: rgb(40, 20, 60);
-        }
+
+        --img-bg-color: rgba(150, 170, 210, 0.5);
+        --panel-bg-color: rgb(13, 24, 44);
+        --panel-bg-color-alt: rgb(20, 33, 55);
+        --card-bg-color: rgb(26, 36, 54);
+        --card-fg-color: rgb(244, 236, 220);
+        --dialog-bg-color: rgb(22, 34, 54);
+        --dialog-fg-color: rgb(229, 221, 206);
+}
     }
 
     /* Contrast mode */
@@ -1603,6 +1616,14 @@ This banner notice must not be removed.
         display: block;
         list-style: none;
         line-height: calc(1.2 * var(--line-height));
+    }
+
+    /* The hanging indent is for a list read in a text: it keeps the room of the
+       marker. A bar lays its items out itself and takes no marker -- which the
+       three rules below already say -- so it takes no room for one either. */
+
+    ul:not(nav *) > li,
+    ol:not(nav *) > li {
         padding-inline-start: calc(2 * var(--typography-spacing-horizontal));
     }
 
@@ -1648,7 +1669,7 @@ This banner notice must not be removed.
        for it is a measure of the page: a text written larger -- a slide -- asks
        for more than that room, and the number was breaking in two. The room is
        a minimum, and the box grows with what it holds. */
-    ol > li::before {
+    ol:not(nav *) > li::before {
         content: counter(item) ". ";
         display: inline-block;
         min-width: calc(2 * var(--typography-spacing-horizontal));
