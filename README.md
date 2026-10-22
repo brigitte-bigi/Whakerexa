@@ -316,3 +316,4 @@ Version 3.0 introduces architectural changes in CSS and JavaScript. Previous CSS
 - CSS: buttons and menus revisions.
 - CSS: colors of wexa_theme migrated to default.
 - CSS: a list in a nav has no marker and no indent.
+- CSS: all dimensions are properly proportional to their definition (padding with font size, etc.)
